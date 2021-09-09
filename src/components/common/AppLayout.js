@@ -46,11 +46,11 @@ export default function AppLayout({ children }) {
       <Container maxWidth="lg" className={classes.container}>
         <Toolbar />
         <Grid container id="container">
-          <Grid item id="sidebarContainer">
+          <Grid item id="sidebarContainer" xs={2}>
             <Sidebar />
           </Grid>
 
-          <Grid item id="pageContainer">
+          <Grid item id="pageContainer" xs={10}>
             <main className={classes.pagecontent}>
               <div style={{ minHeight: "70vh" }}>{children}</div>
             </main>

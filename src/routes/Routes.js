@@ -3,6 +3,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import AppLayout from "../components/common/AppLayout";
 import Encode from "../pages/Encode/Encode";
 import Decode from "../pages/Decode/Decode";
+import Sonickeys from "../pages/SonicKeys/SonicKeys";
 
 export default function Routes() {
   return (
@@ -12,6 +13,7 @@ export default function Routes() {
           <Redirect from="/" to="/encode" exact />
           <Route path="/encode" component={Encode} exact />
           <Route path="/decode" component={Decode} exact />
+          <Route path="/sonic-keys" component={Sonickeys} exact />
         </Switch>
       </div>
     </AppLayout>

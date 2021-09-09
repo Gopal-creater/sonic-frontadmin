@@ -29,7 +29,7 @@ export default function Sidebar() {
         <img src={KeyImg} alt="key" className={classes.keyImage} />
         <ListItemText primary={"Monitor"} />
       </ListItem>
-      <ListItem button component={Link} to="#">
+      <ListItem button component={Link} to="sonic-keys">
         <img src={KeyImg} alt="key" className={classes.keyImage} />
         <ListItemText primary={"SonicKeys"} />
       </ListItem>

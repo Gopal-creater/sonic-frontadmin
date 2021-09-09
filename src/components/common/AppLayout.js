@@ -28,10 +28,9 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 40,
     marginRight: 10,
   },
-  container: {
-    marginTop: 100,
-  },
-  footer: {},
+  // container: {
+  //   marginTop: 100,
+  // },
 }));
 
 export default function AppLayout({ children }) {
@@ -46,11 +45,11 @@ export default function AppLayout({ children }) {
       <Container maxWidth="lg" className={classes.container}>
         <Toolbar />
         <Grid container id="container">
-          <Grid item id="sidebarContainer">
+          <Grid item xs={2} id="sidebarContainer">
             <Sidebar />
           </Grid>
 
-          <Grid item id="pageContainer">
+          <Grid item xs={10} id="pageContainer">
             <main className={classes.pagecontent}>
               <div style={{ minHeight: "70vh" }}>{children}</div>
             </main>

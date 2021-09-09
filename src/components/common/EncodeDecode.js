@@ -1,0 +1,138 @@
+import React, { useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import { Button, Grid, Typography } from "@material-ui/core";
+import Icon from "../../assets/images/Logo-colour-simple.png";
+
+const useStyles = makeStyles((theme) => ({
+  header: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  heading: {
+    paddingBottom: "0px",
+    fontSize: 30,
+    fontWeight: 700,
+    color: "#343F84",
+  },
+  subHeading: {
+    paddingBottom: 30,
+    fontSize: 18,
+    fontWeight: 500,
+    color: "#00A19A",
+  },
+  selectFile: {
+    fontSize: 12,
+    fontWeight: 300,
+    color: "#ACACAC",
+  },
+  uploadFile: {
+    display: "flex",
+  },
+  audioFile: {
+    height: 25,
+    width: "30vw",
+    marginRight: 30,
+    fontSize: 16,
+    fontWeight: 500,
+    color: "#757575",
+    borderBottom: "1px solid #757575",
+  },
+  clue: {
+    paddingBottom: 20,
+    fontSize: 12,
+    fontWeight: 100,
+    color: "#ACACAC",
+  },
+  uploadBtn: {
+    height: 45,
+    padding: "0px 20px",
+    textTransform: "initial",
+    fontSize: 15,
+    fontWeight: 700,
+    color: "#343F84",
+    borderRadius: 8,
+    border: "2px solid #343F84",
+  },
+  decodeBtn: {
+    height: 45,
+    padding: "0px 20px",
+    textTransform: "initial",
+    fontSize: 15,
+    fontWeight: 700,
+    borderRadius: 8,
+  },
+}));
+
+export default function EncodeDecode({title}) {
+  const classes = useStyles();
+  const [audioName, setAudioName] = useState(null);
+
+  const handleDecode = (e) => {
+    e.preventDefault();
+  };
+
+  const handleAudio = (e) => {
+    e.preventDefault();
+    const file = e.target.files[0];
+    if (!file.type.includes("audio")) {
+      alert("Only audio files are supported.");
+    }
+    setAudioName(file.name);
+  };
+  return (
+    <>
+      <Grid item className={classes.header}>
+        <div>
+          <Typography className={classes.heading}>{title}</Typography>
+          <Typography className={classes.subHeading}>
+            Upload a file to start.
+          </Typography>
+        </div>
+        <img src={Icon} alt="" style={{ height: 80 }} />
+      </Grid>
+      <Grid item>
+        <div className={classes.uploadFile}>
+          <div>
+            <Typography className={classes.selectFile}>
+              Select a file
+            </Typography>
+            <Typography className={classes.audioFile}>{audioName}</Typography>
+          </div>
+
+          {audioName === null ? (
+            <>
+              <input
+                accept="audio/*"
+                className={classes.input}
+                id="contained-button-file"
+                type="file"
+                style={{ display: "none" }}
+                onChange={handleAudio}
+              />
+              <label htmlFor="contained-button-file">
+                <Button
+                  variant="outlined"
+                  component="span"
+                  className={classes.uploadBtn}
+                >
+                  Upload a file
+                </Button>
+              </label>
+            </>
+          ) : (
+            <Button
+              variant="contained"
+              component="span"
+              color="primary"
+              className={classes.decodeBtn}
+              onClick={handleDecode}
+            >
+              Decode
+            </Button>
+          )}
+        </div>
+      </Grid>
+      <Typography className={classes.clue}>all audio file formats</Typography>
+    </>
+  );
+}

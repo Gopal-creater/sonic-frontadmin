@@ -1,19 +1,19 @@
-import * as colors from '@material-ui/core/colors';
+// import * as colors from '@material-ui/core/colors';
 
-const primary = "#008d94";
-const secondary = "#FF5C93";
-const warning = "#FFA500";
-const success = "#4caf50";
-const info = "#9013FE";
-const danger = "#f44336";
-const rose = "#e91e63";
-const black = "#000";
-const white = "#FFF";
-const purple = "#9c27b0"
-const grey = colors.grey;
+// const primary = "#008d94";
+// const secondary = "#FF5C93";
+// const warning = "#FFA500";
+// const success = "#4caf50";
+// const info = "#9013FE";
+// const danger = "#f44336";
+// const rose = "#e91e63";
+// const black = "#000";
+// const white = "#FFF";
+// const purple = "#9c27b0"
+// const grey = colors.grey;
 
-const lightenRate = 7.5;
-const darkenRate = 15;
+// const lightenRate = 7.5;
+// const darkenRate = 15;
 
 const defaultTheme = {
   // palette: {

@@ -1,15 +1,60 @@
 import { Container } from "@material-ui/core";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import AppLayout from "./components/common/AppLayout";
+import SonicSpinner from "./components/common/SonicSpinner";
+import { useDispatch, useSelector } from "react-redux";
+import { setSession } from "./stores/actions/session";
 import Routes from "./routes/Routes";
+import Amplify from "aws-amplify";
+import awsconfig from "./config/aws-exports";
+import SignIn from "./pages/Auth/SignIn/SignIn";
 
+
+Amplify.configure(awsconfig);
 function App() {
-  return (
-    <BrowserRouter>
-      <Routes />
-    </BrowserRouter>
-  );
+  const { session } = useSelector((state) => ({
+    session: state.session,
+  }));
+
+  const dispatch = useDispatch();
+
+  const [authenticating, setAuthenticating] = useState(true);
+
+  useEffect(() => {
+    const authCheck = async () => {
+      const loggedInUser = localStorage.getItem("user_info");
+      await new Promise((resolve) => setTimeout(resolve, 600));
+      if (loggedInUser) {
+        const foundUser = JSON.parse(loggedInUser);
+        dispatch(setSession(foundUser));
+      }
+      setAuthenticating(false);
+    };
+    authCheck();
+  }, []);
+
+  // showing spinner while checking user is logged in or not
+  if (authenticating) {
+    return <SonicSpinner title="Authenticating..." />;
+  }
+
+  //if user is present and session is not null then only show main page
+  if (
+    session?.user !== null &&
+    session?.user?.signInUserSession !== null
+  ) {
+    return (
+      <BrowserRouter>
+        <Routes />
+      </BrowserRouter>
+    );
+  }
+  else {
+    return (
+      <SignIn />
+    );
+  }
 }
 
 export default App;

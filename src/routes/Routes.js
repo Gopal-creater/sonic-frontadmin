@@ -7,7 +7,7 @@ import Decode from "../pages/Decode/Decode";
 export default function Routes() {
   return (
     <AppLayout>
-      <div>
+      <div style={{ width: "100%" }}>
         <Switch>
           <Redirect from="/" to="/encode" exact />
           <Route path="/encode" component={Encode} exact />

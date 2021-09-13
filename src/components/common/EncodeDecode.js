@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
   audioFile: {
     height: 25,
-    width: "20vw",
+    width: "30vw",
     marginRight: 30,
     fontSize: 16,
     fontWeight: 500,
@@ -88,7 +88,7 @@ export default function EncodeDecode({ title, subTitle }) {
     <Grid className={classes.EncodeDecodeContainer}>
       <Grid item className={classes.header}>
         <div>
-          <Typography className={classes.heading}>{title}</Typography>
+          <Typography className={classes.heading}>{title} SonicKeys</Typography>
           <Typography className={classes.subHeading}>{subTitle}</Typography>
         </div>
         <img src={Icon} alt="" style={{ height: 80 }} />
@@ -106,7 +106,7 @@ export default function EncodeDecode({ title, subTitle }) {
             </Typography>
           </div>
 
-          {audioName !== null && title === "Decode SonicKeys" ? (
+          {audioName !== null && title === "Decode" ? (
             <Button
               variant="contained"
               component="span"

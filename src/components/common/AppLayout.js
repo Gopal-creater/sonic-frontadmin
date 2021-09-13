@@ -49,7 +49,7 @@ export default function AppLayout({ children }) {
             <Sidebar />
           </Grid>
 
-          <Grid item id="pageContainer" style={{ flexGrow: "1", backgroundColor: "red" }}>
+          <Grid item id="pageContainer" style={{ flexGrow: "1"}}>
             <main className={classes.pagecontent}>
               <div style={{ minHeight: "70vh" }}>{children}</div>
             </main>

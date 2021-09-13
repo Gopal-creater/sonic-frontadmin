@@ -7,9 +7,6 @@ import KeyImg from "../../assets/images/key-logo.png";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
-  listContainer: {
-    marginTop: 100,
-  },
   keyImage: {
     height: 20,
     width: 20,

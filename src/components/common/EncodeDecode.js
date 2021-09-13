@@ -4,6 +4,11 @@ import { Button, Grid, Typography } from "@material-ui/core";
 import Icon from "../../assets/images/Logo-colour-simple.png";
 
 const useStyles = makeStyles((theme) => ({
+  EncodeDecodeContainer: {
+    backgroundColor: "white",
+    padding: "30px 40px",
+    boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+  },
   header: {
     display: "flex",
     justifyContent: "space-between",
@@ -73,14 +78,14 @@ export default function EncodeDecode({ title, subTitle }) {
 
   const handleAudio = (e) => {
     e.preventDefault();
-    const file = e.target.files[0];
-    if (!file.type.includes("audio")) {
+    const file = e?.target?.files[0];
+    if (!file?.type?.includes("audio")) {
       alert("Only audio files are supported.");
     }
     setAudioName(file.name);
   };
   return (
-    <>
+    <Grid className={classes.EncodeDecodeContainer}>
       <Grid item className={classes.header}>
         <div>
           <Typography className={classes.heading}>{title}</Typography>
@@ -134,6 +139,6 @@ export default function EncodeDecode({ title, subTitle }) {
           )}
         </div>
       </Grid>
-    </>
+    </Grid>
   );
 }

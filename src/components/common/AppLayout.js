@@ -22,15 +22,15 @@ const useStyles = makeStyles((theme) => ({
   },
   pagecontent: {
     flexGrow: 1,
-    padding: theme.spacing(3),
+    // padding: theme.spacing(3),
   },
   listContainer: {
     marginLeft: 40,
     marginRight: 10,
   },
-  // container: {
-  //   marginTop: 100,
-  // },
+  container: {
+    marginTop: 100,
+  },
 }));
 
 export default function AppLayout({ children }) {
@@ -45,11 +45,11 @@ export default function AppLayout({ children }) {
       <Container maxWidth="lg" className={classes.container}>
         <Toolbar />
         <Grid container id="container">
-          <Grid item xs={2} id="sidebarContainer">
+          <Grid item id="sidebarContainer">
             <Sidebar />
           </Grid>
 
-          <Grid item xs={10} id="pageContainer">
+          <Grid item id="pageContainer" style={{ flexGrow: "1", backgroundColor: "red" }}>
             <main className={classes.pagecontent}>
               <div style={{ minHeight: "70vh" }}>{children}</div>
             </main>

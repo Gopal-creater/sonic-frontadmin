@@ -5,7 +5,7 @@ export default function Footer() {
     <div
       style={{ padding: 5 }}
     >
-      <p style={{ fontSize: "small", color: "#ACACAC" }} >
+      <p style={{ fontSize: "small", color: "#757575" }} >
         <span>&#169;</span> {new Date().getFullYear()} SonicData Ltd. All rights reserved.
       </p>
     </div>

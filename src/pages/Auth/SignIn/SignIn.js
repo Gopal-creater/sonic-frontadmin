@@ -44,6 +44,11 @@ const useStyles = makeStyles((theme) => ({
     SignInForm: {
         padding: "15%"
     }
+    ,
+    signInHeader: {
+        color: "#393F5B",
+        fontWeight: "bold"
+    }
 }));
 
 const SignInButton = withStyles({
@@ -65,6 +70,7 @@ const SignUpButton = withStyles({
         color: "black",
         "&:hover": {
             color: "white",
+            backgroundColor: "#343F84",
         },
     },
 })(Button);
@@ -74,6 +80,8 @@ const ForgetPasswordButton = withStyles({
         color: "blue",
         textTransform: "none",
         padding: 0,
+        color: "#343F84",
+        fontWeight: "bold",
         "&:hover": {
             backgroundColor: "white",
             textDecoration: "underline",
@@ -121,7 +129,7 @@ export default function SignIn() {
 
             <Grid item className={classes.signInCommonContainer}>
                 <form onSubmit={handleSubmit(signIn)} className={classes.SignInForm}>
-                    <Grid >
+                    <Grid className={classes.signInHeader}>
                         <h2 >SonicPortal</h2>
                         <h6>Encode. Manage. Monitor. Report.</h6>
                     </Grid>
@@ -220,7 +228,7 @@ export default function SignIn() {
                     </Grid>
 
                     <Grid container direction="column" alignItems="flex-end" className="mt-4">
-                        <p>Don't have an account?</p>
+                        <p style={{ color: "#757575", fontSize: "small" }}>Don't have an account?</p>
 
                         <SignUpButton
                             type="button"

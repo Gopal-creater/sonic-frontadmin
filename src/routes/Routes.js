@@ -6,6 +6,7 @@ import Decode from "../pages/Decode/Decode";
 import Dashboard from "../pages/Monitor/Dashboard";
 import SonicStreamReader from "../pages/Monitor/SonicStreamReader";
 
+import Sonickeys from "../pages/SonicKeys/SonicKeys";
 
 export default function Routes() {
   return (
@@ -17,6 +18,7 @@ export default function Routes() {
           <Route path="/decode" component={Decode} exact />
           <Route path="/dashboard" component={Dashboard} exact />
           <Route path="/streamreader" component={SonicStreamReader} exact />
+          <Route path="/sonic-keys" component={Sonickeys} exact />
         </Switch>
       </div>
     </AppLayout>

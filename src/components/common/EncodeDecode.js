@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
   audioFile: {
     height: 25,
-    width: "30vw",
+    width: "20vw",
     marginRight: 30,
     fontSize: 16,
     fontWeight: 500,
@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function EncodeDecode({title}) {
+export default function EncodeDecode({ title, subTitle }) {
   const classes = useStyles();
   const [audioName, setAudioName] = useState(null);
 
@@ -84,12 +84,11 @@ export default function EncodeDecode({title}) {
       <Grid item className={classes.header}>
         <div>
           <Typography className={classes.heading}>{title}</Typography>
-          <Typography className={classes.subHeading}>
-            Upload a file to start.
-          </Typography>
+          <Typography className={classes.subHeading}>{subTitle}</Typography>
         </div>
         <img src={Icon} alt="" style={{ height: 80 }} />
       </Grid>
+
       <Grid item>
         <div className={classes.uploadFile}>
           <div>
@@ -97,9 +96,22 @@ export default function EncodeDecode({title}) {
               Select a file
             </Typography>
             <Typography className={classes.audioFile}>{audioName}</Typography>
+            <Typography className={classes.clue}>
+              all audio file formats
+            </Typography>
           </div>
 
-          {audioName === null ? (
+          {audioName !== null && title === "Decode SonicKeys" ? (
+            <Button
+              variant="contained"
+              component="span"
+              color="primary"
+              className={classes.decodeBtn}
+              onClick={handleDecode}
+            >
+              Decode
+            </Button>
+          ) : (
             <>
               <input
                 accept="audio/*"
@@ -119,20 +131,9 @@ export default function EncodeDecode({title}) {
                 </Button>
               </label>
             </>
-          ) : (
-            <Button
-              variant="contained"
-              component="span"
-              color="primary"
-              className={classes.decodeBtn}
-              onClick={handleDecode}
-            >
-              Decode
-            </Button>
           )}
         </div>
       </Grid>
-      <Typography className={classes.clue}>all audio file formats</Typography>
     </>
   );
 }

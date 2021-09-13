@@ -16,7 +16,7 @@ export default function Decode() {
 
   return (
     <div className={classes.root}>
-      <EncodeDecode title="Decode SonicKeys" />
+      <EncodeDecode title="Decode SonicKeys" subTitle="Upload a file to start." />
     </div>
   );
 }

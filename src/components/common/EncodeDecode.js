@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
   audioFile: {
     height: 25,
-    width: "20vw",
+    width: "30vw",
     marginRight: 30,
     fontSize: 16,
     fontWeight: 500,

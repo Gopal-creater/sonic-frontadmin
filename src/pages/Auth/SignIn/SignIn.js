@@ -1,4 +1,4 @@
-import { Grid } from '@material-ui/core'
+import { Grid, Typography } from '@material-ui/core'
 import React from 'react'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import SplashScreen from "../../../assets/images/SplashScreen.png"
@@ -45,10 +45,16 @@ const useStyles = makeStyles((theme) => ({
         padding: "15%"
     }
     ,
-    signInHeader: {
+    signInHeading: {
         color: "#393F5B",
-        fontWeight: "bold"
-    }
+        fontWeight: "bold",
+        fontSize: 30
+    },
+    signInSubHeading: {
+        color: "#393F5B",
+        fontWeight: "bold",
+        fontSize: 14
+    },
 }));
 
 const SignInButton = withStyles({
@@ -129,9 +135,9 @@ export default function SignIn() {
 
             <Grid item className={classes.signInCommonContainer}>
                 <form onSubmit={handleSubmit(signIn)} className={classes.SignInForm}>
-                    <Grid className={classes.signInHeader}>
-                        <h2 >SonicPortal</h2>
-                        <h6>Encode. Manage. Monitor. Report.</h6>
+                    <Grid item>
+                        <Typography className={classes.signInHeading} id="encodeDataTitle">SonicPortal</Typography>
+                        <Typography className={classes.signInSubHeading} id="encodeDataTitle">Encode. Manage. Monitor. Report.</Typography>
                     </Grid>
                     <Controller
                         name="username"

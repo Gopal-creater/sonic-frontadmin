@@ -6,11 +6,15 @@ import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
 import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 import themes from "./theme";
+import { Provider } from 'react-redux';
+import store from './utils/store';
 
 const appTheme = createTheme(themes);
 ReactDOM.render(
   <ThemeProvider theme={appTheme}>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </ThemeProvider>,
   document.getElementById("root")
 );

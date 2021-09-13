@@ -1,0 +1,73 @@
+.MuiPagination-root {
+    margin-top: 3%;
+    .MuiPagination-ul {
+      flex-wrap: nowrap;
+      li {
+        &:first-child {
+          flex-basis: 100%;
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+        }
+  
+        &:last-child {
+          display: flex;
+          flex-basis: 100%;
+          justify-content: flex-end;
+          align-items: center;
+        }
+      }
+    }
+  }
+  .jobName {
+    font-family: "Nunito Sans", sans-serif;
+    color: #393f5b;
+  }
+  
+  .printIcon {
+    cursor: pointer;
+    width: 10%;
+    height: 10%;
+    margin: 1%;
+    color: #acacac;
+  }
+  
+  .encodeStatus {
+    color: #00a19a;
+    font-family: "Nunito Sans", sans-serif;
+    font-size: 18px;
+  }
+  
+  .buttons {
+    box-shadow: 0 20px 28px rgba(0, 0, 0, 0.07), 15px 0px 5px rgba(0, 0, 0, 0.02),
+      0 -20px 28px rgba(0, 0, 0, 0.03);
+    padding: 3%;
+  }
+  
+  .sortIcon {
+    cursor: pointer;
+  }
+  
+  .jobNameInTable {
+    width: 50%;
+  }
+  
+  .noIncompleteJobs {
+    text-align: center;
+  }
+  
+  .jobStatusInTable {
+    background-color: #eaebf2;
+    padding: 3%;
+    width: 110px;
+    text-align: center;
+  }
+  
+  .contentFileName {
+    font-size: large;
+    font-weight: bolder;
+  }
+  
+  .handleFileUpload {
+    display: none;
+  }

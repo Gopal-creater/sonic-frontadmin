@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
   pagecontent: {
     flexGrow: 1,
-    padding: theme.spacing(3),
+    // padding: theme.spacing(3),
   },
   listContainer: {
     marginLeft: 40,
@@ -50,7 +50,7 @@ export default function AppLayout({ children }) {
             <Sidebar />
           </Grid>
 
-          <Grid item id="pageContainer">
+          <Grid item id="pageContainer" style={{flexGrow:'1'}}>
             <main className={classes.pagecontent}>
               <div style={{ minHeight: "70vh" }}>{children}</div>
             </main>

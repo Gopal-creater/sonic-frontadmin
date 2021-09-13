@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import EncodeDecode from "../../components/common/EncodeDecode";
+import EncodeDecode from "../../components/common/FileSelection";
 import { Grid } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({

@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
   pagecontent: {
     flexGrow: 1,
-    // padding: theme.spacing(3),
+    padding: theme.spacing(4),
   },
   listContainer: {
     marginLeft: 40,

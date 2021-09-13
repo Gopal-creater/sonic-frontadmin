@@ -1,0 +1,9 @@
+.btn-default, 
+.btn-default:hover, 
+.btn-default:active, 
+.btn-default:active:focus, 
+.btn-default:visited, 
+.btn-default:focus {      
+     outline: none;
+     box-shadow: none;
+     }

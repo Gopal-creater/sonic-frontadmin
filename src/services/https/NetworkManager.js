@@ -2,7 +2,6 @@ import axios from 'axios';
 import httpUrl from './httpUrl';
 import {getAccessToken} from './AuthHelper';
 import cogoToast from 'cogo-toast';
-import store from '../../utils/store';
 import { logout } from '../../stores/actions';
 
 const appAxiosInstance = axios.create({
@@ -36,7 +35,7 @@ export function AppWebRequest(endUrl,method,config){
                     
                     // case for refresh token
                     // cogoToast.error("Your session is invalid. Please log in again");
-                    store.dispatch(logout());
+                    // store.dispatch(logout());
                     // localStorage.clear() 
                 //    window.location.href = "/auth/login";
                 }

@@ -2,7 +2,7 @@ import cogoToast from "cogo-toast";
 import FileSaver from "file-saver";
 import Communication from "../services/https/Communication";
 
-import store from './store';
+import store from '../stores';
 import { cloneDeep } from 'lodash';
 import { compareAsc, format } from 'date-fns';
 import * as actionCreators from '../stores/actions/index';

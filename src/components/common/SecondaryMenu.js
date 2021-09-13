@@ -7,7 +7,10 @@ import Paper from "@material-ui/core/Paper";
 import Popper from "@material-ui/core/Popper";
 import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { logout } from "../../stores/actions/session";
+import cogoToast from "cogo-toast";
+import { useDispatch } from "react-redux";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -28,6 +31,8 @@ function SecondaryMenu(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
+  const dispatch = useDispatch();
+
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
@@ -41,7 +46,11 @@ function SecondaryMenu(props) {
   };
 
   const onPressLogout = async () => {
-   alert("logout")
+    try {
+      dispatch(logout())
+    } catch (error) {
+      cogoToast.error("Error logging out.");
+    }
   };
 
   function handleListKeyDown(event) {

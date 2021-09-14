@@ -16,20 +16,13 @@ const useStyles = makeStyles((theme) => ({
     zIndex: theme.zIndex.drawer + 1,
     background: "transparent",
   },
-  toolBar: {
-    background: "white",
-    padding: "20px 40px 20px 40px",
-  },
   pagecontent: {
     flexGrow: 1,
-    paddingLeft: theme.spacing(4),
-  },
-  listContainer: {
-    marginLeft: 40,
-    marginRight: 10,
   },
   container: {
-    marginTop: 100,
+    marginTop: "5%",
+    paddingLeft: "3%",
+    paddingRight: "3%"
   },
 }));
 
@@ -42,21 +35,23 @@ export default function AppLayout({ children }) {
 
       <Header id="headerContainer" />
 
-      <Container maxWidth="lg" className={classes.container}>
+      <Container maxWidth="xl" className={classes.container}>
         <Toolbar />
-        <Grid container id="container">
+        <Grid container id="container" style={{ padding: "1% 4%" }}>
           <Grid item id="sidebarContainer">
             <Sidebar />
           </Grid>
 
-          <Grid item id="pageContainer" style={{ flexGrow: "1" }}>
-            <main className={classes.pagecontent}>
+          <Grid item id="pageContainer" className={classes.pagecontent}>
+            <main >
               <div style={{ minHeight: "70vh" }}>{children}</div>
             </main>
+
+            <Grid className="pt-4" id="footer">
+              <Footer id="footerContainer" />
+            </Grid>
           </Grid>
         </Grid>
-
-        <Footer id="footerContainer" />
       </Container>
     </div>
   );

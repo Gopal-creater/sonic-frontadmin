@@ -6,10 +6,21 @@ import CloseIcon from '@material-ui/icons/Close';
 import Button from '@material-ui/core/Button';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import DialogLogo from "../../../src/assets/images/key-logo.png";
 
 const useStyles = makeStyles({});
+
+const StyledTableCell = withStyles((theme) => ({
+    head: {
+        color: "#D0D0D0",
+    },
+    body: {
+        fontSize: 14,
+        color: "#424C8C",
+        padding:'1%'
+    },
+}))(TableCell);
 
 const DailogTable = (props) => {
 
@@ -42,7 +53,7 @@ const DailogTable = (props) => {
             </DialogTitle>
             {/* <DialogContent dividers> */}
             {/* <DialogContent> */}
-            <TableContainer component={Paper} style={{ marginTop: 10, padding: 10 }} >
+            <TableContainer component={Paper} style={{ marginTop: 10, padding: 10 , border: 'none'}} >
                 {/* <div style={{backgroundColor:'red', padding:'30px'}}> */}
                 <Table className={classes.table} size="small" aria-label="a dense table" fullWidth>
                     {/* Changes for multiple keys */}
@@ -53,8 +64,8 @@ const DailogTable = (props) => {
                         <TableCell style={{ fontWeight: 'bold' }}>TESTING</TableCell>
                     </TableRow>
                     <TableRow >
-                        <TableCell style={{ padding:'1%'}} align="left">NAME</TableCell>
-                        <TableCell style={{ padding:'1%'}} align="left">TESTING</TableCell>
+                        <TableCell align="left">NAME</TableCell>
+                        <TableCell align="left">TESTING</TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell align="left">ARTIST</TableCell>

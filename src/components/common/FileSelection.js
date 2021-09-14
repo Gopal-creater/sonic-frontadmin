@@ -7,7 +7,7 @@ import { log } from "../../utils/app.debug";
 const useStyles = makeStyles((theme) => ({
   EncodeDecodeContainer: {
     backgroundColor: "white",
-    padding: "30px 40px",
+    padding: "2%",
     boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
   },
   header: {

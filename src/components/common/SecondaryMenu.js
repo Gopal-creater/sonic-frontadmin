@@ -10,7 +10,9 @@ import MenuList from "@material-ui/core/MenuList";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { logout } from "../../stores/actions/session";
 import cogoToast from "cogo-toast";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { log } from "../../utils/app.debug";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -32,6 +34,10 @@ function SecondaryMenu(props) {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
   const dispatch = useDispatch();
+
+  const { session } = useSelector((state) => ({
+    session: state.session,
+  }));
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -81,7 +87,7 @@ function SecondaryMenu(props) {
         endIcon={<ArrowDropDownIcon />}
         onClick={handleToggle}
       >
-        user@domian.com
+        {session?.user?.signInUserSession?.idToken?.payload?.email || session?.user?.username}
       </Button>
       <Popper
         open={open}

@@ -1,7 +1,5 @@
-import { Container } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
-import AppLayout from "./components/common/AppLayout";
 import SonicSpinner from "./components/common/SonicSpinner";
 import { useDispatch, useSelector } from "react-redux";
 import { setSession } from "./stores/actions/session";

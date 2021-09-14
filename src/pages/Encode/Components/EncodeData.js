@@ -11,6 +11,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import { log } from '../../../utils/app.debug';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -49,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function EncodeData() {
+export default function EncodeData({ prop }) {
     const classes = useStyles();
 
     const [values, setValues] = React.useState({
@@ -64,7 +65,7 @@ export default function EncodeData() {
 
     return (
         <Grid className={classes.encodeDataContainer} id="encodeDataContainer">
-            <Typography className={classes.heading} id="encodeDataTitle">Audio details</Typography>
+            <Typography className={classes.heading} id="encodeDataTitle">{prop?.audioData?.name || "Audio"} details</Typography>
 
             <form className={classes.encodeForm}>
                 <Grid item id="audioName">

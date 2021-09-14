@@ -14,6 +14,13 @@ const useStyles = makeStyles((theme) => ({
     width: 20,
     marginRight: 15,
   },
+  listContainer: {
+    minWidth: "200px",
+  }
+  ,
+  listItemContainer: {
+    paddingLeft: 0
+  }
 }));
 export default function Sidebar() {
   const classes = useStyles();
@@ -26,34 +33,40 @@ export default function Sidebar() {
 
   return (
     <List className={classes.listContainer}>
-      <ListItem button component={Link} to="/encode">
+      <ListItem button component={Link} to="/encode" className={classes.listItemContainer}>
         <img src={KeyImg} alt="key" className={classes.keyImage} />
         <ListItemText primary={"Encode"} />
       </ListItem>
-      <ListItem button component={Link} to="/decode">
+
+      <ListItem button component={Link} to="/decode" className={classes.listItemContainer}>
         <img src={KeyImg} alt="key" className={classes.keyImage} />
         <ListItemText primary={"Decode"} />
       </ListItem>
-      <ListItem button onClick={handleSubMenu}>
+
+      <ListItem button onClick={handleSubMenu} className={classes.listItemContainer}>
         <img src={KeyImg} alt="key" className={classes.keyImage} />
-        <ListItemText primary={"Monitor"} />{open ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <ListItemText primary={"Monitor"} />
+          {open ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+        </div>
       </ListItem>
+
       {open && (
         <>
           <ListItem button component={Link} to="/dashboard">
             <ListItemText primary={"Dashboard"} />
           </ListItem>
           <ListItem button component={Link} to="/streamreader">
-            <ListItemText primary={"StreamReader"} style={{fontSize:10}} />
+            <ListItemText primary={"StreamReader"} style={{ fontSize: 10 }} />
           </ListItem>
         </>
       )
       }
-      <ListItem button component={Link} to="/sonic-keys">
+      <ListItem button component={Link} to="/sonic-keys" className={classes.listItemContainer}>
         <img src={KeyImg} alt="key" className={classes.keyImage} />
         <ListItemText primary={"SonicKeys"} />
       </ListItem>
-      <ListItem button component={Link} to="/licences">
+      <ListItem button component={Link} to="/licences" className={classes.listItemContainer}>
         <img src={KeyImg} alt="key" className={classes.keyImage} />
         <ListItemText primary={"Licences"} />
       </ListItem>

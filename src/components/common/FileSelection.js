@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Grid, Typography } from "@material-ui/core";
 import Icon from "../../assets/images/Logo-colour-simple.png";
+import { log } from "../../utils/app.debug";
 
 const useStyles = makeStyles((theme) => ({
   EncodeDecodeContainer: {
@@ -68,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function EncodeDecode({ title, subTitle }) {
+export default function FileSelection({ prop }) {
   const classes = useStyles();
   const [audioName, setAudioName] = useState(null);
 
@@ -83,13 +84,19 @@ export default function EncodeDecode({ title, subTitle }) {
       alert("Only audio files are supported.");
     }
     setAudioName(file.name);
+    sendAudioData(file.name);
   };
+
+  const sendAudioData = (name) => {
+    return prop?.getAudioData({ audioData: { name: name } })
+  }
+
   return (
     <Grid className={classes.EncodeDecodeContainer}>
       <Grid item className={classes.header}>
         <div>
-          <Typography className={classes.heading}>{title} SonicKeys</Typography>
-          <Typography className={classes.subHeading}>{subTitle}</Typography>
+          <Typography className={classes.heading}>{prop?.title} SonicKeys</Typography>
+          <Typography className={classes.subHeading}>{prop?.subTitle}</Typography>
         </div>
         <img src={Icon} alt="" style={{ height: 80 }} />
       </Grid>
@@ -106,7 +113,7 @@ export default function EncodeDecode({ title, subTitle }) {
             </Typography>
           </div>
 
-          {audioName !== null && title === "Decode" ? (
+          {audioName !== null && prop?.title === "Decode" ? (
             <Button
               variant="contained"
               component="span"

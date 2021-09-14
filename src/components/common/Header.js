@@ -14,14 +14,19 @@ const useStyles = makeStyles((theme) => ({
   },
   toolBar: {
     background: "white",
-    padding: "20px 40px 20px 40px",
+    padding: 0,
+    padding: "1% 4%",
   },
+  container: {
+    paddingLeft: "3%",
+    paddingRight: "3%"
+  }
 }));
 export default function Header() {
   const classes = useStyles();
   return (
     <AppBar position="fixed" className={classes.appBar} elevation={0.2}>
-      <Container maxWidth="lg">
+      <Container maxWidth="xl" className={classes.container}>
         <Toolbar className={classes.toolBar}>
           <img alt="logo" src={LogoWithTextImg} style={{ width: 80 }} />
           <div style={{ flexGrow: 1 }} />

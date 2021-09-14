@@ -12,6 +12,8 @@ import "../SonicKeys/table.scss";
 import UnfoldMoreSharpIcon from "@material-ui/icons/UnfoldMoreSharp";
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import GetAppIcon from '@material-ui/icons/GetApp';
+import DailogTable from '../../components/common/DialogTable';
+
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -82,6 +84,7 @@ const rows = [
 ];
 
 export default function SonicKeys() {
+    const [openTable, setOpenTable] = React.useState(false)
     const classes = useStyles();
 
     //For sorting   ==============================================================
@@ -178,7 +181,7 @@ export default function SonicKeys() {
                             <TableCell className={classes.tableCellNormalText}>{row.encodeddate}</TableCell>
                             <TableCell className={classes.tableCellNormalText}>{row.description}</TableCell>
                             <TableCell className={classes.tableCellColor}>
-                                <div className={classes.tableCellIcon}>
+                                <div className={classes.tableCellIcon} onClick={() => setOpenTable(true)}>
                                     <VisibilityIcon />&nbsp;{row.action}
                                 </div>
                             </TableCell>
@@ -191,7 +194,8 @@ export default function SonicKeys() {
                     ))}
                 </TableBody>
             </Table>
-            <Pagination
+            {openTable && <DailogTable open={true} setOpenTable={setOpenTable} />}
+            <Pagination 
                 // count={prop?.count}
                 // page={jobs?.page}
                 variant="outlined"

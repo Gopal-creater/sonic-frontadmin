@@ -7,7 +7,7 @@ import { log } from "../../utils/app.debug";
 const useStyles = makeStyles((theme) => ({
   EncodeDecodeContainer: {
     backgroundColor: "white",
-    padding: "2%",
+    padding: "2% 2.5%",
     boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
   },
   header: {
@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
   },
   heading: {
-    paddingBottom: "0px",
     fontSize: 30,
     fontWeight: 700,
     color: "#343F84",

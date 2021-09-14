@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme) => ({
   failedContainer: {
     marginBottom: 40,
     backgroundColor: "white",
-    padding: "2%",
+    padding: "2% 2.5%",
     boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
   },
   header: {

@@ -49,11 +49,11 @@ export default function Sidebar() {
         </>
       )
       }
-      <ListItem button component={Link} to="sonic-keys">
+      <ListItem button component={Link} to="/sonic-keys">
         <img src={KeyImg} alt="key" className={classes.keyImage} />
         <ListItemText primary={"SonicKeys"} />
       </ListItem>
-      <ListItem button component={Link} to="#">
+      <ListItem button component={Link} to="/licences">
         <img src={KeyImg} alt="key" className={classes.keyImage} />
         <ListItemText primary={"Licences"} />
       </ListItem>

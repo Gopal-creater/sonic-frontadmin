@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FailedEncodeDecode({ title, icon }) {
+export default function FailedFileSelection({ title, icon }) {
   const classes = useStyles();
 
   return (

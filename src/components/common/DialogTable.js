@@ -9,21 +9,32 @@ import DialogContent from '@material-ui/core/DialogContent';
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import DialogLogo from "../../../src/assets/images/key-logo.png";
 
-const useStyles = makeStyles({});
+const useStyles = makeStyles({
+    dialogPaper: {
+        minHeight: '75vh',
+        maxHeight: '75vh',
+        margin: 'auto',
+    },
+    tableCellOne: {
+        padding: '5px',
+        fontWeight: 'bold',
+        fontSize: '12px',
+        color: '#ACACAC',
+    },
+    tableCellTwo: {
+        padding: '5px',
+        fontWeight: '700',
+        fontSize: '14px',
+        color: '#757575',
+    },
+    table: {
+    }
+});
 
-const StyledTableCell = withStyles((theme) => ({
-    head: {
-        color: "#D0D0D0",
-    },
-    body: {
-        fontSize: 14,
-        color: "#424C8C",
-        padding:'1%'
-    },
-}))(TableCell);
 
 const DailogTable = (props) => {
 
+    const [open, setOpen] = React.useState(false);
     const { sonicKey } = props;
     const theme = useTheme()
     const classes = useStyles();
@@ -32,9 +43,13 @@ const DailogTable = (props) => {
         props.setOpenTable(false)
     };
 
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     return (<>
 
-        <Dialog open={true} fullWidth={true}>
+        <Dialog open={true} fullWidth={true} className={classes.dialogPaper}>
             <IconButton aria-label="close" style={{
                 position: 'absolute',
                 right: theme.spacing(1),
@@ -53,43 +68,43 @@ const DailogTable = (props) => {
             </DialogTitle>
             {/* <DialogContent dividers> */}
             {/* <DialogContent> */}
-            <TableContainer component={Paper} style={{ marginTop: 10, padding: 10 , border: 'none'}} >
+            <TableContainer component={Paper} style={{ marginTop: 10, padding: '10px 25px', border: 'none' }} elevation={0}>
                 {/* <div style={{backgroundColor:'red', padding:'30px'}}> */}
                 <Table className={classes.table} size="small" aria-label="a dense table" fullWidth>
                     {/* Changes for multiple keys */}
-                    <TableHead style={{ backgroundColor: '#D3D3D0' }}>
-                    </TableHead>
+                    {/* <TableHead style={{ backgroundColor: '#D3D3D0' }}>
+                    </TableHead> */}
                     <TableRow>
-                        <TableCell style={{ fontWeight: 'bold' }}>FILE TYPE</TableCell>
-                        <TableCell style={{ fontWeight: 'bold' }}>TESTING</TableCell>
+                        <TableCell className={classes.tableCellOne}>FILE TYPE</TableCell>
+                        <TableCell className={classes.tableCellTwo}>TESTING</TableCell>
                     </TableRow>
                     <TableRow >
-                        <TableCell align="left">NAME</TableCell>
-                        <TableCell align="left">TESTING</TableCell>
+                        <TableCell className={classes.tableCellOne}>NAME</TableCell>
+                        <TableCell className={classes.tableCellTwo}>TESTING</TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell align="left">ARTIST</TableCell>
-                        <TableCell align="left">TESTING</TableCell>
+                        <TableCell className={classes.tableCellOne}>ARTIST</TableCell>
+                        <TableCell className={classes.tableCellTwo}>TESTING</TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell align="left">SONGWRITER</TableCell>
-                        <TableCell align="left">TESTING</TableCell>
+                        <TableCell className={classes.tableCellOne}>SONGWRITER</TableCell>
+                        <TableCell className={classes.tableCellTwo}>TESTING</TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell align="left" >PRODUCER</TableCell>
-                        <TableCell align="left">TESTING</TableCell>
+                        <TableCell className={classes.tableCellOne} >PRODUCER</TableCell>
+                        <TableCell className={classes.tableCellTwo}>TESTING</TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell align="left">LENGTH</TableCell>
-                        <TableCell align="left">TESTING</TableCell>
+                        <TableCell className={classes.tableCellOne}>LENGTH</TableCell>
+                        <TableCell className={classes.tableCellTwo}>TESTING</TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell align="left">AUDIO SIZE</TableCell>
-                        <TableCell align="left">TESTING</TableCell>
+                        <TableCell className={classes.tableCellOne}>AUDIO SIZE</TableCell>
+                        <TableCell className={classes.tableCellTwo}>TESTING</TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell align="left">INDUSTRY CODES</TableCell>
-                        <TableCell align="left">
+                        <TableCell className={classes.tableCellOne}>INDUSTRY CODES</TableCell>
+                        <TableCell className={classes.tableCellTwo}>
                             ISRC :TESTING
                             ISWC :TESTING
                             Tunecode :TESTING
@@ -99,46 +114,46 @@ const DailogTable = (props) => {
                         </TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell align="left">UNDERLYING ENCODING OF THE FILE</TableCell>
-                        <TableCell align="left">TESTING</TableCell>
+                        <TableCell className={classes.tableCellOne}>UNDERLYING ENCODING OF THE FILE</TableCell>
+                        <TableCell className={classes.tableCellTwo}>TESTING</TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell align="left">SAMPLING FREQUENCY </TableCell>
-                        <TableCell align="left">TESTING s</TableCell>
+                        <TableCell className={classes.tableCellOne}>SAMPLING FREQUENCY </TableCell>
+                        <TableCell className={classes.tableCellTwo}>TESTING s</TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell align="left">Size </TableCell>
-                        <TableCell align="left">TESTING KB</TableCell>
+                        <TableCell className={classes.tableCellOne}>Size </TableCell>
+                        <TableCell className={classes.tableCellTwo}>TESTING KB</TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell align="left">AUDIO</TableCell>
-                        <TableCell align="left">TESTING Hz</TableCell>
+                        <TableCell className={classes.tableCellOne}>AUDIO</TableCell>
+                        <TableCell className={classes.tableCellTwo}>TESTING Hz</TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell align="left">Content Strength</TableCell>
-                        <TableCell align="left">TESTING</TableCell>
+                        <TableCell className={classes.tableCellOne}>Content Strength</TableCell>
+                        <TableCell className={classes.tableCellTwo}>TESTING</TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell align="left">Content Owner</TableCell>
-                        <TableCell align="left">TESTING</TableCell>
+                        <TableCell className={classes.tableCellOne}>Content Owner</TableCell>
+                        <TableCell className={classes.tableCellTwo}>TESTING</TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell align="left">Content Description</TableCell>
-                        <TableCell align="left">TESTING</TableCell>
+                        <TableCell className={classes.tableCellOne}>Content Description</TableCell>
+                        <TableCell className={classes.tableCellTwo}>TESTING</TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell align="left">Addional Meta Data</TableCell>
-                        <TableCell align="left">TESTING</TableCell>
+                        <TableCell className={classes.tableCellOne}>Addional Meta Data</TableCell>
+                        <TableCell className={classes.tableCellTwo}>TESTING</TableCell>
                     </TableRow>
                 </Table>
                 {/* </div> */}
             </TableContainer>
             {/* </DialogContent> */}
-            <DialogActions border="none" style={{ margin: '20px', border:'none' }}>
-                <Button variant="outlined" style={{fontWeight:'bold',color:'#343F84', borderColor:'#343F84', borderWidth:'2px', borderRadius:'5px', textTransform:'none' }}>
+            <DialogActions border="none" style={{ margin: '20px', border: 'none' }}>
+                <Button onClick={handleCloseTable} variant="outlined" style={{ fontWeight: 'bold', color: '#343F84', borderColor: '#343F84', borderWidth: '2px', borderRadius: '8px', textTransform: 'none', padding: '10px 20px' }}>
                     Cancel
                 </Button>
-                <Button variant="contained" style={{fontWeight:'bold',color:'white', backgroundColor:'#343F84', textTransform:'none'}}>
+                <Button variant="contained" style={{ fontWeight: 'bold', color: 'white', backgroundColor: '#343F84', textTransform: 'none', borderRadius: '8px', padding: '10px 20px' }}>
                     View Plays
                 </Button>
             </DialogActions>

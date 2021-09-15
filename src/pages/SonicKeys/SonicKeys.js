@@ -13,7 +13,9 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import DailogTable from '../../components/common/DialogTable';
 import { Grid, Typography } from '@material-ui/core';
-
+import { tableStyle } from '../../globalStyle';
+import PageviewOutlinedIcon from '@material-ui/icons/PageviewOutlined';
+import FilterListIcon from '@material-ui/icons/FilterList';
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -27,22 +29,19 @@ const StyledTableCell = withStyles((theme) => ({
 
 
 const useStyles = makeStyles({
-    container: {
-        marginBottom: 40,
-        backgroundColor: "white",
-        padding: "2% 2.5%",
+    gridContainer: {
         boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
     },
     heading: {
         fontSize: 30,
         fontWeight: 700,
         color: "#343F84",
-      },
-      subHeading: {
+    },
+    subHeading: {
         fontSize: 18,
         fontWeight: 500,
         color: "#00A19A",
-      },
+    },
     table: {
         minWidth: 700,
         marginTop: 20,
@@ -61,7 +60,8 @@ const useStyles = makeStyles({
     },
     sonicKeyText: {
         color: '#343F84',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        fontSize: '18px'
     },
     tableCellColor: {
         color: '#343F84',
@@ -72,7 +72,9 @@ const useStyles = makeStyles({
         alignItems: 'center'
     },
     tableCellNormalText: {
-        fontSize: '12px',
+        fontSize: '14px',
+        fontWeight: 'bold',
+        color: '#757575',
     }
 });
 
@@ -121,109 +123,119 @@ export default function SonicKeys() {
     //=============================================================================
 
     return (
-        <Grid className={classes.container}>
-            <Typography className={classes.heading}>SonicKeys</Typography>
-            <Typography className={classes.subHeading}>
-                See all your SonicKeys
-            </Typography>
-            <TableContainer>
-                <Table className={classes.table} aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <StyledTableCell>
-                                <div className={classes.tableCellIcon}>
-                                    ID
-                                    <UnfoldMoreSharpIcon style={{ fontSize: '15px', fontWeight: 'bolder' }}
-                                        //   onClick={handleSort("id", prop.propFrom)}
-                                        className="sortIcon"
-                                    />
-                                </div>
-                            </StyledTableCell>
-                            <StyledTableCell>
-                                <div className={classes.tableCellIcon}>SONICKEY
-                                    <UnfoldMoreSharpIcon style={{ fontSize: '15px', fontWeight: 'bolder' }}
-                                        //   onClick={handleSort("id", prop.propFrom)}
-                                        className="sortIcon"
-                                    />
-                                </div>
-                            </StyledTableCell>
-                            <StyledTableCell>
-                                <div className={classes.tableCellIcon}>NAME
-                                    <UnfoldMoreSharpIcon style={{ fontSize: '15px', fontWeight: 'bolder' }}
-                                        //   onClick={handleSort("id", prop.propFrom)}
-                                        className="sortIcon"
-                                    />
-                                </div>
-                            </StyledTableCell>
-                            <StyledTableCell>
-                                <div className={classes.tableCellIcon}>ARTIST
-                                    <UnfoldMoreSharpIcon style={{ fontSize: '15px', fontWeight: 'bolder' }}
-                                        //   onClick={handleSort("id", prop.propFrom)}
-                                        className="sortIcon"
-                                    />
-                                </div>
-                            </StyledTableCell>
-                            <StyledTableCell>
-                                <div className={classes.tableCellIcon}>ENCODED DATE
-                                    <UnfoldMoreSharpIcon style={{ fontSize: '15px', fontWeight: 'bolder' }}
-                                        //   onClick={handleSort("id", prop.propFrom)}
-                                        className="sortIcon"
-                                    />
-                                </div>
-                            </StyledTableCell>
-                            <StyledTableCell>
-                                <div className={classes.tableCellIcon}>DESCRIPTION
-                                    <UnfoldMoreSharpIcon style={{ fontSize: '15px', fontWeight: 'bolder' }}
-                                        //   onClick={handleSort("id", prop.propFrom)}
-                                        className="sortIcon"
-                                    />
-                                </div>
-                            </StyledTableCell>
-                            <StyledTableCell>
-                                <div className={classes.tableCellIcon}>ACTION
-                                    <UnfoldMoreSharpIcon style={{ fontSize: '15px', fontWeight: 'bolder' }}
-                                        //   onClick={handleSort("id", prop.propFrom)}
-                                        className="sortIcon"
-                                    />
-                                </div>
-                            </StyledTableCell>
-                            <StyledTableCell></StyledTableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {rows.map((row) => (
-                            <TableRow className={classes.tableRow} key={row.name}>
-                                <TableCell component="th" scope="row">
-                                    {row.id}
-                                </TableCell>
-                                <TableCell className={classes.sonicKeyText}>{row.sonickey}</TableCell>
-                                <TableCell className={classes.tableCellNormalText}>{row.name}</TableCell>
-                                <TableCell className={classes.tableCellNormalText}>{row.artist}</TableCell>
-                                <TableCell className={classes.tableCellNormalText}>{row.encodeddate}</TableCell>
-                                <TableCell className={classes.tableCellNormalText}>{row.description}</TableCell>
-                                <TableCell className={classes.tableCellColor}>
-                                    <div className={classes.tableCellIcon} onClick={() => setOpenTable(true)}>
-                                        <VisibilityIcon />&nbsp;{row.action}
-                                    </div>
-                                </TableCell>
-                                <TableCell className={classes.tableCellColor}>
+        <Grid className={classes.gridContainer}>
+            <Grid style={{ display: 'flex', justifyContent: 'space-between', padding:'2.5% 2.5% 0 2.5%',backgroundColor: 'white', }}>
+                <Grid>
+                    <Typography className={classes.heading}>SonicKeys</Typography>
+                    <Typography className={classes.subHeading}>
+                        See all your SonicKeys
+                    </Typography>
+                </Grid>
+                <Grid>
+                    <PageviewOutlinedIcon style={{ marginRight: '20px', fontSize: '28px', color: '#757575' }} />
+                    <FilterListIcon style={{ fontSize: '28px', color: '#757575' }} />
+                </Grid>
+            </Grid>
+            <Grid>
+                <TableContainer style={{ ...tableStyle.container }}>
+                    <Table className={classes.table} aria-label="simple table">
+                        <TableHead>
+                            <TableRow>
+                                <StyledTableCell>
                                     <div className={classes.tableCellIcon}>
-                                        <GetAppIcon />&nbsp;{row.download}
+                                        ID
+                                        <UnfoldMoreSharpIcon style={{ fontSize: '15px', fontWeight: 'bolder' }}
+                                            //   onClick={handleSort("id", prop.propFrom)}
+                                            className="sortIcon"
+                                        />
                                     </div>
-                                </TableCell>
+                                </StyledTableCell>
+                                <StyledTableCell>
+                                    <div className={classes.tableCellIcon}>SONICKEY
+                                        <UnfoldMoreSharpIcon style={{ fontSize: '15px', fontWeight: 'bolder' }}
+                                            //   onClick={handleSort("id", prop.propFrom)}
+                                            className="sortIcon"
+                                        />
+                                    </div>
+                                </StyledTableCell>
+                                <StyledTableCell>
+                                    <div className={classes.tableCellIcon}>NAME
+                                        <UnfoldMoreSharpIcon style={{ fontSize: '15px', fontWeight: 'bolder' }}
+                                            //   onClick={handleSort("id", prop.propFrom)}
+                                            className="sortIcon"
+                                        />
+                                    </div>
+                                </StyledTableCell>
+                                <StyledTableCell>
+                                    <div className={classes.tableCellIcon}>ARTIST
+                                        <UnfoldMoreSharpIcon style={{ fontSize: '15px', fontWeight: 'bolder' }}
+                                            //   onClick={handleSort("id", prop.propFrom)}
+                                            className="sortIcon"
+                                        />
+                                    </div>
+                                </StyledTableCell>
+                                <StyledTableCell>
+                                    <div className={classes.tableCellIcon}>ENCODED DATE
+                                        <UnfoldMoreSharpIcon style={{ fontSize: '15px', fontWeight: 'bolder' }}
+                                            //   onClick={handleSort("id", prop.propFrom)}
+                                            className="sortIcon"
+                                        />
+                                    </div>
+                                </StyledTableCell>
+                                <StyledTableCell>
+                                    <div className={classes.tableCellIcon}>DESCRIPTION
+                                        <UnfoldMoreSharpIcon style={{ fontSize: '15px', fontWeight: 'bolder' }}
+                                            //   onClick={handleSort("id", prop.propFrom)}
+                                            className="sortIcon"
+                                        />
+                                    </div>
+                                </StyledTableCell>
+                                <StyledTableCell>
+                                    <div className={classes.tableCellIcon}>ACTION
+                                        <UnfoldMoreSharpIcon style={{ fontSize: '15px', fontWeight: 'bolder' }}
+                                            //   onClick={handleSort("id", prop.propFrom)}
+                                            className="sortIcon"
+                                        />
+                                    </div>
+                                </StyledTableCell>
+                                <StyledTableCell></StyledTableCell>
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-                {openTable && <DailogTable open={true} setOpenTable={setOpenTable} />}
-                <Pagination
-                    // count={prop?.count}
-                    // page={jobs?.page}
-                    variant="outlined"
-                    shape="rounded"
-                // onChange={handlePageChange}
-                />
-            </TableContainer>
+                        </TableHead>
+                        <TableBody>
+                            {rows.map((row) => (
+                                <TableRow className={classes.tableRow} key={row.name}>
+                                    <TableCell component="th" scope="row">
+                                        {row.id}
+                                    </TableCell>
+                                    <TableCell className={classes.sonicKeyText}>{row.sonickey}</TableCell>
+                                    <TableCell className={classes.tableCellNormalText}>{row.name}</TableCell>
+                                    <TableCell className={classes.tableCellNormalText}>{row.artist}</TableCell>
+                                    <TableCell className={classes.tableCellNormalText}>{row.encodeddate}</TableCell>
+                                    <TableCell className={classes.tableCellNormalText}>{row.description}</TableCell>
+                                    <TableCell className={classes.tableCellColor}>
+                                        <div className={classes.tableCellIcon} onClick={() => setOpenTable(true)}>
+                                            <VisibilityIcon />&nbsp;{row.action}
+                                        </div>
+                                    </TableCell>
+                                    <TableCell className={classes.tableCellColor}>
+                                        <div className={classes.tableCellIcon}>
+                                            <GetAppIcon />&nbsp;{row.download}
+                                        </div>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                    {openTable && <DailogTable open={true} setOpenTable={setOpenTable} />}
+                    <Pagination
+                        // count={prop?.count}
+                        // page={jobs?.page}
+                        variant="outlined"
+                        shape="rounded"
+                    // onChange={handlePageChange}
+                    />
+                </TableContainer>
+            </Grid>
         </Grid>
     );
 }

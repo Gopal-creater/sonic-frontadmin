@@ -11,46 +11,58 @@ import httpUrl from '../../../services/https/httpUrl';
 import axios from 'axios';
 import { monthRange, todayRange, unauthorizedRedirection, weekRange, yearRange } from '../../../utils/HelperMethods';
 import { log } from '../../../utils/app.debug';
+import { useDispatch, useSelector } from "react-redux";
+import Communication from '../../../services/https/Communication';
 
 function Hits(props) {
+    const dispatch = useDispatch();
+    const { session } = useSelector((state) => ({
+        session: state.session,
+      }));
     const {radioId} = props;
     const [count, setCount] = useState(0);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    // log("radioId",radioId);
+     log("Session",session);
     useEffect(() => {
         setLoading(true);
         const ownerId = getUserId();
+        console.log(ownerId);
         // const monthRang = monthRange().split(',');
         const yearRang = yearRange().split(',');
-        axios({
-                method: 'get',
-                // url: `${httpUrl.API_URL}/radiostations-sonickeys/owners/${ownerId}/dashboard/count/?detectedDetails.detectedAt<${monthRang[0]}&detectedDetails.detectedAt>${monthRang[1]}&radioStation=${radioId}`, 
-                // url: `${httpUrl.API_URL}/detections/owners/${ownerId}/RADIOSTATION/count/?detectedAt<${yearRang[0]}&detectedAt>${yearRang[1]}&radioStation=${radioId}`,
-                url: `${httpUrl.API_URL}/detections/owners/${ownerId}/RADIOSTATION/count?radioStation=${radioId}`,
-                headers: {
-                    "Authorization":`Bearer ${getAccessToken()}`
-                }
-          })
-          .then(res => {
-                setLoading(false);
-                setError(false);
-                setCount(res.data);
-                // log("radiohits response", res);
-           })
-           .catch(err=>{
-                    setLoading(false);
-                    log("fetch Radiostation table SonicKey Count/hits column error",err.response);
-                    if (err.response) {
-                        unauthorizedRedirection(err.response.status);
-                        setError(err.response.data.message);
-                    } else if (err.request) {
-                        setError("Request error for fetch radiostations!!!");                  
-                    } else {
-                        setError("Unexpected error occured while fetching radiostations!!!");       
-                    }
-                }
-           );
+        Communication.fetchRadioStationHits(radioId)
+        .then((data) => {
+          console.log("Count For Radio Station", data);
+          
+        }).catch(error =>{
+            console.log('Hit Error',error);
+        })
+        // axios({
+        //         method: 'get',
+        //         url: `${httpUrl.API_URL}/detections/owners/${ownerId}/RADIOSTATION/count?radioStation=${radioId}`,
+        //         headers: {
+        //             "Authorization":`Bearer ${getAccessToken()}`
+        //         }
+        //   })
+        //   .then(res => {
+        //         setLoading(false);
+        //         setError(false);
+        //         setCount(res.data);
+        //         // log("radiohits response", res);
+        //    })
+        //    .catch(err=>{
+        //             setLoading(false);
+        //             log("fetch Radiostation table SonicKey Count/hits column error",err.response);
+        //             if (err.response) {
+        //                 unauthorizedRedirection(err.response.status);
+        //                 setError(err.response.data.message);
+        //             } else if (err.request) {
+        //                 setError("Request error for fetch radiostations!!!");                  
+        //             } else {
+        //                 setError("Unexpected error occured while fetching radiostations!!!");       
+        //             }
+        //         }
+        //    );
     },[]);
     return (
         <div style={styles.mainContainer}>

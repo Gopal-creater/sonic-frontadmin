@@ -1,23 +1,8 @@
 import React from "react";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { Card, Grid, Typography, Button } from "@material-ui/core";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-
-const StyledTableCell = withStyles((theme) => ({
-  head: {
-    color: "#ACACAC",
-    fontSize: 12,
-    fontWeight: "700",
-  },
-  body: {
-    color: "#424C8C",
-  },
-}))(TableCell);
+import AddLicence from "./components/AddLicence";
+import KeysTable from "../../components/common/KeysTable";
 
 const useStyles = makeStyles((theme) => ({
   licenceContainer: {
@@ -51,44 +36,24 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 700,
     borderRadius: 8,
   },
-
-  //TABLE
-  table: {
-    minWidth: 700,
-    marginTop: 30,
-    width: "100%",
-  },
-  tableRow: {
-    "&:hover": {
-      boxShadow: "0 14px 28px rgba(0,0,0,0.25), 0 1px 5px rgba(0,0,0,0.22)",
-      cursor: "pointer",
-    },
-  },
-  sonicKeyText: {
-    color: "#343F84",
-    fontSize: 18,
-    fontWeight: 700,
-    paddingTop: 25,
-    paddingBottom: 25,
-  },
-  tableCellColor: {
-    color: "#343F84",
-    fontSize: 14,
-    fontWeight: 700,
-  },
-  tableCellIcon: {
-    display: "flex",
-    alignItems: "center",
-  },
-  tableCellNormalText: {
-    fontSize: 14,
-    fontWeight: 500,
-    color: "#757575",
-  },
 }));
+
+function createData(h1, h2, h3, h4, h5, h6) {
+  return { h1, h2, h3, h4, h5, h6 };
+}
+
+const head = [
+  createData("ID", "LICENCE KEY", "USAGE COUNT", "MAX COUNT", "EXPIRY DATE", "SUSPENDED"),
+];
+
+const body = [
+  createData(1, "1592343-B234-324A-AEH2-234DFS84RG", 234, 13, "14.09.2021", ""),
+  createData(2, "56SJDS3-34DF-FEF3-346D-DGFDFD4653", 112, 10, "14.09.2021", ""),
+];
 
 export default function Licences() {
   const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
 
   const rows = [1, 2];
 
@@ -104,58 +69,14 @@ export default function Licences() {
           component="span"
           color="primary"
           className={classes.button}
-          //   onClick={handleDecode}
+          onClick={() => setOpen(true)}
         >
           Add licence
         </Button>
       </Card>
 
-      <TableContainer>
-        <Table className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>
-                <div className={classes.tableCellIcon}>ID</div>
-              </StyledTableCell>
-              <StyledTableCell>
-                <div className={classes.tableCellIcon}>LICENCE KEY</div>
-              </StyledTableCell>
-              <StyledTableCell>
-                <div className={classes.tableCellIcon}>USAGE COUNT</div>
-              </StyledTableCell>
-              <StyledTableCell>
-                <div className={classes.tableCellIcon}>MAX COUNT</div>
-              </StyledTableCell>
-              <StyledTableCell>
-                <div className={classes.tableCellIcon}>EXPIRY DATE</div>
-              </StyledTableCell>
-              <StyledTableCell>
-                <div className={classes.tableCellIcon}>SUSPENDED</div>
-              </StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
-              <TableRow className={classes.tableRow} key={row}>
-                <TableCell className={classes.tableCellNormalText}>1</TableCell>
-                <TableCell className={classes.sonicKeyText}>
-                  1592343-B234-324A-AEH2-234DFS84RG
-                </TableCell>
-                <TableCell className={classes.tableCellNormalText}>
-                  113
-                </TableCell>
-                <TableCell className={classes.tableCellNormalText}>
-                  1000
-                </TableCell>
-                <TableCell className={classes.tableCellNormalText}>
-                  14.09.2021
-                </TableCell>
-                <TableCell className={classes.tableCellColor}></TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <KeysTable head={head} body={body} />
+      <AddLicence open={open} setOpen={setOpen} />
     </Grid>
   );
 }

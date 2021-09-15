@@ -3,6 +3,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Button, Grid, Typography } from "@material-ui/core";
 import Icon from "../../assets/images/Logo-colour-simple.png";
 import { log } from "../../utils/app.debug";
+import * as mm from 'music-metadata-browser';
+import cogoToast from "cogo-toast";
+
 
 const useStyles = makeStyles((theme) => ({
   EncodeDecodeContainer: {
@@ -70,7 +73,32 @@ const useStyles = makeStyles((theme) => ({
 
 export default function FileSelection({ prop }) {
   const classes = useStyles();
-  const [audioName, setAudioName] = useState(null);
+  const [audioData, setAudioData] = useState({
+    response: false,
+    file: null,
+    data: {
+      encodingStrength: '15',
+      contentName: "",
+      contentType: "",
+      contentDescription: "",
+      contentCreatedDate: new Date(),
+      contentValidation: "No",
+      contentDuration: "",
+      contentSize: "",
+      contentOwner: "",
+      contentFileType: "",
+      contentEncoding: "",
+      contentSamplingFrequency: "",
+      contentQuality: "",
+      additionalMetadata: {},
+      sonicKey: "",
+      contentFilePath: "",
+      isrcCode: "",
+      iswcCode: "",
+      tuneCode: "",
+    },
+    name: null
+  });
 
   const handleDecode = (e) => {
     e.preventDefault();
@@ -80,16 +108,53 @@ export default function FileSelection({ prop }) {
     e.preventDefault();
     const file = e?.target?.files[0];
     if (!file?.type?.includes("audio")) {
-      alert("Only audio files are supported.");
+      return cogoToast.warn("Only audio files are supported.");
     }
-    setAudioName(file.name);
-    sendAudioData(file.name);
+    mm.parseBlob(file, { native: true }).then(metadata => {
+      let payload = {
+        response: false,
+        file: file,
+        data: {
+          encodingStrength: '15',
+          contentName: (metadata.common.title) ? metadata.common.title : "",
+          contentType: file.type,
+          contentDescription: (metadata.common.description) ? metadata.common.description : '',
+          contentCreatedDate: new Date(),
+          contentValidation: "No",
+          contentDuration: (metadata.format.duration) ? metadata.format.duration : '',
+          contentSize: (file.size / 1024), contentFileType: file.type,
+          contentOwner: (metadata.common.artist) ? metadata.common.artist : '',
+          contentFileType: "",
+          contentEncoding: (
+            ((metadata.format.codec) ? ((metadata.format.codec).toString()) : '') +
+            ((metadata.format.sampleRate) ? (', ' + (metadata.format.sampleRate).toString() + " Hz") : '') +
+            ((metadata.format.codecProfile) ? (', ' + (metadata.format.codecProfile).toString()) : '') +
+            ((metadata.format.bitrate) ? (', ' + (metadata.format.bitrate).toString() + " bps") : '') +
+            ((metadata.format.numberOfChannels) ? (', ' + (metadata.format.numberOfChannels).toString() + " ch") : '')
+          ),
+          contentSamplingFrequency: (metadata.format.sampleRate) ? (metadata.format.sampleRate).toString() + "  Hz" : '',
+          contentQuality: "",
+          additionalMetadata: {},
+          sonicKey: "",
+          contentFilePath: "",
+          isrcCode: "",
+          iswcCode: "",
+          tuneCode: "",
+        },
+        name: file?.name
+      }
+      setAudioData({ ...payload });
+      sendAudioData(payload);
+    }).catch((err) => {
+      cogoToast.error(err)
+    })
   };
 
-  const sendAudioData = (name) => {
-    return prop?.getAudioData({ audioData: { name: name } })
+  const sendAudioData = (Data) => {
+    return prop?.getAudioData(Data)
   }
 
+  log("audio state", audioData)
   return (
     <Grid className={classes.EncodeDecodeContainer}>
       <Grid item className={classes.header}>
@@ -106,13 +171,13 @@ export default function FileSelection({ prop }) {
             <Typography className={classes.selectFile}>
               Select a file
             </Typography>
-            <Typography className={classes.audioFile}>{audioName}</Typography>
+            <Typography className={classes.audioFile}>{audioData?.name}</Typography>
             <Typography className={classes.clue}>
               all audio file formats
             </Typography>
           </div>
 
-          {audioName !== null && prop?.title === "Decode" ? (
+          {audioData?.name !== null && prop?.title === "Decode" ? (
             <Button
               variant="contained"
               component="span"

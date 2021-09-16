@@ -1,25 +1,8 @@
 import React from "react";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography } from "@material-ui/core";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import VisibilityIcon from "@material-ui/icons/Visibility";
 import Icon from "../../../assets/images/Logo-colour-simple.png";
-
-const StyledTableCell = withStyles((theme) => ({
-  head: {
-    color: "#ACACAC",
-    fontSize: 12,
-    fontWeight: "700",
-  },
-  body: {
-    color: "#424C8C",
-  },
-}))(TableCell);
+import KeysTable from "../../../components/common/KeysTable";
 
 const useStyles = makeStyles((theme) => ({
   successContainer: {
@@ -48,41 +31,20 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 500,
     color: "#393F5B",
   },
-
-  //TABLE
-  table: {
-    minWidth: 700,
-    marginTop: 30,
-    width: "100%",
-  },
-  tableRow: {
-    "&:hover": {
-      boxShadow: "0 14px 28px rgba(0,0,0,0.25), 0 1px 5px rgba(0,0,0,0.22)",
-      cursor: "pointer",
-    },
-  },
-  sonicKeyText: {
-    color: "#343F84",
-    fontSize: 18,
-    fontWeight: 700,
-    paddingTop: 25,
-    paddingBottom: 25,
-  },
-  tableCellColor: {
-    color: "#343F84",
-    fontSize: 14,
-    fontWeight: 700,
-  },
-  tableCellIcon: {
-    display: "flex",
-    alignItems: "center",
-  },
-  tableCellNormalText: {
-    fontSize: 14,
-    fontWeight: 700,
-    color: "#757575",
-  },
 }));
+
+function createData(h1, h2, h3, h4, h5, h6) {
+  return { h1, h2, h3, h4, h5, h6 };
+}
+
+const head = [
+  createData("SONICKEY", "FILE TYPE", "NAME", "FREQUENCY", "OWNER", "ACTION"),
+];
+
+const body = [
+  createData("WD3mg0z9QL7", "audio/wav", "Test", 44100, "SG", ""),
+  createData("AXD234Ghtr29", "audio/wav", "Testing", 44100, "SG", ""),
+];
 
 export default function DecodeSuccess() {
   const classes = useStyles();
@@ -104,59 +66,7 @@ export default function DecodeSuccess() {
         <img src={Icon} alt="Success" style={{ width: 150 }} />
       </Grid>
 
-      <TableContainer>
-        <Table className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>
-                <div className={classes.tableCellIcon}>SONICKEY</div>
-              </StyledTableCell>
-              <StyledTableCell>
-                <div className={classes.tableCellIcon}>FILE TYPE</div>
-              </StyledTableCell>
-              <StyledTableCell>
-                <div className={classes.tableCellIcon}>NAME</div>
-              </StyledTableCell>
-              <StyledTableCell>
-                <div className={classes.tableCellIcon}>FREQUENCY</div>
-              </StyledTableCell>
-              <StyledTableCell>
-                <div className={classes.tableCellIcon}>OWNER</div>
-              </StyledTableCell>
-              <StyledTableCell>
-                <div className={classes.tableCellIcon}>ACTION</div>
-              </StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
-              <TableRow className={classes.tableRow} key={row}>
-                <TableCell className={classes.sonicKeyText}>
-                  WD3mg0z9QL7
-                </TableCell>
-                <TableCell className={classes.tableCellNormalText}>
-                  audio/wav
-                </TableCell>
-                <TableCell className={classes.tableCellNormalText}>
-                  Test
-                </TableCell>
-                <TableCell className={classes.tableCellNormalText}>
-                  44100
-                </TableCell>
-                <TableCell className={classes.tableCellNormalText}>
-                  SG
-                </TableCell>
-                <TableCell className={classes.tableCellColor}>
-                  <div className={classes.tableCellIcon}>
-                    <VisibilityIcon />
-                    &nbsp;View
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <KeysTable type head={head} body={body} />
     </Grid>
   );
 }

@@ -90,7 +90,7 @@ export default function FileSelection({ prop }) {
       contentEncoding: "",
       contentSamplingFrequency: "",
       contentQuality: "",
-      additionalMetadata: {},
+      additionalMetadata: { message: "" },
       sonicKey: "",
       contentFilePath: "",
       isrcCode: "",
@@ -134,7 +134,7 @@ export default function FileSelection({ prop }) {
           ),
           contentSamplingFrequency: (metadata.format.sampleRate) ? (metadata.format.sampleRate).toString() + "  Hz" : '',
           contentQuality: "",
-          additionalMetadata: {},
+          additionalMetadata: { message: "" },
           sonicKey: "",
           contentFilePath: "",
           isrcCode: "",
@@ -154,7 +154,6 @@ export default function FileSelection({ prop }) {
     return prop?.getAudioData(Data)
   }
 
-  log("audio state", audioData)
   return (
     <Grid className={classes.EncodeDecodeContainer}>
       <Grid item className={classes.header}>

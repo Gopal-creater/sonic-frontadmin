@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Card, Grid, Typography, Button } from "@material-ui/core";
 import AddLicence from "./components/AddLicence";
 import KeysTable from "../../components/common/KeysTable";
+import { fetchLicenceKeys } from "../../stores/actions/licenceKey";
+import { log } from "../../utils/app.debug";
+import { connect, useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   licenceContainer: {
@@ -51,11 +54,21 @@ const body = [
   createData(2, "56SJDS3-34DF-FEF3-346D-DGFDFD4653", 112, 10, "14.09.2021", ""),
 ];
 
-export default function Licences() {
+function Licences(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  // const licenceList = useSelector((state) => state.licenceKey);
 
-  const rows = [1, 2];
+  // log("licenceList", licenceList)
+  useEffect(() => {
+    if (props.licenceKey.data.length <= 0) {
+      fetchLicence();
+    }
+  }, []);
+
+  function fetchLicence() {
+    props.fetchLicenceKey();
+  }
 
   return (
     <Grid className={classes.licenceContainer}>
@@ -80,3 +93,17 @@ export default function Licences() {
     </Grid>
   );
 }
+
+const mapStateToProps = (state) => {
+  log(state)
+  return {
+    licenceKey: state.licenceKey,
+    user: state.session.user,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchLicenceKey: () => dispatch(fetchLicenceKeys()),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Licences);

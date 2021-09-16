@@ -9,6 +9,9 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { Grid } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
+import cogoToast from "cogo-toast";
+import { log } from "../../../utils/app.debug";
+import Communication from "../../../services/https/Communication";
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -36,6 +39,23 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddLicence({ open, setOpen }) {
   const classes = useStyles();
+  const [newinputkey, setNewinputkey] = React.useState("");
+  // const [loadingAddingKey, setLoadingAddingKey] = React.useState(false);
+
+  const onSubmitNewKey = () => {
+    // setLoadingAddingKey(true);
+    Communication.createLicenceKey(newinputkey)
+      .then(function (response) {
+        // setLoadingAddingKey(false);
+        cogoToast.success("Licence Key added successfully.");
+        // fetchLicence();
+      })
+      .catch((err) => {
+        // setLoadingAddingKey(false);
+        cogoToast.error(err.message || "Error adding key.");
+        // log("error", err);
+      });
+  };
 
   return (
     <Dialog
@@ -57,6 +77,10 @@ export default function AddLicence({ open, setOpen }) {
       <DialogContent>
         <TextField
           autoFocus
+          onChange={(e) => {
+            setNewinputkey(e.target.value);
+          }}
+          value={newinputkey}
           placeholder="Type here"
           margin="dense"
           id="licence"
@@ -78,7 +102,10 @@ export default function AddLicence({ open, setOpen }) {
           Cancel
         </Button>
         <Button
-          onClick={() => setOpen(false)}
+          onClick={() => {
+            onSubmitNewKey();
+            setOpen(false);
+          }}
           className={classes.button}
           variant="contained"
           color="primary"

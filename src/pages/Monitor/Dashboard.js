@@ -15,7 +15,7 @@ import ReorderIcon from '@material-ui/icons/Reorder';
 
 export default function Dashboard() {
     return (
-        <div style={{ backgroundColor: 'aqua', minWidth: '50vw', marginTop: -35 }}>
+        <div style={{ backgroundColor: 'aqua', minWidth: '50vw'}}>
             <Paper style={{padding:5, outline:0 }}>
                 <BackgoundCard header='Dashboard' subheader='View SonicKeys Streaming' />
                 <div style={{padding:10,marginTop:25}}>

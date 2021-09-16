@@ -1,12 +1,12 @@
-export function getAccessToken(){
-    const user_info = localStorage.getItem("user_info") ? JSON.parse(localStorage.getItem("user_info")) : null;
-    if (user_info && user_info?.signInUserSession.idToken?.jwtToken) {
-      return user_info?.signInUserSession.idToken?.jwtToken;
-    }
-    return null;
+export function getAccessToken() {
+  const user_info = localStorage.getItem("user_info") ? JSON.parse(localStorage.getItem("user_info")) : null;
+  if (user_info && user_info?.signInUserSession.idToken?.jwtToken) {
+    return user_info?.signInUserSession.idToken?.jwtToken;
+  }
+  return null;
 };
 
-export function getUserId(){
+export function getUserId() {
   const user_info = localStorage.getItem("user_info") ? JSON.parse(localStorage.getItem("user_info")) : null;
   if (user_info && user_info?.signInUserSession.idToken?.payload?.sub) {
     return user_info?.signInUserSession.idToken?.payload?.sub;
@@ -14,7 +14,7 @@ export function getUserId(){
   return null;
 };
 
-export function getAdmin(){
+export function getAdmin() {
   const user_info = localStorage.getItem("user_info") ? JSON.parse(localStorage.getItem("user_info")) : null;
   if (user_info && user_info?.signInUserSession.idToken?.payload?.['cognito:groups']?.includes('Admin')) {
     return true;
@@ -22,12 +22,12 @@ export function getAdmin(){
   return false;
 };
 
-export function isAuthenticated(){
-    if (getAccessToken()) {
-        return true;
-      } else {
-        return false;
-      }
+export function isAuthenticated() {
+  if (getAccessToken()) {
+    return true;
+  } else {
+    return false;
+  }
 };
 
 export function getRefreshToken(){

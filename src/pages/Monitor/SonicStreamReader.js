@@ -181,7 +181,6 @@ function SonicStreamReader(props) {
       <Paper
         style={{
           outline: 0,
-          marginTop: -25,
           display: "flex",
           flexDirection: "column",
         }}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React , { useState, useEffect } from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -16,6 +16,9 @@ import { Grid, Typography } from '@material-ui/core';
 import { tableStyle } from '../../globalStyle';
 import PageviewOutlinedIcon from '@material-ui/icons/PageviewOutlined';
 import FilterListIcon from '@material-ui/icons/FilterList';
+import Communication from "../../services/https/Communication";
+import { fetchSonicKeys } from "../../stores/actions/sonicKey";
+import { connect } from 'react-redux';
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -26,7 +29,6 @@ const StyledTableCell = withStyles((theme) => ({
         color: "#424C8C",
     },
 }))(TableCell);
-
 
 const useStyles = makeStyles({
     gridContainer: {
@@ -79,6 +81,7 @@ const useStyles = makeStyles({
 });
 
 
+
 function createData(id, sonickey, name, artist, encodeddate, description, action, download) {
     return { id, sonickey, name, artist, encodeddate, description, action, download };
 }
@@ -101,9 +104,41 @@ const rows = [
     createData(15, 'LKHKJ5gjhb', 'sdk456_sampio.wav', 'Sonic', '25/08/2021', 'Sample testing', 'View', 'Download'),
 ];
 
-export default function SonicKeys() {
+const SonicKeys = (props) => {
     const [openTable, setOpenTable] = React.useState(false)
     const classes = useStyles();
+    const [tableData, setTableData] = React.useState([]);
+    const [totalCount, setTotalCount] = React.useState(0);
+    const [error, setError] = React.useState('');
+    const [sonicKeys, setSonicKeys] = useState({
+        //sonicKey: "",
+        contentName: "",
+        contentOwner: "",
+        contentValidation: "",
+        contentQuality: "",
+        contentDescription: "",
+        additionalMetadata: {},
+        isrcCode: "",
+        iswcCode: "",
+        tuneCode: "",
+      });
+
+      const firstFetchSonicKey = (_offset = 0, _limit = 10, value = '') => {
+        Communication.fetchMySonicKey(_limit, _offset, value).then((res) => {
+          console.log("res", res);
+          setTableData(res.docs)
+          setTotalCount(res.totalDocs)
+          setError('')
+        }).catch(err => {
+          setError(err)
+        })
+      }
+      
+      useEffect(() => {
+        if (tableData.length <= 0) {
+          firstFetchSonicKey(0, 10)
+        }
+      }, []);
 
     //For sorting   ==============================================================
     //   var value;
@@ -238,9 +273,20 @@ export default function SonicKeys() {
             </Grid>
         </Grid>
     );
-}
+};
 
-
+const mapStateToProps = (state) => {
+    return {
+      sonicKeys: state.sonicKeys,
+    };
+  };
+  const mapDispatchToProps = (dispatch) => {
+    return {
+      // fetchSonicKeys: () => dispatch(fetchSonicKeys()), for pagination
+      fetchSonicKeys: (limit, index) => dispatch(fetchSonicKeys(limit, index)),
+    };
+  };
+  export default connect(mapStateToProps, mapDispatchToProps)(SonicKeys);
 
 
 

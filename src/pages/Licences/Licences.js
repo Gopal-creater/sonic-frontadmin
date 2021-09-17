@@ -1,18 +1,22 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
 import { Card, Grid, Typography, Button } from "@material-ui/core";
 import AddLicence from "./components/AddLicence";
-import KeysTable from "../../components/common/KeysTable";
 import { fetchLicenceKeys } from "../../stores/actions/licenceKey";
-import { log } from "../../utils/app.debug";
-import { connect, useSelector } from "react-redux";
+import { connect } from "react-redux";
+import { format } from "date-fns";
 
 const useStyles = makeStyles((theme) => ({
   licenceContainer: {
     marginBottom: 40,
     backgroundColor: "white",
     padding: "2% 2.5%",
-    // boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
   },
   heading: {
     fontSize: 24,
@@ -39,36 +43,65 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 700,
     borderRadius: 8,
   },
+
+  //TABLE
+  table: {
+    minWidth: 700,
+    marginTop: 30,
+    width: "100%",
+  },
+  tableHead: {
+    color: "#ACACAC",
+    fontSize: 12,
+    fontWeight: "700",
+  },
+  key: {
+    color: "#343F84",
+    fontSize: 18,
+    fontWeight: 700,
+    paddingTop: 25,
+    paddingBottom: 25,
+  },
+  tableCellColor: {
+    color: "#343F84",
+    fontSize: 14,
+    fontWeight: 700,
+  },
+  tableCellNormalText: {
+    fontSize: 14,
+    fontWeight: 500,
+    color: "#757575",
+  },
 }));
 
-function createData(h1, h2, h3, h4, h5, h6) {
-  return { h1, h2, h3, h4, h5, h6 };
-}
-
-const head = [
-  createData("ID", "LICENCE KEY", "USAGE COUNT", "MAX COUNT", "EXPIRY DATE", "SUSPENDED"),
-];
-
-const body = [
-  createData(1, "1592343-B234-324A-AEH2-234DFS84RG", 234, 13, "14.09.2021", ""),
-  createData(2, "56SJDS3-34DF-FEF3-346D-DGFDFD4653", 112, 10, "14.09.2021", ""),
+const tableHead = [
+  "ID",
+  "LICENCE KEY",
+  "USAGE COUNT",
+  "MAX COUNT",
+  "EXPIRY DATE",
+  "SUSPENDED",
 ];
 
 function Licences(props) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-  // const licenceList = useSelector((state) => state.licenceKey);
+  const [open, setOpen] = useState(false);
+  const [licenceData, setLicenceData] = useState([]);
 
-  // log("licenceList", licenceList)
+  function fetchLicence() {
+    props.fetchLicenceKey();
+  }
+
   useEffect(() => {
     if (props.licenceKey.data.length <= 0) {
       fetchLicence();
     }
   }, []);
 
-  function fetchLicence() {
-    props.fetchLicenceKey();
-  }
+  useEffect(() => {
+    const data = props.licenceKey.data.docs;
+    setLicenceData(data);
+  }, [props]);
 
   return (
     <Grid className={classes.licenceContainer}>
@@ -88,14 +121,46 @@ function Licences(props) {
         </Button>
       </Card>
 
-      <KeysTable head={head} body={body} />
-      <AddLicence open={open} setOpen={setOpen} />
+      <TableContainer>
+        <Table className={classes.table} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              {tableHead.map((head, index) => (
+                <TableCell className={classes.tableHead} key={index}>{head}</TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {licenceData?.map((data, index) => (
+              <TableRow className={classes.tableRow} key={data._id}>
+                <TableCell className={classes.tableCellNormalText}>
+                  {index + 1}
+                </TableCell>
+                <TableCell className={classes.key}>{data.key}</TableCell>
+                <TableCell className={classes.tableCellNormalText}>
+                  {data.encodeUses}
+                </TableCell>
+                <TableCell className={classes.tableCellNormalText}>
+                  {data.maxEncodeUses}
+                </TableCell>
+                <TableCell className={classes.tableCellNormalText}>
+                  {format(new Date(data.validity),'dd.MM.yyyy')}
+                </TableCell>
+                <TableCell className={classes.tableCellColor}>
+                  {data.suspended === false ? "No" : "Yes"}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      <AddLicence open={open} setOpen={setOpen} fetchLicence={fetchLicence} />
     </Grid>
   );
 }
 
 const mapStateToProps = (state) => {
-  log(state)
   return {
     licenceKey: state.licenceKey,
     user: state.session.user,

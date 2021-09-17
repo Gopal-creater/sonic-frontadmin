@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -10,7 +10,6 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import { Grid } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import cogoToast from "cogo-toast";
-import { log } from "../../../utils/app.debug";
 import Communication from "../../../services/https/Communication";
 
 const useStyles = makeStyles((theme) => ({
@@ -37,23 +36,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AddLicence({ open, setOpen }) {
+export default function AddLicence({ open, setOpen, fetchLicence }) {
   const classes = useStyles();
-  const [newinputkey, setNewinputkey] = React.useState("");
-  // const [loadingAddingKey, setLoadingAddingKey] = React.useState(false);
+  const [newinputkey, setNewinputkey] = useState("");
 
   const onSubmitNewKey = () => {
-    // setLoadingAddingKey(true);
     Communication.createLicenceKey(newinputkey)
       .then(function (response) {
-        // setLoadingAddingKey(false);
         cogoToast.success("Licence Key added successfully.");
-        // fetchLicence();
+        fetchLicence();
       })
       .catch((err) => {
-        // setLoadingAddingKey(false);
         cogoToast.error(err.message || "Error adding key.");
-        // log("error", err);
       });
   };
 

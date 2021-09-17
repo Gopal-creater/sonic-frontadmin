@@ -46,7 +46,7 @@ export default function Sidebar() {
       <ListItem button onClick={handleSubMenu} className={classes.listItemContainer}>
         <img src={KeyImg} alt="key" className={classes.keyImage} />
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-          <ListItemText primary={"Monitor"} />
+          <ListItemText primary={"Monitor"} style={{ marginRight: "8px" }} />
           {open ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
         </div>
       </ListItem>

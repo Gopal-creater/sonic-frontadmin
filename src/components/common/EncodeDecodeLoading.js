@@ -9,7 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import { CardMedia, Grid } from '@material-ui/core'
-import encodeKeyImg from "../../../assets/images/Encode-Key.svg"
+import encodeKeyImg from "../../assets/images/Encode-Key.svg"
 
 const styles = (theme) => ({
     root: {
@@ -64,17 +64,17 @@ const DialogActions = withStyles((theme) => ({
     },
 }))(MuiDialogActions);
 
-export default function EncodeLoading(prop) {
+export default function EncodeDecodeLoading(prop) {
 
     return (
         <div >
-            <Dialog onClose={prop?.onClose} aria-labelledby="customized-dialog-title" open={prop?.open}>
+            <Dialog onClose={prop?.onClose} aria-labelledby="customized-dialog-title" open={prop?.open} disableBackdropClick={true}>
                 <DialogTitle id="customized-dialog-title" onClose={prop?.onClose}>
-                    Encoding {prop?.audioName} in progress
+                    {prop?.title} {prop?.audioName} in progress
                 </DialogTitle>
                 <DialogContent >
                     <Typography gutterBottom style={{ fontWeight: "medium" }}>
-                        Depending on your internet connection and a size of an audio file, encoding may take longer at times.
+                        Depending on your internet connection and a size of an audio file, {prop?.title} may take longer at times.
                     </Typography>
                     <Grid container justifyContent="center" alignItems="center" className="mt-3">
                         <img src={encodeKeyImg} alt="Sonic Key" style={{ width: "auto", height: "100%" }} />

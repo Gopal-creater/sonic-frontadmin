@@ -15,8 +15,11 @@ import Checkbox from '@material-ui/core/Checkbox';
 import cogoToast from 'cogo-toast';
 import Communication from '../../services/https/Communication';
 import { log } from '../../utils/app.debug';
-import EncodeLoading from './Components/EncodeLoading';
+import EncodeDecodeLoading from '../../components/common/EncodeDecodeLoading';
 import InputMask from 'react-input-mask';
+import EncodeSuccess from './Components/EncodeSuccess';
+import FailedFileSelection from '../../components/common/FailedFileSelection';
+import failIcon from "../../assets/images/icon-fail-graphic.svg"
 
 const countryCodes = require("country-codes-list");
 const myCountryCodesObject = countryCodes.customList(
@@ -143,6 +146,10 @@ export default function Encode() {
 
     return (
         <Grid className={classes.EncodeContainer} id="encodeDecodeContainer">
+            {values?.encodeSuccess !== null && <EncodeSuccess audioName={values?.name} />}
+
+            {/* {values?.encodeError !== null && <FailedFileSelection title="Encoding" icon={failIcon} />} */}
+            {/* <EncodeSuccess audioName={values?.name} /> */}
             <FileSelection
                 prop={{
                     title: "Encode",
@@ -151,7 +158,7 @@ export default function Encode() {
                 }}
             />
 
-            {values?.isDataPresent &&
+            {values?.isDataPresent && values?.encodeSuccess === null && values?.encodeError === null &&
                 <Grid className={classes.encodeDataContainer} id="encodeDataContainer">
                     <Typography className={classes.heading} id="encodeDataTitle">{values?.name || "Audio"} details</Typography>
 
@@ -404,9 +411,10 @@ export default function Encode() {
                 </Grid>
             }
 
-            <EncodeLoading
+            <EncodeDecodeLoading
                 open={values?.encodeLoading}
                 onClose={closeEncodeProgressPopUp}
+                title="Encoding"
                 audioName={values?.name}
             />
 

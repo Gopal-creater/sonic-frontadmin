@@ -5,20 +5,28 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { Container } from '@material-ui/core';
+import { Container, Grid } from '@material-ui/core';
 
 const useStyles = makeStyles({
-  root: {
-    minWidth: 275,
+  EncodeDecodeContainer: {
+    backgroundColor: "white",
+    padding: "2% 2.5%",
+    boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
   },
-  title: {
-    fontWeight: 'bold',
-    fontSize: 24,
+  header: {
+    display: "flex",
+    justifyContent: "space-between",
   },
-  subtitle: {
-    fontWeight: 'light',
-    fontSize: 14,
-    color: '#00A19A'
+  heading: {
+    fontSize: 30,
+    fontWeight: 700,
+    color: "#343F84",
+  },
+  subHeading: {
+    paddingBottom: 30,
+    fontSize: 18,
+    fontWeight: 500,
+    color: "#00A19A",
   }
 });
 
@@ -26,12 +34,11 @@ export default function BackgoundCard({ header,subheader }) {
   const classes = useStyles();
 
   return (
-    <Container maxWidth="lg" style={{marginTop:15}}>
-      <Typography variant="h6" className={classes.title}>
-        {header}
-      </Typography>
-      <Typography display="block" className={classes.subtitle}>
-        {subheader} </Typography>
-    </Container>
+    <Grid item className={classes.header}>
+        <div>
+          <Typography className={classes.heading}>{header}</Typography>
+          <Typography className={classes.subHeading}>{subheader}</Typography>
+        </div>
+      </Grid>
   );
 }

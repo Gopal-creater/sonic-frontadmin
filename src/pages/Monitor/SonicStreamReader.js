@@ -38,18 +38,7 @@ import {
   getUserId,
   getAdmin,
 } from "../../services/https/AuthHelper";
-import httpUrl from "../../services/https/httpUrl";
-import {
-  errorCount,
-  getAllRadioStations,
-  unauthorizedRedirection,
-  hitsDataArray,
-  listeningCount,
-  notListeningCount,
-  todayRange,
-  weekRange,
-  monthRange,
-} from "../../utils/HelperMethods";
+
 import { log } from "../../utils/app.debug";
 import ButtonSpinner from "./Components/ButtonSpinner";
 import {
@@ -82,6 +71,31 @@ import CancelOutlinedIcon from "@material-ui/icons/CancelOutlined";
 import { tableStyle } from "../../globalStyle";
 
 const useStyles = makeStyles((theme) => ({
+  container: {
+    backgroundColor: "white",
+    padding: "2% 2.5%",
+    boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+  },
+  header: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  heading: {
+    fontSize: 30,
+    fontWeight: 700,
+    color: "#343F84",
+  },
+  subHeading: {
+    paddingBottom: 30,
+    fontSize: 18,
+    fontWeight: 500,
+    color: "#00A19A",
+  },
+  buttons: {
+    fontSize: 15,
+    marginRight: 6,
+    marginTop: 5,
+  },
   tableRow: {
     "&:hover": {
       boxShadow: "0 14px 28px rgba(0,0,0,0.25), 0 1px 5px rgba(0,0,0,0.22)",
@@ -126,7 +140,6 @@ function SonicStreamReader(props) {
     }
   }, []);
 
-  
   // ================================FUNCTIONS=====================================================
 
   const handlePageChange = async (event, value) => {
@@ -178,18 +191,25 @@ function SonicStreamReader(props) {
   };
   return (
     <>
-      <Paper
-        style={{
-          outline: 0,
-          display: "flex",
-          flexDirection: "column",
-        }}
+      <Grid
+        // style={{
+        //   outline: 0,
+        //   display: "flex",
+        //   flexDirection: "column",
+        // }}
+        className={classes.container}
         elevation={8}
       >
-        <BackgoundCard
-          header="Sonic StreamReader"
-          subheader="List 4 radio stations"
-        />
+        <Grid item className={classes.header}>
+          <div>
+            <Typography className={classes.heading}>
+              Sonic StreamReader
+            </Typography>
+            <Typography className={classes.subHeading}>
+              List 5 radio stations
+            </Typography>
+          </div>
+        </Grid>
         <Paper
           maxWidth="lg"
           style={{
@@ -202,18 +222,9 @@ function SonicStreamReader(props) {
             justifyContent: "space-between",
           }}
         >
-          <div style={{ margin: 10 }}>
-            {/* <CustomButton 
-                            className={useStyleClasses.homeTableDelete} 
-                            buttonText="Delete"
-                            disabled={selectedRows.length > 0 ? false :true}
-                            onClick={ () => {
-                                setShow(true)
-                                //   onClick function goes here
-                            }}
-                            style={{ backgroundColor:Constant.color.deleteButtonColor, marginRight: 10 }}
-                        /> */}
-            <button
+          <Grid style={{ margin: 10 }}>
+            <Grid item>
+            <Button
               disabled={selectedRows.length > 0 ? false : true}
               //    className={[useStyleClasses.homeTableDelete, 'customButton'].join(' ')}
               onClick={() => {
@@ -225,15 +236,12 @@ function SonicStreamReader(props) {
                 <ButtonSpinner grow={true} />
               ) : (
                 <div style={{ justifyContent: "center", display: "flex" }}>
-                  <PlayCircleOutlineRoundedIcon
-                    style={{ fontSize: 15, marginRight: 6 }}
-                  />
+                  <PlayCircleOutlineRoundedIcon className={classes.buttons} />
                   Start
                 </div>
               )}
-            </button>
-
-            <button
+            </Button>
+            <Button
               disabled={selectedRows.length > 0 ? false : true}
               className={[useStyleClasses.homeTableDelete, "customButton"].join(
                 " "
@@ -247,12 +255,12 @@ function SonicStreamReader(props) {
                 <ButtonSpinner grow={true} />
               ) : (
                 <div style={{ justifyContent: "center", display: "flex" }}>
-                  <StopOutlinedIcon style={{ fontSize: 15, marginRight: 6 }} />
+                  <StopOutlinedIcon className={classes.buttons} />
                   Stop
                 </div>
               )}
-            </button>
-            <button
+            </Button>
+            <Button
               disabled={selectedRows.length > 0 ? false : true}
               className={[useStyleClasses.homeTableDelete, "customButton"].join(
                 " "
@@ -266,16 +274,15 @@ function SonicStreamReader(props) {
                 <ButtonSpinner grow={true} />
               ) : (
                 <div style={{ justifyContent: "center", display: "flex" }}>
-                  <CancelOutlinedIcon
-                    style={{ fontSize: 15, marginRight: 6 }}
-                  />
+                  <CancelOutlinedIcon className={classes.buttons} />
                   Delete
                 </div>
               )}
-            </button>
-          </div>
+            </Button>
+            </Grid>
+          </Grid>
 
-          <div>
+            <Grid item>
             <FormControl style={styles.formControl}>
               <Select
                 id="drop-down"
@@ -309,7 +316,7 @@ function SonicStreamReader(props) {
                 <MenuItem value="month">Radio Rock</MenuItem>
               </Select>
             </FormControl>
-
+            
             <Button
               variant="contained"
               color="primary"
@@ -317,22 +324,21 @@ function SonicStreamReader(props) {
                 padding: 12,
                 borderRadius: 5,
                 background: "rgb(52, 63, 132)",
+                marginTop:5
               }}
             >
               {" "}
               Subscribe
             </Button>
-          </div>
+            </Grid>
         </Paper>
-        {/* <div style={{flexGrow:'1'}}> */}
-        {/* <Grid container spacing={0}> */}
-        {/* <div> */}
         <TableContainer style={{ ...tableStyle.container }}>
-          <Table aria-label="customized table">
+          <Table aria-label="Stream Reader">
             <TableHead>
               <TableRow hover>
                 <TableCell padding="checkbox">
                   <Checkbox
+                    color='#343F84'
                     // indeterminate={selectedRows.length===5?true:false}
                     checked={selected.length === 5 ? true : false}
                     onChange={handleSelectAllClick}
@@ -354,13 +360,14 @@ function SonicStreamReader(props) {
                   <TableRow key={file?._id} hover className={classes.tableRow}>
                     <TableCell padding="checkbox">
                       <Checkbox
+                        color='#343F84'
                         onChange={(e) => pagination(e, file?._id)}
                         checked={isItemSelected}
                       />
                     </TableCell>
 
                     <TableCell style={{ ...tableStyle.body }}>
-                      {props.offset+index + 1}
+                      {props.offset + index + 1}
                     </TableCell>
                     <TableCell>
                       <CheckCircleOutlineRoundedIcon style={{ fontSize: 15 }} />
@@ -395,46 +402,50 @@ function SonicStreamReader(props) {
                           style={{
                             cursor: "pointer",
                             background: "rgb(229, 245, 244)",
-                            color: "black",
+                            color: "rgb(72, 187, 183)",
                             padding: 5,
                             fontWeight: "lighter",
                           }}
-                          variant="warning"
                         >
                           LISTENING
                         </Badge>
                       )}
                       {file.isStreamStarted === false && file.error === null && (
                         <Badge
-                          style={{
-                            cursor: "pointer",
-                            background: "yellow",
-                            padding: 5,
-                            color: "black",
-                            fontWeight: "lighter",
-                          }}
-                          variant="warning"
-                        >
-                          NOT LISTENING
-                        </Badge>
+                        style={{
+                          fontSize:15,
+                          cursor: "pointer",
+                          background: "rgb(244, 237, 151)",
+                          color: "rgb(183, 170, 53)",
+                          padding: 5,
+                          marginLeft:10,
+                        }}
+                      >
+                        NOT LISTENING
+                      </Badge>
                       )}
                       {file.isStreamStarted === false && file.error !== null && (
                         <Badge
-                          style={{
-                            cursor: "pointer",
-                            background: "red",
-                            padding: 5,
-                            color: "black",
-                            fontWeight: "lighter",
-                            color: "white",
-                          }}
-                          variant="warning"
-                        >
-                          ERROR
-                        </Badge>
+                        style={{
+                          fontSize:15,
+                          cursor: "pointer",
+                          background: "rgb(242, 125, 162)",
+                          color: "rgb(130, 24, 13)",
+                          padding: 5,
+                          marginLeft:10,
+                        }}
+                      >
+                        ERROR
+                      </Badge>
                       )}
                     </TableCell>
-                    <TableCell style={{ ...tableStyle.body }}>
+                    <TableCell style={{ ...tableStyle.body }}
+                    onClick={() => {localStorage.setItem("passedData", JSON.stringify(file));
+                    props.history.push({
+                    pathname : `/sonicstreamdetail`,
+                    search:`?radioStationId=${file._id}`,
+                    })}}
+                >
                       Details
                     </TableCell>
                   </TableRow>
@@ -451,9 +462,8 @@ function SonicStreamReader(props) {
             onChange={handlePageChange}
           />
         </TableContainer>
-        {/* </div> */}
-        {/* </div> */}
-      </Paper>
+        
+      </Grid>
     </>
   );
 }

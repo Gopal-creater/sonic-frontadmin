@@ -8,6 +8,7 @@ import SonicStreamReader from "../pages/Monitor/SonicStreamReader";
 
 import Sonickeys from "../pages/SonicKeys/SonicKeys";
 import Licences from "../pages/Licences/Licences";
+import { SonicStreamDetail } from "../pages/Monitor/SonicStreamDetail";
 
 export default function Routes() {
   return (
@@ -21,6 +22,7 @@ export default function Routes() {
           <Route path="/streamreader" component={SonicStreamReader} exact />
           <Route path="/sonic-keys" component={Sonickeys} exact />
           <Route path="/licences" component={Licences} exact />
+          <Route path="/sonicstreamdetail" component={SonicStreamDetail} exact />
         </Switch>
       </div>
     </AppLayout>

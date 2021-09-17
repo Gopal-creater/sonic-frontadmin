@@ -39,6 +39,9 @@ class Communication {
     return AppWebRequest(`sonic-keys/${sonic_key}`,"get")
   }
   
+  fetchSKForSpecificRadioStation(radio_id,_offset=0,_limit=10){
+    return AppWebRequest(`/detections/owners/${getUserId()}/RADIOSTATION/data?radioStation=${radio_id}&skip=${_offset}&limit=${_limit}&sort=-createdAt`,"get")
+  }
   /**
    * @param {string} key 
    */

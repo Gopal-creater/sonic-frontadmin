@@ -5,7 +5,6 @@ import Table from "react-bootstrap/Table";
 import CloseIcon from '@material-ui/icons/Close';
 import Button from '@material-ui/core/Button';
 import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import DialogLogo from "../../../src/assets/images/key-logo.png";
 
@@ -34,7 +33,6 @@ const useStyles = makeStyles({
 
 const DailogTable = (props) => {
 
-    const [open, setOpen] = React.useState(false);
     const { sonicKey } = props;
     const theme = useTheme()
     const classes = useStyles();
@@ -43,12 +41,19 @@ const DailogTable = (props) => {
         props.setOpenTable(false)
     };
 
-    const handleClose = () => {
-        setOpen(false);
-    };
+    function bytesForHuman(bytes) {
+        let units = ['KB', 'MB', 'GB', 'TB', 'PB']
+    
+        let i = 0
+        
+        for (i; bytes > 1024; i++) {
+            bytes /= 1024;
+        }
+    
+        return Math.round(bytes.toFixed(1)) + ' ' + units[i]
+    }
 
     return (<>
-
         <Dialog open={true} fullWidth={true} className={classes.dialogPaper}>
             <IconButton aria-label="close" style={{
                 position: 'absolute',
@@ -76,41 +81,41 @@ const DailogTable = (props) => {
                     </TableHead> */}
                     <TableRow>
                         <TableCell className={classes.tableCellOne}>FILE TYPE</TableCell>
-                        <TableCell className={classes.tableCellTwo}>TESTING</TableCell>
+                        <TableCell className={classes.tableCellTwo}>{sonicKey.contentFileName}</TableCell>
                     </TableRow>
                     <TableRow >
                         <TableCell className={classes.tableCellOne}>NAME</TableCell>
-                        <TableCell className={classes.tableCellTwo}>TESTING</TableCell>
+                        <TableCell className={classes.tableCellTwo}>{sonicKey.contentName}</TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className={classes.tableCellOne}>ARTIST</TableCell>
-                        <TableCell className={classes.tableCellTwo}>TESTING</TableCell>
+                        <TableCell className={classes.tableCellTwo}>{sonicKey.contentOwner}</TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className={classes.tableCellOne}>SONGWRITER</TableCell>
-                        <TableCell className={classes.tableCellTwo}>TESTING</TableCell>
+                        <TableCell className={classes.tableCellTwo}>{sonicKey.sonicKey}</TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className={classes.tableCellOne} >PRODUCER</TableCell>
-                        <TableCell className={classes.tableCellTwo}>TESTING</TableCell>
+                        <TableCell className={classes.tableCellTwo}>{sonicKey.channel}</TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell className={classes.tableCellOne}>LENGTH</TableCell>
-                        <TableCell className={classes.tableCellTwo}>TESTING</TableCell>
+                        <TableCell className={classes.tableCellOne}>LENGTH (00:00:00:000)</TableCell>
+                        <TableCell className={classes.tableCellTwo}>{sonicKey.contentDuration}</TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell className={classes.tableCellOne}>AUDIO SIZE</TableCell>
-                        <TableCell className={classes.tableCellTwo}>TESTING</TableCell>
+                        <TableCell className={classes.tableCellOne}>AUDIO SIZE (IN MB)</TableCell>
+                        <TableCell className={classes.tableCellTwo}>{bytesForHuman(sonicKey.contentSize)}</TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className={classes.tableCellOne}>INDUSTRY CODES</TableCell>
                         <TableCell className={classes.tableCellTwo}>
-                            ISRC :TESTING
+                            {/* ISRC :TESTING
                             ISWC :TESTING
-                            Tunecode :TESTING
-                            {/* ISRC :{sonicKey.isrcCode ? sonicKey.isrcCode : 'Not Specified'}<br />
+                            Tunecode :TESTING */}
+                            ISRC :{sonicKey.isrcCode ? sonicKey.isrcCode : 'Not Specified'}<br />
                             ISWC :{sonicKey.iswcCode ? sonicKey.iswcCode : 'Not Specified'} <br />
-                            Tunecode :{sonicKey.tuneCode ? sonicKey.tuneCode : 'Not Specified'} */}
+                            Tunecode :{sonicKey.tuneCode ? sonicKey.tuneCode : 'Not Specified'}
                         </TableCell>
                     </TableRow>
                     <TableRow>
@@ -119,31 +124,27 @@ const DailogTable = (props) => {
                     </TableRow>
                     <TableRow>
                         <TableCell className={classes.tableCellOne}>SAMPLING FREQUENCY </TableCell>
-                        <TableCell className={classes.tableCellTwo}>TESTING s</TableCell>
+                        <TableCell className={classes.tableCellTwo}>{sonicKey.contentSamplingFrequency} Hz s</TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell className={classes.tableCellOne}>Size </TableCell>
-                        <TableCell className={classes.tableCellTwo}>TESTING KB</TableCell>
+                        <TableCell className={classes.tableCellOne}>Encoded Date </TableCell>
+                        <TableCell className={classes.tableCellTwo}>{sonicKey.createdAt}</TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell className={classes.tableCellOne}>AUDIO</TableCell>
-                        <TableCell className={classes.tableCellTwo}>TESTING Hz</TableCell>
+                        <TableCell className={classes.tableCellOne}>Sonic Key</TableCell>
+                        <TableCell className={classes.tableCellTwo}>{sonicKey.sonicKey}</TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className={classes.tableCellOne}>Content Strength</TableCell>
-                        <TableCell className={classes.tableCellTwo}>TESTING</TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell className={classes.tableCellOne}>Content Owner</TableCell>
-                        <TableCell className={classes.tableCellTwo}>TESTING</TableCell>
+                        <TableCell className={classes.tableCellTwo}>{sonicKey.encodingStrength}</TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className={classes.tableCellOne}>Content Description</TableCell>
-                        <TableCell className={classes.tableCellTwo}>TESTING</TableCell>
+                        <TableCell className={classes.tableCellTwo}>{sonicKey.contentDescription}</TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className={classes.tableCellOne}>Addional Meta Data</TableCell>
-                        <TableCell className={classes.tableCellTwo}>TESTING</TableCell>
+                        <TableCell className={classes.tableCellTwo}>{sonicKey.additionalMetadata}</TableCell>
                     </TableRow>
                 </Table>
                 {/* </div> */}

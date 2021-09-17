@@ -119,6 +119,15 @@ class Communication {
     
     return AppWebRequest(`/sonic-keys/download-file`, "post", axiosConfig)
   }
+  downloadFileWithS3Key(key) {
+    const axiosConfig = {
+      headers: {
+        'Accept': 'application/json',
+      },
+    };
+    return AppWebRequest(`/s3-file-uploads/signed-url/`+encodeURIComponent(key), "get",axiosConfig);
+  }
+
 
 }
 

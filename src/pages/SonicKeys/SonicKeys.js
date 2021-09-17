@@ -1,4 +1,4 @@
-import React , { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -18,7 +18,11 @@ import PageviewOutlinedIcon from '@material-ui/icons/PageviewOutlined';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import Communication from "../../services/https/Communication";
 import { fetchSonicKeys } from "../../stores/actions/sonicKey";
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
+import { format, isValid } from 'date-fns';
+import { converstionOfKb, downloadFile } from '../../utils/HelperMethods';
+import * as actionCreators from "../../stores/actions/index";
+
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -81,35 +85,17 @@ const useStyles = makeStyles({
 });
 
 
-
-function createData(id, sonickey, name, artist, encodeddate, description, action, download) {
-    return { id, sonickey, name, artist, encodeddate, description, action, download };
-}
-
-const rows = [
-    createData(1, 'WDHGh978', 'sdkj_98_udio.wav', 'Sonic', '25/08/2021', 'Sample testing', 'View', 'Download'),
-    createData(2, 'LKJLKJ87ij', 'nvn_98_audio.wav', 'Sonic', '25/08/2021', 'Sample testing', 'View', 'Download'),
-    createData(3, 'UTYG0980OP', 'sample_67_audio.wav', 'Sonic', '25/08/2021', 'Sample testing', 'View', 'Download'),
-    createData(4, 'YuhjkhUII8', 'sdkjf34__audio.wav', 'Sonic', '25/08/2021', 'Sample testing', 'View', 'Download'),
-    createData(5, 'LKHK85gjhb', 'sd4_98_audio.wav', 'Sonic', '25/08/2021', 'Sample testing', 'View', 'Download'),
-    createData(6, 'WDHGj0978', 'sdkj_udio.wav', 'Sonic', '25/08/2021', 'Sample testing', 'View', 'Download'),
-    createData(7, 'LKJLKJ87ij', 'sdj_vbnvnio.wav', 'Sonic', '25/08/2021', 'Sample testing', 'View', 'Download'),
-    createData(8, 'UTYG0909OP', 'sdkj67_audio.wav', 'Sonic', '25/08/2021', 'Sample testing', 'View', 'Download'),
-    createData(9, 'YuhjkhYII8', 'sdkjf34_sio.wav', 'Sonic', '25/08/2021', 'Sample testing', 'View', 'Download'),
-    createData(10, 'L6887gjhb', 'sd_audio.wav', 'Sonic', '25/08/2021', 'Sample testing', 'View', 'Download'),
-    createData(11, 'WDHGhg0978', 'sdkj_sio.wav', 'Sonic', '25/08/2021', 'Sample testing', 'View', 'Download'),
-    createData(12, 'LKJLK87ij', 'sddio.wav', 'Sonic', '25/08/2021', 'Sample testing', 'View', 'Download'),
-    createData(13, 'UTYG809OP', 'sdkjf3udio.wav', 'Sonic', '25/08/2021', 'Sample testing', 'View', 'Download'),
-    createData(14, 'YuhjYUII8', 'sdkjfg_audio.wav', 'Sonic', '25/08/2021', 'Sample testing', 'View', 'Download'),
-    createData(15, 'LKHKJ5gjhb', 'sdk456_sampio.wav', 'Sonic', '25/08/2021', 'Sample testing', 'View', 'Download'),
-];
-
 const SonicKeys = (props) => {
+
     const [openTable, setOpenTable] = React.useState(false)
+    const [open, setOpen] = React.useState(false)
     const classes = useStyles();
     const [tableData, setTableData] = React.useState([]);
     const [totalCount, setTotalCount] = React.useState(0);
+    const [page, setTotalPage] = React.useState(0);
+    const [pagingCount, setTotalPageCount] = React.useState(0);
     const [error, setError] = React.useState('');
+    const [restrict, setrestrict] = React.useState(false)
     const [sonicKeys, setSonicKeys] = useState({
         //sonicKey: "",
         contentName: "",
@@ -121,24 +107,116 @@ const SonicKeys = (props) => {
         isrcCode: "",
         iswcCode: "",
         tuneCode: "",
-      });
+    });
 
-      const firstFetchSonicKey = (_offset = 0, _limit = 10, value = '') => {
+    const firstFetchSonicKey = (_offset = 0, _limit = 10, value = '') => {
         Communication.fetchMySonicKey(_limit, _offset, value).then((res) => {
-          console.log("res", res);
-          setTableData(res.docs)
-          setTotalCount(res.totalDocs)
-          setError('')
+            console.log("Data Response", res);
+            setTableData(res.docs)
+            setTotalCount(res.totalDocs)
+            setTotalPage(res.totalPages)
+            setTotalPageCount(res.pagingCounter)
+            setError('')
         }).catch(err => {
-          setError(err)
+            setError(err)
         })
-      }
-      
-      useEffect(() => {
+    }
+
+    // const handleClickOpen = async (row) => {
+    //     // const row = await props.sonicKeys.data.docs[(index)]
+    //     console.log('Edit Screen Data', row);
+    //     setSonicKeys({
+    //       ...sonicKeys,
+    //       sonicKey: row.sonicKey,
+    //       contentName: row.contentName,
+    //       contentOwner: row.contentOwner,
+    //       contentValidation: row.contentValidation ? "YES" : "NO",
+    //       contentQuality: row.contentQuality,
+    //       contentDescription: row.contentDescription,
+    //       contentFileName: row.contentFileName,
+    //       contentFileType: row.contentFileType,
+    //       createdAt: isValid(new Date(row.createdAt)) ? `${format(new Date(row.createdAt), 'dd/MM/yyyy')}` : "--",
+    //       contentDuration: row?.contentDuration.toFixed(2),
+    //       encodingStrength: row.encodingStrength,
+    //       contentSize: converstionOfKb(row.contentSize),
+    //       contentSamplingFrequency: row?.contentSamplingFrequency.replace('Hz', ''),
+    //       additionalMetadata: row?.additionalMetadata.message ? row?.additionalMetadata.message : '',
+    //       iswcCode: row.iswcCode ? row.iswcCode.toUpperCase() : '',
+    //       isrcCode: row.isrcCode ? row.isrcCode.toUpperCase() : '',
+    //       tuneCode: row.tuneCode ? row.tuneCode.toUpperCase() : '',
+    //       contentType: row?.contentType
+    //     })
+    //     setOpen(true);
+    //   };
+
+    const handleClickOpenTable = async (data) => {
+        // const data = await props.sonicKeys.data.docs[(row)]
+        // const data = await tableData[(row)]
+        console.log("cheking the data for dialog", data);
+        setSonicKeys({
+            ...sonicKeys,
+            sonicKey: data.sonicKey,
+            contentName: data.contentName,
+            contentOwner: data.contentOwner,
+            contentValidation: data.contentValidation ? "YES" : "NO",
+            contentQuality: data.contentQuality,
+            contentDescription: data.contentDescription,
+            contentFileName: data.contentFileName,
+            contentFileType: data.contentFileType,
+            createdAt: isValid(new Date(data.createdAt)) ? `${format(new Date(data.createdAt), 'dd/MM/yyyy')}` : "--",
+            contentDuration: data?.contentDuration?.toFixed(2),
+            encodingStrength: data.encodingStrength,
+            contentSize: converstionOfKb(data.contentSize),
+            contentSamplingFrequency: data?.contentSamplingFrequency?.replace('Hz', ''),
+            iswcCode: (data.iswcCode ? data.iswcCode : 'Not Specified'),
+            isrcCode: (data.isrcCode ? data.isrcCode : 'Not Specified'),
+            tuneCode: (data.tuneCode ? data.tuneCode : 'Not Specified'),
+            contentFilePath: data.contentFilePath,
+            job: data?.job,
+            additionalMetadata: data?.additionalMetadata?.message ? data.additionalMetadata?.message : ''
+        })
+        setOpenTable(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    function fetchKeys(limit, index) {
+        props.fetchSonicKeys(limit, index);
+    }
+
+    useEffect(() => {
         if (tableData.length <= 0) {
-          firstFetchSonicKey(0, 10)
+            firstFetchSonicKey(0, 10)
         }
-      }, []);
+    }, []);
+
+    const handlePageChange = async (event, value) => {
+        const limit = 10;
+        // const page = value;
+        firstFetchSonicKey(limit, limit * pagingCount)
+    };
+
+
+    const downloadFileData = async (data) => {
+        console.log("download data");
+        const contentFilePath = data?.contentFilePath;
+        const contentFileType = data?.contentFileType;
+        const s3MetaData = data?.s3FileMeta?.key;
+        if (data?.downloadable) {
+            if (!restrict) {
+                console.log("restrict", restrict);
+                setrestrict(true)
+                await downloadFile(contentFilePath, contentFileType, setrestrict, s3MetaData)
+                setrestrict(false)
+            } else {
+                return <div style={{ color: 'grey', cursor: 'wait' }} onClick={() => {
+                }} data-toggle="tooltip" data-placement="top" title='Progress'>Download</div>
+            }
+        }
+
+    }
+
 
     //For sorting   ==============================================================
     //   var value;
@@ -159,7 +237,7 @@ const SonicKeys = (props) => {
 
     return (
         <Grid className={classes.gridContainer}>
-            <Grid style={{ display: 'flex', justifyContent: 'space-between', padding:'2.5% 2.5% 0 2.5%',backgroundColor: 'white', }}>
+            <Grid style={{ display: 'flex', justifyContent: 'space-between', padding: '2.5% 2.5% 0 2.5%', backgroundColor: 'white', }}>
                 <Grid>
                     <Typography className={classes.heading}>SonicKeys</Typography>
                     <Typography className={classes.subHeading}>
@@ -237,37 +315,37 @@ const SonicKeys = (props) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {rows.map((row) => (
-                                <TableRow className={classes.tableRow} key={row.name}>
+                            {tableData.map((data, index) => (
+                                <TableRow className={classes.tableRow} key={index}>
                                     <TableCell component="th" scope="row">
-                                        {row.id}
+                                        {index + 1}
                                     </TableCell>
-                                    <TableCell className={classes.sonicKeyText}>{row.sonickey}</TableCell>
-                                    <TableCell className={classes.tableCellNormalText}>{row.name}</TableCell>
-                                    <TableCell className={classes.tableCellNormalText}>{row.artist}</TableCell>
-                                    <TableCell className={classes.tableCellNormalText}>{row.encodeddate}</TableCell>
-                                    <TableCell className={classes.tableCellNormalText}>{row.description}</TableCell>
+                                    <TableCell className={classes.sonicKeyText}>{data.sonicKey}</TableCell>
+                                    <TableCell className={classes.tableCellNormalText}>{data.contentFileName}</TableCell>
+                                    <TableCell className={classes.tableCellNormalText}>{data.contentOwner}</TableCell>
+                                    <TableCell className={classes.tableCellNormalText}>{format(new Date(data.contentCreatedDate), 'dd/MM/yyyy')}</TableCell>
+                                    <TableCell className={classes.tableCellNormalText}>{data.contentDescription}</TableCell>
                                     <TableCell className={classes.tableCellColor}>
-                                        <div className={classes.tableCellIcon} onClick={() => setOpenTable(true)}>
-                                            <VisibilityIcon />&nbsp;{row.action}
+                                        <div className={classes.tableCellIcon} onClick={() => handleClickOpenTable(data)}>
+                                            <VisibilityIcon />&nbsp;View
                                         </div>
                                     </TableCell>
                                     <TableCell className={classes.tableCellColor}>
-                                        <div className={classes.tableCellIcon}>
-                                            <GetAppIcon />&nbsp;{row.download}
+                                        <div className={classes.tableCellIcon} onClick={() => downloadFileData(data)}>
+                                            <GetAppIcon />&nbsp;Download
                                         </div>
                                     </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
-                    {openTable && <DailogTable open={true} setOpenTable={setOpenTable} />}
-                    <Pagination
-                        // count={prop?.count}
-                        // page={jobs?.page}
+                    {openTable && <DailogTable sonicKey={sonicKeys} open={true} setOpenTable={setOpenTable} />}
+                    <Pagination 
+                        count={page}
+                        page={pagingCount}
                         variant="outlined"
                         shape="rounded"
-                    // onChange={handlePageChange}
+                    onChange={handlePageChange}
                     />
                 </TableContainer>
             </Grid>
@@ -275,18 +353,25 @@ const SonicKeys = (props) => {
     );
 };
 
+
 const mapStateToProps = (state) => {
+    console.log("states", state);
     return {
-      sonicKeys: state.sonicKeys,
+        sonicKeys: state.sonicKeys,
+        totalPage: state.sonicKeys.totalPages,
+        pagingCounter: state.sonicKeys.pagingCounter,
+
     };
-  };
-  const mapDispatchToProps = (dispatch) => {
+};
+
+const mapDispatchToProps = (dispatch) => {
     return {
-      // fetchSonicKeys: () => dispatch(fetchSonicKeys()), for pagination
-      fetchSonicKeys: (limit, index) => dispatch(fetchSonicKeys(limit, index)),
+        // fetchSonicKeys: () => dispatch(fetchSonicKeys()), for pagination
+        fetchSonicKeys: (limit, index) => dispatch(fetchSonicKeys(limit, index)),
+
     };
-  };
-  export default connect(mapStateToProps, mapDispatchToProps)(SonicKeys);
+};
+export default connect(mapStateToProps, mapDispatchToProps)(SonicKeys);
 
 
 

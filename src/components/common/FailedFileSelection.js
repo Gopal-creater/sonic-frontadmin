@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 10,
+    borderRadius: 15,
   },
   failed: {
     marginTop: 10,

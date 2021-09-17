@@ -8,7 +8,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import { Grid, Typography } from "@material-ui/core";
-import Icon from "../../../assets/images/Logo-colour-simple.png";
+import Icon from "../../../assets/images/icon-success-graphic.png";
 
 const useStyles = makeStyles((theme) => ({
   successContainer: {
@@ -76,6 +76,22 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 500,
     color: "#757575",
   },
+  failedIcon: {
+    backgroundColor: "#E0E0E0",
+    height: 150,
+    padding: "0px 3%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 15,
+  },
+  failed: {
+    marginTop: 10,
+    fontSize: 22,
+    fontWeight: 700,
+    color: "#393F5B",
+  },
 }));
 
 const tableHead = [
@@ -87,23 +103,26 @@ const tableHead = [
   "ACTION",
 ];
 
-export default function DecodeSuccess() {
+export default function DecodeSuccess({ audioName, title }) {
   const classes = useStyles();
   const [sonicKeyData, setSonicKeyData] = useState([1, 2]);
 
   return (
     <Grid className={classes.successContainer}>
-      <Grid item className={classes.header}>
-        <div>
+      <Grid container className={classes.header}>
+        <Grid item>
           <Typography className={classes.heading}>Well done!</Typography>
           <Typography className={classes.subHeading}>
-            Decoding of <b>RADIO_SONIC.wav</b> successfully done.
+            {title} of <b>{audioName}</b> successfully done.
           </Typography>
           <Typography className={classes.found}>
             We found <b>2</b> SonicKeys.
           </Typography>
-        </div>
-        <img src={Icon} alt="Success" style={{ width: 150 }} />
+        </Grid>
+        <Grid item className={classes.failedIcon}>
+          <img src={Icon} alt="Failed" style={{ height: 80, width: 80 }} />
+          <Typography className={classes.failed}>{title} done</Typography>
+        </Grid>
       </Grid>
 
       <TableContainer>

@@ -19,11 +19,11 @@ export default function Decode() {
 
   return (
     <Grid>
-      {/* <DecodeSuccess /> */}
+      <DecodeSuccess audioName={values?.name} title="Decoding" />
       
-      {decode?.displayResults ? (
+      {/* {decode?.displayResults ? (
         <FailedFileSelection audioName={values?.name} title="Decoding" />
-      ) : null}
+      ) : null} */}
 
       <FileSelection
         prop={{

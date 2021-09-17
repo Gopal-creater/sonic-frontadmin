@@ -81,7 +81,6 @@ export default function AddLicence({ open, setOpen, fetchLicence }) {
           label="SonicData licence"
           type="text"
           fullWidth
-          className={classes.textField}
         />
         <DialogContentText className={classes.hint}>
           e.g. 009FF191-A342-400A-AE3D-0D789D4545EF

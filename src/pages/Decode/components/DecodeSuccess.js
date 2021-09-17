@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -89,6 +89,7 @@ const tableHead = [
 
 export default function DecodeSuccess() {
   const classes = useStyles();
+  const [sonicKeyData, setSonicKeyData] = useState([1, 2]);
 
   return (
     <Grid className={classes.successContainer}>
@@ -104,6 +105,49 @@ export default function DecodeSuccess() {
         </div>
         <img src={Icon} alt="Success" style={{ width: 150 }} />
       </Grid>
+
+      <TableContainer>
+        <Table className={classes.table} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              {tableHead.map((head, index) => (
+                <TableCell className={classes.tableHead} key={index}>
+                  {head}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {sonicKeyData?.map((data, index) => (
+              <TableRow className={classes.tableRow} key={index}>
+                <TableCell className={classes.key}>WRRRds3sddaE</TableCell>
+                <TableCell className={classes.tableCellNormalText}>
+                  {/* {data.key} */}
+                  audio/wav
+                </TableCell>
+                <TableCell className={classes.tableCellNormalText}>
+                  {/* {data.encodeUses} */}
+                  Radio Sonic Sample
+                </TableCell>
+                <TableCell className={classes.tableCellNormalText}>
+                  {/* {data.maxEncodeUses} */}
+                  44100
+                </TableCell>
+                <TableCell className={classes.tableCellNormalText}>
+                  {/* {format(new Date(data.validity), "dd.MM.yyyy")} */}
+                  Random
+                </TableCell>
+                <TableCell className={classes.tableCellColor}>
+                  <div className={classes.tableCellIcon}>
+                    <VisibilityIcon />
+                    &nbsp;View
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </Grid>
   );
 }

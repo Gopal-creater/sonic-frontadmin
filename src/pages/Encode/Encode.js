@@ -15,7 +15,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import cogoToast from 'cogo-toast';
 import Communication from '../../services/https/Communication';
 import { log } from '../../utils/app.debug';
-import EncodeLoading from './Components/EncodeLoading';
+import EncodeDecodeLoading from '../../components/common/EncodeDecodeLoading';
 import InputMask from 'react-input-mask';
 import EncodeSuccess from './Components/EncodeSuccess';
 import FailedFileSelection from '../../components/common/FailedFileSelection';
@@ -411,7 +411,7 @@ export default function Encode() {
                 </Grid>
             }
 
-            <EncodeLoading
+            <EncodeDecodeLoading
                 open={values?.encodeLoading}
                 onClose={closeEncodeProgressPopUp}
                 title="Encoding"

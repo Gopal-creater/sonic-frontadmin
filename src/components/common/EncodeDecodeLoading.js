@@ -9,7 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import { CardMedia, Grid } from '@material-ui/core'
-import encodeKeyImg from "../../../assets/images/Encode-Key.svg"
+import encodeKeyImg from "../../assets/images/Encode-Key.svg"
 
 const styles = (theme) => ({
     root: {
@@ -64,7 +64,7 @@ const DialogActions = withStyles((theme) => ({
     },
 }))(MuiDialogActions);
 
-export default function EncodeLoading(prop) {
+export default function EncodeDecodeLoading(prop) {
 
     return (
         <div >

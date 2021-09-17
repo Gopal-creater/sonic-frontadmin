@@ -23,8 +23,8 @@ export default function radiostationsReducer(state = initialState, action) {
                 loading: false,
                 error : null,
                 // sites: JSON.parse(JSON.stringify(action.payload)),
-                radiostations : cloneDeep(action.payload.docs),
-                totalRadioStreams : cloneDeep(action.payload.totalDocs)
+                radiostations : cloneDeep(action.payload),
+                totalRadioStreams : cloneDeep(action.payload.totalDocs),
                 };
   
       case actionTypes.fetchAllRadioStationFailure:

@@ -18,7 +18,7 @@ const useStyles = makeStyles({
   subtitle: {
     fontWeight: 'light',
     fontSize: 14,
-    color: 'grey'
+    color: '#00A19A'
   }
 });
 

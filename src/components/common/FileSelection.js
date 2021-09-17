@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Grid, Typography } from "@material-ui/core";
-import Icon from "../../assets/images/Logo-colour-simple.png";
+import Icon from "../../assets/images/icon-add-sound.png";
 import { log } from "../../utils/app.debug";
 import * as mm from 'music-metadata-browser';
 import cogoToast from "cogo-toast";
@@ -159,7 +159,12 @@ export default function FileSelection({ prop }) {
       <Grid item className={classes.header}>
         <div>
           <Typography className={classes.heading}>{prop?.title} SonicKeys</Typography>
-          <Typography className={classes.subHeading}>{prop?.subTitle}</Typography>
+          <Typography className={classes.subHeading}>
+            {
+              audioData?.name !== null && prop?.title === "Encode" ?
+                "Add details to start encoding." :
+                prop?.subTitle
+            }</Typography>
         </div>
         <img src={Icon} alt="" style={{ height: 80 }} />
       </Grid>

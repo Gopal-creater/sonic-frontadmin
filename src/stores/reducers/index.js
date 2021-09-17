@@ -5,13 +5,16 @@ import profileRed from './profileRed';
 import licenceKeyRed from './licenceKeyRed';
 import sessionRed from './sessionRed';
 import thirdPartyRed from './thirdPartyRed';
+import radiostationsReducer from './RadioStation';
+import globalReducer from './global';
 const appReducer = combineReducers({
     session:sessionRed,
     sonicKeys : sonicKeyRed, //for access the data have same name
     profile : profileRed,
     licenceKey : licenceKeyRed,
     thirdPartyKeys: thirdPartyRed,
-
+    radioStations: radiostationsReducer,
+    radioPageNumber:globalReducer
   });
 
   const rootReducer = (state, action) => {

@@ -16,6 +16,14 @@ import cogoToast from 'cogo-toast';
 import Communication from '../../services/https/Communication';
 import { log } from '../../utils/app.debug';
 import EncodeLoading from './Components/EncodeLoading';
+import InputMask from 'react-input-mask';
+
+const countryCodes = require("country-codes-list");
+const myCountryCodesObject = countryCodes.customList(
+    "countryCode",
+    "[{countryCode}]"
+);
+
 
 const useStyles = makeStyles((theme) => ({
     EncodeContainer: {
@@ -53,6 +61,14 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: 700,
         borderRadius: 8,
         backgroundColor: "#393F5B"
+    },
+    textInput: {
+        fontWeight: "bold",
+        color: "#ACACAC"
+    },
+    textInputLabel: {
+        fontWeight: "bold",
+        color: "#ACACAC"
     }
 }));
 
@@ -115,14 +131,14 @@ export default function Encode() {
 
         setValues({ ...values, encodeLoading: true })
         // call api
-        // Communication?.encodeFile(formData).then((response) => {
-        //     closeEncodeProgressPopUp(response, null);
-        //     log("Encode Success", response)
-        // }).catch((error) => {
-        //     closeEncodeProgressPopUp(null, error?.data);
-        //     log("Encode Error", error)
-        //     cogoToast.error(error?.data?.message)
-        // })
+        Communication?.encodeFile(formData).then((response) => {
+            closeEncodeProgressPopUp(response, null);
+            log("Encode Success", response)
+        }).catch((error) => {
+            closeEncodeProgressPopUp(null, error?.data);
+            log("Encode Error", error)
+            cogoToast.error(error?.data?.message)
+        })
     }
 
     return (
@@ -145,16 +161,19 @@ export default function Encode() {
                                 fullWidth
                                 id="standard-basic"
                                 label="Audio name"
-                                value={values?.name}
-                                onChange={(e) => { setValues({ ...values, name: e.target.value }) }} />
+                                inputProps={{ className: classes.textInput }}
+                                InputLabelProps={{ className: classes.textInputLabel }}
+                                value={values?.data?.contentName}
+                                onChange={(e) => { setValues({ ...values, data: { ...values?.data, contentName: e.target.value } }) }} />
                         </Grid>
 
                         <Grid item id="audioType">
                             <FormControl className={classes.formControl} fullWidth>
-                                <InputLabel id="demo-simple-select-label">File Type</InputLabel>
+                                <InputLabel id="demo-simple-select-label" style={{ color: "#ACACAC", fontWeight: "bold" }}>File Type</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
+                                    style={{ color: "#ACACAC", fontWeight: "bold" }}
                                     value={values?.data?.contentFileType}
                                     fullWidth
                                     onChange={(e) => {
@@ -175,6 +194,8 @@ export default function Encode() {
                                 fullWidth
                                 id="standard-basic"
                                 label="Artist"
+                                inputProps={{ className: classes.textInput }}
+                                InputLabelProps={{ className: classes.textInputLabel }}
                                 value={values?.data?.contentOwner}
                                 onChange={(e) => { setValues({ ...values, data: { ...values?.data, contentOwner: e.target.value } }) }} />
                         </Grid>
@@ -192,6 +213,8 @@ export default function Encode() {
                                 fullWidth
                                 id="standard-basic"
                                 label="Audio length"
+                                inputProps={{ className: classes.textInput }}
+                                InputLabelProps={{ className: classes.textInputLabel }}
                                 value={new Date(values?.data?.contentDuration * 1000).toISOString().substr(11, 8)}
                             />
                         </Grid>
@@ -201,44 +224,87 @@ export default function Encode() {
                                 fullWidth
                                 id="standard-basic"
                                 label="Audio Size (In MB)"
+                                inputProps={{ className: classes.textInput }}
+                                InputLabelProps={{ className: classes.textInputLabel }}
                                 value={(values?.data?.contentSize / 1024).toFixed(3)}
                             />
                         </Grid>
 
-                        {values?.data?.contentFileType === "Music" && <Grid item id="isrc">
-                            {/* <label>asdasd</label> */}
+                        {values?.data?.contentFileType === "Music" &&
+                            <Grid item id="isrc">
+                                <InputMask
+                                    mask="aa-a99-99-99999"
+                                    value={values?.data?.isrcCode}
+                                    onChange={(e) => { setValues({ ...values, data: { ...values?.data, isrcCode: e.target.value } }) }}>
+                                    {(inputProps) => <TextField
+                                        {...inputProps}
+                                        fullWidth
+                                        id="standard-basic"
+                                        label="ISRC"
+                                        inputProps={{ className: classes.textInput }}
+                                        InputLabelProps={{ className: classes.textInputLabel }}
+                                        FormHelperTextProps={{ className: classes.textInputLabel }}
+                                        helperText={values?.data?.isrcCode &&
+                                            values?.data?.isrcCode?.substring(0, 1) !== "_" &&
+                                            !Object.keys(myCountryCodesObject)
+                                                .toString()
+                                                .includes(
+                                                    values?.data?.isrcCode?.substring(0, 2).toUpperCase()
+                                                ) ? "Pass proper country codes." : "Hint: GB-H01-02-12345."} />}
+                                </InputMask>
+                            </Grid>
+                        }
 
-                            <TextField
-                                fullWidth
-                                id="standard-basic"
-                                label="ISRC"
-                                value={values?.data?.isrcCode}
-                                onChange={(e) => { setValues({ ...values, data: { ...values?.data, isrcCode: e.target.value } }) }} />
-                        </Grid>}
+                        {values?.data?.contentFileType === "Music" &&
+                            <Grid item id="iswc">
+                                <InputMask
+                                    className="form-control"
+                                    mask="T-999.999.999-*"
+                                    inputProps={{ className: classes.textInput }}
+                                    InputLabelProps={{ className: classes.textInputLabel }}
+                                    FormHelperTextProps={{ className: classes.textInputLabel }}
+                                    value={values?.data?.iswcCode}
+                                    onChange={(e) => { setValues({ ...values, data: { ...values?.data, iswcCode: e.target.value } }) }} >
+                                    {(inputProps) => <TextField
+                                        {...inputProps}
+                                        fullWidth
+                                        id="standard-basic"
+                                        label="ISWC"
+                                        helperText="Hint: T-123.456.789-C."
+                                    />}
+                                </InputMask>
+                            </Grid>
+                        }
 
-                        {values?.data?.contentFileType === "Music" && <Grid item id="iswc">
-                            <TextField
-                                fullWidth
-                                id="standard-basic"
-                                label="ISWC"
-                                value={values?.data?.iswcCode}
-                                onChange={(e) => { setValues({ ...values, data: { ...values?.data, iswcCode: e.target.value } }) }} />
-                        </Grid>}
+                        {values?.data?.contentFileType === "Music" &&
+                            <Grid item id="tunecode">
+                                <InputMask
+                                    className="form-control"
+                                    mask="9999999a"
+                                    value={values?.data?.tuneCode}
+                                    onChange={(e) => { setValues({ ...values, data: { ...values?.data, tuneCode: e.target.value } }) }}>
+                                    {(inputProps) => <TextField
+                                        {...inputProps}
+                                        fullWidth
+                                        inputProps={{ className: classes.textInput }}
+                                        InputLabelProps={{ className: classes.textInputLabel }}
+                                        FormHelperTextProps={{ className: classes.textInputLabel }}
+                                        id="standard-basic"
+                                        label="TuneCode"
+                                        helperText="Hint: 9876543Z."
+                                    />}
+                                </InputMask>
 
-                        {values?.data?.contentFileType === "Music" && <Grid item id="tunecode">
-                            <TextField
-                                fullWidth
-                                id="standard-basic"
-                                label="TuneCode"
-                                value={values?.data?.tuneCode}
-                                onChange={(e) => { setValues({ ...values, data: { ...values?.data, tuneCode: e.target.value } }) }} />
-                        </Grid>}
+                            </Grid>
+                        }
 
                         <Grid item id="underlyingEncoding">
                             <TextField
                                 fullWidth
                                 id="standard-basic"
                                 label="Underlying encoding of file"
+                                inputProps={{ className: classes.textInput }}
+                                InputLabelProps={{ className: classes.textInputLabel }}
                                 value={values?.data?.contentEncoding}
                                 onChange={(e) => { setValues({ ...values, data: { ...values?.data, contentEncoding: e.target.value } }) }} />
                         </Grid>
@@ -248,6 +314,8 @@ export default function Encode() {
                                 fullWidth
                                 id="standard-basic"
                                 label="Sampling Frequency"
+                                inputProps={{ className: classes.textInput }}
+                                InputLabelProps={{ className: classes.textInputLabel }}
                                 value={values?.data?.contentSamplingFrequency}
                                 onChange={(e) => { setValues({ ...values, data: { ...values?.data, contentSamplingFrequency: e.target.value } }) }} />
                         </Grid>
@@ -257,6 +325,8 @@ export default function Encode() {
                                 fullWidth
                                 id="standard-basic"
                                 label="Quality Grade"
+                                inputProps={{ className: classes.textInput }}
+                                InputLabelProps={{ className: classes.textInputLabel }}
                                 value={values?.data?.contentQuality}
                                 onChange={(e) => { setValues({ ...values, data: { ...values?.data, contentQuality: e.target.value } }) }} />
                         </Grid>
@@ -266,6 +336,8 @@ export default function Encode() {
                                 fullWidth
                                 id="standard-basic"
                                 label="Description"
+                                inputProps={{ className: classes.textInput }}
+                                InputLabelProps={{ className: classes.textInputLabel }}
                                 multiline
                                 rows={4}
                                 value={values?.data?.contentDescription}
@@ -277,33 +349,38 @@ export default function Encode() {
                                 fullWidth
                                 id="standard-basic"
                                 label="Additional Metada"
+                                inputProps={{ className: classes.textInput }}
+                                InputLabelProps={{ className: classes.textInputLabel }}
                                 value={values?.data?.additionalMetadata?.message}
                                 onChange={(e) => { setValues({ ...values, data: { ...values?.data, additionalMetadata: { message: e.target.value } } }) }} />
                         </Grid>
 
                         <Grid item id="contentValidation" className="mt-3">
-                            <FormControl component="fieldset" className={classes.formControl}>
-                                <FormLabel component="legend">Has content been validated for ownership?</FormLabel>
+                            <FormControl component="fieldset" className={classes.formControl} >
+                                <FormLabel component="legend" style={{ color: "#ACACAC", fontWeight: "bold" }}
+                                >Has content been validated for ownership?</FormLabel>
                                 <RadioGroup
                                     color="primary"
                                     row aria-label="gender"
                                     name="gender1"
+                                    style={{ color: "#ACACAC", fontWeight: "bold" }}
                                     value={values?.data?.contentValidation}
                                     onChange={(event) => { setValues({ ...values, data: { ...values?.data, contentValidation: event.target.value } }) }}>
-                                    <FormControlLabel value="Yes" control={<Radio color="primary" />} label="Yes" />
-                                    <FormControlLabel value="No" control={<Radio color="primary" />} label="No" />
+                                    <FormControlLabel value="Yes" control={<Radio color="#343F84" />} label="Yes" />
+                                    <FormControlLabel value="No" control={<Radio color="#343F84" />} label="No" />
                                 </RadioGroup>
                             </FormControl>
                         </Grid>
 
                         <Grid item id="authorization">
                             <FormControlLabel
+                                style={{ color: "#ACACAC", fontWeight: "bold" }}
                                 control={
                                     <Checkbox
                                         checked={values.checkedAuthorization}
                                         onChange={(event) => { setValues({ ...values, checkedAuthorization: event.target.checked }) }}
                                         name="checkedAuthorization"
-                                        color="primary"
+                                        color="#343F84"
                                     />
                                 }
                                 label="I/we/am/are authorised to encode this file"

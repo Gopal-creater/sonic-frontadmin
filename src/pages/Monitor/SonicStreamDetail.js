@@ -10,13 +10,16 @@ import {
   TableRow,
   Typography,
 } from "@material-ui/core";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import { tableStyle } from "../../globalStyle";
 import UnfoldMoreSharpIcon from "@material-ui/icons/UnfoldMoreSharp";
 import { log } from "../../utils/app.debug";
 import queryString from 'query-string';
+import Communication from "../../services/https/Communication";
+import LoadingSpinner from "./Components/LoadingSpinner";
+import ErrorModal from "./Components/ErrorModal";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -61,10 +64,49 @@ const columns = [
   "DESCRIPTION",
   "HITS",
 ];
+
 export const SonicStreamDetail = (props) => {
   const classes = useStyles();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const parsedQueryString = queryString.parse(props.location.search);
+  const [totalCount, setTotalCount] = useState(0);
+//   const [tableData, setTableData] = useState([]);
   const passedData = JSON.parse(localStorage.getItem("passedData"));
+  const tableData = [{
+    "contentDescription": "Sample audio",
+    "contentName": "Radio Sonic Sample",
+    "contentOwner": "Kevin MacLeod",
+    "contentQuality": "Goof",
+    "sonicKey": "WvvICMde2SH",
+    "hits":'15'
+    },
+    {
+        "contentDescription": "Sample audio2",
+        "contentName": "Radio Sonic Sample",
+        "contentOwner": "Kevin MacLeod",
+        "contentQuality": "Average",
+        "sonicKey": "HWvvICMde2S",
+        "hits":'15'
+        }];  
+  const firstFetchSonicKey = (_offset=0,_limit=10) => {
+    setLoading(true);
+    setError('');
+    Communication.fetchSKForSpecificRadioStation(parsedQueryString.radioStationId,_offset,_limit)
+        .then((res)=>{
+            log('Result',res)
+            setLoading(false);
+            setError('');
+        })
+        .catch((error) => {
+            setLoading(false);
+          });      
+  }
+
+  useEffect(() => {
+    firstFetchSonicKey();
+  }, []);
+
   log('Props',props);
   return (
     <Grid className={classes.container} elevation={8}>
@@ -83,7 +125,7 @@ export const SonicStreamDetail = (props) => {
             Detected SonicKeys
           </Typography>
           <Typography className={classes.subHeading}>
-            Found 2 SonicKeys in Arba 2 radio station
+            Found 2 SonicKeys in {passedData.name} radio station
             {passedData.isStreamStarted === true && (
               <Badge
                 style={{
@@ -128,7 +170,7 @@ export const SonicStreamDetail = (props) => {
           </Typography>
         </div>
       </Grid>
-
+      {!loading && !error ?
       <TableContainer style={{ ...tableStyle.container }}>
         <Table aria-label="Detail table">
           <TableHead>
@@ -138,7 +180,7 @@ export const SonicStreamDetail = (props) => {
                   <TableCell style={{ ...tableStyle.head }}>
                     {col}
                     <UnfoldMoreSharpIcon
-                      style={{ fontSize: 15, fontWeight: "bold" }}
+                      style={{ fontSize: 12, fontWeight: "bold" }}
                       //   onClick={handleSort("id", prop.propFrom)}
                       className="sortIcon"
                     />
@@ -148,12 +190,42 @@ export const SonicStreamDetail = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
+          {tableData?.map((file, index) => {
+              log(file)
+              return(
             <TableRow>
-              <TableCell></TableCell>
+              <TableCell style={{ ...tableStyle.body }}>
+                {index+1}
+              </TableCell>
+              <TableCell style={{ ...tableStyle.body,fontSize:15 }}>
+                {file?.sonicKey}
+              </TableCell>
+              <TableCell style={{ ...tableStyle.body,color: "#757575", }}>
+                {file?.contentName}
+              </TableCell>
+              <TableCell style={{ ...tableStyle.body,color: "#757575", }}>
+                {file?.contentOwner}
+              </TableCell>
+              <TableCell style={{ ...tableStyle.body,color: "#757575", }}>
+                {file?.contentQuality}
+              </TableCell>
+              <TableCell style={{ ...tableStyle.body,color: "#757575", }}>
+                {file?.contentDescription}
+              </TableCell>
+              <TableCell style={{ ...tableStyle.body,cursor:'pointer' }}>
+                {file?.hits}
+              </TableCell>
             </TableRow>
+            )})}
           </TableBody>
         </Table>
       </TableContainer>
+        :
+        loading ?
+            <LoadingSpinner multipleGrow={true} containerStyle={{ height: window.innerHeight / 2 }} />
+            :
+            <ErrorModal errorData={error} additionalStyle={{ height: window.innerHeight / 2 }} />
+    }
     </Grid>
   );
 };

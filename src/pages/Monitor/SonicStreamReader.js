@@ -114,6 +114,7 @@ function SonicStreamReader(props) {
   const [stopLoading, setStopLoading] = useState(false);
   const [show, setShow] = useState(false);
   const [showAdd, setShowAdd] = useState(false);
+  const [pageCount, setPageCount] = useState(1);
   const [selectedRows, setSelectedRows] = useState([]);
   const [selected, setSelected] = useState([]);
 
@@ -145,8 +146,8 @@ function SonicStreamReader(props) {
   const handlePageChange = async (event, value) => {
     const limit = 5;
     const page = value;
-    props.fetchRadioStations(limit * value, limit);
-    props.setRadiostationPageNum(page);
+    props.fetchRadioStations(value, limit);
+    setPageCount(event)
     setSelectedRows([]);
     setSelected([]);
   };
@@ -192,11 +193,6 @@ function SonicStreamReader(props) {
   return (
     <>
       <Grid
-        // style={{
-        //   outline: 0,
-        //   display: "flex",
-        //   flexDirection: "column",
-        // }}
         className={classes.container}
         elevation={8}
       >
@@ -327,7 +323,6 @@ function SonicStreamReader(props) {
                 marginTop:5
               }}
             >
-              {" "}
               Subscribe
             </Button>
             </Grid>
@@ -372,7 +367,7 @@ function SonicStreamReader(props) {
                     <TableCell>
                       <CheckCircleOutlineRoundedIcon style={{ fontSize: 15 }} />
                     </TableCell>
-                    <TableCell style={{ ...tableStyle.body, fontSize: 13 }}>
+                    <TableCell style={{ ...tableStyle.body, fontSize: 15 }}>
                       {file?.name}
                     </TableCell>
                     <Tooltip title={file?.streamingUrl}>
@@ -456,7 +451,7 @@ function SonicStreamReader(props) {
 
           <Pagination
             count={props.totalPage}
-            page={props.radiostationPageNum}
+            page={props.page}
             variant="outlined"
             shape="rounded"
             onChange={handlePageChange}
@@ -529,6 +524,7 @@ const mapStateToProps = (state) => {
     radiostationPageNum: state.radioPageNumber.radiostationPageNum,
     totalPage: state.radioStations.radiostations.totalPages,
     offset: state.radioStations.radiostations.offset,
+    page: state.radioStations.page,
     // selectedRowss : state.global.selectedRows,
 
     // cardRadiostations : state.cardRadioStaions.cardRadiostations,

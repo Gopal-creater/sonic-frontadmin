@@ -1,3 +1,4 @@
+import { log } from "../../../utils/app.debug";
 import { getUserId } from "../AuthHelper";
 import { AppWebRequest } from "../NetworkManager";
 
@@ -40,6 +41,7 @@ class Communication {
   }
   
   fetchSKForSpecificRadioStation(radio_id,_offset=0,_limit=10){
+    log(radio_id.radioStationId)
     return AppWebRequest(`/detections/owners/${getUserId()}/RADIOSTATION/data?radioStation=${radio_id}&skip=${_offset}&limit=${_limit}&sort=-createdAt`,"get")
   }
   /**

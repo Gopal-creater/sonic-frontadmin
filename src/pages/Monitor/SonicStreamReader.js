@@ -69,6 +69,8 @@ import PlayCircleOutlineRoundedIcon from "@material-ui/icons/PlayCircleOutlineRo
 import StopOutlinedIcon from "@material-ui/icons/StopOutlined";
 import CancelOutlinedIcon from "@material-ui/icons/CancelOutlined";
 import { tableStyle } from "../../globalStyle";
+import IconEdit from '../../assets/icons/icon-edit.png'
+import IconTick from '../../assets/icons/icon-tick.png'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -365,7 +367,8 @@ function SonicStreamReader(props) {
                       {props.offset + index + 1}
                     </TableCell>
                     <TableCell>
-                      <CheckCircleOutlineRoundedIcon style={{ fontSize: 15 }} />
+                      <img src={IconTick}/>
+                      {/* <CheckCircleOutlineRoundedIcon style={{ fontSize: 15 }} /> */}
                     </TableCell>
                     <TableCell style={{ ...tableStyle.body, fontSize: 15 }}>
                       {file?.name}
@@ -441,7 +444,7 @@ function SonicStreamReader(props) {
                     search:`?radioStationId=${file._id}`,
                     })}}
                 >
-                      Details
+                    <img src={IconEdit}/>  Details
                     </TableCell>
                   </TableRow>
                 );

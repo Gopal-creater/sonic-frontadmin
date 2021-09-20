@@ -21,7 +21,7 @@ import { fetchSonicKeys } from "../../stores/actions/sonicKey";
 import { connect, useSelector } from 'react-redux';
 import { format, isValid } from 'date-fns';
 import { converstionOfKb, downloadFile } from '../../utils/HelperMethods';
-import * as actionCreators from "../../stores/actions/index";
+import download from "../../../src/assets/images/download.png";
 
 
 const StyledTableCell = withStyles((theme) => ({
@@ -96,6 +96,8 @@ const SonicKeys = (props) => {
     const [pagingCount, setTotalPageCount] = React.useState(0);
     const [error, setError] = React.useState('');
     const [restrict, setrestrict] = React.useState(false)
+    const [offset, setOffset] = React.useState(0);
+    const [pageCount, setPageCount] = useState(1);
     const [sonicKeys, setSonicKeys] = useState({
         //sonicKey: "",
         contentName: "",
@@ -115,7 +117,8 @@ const SonicKeys = (props) => {
             setTableData(res.docs)
             setTotalCount(res.totalDocs)
             setTotalPage(res.totalPages)
-            setTotalPageCount(res.pagingCounter)
+            setOffset(res.offset)
+            // setTotalPageCount(res.pagingCounter)
             setError('')
         }).catch(err => {
             setError(err)
@@ -193,8 +196,10 @@ const SonicKeys = (props) => {
 
     const handlePageChange = async (event, value) => {
         const limit = 10;
-        // const page = value;
-        firstFetchSonicKey(limit, limit * pagingCount)
+        const page = value;
+        console.log("This is for event",event);
+        firstFetchSonicKey(value, limit)
+        setPageCount(event)
     };
 
 
@@ -216,7 +221,8 @@ const SonicKeys = (props) => {
         }
 
     }
-
+    
+    console.log("offset data ", props.offset);
 
     //For sorting   ==============================================================
     //   var value;
@@ -318,21 +324,21 @@ const SonicKeys = (props) => {
                             {tableData.map((data, index) => (
                                 <TableRow className={classes.tableRow} key={index}>
                                     <TableCell component="th" scope="row">
-                                        {index + 1}
+                                        {offset + index + 1}
                                     </TableCell>
                                     <TableCell className={classes.sonicKeyText}>{data.sonicKey}</TableCell>
                                     <TableCell className={classes.tableCellNormalText}>{data.contentFileName}</TableCell>
-                                    <TableCell className={classes.tableCellNormalText}>{data.contentOwner}</TableCell>
+                                    <TableCell className={classes.tableCellNormalText}>{data.contentOwner===""?"-":data.contentOwner}</TableCell>
                                     <TableCell className={classes.tableCellNormalText}>{format(new Date(data.contentCreatedDate), 'dd/MM/yyyy')}</TableCell>
-                                    <TableCell className={classes.tableCellNormalText}>{data.contentDescription}</TableCell>
+                                    <TableCell className={classes.tableCellNormalText}>{data.contentDescription===""?"-":data.contentDescription}</TableCell>
                                     <TableCell className={classes.tableCellColor}>
                                         <div className={classes.tableCellIcon} onClick={() => handleClickOpenTable(data)}>
-                                            <VisibilityIcon />&nbsp;View
+                                            <VisibilityIcon fontSize="small" />&nbsp;View
                                         </div>
                                     </TableCell>
                                     <TableCell className={classes.tableCellColor}>
                                         <div className={classes.tableCellIcon} onClick={() => downloadFileData(data)}>
-                                            <GetAppIcon />&nbsp;Download
+                                            <img src={download} />&nbsp;Download
                                         </div>
                                     </TableCell>
                                 </TableRow>
@@ -342,7 +348,7 @@ const SonicKeys = (props) => {
                     {openTable && <DailogTable sonicKey={sonicKeys} open={true} setOpenTable={setOpenTable} />}
                     <Pagination 
                         count={page}
-                        page={pagingCount}
+                        page={props.pageCount}
                         variant="outlined"
                         shape="rounded"
                     onChange={handlePageChange}
@@ -359,7 +365,8 @@ const mapStateToProps = (state) => {
     return {
         sonicKeys: state.sonicKeys,
         totalPage: state.sonicKeys.totalPages,
-        pagingCounter: state.sonicKeys.pagingCounter,
+        // offset: state.sonicKeys.offset,
+        // pagingCounter: state.sonicKeys.pagingCounter,
 
     };
 };

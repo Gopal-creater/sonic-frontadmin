@@ -68,7 +68,7 @@ const DailogTable = (props) => {
             <DialogTitle id="form-dialog-title">
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                     <img style={{ width: '30px' }} src={DialogLogo} />
-                    <div style={{ fontWeight: 'bold', color: '#343F84', fontSize: '18px' }}>&nbsp; &nbsp;SonicKey: WD#mg0z9QL7</div>
+                    <div style={{ fontWeight: 'bold', color: '#343F84', fontSize: '18px' }}>&nbsp; &nbsp;SonicKey: {sonicKey.sonicKey}</div>
                 </div>
             </DialogTitle>
             {/* <DialogContent dividers> */}

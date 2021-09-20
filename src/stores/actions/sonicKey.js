@@ -4,7 +4,9 @@ import Communication from "../../services/https/Communication";
 
 //SonicKeys
 // export const fetchSonicKeys = () =>{ change for pagination
-export const fetchSonicKeys = (limit,index) =>{
+export const fetchSonicKeys = (limit = 10,index = 0) =>{
+    index = index > 1 ? ( index - 1 ) * limit : 0
+    console.log("index" , index);
     return dispatch =>{
         dispatch({
             type:actionType.SONIC_KEY_LOADING

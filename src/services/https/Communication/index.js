@@ -5,6 +5,7 @@ class Communication {
   constructor() {}
   
   fetchMySonicKey(limit,index,value) {
+    index = index > 1 ? ( index - 1 ) * limit : 0
     const axiosConfig={
       params: {
         filter: {

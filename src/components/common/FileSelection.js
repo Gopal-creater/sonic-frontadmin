@@ -5,6 +5,7 @@ import Icon from "../../assets/images/icon-add-sound.png";
 import { log } from "../../utils/app.debug";
 import * as mm from 'music-metadata-browser';
 import cogoToast from "cogo-toast";
+import Communication from "../../services/https/Communication";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -102,6 +103,31 @@ export default function FileSelection({ prop }) {
 
   const handleDecode = (e) => {
     e.preventDefault();
+    // log("decode:", audioData);
+    const formData = new FormData();
+    formData.append("mediaFile", audioData?.file);
+    // setLoading(true);
+
+    Communication.decodeFile(formData)
+      .then((response) => {
+        log("response:", response);
+        // setLoading(false);
+        prop?.decodeResponse(response)
+        setAudioData({
+          response: true,
+          file: audioData?.file,
+          data:response,
+          name: audioData?.file?.name
+        })
+        if(response.length!=0){
+          cogoToast.success("Successfully decoded file.");
+        }
+      })
+      .catch((err) => {
+        log("err", err);
+        cogoToast.error(err.message || "Error decoding file.");
+        // setLoading(false);
+      });
   };
 
   const handleAudio = (e) => {

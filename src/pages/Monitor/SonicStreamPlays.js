@@ -1,8 +1,12 @@
 import {
   Badge,
   Button,
+  Dialog,
+  DialogTitle,
   FormControl,
   Grid,
+  IconButton,
+  Input,
   makeStyles,
   MenuItem,
   Paper,
@@ -14,8 +18,9 @@ import {
   TableHead,
   TableRow,
   Typography,
+  useTheme,
 } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import { tableStyle } from "../../globalStyle";
@@ -27,6 +32,13 @@ import LoadingSpinner from "./Components/LoadingSpinner";
 import ErrorModal from "./Components/ErrorModal";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { fetchThirdPartySonicKeys } from "../../stores/actions/thirdPartySonicKey";
+import { cloneDeep } from "lodash";
+import { isValid,format } from "date-fns";
+import { converstionOfKb} from '../../utils/HelperMethods';
+import DailogTable from "../../components/common/DialogTable";
+import CloseIcon from '@material-ui/icons/Close';
+import DialogLogo from "../../../src/assets/images/key-logo.png";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -60,14 +72,58 @@ const useStyles = makeStyles((theme) => ({
       cursor: "pointer",
     },
   },
+  dialogPaper: {
+    minHeight: '75vh',
+    maxHeight: '75vh',
+    margin: 'auto',
+},
+tableCellOne: {
+    padding: '5px',
+    fontWeight: 'bold',
+    fontSize: '12px',
+    color: '#ACACAC',
+},
+tableCellTwo: {
+    padding: '5px',
+    fontWeight: '700',
+    fontSize: '14px',
+    color: '#757575',
+},
+table: {
+}
 }));
 
 export const SonicStreamPlays = (props) => {
   const classes = useStyles();
+  const [hitDetail, setHitDetail] = useState();
+  const [openDetectionTable, setDetectionTable] = React.useState(false)
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [totalCount, setTotalCount] = useState(0);
   const [startDate, setStartDate] = useState(new Date());
+  const [tableData, setTableData] = React.useState([]);
+  const theme = useTheme()
+  const [sonicKey, setSonicKey] = React.useState({
+    sonicKey: "",
+    contentName: "",
+    contentOwner: "",
+    contentValidation: "",
+    contentQuality: "",
+    contentDescription: "",
+    contentFileName: "",
+    contentFileType: "",
+    createdAt: new Date(),
+    contentDuration: "",
+    encodingStrength: "",
+    contentSize: "",
+    contentSamplingFrequency: "",
+    additionalMetadata: {},
+    iswcCode: "",
+    isrcCode: "",
+    tuneCode: "",
+    contentType: ""
+  })
+  const [openTable, setOpenTable] = React.useState(false)
   const columns = [
     "ID",
     "SONICKEY",
@@ -78,28 +134,73 @@ export const SonicStreamPlays = (props) => {
     "HITS",
   ];
 
-  const tableData = [
-    {
-      contentDescription: "Sample audio",
-      contentName: "Radio Sonic Sample",
-      contentOwner: "Kevin MacLeod",
-      contentQuality: "Goof",
-      sonicKey: "WvvICMde2SH",
-      hits: "15",
-    },
-    {
-      contentDescription: "Sample audio2",
-      contentName: "Radio Sonic Sample",
-      contentOwner: "Kevin MacLeod",
-      contentQuality: "Average",
-      sonicKey: "HWvvICMde2S",
-      hits: "15",
-    },
-  ];
+
+  function handleCloseTable() {
+    setDetectionTable(false)
+  };
+  
+  function openPopUp(index) {
+    // let key = tableData[index]._id
+    Communication.fetchThirdPartyDetectedDetails(index)
+      .then((response) => {
+        log('Response',response)
+        setHitDetail(response)
+        setDetectionTable(true)
+      })
+  }
+
+  const fetchThirdPartyKeys = (_offset = 0, _limit = 10) => {
+    Communication.fetchThirdPartySonicKeys(_limit, _offset).then((res) => {
+      console.log("res", res);
+      setTableData(res)
+      // setTotalCount(res.totalDocs)
+      // setError('')
+    }).catch(err => {
+      setError(err)
+    })
+  }
+  
+  useEffect(() => {
+    // if(props.thirdPartyKeys.data.length <= 0)
+    if (tableData.length <= 0)
+      // fetchKeys(100,0);
+      fetchThirdPartyKeys(0, 10)
+  }, []);
+  function fetchSonicKeyById(response) {
+    log('Response',response)
+    setSonicKey({
+      ...sonicKey,
+      sonicKey: response.sonicKey,
+      contentName: response.contentName,
+      contentOwner: response.contentOwner,
+      contentValidation: response.contentValidation ? "YES" : "NO",
+      contentQuality: response.contentQuality,
+      contentDescription: response.contentDescription,
+      contentFileName: response.contentFileName,
+      contentFileType: response.contentFileType,
+      createdAt: isValid(new Date(response.createdAt)) ? `${format(new Date(response.createdAt), 'dd/MM/yyyy')}` : "--",
+      contentDuration: response?.contentDuration.toFixed(2),
+      encodingStrength: response.encodingStrength,
+      contentSize: converstionOfKb(response.contentSize),
+      contentSamplingFrequency: response?.contentSamplingFrequency?.replace('Hz', ''),
+      additionalMetadata: response?.additionalMetadata?.message || '',
+      iswcCode: response.iswcCode ? response.iswcCode.toUpperCase() : '',
+      isrcCode: response.isrcCode ? response.isrcCode.toUpperCase() : '',
+      tuneCode: response.tuneCode ? response.tuneCode.toUpperCase() : '',
+      contentType: response?.contentType
+    });
+    setOpenTable(true)
+  }
+
+  const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
+    <Input placeholder='Start Date' 
+    style={{borderBottom:'1px black'}} onClick={onClick} ref={ref}>
+      {startDate}
+    </Input>
+  ));
   return (
     <Grid className={classes.container} elevation={8}>
       <Grid style={{ display: "flex", justifyContent: "space-between" }}>
-    
       </Grid>
       <Grid item className={classes.header}>
         <div>
@@ -123,20 +224,18 @@ export const SonicStreamPlays = (props) => {
             justifyContent: "space-between",
           }}
         >
-          {/* <Grid style={{ margin: 10,flexDirection: "row",
-             }}>
-            <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
-            to
-            <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
-            
-            {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
-            </LocalizationProvider> 
-            </Grid> */}
-            <div style={{width:500,display:'flex',alignItems:'row',margin:15}}>
-            <DatePicker wrapperClassName={styles.formControl} selected={startDate} onChange={(date) => setStartDate(date)} />
-            to
-            <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
-            </div>
+            {/* <div style={{width:500,marginTop:10,marginLeft:10,
+              display:'flex',alignItems:'row',}}>
+
+            <DatePicker 
+             name="startDate"  
+             dateFormat="MMMM d, yyyy"
+             popperClassName="some-custom-class" 
+     //        customInput={<ExampleCustomInput />}
+             label="Start Date"
+             selected={startDate} onChange={(date) => setStartDate(date)} 
+             />
+            </div> */}
             <Grid>
             <FormControl style={styles.formControl}>
               <Select
@@ -208,32 +307,35 @@ export const SonicStreamPlays = (props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {tableData?.map((file, index) => {
-                log(file);
+              {tableData?.docs?.map((file, index) => {
+                
                 return (
-                  <TableRow>
+                  <TableRow hover className={classes.tableRow}>
                     <TableCell style={{ ...tableStyle.body }}>
                       {index + 1}
                     </TableCell>
-                    <TableCell style={{ ...tableStyle.body, fontSize: 15 }}>
-                      {file?.sonicKey}
+                    <TableCell style={{ ...tableStyle.body, fontSize: 15,
+                    cursor:'pointer' }}
+                    onClick={() => fetchSonicKeyById(file?.sonicKey)}>
+                      {file?.sonicKey?.sonicKey}
                     </TableCell>
                     <TableCell style={{ ...tableStyle.body, color: "#757575" }}>
-                      {file?.contentName}
+                      {file?.sonicKey?.contentName}
                     </TableCell>
                     <TableCell style={{ ...tableStyle.body, color: "#757575" }}>
-                      {file?.contentOwner}
+                      {file?.sonicKey?.contentOwner}
                     </TableCell>
                     <TableCell style={{ ...tableStyle.body, color: "#757575" }}>
-                      {file?.contentQuality}
+                      {file?.sonicKey?.contentQuality}
                     </TableCell>
                     <TableCell style={{ ...tableStyle.body, color: "#757575" }}>
-                      {file?.contentDescription}
+                      {file?.sonicKey?.contentDescription}
                     </TableCell>
                     <TableCell
+                    onClick={() => openPopUp(file?.sonicKey?._id)}
                       style={{ ...tableStyle.body, cursor: "pointer" }}
                     >
-                      {file?.hits}
+                      {file?.totalHits}
                     </TableCell>
                   </TableRow>
                 );
@@ -252,6 +354,75 @@ export const SonicStreamPlays = (props) => {
           additionalStyle={{ height: window.innerHeight / 2 }}
         />
       )}
+      {openTable &&
+        <DailogTable sonicKey={sonicKey} open={true} setOpenTable={setOpenTable} />
+      }
+
+      {/*Update Table Detail on row click Up */}
+      {openDetectionTable && <div>
+        <Dialog open={true} fullWidth={true} className={classes.dialogPaper}>
+          <IconButton aria-label="close" style={{
+            position: 'absolute',
+            right: theme.spacing(1),
+            top: theme.spacing(1),
+            color: '#343F84'
+          }} onClick={handleCloseTable}
+            data-toggle="tooltip" data-placement="top" title='Close'>
+            <CloseIcon />
+          </IconButton>
+          <DialogTitle id="form-dialog-title">
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <img style={{ width: '30px' }} src={DialogLogo} />
+                    <div style={{ fontSize: '18px',display:'flex'
+                  ,flexDirection:'column' }}>
+                    <Grid item style={{ fontWeight: 'bold', color: '#343F84', fontSize: '18px',display:'flex'
+                  ,flexDirection:'column' }}>  &nbsp; &nbsp;SonicKey: {hitDetail?.docs[0]?.sonicKey?.sonicKey}</Grid>
+        <Grid item style={{color:'grey'}}>  &nbsp; &nbsp;{hitDetail.docs[0].sonicKey.contentName},
+        {hitDetail?.totalDocs} hits</Grid>
+                      </div>
+                </div>
+            </DialogTitle>
+          <TableContainer component={Paper}style={{ marginTop: 10, padding: '10px 25px', border: 'none' }} elevation={0} >
+            <Table size="small"
+              stickyHeader aria-label="sticky table" fullWidth>
+              <TableHead align="center" style={{ background: '#ADD8E6' }}>
+                
+                <TableRow>
+                  <TableCell align="center">
+                    <b>DATE</b></TableCell>
+                  <TableCell align="center">
+                    <b>TIME</b></TableCell>
+                </TableRow>
+              </TableHead>
+              {/* Changes for multiple keys */}
+              {hitDetail.docs.map((hitData) => {
+                return (
+                  <>
+                    <TableRow>
+                      <TableCell align="center">
+                        {
+                          isValid(new Date(hitData.detectedAt))
+                            ? `${format(new Date(hitData.detectedAt), 'dd/MM/yyyy')}` : "--"
+                        }
+                      </TableCell>
+                      <TableCell align="center">
+                        {
+                          isValid(new Date(hitData.detectedAt))
+                            ? `${format(new Date(hitData.detectedAt), 'hh:mm:ss')}` : "--"
+                        }
+                      </TableCell>
+                    </TableRow>
+                  </>
+                )
+              }
+              )
+              }
+            </Table>
+
+          </TableContainer>
+        </Dialog>
+      </div>
+      }
     </Grid>
   );
 };
@@ -305,8 +476,16 @@ const styles = {
   },
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => {
+  log('State',state)
+  return {
+    thirdPartyKeys: state.thirdPartyKeys,
+  };
+};
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchThirdPartyKeys: (limit, index) => dispatch(fetchThirdPartySonicKeys(limit, index)),
+  };}
 
 export default connect(mapStateToProps, mapDispatchToProps)(SonicStreamPlays);

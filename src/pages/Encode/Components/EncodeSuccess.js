@@ -1,10 +1,8 @@
 import { Button, Grid, makeStyles, Typography } from '@material-ui/core'
 import React from 'react'
 import encodeSuccessIcon from "../../../assets/images/icon-success-graphic.svg"
-import { AppWebRequest } from '../../../services/https/NetworkManager'
 import { log } from '../../../utils/app.debug'
-import FileSaver from "file-saver";
-import cogoToast from 'cogo-toast'
+import { downloadFile } from '../../../utils/HelperMethods'
 
 const useStyles = makeStyles(() => ({
     encodeSuccesContainer: {
@@ -52,12 +50,7 @@ export default function EncodeSuccess({ audioName, successData }) {
     log("Success Data", successData)
 
     const handleDownload = () => {
-        AppWebRequest(`/s3-file-uploads/signed-url/${successData?.s3FileMeta?.Key}`).then((response) => {
-            FileSaver.saveAs(response)
-        }).catch((error) => {
-            log("error download", error)
-            cogoToast.error(error?.data?.message || error?.message)
-        })
+        downloadFile(successData?.contentFilePath, successData?.contentFileType, false, successData?.s3FileMeta?.Key);
     }
 
     return (

@@ -5,6 +5,7 @@ class Communication {
   constructor() {}
   
   fetchMySonicKey(limit,index,value) {
+    index = index > 1 ? ( index - 1 ) * limit : 0
     const axiosConfig={
       params: {
         filter: {
@@ -121,6 +122,15 @@ class Communication {
     
     return AppWebRequest(`/sonic-keys/download-file`, "post", axiosConfig)
   }
+  downloadFileWithS3Key(key) {
+    const axiosConfig = {
+      headers: {
+        'Accept': 'application/json',
+      },
+    };
+    return AppWebRequest(`/s3-file-uploads/signed-url/`+encodeURIComponent(key), "get",axiosConfig);
+  }
+
 
 }
 

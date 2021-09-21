@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
     color: "#757575",
   },
   failedIcon: {
-    backgroundColor: "#E0E0E0",
+    backgroundColor: "#E5F5F4",
     height: 180,
     padding: "1% 5%",
     display: "flex",
@@ -102,14 +102,10 @@ export default function DecodeSuccess({ audioName, title, decodeKeys }) {
   const [sonicKeyData, setSonicKeyData] = useState([]);
   const [keysFound, setKeysFound] = useState(0);
 
-  // log("decode:", decodeKeys);
-  // log("values:", sonicKeyData)
-
   useEffect(() => {
     const len = decodeKeys.data.length;
     setKeysFound(len)
     const data = decodeKeys?.data;
-    log("data:-", data)
     setSonicKeyData(data);
   }, [decodeKeys])
 
@@ -167,29 +163,6 @@ export default function DecodeSuccess({ audioName, title, decodeKeys }) {
               </TableRow>
             ))}
           </TableBody>
-          {/* <TableBody>
-              {sonicKeyData ? <TableRow className={classes.tableRow}>
-                <TableCell className={classes.key}>{sonicKeyData.sonicKey}</TableCell>
-                <TableCell className={classes.tableCellNormalText}>
-                  {sonicKeyData.contentFileType}
-                </TableCell>
-                <TableCell className={classes.tableCellNormalText}>
-                  {sonicKeyData.contentFileName}
-                </TableCell>
-                <TableCell className={classes.tableCellNormalText}>
-                  {sonicKeyData.contentSamplingFrequency}
-                </TableCell>
-                <TableCell className={classes.tableCellNormalText}>
-                  {sonicKeyData.contentOwner}
-                </TableCell>
-                <TableCell className={classes.tableCellColor}>
-                  <div className={classes.tableCellIcon}>
-                    <VisibilityIcon fontSize="small" />
-                    &nbsp;View
-                  </div>
-                </TableCell>
-              </TableRow> : null}
-          </TableBody> */}
         </Table>
       </TableContainer>
     </Grid>

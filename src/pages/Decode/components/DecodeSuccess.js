@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -9,6 +9,7 @@ import TableRow from "@material-ui/core/TableRow";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import { Grid, Typography } from "@material-ui/core";
 import Icon from "../../../assets/images/icon-success-graphic.png";
+import { log } from "../../../utils/app.debug";
 
 const useStyles = makeStyles((theme) => ({
   successContainer: {
@@ -78,8 +79,8 @@ const useStyles = makeStyles((theme) => ({
   },
   failedIcon: {
     backgroundColor: "#E0E0E0",
-    height: 150,
-    padding: "0px 3%",
+    height: 180,
+    padding: "1% 5%",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
@@ -94,18 +95,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const tableHead = [
-  "SONICKEY",
-  "FILE TYPE",
-  "NAME",
-  "FREQUENCY",
-  "OWNER",
-  "ACTION",
-];
+const tableHead = ["SONICKEY", "FILE TYPE", "NAME", "FREQUENCY", "OWNER", "ACTION"];
 
-export default function DecodeSuccess({ audioName, title }) {
+export default function DecodeSuccess({ audioName, title, decodeKeys }) {
   const classes = useStyles();
-  const [sonicKeyData, setSonicKeyData] = useState([1, 2]);
+  const [sonicKeyData, setSonicKeyData] = useState([]);
+  const [keysFound, setKeysFound] = useState(0);
+
+  // log("decode:", decodeKeys);
+  // log("values:", sonicKeyData)
+
+  useEffect(() => {
+    const len = decodeKeys.data.length;
+    setKeysFound(len)
+    const data = decodeKeys?.data;
+    log("data:-", data)
+    setSonicKeyData(data);
+  }, [decodeKeys])
 
   return (
     <Grid className={classes.successContainer}>
@@ -116,7 +122,7 @@ export default function DecodeSuccess({ audioName, title }) {
             {title} of <b>{audioName}</b> successfully done.
           </Typography>
           <Typography className={classes.found}>
-            We found <b>2</b> SonicKeys.
+            We found <b>{keysFound}</b> SonicKeys.
           </Typography>
         </Grid>
         <Grid item className={classes.failedIcon}>
@@ -137,34 +143,53 @@ export default function DecodeSuccess({ audioName, title }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {sonicKeyData?.map((data, index) => (
-              <TableRow className={classes.tableRow} key={index}>
-                <TableCell className={classes.key}>WRRRds3sddaE</TableCell>
+            {sonicKeyData?.map((data) => (
+              <TableRow className={classes.tableRow} key={data._id}>
+                <TableCell className={classes.key}>{data.sonicKey}</TableCell>
                 <TableCell className={classes.tableCellNormalText}>
-                  {/* {data.key} */}
-                  audio/wav
+                  {data.contentFileType}
                 </TableCell>
                 <TableCell className={classes.tableCellNormalText}>
-                  {/* {data.encodeUses} */}
-                  Radio Sonic Sample
+                  {data.contentFileName}
                 </TableCell>
                 <TableCell className={classes.tableCellNormalText}>
-                  {/* {data.maxEncodeUses} */}
-                  44100
+                  {data.contentSamplingFrequency}
                 </TableCell>
                 <TableCell className={classes.tableCellNormalText}>
-                  {/* {format(new Date(data.validity), "dd.MM.yyyy")} */}
-                  Random
+                  {data.contentOwner}
                 </TableCell>
                 <TableCell className={classes.tableCellColor}>
                   <div className={classes.tableCellIcon}>
-                    <VisibilityIcon />
+                    <VisibilityIcon fontSize="small" />
                     &nbsp;View
                   </div>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
+          {/* <TableBody>
+              {sonicKeyData ? <TableRow className={classes.tableRow}>
+                <TableCell className={classes.key}>{sonicKeyData.sonicKey}</TableCell>
+                <TableCell className={classes.tableCellNormalText}>
+                  {sonicKeyData.contentFileType}
+                </TableCell>
+                <TableCell className={classes.tableCellNormalText}>
+                  {sonicKeyData.contentFileName}
+                </TableCell>
+                <TableCell className={classes.tableCellNormalText}>
+                  {sonicKeyData.contentSamplingFrequency}
+                </TableCell>
+                <TableCell className={classes.tableCellNormalText}>
+                  {sonicKeyData.contentOwner}
+                </TableCell>
+                <TableCell className={classes.tableCellColor}>
+                  <div className={classes.tableCellIcon}>
+                    <VisibilityIcon fontSize="small" />
+                    &nbsp;View
+                  </div>
+                </TableCell>
+              </TableRow> : null}
+          </TableBody> */}
         </Table>
       </TableContainer>
     </Grid>

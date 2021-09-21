@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Button, Grid, Typography } from "@material-ui/core";
+import { Button, Grid, Tooltip, Typography } from "@material-ui/core";
 import Icon from "../../assets/images/icon-add-sound.png";
 import { log } from "../../utils/app.debug";
-import * as mm from 'music-metadata-browser';
+import * as mm from "music-metadata-browser";
 import cogoToast from "cogo-toast";
 import Communication from "../../services/https/Communication";
-
 
 const useStyles = makeStyles((theme) => ({
   EncodeDecodeContainer: {
@@ -33,9 +32,6 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 12,
     fontWeight: 300,
     color: "#ACACAC",
-  },
-  uploadFile: {
-    display: "flex",
   },
   audioFile: {
     height: 25,
@@ -78,7 +74,7 @@ export default function FileSelection({ prop }) {
     response: false,
     file: null,
     data: {
-      encodingStrength: '15',
+      encodingStrength: "15",
       contentName: "",
       contentType: "",
       contentDescription: "",
@@ -98,35 +94,72 @@ export default function FileSelection({ prop }) {
       iswcCode: "",
       tuneCode: "",
     },
-    name: null
+    name: null,
   });
+
+  function truncate(str, n) {
+    return str?.length > n ? str.substr(0, n - 1) + "..." : str;
+  }
 
   const handleDecode = (e) => {
     e.preventDefault();
-    // log("decode:", audioData);
     const formData = new FormData();
     formData.append("mediaFile", audioData?.file);
-    // setLoading(true);
+    prop?.setLoading(true);
+
+    let payload = {
+      response: false,
+      file: null,
+      data: {
+        encodingStrength: "15",
+        contentName: "",
+        contentType: "",
+        contentDescription: "",
+        contentCreatedDate: new Date(),
+        contentValidation: "No",
+        contentDuration: "",
+        contentSize: "",
+        contentOwner: "",
+        contentFileType: "",
+        contentEncoding: "",
+        contentSamplingFrequency: "",
+        contentQuality: "",
+        additionalMetadata: { message: "" },
+        sonicKey: "",
+        contentFilePath: "",
+        isrcCode: "",
+        iswcCode: "",
+        tuneCode: "",
+      },
+      name: null,
+    };
 
     Communication.decodeFile(formData)
       .then((response) => {
-        log("response:", response);
-        // setLoading(false);
-        prop?.decodeResponse(response)
+        // log("response:", response);
+        prop?.setLoading(false);
+        prop?.decodeResponse(response);
         setAudioData({
           response: true,
           file: audioData?.file,
-          data:response,
-          name: audioData?.file?.name
-        })
-        if(response.length!=0){
+          data: response,
+          name: audioData?.file?.name,
+        });
+        if (response.length != 0) {
           cogoToast.success("Successfully decoded file.");
+          setAudioData({ ...payload });
+          prop?.setAudioName(audioData?.file?.name);
+        } else {
+          setAudioData({ ...payload });
+          prop?.setAudioName(audioData?.file?.name);
         }
       })
       .catch((err) => {
-        log("err", err);
+        prop?.decodeError(err)
         cogoToast.error(err.message || "Error decoding file.");
-        // setLoading(false);
+        prop?.setLoading(false);
+        setAudioData({ ...payload });
+        prop?.setAudioName(audioData?.file?.name);
       });
   };
 
@@ -136,72 +169,93 @@ export default function FileSelection({ prop }) {
     if (!file?.type?.includes("audio")) {
       return cogoToast.warn("Only audio files are supported.");
     }
-    mm.parseBlob(file, { native: true }).then(metadata => {
-      let payload = {
-        response: false,
-        file: file,
-        data: {
-          encodingStrength: '15',
-          contentName: (metadata.common.title) ? metadata.common.title : "",
-          contentType: file.type,
-          contentDescription: (metadata.common.description) ? metadata.common.description : '',
-          contentCreatedDate: new Date(),
-          contentValidation: "No",
-          contentDuration: (metadata.format.duration) ? metadata.format.duration : '',
-          contentSize: (file.size / 1024), contentFileType: file.type,
-          contentOwner: (metadata.common.artist) ? metadata.common.artist : '',
-          contentFileType: "",
-          contentEncoding: (
-            ((metadata.format.codec) ? ((metadata.format.codec).toString()) : '') +
-            ((metadata.format.sampleRate) ? (', ' + (metadata.format.sampleRate).toString() + " Hz") : '') +
-            ((metadata.format.codecProfile) ? (', ' + (metadata.format.codecProfile).toString()) : '') +
-            ((metadata.format.bitrate) ? (', ' + (metadata.format.bitrate).toString() + " bps") : '') +
-            ((metadata.format.numberOfChannels) ? (', ' + (metadata.format.numberOfChannels).toString() + " ch") : '')
-          ),
-          contentSamplingFrequency: (metadata.format.sampleRate) ? (metadata.format.sampleRate).toString() + "  Hz" : '',
-          contentQuality: "",
-          additionalMetadata: { message: "" },
-          sonicKey: "",
-          contentFilePath: "",
-          isrcCode: "",
-          iswcCode: "",
-          tuneCode: "",
-        },
-        name: file?.name
-      }
-      setAudioData({ ...payload });
-      sendAudioData(payload);
-    }).catch((err) => {
-      cogoToast.error(err)
-    })
+    mm.parseBlob(file, { native: true })
+      .then((metadata) => {
+        let payload = {
+          response: false,
+          file: file,
+          data: {
+            encodingStrength: "15",
+            contentName: metadata.common.title ? metadata.common.title : "",
+            contentType: file.type,
+            contentDescription: metadata.common.description
+              ? metadata.common.description
+              : "",
+            contentCreatedDate: new Date(),
+            contentValidation: "No",
+            contentDuration: metadata.format.duration
+              ? metadata.format.duration
+              : "",
+            contentSize: file.size / 1024,
+            contentFileType: file.type,
+            contentOwner: metadata.common.artist ? metadata.common.artist : "",
+            contentFileType: "",
+            contentEncoding:
+              (metadata.format.codec ? metadata.format.codec.toString() : "") +
+              (metadata.format.sampleRate
+                ? ", " + metadata.format.sampleRate.toString() + " Hz"
+                : "") +
+              (metadata.format.codecProfile
+                ? ", " + metadata.format.codecProfile.toString()
+                : "") +
+              (metadata.format.bitrate
+                ? ", " + metadata.format.bitrate.toString() + " bps"
+                : "") +
+              (metadata.format.numberOfChannels
+                ? ", " + metadata.format.numberOfChannels.toString() + " ch"
+                : ""),
+            contentSamplingFrequency: metadata.format.sampleRate
+              ? metadata.format.sampleRate.toString() + "  Hz"
+              : "",
+            contentQuality: "",
+            additionalMetadata: { message: "" },
+            sonicKey: "",
+            contentFilePath: "",
+            isrcCode: "",
+            iswcCode: "",
+            tuneCode: "",
+          },
+          name: file?.name,
+        };
+        setAudioData({ ...payload });
+        sendAudioData(payload);
+      })
+      .catch((err) => {
+        cogoToast.error(err);
+      });
   };
 
   const sendAudioData = (Data) => {
-    return prop?.getAudioData(Data)
-  }
+    return prop?.getAudioData(Data);
+  };
 
   return (
     <Grid className={classes.EncodeDecodeContainer}>
       <Grid item className={classes.header}>
         <div>
-          <Typography className={classes.heading}>{prop?.title} SonicKeys</Typography>
+          <Typography className={classes.heading}>
+            {prop?.title} SonicKeys
+          </Typography>
           <Typography className={classes.subHeading}>
-            {
-              audioData?.name !== null && prop?.title === "Encode" ?
-                "Add details to start encoding." :
-                prop?.subTitle
-            }</Typography>
+            {audioData?.name !== null && prop?.title === "Encode"
+              ? "Add details to start encoding."
+              : prop?.subTitle}
+          </Typography>
         </div>
         <img src={Icon} alt="" style={{ height: 80 }} />
       </Grid>
 
       <Grid item>
-        <div className={classes.uploadFile}>
+        <div style={{ display: "flex" }}>
           <div>
             <Typography className={classes.selectFile}>
               Select a file
             </Typography>
-            <Typography className={classes.audioFile}>{audioData?.name}</Typography>
+            <Tooltip title={audioData?.name}>
+              <Typography className={classes.audioFile}>
+                {truncate(audioData?.name, 50)}
+              </Typography>
+            </Tooltip>
             <Typography className={classes.clue}>
               all audio file formats
             </Typography>

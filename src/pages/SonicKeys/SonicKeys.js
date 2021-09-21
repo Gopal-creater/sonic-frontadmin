@@ -7,14 +7,13 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Pagination from "@material-ui/lab/Pagination";
-import "../SonicKeys/table.scss";
+import "../SonicKeys/css/table.scss";
 import UnfoldMoreSharpIcon from "@material-ui/icons/UnfoldMoreSharp";
-import VisibilityIcon from '@material-ui/icons/Visibility';
+import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import DailogTable from '../../components/common/DialogTable';
-import { Grid, Typography } from '@material-ui/core';
+import { Box, CircularProgress, Grid, Typography } from '@material-ui/core';
 import { tableStyle } from '../../globalStyle';
-import PageviewOutlinedIcon from '@material-ui/icons/PageviewOutlined';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import Communication from "../../services/https/Communication";
 import { fetchSonicKeys } from "../../stores/actions/sonicKey";
@@ -22,6 +21,9 @@ import { connect, useSelector } from 'react-redux';
 import { format, isValid } from 'date-fns';
 import { converstionOfKb, downloadFile } from '../../utils/HelperMethods';
 import download from "../../../src/assets/images/download.png";
+import Search from "../SonicKeys/Components/Search";
+import viewFilter from "../../../src/assets/images/view.png";
+
 
 
 const StyledTableCell = withStyles((theme) => ({
@@ -86,7 +88,10 @@ const useStyles = makeStyles({
 
 
 const SonicKeys = (props) => {
-
+    const [pageNum, setPage] = React.useState(0);
+    const [loading, setLoading] = React.useState(false);
+    const [rowPerPage, setrowPerPage] = React.useState(10)
+    const [searchValue, setSearchValue] = React.useState()
     const [openTable, setOpenTable] = React.useState(false)
     const [open, setOpen] = React.useState(false)
     const classes = useStyles();
@@ -98,6 +103,7 @@ const SonicKeys = (props) => {
     const [restrict, setrestrict] = React.useState(false)
     const [offset, setOffset] = React.useState(0);
     const [pageCount, setPageCount] = useState(1);
+    const [dataSearch, setDataSearch] = React.useState();
     const [sonicKeys, setSonicKeys] = useState({
         //sonicKey: "",
         contentName: "",
@@ -197,7 +203,7 @@ const SonicKeys = (props) => {
     const handlePageChange = async (event, value) => {
         const limit = 10;
         const page = value;
-        console.log("This is for event",event);
+        console.log("This is for event", event);
         firstFetchSonicKey(value, limit)
         setPageCount(event)
     };
@@ -221,8 +227,15 @@ const SonicKeys = (props) => {
         }
 
     }
-    
-    console.log("offset data ", props.offset);
+
+    const onSearchChange = (searchText) => {
+        console.log('Search Change', searchText);
+        setSearchValue(searchText);
+        setPage(0)
+        firstFetchSonicKey(0, rowPerPage, searchText)
+    }
+    // console.log("offset data ", onSearchChange);
+
 
     //For sorting   ==============================================================
     //   var value;
@@ -241,6 +254,7 @@ const SonicKeys = (props) => {
     //   };
     //=============================================================================
 
+
     return (
         <Grid className={classes.gridContainer}>
             <Grid style={{ display: 'flex', justifyContent: 'space-between', padding: '2.5% 2.5% 0 2.5%', backgroundColor: 'white', }}>
@@ -250,9 +264,9 @@ const SonicKeys = (props) => {
                         See all your SonicKeys
                     </Typography>
                 </Grid>
-                <Grid>
-                    <PageviewOutlinedIcon style={{ marginRight: '20px', fontSize: '28px', color: '#757575' }} />
-                    <FilterListIcon style={{ fontSize: '28px', color: '#757575' }} />
+                <Grid style={{ display: 'flex', backgroundColor: '', }}>
+                    <div style={{ backgroundColor: '', marginRight: '25px' }} ><Search searchData={onSearchChange} dataSearch={dataSearch} setDataSearch={setDataSearch} /></div>
+                    <div><img src={viewFilter} /></div>
                 </Grid>
             </Grid>
             <Grid>
@@ -320,38 +334,42 @@ const SonicKeys = (props) => {
                                 <StyledTableCell></StyledTableCell>
                             </TableRow>
                         </TableHead>
-                        <TableBody>
-                            {tableData.map((data, index) => (
-                                <TableRow className={classes.tableRow} key={index}>
-                                    <TableCell component="th" scope="row">
-                                        {offset + index + 1}
-                                    </TableCell>
-                                    <TableCell className={classes.sonicKeyText}>{data.sonicKey}</TableCell>
-                                    <TableCell className={classes.tableCellNormalText}>{data.contentFileName}</TableCell>
-                                    <TableCell className={classes.tableCellNormalText}>{data.contentOwner===""?"-":data.contentOwner}</TableCell>
-                                    <TableCell className={classes.tableCellNormalText}>{format(new Date(data.contentCreatedDate), 'dd/MM/yyyy')}</TableCell>
-                                    <TableCell className={classes.tableCellNormalText}>{data.contentDescription===""?"-":data.contentDescription}</TableCell>
-                                    <TableCell className={classes.tableCellColor}>
-                                        <div className={classes.tableCellIcon} onClick={() => handleClickOpenTable(data)}>
-                                            <VisibilityIcon fontSize="small" />&nbsp;View
-                                        </div>
-                                    </TableCell>
-                                    <TableCell className={classes.tableCellColor}>
-                                        <div className={classes.tableCellIcon} onClick={() => downloadFileData(data)}>
-                                            <img src={download} />&nbsp;Download
-                                        </div>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
+                        {loading ? <Box sx={{ display: "flex",alignItems:'center', justifyContent: 'center',  }}>
+                            <CircularProgress />
+                        </Box>
+                            : <TableBody>
+                                {tableData.map((data, index) => (
+                                    <TableRow className={classes.tableRow} key={index}>
+                                        <TableCell component="th" scope="row">
+                                            {offset + index + 1}
+                                        </TableCell>
+                                        <TableCell className={classes.sonicKeyText}>{data.sonicKey}</TableCell>
+                                        <TableCell className={classes.tableCellNormalText}>{data.contentFileName}</TableCell>
+                                        <TableCell className={classes.tableCellNormalText}>{data.contentOwner === "" ? "-" : data.contentOwner}</TableCell>
+                                        <TableCell className={classes.tableCellNormalText}>{format(new Date(data.contentCreatedDate), 'dd/MM/yyyy')}</TableCell>
+                                        <TableCell className={classes.tableCellNormalText}>{data.contentDescription === "" ? "-" : data.contentDescription}</TableCell>
+                                        <TableCell className={classes.tableCellColor}>
+                                            <div className={classes.tableCellIcon} onClick={() => handleClickOpenTable(data)}>
+                                                <VisibilityOutlinedIcon fontSize="small" />&nbsp;View
+                                            </div>
+                                        </TableCell>
+                                        <TableCell className={classes.tableCellColor}>
+                                            <div className={classes.tableCellIcon} onClick={() => downloadFileData(data)}>
+                                                <img src={download} />&nbsp;Download
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>}
+
                     </Table>
                     {openTable && <DailogTable sonicKey={sonicKeys} open={true} setOpenTable={setOpenTable} />}
-                    <Pagination 
+                    <Pagination
                         count={page}
                         page={props.pageCount}
                         variant="outlined"
                         shape="rounded"
-                    onChange={handlePageChange}
+                        onChange={handlePageChange}
                     />
                 </TableContainer>
             </Grid>

@@ -34,6 +34,7 @@ const useStyles = makeStyles({
 const DailogTable = (props) => {
 
     const { sonicKey } = props;
+    console.log("searching data for search",sonicKey);
     const theme = useTheme()
     const classes = useStyles();
 
@@ -41,17 +42,17 @@ const DailogTable = (props) => {
         props.setOpenTable(false)
     };
 
-    function bytesForHuman(bytes) {
-        let units = ['KB', 'MB', 'GB', 'TB', 'PB']
+    // function bytesForHuman(bytes) {
+    //     let units = ['KB', 'MB', 'GB', 'TB', 'PB']
     
-        let i = 0
+    //     let i = 0
         
-        for (i; bytes > 1024; i++) {
-            bytes /= 1024;
-        }
+    //     for (i; bytes > 1024; i++) {
+    //         bytes /= 1024;
+    //     }
     
-        return Math.round(bytes.toFixed(1)) + ' ' + units[i]
-    }
+    //     return Math.round(bytes.toFixed(1)) + ' ' + units[i]
+    // }
 
     return (<>
         <Dialog open={true} fullWidth={true} className={classes.dialogPaper}>
@@ -105,7 +106,7 @@ const DailogTable = (props) => {
                     </TableRow>
                     <TableRow>
                         <TableCell className={classes.tableCellOne}>AUDIO SIZE (IN MB)</TableCell>
-                        <TableCell className={classes.tableCellTwo}>{bytesForHuman(sonicKey.contentSize)}</TableCell>
+                        <TableCell className={classes.tableCellTwo}>{sonicKey.contentSize}</TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className={classes.tableCellOne}>INDUSTRY CODES</TableCell>

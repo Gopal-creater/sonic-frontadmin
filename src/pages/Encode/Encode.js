@@ -19,7 +19,6 @@ import EncodeDecodeLoading from '../../components/common/EncodeDecodeLoading';
 import InputMask from 'react-input-mask';
 import EncodeSuccess from './Components/EncodeSuccess';
 import FailedFileSelection from '../../components/common/FailedFileSelection';
-import failIcon from "../../assets/images/icon-fail-graphic.svg"
 
 const countryCodes = require("country-codes-list");
 const myCountryCodesObject = countryCodes.customList(
@@ -66,11 +65,12 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: "#393F5B"
     },
     textInput: {
-        fontWeight: "bold",
-        color: "#ACACAC"
+        fontWeight: "medium",
+        color: "#ACACAC",
+        fontSize: 17.5
     },
     textInputLabel: {
-        fontWeight: "bold",
+        fontWeight: "medium",
         color: "#ACACAC"
     }
 }));
@@ -79,13 +79,15 @@ export default function Encode() {
     const classes = useStyles();
     const [values, setValues] = React.useState({
         isDataPresent: false,
+        clearSelectedFile: false,
         encodeLoading: false,
         encodeError: null,
-        encodeSuccess: null
+        encodeSuccess: null,
+        checkedAuthorization: true
     });
 
     const closeEncodeProgressPopUp = (sucess, error) => {
-        setValues({ ...values, encodeLoading: false, encodeError: error, encodeSuccess: sucess })
+        setValues({ ...values, encodeLoading: false, encodeError: error, encodeSuccess: sucess, clearSelectedFile: true })
     }
 
     const handleEncode = (e) => {
@@ -140,21 +142,33 @@ export default function Encode() {
         }).catch((error) => {
             closeEncodeProgressPopUp(null, error?.data);
             log("Encode Error", error)
-            cogoToast.error(error?.data?.message)
+            cogoToast.error(error?.data?.message || error?.message)
         })
     }
 
     return (
         <Grid className={classes.EncodeContainer} id="encodeDecodeContainer">
-            {values?.encodeSuccess !== null && <EncodeSuccess audioName={values?.name} />}
+            {values?.encodeSuccess !== null && <EncodeSuccess audioName={values?.name} successData={values?.encodeSuccess} />}
+            {values?.encodeError !== null && <FailedFileSelection title="Encoding" audioName={values?.name} />}
 
-            {/* {values?.encodeError !== null && <FailedFileSelection title="Encoding" icon={failIcon} />} */}
-            {/* <EncodeSuccess audioName={values?.name} /> */}
+            {/* <FailedFileSelection title="Encoding" audioName={values?.name} /> */}
+            {/* <EncodeSuccess audioName={"dsdfgsdfgsdfgsdfgsdfgsdf"} /> */}
             <FileSelection
                 prop={{
                     title: "Encode",
                     subTitle: "Upload a file to start",
-                    getAudioData: (audioData) => { setValues({ ...values, isDataPresent: true, ...audioData }) }
+                    getAudioData: (audioData) => {
+                        setValues({
+                            clearSelectedFile: false,
+                            encodeLoading: false,
+                            encodeError: null,
+                            encodeSuccess: null,
+                            isDataPresent: true,
+                            checkedAuthorization: true,
+                            ...audioData
+                        })
+                    },
+                    clearSelectedFile: values?.clearSelectedFile
                 }}
             />
 
@@ -176,11 +190,11 @@ export default function Encode() {
 
                         <Grid item id="audioType">
                             <FormControl className={classes.formControl} fullWidth>
-                                <InputLabel id="demo-simple-select-label" style={{ color: "#ACACAC", fontWeight: "bold" }}>File Type</InputLabel>
+                                <InputLabel id="demo-simple-select-label" style={{ color: "#ACACAC", fontWeight: "medium" }}>File type</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    style={{ color: "#ACACAC", fontWeight: "bold" }}
+                                    style={{ color: "#ACACAC", fontWeight: "medium", fontSize: 17.5 }}
                                     value={values?.data?.contentFileType}
                                     fullWidth
                                     onChange={(e) => {
@@ -189,9 +203,9 @@ export default function Encode() {
                                             setValues({ ...values, data: { ...values?.data, contentFileType: e.target.value, isrcCode: "", iswcCode: "", tuneCode: "" } })
                                     }}
                                 >
-                                    <MenuItem value={"Music"}>Music</MenuItem>
-                                    <MenuItem value={"Video"}>Video</MenuItem>
-                                    <MenuItem value={"Audio"}>Audio</MenuItem>
+                                    <MenuItem value={"Music"} style={{ color: "#ACACAC", fontWeight: "medium" }}>Music</MenuItem>
+                                    <MenuItem value={"Video"} style={{ color: "#ACACAC", fontWeight: "medium" }}>Video</MenuItem>
+                                    <MenuItem value={"Audio"} style={{ color: "#ACACAC", fontWeight: "medium" }}>Audio</MenuItem>
                                 </Select>
                             </FormControl>
                         </Grid>
@@ -364,7 +378,7 @@ export default function Encode() {
 
                         <Grid item id="contentValidation" className="mt-3">
                             <FormControl component="fieldset" className={classes.formControl} >
-                                <FormLabel component="legend" style={{ color: "#ACACAC", fontWeight: "bold" }}
+                                <FormLabel component="legend" style={{ color: "#ACACAC", fontWeight: "medium" }}
                                 >Has content been validated for ownership?</FormLabel>
                                 <RadioGroup
                                     color="primary"
@@ -381,10 +395,10 @@ export default function Encode() {
 
                         <Grid item id="authorization">
                             <FormControlLabel
-                                style={{ color: "#ACACAC", fontWeight: "bold" }}
+                                style={{ color: "#ACACAC", fontWeight: "medium" }}
                                 control={
                                     <Checkbox
-                                        checked={values.checkedAuthorization}
+                                        checked={values?.checkedAuthorization}
                                         onChange={(event) => { setValues({ ...values, checkedAuthorization: event.target.checked }) }}
                                         name="checkedAuthorization"
                                         color="#343F84"
@@ -399,6 +413,7 @@ export default function Encode() {
                                 variant="contained"
                                 component="span"
                                 color="primary"
+                                disabled={values?.checkedAuthorization ? false : true}
                                 className={classes.encodeBtn}
                                 onClick={handleEncode}
                                 type="submit"
@@ -417,7 +432,6 @@ export default function Encode() {
                 title="Encoding"
                 audioName={values?.name}
             />
-
         </Grid>
     )
 }

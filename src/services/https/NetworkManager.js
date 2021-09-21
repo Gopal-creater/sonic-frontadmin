@@ -35,7 +35,7 @@ export function AppWebRequest(endUrl, method, config) {
                 if (error.response.status === 401) {
 
                     // case for refresh token
-                    cogoToast.error("Your session is invalid. Please log in again");
+                    // cogoToast.error("Your session is invalid. Please log in again");
                     store.dispatch(logout());
                     localStorage.clear()
                     //    window.location.href = "/auth/login";

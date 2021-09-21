@@ -101,6 +101,37 @@ export default function FileSelection({ prop }) {
     name: null
   });
 
+  React.useEffect(() => {
+    if (prop?.clearSelectedFile) {
+      setAudioData({
+        response: false,
+        file: null,
+        data: {
+          encodingStrength: '15',
+          contentName: "",
+          contentType: "",
+          contentDescription: "",
+          contentCreatedDate: new Date(),
+          contentValidation: "No",
+          contentDuration: "",
+          contentSize: "",
+          contentOwner: "",
+          contentFileType: "",
+          contentEncoding: "",
+          contentSamplingFrequency: "",
+          contentQuality: "",
+          additionalMetadata: { message: "" },
+          sonicKey: "",
+          contentFilePath: "",
+          isrcCode: "",
+          iswcCode: "",
+          tuneCode: "",
+        },
+        name: null
+      })
+    }
+  }, [prop])
+
   const handleDecode = (e) => {
     e.preventDefault();
     // log("decode:", audioData);
@@ -116,10 +147,10 @@ export default function FileSelection({ prop }) {
         setAudioData({
           response: true,
           file: audioData?.file,
-          data:response,
+          data: response,
           name: audioData?.file?.name
         })
-        if(response.length!=0){
+        if (response.length != 0) {
           cogoToast.success("Successfully decoded file.");
         }
       })

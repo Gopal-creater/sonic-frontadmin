@@ -37,11 +37,11 @@ const DialogTitle = withStyles(styles)((props) => {
     return (
         <MuiDialogTitle disableTypography className={classes.root} {...other}>
             <Typography className={classes.heading}>{children}</Typography>
-            {onClose ? (
+            {/* {onClose ? (
                 <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
                     <CloseIcon />
                 </IconButton>
-            ) : null}
+            ) : null} */}
         </MuiDialogTitle>
     );
 });
@@ -52,17 +52,18 @@ const DialogContent = withStyles((theme) => ({
         paddingRight: theme.spacing(4),
         paddingTop: theme.spacing(0),
         color: "#343F84",
+        paddingBottom: theme.spacing(2)
     },
 }))(MuiDialogContent);
 
-const DialogActions = withStyles((theme) => ({
-    root: {
-        margin: 0,
-        paddingLeft: theme.spacing(4),
-        paddingRight: theme.spacing(4),
-        paddingBottom: theme.spacing(4),
-    },
-}))(MuiDialogActions);
+// const DialogActions = withStyles((theme) => ({
+//     root: {
+//         margin: 0,
+//         paddingLeft: theme.spacing(4),
+//         paddingRight: theme.spacing(4),
+//         paddingBottom: theme.spacing(4),
+//     },
+// }))(MuiDialogActions);
 
 export default function EncodeDecodeLoading(prop) {
 
@@ -80,7 +81,7 @@ export default function EncodeDecodeLoading(prop) {
                         <img src={encodeKeyImg} alt="Sonic Key" style={{ width: "auto", height: "100%" }} />
                     </Grid>
                 </DialogContent>
-                <DialogActions>
+                {/* <DialogActions>
                     <Button
                         variant="outlined"
                         autoFocus onClick={prop?.onClose}
@@ -97,7 +98,7 @@ export default function EncodeDecodeLoading(prop) {
                     >
                         Cancel
                     </Button>
-                </DialogActions>
+                </DialogActions> */}
             </Dialog>
         </div>
     );

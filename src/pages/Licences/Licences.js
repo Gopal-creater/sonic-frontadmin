@@ -6,7 +6,14 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import { Card, Grid, Typography, Button } from "@material-ui/core";
+import {
+  Card,
+  Grid,
+  Typography,
+  Button,
+  Box,
+  CircularProgress,
+} from "@material-ui/core";
 import AddLicence from "./components/AddLicence";
 import { fetchLicenceKeys } from "../../stores/actions/licenceKey";
 import { connect } from "react-redux";
@@ -74,19 +81,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const tableHead = [
-  "ID",
-  "LICENCE KEY",
-  "USAGE COUNT",
-  "MAX COUNT",
-  "EXPIRY DATE",
-  "SUSPENDED",
-];
+const tableHead = ["ID", "LICENCE KEY", "USAGE COUNT", "MAX COUNT", "EXPIRY DATE", "SUSPENDED"];
 
 function Licences(props) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [licenceData, setLicenceData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   function fetchLicence() {
     props.fetchLicenceKey();
@@ -102,6 +103,12 @@ function Licences(props) {
     const data = props.licenceKey.data.docs;
     setLicenceData(data);
   }, [props]);
+
+  if(loading) {
+    return <Box sx={{ display: "flex",justifyContent: 'center', marginTop: '20%'}}>
+    <CircularProgress />
+  </Box>
+  }
 
   return (
     <Grid className={classes.licenceContainer}>
@@ -126,7 +133,9 @@ function Licences(props) {
           <TableHead>
             <TableRow>
               {tableHead.map((head, index) => (
-                <TableCell className={classes.tableHead} key={index}>{head}</TableCell>
+                <TableCell className={classes.tableHead} key={index}>
+                  {head}
+                </TableCell>
               ))}
             </TableRow>
           </TableHead>
@@ -144,7 +153,7 @@ function Licences(props) {
                   {data.maxEncodeUses}
                 </TableCell>
                 <TableCell className={classes.tableCellNormalText}>
-                  {format(new Date(data.validity),'dd.MM.yyyy')}
+                  {format(new Date(data.validity), "dd.MM.yyyy")}
                 </TableCell>
                 <TableCell className={classes.tableCellColor}>
                   {data.suspended === false ? "No" : "Yes"}
@@ -155,7 +164,12 @@ function Licences(props) {
         </Table>
       </TableContainer>
 
-      <AddLicence open={open} setOpen={setOpen} fetchLicence={fetchLicence} />
+      <AddLicence
+        open={open}
+        setOpen={setOpen}
+        fetchLicence={fetchLicence}
+        setLoading={setLoading}
+      />
     </Grid>
   );
 }

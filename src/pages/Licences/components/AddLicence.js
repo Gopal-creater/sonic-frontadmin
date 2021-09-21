@@ -36,17 +36,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AddLicence({ open, setOpen, fetchLicence }) {
+export default function AddLicence({ open, setOpen, fetchLicence, setLoading }) {
   const classes = useStyles();
   const [newinputkey, setNewinputkey] = useState("");
 
   const onSubmitNewKey = () => {
+    setLoading(true);
     Communication.createLicenceKey(newinputkey)
       .then(function (response) {
+        setLoading(false);
         cogoToast.success("Licence Key added successfully.");
         fetchLicence();
       })
       .catch((err) => {
+        setLoading(false);
         cogoToast.error(err.message || "Error adding key.");
       });
   };

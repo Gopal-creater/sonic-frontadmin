@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
+import Spinner from "react-bootstrap/Spinner";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -36,9 +37,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AddLicence({ open, setOpen, fetchLicence, setLoading }) {
+export default function AddLicence({ open, setOpen, fetchLicence }) {
   const classes = useStyles();
   const [newinputkey, setNewinputkey] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const onSubmitNewKey = () => {
     setLoading(true);
@@ -97,17 +99,27 @@ export default function AddLicence({ open, setOpen, fetchLicence, setLoading }) 
         >
           Cancel
         </Button>
-        <Button
-          onClick={() => {
-            onSubmitNewKey();
-            setOpen(false);
-          }}
-          className={classes.button}
-          variant="contained"
-          color="primary"
-        >
-          Add Licence
-        </Button>
+        {loading ? (
+          <Button
+            className={classes.button}
+            variant="contained"
+            color="primary"
+          >
+            <Spinner animation="border" size="sm"></Spinner>
+          </Button>
+        ) : (
+          <Button
+            onClick={() => {
+              onSubmitNewKey();
+              setOpen(false);
+            }}
+            className={classes.button}
+            variant="contained"
+            color="primary"
+          >
+            Add Licence
+          </Button>
+        )}
       </DialogActions>
     </Dialog>
   );

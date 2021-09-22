@@ -10,6 +10,13 @@ const Search = (props) => {
         setDataSearch(e.target.value);
     }
 
+    const enterPressed=(event) => {
+        var code = event.keyCode || event.which;
+        if(code === 13) { //13 is the enter keycode
+            searchData(dataSearch);
+        } 
+    }
+
     const onSearch = () => {
         searchData(dataSearch);
     }
@@ -17,7 +24,7 @@ const Search = (props) => {
     return (
         <div>
             <div className="searchBox">
-                <input className="searchTxt" value={dataSearch} type="text" name="" placeholder="Type to Search" onChange={searchDataList} />
+                <input className="searchTxt" value={dataSearch} type="text" name="" placeholder="Type to Search" onChange={searchDataList} onKeyPress={enterPressed}/>
                 <a href="#" className="searchBtn">
                     <img src={SearchImg} onClick={onSearch} />
                 </a>

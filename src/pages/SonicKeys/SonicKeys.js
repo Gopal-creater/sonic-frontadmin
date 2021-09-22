@@ -18,7 +18,7 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import Communication from "../../services/https/Communication";
 import { fetchSonicKeys } from "../../stores/actions/sonicKey";
 import { connect, useSelector } from 'react-redux';
-import { format, isValid } from 'date-fns';
+import { format, isValid, sort } from 'date-fns';
 import { converstionOfKb, downloadFile } from '../../utils/HelperMethods';
 import download from "../../../src/assets/images/download.png";
 import Search from "../SonicKeys/Components/Search";
@@ -130,34 +130,7 @@ const SonicKeys = (props) => {
             setError(err)
         })
     }
-
-    // const handleClickOpen = async (row) => {
-    //     // const row = await props.sonicKeys.data.docs[(index)]
-    //     console.log('Edit Screen Data', row);
-    //     setSonicKeys({
-    //       ...sonicKeys,
-    //       sonicKey: row.sonicKey,
-    //       contentName: row.contentName,
-    //       contentOwner: row.contentOwner,
-    //       contentValidation: row.contentValidation ? "YES" : "NO",
-    //       contentQuality: row.contentQuality,
-    //       contentDescription: row.contentDescription,
-    //       contentFileName: row.contentFileName,
-    //       contentFileType: row.contentFileType,
-    //       createdAt: isValid(new Date(row.createdAt)) ? `${format(new Date(row.createdAt), 'dd/MM/yyyy')}` : "--",
-    //       contentDuration: row?.contentDuration.toFixed(2),
-    //       encodingStrength: row.encodingStrength,
-    //       contentSize: converstionOfKb(row.contentSize),
-    //       contentSamplingFrequency: row?.contentSamplingFrequency.replace('Hz', ''),
-    //       additionalMetadata: row?.additionalMetadata.message ? row?.additionalMetadata.message : '',
-    //       iswcCode: row.iswcCode ? row.iswcCode.toUpperCase() : '',
-    //       isrcCode: row.isrcCode ? row.isrcCode.toUpperCase() : '',
-    //       tuneCode: row.tuneCode ? row.tuneCode.toUpperCase() : '',
-    //       contentType: row?.contentType
-    //     })
-    //     setOpen(true);
-    //   };
-
+     
     const handleClickOpenTable = async (data) => {
         // const data = await props.sonicKeys.data.docs[(row)]
         // const data = await tableData[(row)]
@@ -234,6 +207,11 @@ const SonicKeys = (props) => {
         setPage(0)
         firstFetchSonicKey(0, rowPerPage, searchText)
     }
+
+    const onClickSortData = () => {
+        tableData.sort();
+        console.log("sorting data is successfull",tableData.sort());
+    }
     // console.log("offset data ", onSearchChange);
 
 
@@ -277,7 +255,7 @@ const SonicKeys = (props) => {
                                 <StyledTableCell>
                                     <div className={classes.tableCellIcon}>
                                         ID
-                                        <UnfoldMoreSharpIcon style={{ fontSize: '15px', fontWeight: 'bolder' }}
+                                        <UnfoldMoreSharpIcon onClick={onClickSortData} style={{ fontSize: '15px', fontWeight: 'bolder' }}
                                             //   onClick={handleSort("id", prop.propFrom)}
                                             className="sortIcon"
                                         />
@@ -285,7 +263,7 @@ const SonicKeys = (props) => {
                                 </StyledTableCell>
                                 <StyledTableCell>
                                     <div className={classes.tableCellIcon}>SONICKEY
-                                        <UnfoldMoreSharpIcon style={{ fontSize: '15px', fontWeight: 'bolder' }}
+                                        <UnfoldMoreSharpIcon onClick={onClickSortData} style={{ fontSize: '15px', fontWeight: 'bolder' }}
                                             //   onClick={handleSort("id", prop.propFrom)}
                                             className="sortIcon"
                                         />

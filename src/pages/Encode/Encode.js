@@ -221,14 +221,6 @@ export default function Encode() {
                                 onChange={(e) => { setValues({ ...values, data: { ...values?.data, contentOwner: e.target.value } }) }} />
                         </Grid>
 
-                        {/* <Grid item id="Songwriter">
-                            <TextField fullWidth id="standard-basic" label="Songwriter" />
-                        </Grid>
-        
-                        <Grid item id="producer">
-                            <TextField fullWidth id="standard-basic" label="producer" />
-                        </Grid> */}
-
                         <Grid item id="audioLength">
                             <TextField
                                 fullWidth

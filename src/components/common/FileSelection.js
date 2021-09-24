@@ -155,7 +155,7 @@ export default function FileSelection({ prop }) {
         }
       })
       .catch((err) => {
-        prop?.decodeError(err)
+        prop?.decodeError(err);
         cogoToast.error(err.message || "Error decoding file.");
         prop?.setLoading(false);
         setAudioData({ ...payload });
@@ -251,11 +251,9 @@ export default function FileSelection({ prop }) {
             <Typography className={classes.selectFile}>
               Select a file
             </Typography>
-            <Tooltip title={audioData?.name}>
-              <Typography className={classes.audioFile}>
-                {truncate(audioData?.name, 50)}
-              </Typography>
-            </Tooltip>
+            <Typography className={classes.audioFile}>
+              {truncate(audioData?.name, 50)}
+            </Typography>
             <Typography className={classes.clue}>
               all audio file formats
             </Typography>

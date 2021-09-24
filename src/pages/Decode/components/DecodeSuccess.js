@@ -6,10 +6,13 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import VisibilityIcon from "@material-ui/icons/Visibility";
+import VisibilityOutlinedIcon from "@material-ui/icons/Visibility";
 import { Grid, Typography } from "@material-ui/core";
 import Icon from "../../../assets/images/icon-success-graphic.png";
 import { log } from "../../../utils/app.debug";
+import DailogTable from "../../../components/common/DialogTable";
+import { format, isValid } from "date-fns";
+import { converstionOfKb } from "../../../utils/HelperMethods";
 
 const useStyles = makeStyles((theme) => ({
   successContainer: {
@@ -95,19 +98,65 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const tableHead = ["SONICKEY", "FILE TYPE", "NAME", "FREQUENCY", "OWNER", "ACTION"];
+const tableHead = [
+  "SONICKEY",
+  "FILE TYPE",
+  "NAME",
+  "FREQUENCY",
+  "OWNER",
+  "ACTION",
+];
 
 export default function DecodeSuccess({ audioName, title, decodeKeys }) {
   const classes = useStyles();
   const [sonicKeyData, setSonicKeyData] = useState([]);
   const [keysFound, setKeysFound] = useState(0);
+  const [openTable, setOpenTable] = React.useState(false);
+  const [sonicKeys, setSonicKeys] = useState({
+    //sonicKey: "",
+    contentName: "",
+    contentOwner: "",
+    contentValidation: "",
+    contentQuality: "",
+    contentDescription: "",
+    additionalMetadata: {},
+    isrcCode: "",
+    iswcCode: "",
+    tuneCode: "",
+});
 
   useEffect(() => {
     const len = decodeKeys.data.length;
-    setKeysFound(len)
+    setKeysFound(len);
     const data = decodeKeys?.data;
     setSonicKeyData(data);
-  }, [decodeKeys])
+  }, [decodeKeys]);
+
+  const handleClickOpenTable = async (data) => {
+    setSonicKeys({
+        ...sonicKeys,
+        sonicKey: data.sonicKey,
+        contentName: data.contentName,
+        contentOwner: data.contentOwner,
+        contentValidation: data.contentValidation ? "YES" : "NO",
+        contentQuality: data.contentQuality,
+        contentDescription: data.contentDescription,
+        contentFileName: data.contentFileName,
+        contentFileType: data.contentFileType,
+        createdAt: isValid(new Date(data.createdAt)) ? `${format(new Date(data.createdAt), 'dd/MM/yyyy')}` : "--",
+        contentDuration: data?.contentDuration?.toFixed(2),
+        encodingStrength: data.encodingStrength,
+        contentSize: converstionOfKb(data.contentSize),
+        contentSamplingFrequency: data?.contentSamplingFrequency?.replace('Hz', ''),
+        iswcCode: (data.iswcCode ? data.iswcCode : 'Not Specified'),
+        isrcCode: (data.isrcCode ? data.isrcCode : 'Not Specified'),
+        tuneCode: (data.tuneCode ? data.tuneCode : 'Not Specified'),
+        contentFilePath: data.contentFilePath,
+        job: data?.job,
+        additionalMetadata: data?.additionalMetadata?.message ? data.additionalMetadata?.message : ''
+    })
+    setOpenTable(true);
+  };
 
   return (
     <Grid className={classes.successContainer}>
@@ -155,8 +204,11 @@ export default function DecodeSuccess({ audioName, title, decodeKeys }) {
                   {data.contentOwner}
                 </TableCell>
                 <TableCell className={classes.tableCellColor}>
-                  <div className={classes.tableCellIcon}>
-                    <VisibilityIcon fontSize="small" />
+                  <div
+                    className={classes.tableCellIcon}
+                    onClick={() => handleClickOpenTable(data)}
+                  >
+                    <VisibilityOutlinedIcon fontSize="small" />
                     &nbsp;View
                   </div>
                 </TableCell>
@@ -164,6 +216,7 @@ export default function DecodeSuccess({ audioName, title, decodeKeys }) {
             ))}
           </TableBody>
         </Table>
+        {openTable && <DailogTable sonicKey={sonicKeys} open={true} setOpenTable={setOpenTable} />}
       </TableContainer>
     </Grid>
   );

@@ -145,19 +145,19 @@ function Licences(props) {
                   {data.encodeUses}
                 </TableCell>
                 <TableCell className={classes.tableCellNormalText}>
-                  {data.isUnlimitedEncode === true ? "Unlimited" : data.maxEncodeUses}
+                  {data.isUnlimitedEncode ? "Unlimited" : data.maxEncodeUses}
                 </TableCell>
                 <TableCell className={classes.tableCellNormalText}>
                   {data.monitoringUses}
                 </TableCell>
                 <TableCell className={classes.tableCellNormalText}>
-                  {data.isUnlimitedMonitor === true ? "Unlimited" : data.maxMonitoringUses}
+                  {data.isUnlimitedMonitor ? "Unlimited" : data.maxMonitoringUses}
                 </TableCell>
                 <TableCell className={classes.tableCellNormalText}>
                   {format(new Date(data.validity), "dd.MM.yyyy")}
                 </TableCell>
                 <TableCell className={classes.tableCellColor}>
-                  {data.suspended === false ? "No" : "Yes"}
+                  {data.suspended ? "Yes" : "No"}
                 </TableCell>
               </TableRow>
             ))}

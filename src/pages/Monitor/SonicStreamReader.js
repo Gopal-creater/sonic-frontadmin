@@ -71,6 +71,7 @@ import CancelOutlinedIcon from "@material-ui/icons/CancelOutlined";
 import { tableStyle } from "../../globalStyle";
 import IconEdit from '../../assets/icons/icon-edit.png'
 import IconTick from '../../assets/icons/icon-tick.png'
+import Communication from "../../services/https/Communication";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -94,9 +95,10 @@ const useStyles = makeStyles((theme) => ({
     color: "#00A19A",
   },
   buttons: {
-    fontSize: 15,
+    fontSize: 18,
     marginRight: 6,
     marginTop: 5,
+    color:'#343F84' 
   },
   tableRow: {
     "&:hover": {
@@ -104,6 +106,9 @@ const useStyles = makeStyles((theme) => ({
       cursor: "pointer",
     },
   },
+  placeholder: {
+    color: "#aaa"
+  }
 }));
 
 function SonicStreamReader(props) {
@@ -122,9 +127,22 @@ function SonicStreamReader(props) {
 
   //for search logic
   const [searchValue, setSearchValue] = useState("");
+  const [keysDetected, setKeysDetected] = React.useState('')
+
+  const subscrideRadioStation = [
+    {
+      "radio": "612f893d4a11109bf4a11392"
+    },
+  {
+      "radio": "612f83e94a11109bf4a11391"
+    }
+  ];
+
+  const Placeholder = ({ children }) => {
+    return <div className={classes.placeholder}>{children}</div>;
+  };
 
   const useStyleClasses = useStyles();
-  // log("RRRRRRRRradiostations",radiostations)
   let radiostations = cloneDeep(props.radiostations);
 
   const columns = [
@@ -140,11 +158,23 @@ function SonicStreamReader(props) {
   useEffect(() => {
     if (props.radiostations.length <= 0) {
       props.fetchRadioStations(0, 5);
+      props.fetchAllRadioStations(0,620)
     }
   }, []);
 
   // ================================FUNCTIONS=====================================================
 
+  const onSubscribe=(e)=>{
+    e.preventDefault()
+    const formData = new FormData();
+    formData.append("data",JSON.stringify(subscrideRadioStation))
+    Communication.radioStationSubscribed(subscrideRadioStation).then(res=>{
+      log('Response Of Subscribed',res)
+    }).catch(err=>{
+      log('Error',err)
+      cogoToast.error(err.message)
+    })
+  }
   const handlePageChange = async (event, value) => {
     const limit = 5;
     const page = value;
@@ -160,7 +190,9 @@ function SonicStreamReader(props) {
 
   const onDelete = () => {};
 
-  const onStart = () => {};
+  const onStart = () => {
+    log('Start Selected Radio Station',selectedRows)
+  };
 
   const onStop = () => {};
 
@@ -224,7 +256,7 @@ function SonicStreamReader(props) {
             <Grid item>
             <Button
               disabled={selectedRows.length > 0 ? false : true}
-              //    className={[useStyleClasses.homeTableDelete, 'customButton'].join(' ')}
+              className={[useStyleClasses.homeTableDelete, 'customButton'].join(' ')}
               onClick={() => {
                 onStart();
               }}
@@ -234,8 +266,10 @@ function SonicStreamReader(props) {
                 <ButtonSpinner grow={true} />
               ) : (
                 <div style={{ justifyContent: "center", display: "flex" }}>
-                  <PlayCircleOutlineRoundedIcon className={classes.buttons} />
+                <PlayCircleOutlineRoundedIcon className={classes.buttons} />
+                <label style={{marginTop:2, textTransform: 'none',color:'#343F84'}}>
                   Start
+                </label>
                 </div>
               )}
             </Button>
@@ -254,7 +288,9 @@ function SonicStreamReader(props) {
               ) : (
                 <div style={{ justifyContent: "center", display: "flex" }}>
                   <StopOutlinedIcon className={classes.buttons} />
-                  Stop
+                  <label style={{marginTop:2,textTransform: 'none',color:'#343F84'}}>
+                    Stop
+                  </label>
                 </div>
               )}
             </Button>
@@ -266,14 +302,14 @@ function SonicStreamReader(props) {
               onClick={() => {
                 setShow(true);
               }}
-              style={{ ...styles.submitButton, marginRight: 10 }}
+              style={{ ...styles.submitButton, marginRight: 10,marginLeft:20 }}
             >
               {deleteLoading ? (
                 <ButtonSpinner grow={true} />
               ) : (
                 <div style={{ justifyContent: "center", display: "flex" }}>
                   <CancelOutlinedIcon className={classes.buttons} />
-                  Delete
+                <label style={{marginTop:2,textTransform: 'none',color:'#343F84'}}>Delete</label>
                 </div>
               )}
             </Button>
@@ -281,40 +317,25 @@ function SonicStreamReader(props) {
           </Grid>
 
             <Grid item>
-            <FormControl style={styles.formControl}>
-              <Select
+            {/* <FormControl style={styles.formControl}> */}
+            <Select
                 id="drop-down"
-                //onChange={(e) => setKeysDetected(e.target.value)}
+                onChange={(e) => setKeysDetected(e.target.value)}
                 className="form-control mb-0"
+                value={keysDetected}
+                displayEmpty
+                renderValue={
+                  keysDetected !== "" ? undefined : () =>
+                   <Placeholder>Select radio</Placeholder>
+                }
                 autoWidth={false}
                 style={styles.dropdownButton}
               >
-                <MenuItem disabled selected hidden>
-                  Radio Station
-                </MenuItem>
                 <MenuItem value="day">Radio Beta</MenuItem>
                 <MenuItem value="week">Tune 1</MenuItem>
                 <MenuItem value="month">Radio Rock</MenuItem>
               </Select>
-            </FormControl>
 
-            <FormControl style={styles.formControl}>
-              <Select
-                id="drop-down"
-                //onChange={(e) => setKeysDetected(e.target.value)}
-                className="form-control mb-0"
-                autoWidth={false}
-                style={styles.dropdownButton}
-              >
-                <MenuItem disabled selected hidden>
-                  Radio Station
-                </MenuItem>
-                <MenuItem value="day">Radio Beta</MenuItem>
-                <MenuItem value="week">Tune 1</MenuItem>
-                <MenuItem value="month">Radio Rock</MenuItem>
-              </Select>
-            </FormControl>
-            
             <Button
               variant="contained"
               color="primary"
@@ -324,6 +345,7 @@ function SonicStreamReader(props) {
                 background: "rgb(52, 63, 132)",
                 marginTop:5
               }}
+              onClick={onSubscribe}
             >
               Subscribe
             </Button>
@@ -495,11 +517,11 @@ const styles = {
   },
   submitButton: {
     marginLeft: 10,
-    height: "30px",
+    height: "20px",
     color: "black",
     fontWeight: "bold",
     width: 80,
-    border: "none",
+    //border: "none",
     borderRadius: "50px",
     backgroundColor: "transparent",
     boxShadow: "0px 0px 8px 2px #000000;",
@@ -558,16 +580,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchRadioStations: (_offset, _limit) =>
       dispatch(actionCreators.fetchRadioStations(_offset, _limit)),
-    // setSelectedRows : (rows) => dispatch(actionCreators.setSelectedRowsRadioStationTable(rows)),
-    // fetchRadioStationsSuccess : (payload) => dispatch(actionCreators.fetchRadioStationsSuccess(payload)),
-    // fetchRadioStationsFailure : (error) => dispatch(actionCreators.fetchRadioStationsFailure(error)),
-    // fetchRadiostationSonicKeyCount : (radiostationId) => dispatch(actionCreators.fetchRadiostationSonicKeyCount(radiostationId)),
-
-    // fetchTotalListeningCount : () => dispatch(actionCreators.fetchTotalListeningCount()),
-    // fetchTotalNotListeningCount : () => dispatch(actionCreators.fetchTotalNotListeningCount()),
-    // fetchTotalErrorCount : () => dispatch(actionCreators.fetchTotalErrorCount()),
-    // fetchTotalRadiostationCount : () => dispatch(actionCreators.fetchTotalRadiostationCount()),
-
+    fetchAllRadioStations: (_offset, _limit) =>
+      dispatch(actionCreators.fetchAllCardRadioStation(_offset, _limit)),  
+    
     setRadiostationPageNum: (page) =>
       dispatch(actionCreators.setRadiostationPageNum(page)),
     setRadiostationRowsperPage: (rowsPerPage) =>

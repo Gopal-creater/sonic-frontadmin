@@ -8,6 +8,7 @@ import {
   IconButton,
   Input,
   makeStyles,
+  Menu,
   MenuItem,
   Paper,
   Select,
@@ -39,6 +40,8 @@ import { converstionOfKb} from '../../utils/HelperMethods';
 import DailogTable from "../../components/common/DialogTable";
 import CloseIcon from '@material-ui/icons/Close';
 import DialogLogo from "../../../src/assets/images/key-logo.png";
+import CalendarLogo from "../../../src/assets/icons/icon-calendar.png";
+import cogoToast from "cogo-toast";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -89,7 +92,8 @@ tableCellTwo: {
     fontSize: '14px',
     color: '#757575',
 },
-table: {
+placeholder: {
+  color: "#aaa"
 }
 }));
 
@@ -101,6 +105,7 @@ export const SonicStreamPlays = (props) => {
   const [error, setError] = useState("");
   const [totalCount, setTotalCount] = useState(0);
   const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
   const [tableData, setTableData] = React.useState([]);
   const theme = useTheme()
   const [sonicKey, setSonicKey] = React.useState({
@@ -123,6 +128,7 @@ export const SonicStreamPlays = (props) => {
     tuneCode: "",
     contentType: ""
   })
+  const [keysDetected, setKeysDetected] = React.useState('')
   const [openTable, setOpenTable] = React.useState(false)
   const columns = [
     "ID",
@@ -146,6 +152,9 @@ export const SonicStreamPlays = (props) => {
         log('Response',response)
         setHitDetail(response)
         setDetectionTable(true)
+      }).catch(err=>{
+        log('Error',err)
+        cogoToast.error(err.message)
       })
   }
 
@@ -192,12 +201,33 @@ export const SonicStreamPlays = (props) => {
     setOpenTable(true)
   }
 
-  const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
-    <Input placeholder='Start Date' 
-    style={{borderBottom:'1px black'}} onClick={onClick} ref={ref}>
-      {startDate}
-    </Input>
-  ));
+  const Placeholder = ({ children }) => {
+    return <div className={classes.placeholder}>{children}</div>;
+  };
+  
+  const StartDateInput = forwardRef(({value, onClick }, ref) => (
+    <>
+    <div style={{display:'flex',flexDirection:'column'}}>
+    <label style={{fontSize:12,color:'grey',fontWeight:'bold'}}>
+      Start Date 
+    </label>
+    <Input value={value} 
+    style={{color:'grey',fontSize:20, fontWeight:'lighter',width:140,cursor:'pointer'}}
+    className="input-date-picker" onClick={onClick} ref={ref}/>
+  </div>
+  </>));
+
+  const EndDateInput = forwardRef(({value, onClick }, ref) => (
+    <>
+    <Grid style={{display:'flex',flexDirection:'column'}}>
+    <label style={{fontSize:12,color:'grey',fontWeight:'bold'}}>
+      End Date 
+    </label>
+    <Input value={value} 
+    style={{color:'grey',fontSize:20, fontWeight:'lighter',width:140}}
+    className="input-date-picker" onClick={onClick} ref={ref}/>
+  </Grid>
+  </>));
   return (
     <Grid className={classes.container} elevation={8}>
       <Grid style={{ display: "flex", justifyContent: "space-between" }}>
@@ -224,51 +254,58 @@ export const SonicStreamPlays = (props) => {
             justifyContent: "space-between",
           }}
         >
-            {/* <div style={{width:500,marginTop:10,marginLeft:10,
-              display:'flex',alignItems:'row',}}>
-
-            <DatePicker 
-             name="startDate"  
-             dateFormat="MMMM d, yyyy"
-             popperClassName="some-custom-class" 
-     //        customInput={<ExampleCustomInput />}
-             label="Start Date"
-             selected={startDate} onChange={(date) => setStartDate(date)} 
-             />
-            </div> */}
-            <Grid>
-            <FormControl style={styles.formControl}>
+            <Grid style={{width:'95%',
+              display:'flex',alignItems:'row',justifyContent:'space-between'}}>
+                <Grid item style={{width:500,
+              display:'flex',alignItems:'row'}}>
+            <img src={CalendarLogo} style={{width:20,height:18,
+              margin:15,marginTop:28}}/>    
+            <Grid item style={{width:140}}>
+            <DatePicker
+              selected={startDate}
+              onChange={(date) => setStartDate(date)}
+              customInput={<StartDateInput/>}
+              dateFormat='MMM d,yyyy'
+            />
+            </Grid>
+            <label style={{marginTop:20,marginLeft:10,marginRight:10,
+               fontSize:20,color:'grey'}}>
+              to
+            </label>
+            <Grid item style={{width:140}}>
+            <DatePicker
+              selected={endDate}
+              onChange={(date) => setEndDate(date)}
+              customInput={<EndDateInput />}
+              dateFormat='MMM d,yyyy'
+            />
+            </Grid>
+            </Grid>
+            <Grid item style={{marginTop:12}}>
+            {/* <FormControl> */}
               <Select
                 id="drop-down"
-                //onChange={(e) => setKeysDetected(e.target.value)}
+                onChange={(e) => setKeysDetected(e.target.value)}
                 className="form-control mb-0"
+                value={keysDetected}
+                displayEmpty
+                renderValue={
+                  keysDetected !== "" ? undefined : () =>
+                   <Placeholder>Filter by channel</Placeholder>
+                }
                 autoWidth={false}
                 style={styles.dropdownButton}
               >
-                <MenuItem disabled selected hidden>
-                  Radio Station
-                </MenuItem>
-                <MenuItem value="sonicreader">StreamReader</MenuItem>
-                <MenuItem value="sonicportal">SonicPortal</MenuItem>
-                <MenuItem value="sonicapp">SonicApp</MenuItem>
+            
+                <MenuItem value="sonicreader"
+                style={{color:'grey', borderBottom:'1px solid grey',paddingLeft:10,paddingRight:10}}>
+                  StreamReader</MenuItem>
+                <MenuItem value="sonicportal"
+                style={{color:'grey',borderBottom:'1px solid grey',paddingLeft:10,paddingRight:10}}>SonicPortal</MenuItem>
+                <MenuItem value="sonicapp"
+                style={{color:'grey',borderBottom:'1px solid grey',paddingLeft:10,paddingRight:10}}>SonicApp</MenuItem>
               </Select>
-            </FormControl>
-            <FormControl style={styles.formControl}>
-              <Select
-                id="drop-down"
-                //onChange={(e) => setKeysDetected(e.target.value)}
-                className="form-control mb-0"
-                autoWidth={false}
-                style={styles.dropdownButton}
-              >
-                <MenuItem disabled selected hidden>
-                  Radio Station
-                </MenuItem>
-                <MenuItem value="sonicreader">StreamReader</MenuItem>
-                <MenuItem value="sonicportal">SonicPortal</MenuItem>
-                <MenuItem value="sonicapp">SonicApp</MenuItem>
-              </Select>
-            </FormControl>
+            {/* </FormControl> */}
             <FormControl>            
             <Button
               variant="contained"
@@ -277,14 +314,15 @@ export const SonicStreamPlays = (props) => {
                 padding: 12,
                 borderRadius: 5,
                 background: "rgb(52, 63, 132)",
-                marginTop:5
+                marginTop:5,
+                marginLeft:30
               }}
             >
               Filter
             </Button></FormControl>
             
             </Grid>
-
+            </Grid>
         </Paper>
         
       {!loading && !error ? (

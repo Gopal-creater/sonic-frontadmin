@@ -20,6 +20,7 @@ import queryString from 'query-string';
 import Communication from "../../services/https/Communication";
 import LoadingSpinner from "./Components/LoadingSpinner";
 import ErrorModal from "./Components/ErrorModal";
+import * as actionCreators from '../../stores/actions/index';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -231,9 +232,17 @@ export const SonicStreamDetail = (props) => {
 };
 
 const mapStateToProps = (state) => {
+  log('State',state)
   return {};
 };
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = (dispatch)=>{
+  return{
+    fetchTotalListeningCount : () => dispatch(actionCreators.fetchTotalListeningCount()),
+    fetchTotalNotListeningCount : () => dispatch(actionCreators.fetchTotalNotListeningCount()),
+    fetchTotalErrorCount : () => dispatch(actionCreators.fetchTotalErrorCount()),
+    fetchTotalRadiostationCount : () => dispatch(actionCreators.fetchTotalRadiostationCount()),
+  }
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SonicStreamDetail);

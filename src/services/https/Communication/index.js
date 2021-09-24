@@ -127,6 +127,19 @@ class Communication {
     return AppWebRequest(`/sonic-keys/download-file`, "post", axiosConfig)
   }
 
+  radioStationSubscribed(formData) {
+    log('From Data',formData)
+    const axiosConfig = {
+      data: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Accept': 'application/json',
+      },
+    };
+    //return 0;
+    return AppWebRequest(`/radiomonitors/owners/${getUserId()}/subscribe-bulk`, "post", axiosConfig);
+  }
+
 }
 
 export default new Communication();

@@ -55,15 +55,7 @@ const DailogTable = (props) => {
 
     return (<>
         <Dialog open={true} fullWidth={true} className={classes.dialogPaper}>
-            <IconButton aria-label="close" style={{
-                position: 'absolute',
-                right: theme.spacing(1),
-                top: theme.spacing(1),
-                color: '#343F84',
-            }} onClick={handleCloseTable}
-                data-toggle="tooltip" data-placement="top" title='Close'>
-                <CloseIcon />
-            </IconButton>
+            
 
             <DialogTitle id="form-dialog-title">
                 <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -91,14 +83,7 @@ const DailogTable = (props) => {
                         <TableCell className={classes.tableCellOne}>ARTIST</TableCell>
                         <TableCell className={classes.tableCellTwo}>{sonicKey.contentOwner}</TableCell>
                     </TableRow>
-                    <TableRow>
-                        <TableCell className={classes.tableCellOne}>SONGWRITER</TableCell>
-                        <TableCell className={classes.tableCellTwo}>{sonicKey.sonicKey}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell className={classes.tableCellOne} >PRODUCER</TableCell>
-                        <TableCell className={classes.tableCellTwo}>{sonicKey.channel}</TableCell>
-                    </TableRow>
+                    
                     <TableRow>
                         <TableCell className={classes.tableCellOne}>LENGTH (00:00:00:000)</TableCell>
                         <TableCell className={classes.tableCellTwo}>{sonicKey.contentDuration}</TableCell>

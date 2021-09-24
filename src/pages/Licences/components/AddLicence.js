@@ -30,6 +30,18 @@ const useStyles = makeStyles((theme) => ({
     marginRight: "2%",
     marginBottom: 20,
   },
+  addButton: {
+    height: 45,
+    width: "25%",
+    padding: "23px 0px",
+    textTransform: "initial",
+    fontSize: 15,
+    fontWeight: 700,
+    borderRadius: 8,
+    border: "2px solid #343F84",
+    marginRight: "2%",
+    marginBottom: 20,
+  },
   hint: {
     fontSize: 12,
     fontWeight: 500,
@@ -101,7 +113,7 @@ export default function AddLicence({ open, setOpen, fetchLicence }) {
         </Button>
         {loading ? (
           <Button
-            className={classes.button}
+            className={classes.addButton}
             variant="contained"
             color="primary"
           >
@@ -113,7 +125,7 @@ export default function AddLicence({ open, setOpen, fetchLicence }) {
               onSubmitNewKey();
               setOpen(false);
             }}
-            className={classes.button}
+            className={classes.addButton}
             variant="contained"
             color="primary"
           >

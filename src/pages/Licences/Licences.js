@@ -74,7 +74,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const tableHead = ["ID", "LICENCE KEY", "USAGE COUNT", "MAX COUNT", "EXPIRY DATE", "SUSPENDED"];
+const tableHead = [
+  "ID",
+  "LICENCE KEY",
+  "USAGE COUNT (ENCODED)",
+  "MAX COUNT (ENCODED)",
+  "USAGE COUNT (MONITORING)",
+  "MAX COUNT (MONITORING)",
+  "EXPIRY DATE",
+  "SUSPENDED",
+];
 
 function Licences(props) {
   const classes = useStyles();
@@ -136,7 +145,13 @@ function Licences(props) {
                   {data.encodeUses}
                 </TableCell>
                 <TableCell className={classes.tableCellNormalText}>
-                  {data.maxEncodeUses}
+                  {data.isUnlimitedEncode === true ? "Unlimited" : data.maxEncodeUses}
+                </TableCell>
+                <TableCell className={classes.tableCellNormalText}>
+                  {data.monitoringUses}
+                </TableCell>
+                <TableCell className={classes.tableCellNormalText}>
+                  {data.isUnlimitedMonitor === true ? "Unlimited" : data.maxMonitoringUses}
                 </TableCell>
                 <TableCell className={classes.tableCellNormalText}>
                   {format(new Date(data.validity), "dd.MM.yyyy")}

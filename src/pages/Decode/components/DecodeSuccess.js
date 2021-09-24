@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -6,9 +6,13 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import VisibilityIcon from "@material-ui/icons/Visibility";
+import VisibilityOutlinedIcon from "@material-ui/icons/Visibility";
 import { Grid, Typography } from "@material-ui/core";
 import Icon from "../../../assets/images/icon-success-graphic.png";
+import { log } from "../../../utils/app.debug";
+import DailogTable from "../../../components/common/DialogTable";
+import { format, isValid } from "date-fns";
+import { converstionOfKb } from "../../../utils/HelperMethods";
 
 const useStyles = makeStyles((theme) => ({
   successContainer: {
@@ -77,9 +81,9 @@ const useStyles = makeStyles((theme) => ({
     color: "#757575",
   },
   failedIcon: {
-    backgroundColor: "#E0E0E0",
-    height: 150,
-    padding: "0px 3%",
+    backgroundColor: "#E5F5F4",
+    height: 180,
+    padding: "1% 5%",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
@@ -103,9 +107,56 @@ const tableHead = [
   "ACTION",
 ];
 
-export default function DecodeSuccess({ audioName, title }) {
+export default function DecodeSuccess({ audioName, title, decodeKeys }) {
   const classes = useStyles();
-  const [sonicKeyData, setSonicKeyData] = useState([1, 2]);
+  const [sonicKeyData, setSonicKeyData] = useState([]);
+  const [keysFound, setKeysFound] = useState(0);
+  const [openTable, setOpenTable] = React.useState(false);
+  const [sonicKeys, setSonicKeys] = useState({
+    //sonicKey: "",
+    contentName: "",
+    contentOwner: "",
+    contentValidation: "",
+    contentQuality: "",
+    contentDescription: "",
+    additionalMetadata: {},
+    isrcCode: "",
+    iswcCode: "",
+    tuneCode: "",
+});
+
+  useEffect(() => {
+    const len = decodeKeys.data.length;
+    setKeysFound(len);
+    const data = decodeKeys?.data;
+    setSonicKeyData(data);
+  }, [decodeKeys]);
+
+  const handleClickOpenTable = async (data) => {
+    setSonicKeys({
+        ...sonicKeys,
+        sonicKey: data.sonicKey,
+        contentName: data.contentName,
+        contentOwner: data.contentOwner,
+        contentValidation: data.contentValidation ? "YES" : "NO",
+        contentQuality: data.contentQuality,
+        contentDescription: data.contentDescription,
+        contentFileName: data.contentFileName,
+        contentFileType: data.contentFileType,
+        createdAt: isValid(new Date(data.createdAt)) ? `${format(new Date(data.createdAt), 'dd/MM/yyyy')}` : "--",
+        contentDuration: data?.contentDuration?.toFixed(2),
+        encodingStrength: data.encodingStrength,
+        contentSize: converstionOfKb(data.contentSize),
+        contentSamplingFrequency: data?.contentSamplingFrequency?.replace('Hz', ''),
+        iswcCode: (data.iswcCode ? data.iswcCode : 'Not Specified'),
+        isrcCode: (data.isrcCode ? data.isrcCode : 'Not Specified'),
+        tuneCode: (data.tuneCode ? data.tuneCode : 'Not Specified'),
+        contentFilePath: data.contentFilePath,
+        job: data?.job,
+        additionalMetadata: data?.additionalMetadata?.message ? data.additionalMetadata?.message : ''
+    })
+    setOpenTable(true);
+  };
 
   return (
     <Grid className={classes.successContainer}>
@@ -116,7 +167,7 @@ export default function DecodeSuccess({ audioName, title }) {
             {title} of <b>{audioName}</b> successfully done.
           </Typography>
           <Typography className={classes.found}>
-            We found <b>2</b> SonicKeys.
+            We found <b>{keysFound}</b> SonicKeys.
           </Typography>
         </Grid>
         <Grid item className={classes.failedIcon}>
@@ -137,28 +188,27 @@ export default function DecodeSuccess({ audioName, title }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {sonicKeyData?.map((data, index) => (
-              <TableRow className={classes.tableRow} key={index}>
-                <TableCell className={classes.key}>WRRRds3sddaE</TableCell>
+            {sonicKeyData?.map((data) => (
+              <TableRow className={classes.tableRow} key={data._id}>
+                <TableCell className={classes.key}>{data.sonicKey}</TableCell>
                 <TableCell className={classes.tableCellNormalText}>
-                  {/* {data.key} */}
-                  audio/wav
+                  {data.contentFileType}
                 </TableCell>
                 <TableCell className={classes.tableCellNormalText}>
-                  {/* {data.encodeUses} */}
-                  Radio Sonic Sample
+                  {data.contentFileName}
                 </TableCell>
                 <TableCell className={classes.tableCellNormalText}>
-                  {/* {data.maxEncodeUses} */}
-                  44100
+                  {data.contentSamplingFrequency}
                 </TableCell>
                 <TableCell className={classes.tableCellNormalText}>
-                  {/* {format(new Date(data.validity), "dd.MM.yyyy")} */}
-                  Random
+                  {data.contentOwner}
                 </TableCell>
                 <TableCell className={classes.tableCellColor}>
-                  <div className={classes.tableCellIcon}>
-                    <VisibilityIcon />
+                  <div
+                    className={classes.tableCellIcon}
+                    onClick={() => handleClickOpenTable(data)}
+                  >
+                    <VisibilityOutlinedIcon fontSize="small" />
                     &nbsp;View
                   </div>
                 </TableCell>
@@ -166,6 +216,7 @@ export default function DecodeSuccess({ audioName, title }) {
             ))}
           </TableBody>
         </Table>
+        {openTable && <DailogTable sonicKey={sonicKeys} open={true} setOpenTable={setOpenTable} />}
       </TableContainer>
     </Grid>
   );

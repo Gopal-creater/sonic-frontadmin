@@ -77,8 +77,10 @@ const useStyles = makeStyles((theme) => ({
 const tableHead = [
   "ID",
   "LICENCE KEY",
-  "USAGE COUNT",
-  "MAX COUNT",
+  "USAGE COUNT (ENCODED)",
+  "MAX COUNT (ENCODED)",
+  "USAGE COUNT (MONITORING)",
+  "MAX COUNT (MONITORING)",
   "EXPIRY DATE",
   "SUSPENDED",
 ];
@@ -126,7 +128,9 @@ function Licences(props) {
           <TableHead>
             <TableRow>
               {tableHead.map((head, index) => (
-                <TableCell className={classes.tableHead} key={index}>{head}</TableCell>
+                <TableCell className={classes.tableHead} key={index}>
+                  {head}
+                </TableCell>
               ))}
             </TableRow>
           </TableHead>
@@ -141,13 +145,19 @@ function Licences(props) {
                   {data.encodeUses}
                 </TableCell>
                 <TableCell className={classes.tableCellNormalText}>
-                  {data.maxEncodeUses}
+                  {data.isUnlimitedEncode ? "Unlimited" : data.maxEncodeUses}
                 </TableCell>
                 <TableCell className={classes.tableCellNormalText}>
-                  {format(new Date(data.validity),'dd.MM.yyyy')}
+                  {data.monitoringUses}
+                </TableCell>
+                <TableCell className={classes.tableCellNormalText}>
+                  {data.isUnlimitedMonitor ? "Unlimited" : data.maxMonitoringUses}
+                </TableCell>
+                <TableCell className={classes.tableCellNormalText}>
+                  {format(new Date(data.validity), "dd.MM.yyyy")}
                 </TableCell>
                 <TableCell className={classes.tableCellColor}>
-                  {data.suspended === false ? "No" : "Yes"}
+                  {data.suspended ? "Yes" : "No"}
                 </TableCell>
               </TableRow>
             ))}

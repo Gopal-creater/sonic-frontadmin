@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
+import Spinner from "react-bootstrap/Spinner";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -29,6 +30,18 @@ const useStyles = makeStyles((theme) => ({
     marginRight: "2%",
     marginBottom: 20,
   },
+  addButton: {
+    height: 45,
+    width: "25%",
+    padding: "23px 0px",
+    textTransform: "initial",
+    fontSize: 15,
+    fontWeight: 700,
+    borderRadius: 8,
+    border: "2px solid #343F84",
+    marginRight: "2%",
+    marginBottom: 20,
+  },
   hint: {
     fontSize: 12,
     fontWeight: 500,
@@ -39,14 +52,18 @@ const useStyles = makeStyles((theme) => ({
 export default function AddLicence({ open, setOpen, fetchLicence }) {
   const classes = useStyles();
   const [newinputkey, setNewinputkey] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const onSubmitNewKey = () => {
+    setLoading(true);
     Communication.createLicenceKey(newinputkey)
       .then(function (response) {
+        setLoading(false);
         cogoToast.success("Licence Key added successfully.");
         fetchLicence();
       })
       .catch((err) => {
+        setLoading(false);
         cogoToast.error(err.message || "Error adding key.");
       });
   };
@@ -94,17 +111,27 @@ export default function AddLicence({ open, setOpen, fetchLicence }) {
         >
           Cancel
         </Button>
-        <Button
-          onClick={() => {
-            onSubmitNewKey();
-            setOpen(false);
-          }}
-          className={classes.button}
-          variant="contained"
-          color="primary"
-        >
-          Add Licence
-        </Button>
+        {loading ? (
+          <Button
+            className={classes.addButton}
+            variant="contained"
+            color="primary"
+          >
+            <Spinner animation="border" size="sm"></Spinner>
+          </Button>
+        ) : (
+          <Button
+            onClick={() => {
+              onSubmitNewKey();
+              setOpen(false);
+            }}
+            className={classes.addButton}
+            variant="contained"
+            color="primary"
+          >
+            Add Licence
+          </Button>
+        )}
       </DialogActions>
     </Dialog>
   );

@@ -1,41 +1,64 @@
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import FileSelection from "../../components/common/FileSelection";
 import { Grid } from "@material-ui/core";
 import FailedFileSelection from "../../components/common/FailedFileSelection";
 import DecodeSuccess from "./components/DecodeSuccess";
+import EncodeDecodeLoading from "../../components/common/EncodeDecodeLoading";
 import { log } from "../../utils/app.debug";
 
-const useStyles = makeStyles((theme) => ({}));
-
 export default function Decode() {
-  const classes = useStyles();
+  const [loading, setLoading] = useState(false);
   const [values, setValues] = useState();
-  const [decode, setDecodeData] = useState({
+  const [decode, setDecode] = useState({
+    data: [],
     displayResults: false,
   });
-
-  log("decode data", decode);
+  const [decodeError, setDecodeError] = useState(null);
+  const [audioName, setAudioName] = useState(null);
 
   return (
     <Grid>
-      <DecodeSuccess audioName={values?.name} title="Decoding" />
-      
-      {/* {decode?.displayResults ? (
-        <FailedFileSelection audioName={values?.name} title="Decoding" />
-      ) : null} */}
+      {decodeError ? (
+        <FailedFileSelection audioName={audioName} title="Decoding" />
+      ) : null}
+
+      {decode?.displayResults ? (
+        <DecodeSuccess
+          audioName={audioName}
+          title="Decoding"
+          decodeKeys={decode}
+        />
+      ) : null}
 
       <FileSelection
         prop={{
           title: "Decode",
-          subTitle: "Upload a file to start.",
+          subTitle: decode?.displayResults || decodeError
+            ? "Upload a file to start again."
+            : "Upload a file to start.",
           getAudioData: (audioData) => {
             setValues({ ...values, ...audioData });
           },
           decodeResponse: (decodeData) => {
-            setDecodeData({ ...decode, displayResults: true, ...decodeData });
+            setDecode({
+              ...decode,
+              displayResults: true,
+              data: [...decodeData ],
+            });
           },
+          setLoading: setLoading,
+          setAudioName: setAudioName,
+          decodeError: (error) => {
+            setDecodeError({...decodeError, ...error})
+          }
         }}
+      />
+
+      <EncodeDecodeLoading
+        open={loading}
+        onClose={() => setLoading(false)}
+        title="Decoding"
+        audioName={values?.name}
       />
     </Grid>
   );

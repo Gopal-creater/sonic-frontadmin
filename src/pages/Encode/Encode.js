@@ -257,21 +257,23 @@ export default function Encode() {
                                     mask="aa-a99-99-99999"
                                     value={values?.data?.isrcCode}
                                     onChange={(e) => { setValues({ ...values, data: { ...values?.data, isrcCode: e.target.value } }) }}>
-                                    {(inputProps) => <TextField
-                                        {...inputProps}
-                                        fullWidth
-                                        id="standard-basic"
-                                        label="ISRC"
-                                        inputProps={{ className: classes.textInput }}
-                                        InputLabelProps={{ className: classes.textInputLabel }}
-                                        FormHelperTextProps={{ className: classes.textInputLabel }}
-                                        helperText={values?.data?.isrcCode &&
-                                            values?.data?.isrcCode?.substring(0, 1) !== "_" &&
-                                            !Object.keys(myCountryCodesObject)
-                                                .toString()
-                                                .includes(
-                                                    values?.data?.isrcCode?.substring(0, 2).toUpperCase()
-                                                ) ? "Pass proper country codes." : "Hint: GB-H01-02-12345."} />}
+                                    {(inputProps) =>
+                                        <TextField
+                                            {...inputProps}
+                                            fullWidth
+                                            id="standard-basic"
+                                            label="ISRC"
+                                            inputProps={{ className: classes.textInput }}
+                                            InputLabelProps={{ className: classes.textInputLabel }}
+                                            FormHelperTextProps={{ className: classes.textInputLabel }}
+                                            helperText={values?.data?.isrcCode &&
+                                                values?.data?.isrcCode?.substring(0, 1) !== "_" &&
+                                                !Object.keys(myCountryCodesObject)
+                                                    .toString()
+                                                    .includes(
+                                                        values?.data?.isrcCode?.substring(0, 2).toUpperCase()
+                                                    ) ? "Pass proper country codes." : "Hint: GB-H01-02-12345."} />
+                                    }
                                 </InputMask>
                             </Grid>
                         }
@@ -387,8 +389,8 @@ export default function Encode() {
                                     style={{ color: "#ACACAC", fontWeight: "bold" }}
                                     value={values?.data?.contentValidation}
                                     onChange={(event) => { setValues({ ...values, data: { ...values?.data, contentValidation: event.target.value } }) }}>
-                                    <FormControlLabel value="Yes" control={<Radio color="#343F84" />} label="Yes" />
-                                    <FormControlLabel value="No" control={<Radio color="#343F84" />} label="No" />
+                                    <FormControlLabel value="Yes" control={<Radio style={{ color: "#7078A8" }} />} label="Yes" />
+                                    <FormControlLabel value="No" control={<Radio style={{ color: "#7078A8" }} />} label="No" />
                                 </RadioGroup>
                             </FormControl>
                         </Grid>
@@ -401,7 +403,7 @@ export default function Encode() {
                                         checked={values?.checkedAuthorization}
                                         onChange={(event) => { setValues({ ...values, checkedAuthorization: event.target.checked }) }}
                                         name="checkedAuthorization"
-                                        color="#343F84"
+                                        style={{ color: "#7078A8" }}
                                     />
                                 }
                                 label="I/we/am/are authorised to encode this file"

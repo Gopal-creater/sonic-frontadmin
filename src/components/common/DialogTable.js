@@ -1,5 +1,5 @@
 import React from "react";
-import { IconButton, Dialog, DialogTitle, TableContainer, TableRow, TableCell, useTheme, TableHead } from "@material-ui/core";
+import { IconButton, Dialog, DialogTitle, TableContainer, TableRow, TableCell, useTheme, TableHead, TableBody } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import Table from "react-bootstrap/Table";
 import CloseIcon from '@material-ui/icons/Close';
@@ -76,10 +76,11 @@ const DailogTable = (props) => {
             {/* <DialogContent> */}
             <TableContainer component={Paper} style={{ marginTop: 10, padding: '10px 25px', border: 'none' }} elevation={0}>
                 {/* <div style={{backgroundColor:'red', padding:'30px'}}> */}
-                <Table className={classes.table} size="small" aria-label="a dense table" fullWidth>
+                <Table className={classes.table} size="small" aria-label="a dense table">
                     {/* Changes for multiple keys */}
                     {/* <TableHead style={{ backgroundColor: '#D3D3D0' }}>
                     </TableHead> */}
+                    <TableBody>
                     <TableRow>
                         <TableCell className={classes.tableCellOne}>FILE TYPE</TableCell>
                         <TableCell className={classes.tableCellTwo}>{sonicKey.contentFileName}</TableCell>
@@ -147,6 +148,7 @@ const DailogTable = (props) => {
                         <TableCell className={classes.tableCellOne}>Addional Meta Data</TableCell>
                         <TableCell className={classes.tableCellTwo}>{sonicKey.additionalMetadata}</TableCell>
                     </TableRow>
+                    </TableBody>
                 </Table>
                 {/* </div> */}
             </TableContainer>

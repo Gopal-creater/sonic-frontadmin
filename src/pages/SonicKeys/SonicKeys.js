@@ -25,7 +25,6 @@ import Search from "../SonicKeys/Components/Search";
 import viewFilter from "../../../src/assets/images/view.png";
 
 
-
 const StyledTableCell = withStyles((theme) => ({
     head: {
         color: "#D0D0D0",
@@ -103,7 +102,8 @@ const SonicKeys = (props) => {
     const [restrict, setrestrict] = React.useState(false)
     const [offset, setOffset] = React.useState(0);
     const [pageCount, setPageCount] = useState(1);
-    const [dataSearch, setDataSearch] = React.useState();
+    const [defaultData, setDefaultData] = useState(false);
+    const [dataSearch, setDataSearch] = React.useState("");
     const [sonicKeys, setSonicKeys] = useState({
         //sonicKey: "",
         contentName: "",
@@ -130,7 +130,11 @@ const SonicKeys = (props) => {
             setError(err)
         })
     }
-     
+
+    useEffect(() => {
+        firstFetchSonicKey()
+    }, [])
+
     const handleClickOpenTable = async (data) => {
         // const data = await props.sonicKeys.data.docs[(row)]
         // const data = await tableData[(row)]
@@ -208,9 +212,16 @@ const SonicKeys = (props) => {
         firstFetchSonicKey(0, rowPerPage, searchText)
     }
 
+    useEffect(() => {
+        if (defaultData === true) {
+            firstFetchSonicKey();
+            setDefaultData(false);
+        }
+    }, [defaultData]);
+
     const onClickSortData = () => {
         tableData.sort();
-        console.log("sorting data is successfull",tableData.sort());
+        console.log("sorting data is successfull", tableData.sort());
     }
     // console.log("offset data ", onSearchChange);
 
@@ -243,7 +254,7 @@ const SonicKeys = (props) => {
                     </Typography>
                 </Grid>
                 <Grid style={{ display: 'flex', backgroundColor: '', }}>
-                    <div style={{ backgroundColor: '', marginRight: '25px' }} ><Search searchData={onSearchChange} dataSearch={dataSearch} setDataSearch={setDataSearch} /></div>
+                    <div style={{ backgroundColor: '', marginRight: '25px' }} ><Search searchData={onSearchChange} dataSearch={dataSearch} setDataSearch={setDataSearch} setDefaultData={setDefaultData} /></div>
                     <div><img src={viewFilter} /></div>
                 </Grid>
             </Grid>
@@ -312,7 +323,7 @@ const SonicKeys = (props) => {
                                 <StyledTableCell></StyledTableCell>
                             </TableRow>
                         </TableHead>
-                        {loading ? <Box sx={{ display: "flex",alignItems:'center', justifyContent: 'center',  }}>
+                        {loading ? <Box sx={{ display: "flex", alignItems: 'center', justifyContent: 'center', }}>
                             <CircularProgress />
                         </Box>
                             : <TableBody>

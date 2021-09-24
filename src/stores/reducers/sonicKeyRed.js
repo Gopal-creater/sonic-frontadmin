@@ -23,6 +23,13 @@ const sonicKeyRed = (state = initialState, action) =>
         draft.loading = true;
         draft.error = null;
         break;
+
+      case actionTypes.SORTING:
+        draft.data = action.data;
+        break;
+
+      default:
+        break;
     }
   });
 export default sonicKeyRed;

@@ -6,6 +6,7 @@ import httpUrl from '../../services/https/httpUrl';
 import axios from 'axios';
 import { unauthorizedRedirection } from '../../utils/HelperMethods';
 import { log } from '../../utils/app.debug';
+import { AppWebRequest } from '../../services/https/NetworkManager';
 // import { calculateErrorMessageFromResponse } from '../../../utils/helperMethods';
 
 export const fetchRadioStationsBegin = () => {
@@ -29,26 +30,21 @@ export const fetchRadioStationsFailure = (error) => {
 };
 
 export function fetchRadioStations(_offset=0, _limit=5) {
+    console.log('Running Fetch Raio Stations');
     const ownerId = getUserId();
     return dispatch => {
       dispatch(fetchRadioStationsBegin());
-      return  axios({
-        method: 'get', 
-        // url: `${httpUrl.API_URL}/radiostations`,
-        url: `${httpUrl.API_URL}/radiostations/owners/${ownerId}?skip=${_offset}&limit=${_limit}&sort=-createdAt`, 
-        headers: {
-            "Authorization":`Bearer ${getAccessToken()}`
-          }
-      })
+      return AppWebRequest(`/radiostations/owners/${ownerId}?skip=${_offset}&limit=${_limit}&sort=-createdAt`, 'get') 
       .then(res => {
-         dispatch(fetchRadioStationsSuccess(res.data));
+          console.log('Radio Stations',res);
+         dispatch(fetchRadioStationsSuccess(res));
          log("fetch radiostations response",res);
        })
        .catch(err=>{
-                log("fetch radiostations error",err.response);
-                if (err.response) {
-                    unauthorizedRedirection(err.response.status);
-                    dispatch(fetchRadioStationsFailure(err.response.data.message))
+                log("fetch radiostations error",err);
+                if (err) {
+                    unauthorizedRedirection(err.status);
+                    dispatch(fetchRadioStationsFailure(err.message))
                 } else if (err.request) {
                     dispatch(fetchRadioStationsFailure("Request error for fetch radiostations!!!"))                    
                 } else {

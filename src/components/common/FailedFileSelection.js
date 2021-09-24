@@ -2,6 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import Icon from "../../assets/images/icon-fail-graphic.png";
 
 const useStyles = makeStyles((theme) => ({
   failedContainer: {
@@ -9,8 +10,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "white",
     padding: "2% 2.5%",
     boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-  },
-  header: {
     display: "flex",
     justifyContent: "space-between",
   },
@@ -39,36 +38,53 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 500,
     color: "#393F5B",
   },
+  failedIcon: {
+    backgroundColor: "#F4F4F4",
+    height: 280,
+    padding: "0px 3%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 15,
+  },
+  failed: {
+    marginTop: 10,
+    fontSize: 24,
+    fontWeight: 700,
+    color: "#393F5B",
+  },
 }));
 
-export default function FailedFileSelection({ title, icon }) {
+export default function FailedFileSelection({ title, audioName }) {
   const classes = useStyles();
 
   return (
-    <Grid className={classes.failedContainer}>
-      <Grid item className={classes.header}>
-        <Grid className={classes.details}>
-          <div>
-            <Typography className={classes.heading}>Ooops!</Typography>
-            <Typography className={classes.subHeading}>
-              {title} of <b>RADIO_SONIC.wav</b> failed.
-            </Typography>
-          </div>
-          <div>
-            <Typography className={classes.help}>Do you need help?</Typography>
-            <Typography className={classes.helpCentre}>
-              Use{" "}
-              <Link to="#" style={{ color: "#393F5B" }}>
-                HelpCentre
-              </Link>{" "}
-              or email our{" "}
-              <Link to="#" style={{ color: "#393F5B" }}>
-                Support Team.
-              </Link>
-            </Typography>
-          </div>
-        </Grid>
-        <img src={icon} alt="Failed" style={{ height: 200 }} />
+    <Grid container className={classes.failedContainer}>
+      <Grid item className={classes.details}>
+        <div>
+          <Typography className={classes.heading}>Ooops!</Typography>
+          <Typography className={classes.subHeading}>
+            {title} of <b>{audioName}</b> failed.
+          </Typography>
+        </div>
+        <div>
+          <Typography className={classes.help}>Do you need help?</Typography>
+          <Typography className={classes.helpCentre}>
+            Use{" "}
+            <Link to="#" style={{ color: "#393F5B" }}>
+              HelpCentre
+            </Link>{" "}
+            or email our{" "}
+            <Link to="#" style={{ color: "#393F5B" }}>
+              Support Team.
+            </Link>
+          </Typography>
+        </div>
+      </Grid>
+      <Grid item className={classes.failedIcon}>
+        <img src={Icon} alt="Failed" style={{ height: 130, width: 130 }} />
+        <Typography className={classes.failed}>{title} failed</Typography>
       </Grid>
     </Grid>
   );

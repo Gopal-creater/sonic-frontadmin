@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="139px" height="139px" viewBox="0 0 139 139" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon-fail-graphic</title>
+    <defs>
+        <linearGradient x1="50%" y1="0.207946351%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#393F5B" offset="0%"></stop>
+            <stop stop-color="#5F6587" offset="41.7619825%"></stop>
+            <stop stop-color="#9F9F9F" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="icon-fail-graphic" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="mega-tick-icon" transform="translate(1.000000, 1.000000)" fill="url(#linearGradient-1)">
+            <circle id="Oval" cx="68.5" cy="68.5" r="68.5"></circle>
+        </g>
+        <polygon id="Fill-1" fill="#FFFFFF" transform="translate(69.745665, 69.485281) rotate(-45.000000) translate(-69.745665, -69.485281) " points="61.4956647 36.4852814 61.4956647 61.2352814 36.7456647 61.2352814 36.7456647 77.7352814 61.4956647 77.7352814 61.4956647 102.485281 78.0039147 102.485281 78.0039147 77.7352814 102.745665 77.7352814 102.745665 61.2352814 78.0039147 61.2352814 78.0039147 36.4852814"></polygon>
+    </g>
+</svg>

@@ -87,7 +87,9 @@ function SecondaryMenu(props) {
         endIcon={<ArrowDropDownIcon />}
         onClick={handleToggle}
       >
-        {session?.user?.signInUserSession?.idToken?.payload?.email || session?.user?.username}
+        <b>
+          {session?.user?.signInUserSession?.idToken?.payload?.email || session?.user?.username}
+        </b>
       </Button>
       <Popper
         open={open}

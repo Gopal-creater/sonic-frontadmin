@@ -21,9 +21,11 @@ class Communication {
     return AppWebRequest(`/sonic-keys/owners/${getUserId()}?limit=${limit}&sort=-createdAt&skip=${index}`,"get",axiosConfig)
   }
   fetchLicenceKey() {
-    //Update for new endpoints
-    //return AppWebRequest(`/auth/user/licenseKeysInfo`, "get");
     return AppWebRequest(`/users/${getUserId()}/licenses`, "get");
+  }
+
+  fetchRadioStationHits(radioId) {
+    return AppWebRequest(`/detections/owners/${getUserId()}/RADIOSTATION/count?radioStation=${radioId}`, "get");
   }
 
   fetchThirdPartySonicKeys(limit,index) {

@@ -30,10 +30,10 @@ export function isAuthenticated() {
   }
 };
 
-export function getRefreshToken() {
-  const user_info = localStorage.getItem("user_info") ? JSON.parse(localStorage.getItem("user_info")) : null;
-  if (user_info && user_info?.signInUserSession.refreshToken?.token) {
-    return user_info?.signInUserSession.refreshToken?.token;
-  }
-  return null;
+export function getRefreshToken(){
+    const user_info = localStorage.getItem("user_info") ? JSON.parse(localStorage.getItem("user_info")) : null;
+    if (user_info && user_info?.signInUserSession.refreshToken?.token) {
+        return user_info?.signInUserSession.refreshToken?.token;
+    }
+    return null;
 };

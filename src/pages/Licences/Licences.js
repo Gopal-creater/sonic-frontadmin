@@ -1,30 +1,22 @@
-import React from "react";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-import { Card, Grid, Typography, Button } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-
-const StyledTableCell = withStyles((theme) => ({
-  head: {
-    color: "#ACACAC",
-    fontSize: 12,
-    fontWeight: "700",
-  },
-  body: {
-    color: "#424C8C",
-  },
-}))(TableCell);
+import { Card, Grid, Typography, Button } from "@material-ui/core";
+import AddLicence from "./components/AddLicence";
+import { fetchLicenceKeys } from "../../stores/actions/licenceKey";
+import { connect } from "react-redux";
+import { format } from "date-fns";
 
 const useStyles = makeStyles((theme) => ({
   licenceContainer: {
     marginBottom: 40,
     backgroundColor: "white",
     padding: "2% 2.5%",
-    // boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
   },
   heading: {
     fontSize: 24,
@@ -58,13 +50,12 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 30,
     width: "100%",
   },
-  tableRow: {
-    "&:hover": {
-      boxShadow: "0 14px 28px rgba(0,0,0,0.25), 0 1px 5px rgba(0,0,0,0.22)",
-      cursor: "pointer",
-    },
+  tableHead: {
+    color: "#ACACAC",
+    fontSize: 12,
+    fontWeight: "700",
   },
-  sonicKeyText: {
+  key: {
     color: "#343F84",
     fontSize: 18,
     fontWeight: 700,
@@ -76,10 +67,6 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 14,
     fontWeight: 700,
   },
-  tableCellIcon: {
-    display: "flex",
-    alignItems: "center",
-  },
   tableCellNormalText: {
     fontSize: 14,
     fontWeight: 500,
@@ -87,10 +74,36 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Licences() {
-  const classes = useStyles();
+const tableHead = [
+  "ID",
+  "LICENCE KEY",
+  "USAGE COUNT (ENCODED)",
+  "MAX COUNT (ENCODED)",
+  "USAGE COUNT (MONITORING)",
+  "MAX COUNT (MONITORING)",
+  "EXPIRY DATE",
+  "SUSPENDED",
+];
 
-  const rows = [1, 2];
+function Licences(props) {
+  const classes = useStyles();
+  const [open, setOpen] = useState(false);
+  const [licenceData, setLicenceData] = useState([]);
+
+  function fetchLicence() {
+    props.fetchLicenceKey();
+  }
+
+  useEffect(() => {
+    if (props.licenceKey.data.length <= 0) {
+      fetchLicence();
+    }
+  }, []);
+
+  useEffect(() => {
+    const data = props.licenceKey.data.docs;
+    setLicenceData(data);
+  }, [props]);
 
   return (
     <Grid className={classes.licenceContainer}>
@@ -104,7 +117,7 @@ export default function Licences() {
           component="span"
           color="primary"
           className={classes.button}
-          //   onClick={handleDecode}
+          onClick={() => setOpen(true)}
         >
           Add licence
         </Button>
@@ -114,48 +127,58 @@ export default function Licences() {
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>
-                <div className={classes.tableCellIcon}>ID</div>
-              </StyledTableCell>
-              <StyledTableCell>
-                <div className={classes.tableCellIcon}>LICENCE KEY</div>
-              </StyledTableCell>
-              <StyledTableCell>
-                <div className={classes.tableCellIcon}>USAGE COUNT</div>
-              </StyledTableCell>
-              <StyledTableCell>
-                <div className={classes.tableCellIcon}>MAX COUNT</div>
-              </StyledTableCell>
-              <StyledTableCell>
-                <div className={classes.tableCellIcon}>EXPIRY DATE</div>
-              </StyledTableCell>
-              <StyledTableCell>
-                <div className={classes.tableCellIcon}>SUSPENDED</div>
-              </StyledTableCell>
+              {tableHead.map((head, index) => (
+                <TableCell className={classes.tableHead} key={index}>
+                  {head}
+                </TableCell>
+              ))}
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <TableRow className={classes.tableRow} key={row}>
-                <TableCell className={classes.tableCellNormalText}>1</TableCell>
-                <TableCell className={classes.sonicKeyText}>
-                  1592343-B234-324A-AEH2-234DFS84RG
+            {licenceData?.map((data, index) => (
+              <TableRow className={classes.tableRow} key={data._id}>
+                <TableCell className={classes.tableCellNormalText}>
+                  {index + 1}
+                </TableCell>
+                <TableCell className={classes.key}>{data.key}</TableCell>
+                <TableCell className={classes.tableCellNormalText}>
+                  {data.encodeUses}
                 </TableCell>
                 <TableCell className={classes.tableCellNormalText}>
-                  113
+                  {data.isUnlimitedEncode ? "Unlimited" : data.maxEncodeUses}
                 </TableCell>
                 <TableCell className={classes.tableCellNormalText}>
-                  1000
+                  {data.monitoringUses}
                 </TableCell>
                 <TableCell className={classes.tableCellNormalText}>
-                  14.09.2021
+                  {data.isUnlimitedMonitor ? "Unlimited" : data.maxMonitoringUses}
                 </TableCell>
-                <TableCell className={classes.tableCellColor}></TableCell>
+                <TableCell className={classes.tableCellNormalText}>
+                  {format(new Date(data.validity), "dd.MM.yyyy")}
+                </TableCell>
+                <TableCell className={classes.tableCellColor}>
+                  {data.suspended ? "Yes" : "No"}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
+
+      <AddLicence open={open} setOpen={setOpen} fetchLicence={fetchLicence} />
     </Grid>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    licenceKey: state.licenceKey,
+    user: state.session.user,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchLicenceKey: () => dispatch(fetchLicenceKeys()),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Licences);

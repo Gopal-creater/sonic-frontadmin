@@ -15,7 +15,7 @@ export const setSession = (user, authState = "") => {
 //LOGOUT SESSION
 export const logout = () => {
   return async (dispatch) => {
-    await Amplify.Auth.signOut();
+    Amplify.Auth.signOut();
     dispatch({
       type: 'LOGOUT',
     });

@@ -190,17 +190,17 @@ export default function Encode() {
 
                         <Grid item id="audioType">
                             <FormControl className={classes.formControl} fullWidth>
-                                <InputLabel id="demo-simple-select-label" style={{ color: "#ACACAC", fontWeight: "medium" }}>File type</InputLabel>
+                                <InputLabel id="demo-simple-select-label" style={{ color: "#ACACAC", fontWeight: "medium" }}>Type</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
                                     style={{ color: "#ACACAC", fontWeight: "medium", fontSize: 17.5 }}
-                                    value={values?.data?.contentFileType}
+                                    value={values?.data?.contentType}
                                     fullWidth
                                     onChange={(e) => {
                                         e.target.value === "Music" ?
-                                            setValues({ ...values, data: { ...values?.data, contentFileType: e.target.value } }) :
-                                            setValues({ ...values, data: { ...values?.data, contentFileType: e.target.value, isrcCode: "", iswcCode: "", tuneCode: "" } })
+                                            setValues({ ...values, data: { ...values?.data, contentType: e.target.value } }) :
+                                            setValues({ ...values, data: { ...values?.data, contentType: e.target.value, isrcCode: "", iswcCode: "", tuneCode: "" } })
                                     }}
                                 >
                                     <MenuItem value={"Music"} style={{ color: "#ACACAC", fontWeight: "medium" }}>Music</MenuItem>
@@ -210,40 +210,7 @@ export default function Encode() {
                             </FormControl>
                         </Grid>
 
-                        <Grid item id="artist">
-                            <TextField
-                                fullWidth
-                                id="standard-basic"
-                                label="Artist"
-                                inputProps={{ className: classes.textInput }}
-                                InputLabelProps={{ className: classes.textInputLabel }}
-                                value={values?.data?.contentOwner}
-                                onChange={(e) => { setValues({ ...values, data: { ...values?.data, contentOwner: e.target.value } }) }} />
-                        </Grid>
-
-                        <Grid item id="audioLength">
-                            <TextField
-                                fullWidth
-                                id="standard-basic"
-                                label="Audio length"
-                                inputProps={{ className: classes.textInput }}
-                                InputLabelProps={{ className: classes.textInputLabel }}
-                                value={new Date(values?.data?.contentDuration * 1000).toISOString().substr(11, 8)}
-                            />
-                        </Grid>
-
-                        <Grid item id="audioSize">
-                            <TextField
-                                fullWidth
-                                id="standard-basic"
-                                label="Audio Size (In MB)"
-                                inputProps={{ className: classes.textInput }}
-                                InputLabelProps={{ className: classes.textInputLabel }}
-                                value={(values?.data?.contentSize / 1024).toFixed(3)}
-                            />
-                        </Grid>
-
-                        {values?.data?.contentFileType === "Music" &&
+                        {values?.data?.contentType === "Music" &&
                             <Grid item id="isrc">
                                 <InputMask
                                     mask="aa-a99-99-99999"
@@ -270,7 +237,7 @@ export default function Encode() {
                             </Grid>
                         }
 
-                        {values?.data?.contentFileType === "Music" &&
+                        {values?.data?.contentType === "Music" &&
                             <Grid item id="iswc">
                                 <InputMask
                                     className="form-control"
@@ -291,7 +258,7 @@ export default function Encode() {
                             </Grid>
                         }
 
-                        {values?.data?.contentFileType === "Music" &&
+                        {values?.data?.contentType === "Music" &&
                             <Grid item id="tunecode">
                                 <InputMask
                                     className="form-control"
@@ -313,12 +280,56 @@ export default function Encode() {
                             </Grid>
                         }
 
+                        <Grid item id="contentFileType">
+                            <TextField
+                                fullWidth
+                                id="standard-basic"
+                                label="File type"
+                                inputProps={{ className: classes.textInput, readOnly: true }}
+                                InputLabelProps={{ className: classes.textInputLabel }}
+                                value={values?.data?.contentFileType}
+                                onChange={(e) => { setValues({ ...values, data: { ...values?.data, contentFileType: e.target.value } }) }} />
+                        </Grid>
+
+                        <Grid item id="artist">
+                            <TextField
+                                fullWidth
+                                id="standard-basic"
+                                label="Artist"
+                                inputProps={{ className: classes.textInput }}
+                                InputLabelProps={{ className: classes.textInputLabel }}
+                                value={values?.data?.contentOwner}
+                                onChange={(e) => { setValues({ ...values, data: { ...values?.data, contentOwner: e.target.value } }) }} />
+                        </Grid>
+
+                        <Grid item id="audioLength">
+                            <TextField
+                                fullWidth
+                                id="standard-basic"
+                                label="Audio length"
+                                inputProps={{ className: classes.textInput, readOnly: true }}
+                                InputLabelProps={{ className: classes.textInputLabel }}
+                                value={new Date(values?.data?.contentDuration * 1000).toISOString().substr(11, 8)}
+                            />
+                        </Grid>
+
+                        <Grid item id="audioSize">
+                            <TextField
+                                fullWidth
+                                id="standard-basic"
+                                label="Audio Size (In MB)"
+                                inputProps={{ className: classes.textInput, readOnly: true }}
+                                InputLabelProps={{ className: classes.textInputLabel }}
+                                value={(values?.data?.contentSize / 1024).toFixed(3)}
+                            />
+                        </Grid>
+
                         <Grid item id="underlyingEncoding">
                             <TextField
                                 fullWidth
                                 id="standard-basic"
                                 label="Underlying encoding of file"
-                                inputProps={{ className: classes.textInput }}
+                                inputProps={{ className: classes.textInput, readOnly: true }}
                                 InputLabelProps={{ className: classes.textInputLabel }}
                                 value={values?.data?.contentEncoding}
                                 onChange={(e) => { setValues({ ...values, data: { ...values?.data, contentEncoding: e.target.value } }) }} />
@@ -329,7 +340,7 @@ export default function Encode() {
                                 fullWidth
                                 id="standard-basic"
                                 label="Sampling Frequency"
-                                inputProps={{ className: classes.textInput }}
+                                inputProps={{ className: classes.textInput, readOnly: true }}
                                 InputLabelProps={{ className: classes.textInputLabel }}
                                 value={values?.data?.contentSamplingFrequency}
                                 onChange={(e) => { setValues({ ...values, data: { ...values?.data, contentSamplingFrequency: e.target.value } }) }} />

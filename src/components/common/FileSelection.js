@@ -207,7 +207,7 @@ export default function FileSelection({ prop }) {
           data: {
             encodingStrength: "15",
             contentName: metadata.common.title ? metadata.common.title : "",
-            contentType: file.type,
+            contentType: "",
             contentDescription: metadata.common.description
               ? metadata.common.description
               : "",
@@ -219,7 +219,7 @@ export default function FileSelection({ prop }) {
             contentSize: file.size / 1024,
             contentFileType: file.type,
             contentOwner: metadata.common.artist ? metadata.common.artist : "",
-            contentFileType: "",
+            contentFileType: metadata?.format?.container,
             contentEncoding:
               (metadata.format.codec ? metadata.format.codec.toString() : "") +
               (metadata.format.sampleRate

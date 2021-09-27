@@ -12,6 +12,7 @@ import store from "./stores";
 import "./assets/fonts/NunitoSans-Black.ttf"
 import "./assets/fonts/NunitoSans-Bold.ttf"
 import "./assets/fonts/NunitoSans-Regular.ttf"
+import "./assets/fonts/NunitoSans-ExtraBold.ttf"
 
 const appTheme = createTheme(themes);
 ReactDOM.render(

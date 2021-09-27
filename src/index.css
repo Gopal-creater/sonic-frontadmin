@@ -30,3 +30,9 @@ code {
   src: local("NunitoSans-Regular"),
     url("./assets/fonts/NunitoSans-Regular.ttf") format("truetype");
 }
+
+@font-face {
+  font-family: "NunitoSans-ExtraBold";
+  src: local("NunitoSans-ExtraBold"),
+    url("./assets/fonts/NunitoSans-ExtraBold.ttf") format("truetype");
+}

@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
         color: "#393F5B",
         fontSize: 17,
         fontWeight: "bold",
-        fontFamily: 'NunitoSans-Bold',
+        fontFamily: 'NunitoSans-ExtraBold',
     },
 }));
 

@@ -20,22 +20,22 @@ const useStyles = makeStyles((theme) => ({
   },
   heading: {
     fontSize: 30,
-    fontWeight: 700,
+    fontFamily: 'NunitoSans-Bold',
     color: "#343F84",
   },
   subHeading: {
     fontSize: 18,
-    fontWeight: 500,
+    fontFamily: 'NunitoSans-Regular',
     color: "#00A19A",
   },
   help: {
     fontSize: 18,
-    fontWeight: 700,
+    fontFamily: 'NunitoSans-Bold',
     color: "#393F5B",
   },
   helpCentre: {
     fontSize: 18,
-    fontWeight: 500,
+    fontFamily: 'NunitoSans-Regular',
     color: "#393F5B",
   },
   failedIcon: {
@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
   failed: {
     marginTop: 10,
     fontSize: 24,
-    fontWeight: 700,
+    fontFamily: 'NunitoSans-ExtraBold',
     color: "#393F5B",
   },
 }));

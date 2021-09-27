@@ -16,7 +16,7 @@ import Communication from "../../../services/https/Communication";
 const useStyles = makeStyles((theme) => ({
   heading: {
     fontSize: 22,
-    fontWeight: 700,
+    fontFamily: 'NunitoSans-ExtraBold',
     color: "#343F84",
   },
   button: {
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "23px 25px",
     textTransform: "initial",
     fontSize: 15,
-    fontWeight: 700,
+    fontFamily: 'NunitoSans-Bold',
     borderRadius: 8,
     border: "2px solid #343F84",
     marginRight: "2%",
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "23px 0px",
     textTransform: "initial",
     fontSize: 15,
-    fontWeight: 700,
+    fontFamily: 'NunitoSans-Bold',
     borderRadius: 8,
     border: "2px solid #343F84",
     marginRight: "2%",
@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
   hint: {
     fontSize: 12,
-    fontWeight: 500,
+    fontFamily: 'NunitoSans-Regular',
     color: "#ACACAC",
   },
 }));

@@ -16,13 +16,13 @@ const useStyles = makeStyles({
     },
     tableCellOne: {
         padding: '5px',
-        fontWeight: 'bold',
+        fontFamily: 'NunitoSans-Bold',
         fontSize: '12px',
         color: '#ACACAC',
     },
     tableCellTwo: {
         padding: '5px',
-        fontWeight: '700',
+        fontFamily: 'NunitoSans-Bold',
         fontSize: '14px',
         color: '#757575',
     },
@@ -69,7 +69,8 @@ const DailogTable = (props) => {
             <DialogTitle id="form-dialog-title">
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                     <img style={{ width: '30px' }} src={DialogLogo} />
-                    <div style={{ fontWeight: 'bold', color: '#343F84', fontSize: '18px' }}>&nbsp; &nbsp;SonicKey: {sonicKey.sonicKey}</div>
+                    <div style={{ 
+    fontFamily: 'NunitoSans-Bold', color: '#343F84', fontSize: '18px' }}>&nbsp; &nbsp;SonicKey: {sonicKey.sonicKey}</div>
                 </div>
             </DialogTitle>
             {/* <DialogContent dividers> */}
@@ -154,10 +155,12 @@ const DailogTable = (props) => {
             </TableContainer>
             {/* </DialogContent> */}
             <DialogActions border="none" style={{ margin: '20px', border: 'none' }}>
-                <Button onClick={handleCloseTable} variant="outlined" style={{ fontWeight: 'bold', color: '#343F84', borderColor: '#343F84', borderWidth: '2px', borderRadius: '8px', textTransform: 'none', padding: '10px 20px' }}>
+                <Button onClick={handleCloseTable} variant="outlined" style={{ 
+    fontFamily: 'NunitoSans-Bold', color: '#343F84', borderColor: '#343F84', borderWidth: '2px', borderRadius: '8px', textTransform: 'none', padding: '10px 20px' }}>
                     Cancel
                 </Button>
-                <Button variant="contained" style={{ fontWeight: 'bold', color: 'white', backgroundColor: '#343F84', textTransform: 'none', borderRadius: '8px', padding: '10px 20px' }}>
+                <Button variant="contained" style={{ 
+    fontFamily: 'NunitoSans-Bold', color: 'white', backgroundColor: '#343F84', textTransform: 'none', borderRadius: '8px', padding: '12px 20px' }}>
                     View Plays
                 </Button>
             </DialogActions>

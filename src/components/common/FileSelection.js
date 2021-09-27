@@ -19,18 +19,18 @@ const useStyles = makeStyles((theme) => ({
   },
   heading: {
     fontSize: 30,
-    fontWeight: 700,
+    fontFamily: 'NunitoSans-ExtraBold',
     color: "#343F84",
   },
   subHeading: {
     paddingBottom: 30,
     fontSize: 18,
-    fontWeight: 500,
+    fontFamily: 'NunitoSans-Regular',
     color: "#00A19A",
   },
   selectFile: {
     fontSize: 12,
-    fontWeight: 300,
+    fontFamily: 'NunitoSans-Regular',
     color: "#ACACAC",
   },
   audioFile: {
@@ -38,14 +38,14 @@ const useStyles = makeStyles((theme) => ({
     width: "30vw",
     marginRight: 30,
     fontSize: 16,
-    fontWeight: 500,
+    fontFamily: 'NunitoSans-Regular',
     color: "#757575",
     borderBottom: "1px solid #757575",
   },
   clue: {
     paddingBottom: 20,
     fontSize: 12,
-    fontWeight: 100,
+    fontFamily: 'NunitoSans-Regular',
     color: "#ACACAC",
   },
   uploadBtn: {
@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "0px 20px",
     textTransform: "initial",
     fontSize: 15,
-    fontWeight: 700,
+    fontFamily: 'NunitoSans-Bold',
     color: "#343F84",
     borderRadius: 8,
     border: "2px solid #343F84",
@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "0px 20px",
     textTransform: "initial",
     fontSize: 15,
-    fontWeight: 700,
+    fontFamily: 'NunitoSans-Bold',
     borderRadius: 8,
   },
 }));

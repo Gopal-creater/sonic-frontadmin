@@ -16,13 +16,19 @@ export default function Decode() {
   const [decodeError, setDecodeError] = useState(null);
   const [audioName, setAudioName] = useState(null);
 
+  React.useEffect(() => {
+    if (decodeError) {
+      setDecodeError(null);
+    }
+  }, [decodeError]);
+
   return (
     <Grid>
       {decodeError ? (
         <FailedFileSelection audioName={audioName} title="Decoding" />
       ) : null}
 
-      {decode?.displayResults ? (
+      {decode?.displayResults === true ? (
         <DecodeSuccess
           audioName={audioName}
           title="Decoding"
@@ -33,9 +39,10 @@ export default function Decode() {
       <FileSelection
         prop={{
           title: "Decode",
-          subTitle: decode?.displayResults || decodeError
-            ? "Upload a file to start again."
-            : "Upload a file to start.",
+          subTitle:
+            decode?.displayResults || decodeError
+              ? "Upload a file to start again."
+              : "Upload a file to start.",
           getAudioData: (audioData) => {
             setValues({ ...values, ...audioData });
           },
@@ -43,14 +50,14 @@ export default function Decode() {
             setDecode({
               ...decode,
               displayResults: true,
-              data: [...decodeData ],
+              data: [...decodeData],
             });
           },
           setLoading: setLoading,
           setAudioName: setAudioName,
           decodeError: (error) => {
-            setDecodeError({...decodeError, ...error})
-          }
+            setDecodeError({ ...decodeError, ...error });
+          },
         }}
       />
 

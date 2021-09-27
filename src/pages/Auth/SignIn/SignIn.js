@@ -251,8 +251,10 @@ export default function SignIn() {
                         </SignUpButton>
                     </Grid>
 
-                    <Grid className="mt-3">
-                        <Footer />
+                    <Grid className="pt-4" id="footer">
+                        <span style={{ fontSize: "small", color: "#ACACAC", fontFamily: "NanutoSans-Regular", fontWeight: "medium" }}>
+                            <span>&#169;</span> {new Date().getFullYear()} SonicData Ltd. All rights reserved.
+                        </span>
                     </Grid>
 
                 </form>

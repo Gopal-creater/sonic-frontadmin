@@ -41,6 +41,16 @@ class Communication {
     return AppWebRequest(`sonic-keys/${sonic_key}`, "get")
   }
 
+  fetchSKForSpecificRadioStation(radio_id, _offset = 0, _limit = 10) {
+    log(radio_id.radioStationId)
+    return AppWebRequest(`/detections/owners/${getUserId()}/RADIOSTATION/data?radioStation=${radio_id}&skip=${_offset}&limit=${_limit}&sort=-createdAt`, "get")
+  }
+
+  fetchRadioStationsAccToCountry(country, _offset = 0, _limit = 100) {
+    log(country)
+    return AppWebRequest(`/radiostations?country=${country}&skip=${_offset}&limit=${_limit}`, "get")
+  }
+
   /**
    * @param {string} key 
    */
@@ -133,6 +143,18 @@ class Communication {
     return AppWebRequest(`/s3-file-uploads/signed-url/` + encodeURIComponent(key), "get", axiosConfig);
   }
 
+
+  radioStationSubscribed(formData) {
+    log('From Data', formData)
+    const axiosConfig = {
+      data: formData,
+      headers: {
+        'Accept': 'application/json',
+      },
+    };
+    //return 0;
+    return AppWebRequest(`/radiomonitors/owners/${getUserId()}/subscribe-bulk`, "post", axiosConfig);
+  }
 
 }
 

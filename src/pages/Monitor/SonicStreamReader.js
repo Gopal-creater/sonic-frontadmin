@@ -38,18 +38,7 @@ import {
   getUserId,
   getAdmin,
 } from "../../services/https/AuthHelper";
-import httpUrl from "../../services/https/httpUrl";
-import {
-  errorCount,
-  getAllRadioStations,
-  unauthorizedRedirection,
-  hitsDataArray,
-  listeningCount,
-  notListeningCount,
-  todayRange,
-  weekRange,
-  monthRange,
-} from "../../utils/HelperMethods";
+
 import { log } from "../../utils/app.debug";
 import ButtonSpinner from "./Components/ButtonSpinner";
 import {
@@ -80,13 +69,45 @@ import PlayCircleOutlineRoundedIcon from "@material-ui/icons/PlayCircleOutlineRo
 import StopOutlinedIcon from "@material-ui/icons/StopOutlined";
 import CancelOutlinedIcon from "@material-ui/icons/CancelOutlined";
 import { tableStyle } from "../../globalStyle";
+import IconEdit from "../../assets/icons/icon-edit.png";
+import IconTick from "../../assets/icons/icon-tick.png";
+import Communication from "../../services/https/Communication";
 
 const useStyles = makeStyles((theme) => ({
+  container: {
+    backgroundColor: "white",
+    padding: "2% 2.5%",
+    boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+  },
+  header: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  heading: {
+    fontSize: 30,
+    fontWeight: 700,
+    color: "#343F84",
+  },
+  subHeading: {
+    paddingBottom: 30,
+    fontSize: 18,
+    fontWeight: 500,
+    color: "#00A19A",
+  },
+  buttons: {
+    fontSize: 18,
+    marginRight: 6,
+    marginTop: 5,
+    color: "#343F84",
+  },
   tableRow: {
     "&:hover": {
       boxShadow: "0 14px 28px rgba(0,0,0,0.25), 0 1px 5px rgba(0,0,0,0.22)",
       cursor: "pointer",
     },
+  },
+  placeholder: {
+    color: "#aaa",
   },
 }));
 
@@ -100,14 +121,35 @@ function SonicStreamReader(props) {
   const [stopLoading, setStopLoading] = useState(false);
   const [show, setShow] = useState(false);
   const [showAdd, setShowAdd] = useState(false);
+  const [pageCount, setPageCount] = useState(1);
   const [selectedRows, setSelectedRows] = useState([]);
   const [selected, setSelected] = useState([]);
-
-  //for search logic
   const [searchValue, setSearchValue] = useState("");
+  const [selectRadioStations, setselectRadioStations] = React.useState("");
+  const [country, setCountry] = React.useState("");
+  const [dropDownCountry, setDropDownCountry] = React.useState([]);
+  //For check the checkbox
+  const [subscribedRadioStations, setSubscribedRadioStations] = React.useState(
+    []
+  );
+  //For pass the radio station in api
+  const [subscribedRadioStation, setSubscribedRadioStation] = React.useState(
+    []
+  );
+  // const subscrideRadioStation = [
+  //   {
+  //     radio: "612f893d4a11109bf4a11392",
+  //   },
+  //   {
+  //     radio: "612f83e94a11109bf4a11391",
+  //   },
+  // ];
+
+  const Placeholder = ({ children }) => {
+    return <div className={classes.placeholder}>{children}</div>;
+  };
 
   const useStyleClasses = useStyles();
-  // log("RRRRRRRRradiostations",radiostations)
   let radiostations = cloneDeep(props.radiostations);
 
   const columns = [
@@ -123,17 +165,43 @@ function SonicStreamReader(props) {
   useEffect(() => {
     if (props.radiostations.length <= 0) {
       props.fetchRadioStations(0, 5);
+      // props.fetchAllRadioStations(0, 620);
     }
   }, []);
 
-  
-  // ================================FUNCTIONS=====================================================
+  const onCountryChange = (e) => {
+    log("Country Change", e);
+    setCountry(e);
+    Communication.fetchRadioStationsAccToCountry(e)
+      .then((res) => {
+        log("Response", res);
+        setDropDownCountry(res);
+      })
+      .catch((err) => log("Error", err));
+  };
 
+  const onRadioStationChange = (e) => {
+    log("Radio Station Change", e.target.value);
+    setselectRadioStations(e.target.value);
+  };
+
+  const onSubscribe = (e) => {
+    e.preventDefault();
+    log('Subscribe Radio Station',subscribedRadioStation)
+    // Communication.radioStationSubscribed(subscrideRadioStation)
+    //   .then((res) => {
+    //     log("Response Of Subscribed", res);
+    //   })
+    //   .catch((err) => {
+    //     log("Error", err);
+    //     cogoToast.error(err.message);
+    //   });
+  };
   const handlePageChange = async (event, value) => {
     const limit = 5;
     const page = value;
-    props.fetchRadioStations(limit * value, limit);
-    props.setRadiostationPageNum(page);
+    props.fetchRadioStations(value, limit);
+    setPageCount(event);
     setSelectedRows([]);
     setSelected([]);
   };
@@ -144,26 +212,35 @@ function SonicStreamReader(props) {
 
   const onDelete = () => {};
 
-  const onStart = () => {};
+  const onStart = () => {
+    log("Start Selected Radio Station", selectedRows);
+  };
 
   const onStop = () => {};
 
-  const isSelected = (name) => {
-    return selected.includes(name);
+  const isSelected = (radiostation_id) => {
+    return selected.includes(radiostation_id);
+  };
+
+  const isSelectedRadioStation = (radiostation_id) => {
+    log(radiostation_id)
+    return subscribedRadioStations.includes(radiostation_id);
   };
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelecteds = props.radiostations.docs.map((data) => data._id);
-      setSelectedRows([...selectedRows, newSelecteds]);
-      setSelected(newSelecteds);
+      //const data = "radio":{newSelecteds}
+      setSubscribedRadioStation([...subscribedRadioStation,{
+        'radio':newSelecteds}]);
+      setSubscribedRadioStations(newSelecteds);
       return;
     }
-    setSelectedRows([]);
-    setSelected([]);
+    setSubscribedRadioStation([]);
+    setSubscribedRadioStations([]);
   };
 
-  const pagination = (event, _id) => {
+  const checkBox = (event, _id) => {
     if (event.target.checked) {
       setSelectedRows([...selectedRows, _id]);
       setSelected([...selected, _id]);
@@ -176,20 +253,37 @@ function SonicStreamReader(props) {
       setSelected([...selected]);
     }
   };
+
+  const checkBoxForSubscribed = (event, _id) => {
+    if (event.target.checked) {
+      // setSubscribedRadioStation([...subscribedRadioStation, _id]);
+      setSubscribedRadioStation([...subscribedRadioStation,{
+        'radio':_id}]);
+      setSubscribedRadioStations([...subscribedRadioStations, _id]);
+      // setSelectedRows([...selectedRows, _id]);
+      // setSelected([...selected, _id]);
+    } else {
+      const index = selectedRows.indexOf(_id);
+      selectedRows.splice(index, 1);
+      setSubscribedRadioStation([...selectedRows]);
+      const index2 = selected.indexOf(_id);
+      selected.splice(index2, 1);
+      setSubscribedRadioStations([...selected]);
+    }
+  };
   return (
     <>
-      <Paper
-        style={{
-          outline: 0,
-          display: "flex",
-          flexDirection: "column",
-        }}
-        elevation={8}
-      >
-        <BackgoundCard
-          header="Sonic StreamReader"
-          subheader="List 4 radio stations"
-        />
+      <Grid className={classes.container} elevation={8}>
+        <Grid item className={classes.header}>
+          <div>
+            <Typography className={classes.heading}>
+              Sonic StreamReader
+            </Typography>
+            <Typography className={classes.subHeading}>
+              List 5 radio stations
+            </Typography>
+          </div>
+        </Grid>
         <Paper
           maxWidth="lg"
           style={{
@@ -202,113 +296,162 @@ function SonicStreamReader(props) {
             justifyContent: "space-between",
           }}
         >
-          <div style={{ margin: 10 }}>
-            {/* <CustomButton 
-                            className={useStyleClasses.homeTableDelete} 
-                            buttonText="Delete"
-                            disabled={selectedRows.length > 0 ? false :true}
-                            onClick={ () => {
-                                setShow(true)
-                                //   onClick function goes here
-                            }}
-                            style={{ backgroundColor:Constant.color.deleteButtonColor, marginRight: 10 }}
-                        /> */}
-            <button
-              disabled={selectedRows.length > 0 ? false : true}
-              //    className={[useStyleClasses.homeTableDelete, 'customButton'].join(' ')}
-              onClick={() => {
-                onStart();
-              }}
-              style={{ ...styles.submitButton, marginRight: 10 }}
-            >
-              {startLoading ? (
-                <ButtonSpinner grow={true} />
-              ) : (
-                <div style={{ justifyContent: "center", display: "flex" }}>
-                  <PlayCircleOutlineRoundedIcon
-                    style={{ fontSize: 15, marginRight: 6 }}
-                  />
-                  Start
-                </div>
-              )}
-            </button>
-
-            <button
-              disabled={selectedRows.length > 0 ? false : true}
-              className={[useStyleClasses.homeTableDelete, "customButton"].join(
-                " "
-              )}
-              onClick={() => {
-                onStop();
-              }}
-              style={{ ...styles.submitButton }}
-            >
-              {stopLoading ? (
-                <ButtonSpinner grow={true} />
-              ) : (
-                <div style={{ justifyContent: "center", display: "flex" }}>
-                  <StopOutlinedIcon style={{ fontSize: 15, marginRight: 6 }} />
-                  Stop
-                </div>
-              )}
-            </button>
-            <button
-              disabled={selectedRows.length > 0 ? false : true}
-              className={[useStyleClasses.homeTableDelete, "customButton"].join(
-                " "
-              )}
-              onClick={() => {
-                setShow(true);
-              }}
-              style={{ ...styles.submitButton, marginRight: 10 }}
-            >
-              {deleteLoading ? (
-                <ButtonSpinner grow={true} />
-              ) : (
-                <div style={{ justifyContent: "center", display: "flex" }}>
-                  <CancelOutlinedIcon
-                    style={{ fontSize: 15, marginRight: 6 }}
-                  />
-                  Delete
-                </div>
-              )}
-            </button>
-          </div>
-
-          <div>
-            <FormControl style={styles.formControl}>
-              <Select
-                id="drop-down"
-                //onChange={(e) => setKeysDetected(e.target.value)}
-                className="form-control mb-0"
-                autoWidth={false}
-                style={styles.dropdownButton}
+          <Grid style={{ margin: 10 }}>
+            <Grid item>
+              <Button
+                disabled={selectedRows.length > 0 ? false : true}
+                className={[
+                  useStyleClasses.homeTableDelete,
+                  "customButton",
+                ].join(" ")}
+                onClick={() => {
+                  onStart();
+                }}
+                style={{ ...styles.submitButton, marginRight: 10 }}
               >
-                <MenuItem disabled selected hidden>
-                  Radio Station
-                </MenuItem>
-                <MenuItem value="day">Radio Beta</MenuItem>
-                <MenuItem value="week">Tune 1</MenuItem>
-                <MenuItem value="month">Radio Rock</MenuItem>
-              </Select>
-            </FormControl>
-
-            <FormControl style={styles.formControl}>
-              <Select
-                id="drop-down"
-                //onChange={(e) => setKeysDetected(e.target.value)}
-                className="form-control mb-0"
-                autoWidth={false}
-                style={styles.dropdownButton}
+                {startLoading ? (
+                  <ButtonSpinner grow={true} />
+                ) : (
+                  <div style={{ justifyContent: "center", display: "flex" }}>
+                    <PlayCircleOutlineRoundedIcon className={classes.buttons} />
+                    <label
+                      style={{
+                        marginTop: 2,
+                        textTransform: "none",
+                        color: "#343F84",
+                      }}
+                    >
+                      Start
+                    </label>
+                  </div>
+                )}
+              </Button>
+              <Button
+                disabled={selectedRows.length > 0 ? false : true}
+                className={[
+                  useStyleClasses.homeTableDelete,
+                  "customButton",
+                ].join(" ")}
+                onClick={() => {
+                  onStop();
+                }}
+                style={{ ...styles.submitButton }}
               >
-                <MenuItem disabled selected hidden>
-                  Radio Station
-                </MenuItem>
-                <MenuItem value="day">Radio Beta</MenuItem>
-                <MenuItem value="week">Tune 1</MenuItem>
-                <MenuItem value="month">Radio Rock</MenuItem>
-              </Select>
-            </FormControl>
+                {stopLoading ? (
+                  <ButtonSpinner grow={true} />
+                ) : (
+                  <div style={{ justifyContent: "center", display: "flex" }}>
+                    <StopOutlinedIcon className={classes.buttons} />
+                    <label
+                      style={{
+                        marginTop: 2,
+                        textTransform: "none",
+                        color: "#343F84",
+                      }}
+                    >
+                      Stop
+                    </label>
+                  </div>
+                )}
+              </Button>
+              <Button
+                disabled={selectedRows.length > 0 ? false : true}
+                className={[
+                  useStyleClasses.homeTableDelete,
+                  "customButton",
+                ].join(" ")}
+                onClick={() => {
+                  setShow(true);
+                }}
+                style={{
+                  ...styles.submitButton,
+                  marginRight: 10,
+                  marginLeft: 20,
+                }}
+              >
+                {deleteLoading ? (
+                  <ButtonSpinner grow={true} />
+                ) : (
+                  <div style={{ justifyContent: "center", display: "flex" }}>
+                    <CancelOutlinedIcon className={classes.buttons} />
+                    <label
+                      style={{
+                        marginTop: 2,
+                        textTransform: "none",
+                        color: "#343F84",
+                      }}
+                    >
+                      Delete
+                    </label>
+                  </div>
+                )}
+              </Button>
+            </Grid>
+          </Grid>
+          <Grid item>
+            {/* <FormControl style={styles.formControl}> */}
+            <Select
+              id="drop-down"
+              onChange={(e) => onCountryChange(e.target.value)}
+              className="form-control mb-0"
+              value={country}
+              displayEmpty
+              renderValue={
+                country !== ""
+                  ? undefined
+                  : () => <Placeholder>Select country of station</Placeholder>
+              }
+              autoWidth={false}
+              style={{
+                color: "black",
+                backgroundColor: "transparent",
+                outline: "none",
+                border: "none",
+                boxShadow: "none",
+                margin: "0px 30px 0px 20px",
+                width: 220,
+              }}
+            >
+              <MenuItem value="Austria">Austria</MenuItem>
+              <MenuItem value="France">France</MenuItem>
+              <MenuItem value="Germany">Germany</MenuItem>
+            </Select>
+          </Grid>
+
+          <Grid item>
+            {/* <FormControl style={styles.formControl}> */}
+            <Select
+              id="drop-down"
+              className="form-control mb-0"
+              onChange={onRadioStationChange}
+              value={selectRadioStations}
+              displayEmpty
+              // disabled={country === ""}
+              renderValue={
+                selectRadioStations !== ""
+                  ? undefined
+                  : () => <Placeholder>Select radio</Placeholder>
+              }
+              autoWidth={false}
+              style={{width:250}}
+            >
+              {dropDownCountry?.docs?.map((country, index) => {
+                  const isItemSelected = isSelectedRadioStation(country?._id);
+                return (<Grid style={{display:'flex',flexDirection:'row'}}>
+                      <Checkbox
+                        color="#343F84"
+                        onChange={(e) => checkBoxForSubscribed(e, country?._id)}
+                        checked={isItemSelected}
+                      />
+                  <MenuItem key={index} value={`${country.name}`}>
+                    {country?.name}
+                  </MenuItem></Grid>
+                );
+              })}
+              {/* <MenuItem value="day">Radio Beta</MenuItem>
+              <MenuItem value="week">Tune 1</MenuItem>
+              <MenuItem value="month">Radio Rock</MenuItem> */}
+            </Select>
 
             <Button
               variant="contained"
@@ -317,24 +460,22 @@ function SonicStreamReader(props) {
                 padding: 12,
                 borderRadius: 5,
                 background: "rgb(52, 63, 132)",
+                marginTop: 5,
               }}
+              onClick={onSubscribe}
             >
-              {" "}
               Subscribe
             </Button>
-          </div>
+          </Grid>
         </Paper>
-        {/* <div style={{flexGrow:'1'}}> */}
-        {/* <Grid container spacing={0}> */}
-        {/* <div> */}
         <TableContainer style={{ ...tableStyle.container }}>
-          <Table aria-label="customized table">
+          <Table aria-label="Stream Reader">
             <TableHead>
               <TableRow hover>
                 <TableCell padding="checkbox">
                   <Checkbox
-                    // indeterminate={selectedRows.length===5?true:false}
-                    checked={selected.length === 5 ? true : false}
+                    color="#343F84"
+                    checked={selected.length === radiostations?.docs?.length ? true : false}
                     onChange={handleSelectAllClick}
                     // inputProps={{ 'aria-label': 'select all desserts' }}
                   />
@@ -349,26 +490,28 @@ function SonicStreamReader(props) {
 
             <TableBody>
               {radiostations?.docs?.map((file, index) => {
-                const isItemSelected = isSelected(file._id);
+                const isItemSelected = isSelected(file?._id);
                 return (
                   <TableRow key={file?._id} hover className={classes.tableRow}>
                     <TableCell padding="checkbox">
                       <Checkbox
-                        onChange={(e) => pagination(e, file?._id)}
+                        color="#343F84"
+                        onChange={(e) => checkBox(e, file?._id)}
                         checked={isItemSelected}
                       />
                     </TableCell>
 
                     <TableCell style={{ ...tableStyle.body }}>
-                      {props.offset+index + 1}
+                      {props.offset + index + 1}
                     </TableCell>
                     <TableCell>
-                      <CheckCircleOutlineRoundedIcon style={{ fontSize: 15 }} />
+                      <img src={IconTick} />
+                      {/* <CheckCircleOutlineRoundedIcon style={{ fontSize: 15 }} /> */}
                     </TableCell>
-                    <TableCell style={{ ...tableStyle.body, fontSize: 13 }}>
-                      {file?.name}
+                    <TableCell style={{ ...tableStyle.body, fontSize: 15 }}>
+                      {file?.radio?.name}
                     </TableCell>
-                    <Tooltip title={file?.streamingUrl}>
+                    <Tooltip title={file?.radio?.streamingUrl}>
                       <TableCell
                         style={{
                           ...tableStyle.body,
@@ -380,7 +523,7 @@ function SonicStreamReader(props) {
                           overflow: "hidden",
                         }}
                       >
-                        {file?.streamingUrl}
+                        {file?.radio?.streamingUrl}
                       </TableCell>
                     </Tooltip>
                     <TableCell style={{ ...tableStyle.body, color: "#757575" }}>
@@ -390,52 +533,64 @@ function SonicStreamReader(props) {
                       <Hits radioId={file?._id} key={file?._id} />
                     </TableCell>
                     <TableCell>
-                      {file.isStreamStarted === true && (
+                      {file?.radio?.isStreamStarted === true && (
                         <Badge
                           style={{
                             cursor: "pointer",
                             background: "rgb(229, 245, 244)",
-                            color: "black",
+                            color: "rgb(72, 187, 183)",
                             padding: 5,
                             fontWeight: "lighter",
                           }}
-                          variant="warning"
                         >
                           LISTENING
                         </Badge>
                       )}
-                      {file.isStreamStarted === false && file.error === null && (
-                        <Badge
-                          style={{
-                            cursor: "pointer",
-                            background: "yellow",
-                            padding: 5,
-                            color: "black",
-                            fontWeight: "lighter",
-                          }}
-                          variant="warning"
-                        >
-                          NOT LISTENING
-                        </Badge>
-                      )}
-                      {file.isStreamStarted === false && file.error !== null && (
-                        <Badge
-                          style={{
-                            cursor: "pointer",
-                            background: "red",
-                            padding: 5,
-                            color: "black",
-                            fontWeight: "lighter",
-                            color: "white",
-                          }}
-                          variant="warning"
-                        >
-                          ERROR
-                        </Badge>
-                      )}
+                      {file?.radio?.isStreamStarted === false &&
+                        file.error === null && (
+                          <Badge
+                            style={{
+                              fontSize: 15,
+                              cursor: "pointer",
+                              background: "rgb(244, 237, 151)",
+                              color: "rgb(183, 170, 53)",
+                              padding: 5,
+                              marginLeft: 10,
+                            }}
+                          >
+                            NOT LISTENING
+                          </Badge>
+                        )}
+                      {file?.radio?.isStreamStarted === false &&
+                        file.error !== null && (
+                          <Badge
+                            style={{
+                              fontSize: 15,
+                              cursor: "pointer",
+                              background: "rgb(242, 125, 162)",
+                              color: "rgb(130, 24, 13)",
+                              padding: 5,
+                              marginLeft: 10,
+                            }}
+                          >
+                            ERROR
+                          </Badge>
+                        )}
                     </TableCell>
-                    <TableCell style={{ ...tableStyle.body }}>
-                      Details
+                    <TableCell
+                      style={{ ...tableStyle.body }}
+                      onClick={() => {
+                        localStorage.setItem(
+                          "passedData",
+                          JSON.stringify(file)
+                        );
+                        props.history.push({
+                          pathname: `/sonicstreamdetail`,
+                          search: `?radioStationId=${file._id}`,
+                        });
+                      }}
+                    >
+                      <img src={IconEdit} /> Details
                     </TableCell>
                   </TableRow>
                 );
@@ -445,15 +600,13 @@ function SonicStreamReader(props) {
 
           <Pagination
             count={props.totalPage}
-            page={props.radiostationPageNum}
+            page={props.page}
             variant="outlined"
             shape="rounded"
             onChange={handlePageChange}
           />
         </TableContainer>
-        {/* </div> */}
-        {/* </div> */}
-      </Paper>
+      </Grid>
     </>
   );
 }
@@ -487,11 +640,11 @@ const styles = {
   },
   submitButton: {
     marginLeft: 10,
-    height: "30px",
+    height: "20px",
     color: "black",
     fontWeight: "bold",
     width: 80,
-    border: "none",
+    //border: "none",
     borderRadius: "50px",
     backgroundColor: "transparent",
     boxShadow: "0px 0px 8px 2px #000000;",
@@ -519,6 +672,7 @@ const mapStateToProps = (state) => {
     radiostationPageNum: state.radioPageNumber.radiostationPageNum,
     totalPage: state.radioStations.radiostations.totalPages,
     offset: state.radioStations.radiostations.offset,
+    page: state.radioStations.page,
     // selectedRowss : state.global.selectedRows,
 
     // cardRadiostations : state.cardRadioStaions.cardRadiostations,
@@ -549,15 +703,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchRadioStations: (_offset, _limit) =>
       dispatch(actionCreators.fetchRadioStations(_offset, _limit)),
-    // setSelectedRows : (rows) => dispatch(actionCreators.setSelectedRowsRadioStationTable(rows)),
-    // fetchRadioStationsSuccess : (payload) => dispatch(actionCreators.fetchRadioStationsSuccess(payload)),
-    // fetchRadioStationsFailure : (error) => dispatch(actionCreators.fetchRadioStationsFailure(error)),
-    // fetchRadiostationSonicKeyCount : (radiostationId) => dispatch(actionCreators.fetchRadiostationSonicKeyCount(radiostationId)),
-
-    // fetchTotalListeningCount : () => dispatch(actionCreators.fetchTotalListeningCount()),
-    // fetchTotalNotListeningCount : () => dispatch(actionCreators.fetchTotalNotListeningCount()),
-    // fetchTotalErrorCount : () => dispatch(actionCreators.fetchTotalErrorCount()),
-    // fetchTotalRadiostationCount : () => dispatch(actionCreators.fetchTotalRadiostationCount()),
+    fetchAllRadioStations: (_offset, _limit) =>
+      dispatch(actionCreators.fetchAllCardRadioStation(_offset, _limit)),
 
     setRadiostationPageNum: (page) =>
       dispatch(actionCreators.setRadiostationPageNum(page)),

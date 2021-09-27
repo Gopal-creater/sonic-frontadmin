@@ -6,6 +6,9 @@ import Typography from '@material-ui/core/Typography';
 import { FormControl, InputLabel, MenuItem, OutlinedInput, Select } from '@material-ui/core';
 import RadioIcon from '@material-ui/icons/Radio';
 import CloseIcon from '@material-ui/icons/Close';
+import RadioTeal from '../../../assets/icons/icon-teal-radio.png'
+import RadioGrey from '../../../assets/icons/icon-grey-radio.png'
+import GreyCross from '../../../assets/icons/icon-grey-cross.png'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -149,13 +152,16 @@ export default function InfoCard(props) {
           ) :
           null}
         {title !== "SonicKeys Detected" && title !=='Error Streams' &&
-          <div style={{float: 'right',height:100,width:'50%' }}>
-            <RadioIcon fontSize='large'style={{float:'right'}}/>
+          <div style={{float: 'right',height:100,width:'50%',marginTop:-10 }}>
+            {title ==='Realtime listening' && <img src={RadioTeal} style={{float:'right'}}
+             />}
+            {title !=='Realtime listening' && <img src={RadioGrey} style={{float:'right'}}
+             />} 
           </div>
         }
         {title !== "SonicKeys Detected" && title ==='Error Streams' &&
-          <div style={{float: 'right',height:100,width:'50%' }}>
-            <CloseIcon fontSize='large' style={{float:'right'}}/>
+          <div style={{float: 'right',height:100,width:'50%',marginTop:-10 }}>
+            <img src={GreyCross} style={{float:'right'}}/>
           </div>
         }
         </CardContent>

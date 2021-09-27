@@ -30,11 +30,12 @@ export const fetchRadioStationsFailure = (error) => {
 };
 
 export function fetchRadioStations(_offset=0, _limit=5) {
-    console.log('Running Fetch Raio Stations');
     const ownerId = getUserId();
+    const _skip=_offset > 1 ? (_offset - 1) * _limit : 0
     return dispatch => {
       dispatch(fetchRadioStationsBegin());
-      return AppWebRequest(`/radiostations/owners/${ownerId}?skip=${_offset}&limit=${_limit}&sort=-createdAt`, 'get') 
+    //   radiomonitors/owners/5728f50d-146b-47d2-aa7b-a50bc37d641d/subscribed-stations
+      return AppWebRequest(`/radiomonitors/owners/${ownerId}/subscribed-stations?skip=${_skip}&limit=${_limit}`, 'get') 
       .then(res => {
           console.log('Radio Stations',res);
          dispatch(fetchRadioStationsSuccess(res));

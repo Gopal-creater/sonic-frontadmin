@@ -17,12 +17,14 @@ const useStyles = makeStyles({
     tableCellOne: {
         padding: '5px',
         fontFamily: 'NunitoSans-Bold',
+        fontWeight: 'bold',
         fontSize: '12px',
         color: '#ACACAC',
     },
     tableCellTwo: {
         padding: '5px',
         fontFamily: 'NunitoSans-Bold',
+        fontWeight: '700',
         fontSize: '14px',
         color: '#757575',
     },
@@ -34,7 +36,7 @@ const useStyles = makeStyles({
 const DailogTable = (props) => {
 
     const { sonicKey } = props;
-    console.log("searching data for search",sonicKey);
+    console.log("searching data for search", sonicKey);
     const theme = useTheme()
     const classes = useStyles();
 
@@ -44,13 +46,13 @@ const DailogTable = (props) => {
 
     // function bytesForHuman(bytes) {
     //     let units = ['KB', 'MB', 'GB', 'TB', 'PB']
-    
+
     //     let i = 0
-        
+
     //     for (i; bytes > 1024; i++) {
     //         bytes /= 1024;
     //     }
-    
+
     //     return Math.round(bytes.toFixed(1)) + ' ' + units[i]
     // }
 
@@ -69,8 +71,9 @@ const DailogTable = (props) => {
             <DialogTitle id="form-dialog-title">
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                     <img style={{ width: '30px' }} src={DialogLogo} />
-                    <div style={{ 
-    fontFamily: 'NunitoSans-Bold', color: '#343F84', fontSize: '18px' }}>&nbsp; &nbsp;SonicKey: {sonicKey.sonicKey}</div>
+                    <div style={{
+                        fontFamily: 'NunitoSans-Bold', color: '#343F84', fontSize: '18px'
+                    }}>&nbsp; &nbsp;SonicKey: {sonicKey.sonicKey}</div>
                 </div>
             </DialogTitle>
             {/* <DialogContent dividers> */}
@@ -82,85 +85,96 @@ const DailogTable = (props) => {
                     {/* <TableHead style={{ backgroundColor: '#D3D3D0' }}>
                     </TableHead> */}
                     <TableBody>
-                    <TableRow>
-                        <TableCell className={classes.tableCellOne}>FILE TYPE</TableCell>
-                        <TableCell className={classes.tableCellTwo}>{sonicKey.contentFileName}</TableCell>
-                    </TableRow>
-                    <TableRow >
-                        <TableCell className={classes.tableCellOne}>NAME</TableCell>
-                        <TableCell className={classes.tableCellTwo}>{sonicKey.contentName}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell className={classes.tableCellOne}>ARTIST</TableCell>
-                        <TableCell className={classes.tableCellTwo}>{sonicKey.contentOwner}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell className={classes.tableCellOne}>SONGWRITER</TableCell>
-                        <TableCell className={classes.tableCellTwo}>{sonicKey.sonicKey}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell className={classes.tableCellOne} >PRODUCER</TableCell>
-                        <TableCell className={classes.tableCellTwo}>{sonicKey.channel}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell className={classes.tableCellOne}>LENGTH (00:00:00:000)</TableCell>
-                        <TableCell className={classes.tableCellTwo}>{sonicKey.contentDuration}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell className={classes.tableCellOne}>AUDIO SIZE (IN MB)</TableCell>
-                        <TableCell className={classes.tableCellTwo}>{sonicKey.contentSize}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell className={classes.tableCellOne}>INDUSTRY CODES</TableCell>
-                        <TableCell className={classes.tableCellTwo}>
-                            {/* ISRC :TESTING
+                        <TableRow>
+                            <TableCell className={classes.tableCellOne}>FILE TYPE</TableCell>
+                            <TableCell className={classes.tableCellTwo}>{sonicKey.contentFileName}</TableCell>
+                        </TableRow>
+                        <TableRow >
+                            <TableCell className={classes.tableCellOne}>NAME</TableCell>
+                            <TableCell className={classes.tableCellTwo}>{sonicKey.contentName}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell className={classes.tableCellOne}>ARTIST</TableCell>
+                            <TableCell className={classes.tableCellTwo}>{sonicKey.contentOwner}</TableCell>
+                        </TableRow>
+
+                        <TableRow>
+                            <TableCell className={classes.tableCellOne}>SONGWRITER</TableCell>
+                            <TableCell className={classes.tableCellTwo}>{sonicKey.sonicKey}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell className={classes.tableCellOne} >PRODUCER</TableCell>
+                            <TableCell className={classes.tableCellTwo}>{sonicKey.channel}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell className={classes.tableCellOne}>LENGTH (00:00:00:000)</TableCell>
+                            <TableCell className={classes.tableCellTwo}>{sonicKey.contentDuration}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell className={classes.tableCellOne}>AUDIO SIZE (IN MB)</TableCell>
+                            <TableCell className={classes.tableCellTwo}>{sonicKey.contentSize}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell className={classes.tableCellOne}>LENGTH (00:00:00:000)</TableCell>
+                            <TableCell className={classes.tableCellTwo}>{sonicKey.contentDuration}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell className={classes.tableCellOne}>AUDIO SIZE (IN MB)</TableCell>
+                            <TableCell className={classes.tableCellTwo}>{sonicKey.contentSize}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell className={classes.tableCellOne}>INDUSTRY CODES</TableCell>
+                            <TableCell className={classes.tableCellTwo}>
+                                {/* ISRC :TESTING
                             ISWC :TESTING
                             Tunecode :TESTING */}
-                            ISRC :{sonicKey.isrcCode ? sonicKey.isrcCode : 'Not Specified'}<br />
-                            ISWC :{sonicKey.iswcCode ? sonicKey.iswcCode : 'Not Specified'} <br />
-                            Tunecode :{sonicKey.tuneCode ? sonicKey.tuneCode : 'Not Specified'}
-                        </TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell className={classes.tableCellOne}>UNDERLYING ENCODING OF THE FILE</TableCell>
-                        <TableCell className={classes.tableCellTwo}>TESTING</TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell className={classes.tableCellOne}>SAMPLING FREQUENCY </TableCell>
-                        <TableCell className={classes.tableCellTwo}>{sonicKey.contentSamplingFrequency} Hz s</TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell className={classes.tableCellOne}>Encoded Date </TableCell>
-                        <TableCell className={classes.tableCellTwo}>{sonicKey.createdAt}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell className={classes.tableCellOne}>Sonic Key</TableCell>
-                        <TableCell className={classes.tableCellTwo}>{sonicKey.sonicKey}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell className={classes.tableCellOne}>Content Strength</TableCell>
-                        <TableCell className={classes.tableCellTwo}>{sonicKey.encodingStrength}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell className={classes.tableCellOne}>Content Description</TableCell>
-                        <TableCell className={classes.tableCellTwo}>{sonicKey.contentDescription}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell className={classes.tableCellOne}>Addional Meta Data</TableCell>
-                        <TableCell className={classes.tableCellTwo}>{sonicKey.additionalMetadata}</TableCell>
-                    </TableRow>
+                                ISRC :{sonicKey.isrcCode ? sonicKey.isrcCode : 'Not Specified'}<br />
+                                ISWC :{sonicKey.iswcCode ? sonicKey.iswcCode : 'Not Specified'} <br />
+                                Tunecode :{sonicKey.tuneCode ? sonicKey.tuneCode : 'Not Specified'}
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell className={classes.tableCellOne}>UNDERLYING ENCODING OF THE FILE</TableCell>
+                            <TableCell className={classes.tableCellTwo}>TESTING</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell className={classes.tableCellOne}>SAMPLING FREQUENCY </TableCell>
+                            <TableCell className={classes.tableCellTwo}>{sonicKey.contentSamplingFrequency} Hz s</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell className={classes.tableCellOne}>Encoded Date </TableCell>
+                            <TableCell className={classes.tableCellTwo}>{sonicKey.createdAt}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell className={classes.tableCellOne}>Sonic Key</TableCell>
+                            <TableCell className={classes.tableCellTwo}>{sonicKey.sonicKey}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell className={classes.tableCellOne}>Content Strength</TableCell>
+                            <TableCell className={classes.tableCellTwo}>{sonicKey.encodingStrength}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell className={classes.tableCellOne}>Content Description</TableCell>
+                            <TableCell className={classes.tableCellTwo}>{sonicKey.contentDescription}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell className={classes.tableCellOne}>Addional Meta Data</TableCell>
+                            <TableCell className={classes.tableCellTwo}>{sonicKey.additionalMetadata}</TableCell>
+                        </TableRow>
                     </TableBody>
                 </Table>
                 {/* </div> */}
             </TableContainer>
             {/* </DialogContent> */}
             <DialogActions border="none" style={{ margin: '20px', border: 'none' }}>
-                <Button onClick={handleCloseTable} variant="outlined" style={{ 
-    fontFamily: 'NunitoSans-Bold', color: '#343F84', borderColor: '#343F84', borderWidth: '2px', borderRadius: '8px', textTransform: 'none', padding: '10px 20px' }}>
+                <Button onClick={handleCloseTable} variant="outlined" style={{
+                    fontFamily: 'NunitoSans-Bold', color: '#343F84', borderColor: '#343F84', borderWidth: '2px', borderRadius: '8px', textTransform: 'none', padding: '10px 20px'
+                }}>
                     Cancel
                 </Button>
-                <Button variant="contained" style={{ 
-    fontFamily: 'NunitoSans-Bold', color: 'white', backgroundColor: '#343F84', textTransform: 'none', borderRadius: '8px', padding: '12px 20px' }}>
+                <Button variant="contained" style={{
+                    fontFamily: 'NunitoSans-Bold', color: 'white', backgroundColor: '#343F84', textTransform: 'none', borderRadius: '8px', padding: '12px 20px'
+                }}>
                     View Plays
                 </Button>
             </DialogActions>

@@ -21,7 +21,7 @@ export function fetchAllCardRadioStation(_offset=0, _limit=1000000) {
       return  axios({
         method: 'get', 
         // url: `${httpUrl.API_URL}/radiostations`,
-        url: `${httpUrl.API_URL}/radiostations/owners/${ownerId}?skip=${_offset}&limit=${_limit}&sort=-createdAt`, 
+        url: `${httpUrl.API_URL}/radiostations?country=France`, 
         headers: {
             "Authorization":`Bearer ${getAccessToken()}`
           }

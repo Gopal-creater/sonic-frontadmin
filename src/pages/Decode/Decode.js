@@ -16,10 +16,10 @@ export default function Decode() {
   const [audioName, setAudioName] = useState(null);
 
   React.useEffect(() => {
-    if (decodeError) {
+    if (decode?.displayResults === true) {
       setDecodeError(null);
     }
-  }, [decodeError]);
+  }, [decode]);
 
   return (
     <Grid>

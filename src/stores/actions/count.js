@@ -162,13 +162,13 @@ export function fetchDaySonicKeyCount(todayRange) {
       })
       .then(res => {
          dispatch(fetchRadiostationSonicKeyCountSuccess(res.data));
-         log("ffffffffffffetch Radiostation SonicKey Count response",res);
+         log("fetch Radiostation SonicKey Count response",res);
        })
        .catch(err=>{
                 if (err.response) {
                   unauthorizedRedirection(err.response.status);
                 }
-                log("fffffffffffffffetch Radiostation SonicKey Count error",err.response);
+                log("fetch Radiostation SonicKey Count error",err.response);
                 dispatch(fetchRadiostationSonicKeyCountFailure());
             }
        );
@@ -186,11 +186,12 @@ export function fetchDaySonicKeyCount(todayRange) {
 
 
 export function fetchTotalRadiostationCount() {
-  const ownerId = getUserId();
+  const ownerId = getUserId(); 
   return dispatch => {
     return  axios({
       method: 'get',
-      url: `${httpUrl.API_URL}/radiostations/count?owner=${ownerId}`, 
+      url: `${httpUrl.API_URL}/radiomonitors/owners/
+      ${ownerId}/subscriber-count`, 
       headers: {
           "Authorization":`Bearer ${getAccessToken()}`
         }
@@ -225,7 +226,7 @@ export function fetchTotalListeningCount() {
   return dispatch => {
     return  axios({
       method: 'get',
-      url: `${httpUrl.API_URL}/radiostations/count?owner=${ownerId}&isStreamStarted=true`, 
+      url: `${httpUrl.API_URL}/radiomonitors/owners/${ownerId}/subscriber-count?isListeningStarted=true`, 
       headers: {
           "Authorization":`Bearer ${getAccessToken()}`
         }
@@ -259,7 +260,7 @@ const ownerId = getUserId();
 return dispatch => {
   return  axios({
     method: 'get',
-    url: `${httpUrl.API_URL}/radiostations/count?owner=${ownerId}&isStreamStarted=false`, 
+    url: `${httpUrl.API_URL}/radiomonitors/owners/${ownerId}/subscriber-count?isListeningStarted=false`, 
     headers: {
         "Authorization":`Bearer ${getAccessToken()}`
       }
@@ -293,7 +294,7 @@ const ownerId = getUserId();
 return dispatch => {
   return  axios({
     method: 'get',
-    url: `${httpUrl.API_URL}/radiostations/count?owner=${ownerId}&isError=true`, 
+    url: `${httpUrl.API_URL}/radiomonitors/owners/${ownerId}/subscriber-count?isError=true`, 
     headers: {
         "Authorization":`Bearer ${getAccessToken()}`
       }

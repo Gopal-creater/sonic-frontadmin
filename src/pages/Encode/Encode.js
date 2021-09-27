@@ -28,9 +28,6 @@ const myCountryCodesObject = countryCodes.customList(
 
 
 const useStyles = makeStyles((theme) => ({
-    EncodeContainer: {
-
-    },
     encodeDataContainer: {
         backgroundColor: "white",
         padding: "2% 2.5%",
@@ -39,9 +36,8 @@ const useStyles = makeStyles((theme) => ({
     },
     heading: {
         color: "#343F84",
-        fontSize: 22,
-        fontWeight: 'bold',
-
+        fontSize: 26,
+        fontFamily: 'NunitoSans-Bold',
     },
     encodeForm: {
         '& .MuiTextField-root': {
@@ -65,13 +61,14 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: "#393F5B"
     },
     textInput: {
-        fontWeight: "medium",
-        color: "#ACACAC",
-        fontSize: 17.5
+        fontWeight: "bold",
+        color: "#757575",
+        fontFamily: 'NunitoSans-Regular',
     },
     textInputLabel: {
-        fontWeight: "medium",
-        color: "#ACACAC"
+        fontWeight: "bold",
+        color: "#757575",
+        fontFamily: 'NunitoSans-Regular',
     }
 }));
 
@@ -91,7 +88,12 @@ export default function Encode() {
     }
 
     const handleEncode = (e) => {
+        log("values", values)
         e.preventDefault();
+        if (values?.data?.contentOwner === "" || values?.data?.contentOwner === undefined) {
+            cogoToast.error("Artist is a mandatory field");
+            return
+        }
         const formData = new FormData();
         formData.append("mediaFile", values?.file);
         if (values?.data?.contentFileType == 'Music' && (values?.data?.isrcCode == '' || values?.data?.isrcCode === undefined)
@@ -174,7 +176,7 @@ export default function Encode() {
 
             {values?.isDataPresent && values?.encodeSuccess === null && values?.encodeError === null &&
                 <Grid className={classes.encodeDataContainer} id="encodeDataContainer">
-                    <Typography className={classes.heading} id="encodeDataTitle">{values?.name || "Audio"} details</Typography>
+                    <Typography className={classes.heading} id="encodeDataTitle">MetaData of {values?.name}</Typography>
 
                     <form className={classes.encodeForm}>
                         <Grid item id="audioName">
@@ -190,11 +192,15 @@ export default function Encode() {
 
                         <Grid item id="audioType">
                             <FormControl className={classes.formControl} fullWidth>
-                                <InputLabel id="demo-simple-select-label" style={{ color: "#ACACAC", fontWeight: "medium" }}>Type</InputLabel>
+                                <InputLabel id="demo-simple-select-label" style={{
+                                    color: "#757575", fontWeight: "bold", fontFamily: 'NunitoSans-Regular',
+                                }}>Type</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    style={{ color: "#ACACAC", fontWeight: "medium", fontSize: 17.5 }}
+                                    style={{
+                                        color: "#757575", fontWeight: "bold", fontFamily: 'NunitoSans-Regular',
+                                    }}
                                     value={values?.data?.contentType}
                                     fullWidth
                                     onChange={(e) => {
@@ -203,9 +209,9 @@ export default function Encode() {
                                             setValues({ ...values, data: { ...values?.data, contentType: e.target.value, isrcCode: "", iswcCode: "", tuneCode: "" } })
                                     }}
                                 >
-                                    <MenuItem value={"Music"} style={{ color: "#ACACAC", fontWeight: "medium" }}>Music</MenuItem>
-                                    <MenuItem value={"Video"} style={{ color: "#ACACAC", fontWeight: "medium" }}>Video</MenuItem>
-                                    <MenuItem value={"Audio"} style={{ color: "#ACACAC", fontWeight: "medium" }}>Audio</MenuItem>
+                                    <MenuItem value={"Music"} style={{ color: "#757575", fontWeight: "bold" }}>Music</MenuItem>
+                                    <MenuItem value={"Video"} style={{ color: "#757575", fontWeight: "bold" }}>Video</MenuItem>
+                                    <MenuItem value={"Audio"} style={{ color: "#757575", fontWeight: "bold" }}>Audio</MenuItem>
                                 </Select>
                             </FormControl>
                         </Grid>
@@ -383,24 +389,31 @@ export default function Encode() {
 
                         <Grid item id="contentValidation" className="mt-3">
                             <FormControl component="fieldset" className={classes.formControl} >
-                                <FormLabel component="legend" style={{ color: "#ACACAC", fontWeight: "medium" }}
+                                <FormLabel component="legend" style={{
+                                    color: "#757575", fontWeight: "bold", fontFamily: 'NunitoSans-Regular',
+                                }}
                                 >Has content been validated for ownership?</FormLabel>
                                 <RadioGroup
                                     color="primary"
                                     row aria-label="gender"
                                     name="gender1"
-                                    style={{ color: "#ACACAC", fontWeight: "bold" }}
+                                    style={{
+                                        color: "#757575", fontWeight: "bold", fontFamily: 'NunitoSans-Regular',
+                                    }}
                                     value={values?.data?.contentValidation}
                                     onChange={(event) => { setValues({ ...values, data: { ...values?.data, contentValidation: event.target.value } }) }}>
-                                    <FormControlLabel value="Yes" control={<Radio style={{ color: "#7078A8" }} />} label="Yes" />
-                                    <FormControlLabel value="No" control={<Radio style={{ color: "#7078A8" }} />} label="No" />
+                                    <FormControlLabel value="Yes" control={<Radio style={{
+                                        color: "#7078A8", fontFamily: 'NunitoSans-Regular',
+                                    }} />} label="Yes" />
+                                    <FormControlLabel value="No" control={<Radio style={{
+                                        color: "#7078A8", fontFamily: 'NunitoSans-Regular',
+                                    }} />} label="No" />
                                 </RadioGroup>
                             </FormControl>
                         </Grid>
 
                         <Grid item id="authorization">
                             <FormControlLabel
-                                style={{ color: "#ACACAC", fontWeight: "medium" }}
                                 control={
                                     <Checkbox
                                         checked={values?.checkedAuthorization}
@@ -409,7 +422,8 @@ export default function Encode() {
                                         style={{ color: "#7078A8" }}
                                     />
                                 }
-                                label="I/we/am/are authorised to encode this file"
+                                label={<Typography style={{ color: "#757575", fontWeight: "bold", fontFamily: 'NunitoSans-Regular' }}>I/we/am/are authorised to encode this file</Typography>}
+
                             />
                         </Grid>
 

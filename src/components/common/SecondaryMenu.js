@@ -22,7 +22,8 @@ const useStyles = makeStyles((theme) => ({
   },
   secondaryButton: {
     textTransform: "none",
-    color: theme.palette.text.primary,
+    fontFamily: "NunitoSans-Black",
+    color: "white",
     "&:focus": {
       outline: "none",
     },
@@ -86,10 +87,9 @@ function SecondaryMenu(props) {
         aria-haspopup="true"
         endIcon={<ArrowDropDownIcon />}
         onClick={handleToggle}
+        style={{ color: "#7078A8" }}
       >
-        <b>
-          {session?.user?.signInUserSession?.idToken?.payload?.email || session?.user?.username}
-        </b>
+        {session?.user?.signInUserSession?.idToken?.payload?.email || session?.user?.username}
       </Button>
       <Popper
         open={open}

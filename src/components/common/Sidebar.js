@@ -56,6 +56,9 @@ export default function Sidebar() {
           <ListItem button component={Link} to="/dashboard">
             <ListItemText primary={"Dashboard"} />
           </ListItem>
+          <ListItem button component={Link} to="/sonicstreamplays">
+            <ListItemText primary={"Plays"} style={{ fontSize: 10 }} />
+          </ListItem>
           <ListItem button component={Link} to="/streamreader">
             <ListItemText primary={"StreamReader"} style={{ fontSize: 10 }} />
           </ListItem>

@@ -1,24 +1,25 @@
+import { log } from "../../../utils/app.debug";
 import { getUserId } from "../AuthHelper";
 import { AppWebRequest } from "../NetworkManager";
 
 class Communication {
-  constructor() {}
-  
-  fetchMySonicKey(limit,index,value) {
-    index = index > 1 ? ( index - 1 ) * limit : 0
-    const axiosConfig={
+  constructor() { }
+
+  fetchMySonicKey(limit, index, value) {
+    index = index > 1 ? (index - 1) * limit : 0
+    const axiosConfig = {
       params: {
         filter: {
           $or: [
-            { [`sonicKey`]: { "$regex": `${value?value:''}`, "$options": "i" }},
-            { [`contentFileName`]: { "$regex": `${value ? value : ""}`, "$options": "i" }},
-            { [`contentOwner`]: { "$regex": `${value ? value : ""}`, "$options": "i" }},
-            { [`contentDescription`]: { "$regex": `${value ? value : ""}`, "$options": "i" }},
+            { [`sonicKey`]: { "$regex": `${value ? value : ''}`, "$options": "i" } },
+            { [`contentFileName`]: { "$regex": `${value ? value : ""}`, "$options": "i" } },
+            { [`contentOwner`]: { "$regex": `${value ? value : ""}`, "$options": "i" } },
+            { [`contentDescription`]: { "$regex": `${value ? value : ""}`, "$options": "i" } },
           ],
         },
-    }, 
-   }
-    return AppWebRequest(`/sonic-keys/owners/${getUserId()}?limit=${limit}&sort=-createdAt&skip=${index}`,"get",axiosConfig)
+      },
+    }
+    return AppWebRequest(`/sonic-keys/owners/${getUserId()}?limit=${limit}&sort=-createdAt&skip=${index}`, "get", axiosConfig)
   }
   fetchLicenceKey() {
     return AppWebRequest(`/users/${getUserId()}/licenses`, "get");
@@ -28,29 +29,40 @@ class Communication {
     return AppWebRequest(`/detections/owners/${getUserId()}/RADIOSTATION/count?radioStation=${radioId}`, "get");
   }
 
-  fetchThirdPartySonicKeys(limit,index) {
-    return AppWebRequest(`/detections/owners/${getUserId()}/BINARY/data?limit=${limit}&sort=-createdAt&skip=${index}`,"get")
+  fetchThirdPartySonicKeys(limit, index) {
+    return AppWebRequest(`/detections/owners/${getUserId()}/BINARY/data?limit=${limit}&sort=-createdAt&skip=${index}`, "get")
   }
 
   fetchThirdPartyDetectedDetails(sonicKey) {
-    return AppWebRequest(`/detections/owners/${getUserId()}/BINARY/sonicKeys/${sonicKey}/detected-details?limit=500&sort=-createdAt&skip=0`,"get")
+    return AppWebRequest(`/detections/owners/${getUserId()}/BINARY/sonicKeys/${sonicKey}/detected-details?limit=500&sort=-createdAt&skip=0`, "get")
   }
 
-  getSonicKeyById(sonic_key){
-    return AppWebRequest(`sonic-keys/${sonic_key}`,"get")
+  getSonicKeyById(sonic_key) {
+    return AppWebRequest(`sonic-keys/${sonic_key}`, "get")
   }
-  
+
+  fetchSKForSpecificRadioStation(radio_id, _offset = 0, _limit = 10) {
+    log(radio_id.radioStationId)
+    return AppWebRequest(`/detections/owners/${getUserId()}/RADIOSTATION/data?radioStation=${radio_id}&skip=${_offset}&limit=${_limit}&sort=-createdAt`, "get")
+  }
+
+  fetchRadioStationsAccToCountry(country, _offset = 0, _limit = 100) {
+    log(country)
+    return AppWebRequest(`/radiostations?country=${country}&skip=${_offset}&limit=${_limit}`, "get")
+  }
+
   /**
    * @param {string} key 
    */
   createLicenceKey(key) {
-    return AppWebRequest(`/users/${getUserId()}/add-new-license`, "post",{
-      data:{
+    return AppWebRequest(`/users/${getUserId()}/add-new-license`, "post", {
+      data: {
         licenseKey: key
       }
     });
   }
   encodeFile(formData) {
+    log("Encode Data", formData)
     const axiosConfig = {
       data: formData,
       headers: {
@@ -61,8 +73,8 @@ class Communication {
     return AppWebRequest("/sonic-keys/encode", "post", axiosConfig);
   }
 
-  editSonicKey(formData,sonicKey) {
-    console.log('Edit Data',formData);
+  editSonicKey(formData, sonicKey) {
+    console.log('Edit Data', formData);
     const axiosConfig = {
       data: formData,
       headers: {
@@ -104,22 +116,22 @@ class Communication {
     return AppWebRequest(`/external/sonickeys/decode`, "post", axiosConfig);
   }
 
-  guestDecode(formData){
-    const axiosConfig={
-        data:formData,
-        headers: {
-            "Content-type": "multipart/form-data",
-          },
+  guestDecode(formData) {
+    const axiosConfig = {
+      data: formData,
+      headers: {
+        "Content-type": "multipart/form-data",
+      },
 
     }
-   return AppWebRequest('/sonic-keys-guest/decode','post',axiosConfig)
-}
-  downloadFile(payload){
+    return AppWebRequest('/sonic-keys-guest/decode', 'post', axiosConfig)
+  }
+  downloadFile(payload) {
     const axiosConfig = {
       data: payload,
       responseType: 'blob'
     };
-    
+
     return AppWebRequest(`/sonic-keys/download-file`, "post", axiosConfig)
   }
   downloadFileWithS3Key(key) {
@@ -128,9 +140,21 @@ class Communication {
         'Accept': 'application/json',
       },
     };
-    return AppWebRequest(`/s3-file-uploads/signed-url/`+encodeURIComponent(key), "get",axiosConfig);
+    return AppWebRequest(`/s3-file-uploads/signed-url/` + encodeURIComponent(key), "get", axiosConfig);
   }
 
+
+  radioStationSubscribed(formData) {
+    log('From Data', formData)
+    const axiosConfig = {
+      data: formData,
+      headers: {
+        'Accept': 'application/json',
+      },
+    };
+    //return 0;
+    return AppWebRequest(`/radiomonitors/owners/${getUserId()}/subscribe-bulk`, "post", axiosConfig);
+  }
 
 }
 

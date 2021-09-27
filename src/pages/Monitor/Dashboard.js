@@ -1,4 +1,4 @@
-import { Container, Grid, Typography } from '@material-ui/core'
+import { Container, Grid, makeStyles, Typography } from '@material-ui/core'
 import React from 'react'
 import BackgoundCard from './Components/BackgoundCard'
 import Paper from "@material-ui/core/Paper";
@@ -13,11 +13,57 @@ import CloseIcon from '@material-ui/icons/Close';
 import StorageIcon from '@material-ui/icons/Storage';
 import ReorderIcon from '@material-ui/icons/Reorder';
 
+const useStyles = makeStyles((theme) => ({
+    EncodeDecodeContainer: {
+      backgroundColor: "white",
+      padding: "2% 2.5%",
+      boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+    },
+    header: {
+      display: "flex",
+      justifyContent: "space-between",
+    },
+    heading: {
+      fontSize: 30,
+      fontWeight: 700,
+      color: "#343F84",
+    },
+    subHeading: {
+      paddingBottom: 30,
+      fontSize: 18,
+      fontWeight: 500,
+      color: "#00A19A",
+    },
+    buttons: {
+      fontSize: 15,
+      marginRight: 6,
+      marginTop: 5,
+    },
+    tableRow: {
+      "&:hover": {
+        boxShadow: "0 14px 28px rgba(0,0,0,0.25), 0 1px 5px rgba(0,0,0,0.22)",
+        cursor: "pointer",
+      },
+    },
+  }));
+
+  
 export default function Dashboard() {
+    const classes = useStyles();
     return (
         <div style={{ backgroundColor: 'aqua', minWidth: '50vw'}}>
-            <Paper style={{padding:5, outline:0 }}>
-                <BackgoundCard header='Dashboard' subheader='View SonicKeys Streaming' />
+            <Paper className={classes.EncodeDecodeContainer}>
+                {/* <BackgoundCard header='Dashboard' subheader='View SonicKeys Streaming' /> */}
+                <Grid item className={classes.header}>
+                    <div>
+                        <Typography className={classes.heading}>
+                        Sonic StreamReader
+                        </Typography>
+                        <Typography className={classes.subHeading}>
+                        List 5 radio stations
+                        </Typography>
+                    </div>
+                </Grid>
                 <div style={{padding:10,marginTop:25}}>
                 <Grid container spacing={3}>
                     <Grid item xs={12} sm={6} md={3} lg={3}>

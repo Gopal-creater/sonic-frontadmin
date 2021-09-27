@@ -9,6 +9,9 @@ import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 import themes from "./theme";
 import { Provider } from 'react-redux';
 import store from "./stores";
+import "./assets/fonts/NunitoSans-Black.ttf"
+import "./assets/fonts/NunitoSans-Bold.ttf"
+import "./assets/fonts/NunitoSans-Regular.ttf"
 
 const appTheme = createTheme(themes);
 ReactDOM.render(

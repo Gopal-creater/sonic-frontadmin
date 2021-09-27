@@ -12,3 +12,21 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+@font-face {
+  font-family: "NunitoSans-Black";
+  src: local("NunitoSans-Black"),
+    url("./assets/fonts/NunitoSans-Black.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "NunitoSans-Bold";
+  src: local("NunitoSans-Bold"),
+    url("./assets/fonts/NunitoSans-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "NunitoSans-Regular";
+  src: local("NunitoSans-Regular"),
+    url("./assets/fonts/NunitoSans-Regular.ttf") format("truetype");
+}

@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     },
     signInCommonContainer: {
         backgroundColor: "white",
-        width: "25%",
+        width: "26%",
         maxWidth: "450px",
         maxHeight: "650px",
         minHeight: "550px",
@@ -47,13 +47,15 @@ const useStyles = makeStyles((theme) => ({
     ,
     signInHeading: {
         color: "#393F5B",
+        fontSize: 30,
         fontWeight: "bold",
-        fontSize: 30
+        fontFamily: 'NunitoSans-Bold',
     },
     signInSubHeading: {
         color: "#393F5B",
+        fontSize: 17,
         fontWeight: "bold",
-        fontSize: 14
+        fontFamily: 'NunitoSans-Bold',
     },
 }));
 

@@ -20,12 +20,12 @@ const useStyles = makeStyles((theme) => ({
   },
   heading: {
     fontSize: 24,
-    fontWeight: 700,
+    fontFamily: 'NunitoSans-ExtraBold',
     color: "#343F84",
   },
   subHeading: {
     fontSize: 18,
-    fontWeight: 500,
+    fontFamily: 'NunitoSans-Regular',
     color: "#00A19A",
   },
   card: {
@@ -37,10 +37,10 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     height: 45,
-    padding: "0px 20px",
+    padding: "0px 30px",
     textTransform: "initial",
     fontSize: 15,
-    fontWeight: 700,
+    fontFamily: 'NunitoSans-Bold',
     borderRadius: 8,
   },
 
@@ -53,23 +53,23 @@ const useStyles = makeStyles((theme) => ({
   tableHead: {
     color: "#ACACAC",
     fontSize: 12,
-    fontWeight: "700",
+    fontFamily: 'NunitoSans-Bold',
   },
   key: {
     color: "#343F84",
     fontSize: 18,
-    fontWeight: 700,
+    fontFamily: 'NunitoSans-Bold',
     paddingTop: 25,
     paddingBottom: 25,
   },
   tableCellColor: {
     color: "#343F84",
     fontSize: 14,
-    fontWeight: 700,
+    fontFamily: 'NunitoSans-Bold',
   },
   tableCellNormalText: {
     fontSize: 14,
-    fontWeight: 500,
+    fontFamily: 'NunitoSans-Regular',
     color: "#757575",
   },
 }));
@@ -77,8 +77,8 @@ const useStyles = makeStyles((theme) => ({
 const tableHead = [
   "ID",
   "LICENCE KEY",
-  "USAGE COUNT (ENCODED)",
-  "MAX COUNT (ENCODED)",
+  "USAGE COUNT (ENCODE)",
+  "MAX COUNT (ENCODE)",
   "USAGE COUNT (MONITORING)",
   "MAX COUNT (MONITORING)",
   "EXPIRY DATE",
@@ -145,19 +145,19 @@ function Licences(props) {
                   {data.encodeUses}
                 </TableCell>
                 <TableCell className={classes.tableCellNormalText}>
-                  {data.isUnlimitedEncode ? "Unlimited" : data.maxEncodeUses}
+                  {data.isUnlimitedEncode === true ? "Unlimited" : data.maxEncodeUses}
                 </TableCell>
                 <TableCell className={classes.tableCellNormalText}>
                   {data.monitoringUses}
                 </TableCell>
                 <TableCell className={classes.tableCellNormalText}>
-                  {data.isUnlimitedMonitor ? "Unlimited" : data.maxMonitoringUses}
+                  {data.isUnlimitedMonitor === true ? "Unlimited" : data.maxMonitoringUses}
                 </TableCell>
                 <TableCell className={classes.tableCellNormalText}>
                   {format(new Date(data.validity), "dd.MM.yyyy")}
                 </TableCell>
                 <TableCell className={classes.tableCellColor}>
-                  {data.suspended ? "Yes" : "No"}
+                  {data.suspended === true ? "Yes" : "No"}
                 </TableCell>
               </TableRow>
             ))}

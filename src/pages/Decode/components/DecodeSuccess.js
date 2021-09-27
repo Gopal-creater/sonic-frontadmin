@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
   tableHead: {
     color: "#ACACAC",
     fontSize: 12,
-    fontWeight: "700",
+    fontFamily: 'NunitoSans-Bold',
   },
   tableRow: {
     "&:hover": {
@@ -62,14 +62,14 @@ const useStyles = makeStyles((theme) => ({
   key: {
     color: "#343F84",
     fontSize: 18,
-    fontWeight: 700,
+    fontFamily: 'NunitoSans-Bold',
     paddingTop: 25,
     paddingBottom: 25,
   },
   tableCellColor: {
     color: "#343F84",
     fontSize: 14,
-    fontWeight: 700,
+    fontFamily: 'NunitoSans-Bold',
   },
   tableCellIcon: {
     display: "flex",
@@ -77,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
   },
   tableCellNormalText: {
     fontSize: 14,
-    fontWeight: 500,
+    fontFamily: 'NunitoSans-Regular',
     color: "#757575",
   },
   failedIcon: {
@@ -93,7 +93,7 @@ const useStyles = makeStyles((theme) => ({
   failed: {
     marginTop: 10,
     fontSize: 22,
-    fontWeight: 700,
+    fontFamily: 'NunitoSans-ExtraBold',
     color: "#393F5B",
   },
 }));

@@ -62,7 +62,6 @@ class Communication {
     });
   }
   encodeFile(formData) {
-    log("Encode Data", formData)
     const axiosConfig = {
       data: formData,
       headers: {

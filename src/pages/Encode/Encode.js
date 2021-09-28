@@ -88,7 +88,6 @@ export default function Encode() {
     }
 
     const handleEncode = (e) => {
-        log("values", values)
         e.preventDefault();
         if (values?.data?.contentOwner === "" || values?.data?.contentOwner === undefined) {
             cogoToast.error("Artist is a mandatory field");
@@ -134,6 +133,7 @@ export default function Encode() {
             contentQuality: values?.data?.contentQuality,
             additionalMetadata: { ...values?.data?.additionalMetadata }
         }
+        log("payload", payload)
         formData.append("data", JSON.stringify(payload));
 
         setValues({ ...values, encodeLoading: true })

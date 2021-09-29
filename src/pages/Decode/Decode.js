@@ -4,7 +4,6 @@ import { Grid } from "@material-ui/core";
 import FailedFileSelection from "../../components/common/FailedFileSelection";
 import DecodeSuccess from "./components/DecodeSuccess";
 import EncodeDecodeLoading from "../../components/common/EncodeDecodeLoading";
-import { log } from "../../utils/app.debug";
 
 export default function Decode() {
   const [loading, setLoading] = useState(false);
@@ -17,10 +16,10 @@ export default function Decode() {
   const [audioName, setAudioName] = useState(null);
 
   React.useEffect(() => {
-    if (decodeError) {
+    if (decode?.displayResults === true) {
       setDecodeError(null);
     }
-  }, [decodeError]);
+  }, [decode]);
 
   return (
     <Grid>

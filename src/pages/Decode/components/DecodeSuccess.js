@@ -9,7 +9,6 @@ import TableRow from "@material-ui/core/TableRow";
 import VisibilityOutlinedIcon from "@material-ui/icons/Visibility";
 import { Grid, Typography } from "@material-ui/core";
 import Icon from "../../../assets/images/icon-success-graphic.png";
-import { log } from "../../../utils/app.debug";
 import DailogTable from "../../../components/common/DialogTable";
 import { format, isValid } from "date-fns";
 import { converstionOfKb } from "../../../utils/HelperMethods";

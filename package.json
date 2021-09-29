@@ -59,7 +59,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "make:release":"react-node-cli g"
   },
   "eslintConfig": {
     "extends": [
@@ -78,5 +79,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@prabink/react-node-cli": "^1.2.0"
   }
 }

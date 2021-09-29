@@ -21,6 +21,8 @@
     "date-fns": "^2.23.0",
     "file-saver": "^2.0.5",
     "immer": "^8.0.1",
+    "js-file-download": "^0.4.12",
+    "js-file-downloader": "^1.1.22",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "mui-datatables": "^3.7.8",

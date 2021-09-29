@@ -133,7 +133,6 @@ export default function Encode() {
             contentQuality: values?.data?.contentQuality,
             additionalMetadata: { ...values?.data?.additionalMetadata }
         }
-        log("payload", payload)
         formData.append("data", JSON.stringify(payload));
 
         setValues({ ...values, encodeLoading: true })
@@ -153,8 +152,8 @@ export default function Encode() {
             {values?.encodeSuccess !== null && <EncodeSuccess audioName={values?.name} successData={values?.encodeSuccess} />}
             {values?.encodeError !== null && <FailedFileSelection title="Encoding" audioName={values?.name} />}
 
-            {/* <FailedFileSelection title="Encoding" audioName={values?.name} /> */}
-            {/* <EncodeSuccess audioName={"dsdfgsdfgsdfgsdfgsdfgsdf"} /> */}
+            {/* <FailedFileSelection title="Encoding" audioName={values?.name} />
+            <EncodeSuccess audioName={"dsdfgsdfgsdfgsdfgsdfgsdf"} /> */}
             <FileSelection
                 prop={{
                     title: "Encode",
@@ -403,11 +402,14 @@ export default function Encode() {
                                     value={values?.data?.contentValidation}
                                     onChange={(event) => { setValues({ ...values, data: { ...values?.data, contentValidation: event.target.value } }) }}>
                                     <FormControlLabel value="Yes" control={<Radio style={{
-                                        color: "#7078A8", fontFamily: 'NunitoSans-Regular',
-                                    }} />} label="Yes" />
-                                    <FormControlLabel value="No" control={<Radio style={{
-                                        color: "#7078A8", fontFamily: 'NunitoSans-Regular',
-                                    }} />} label="No" />
+                                        color: "#7078A8"
+                                    }} />} label={<Typography style={{
+                                        fontFamily: 'NunitoSans-Regular', fontWeight: "bold"
+                                    }}>Yes</Typography>} />
+
+                                    <FormControlLabel value="No" control={<Radio style={{ color: "#7078A8" }} />} label={<Typography style={{
+                                        fontFamily: 'NunitoSans-Regular', fontWeight: "bold"
+                                    }}>No</Typography>} />
                                 </RadioGroup>
                             </FormControl>
                         </Grid>

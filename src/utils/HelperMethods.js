@@ -14,14 +14,14 @@ export function extractFileName(url) {
 }
 
 export async function downloadFile(filePath, fileType, setRestrict, s3MetaData) {
-  console.log("filePath filetype ",filePath, fileType, s3MetaData);
+  console.log("filePath filetype ", filePath, fileType, s3MetaData);
   const body = {
     fileURL: filePath,
     contentType: fileType
   }
   if (s3MetaData !== undefined) {
     await Communication.downloadFileWithS3Key(s3MetaData).then((response) => {
-      
+
       FileSaver.saveAs(response, extractFileName(filePath));
     }).catch(error => {
       cogoToast.error("Download Failed.");

@@ -190,7 +190,7 @@ const SonicKeys = (props) => {
         console.log("download data");
         const contentFilePath = data?.contentFilePath;
         const contentFileType = data?.contentFileType;
-        const s3MetaData = data?.s3FileMeta?.key;
+        const s3MetaData = data?.s3FileMeta?.Key;
         if (data?.downloadable) {
             if (!restrict) {
                 console.log("restrict", restrict);

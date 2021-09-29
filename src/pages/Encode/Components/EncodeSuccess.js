@@ -17,21 +17,24 @@ const useStyles = makeStyles(() => ({
         backgroundColor: "#E5F5F4"
     },
     heading: {
-        fontSize: "calc(1.3rem + .5vw)",
-        fontWeight: "bold",
-        color: "#393F5B"
+        color: "#393F5B",
+        fontFamily: "NunitoSans-ExtraBold",
+        fontSize: 30
     },
     subHeading: {
         fontSize: 18,
-        fontWeight: 500,
-        color: "#00A19A"
+        fontWeight: "medium",
+        color: "#00A19A",
+        fontFamily: "NunitoSans-Bold",
+
     },
     iconText: {
         fontSize: "calc(1rem + .5vw)",
-        fontWeight: "bolder",
+        fontWeight: "bold",
         color: "#343F84",
         textAlign: "center",
-        marginTop: "8px"
+        marginTop: "8px",
+        fontFamily: "NunitoSans-ExtraBold"
     },
     downloadBtn: {
         height: 45,

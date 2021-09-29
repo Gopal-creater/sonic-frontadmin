@@ -57,14 +57,28 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: "bold",
         fontFamily: 'NunitoSans-ExtraBold',
     },
+    textInput: {
+        fontFamily: "NunitoSans-Regular",
+        fontSize: 18,
+        color: "#757575"
+    },
+    textInputLable: {
+        fontFamily: "NunitoSans-Regular",
+        fontSize: 18,
+        color: "#757575"
+    }
 }));
 
 const SignInButton = withStyles({
     root: {
         backgroundColor: "#343F84",
         textTransform: "none",
-        width: "80px",
-        height: "40px",
+        height: 45,
+        width: 85,
+        padding: "0px 20px",
+        fontSize: 15,
+        fontFamily: 'NunitoSans-Bold',
+        borderRadius: 8,
     },
 })(Button);
 
@@ -72,14 +86,18 @@ const SignUpButton = withStyles({
     root: {
         backgroundColor: "white",
         textTransform: "none",
-        width: "80px",
-        height: "40px",
         border: "1px solid #343F84",
-        color: "black",
+        color: "#7078A8",
         "&:hover": {
             color: "white",
             backgroundColor: "#343F84",
         },
+        height: 45,
+        width: 85,
+        padding: "0px 20px",
+        fontSize: 15,
+        fontFamily: 'NunitoSans-Bold',
+        borderRadius: 8,
     },
 })(Button);
 
@@ -94,6 +112,7 @@ const ForgetPasswordButton = withStyles({
             backgroundColor: "white",
             textDecoration: "underline",
         },
+        fontFamily: 'NunitoSans-Black',
     },
 })(Button);
 
@@ -157,6 +176,8 @@ export default function SignIn() {
                                 error={!!error}
                                 className="mt-2"
                                 helperText={error?.message}
+                                inputProps={{ className: classes.textInput }}
+                                InputLabelProps={{ className: classes.textInputLable }}
                             />
                         )}
                         rules={{ required: "Username is required" }}
@@ -180,6 +201,7 @@ export default function SignIn() {
                                 error={!!error}
                                 helperText={error?.message}
                                 className="mt-2"
+                                InputLabelProps={{ className: classes.textInputLable }}
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position="end">
@@ -203,6 +225,7 @@ export default function SignIn() {
                                             </IconButton>
                                         </InputAdornment>
                                     ),
+                                    className: classes.textInput
                                 }}
                             />
                         )}
@@ -236,7 +259,7 @@ export default function SignIn() {
                     </Grid>
 
                     <Grid container direction="column" alignItems="flex-end" className="mt-4">
-                        <p style={{ color: "#757575", fontSize: "small" }}>Don't have an account?</p>
+                        <p style={{ color: "#757575", fontWeight: "bold", fontFamily: "NunitoSans-Regular", fontSize: 14 }}>Don't have an account?</p>
 
                         <SignUpButton
                             type="button"
@@ -252,7 +275,7 @@ export default function SignIn() {
                     </Grid>
 
                     <Grid className="pt-4" id="footer">
-                        <span style={{ fontSize: "small", color: "#ACACAC", fontFamily: "NanutoSans-Regular", fontWeight: "medium" }}>
+                        <span style={{ fontSize: "small", color: "#ACACAC", fontFamily: "NunitoSans-Regular", fontWeight: "medium" }}>
                             <span>&#169;</span> {new Date().getFullYear()} SonicData Ltd. All rights reserved.
                         </span>
                     </Grid>

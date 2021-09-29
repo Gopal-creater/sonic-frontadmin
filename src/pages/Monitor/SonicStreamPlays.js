@@ -113,6 +113,10 @@ export const SonicStreamPlays = (props) => {
   const [startDate, setStartDate] = useState(moment(monthRange(true,false).split(',')[1]).toDate());
   const [endDate, setEndDate] = useState(new Date());
   const [tableData, setTableData] = React.useState([]);
+  const [defaultData, setDefaultData] = useState(false);
+  const [dataSearch, setDataSearch] = React.useState("");
+  const [searchValue, setSearchValue] = useState("");
+
   const theme = useTheme()
   const [sonicKey, setSonicKey] = React.useState({
     sonicKey: "",
@@ -177,7 +181,13 @@ export const SonicStreamPlays = (props) => {
   }
 
   
-  
+  const onSearchChange = (searchText) => {
+    console.log('Search Change', searchText);
+    setSearchValue(searchText);
+  //  setPage(0)
+  //  firstFetchSonicKey(0, rowPerPage, searchText)
+  }
+
   useEffect(() => {
     log('Use Effect')
     if (tableData.length <= 0)
@@ -252,7 +262,10 @@ export const SonicStreamPlays = (props) => {
         </div>
         <Grid style={{ display: 'flex', backgroundColor: '', }}>
         <div style={{ backgroundColor: '', marginRight: '25px' }} >
-          <Search /></div>
+        <Search  searchData={onSearchChange} 
+          dataSearch={dataSearch} 
+          setDataSearch={setDataSearch} 
+          setDefaultData={setDefaultData} /></div>
           <div><img src={viewFilter} /></div>
                 </Grid>
       </Grid>

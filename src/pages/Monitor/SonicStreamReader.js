@@ -153,6 +153,9 @@ function SonicStreamReader(props) {
     return <div className={classes.placeholder}>{children}</div>;
   };
 
+  const [defaultData, setDefaultData] = useState(false);
+  const [dataSearch, setDataSearch] = React.useState("");
+
   const useStyleClasses = useStyles();
   let radiostations = cloneDeep(props.radiostations);
 
@@ -226,9 +229,12 @@ function SonicStreamReader(props) {
     setSelected([]);
   };
 
-  const onHide = () => {
-    setShow(false);
-  };
+  const onSearchChange = (searchText) => {
+    console.log('Search Change', searchText);
+    setSearchValue(searchText);
+  //  setPage(0)
+  //  firstFetchSonicKey(0, rowPerPage, searchText)
+  }
 
   const onDelete = () => {
     const data = {"ids":selectedRows}
@@ -337,7 +343,10 @@ function SonicStreamReader(props) {
               List {props.totalRadioStreams} radio stations
             </Typography>
           </div>
-          <Search  />
+          <Search  searchData={onSearchChange} 
+          dataSearch={dataSearch} 
+          setDataSearch={setDataSearch} 
+          setDefaultData={setDefaultData} />
         </Grid>
          <Paper
           maxWidth="lg"
@@ -498,7 +507,7 @@ function SonicStreamReader(props) {
               {dropDownCountry?.docs?.map((country, index) => {
                   const isItemSelected = isSelectedRadioStation(country?._id);
                 return (
-                  <MenuItem key={index} value={country?.name}>
+                  <MenuItem key={index} value={country?.name} otherDetails={country}>
                   <Checkbox
                         color="#343F84"
                         onChange={(e) => checkBoxForSubscribed(e, country?._id)}

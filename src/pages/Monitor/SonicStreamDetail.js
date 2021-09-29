@@ -75,22 +75,16 @@ export const SonicStreamDetail = (props) => {
   const [totalCount, setTotalCount] = useState(0);
    const [tableData, setTableData] = useState([]);
   const passedData = JSON.parse(localStorage.getItem("passedData"));
-  // const tableData = [{
-  //   "contentDescription": "Sample audio",
-  //   "contentName": "Radio Sonic Sample",
-  //   "contentOwner": "Kevin MacLeod",
-  //   "contentQuality": "Goof",
-  //   "sonicKey": "WvvICMde2SH",
-  //   "hits":'15'
-  //   },
-  //   {
-  //       "contentDescription": "Sample audio2",
-  //       "contentName": "Radio Sonic Sample",
-  //       "contentOwner": "Kevin MacLeod",
-  //       "contentQuality": "Average",
-  //       "sonicKey": "HWvvICMde2S",
-  //       "hits":'15'
-  //       }];  
+  const [searchValue, setSearchValue] = React.useState()
+  const [defaultData, setDefaultData] = useState(false);
+  const [dataSearch, setDataSearch] = React.useState("");
+  const onSearchChange = (searchText) => {
+    console.log('Search Change', searchText);
+    setSearchValue(searchText);
+  //  setPage(0)
+  //  firstFetchSonicKey(0, rowPerPage, searchText)
+  }
+
   const firstFetchSonicKey = (_offset=0,_limit=10) => {
     setLoading(true);
     setError('');
@@ -172,7 +166,7 @@ export const SonicStreamDetail = (props) => {
             )}
           </Typography>
         </div>
-        <Search  searchData={''} dataSearch={''} />
+        <Search  searchData={onSearchChange} dataSearch={dataSearch} setDataSearch={setDataSearch} setDefaultData={setDefaultData} />
       </Grid>
       {!loading && !error ?
       <TableContainer style={{ ...tableStyle.container }}>

@@ -45,6 +45,8 @@ import CalendarLogo from "../../../src/assets/icons/icon-calendar.png";
 import cogoToast from "cogo-toast";
 import * as actionCreators from "../../stores/actions/index";
 import moment from "moment";
+import Search from "../SonicKeys/Components/Search";
+import viewFilter from "../../../src/assets/images/view.png";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -248,6 +250,11 @@ export const SonicStreamPlays = (props) => {
             See history of SonicKey plays
           </Typography>
         </div>
+        <Grid style={{ display: 'flex', backgroundColor: '', }}>
+        <div style={{ backgroundColor: '', marginRight: '25px' }} >
+          <Search /></div>
+          <div><img src={viewFilter} /></div>
+                </Grid>
       </Grid>
       <Paper
           maxWidth="lg"

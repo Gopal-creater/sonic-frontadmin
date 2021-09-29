@@ -21,6 +21,7 @@ import Communication from "../../services/https/Communication";
 import LoadingSpinner from "./Components/LoadingSpinner";
 import ErrorModal from "./Components/ErrorModal";
 import * as actionCreators from '../../stores/actions/index';
+import Search from "../SonicKeys/Components/Search";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -72,24 +73,24 @@ export const SonicStreamDetail = (props) => {
   const [error, setError] = useState('');
   const parsedQueryString = queryString.parse(props.location.search);
   const [totalCount, setTotalCount] = useState(0);
-//   const [tableData, setTableData] = useState([]);
+   const [tableData, setTableData] = useState([]);
   const passedData = JSON.parse(localStorage.getItem("passedData"));
-  const tableData = [{
-    "contentDescription": "Sample audio",
-    "contentName": "Radio Sonic Sample",
-    "contentOwner": "Kevin MacLeod",
-    "contentQuality": "Goof",
-    "sonicKey": "WvvICMde2SH",
-    "hits":'15'
-    },
-    {
-        "contentDescription": "Sample audio2",
-        "contentName": "Radio Sonic Sample",
-        "contentOwner": "Kevin MacLeod",
-        "contentQuality": "Average",
-        "sonicKey": "HWvvICMde2S",
-        "hits":'15'
-        }];  
+  // const tableData = [{
+  //   "contentDescription": "Sample audio",
+  //   "contentName": "Radio Sonic Sample",
+  //   "contentOwner": "Kevin MacLeod",
+  //   "contentQuality": "Goof",
+  //   "sonicKey": "WvvICMde2SH",
+  //   "hits":'15'
+  //   },
+  //   {
+  //       "contentDescription": "Sample audio2",
+  //       "contentName": "Radio Sonic Sample",
+  //       "contentOwner": "Kevin MacLeod",
+  //       "contentQuality": "Average",
+  //       "sonicKey": "HWvvICMde2S",
+  //       "hits":'15'
+  //       }];  
   const firstFetchSonicKey = (_offset=0,_limit=10) => {
     setLoading(true);
     setError('');
@@ -127,7 +128,7 @@ export const SonicStreamDetail = (props) => {
             Detected SonicKeys
           </Typography>
           <Typography className={classes.subHeading}>
-            Found 2 SonicKeys in {passedData.name} radio station
+            Found {tableData.length} SonicKeys in {passedData.name} radio station
             {passedData.isStreamStarted === true && (
               <Badge
                 style={{
@@ -171,6 +172,7 @@ export const SonicStreamDetail = (props) => {
             )}
           </Typography>
         </div>
+        <Search  searchData={''} dataSearch={''} />
       </Grid>
       {!loading && !error ?
       <TableContainer style={{ ...tableStyle.container }}>
@@ -192,7 +194,7 @@ export const SonicStreamDetail = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-          {tableData?.map((file, index) => {
+          {tableData?.docs?.map((file, index) => {
               log(file)
               return(
             <TableRow>

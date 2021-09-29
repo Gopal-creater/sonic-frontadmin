@@ -114,13 +114,13 @@ const useStyles = makeStyles({
 
 const SonicKeys = (props) => {
     const [selectedRows, setSelectedRows] = useState([]);
-    const [filterColumn,setFilterColumn]=useState(["ID",
-    "SONICKEY",
-    "NAME",
-    "ARTIST",
-    "ENCODED DATE",
-    "DESCRIPTION",
-    "ACTION",])
+    const [filterColumn, setFilterColumn] = useState(["ID",
+        "SONICKEY",
+        "NAME",
+        "ARTIST",
+        "ENCODED DATE",
+        "DESCRIPTION",
+        "ACTION",])
     const [pageNum, setPage] = React.useState(0);
     const [loading, setLoading] = React.useState(false);
     const [rowPerPage, setrowPerPage] = React.useState(10)
@@ -296,7 +296,7 @@ const SonicKeys = (props) => {
 
     return (
         <Grid className={classes.gridContainer}>
-            <Grid style={{ display: 'flex', justifyContent: 'space-between', padding: '2.5% 2.5% 0 2.5%', backgroundColor: 'white', }}>
+            <Grid style={{ display: 'flex', justifyContent: 'space-between', padding: "2% 2.5%", backgroundColor: 'white', }}>
                 <Grid>
                     <Typography className={classes.heading}>SonicKeys</Typography>
                     <Typography className={classes.subHeading}>
@@ -372,13 +372,13 @@ const SonicKeys = (props) => {
                                             <TableCell className={classes.tableCellNormalText}>{isSelected("ENCODED DATE") && (format(new Date(data.contentCreatedDate), 'dd/MM/yyyy'))}</TableCell>
                                             <TableCell className={classes.tableCellNormalText}>{isSelected("DESCRIPTION") && (data.contentDescription === "" ? "-" : data.contentDescription)}</TableCell>
                                             <TableCell className={classes.tableCellColor}>
-                                                <div className={classes.tableCellIcon} onClick={() => handleClickOpenTable(data)}>
-                                                    <VisibilityOutlinedIcon fontSize="small" />&nbsp;View
-                                                </div>
-                                            </TableCell>
-                                            <TableCell className={classes.tableCellColor}>
-                                                <div className={classes.tableCellIcon} onClick={() => downloadFileData(data)}>
-                                                    <img src={download} />&nbsp;Download
+                                                <div style={{display:'flex', justifyContent:'center'}}>
+                                                    <div style={{marginRight:'20px'}} className={classes.tableCellIcon} onClick={() => handleClickOpenTable(data)}>
+                                                        <VisibilityOutlinedIcon fontSize="small" />&nbsp;View
+                                                    </div>
+                                                    <div style={{marginLeft:'20px'}} className={classes.tableCellIcon} onClick={() => downloadFileData(data)}>
+                                                        <img src={download} />&nbsp;Download
+                                                    </div>
                                                 </div>
                                             </TableCell>
                                         </TableRow>

@@ -33,6 +33,7 @@ const Search = (props) => {
     const onSearch = () => {
         searchData(dataSearch);
     }
+
     let one = document.getElementById('one');
     let two = document.getElementById('two');
     let three = document.getElementById('three');
@@ -56,4 +57,5 @@ const Search = (props) => {
         </div>
     )
 }
+
 export default Search;

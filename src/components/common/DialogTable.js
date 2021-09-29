@@ -1,5 +1,5 @@
 import React from "react";
-import { IconButton, Dialog, DialogTitle, TableContainer, TableRow, TableCell, useTheme, TableHead, TableBody } from "@material-ui/core";
+import { IconButton, Dialog, DialogTitle, TableContainer, TableRow, TableCell, useTheme, TableBody } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import Table from "react-bootstrap/Table";
 import CloseIcon from '@material-ui/icons/Close';
@@ -36,25 +36,12 @@ const useStyles = makeStyles({
 const DailogTable = (props) => {
 
     const { sonicKey } = props;
-    console.log("searching data for search", sonicKey);
     const theme = useTheme()
     const classes = useStyles();
 
     const handleCloseTable = () => {
         props.setOpenTable(false)
     };
-
-    // function bytesForHuman(bytes) {
-    //     let units = ['KB', 'MB', 'GB', 'TB', 'PB']
-
-    //     let i = 0
-
-    //     for (i; bytes > 1024; i++) {
-    //         bytes /= 1024;
-    //     }
-
-    //     return Math.round(bytes.toFixed(1)) + ' ' + units[i]
-    // }
 
     return (<>
         <Dialog open={true} fullWidth={true} className={classes.dialogPaper}>
@@ -76,43 +63,20 @@ const DailogTable = (props) => {
                     }}>&nbsp; &nbsp;SonicKey: {sonicKey.sonicKey}</div>
                 </div>
             </DialogTitle>
-            {/* <DialogContent dividers> */}
-            {/* <DialogContent> */}
             <TableContainer component={Paper} style={{ marginTop: 10, padding: '10px 25px', border: 'none' }} elevation={0}>
-                {/* <div style={{backgroundColor:'red', padding:'30px'}}> */}
                 <Table className={classes.table} size="small" aria-label="a dense table">
-                    {/* Changes for multiple keys */}
-                    {/* <TableHead style={{ backgroundColor: '#D3D3D0' }}>
-                    </TableHead> */}
                     <TableBody>
                         <TableRow>
                             <TableCell className={classes.tableCellOne}>FILE TYPE</TableCell>
-                            <TableCell className={classes.tableCellTwo}>{sonicKey.contentFileName}</TableCell>
+                            <TableCell className={classes.tableCellTwo}>{sonicKey.contentFileType}</TableCell>
                         </TableRow>
                         <TableRow >
                             <TableCell className={classes.tableCellOne}>NAME</TableCell>
-                            <TableCell className={classes.tableCellTwo}>{sonicKey.contentName}</TableCell>
+                            <TableCell className={classes.tableCellTwo}>{sonicKey.contentFileName}</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell className={classes.tableCellOne}>ARTIST</TableCell>
                             <TableCell className={classes.tableCellTwo}>{sonicKey.contentOwner}</TableCell>
-                        </TableRow>
-
-                        <TableRow>
-                            <TableCell className={classes.tableCellOne}>SONGWRITER</TableCell>
-                            <TableCell className={classes.tableCellTwo}>{sonicKey.sonicKey}</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell className={classes.tableCellOne} >PRODUCER</TableCell>
-                            <TableCell className={classes.tableCellTwo}>{sonicKey.channel}</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell className={classes.tableCellOne}>LENGTH (00:00:00:000)</TableCell>
-                            <TableCell className={classes.tableCellTwo}>{sonicKey.contentDuration}</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell className={classes.tableCellOne}>AUDIO SIZE (IN MB)</TableCell>
-                            <TableCell className={classes.tableCellTwo}>{sonicKey.contentSize}</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell className={classes.tableCellOne}>LENGTH (00:00:00:000)</TableCell>
@@ -125,24 +89,21 @@ const DailogTable = (props) => {
                         <TableRow>
                             <TableCell className={classes.tableCellOne}>INDUSTRY CODES</TableCell>
                             <TableCell className={classes.tableCellTwo}>
-                                {/* ISRC :TESTING
-                            ISWC :TESTING
-                            Tunecode :TESTING */}
-                                ISRC :{sonicKey.isrcCode ? sonicKey.isrcCode : 'Not Specified'}<br />
-                                ISWC :{sonicKey.iswcCode ? sonicKey.iswcCode : 'Not Specified'} <br />
-                                Tunecode :{sonicKey.tuneCode ? sonicKey.tuneCode : 'Not Specified'}
+                                ISRC : {sonicKey.isrcCode ? sonicKey.isrcCode : 'Not Specified'}<br />
+                                ISWC : {sonicKey.iswcCode ? sonicKey.iswcCode : 'Not Specified'} <br />
+                                Tunecode : {sonicKey.tuneCode ? sonicKey.tuneCode : 'Not Specified'}
                             </TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell className={classes.tableCellOne}>UNDERLYING ENCODING OF THE FILE</TableCell>
-                            <TableCell className={classes.tableCellTwo}>TESTING</TableCell>
+                            <TableCell className={classes.tableCellTwo}></TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell className={classes.tableCellOne}>SAMPLING FREQUENCY </TableCell>
                             <TableCell className={classes.tableCellTwo}>{sonicKey.contentSamplingFrequency} Hz s</TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell className={classes.tableCellOne}>Encoded Date </TableCell>
+                            <TableCell className={classes.tableCellOne}>Encoded Date</TableCell>
                             <TableCell className={classes.tableCellTwo}>{sonicKey.createdAt}</TableCell>
                         </TableRow>
                         <TableRow>
@@ -154,6 +115,10 @@ const DailogTable = (props) => {
                             <TableCell className={classes.tableCellTwo}>{sonicKey.encodingStrength}</TableCell>
                         </TableRow>
                         <TableRow>
+                            <TableCell className={classes.tableCellOne}>Content Validation</TableCell>
+                            <TableCell className={classes.tableCellTwo}>{sonicKey.contentValidation}</TableCell>
+                        </TableRow>
+                        <TableRow>
                             <TableCell className={classes.tableCellOne}>Content Description</TableCell>
                             <TableCell className={classes.tableCellTwo}>{sonicKey.contentDescription}</TableCell>
                         </TableRow>
@@ -163,9 +128,7 @@ const DailogTable = (props) => {
                         </TableRow>
                     </TableBody>
                 </Table>
-                {/* </div> */}
             </TableContainer>
-            {/* </DialogContent> */}
             <DialogActions border="none" style={{ margin: '20px', border: 'none' }}>
                 <Button onClick={handleCloseTable} variant="outlined" style={{
                     fontFamily: 'NunitoSans-Bold', color: '#343F84', borderColor: '#343F84', borderWidth: '2px', borderRadius: '8px', textTransform: 'none', padding: '10px 20px'

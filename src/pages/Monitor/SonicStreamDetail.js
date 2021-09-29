@@ -105,6 +105,7 @@ export const SonicStreamDetail = (props) => {
   }
 
   useEffect(() => {
+    log('Detail')
     firstFetchSonicKey();
   }, []);
 

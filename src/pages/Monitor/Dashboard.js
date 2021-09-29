@@ -1,5 +1,5 @@
 import { Container, Grid, makeStyles, Typography } from '@material-ui/core'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import BackgoundCard from './Components/BackgoundCard'
 import Paper from "@material-ui/core/Paper";
 import GraphCard from './Components/GraphCard';
@@ -12,6 +12,11 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import CloseIcon from '@material-ui/icons/Close';
 import StorageIcon from '@material-ui/icons/Storage';
 import ReorderIcon from '@material-ui/icons/Reorder';
+import Communication from '../../services/https/Communication';
+import { log } from '../../utils/app.debug';
+import { connect } from 'react-redux';
+import * as actionCreators from '../../stores/actions/index';
+import { cloneDeep } from 'lodash';
 
 const useStyles = makeStyles((theme) => ({
     EncodeDecodeContainer: {
@@ -48,7 +53,42 @@ const useStyles = makeStyles((theme) => ({
   }));
 
   
-export default function Dashboard() {
+export function Dashboard(props) {
+
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+    const [totalCount, setTotalCount] = useState('');
+    const [errorCount, setErrorCount] = useState('');
+    const [listeningCount, setListeningCount] = useState('');
+    const [notlisteningCount, setNotListeningCount] = useState('');
+
+    const fetchDetectionCount = (param) => {
+        Communication.getCount(param).then((res) => {
+          console.log("Count res", res);
+          if(param==='?isListeningStarted=true'){
+            setListeningCount(res)
+          }
+          else if(param==='?isListeningStarted=false'){
+            setNotListeningCount(res)
+          }
+          else if(param==='?isError=true'){
+            setErrorCount(res)
+          }else if(param===undefined){
+            setTotalCount(res)
+          }
+          setError('')
+        }).catch(err => {
+          setError(err)
+        })
+      }
+      useEffect(() => {
+          log('DashBoard')
+        fetchDetectionCount(`?isListeningStarted=true`)
+        fetchDetectionCount(`?isListeningStarted=false`)
+        fetchDetectionCount(`?isError=true`)
+        fetchDetectionCount()
+      }, [])
+      
     const classes = useStyles();
     return (
         <div style={{ backgroundColor: 'aqua', minWidth: '50vw'}}>
@@ -60,7 +100,7 @@ export default function Dashboard() {
                         Sonic StreamReader
                         </Typography>
                         <Typography className={classes.subHeading}>
-                        List 5 radio stations
+                        List {totalCount} radio stations
                         </Typography>
                     </div>
                 </Grid>
@@ -68,10 +108,10 @@ export default function Dashboard() {
                 <Grid container spacing={3}>
                     <Grid item xs={12} sm={6} md={3} lg={3}>
                         <InfoCard 
-                        //    totalRadioStreams={props.totalRadiostaionCount} 
+                           totalRadioStreams={totalCount} 
                             title="Realtime listening" 
                             bgColor = "rgb(229, 245, 244)" 
-                        //    count= {props.totalListeningCount}
+                           count= {listeningCount}
                         > 
                         </InfoCard>
                     </Grid>
@@ -79,27 +119,27 @@ export default function Dashboard() {
                         <InfoCard 
                         title="SonicKeys Detected" 
                         bgColor = "rgb(229, 245, 244)" 
-                        // day={props.day}
-                        // week={props.week}
-                        // month={props.month}
+                        day={props.day}
+                        week={props.week}
+                        month={props.month}
                         >
                         </InfoCard>
                     </Grid>
                     <Grid item xs={12} sm={6} md={3} lg={3}>
                         <InfoCard
-                        //    totalRadioStreams={props.totalRadiostaionCount} 
+                            totalRadioStreams={totalCount} 
                             title="Currently not Listening" 
                             bgColor = "rgb(244, 244, 244)" 
-                        //    count={ props.totalNotListeningCount - props.totalErrorCount }
+                            count={notlisteningCount}
                         >
                         </InfoCard>
                     </Grid>
                     <Grid item xs={12} sm={6} md={3} lg={3}>
                         <InfoCard
-                        //    totalRadioStreams={props.totalRadiostaionCount} 
+                            totalRadioStreams={totalCount} 
                             title="Error Streams" 
                             bgColor = "rgb(244, 244, 244)" 
-                        //    count={props.totalErrorCount}
+                           count={errorCount}
                         >
                         </InfoCard>
                     </Grid>
@@ -112,7 +152,7 @@ export default function Dashboard() {
                         preTitle={'First Highest'}
                         graphData={[1265, 1749, 2010, 690, 455, 959, 1330, 1650, 1456, 520, 880, 1900]} 
                         graphBgColor={'rgb(112, 120, 168)'} 
-                        //graphCardData={ cloneDeep(props.topRadiostations[0]) }
+                        graphCardData={ cloneDeep(props.topRadiostations[0]) }
                         />
                     </Grid>
                     <Grid item xs={12} sm={6} md={4} lg={4}>
@@ -120,7 +160,7 @@ export default function Dashboard() {
                         preTitle={'Second Highest'}
                         graphData={[665, 749, 610, 1790, 1455, 1359, 1330, 1650, 1456, 520, 1480, 900]} 
                         graphBgColor={'rgb(52, 63, 132)'} 
-                        //graphCardData={ cloneDeep(props.topRadiostations[1]) }
+                        graphCardData={ cloneDeep(props.topRadiostations[1]) }
                         />
                     </Grid>
                     <Grid item xs={12} sm={6} md={4} lg={4}>
@@ -128,7 +168,7 @@ export default function Dashboard() {
                         preTitle={'Third Highest'}
                         graphData={[265, 749, 1610, 1690, 1455, 1559,1330, 650, 456, 1520, 1280, 900]} 
                         graphBgColor={'rgb(0, 161, 154)'} 
-                        //graphCardData={ cloneDeep(props.topRadiostations[2]) }
+                        graphCardData={ cloneDeep(props.topRadiostations[2]) }
                         />
                     </Grid>
                 </Grid>
@@ -138,6 +178,59 @@ export default function Dashboard() {
         </div>
     )
 }
+const mapStateToProps = (state) => {
+    log('State',state)
+    return {
+        // loading : state.radiostations.loading,
+        // error : state.radiostations.error,
+        // radiostations : state.radiostations.radiostations,
+        // totalRadioStreams : state.radiostations.totalRadioStreams,
+
+        // sessionLoading : state.session.loading,
+        // // selectedRowss : state.global.selectedRows,
+
+        // cardRadiostations : state.cardRadioStaions.cardRadiostations,
+        // totalStationsCount : state.cardRadioStaions.totalStationsCount,
+
+        topRadiostations : state.topRadiostation.topRadiostations,
+        topRadiostationsLoading : state.topRadiostation.loading,
+        topRadiostationsError : state.topRadiostation.error,
+
+        day : state.count.day,
+        week : state.count.week,
+        month : state.count.month,
+        hits : state.count.hits,
+        hitsLoading : state.count.hitsLoading,
+        hitsError : state.count.hitsError,
+
+        // totalRadiostaionCount : state.count.totalRadiostaionCount,
+        // totalListeningCount : state.count.totalListeningCount,
+        // totalNotListeningCount : state.count.totalNotListeningCount,
+        // totalErrorCount : state.count.totalErrorCount,
+
+        // radiostationPageNum : state.global.radiostationPageNum,
+        // radiostationRowsperPage : state.global.radiostationRowsperPage,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+
+        fetchRadioStations : (_offset, _limit) => dispatch(actionCreators.fetchRadioStations(_offset, _limit)),
+        setSelectedRows : (rows) => dispatch(actionCreators.setSelectedRowsRadioStationTable(rows)),
+        fetchRadioStationsSuccess : (payload) => dispatch(actionCreators.fetchRadioStationsSuccess(payload)),
+        fetchRadioStationsFailure : (error) => dispatch(actionCreators.fetchRadioStationsFailure(error)),
+        fetchRadiostationSonicKeyCount : (radiostationId) => dispatch(actionCreators.fetchRadiostationSonicKeyCount(radiostationId)),
+        
+        fetchDaySonicKeyCount : (tommorrow,today) => dispatch(actionCreators.fetchDaySonicKeyCount(tommorrow,today)),
+        fetchWeekSonicKeyCount : (tommorrow,weekBack) => dispatch(actionCreators.fetchWeekSonicKeyCount(tommorrow,weekBack)),
+        fetchMonthSonicKeyCount : (tommorrow,monthBack) => dispatch(actionCreators.fetchMonthSonicKeyCount(tommorrow,monthBack)),
+        fetchTopRadioStation : () => dispatch(actionCreators.fetchTopRadioStation()),
+
+        dispatch : dispatch,
+    };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
 const styles = {
     homeContainer:{
     },

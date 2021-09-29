@@ -29,12 +29,20 @@ class Communication {
     return AppWebRequest(`/detections/owners/${getUserId()}/RADIOSTATION/count?radioStation=${radioId}`, "get");
   }
 
-  fetchThirdPartySonicKeys(limit, index) {
-    return AppWebRequest(`/detections/owners/${getUserId()}/BINARY/data?limit=${limit}&sort=-createdAt&skip=${index}`, "get")
+  fetchThirdPartySonicKeys(limit=10, index=0,channel='STREAMREADER') {
+    log('Method Call')
+    return AppWebRequest(`/detections/owners/${getUserId()}/${channel}/data?limit=${limit}&sort=-createdAt&skip=${index}`, "get")
   }
 
   fetchThirdPartyDetectedDetails(sonicKey) {
     return AppWebRequest(`/detections/owners/${getUserId()}/BINARY/sonicKeys/${sonicKey}/detected-details?limit=500&sort=-createdAt&skip=0`, "get")
+  }
+
+  getCount(param) {
+    return AppWebRequest(
+      param!==undefined?
+      `/radiomonitors/owners/${getUserId()}/subscriber-count${param}`
+      :`/radiomonitors/owners/${getUserId()}/subscriber-count`, "get")
   }
 
   getSonicKeyById(sonic_key) {
@@ -73,7 +81,6 @@ class Communication {
   }
 
   editSonicKey(formData, sonicKey) {
-    console.log('Edit Data', formData);
     const axiosConfig = {
       data: formData,
       headers: {
@@ -81,6 +88,39 @@ class Communication {
       },
     };
     return AppWebRequest(`/sonic-keys/${sonicKey}`, "patch", axiosConfig);
+  }
+
+  onStartRadioStations(formData) {
+    log('On Start',formData)
+    const axiosConfig = {
+      data: formData,
+      headers: {
+        'Accept': 'application/json',
+      },
+    };
+    return AppWebRequest(`/radiomonitors/owners/${getUserId()}/start-listening-stream-bulk`, "put", axiosConfig);
+  }
+
+  onStopRadioStations(formData) {
+    log('On Stop',formData)
+    const axiosConfig = {
+      data: formData,
+      headers: {
+        'Accept': 'application/json',
+      },
+    };
+    return AppWebRequest(`/radiomonitors/owners/${getUserId()}/stop-listening-stream-bulk`, "put", axiosConfig);
+  }
+
+  onDeleteRadioStations(formData) {
+    log('On Delete',formData)
+    const axiosConfig = {
+      data: formData,
+      headers: {
+        'Accept': 'application/json',
+      },
+    };
+    return AppWebRequest(`/radiomonitors/owners/${getUserId()}/unsubscribe-bulk`, "delete", axiosConfig);
   }
 
   removeSonicKey(sonicKey) {

@@ -38,11 +38,11 @@ export default function AppLayout({ children }) {
       <Container maxWidth="xl" className={classes.container}>
         <Toolbar />
         <Grid container id="container" style={{ padding: "1% 4%" }}>
-          <Grid item id="sidebarContainer">
+          <Grid item id="sidebarContainer" md={2} >
             <Sidebar />
           </Grid>
 
-          <Grid item id="pageContainer" className={classes.pagecontent}>
+          <Grid item id="pageContainer" className={classes.pagecontent} md={10}>
             <main >
               <div style={{ minHeight: "70vh" }}>{children}</div>
             </main>

@@ -140,15 +140,6 @@ export default function InfoCard(props) {
               </Select>
             </FormControl>
           </div>
-            // <select 
-            // style={styles.dropdownButton} 
-            // className="form-control mb-0" 
-            // onChange={(e) => setKeysDetected(e.target.value)}
-            // ><option value="day" disabled>Daily</option>
-            //     <option value="day">Day</option>
-            //     <option value="week">Week</option>  
-            //     <option value="month">Month</option>                                 
-            // </select>
           ) :
           null}
         {title !== "SonicKeys Detected" && title !=='Error Streams' &&

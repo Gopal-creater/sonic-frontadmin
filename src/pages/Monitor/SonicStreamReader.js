@@ -47,7 +47,9 @@ import {
   Container,
   createMuiTheme,
   FormControl,
+  Input,
   InputLabel,
+  ListItemText,
   MenuItem,
   Paper,
   Select,
@@ -72,6 +74,7 @@ import { tableStyle } from "../../globalStyle";
 import IconEdit from "../../assets/icons/icon-edit.png";
 import IconTick from "../../assets/icons/icon-tick.png";
 import Communication from "../../services/https/Communication";
+import Search from "../SonicKeys/Components/Search";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -125,7 +128,8 @@ function SonicStreamReader(props) {
   const [selectedRows, setSelectedRows] = useState([]);
   const [selected, setSelected] = useState([]);
   const [searchValue, setSearchValue] = useState("");
-  const [selectRadioStations, setselectRadioStations] = React.useState("");
+  //Muliple Radio Station Selection
+  const [selectRadioStations, setSelectRadioStations] = React.useState([]);
   const [country, setCountry] = React.useState("");
   const [dropDownCountry, setDropDownCountry] = React.useState([]);
   //For check the checkbox
@@ -148,6 +152,9 @@ function SonicStreamReader(props) {
   const Placeholder = ({ children }) => {
     return <div className={classes.placeholder}>{children}</div>;
   };
+
+  const [defaultData, setDefaultData] = useState(false);
+  const [dataSearch, setDataSearch] = React.useState("");
 
   const useStyleClasses = useStyles();
   let radiostations = cloneDeep(props.radiostations);
@@ -182,20 +189,36 @@ function SonicStreamReader(props) {
 
   const onRadioStationChange = (e) => {
     log("Radio Station Change", e.target.value);
-    setselectRadioStations(e.target.value);
+    setSelectRadioStations(e.target.value);
   };
 
   const onSubscribe = (e) => {
     e.preventDefault();
     log('Subscribe Radio Station',subscribedRadioStation)
-    // Communication.radioStationSubscribed(subscrideRadioStation)
-    //   .then((res) => {
-    //     log("Response Of Subscribed", res);
-    //   })
-    //   .catch((err) => {
-    //     log("Error", err);
-    //     cogoToast.error(err.message);
-    //   });
+    Communication.radioStationSubscribed(subscribedRadioStation)
+      .then((res) => {
+        log("Response Of Subscribed", res);
+        cogoToast.success(res.passedData.length+
+          ' Radios Station Subscribed out of '+subscribedRadioStation.length)
+          setSubscribedRadioStation([])
+          setSubscribedRadioStations([])
+          setSelectRadioStations([])
+          setCountry('')  
+      })
+      .catch((err) => {
+        log("Error", err);
+        cogoToast.error(err.message);
+      });
+  };
+  const ITEM_HEIGHT = 48;
+  const ITEM_PADDING_TOP = 8;
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+      },
+    },
   };
   const handlePageChange = async (event, value) => {
     const limit = 5;
@@ -206,17 +229,54 @@ function SonicStreamReader(props) {
     setSelected([]);
   };
 
-  const onHide = () => {
-    setShow(false);
-  };
+  const onSearchChange = (searchText) => {
+    console.log('Search Change', searchText);
+    setSearchValue(searchText);
+  //  setPage(0)
+  //  firstFetchSonicKey(0, rowPerPage, searchText)
+  }
 
-  const onDelete = () => {};
+  const onDelete = () => {
+    const data = {"ids":selectedRows}
+    log('Delete Radio Stations',data)
+    Communication.onDeleteRadioStations(data)
+    .then(res=>{
+      log('Response',res)
+      props.fetchRadioStations(0, 5);
+      setSelectRadioStations([])
+      setSelectedRows([]);
+      setSelected([]);
+      setPageCount(0);
+    }).catch(err=>log('Error',err))
+  };
 
   const onStart = () => {
     log("Start Selected Radio Station", selectedRows);
+    const data = {"ids":selectedRows}
+    log('Start Radio Stations',data)
+    Communication.onStartRadioStations(data)
+    .then(res=>{
+      log('Response',res)
+      props.fetchRadioStations(0, 5);
+      setSelectRadioStations([])
+      setSelectedRows([]);
+      setSelected([]);
+      setPageCount(0);
+    }).catch(err=>log('Error',err))
   };
 
-  const onStop = () => {};
+  const onStop = () => {
+    const data = {"ids":selectedRows}
+    log('Stop Radio Stations',data)
+    Communication.onStopRadioStations(data)
+    .then(res=>{
+      log('Response',res)
+      props.fetchRadioStations(0, 5);
+      setSelectedRows([]);
+      setSelected([]);
+      setPageCount(0);
+    }).catch(err=>log('Error',err))
+  };
 
   const isSelected = (radiostation_id) => {
     return selected.includes(radiostation_id);
@@ -228,16 +288,17 @@ function SonicStreamReader(props) {
   };
 
   const handleSelectAllClick = (event) => {
+    log('Event',event.target.checked)
     if (event.target.checked) {
       const newSelecteds = props.radiostations.docs.map((data) => data._id);
-      //const data = "radio":{newSelecteds}
-      setSubscribedRadioStation([...subscribedRadioStation,{
-        'radio':newSelecteds}]);
-      setSubscribedRadioStations(newSelecteds);
+      // const data = "radio":{newSelecteds}
+      log('All Stations',newSelecteds)
+      setSelectedRows(newSelecteds);
+      setSelected(newSelecteds);
       return;
     }
-    setSubscribedRadioStation([]);
-    setSubscribedRadioStations([]);
+    setSelectedRows([]);
+    setSelected([]);
   };
 
   const checkBox = (event, _id) => {
@@ -253,22 +314,21 @@ function SonicStreamReader(props) {
       setSelected([...selected]);
     }
   };
-
+  
   const checkBoxForSubscribed = (event, _id) => {
     if (event.target.checked) {
       // setSubscribedRadioStation([...subscribedRadioStation, _id]);
       setSubscribedRadioStation([...subscribedRadioStation,{
         'radio':_id}]);
       setSubscribedRadioStations([...subscribedRadioStations, _id]);
-      // setSelectedRows([...selectedRows, _id]);
-      // setSelected([...selected, _id]);
+      
     } else {
       const index = selectedRows.indexOf(_id);
-      selectedRows.splice(index, 1);
-      setSubscribedRadioStation([...selectedRows]);
+      subscribedRadioStation.splice(index, 1);
+      setSubscribedRadioStation([...subscribedRadioStation]);
       const index2 = selected.indexOf(_id);
-      selected.splice(index2, 1);
-      setSubscribedRadioStations([...selected]);
+      subscribedRadioStations.splice(index2, 1);
+      setSubscribedRadioStations([...subscribedRadioStations]);
     }
   };
   return (
@@ -280,11 +340,15 @@ function SonicStreamReader(props) {
               Sonic StreamReader
             </Typography>
             <Typography className={classes.subHeading}>
-              List 5 radio stations
+              List {props.totalRadioStreams} radio stations
             </Typography>
           </div>
+          <Search  searchData={onSearchChange} 
+          dataSearch={dataSearch} 
+          setDataSearch={setDataSearch} 
+          setDefaultData={setDefaultData} />
         </Grid>
-        <Paper
+         <Paper
           maxWidth="lg"
           style={{
             marginTop: 15,
@@ -361,12 +425,12 @@ function SonicStreamReader(props) {
                   "customButton",
                 ].join(" ")}
                 onClick={() => {
-                  setShow(true);
+                  onDelete()
                 }}
                 style={{
                   ...styles.submitButton,
                   marginRight: 10,
-                  marginLeft: 20,
+                  marginLeft: 15,
                 }}
               >
                 {deleteLoading ? (
@@ -389,18 +453,20 @@ function SonicStreamReader(props) {
             </Grid>
           </Grid>
           <Grid item>
-            {/* <FormControl style={styles.formControl}> */}
+          <FormControl style={styles.formControl}> 
+            <InputLabel id="mutiple-checkbox-label"
+            style={{paddingLeft:30,color:'grey'}}>Select country of station</InputLabel>
             <Select
               id="drop-down"
               onChange={(e) => onCountryChange(e.target.value)}
               className="form-control mb-0"
               value={country}
               displayEmpty
-              renderValue={
-                country !== ""
-                  ? undefined
-                  : () => <Placeholder>Select country of station</Placeholder>
-              }
+              // renderValue={
+              //   country !== ""
+              //     ? undefined
+              //     : () => <Placeholder>Select country of station</Placeholder>
+              // }
               autoWidth={false}
               style={{
                 color: "black",
@@ -416,43 +482,43 @@ function SonicStreamReader(props) {
               <MenuItem value="France">France</MenuItem>
               <MenuItem value="Germany">Germany</MenuItem>
             </Select>
-          </Grid>
-
-          <Grid item>
-            {/* <FormControl style={styles.formControl}> */}
+            </FormControl>
+            <FormControl style={styles.formControl}> 
+            <InputLabel id="mutiple-checkbox-label"
+            style={{paddingLeft:30,color:'grey'}}>Select Radio</InputLabel>
             <Select
               id="drop-down"
               className="form-control mb-0"
               onChange={onRadioStationChange}
-              value={selectRadioStations}
-              displayEmpty
-              // disabled={country === ""}
-              renderValue={
-                selectRadioStations !== ""
-                  ? undefined
-                  : () => <Placeholder>Select radio</Placeholder>
-              }
-              autoWidth={false}
-              style={{width:250}}
+              value={[]}
+              // displayEmpty
+              disabled={country === ""}
+              style={{
+                color: "black",
+                backgroundColor: "transparent",
+                outline: "none",
+                border: "none",
+                boxShadow: "none",
+                margin: "0px 30px 0px 20px",
+                width: 220,
+              }}
+              multiple
             >
               {dropDownCountry?.docs?.map((country, index) => {
                   const isItemSelected = isSelectedRadioStation(country?._id);
-                return (<Grid style={{display:'flex',flexDirection:'row'}}>
-                      <Checkbox
+                return (
+                  <MenuItem key={index} value={country?.name} otherDetails={country}>
+                  <Checkbox
                         color="#343F84"
                         onChange={(e) => checkBoxForSubscribed(e, country?._id)}
                         checked={isItemSelected}
-                      />
-                  <MenuItem key={index} value={`${country.name}`}>
+                  />
                     {country?.name}
-                  </MenuItem></Grid>
+                  </MenuItem>
                 );
-              })}
-              {/* <MenuItem value="day">Radio Beta</MenuItem>
-              <MenuItem value="week">Tune 1</MenuItem>
-              <MenuItem value="month">Radio Rock</MenuItem> */}
-            </Select>
-
+              })} 
+            </Select> 
+          </FormControl>
             <Button
               variant="contained"
               color="primary"
@@ -461,6 +527,7 @@ function SonicStreamReader(props) {
                 borderRadius: 5,
                 background: "rgb(52, 63, 132)",
                 marginTop: 5,
+                marginLeft:20
               }}
               onClick={onSubscribe}
             >
@@ -533,7 +600,7 @@ function SonicStreamReader(props) {
                       <Hits radioId={file?._id} key={file?._id} />
                     </TableCell>
                     <TableCell>
-                      {file?.radio?.isStreamStarted === true && (
+                      {file?.isListeningStarted === true && (
                         <Badge
                           style={{
                             cursor: "pointer",
@@ -546,7 +613,7 @@ function SonicStreamReader(props) {
                           LISTENING
                         </Badge>
                       )}
-                      {file?.radio?.isStreamStarted === false &&
+                      {file?.isListeningStarted === false &&
                         file.error === null && (
                           <Badge
                             style={{
@@ -561,7 +628,7 @@ function SonicStreamReader(props) {
                             NOT LISTENING
                           </Badge>
                         )}
-                      {file?.radio?.isStreamStarted === false &&
+                      {file?.isListeningStarted === false &&
                         file.error !== null && (
                           <Badge
                             style={{

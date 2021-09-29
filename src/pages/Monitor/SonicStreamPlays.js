@@ -7,6 +7,7 @@ import {
   Grid,
   IconButton,
   Input,
+  InputLabel,
   makeStyles,
   Menu,
   MenuItem,
@@ -36,12 +37,16 @@ import "react-datepicker/dist/react-datepicker.css";
 import { fetchThirdPartySonicKeys } from "../../stores/actions/thirdPartySonicKey";
 import { cloneDeep } from "lodash";
 import { isValid,format } from "date-fns";
-import { converstionOfKb} from '../../utils/HelperMethods';
+import { converstionOfKb, monthRange} from '../../utils/HelperMethods';
 import DailogTable from "../../components/common/DialogTable";
 import CloseIcon from '@material-ui/icons/Close';
 import DialogLogo from "../../../src/assets/images/key-logo.png";
 import CalendarLogo from "../../../src/assets/icons/icon-calendar.png";
 import cogoToast from "cogo-toast";
+import * as actionCreators from "../../stores/actions/index";
+import moment from "moment";
+import Search from "../SonicKeys/Components/Search";
+import viewFilter from "../../../src/assets/images/view.png";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -104,9 +109,14 @@ export const SonicStreamPlays = (props) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [totalCount, setTotalCount] = useState(0);
-  const [startDate, setStartDate] = useState(new Date());
+  var date = new Date()
+  const [startDate, setStartDate] = useState(moment(monthRange(true,false).split(',')[1]).toDate());
   const [endDate, setEndDate] = useState(new Date());
   const [tableData, setTableData] = React.useState([]);
+  const [defaultData, setDefaultData] = useState(false);
+  const [dataSearch, setDataSearch] = React.useState("");
+  const [searchValue, setSearchValue] = useState("");
+
   const theme = useTheme()
   const [sonicKey, setSonicKey] = React.useState({
     sonicKey: "",
@@ -158,23 +168,32 @@ export const SonicStreamPlays = (props) => {
       })
   }
 
-  const fetchThirdPartyKeys = (_offset = 0, _limit = 10) => {
-    Communication.fetchThirdPartySonicKeys(_limit, _offset).then((res) => {
+  const fetchThirdPartyKeys = (_offset = 0, _limit = 10,channel='STREAMREADER') => {
+    Communication.fetchThirdPartySonicKeys(_limit, _offset,channel).then((res) => {
       console.log("res", res);
-      setTableData(res)
+      //setTableData(res)
       // setTotalCount(res.totalDocs)
       // setError('')
     }).catch(err => {
-      setError(err)
+      log('Error',err)
+      // setError(err)
     })
   }
+
   
+  const onSearchChange = (searchText) => {
+    console.log('Search Change', searchText);
+    setSearchValue(searchText);
+  //  setPage(0)
+  //  firstFetchSonicKey(0, rowPerPage, searchText)
+  }
+
   useEffect(() => {
-    // if(props.thirdPartyKeys.data.length <= 0)
+    log('Use Effect')
     if (tableData.length <= 0)
-      // fetchKeys(100,0);
       fetchThirdPartyKeys(0, 10)
   }, []);
+
   function fetchSonicKeyById(response) {
     log('Response',response)
     setSonicKey({
@@ -241,6 +260,14 @@ export const SonicStreamPlays = (props) => {
             See history of SonicKey plays
           </Typography>
         </div>
+        <Grid style={{ display: 'flex', backgroundColor: '', }}>
+        <div style={{ backgroundColor: '', marginRight: '25px' }} >
+        <Search  searchData={onSearchChange} 
+          dataSearch={dataSearch} 
+          setDataSearch={setDataSearch} 
+          setDefaultData={setDefaultData} /></div>
+          <div><img src={viewFilter} /></div>
+                </Grid>
       </Grid>
       <Paper
           maxWidth="lg"
@@ -282,32 +309,36 @@ export const SonicStreamPlays = (props) => {
             </Grid>
             </Grid>
             <Grid item style={{marginTop:12}}>
-            {/* <FormControl> */}
-              <Select
-                id="drop-down"
-                onChange={(e) => setKeysDetected(e.target.value)}
-                className="form-control mb-0"
-                value={keysDetected}
-                displayEmpty
-                renderValue={
-                  keysDetected !== "" ? undefined : () =>
-                   <Placeholder>Filter by channel</Placeholder>
-                }
-                autoWidth={false}
-                style={styles.dropdownButton}
-              >
-            
-                <MenuItem value="sonicreader"
-                style={{color:'grey', borderBottom:'1px solid grey',paddingLeft:10,paddingRight:10}}>
-                  StreamReader</MenuItem>
-                <MenuItem value="sonicportal"
-                style={{color:'grey',borderBottom:'1px solid grey',paddingLeft:10,paddingRight:10}}>SonicPortal</MenuItem>
-                <MenuItem value="sonicapp"
-                style={{color:'grey',borderBottom:'1px solid grey',paddingLeft:10,paddingRight:10}}>SonicApp</MenuItem>
-              </Select>
-            {/* </FormControl> */}
-            <FormControl>            
-            <Button
+            <FormControl style={styles.formControl}> 
+            <InputLabel id="mutiple-checkbox-label"
+            style={{paddingLeft:30,color:'grey'}}>Filter by channel</InputLabel>
+            <Select
+              id="drop-down"
+              onChange={(e) => setKeysDetected(e.target.value)}
+              className="form-control mb-0"
+              value={keysDetected}
+              style={{
+                color: "black",
+                backgroundColor: "transparent",
+                outline: "none",
+                border: "none",
+                margin: "0px 30px 0px 20px",
+                boxShadow: "none",
+                width: 220,
+              }}
+            >  
+            <MenuItem value="STREAMREADER"
+              style={{color:'grey', borderBottom:'1px solid grey',paddingLeft:10,paddingRight:10}}>
+                    StreamReader</MenuItem>
+                  <MenuItem value="PORTAL"
+                  style={{color:'grey',borderBottom:'1px solid grey',paddingLeft:10,paddingRight:10}}>
+                    SonicPortal</MenuItem>
+                  <MenuItem value="MOBILEAPP"
+                  style={{color:'grey',borderBottom:'1px solid grey',paddingLeft:10,paddingRight:10}}>
+                    SonicApp</MenuItem>
+            </Select> 
+          </FormControl>
+          <Button
               variant="contained"
               color="primary"
               style={{
@@ -319,13 +350,13 @@ export const SonicStreamPlays = (props) => {
               }}
             >
               Filter
-            </Button></FormControl>
+            </Button>
             
             </Grid>
             </Grid>
         </Paper>
         
-      {!loading && !error ? (
+      {!props.loading && !props.error ? (
         <TableContainer style={{ ...tableStyle.container }}>
           <Table aria-label="Detail table">
             <TableHead>
@@ -345,8 +376,8 @@ export const SonicStreamPlays = (props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {tableData?.docs?.map((file, index) => {
-                
+              {tableData?.docs?.length >0 ?(
+                 tableData?.docs?.map((file, index) => { 
                 return (
                   <TableRow hover className={classes.tableRow}>
                     <TableCell style={{ ...tableStyle.body }}>
@@ -377,11 +408,14 @@ export const SonicStreamPlays = (props) => {
                     </TableCell>
                   </TableRow>
                 );
-              })}
+              })):<TableRow>
+                <TableCell colspan='7' style={{alignItems:'center'}}>
+                No Data
+                    </TableCell></TableRow>}
             </TableBody>
           </Table>
         </TableContainer>
-      ) : loading ? (
+      ) : props.loading ? (
         <LoadingSpinner
           multipleGrow={true}
           containerStyle={{ height: window.innerHeight / 2 }}
@@ -518,12 +552,14 @@ const mapStateToProps = (state) => {
   log('State',state)
   return {
     thirdPartyKeys: state.thirdPartyKeys,
+    loading : state.thirdPartyKeys.loading,
+    error : state.thirdPartyKeys.error,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchThirdPartyKeys: (limit, index) => dispatch(fetchThirdPartySonicKeys(limit, index)),
+    fetchThirdPartyKeys: (limit, index,channel) => dispatch(fetchThirdPartySonicKeys(limit, index,channel)),
   };}
 
 export default connect(mapStateToProps, mapDispatchToProps)(SonicStreamPlays);

@@ -9,6 +9,7 @@ import radiostationsReducer from './RadioStation';
 import globalReducer from './global';
 import countReducer from './count';
 import cardRadiostationsReducer from './cardRadioStaion';
+import topRadiostationReducer from './topRadioStation';
 const appReducer = combineReducers({
     session:sessionRed,
     sonicKeys : sonicKeyRed, //for access the data have same name
@@ -17,8 +18,9 @@ const appReducer = combineReducers({
     thirdPartyKeys: thirdPartyRed,
     radioStations: radiostationsReducer,
     radioPageNumber:globalReducer,
-    counts:countReducer,
-    allRadioStations:cardRadiostationsReducer
+    count:countReducer,
+    cardRadioStaions:cardRadiostationsReducer,
+    topRadiostation:topRadiostationReducer,
   });
 
   const rootReducer = (state, action) => {

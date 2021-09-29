@@ -10,11 +10,9 @@ import Pagination from "@material-ui/lab/Pagination";
 import "../SonicKeys/css/table.scss";
 import UnfoldMoreSharpIcon from "@material-ui/icons/UnfoldMoreSharp";
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
-import GetAppIcon from '@material-ui/icons/GetApp';
 import DailogTable from '../../components/common/DialogTable';
 import { Box, CircularProgress, Grid, Typography } from '@material-ui/core';
 import { tableStyle } from '../../globalStyle';
-import FilterListIcon from '@material-ui/icons/FilterList';
 import Communication from "../../services/https/Communication";
 import { fetchSonicKeys } from "../../stores/actions/sonicKey";
 import { connect, useSelector } from 'react-redux';
@@ -23,6 +21,10 @@ import { converstionOfKb, downloadFile } from '../../utils/HelperMethods';
 import download from "../../../src/assets/images/download.png";
 import Search from "../SonicKeys/Components/Search";
 import viewFilter from "../../../src/assets/images/view.png";
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import CloseIcon from '@material-ui/icons/Close';
 
 
 const StyledTableCell = withStyles((theme) => ({
@@ -38,6 +40,7 @@ const StyledTableCell = withStyles((theme) => ({
 const useStyles = makeStyles({
     gridContainer: {
         boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+        position: 'relative',
     },
     heading: {
         fontSize: 30,
@@ -82,7 +85,29 @@ const useStyles = makeStyles({
         fontSize: '14px',
         fontWeight: 'bold',
         color: '#757575',
-    }
+    },
+    columnFilter: {
+        position: 'absolute',
+        right: '5px',
+        top: '70px',
+        display: 'none',
+        backgroundColor: '#ffffff',
+        borderRadius: '5px',
+        minWidth: '100px',
+        padding: '10px',
+        maxWidth: '400px',
+        width: 'fit-content',
+        boxShadow: "0 14px 28px rgba(0,0,0,0.25), 0 1px 5px rgba(0,0,0,0.22)",
+        "&.active": {
+            display: 'block'
+        },
+    },
+    closeDiv: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        cursor: 'pointer',
+    },
 });
 
 
@@ -102,6 +127,7 @@ const SonicKeys = (props) => {
     const [restrict, setrestrict] = React.useState(false)
     const [offset, setOffset] = React.useState(0);
     const [pageCount, setPageCount] = useState(1);
+    const [selected, setSelected] = useState([]);
     const [defaultData, setDefaultData] = useState(false);
     const [dataSearch, setDataSearch] = React.useState("");
     const [sonicKeys, setSonicKeys] = useState({
@@ -205,6 +231,30 @@ const SonicKeys = (props) => {
 
     }
 
+    const columns = [
+        "ID",
+        "SONICKEY",
+        "NAME",
+        "ARTIST",
+        "ENCODED DATE",
+        "DESCRIPTION",
+        "ACTION",
+    ];
+
+    const filterColumn = [
+        "ID",
+        "SONICKEY",
+        "NAME",
+        "ARTIST",
+        "ENCODED DATE",
+        "DESCRIPTION",
+        "ACTION",
+    ];
+
+    const isSelected = (radiostation_id) => {
+        return selected.includes(radiostation_id);
+      };
+
     const onSearchChange = (searchText) => {
         console.log('Search Change', searchText);
         setSearchValue(searchText);
@@ -223,25 +273,19 @@ const SonicKeys = (props) => {
         tableData.sort();
         console.log("sorting data is successfull", tableData.sort());
     }
-    // console.log("offset data ", onSearchChange);
 
+    const [state, setState] = React.useState(true);
 
-    //For sorting   ==============================================================
-    //   var value;
-    //   const handleSort = (clickedColumn, propFrom) => () => {
-    //     if (column !== clickedColumn) {
-    //       setcolumn(clickedColumn);
-    //       value = _.sortBy(jobs?.data, [clickedColumn]);
-    //       setdirection("ascending");
-    //       dispatch(actionSorting(value, propFrom));
-    //       return;
-    //     }
-    //     custom_log("value:", value);
-    //     value = jobs?.data?.slice().reverse();
-    //     setdirection(direction === "ascending" ? "descending" : "ascending");
-    //     dispatch(actionSorting(value, propFrom));
-    //   };
-    //=============================================================================
+    const handleChange = (event) => {
+        setState({ ...state, [event.target.name]: event.target.checked });
+    };
+
+    const openColumnFilter = () => {
+        document.getElementById('columnFilter').classList.add('active');
+    }
+    const closeColumnFilter = () => {
+        document.getElementById('columnFilter').classList.remove('active');
+    }
 
 
     return (
@@ -255,7 +299,25 @@ const SonicKeys = (props) => {
                 </Grid>
                 <Grid style={{ display: 'flex', backgroundColor: '', }}>
                     <div style={{ backgroundColor: '', marginRight: '25px' }} ><Search searchData={onSearchChange} dataSearch={dataSearch} setDataSearch={setDataSearch} setDefaultData={setDefaultData} /></div>
-                    <div><img src={viewFilter} /></div>
+                    <div><img src={viewFilter} style={{ cursor: 'pointer' }} onClick={openColumnFilter} />
+                        <div id="columnFilter" className={classes.columnFilter}>
+                            <div className={classes.closeDiv}>
+                                <div>Show Columns</div>
+                                <div><CloseIcon onClick={closeColumnFilter} /></div>
+                            </div>
+                            <FormGroup column>
+                                {columns?.map((col) => {
+                                    return (
+                                        <FormControlLabel
+                                            control={<Checkbox className={classes.checkBoxSytle} checked={state} onChange={handleChange} name={state} color="default" />}
+                                            label={col}
+                                        />
+                                    );
+                                })}
+
+                            </FormGroup>
+                        </div>
+                    </div>
                 </Grid>
             </Grid>
             <Grid>
@@ -263,64 +325,20 @@ const SonicKeys = (props) => {
                     <Table className={classes.table} aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <StyledTableCell>
-                                    <div className={classes.tableCellIcon}>
-                                        ID
-                                        <UnfoldMoreSharpIcon onClick={onClickSortData} style={{ fontSize: '15px', fontWeight: 'bolder' }}
-                                            //   onClick={handleSort("id", prop.propFrom)}
-                                            className="sortIcon"
-                                        />
-                                    </div>
-                                </StyledTableCell>
-                                <StyledTableCell>
-                                    <div className={classes.tableCellIcon}>SONICKEY
-                                        <UnfoldMoreSharpIcon onClick={onClickSortData} style={{ fontSize: '15px', fontWeight: 'bolder' }}
-                                            //   onClick={handleSort("id", prop.propFrom)}
-                                            className="sortIcon"
-                                        />
-                                    </div>
-                                </StyledTableCell>
-                                <StyledTableCell>
-                                    <div className={classes.tableCellIcon}>NAME
-                                        <UnfoldMoreSharpIcon style={{ fontSize: '15px', fontWeight: 'bolder' }}
-                                            //   onClick={handleSort("id", prop.propFrom)}
-                                            className="sortIcon"
-                                        />
-                                    </div>
-                                </StyledTableCell>
-                                <StyledTableCell>
-                                    <div className={classes.tableCellIcon}>ARTIST
-                                        <UnfoldMoreSharpIcon style={{ fontSize: '15px', fontWeight: 'bolder' }}
-                                            //   onClick={handleSort("id", prop.propFrom)}
-                                            className="sortIcon"
-                                        />
-                                    </div>
-                                </StyledTableCell>
-                                <StyledTableCell>
-                                    <div className={classes.tableCellIcon}>ENCODED DATE
-                                        <UnfoldMoreSharpIcon style={{ fontSize: '15px', fontWeight: 'bolder' }}
-                                            //   onClick={handleSort("id", prop.propFrom)}
-                                            className="sortIcon"
-                                        />
-                                    </div>
-                                </StyledTableCell>
-                                <StyledTableCell>
-                                    <div className={classes.tableCellIcon}>DESCRIPTION
-                                        <UnfoldMoreSharpIcon style={{ fontSize: '15px', fontWeight: 'bolder' }}
-                                            //   onClick={handleSort("id", prop.propFrom)}
-                                            className="sortIcon"
-                                        />
-                                    </div>
-                                </StyledTableCell>
-                                <StyledTableCell>
-                                    <div className={classes.tableCellIcon}>ACTION
-                                        <UnfoldMoreSharpIcon style={{ fontSize: '15px', fontWeight: 'bolder' }}
-                                            //   onClick={handleSort("id", prop.propFrom)}
-                                            className="sortIcon"
-                                        />
-                                    </div>
-                                </StyledTableCell>
-                                <StyledTableCell></StyledTableCell>
+                                {columns?.map((col) => {
+                                    return (
+                                        <StyledTableCell>
+                                            <div className={classes.tableCellIcon}>
+                                                {col}
+                                                <UnfoldMoreSharpIcon onClick={onClickSortData} style={{ fontSize: '15px', fontWeight: 'bolder' }}
+                                                    //   onClick={handleSort("id", prop.propFrom)}
+                                                    className="sortIcon"
+                                                />
+                                            </div>
+                                        </StyledTableCell>
+                                    );
+                                })}
+
                             </TableRow>
                         </TableHead>
                         {loading ? <Box sx={{ display: "flex", alignItems: 'center', justifyContent: 'center', }}>

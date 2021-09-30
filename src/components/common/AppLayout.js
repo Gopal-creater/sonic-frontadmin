@@ -16,13 +16,26 @@ const useStyles = makeStyles((theme) => ({
     zIndex: theme.zIndex.drawer + 1,
     background: "transparent",
   },
-  pagecontent: {
-    flexGrow: 1,
-  },
   container: {
     marginTop: "5%",
     paddingLeft: "3%",
-    paddingRight: "3%"
+    paddingRight: "3%",
+  },
+  subContainer: {
+    padding: "1% 4%",
+    width: "100%",
+    display: "flex",
+  },
+  sidebarContainer: {
+    width: "190px",
+    paddingTop: "1%",
+    position: "fixed",
+    zIndex: 1,
+    overFlowX: "hidden",
+  },
+  pagecontent: {
+    flex: 1,
+    marginLeft: "190px"
   },
 }));
 
@@ -37,14 +50,14 @@ export default function AppLayout({ children }) {
 
       <Container maxWidth="xl" className={classes.container}>
         <Toolbar />
-        <Grid container id="container" style={{ padding: "1% 4%" }}>
-          <Grid item id="sidebarContainer" md={2} >
+        <Grid id="container" className={classes.subContainer}>
+          <Grid item id="sidebarContainer" className={classes.sidebarContainer}>
             <Sidebar />
           </Grid>
 
-          <Grid item id="pageContainer" className={classes.pagecontent} md={10}>
+          <Grid item id="pageContainer" className={classes.pagecontent}>
             <main >
-              <div style={{ minHeight: "70vh" }}>{children}</div>
+              <div style={{ minHeight: "68vh" }}>{children}</div>
             </main>
 
             <Grid className="pt-4" id="footer">

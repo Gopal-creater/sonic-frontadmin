@@ -74,7 +74,7 @@ const SignInButton = withStyles({
         backgroundColor: "#343F84",
         textTransform: "none",
         height: 45,
-        width: 85,
+        width: 105,
         padding: "0px 20px",
         fontSize: 15,
         fontFamily: 'NunitoSans-Bold',
@@ -93,7 +93,7 @@ const SignUpButton = withStyles({
             backgroundColor: "#343F84",
         },
         height: 45,
-        width: 85,
+        width: 105,
         padding: "0px 20px",
         fontSize: 15,
         fontFamily: 'NunitoSans-Bold',
@@ -253,7 +253,7 @@ export default function SignIn() {
                             </SignInButton>
                         ) : (
                             <SignInButton type="submit" variant="contained" color="primary">
-                                SignIn
+                                Sign In
                             </SignInButton>
                         )}
                     </Grid>
@@ -270,7 +270,7 @@ export default function SignIn() {
                                 dispatch({ type: "SIGN-UP", data: true });
                             }}
                         >
-                            SignUp
+                            Sign Up
                         </SignUpButton>
                     </Grid>
 

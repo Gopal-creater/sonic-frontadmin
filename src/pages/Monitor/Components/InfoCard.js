@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -9,6 +9,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import RadioTeal from '../../../assets/icons/icon-teal-radio.png'
 import RadioGrey from '../../../assets/icons/icon-grey-radio.png'
 import GreyCross from '../../../assets/icons/icon-grey-cross.png'
+import { log } from '../../../utils/app.debug';
+import { isNaN } from 'lodash';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -83,12 +85,13 @@ const useStyles = makeStyles((theme) => ({
   },
 
 }));
-
 export default function InfoCard(props) {
   const classes = useStyles();
   const theme = useTheme();
   const { title, bgColor, count = 'na', logo, totalRadioStreams = 'na', day, week, month } = props;
-
+useEffect(() => {
+  log('Count',isNaN(count))
+}, [])
   const [keysDetected, setKeysDetected] = useState('day');
   let detectCount = 0;
   if (keysDetected === "day") {
@@ -132,6 +135,7 @@ export default function InfoCard(props) {
                 className="form-control mb-0"
                 autoWidth={false}
                 style={styles.dropdownButton}
+                value={keysDetected}
               >
                 {/* <MenuItem disabled selected hidden>Daily</MenuItem> */}
                 <MenuItem value="day">Day</MenuItem>

@@ -1,9 +1,12 @@
 import {
   Badge,
   Button,
+  Checkbox,
   Dialog,
   DialogTitle,
   FormControl,
+  FormControlLabel,
+  FormGroup,
   Grid,
   IconButton,
   Input,
@@ -99,7 +102,29 @@ tableCellTwo: {
 },
 placeholder: {
   color: "#aaa"
-}
+},
+columnFilter: {
+  position: "absolute",
+  marginTop: 10,
+  display: "none",
+  backgroundColor: "#ffffff",
+  borderRadius: "5px",
+  minWidth: "100px",
+  padding: "10px",
+  maxWidth: "400px",
+  width: "fit-content",
+  right:50,
+  boxShadow: "0 14px 28px rgba(0,0,0,0.25), 0 1px 5px rgba(0,0,0,0.22)",
+  "&.active": {
+    display: "block",
+  },
+},
+closeDiv: {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  cursor: "pointer",
+},
 }));
 
 export const SonicStreamPlays = (props) => {
@@ -116,7 +141,7 @@ export const SonicStreamPlays = (props) => {
   const [defaultData, setDefaultData] = useState(false);
   const [dataSearch, setDataSearch] = React.useState("");
   const [searchValue, setSearchValue] = useState("");
-
+  const [page, setTotalPage] = React.useState(0);
   const theme = useTheme()
   const [sonicKey, setSonicKey] = React.useState({
     sonicKey: "",
@@ -138,7 +163,7 @@ export const SonicStreamPlays = (props) => {
     tuneCode: "",
     contentType: ""
   })
-  const [keysDetected, setKeysDetected] = React.useState('')
+  const [keysDetected, setKeysDetected] = React.useState('STREAMREADER')
   const [openTable, setOpenTable] = React.useState(false)
   const columns = [
     "ID",
@@ -149,6 +174,15 @@ export const SonicStreamPlays = (props) => {
     "DESCRIPTION",
     "HITS",
   ];
+  const [filterColumn, setFilterColumn] = useState([
+    "ID",
+    "SONICKEY",
+    "NAME",
+    "ARTIST",
+    "QUALITY",
+    "DESCRIPTION",
+    "HITS",
+  ]);
 
 
   function handleCloseTable() {
@@ -180,19 +214,42 @@ export const SonicStreamPlays = (props) => {
     })
   }
 
-  
-  const onSearchChange = (searchText) => {
-    console.log('Search Change', searchText);
-    setSearchValue(searchText);
-  //  setPage(0)
-  //  firstFetchSonicKey(0, rowPerPage, searchText)
+  const searchMethod = (_offset, rowPerPage, searchText) =>{
+    Communication.searchRadioStation(0, 5, "Jo").then((res) =>{
+      log("Result", res)
+      setTableData(res.docs);
+      setTotalCount(res.totalDocs);
+      setTotalPage(res.totalPages);
+      setError("");
+    }
+    ).catch(err=>log('Error',err));
   }
+  
+  const openColumnFilter = () => {
+    document.getElementById("columnFilter").classList.add("active");
+  };
+  const closeColumnFilter = () => {
+    document.getElementById("columnFilter").classList.remove("active");
+  };
+
+  const onSearchChange = (searchText) => {
+    console.log("Search Change", searchText);
+    setSearchValue(searchText);
+    // searchMethod(0,5,searchValue)  
+  };
 
   useEffect(() => {
     log('Use Effect')
     if (tableData.length <= 0)
       fetchThirdPartyKeys(0, 10)
   }, []);
+
+  useEffect(() => {
+    if (defaultData === true) {
+      fetchThirdPartyKeys(0, 10)
+      setDefaultData(false);
+    }
+  }, [defaultData]);
 
   function fetchSonicKeyById(response) {
     log('Response',response)
@@ -219,6 +276,22 @@ export const SonicStreamPlays = (props) => {
     });
     setOpenTable(true)
   }
+
+  const isSelected = (radiostation_id) => {
+    return filterColumn.includes(radiostation_id);
+  };
+  
+  const checkBox = (event, _id) => {
+    console.log(_id, event.target.checked);
+    if (event.target.checked) {
+      console.log("column1:", event, _id);
+      setFilterColumn([...filterColumn, _id]);
+    } else {
+      const index = filterColumn.indexOf(_id);
+      filterColumn.splice(index, 1);
+      setFilterColumn([...filterColumn]);
+    }
+  };
 
   const Placeholder = ({ children }) => {
     return <div className={classes.placeholder}>{children}</div>;
@@ -261,12 +334,46 @@ export const SonicStreamPlays = (props) => {
           </Typography>
         </div>
         <Grid style={{ display: 'flex', backgroundColor: '', }}>
-        <div style={{ backgroundColor: '', marginRight: '25px' }} >
+        {/* <div style={{ backgroundColor: '', marginRight: '25px' }} >
         <Search  searchData={onSearchChange} 
           dataSearch={dataSearch} 
           setDataSearch={setDataSearch} 
-          setDefaultData={setDefaultData} /></div>
-          <div><img src={viewFilter} /></div>
+          setDefaultData={setDefaultData} /></div> */}
+          <div>
+          <div>
+            <img
+              src={viewFilter}
+              style={{ cursor: "pointer" }}
+              onClick={openColumnFilter}
+            />
+            <div id="columnFilter" className={classes.columnFilter}>
+              <div className={classes.closeDiv}>
+                <div>Show Columns</div>
+                <div>
+                  <CloseIcon onClick={closeColumnFilter} />
+                </div>
+              </div>
+              <FormGroup column>
+                {columns?.map((col) => {
+                  const isItemSelected = isSelected(col);
+                  return (
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={isItemSelected}
+                          onChange={(e) => checkBox(e, col)}
+                          className={classes.checkBoxSytle}
+                          color="default"
+                        />
+                      }
+                      label={col}
+                    />
+                  );
+                })}
+              </FormGroup>
+            </div>
+          </div>
+        </div>
                 </Grid>
       </Grid>
       <Paper
@@ -316,6 +423,7 @@ export const SonicStreamPlays = (props) => {
               id="drop-down"
               onChange={(e) => setKeysDetected(e.target.value)}
               className="form-control mb-0"
+              //defaultValue={keysDetected}
               value={keysDetected}
               style={{
                 color: "black",
@@ -362,14 +470,16 @@ export const SonicStreamPlays = (props) => {
             <TableHead>
               <TableRow hover>
                 {columns?.map((col) => {
+                  const isItemSelected = isSelected(col);
                   return (
                     <TableCell style={{ ...tableStyle.head }}>
-                      {col}
+                      {isItemSelected && <>{col}
                       <UnfoldMoreSharpIcon
                         style={{ fontSize: 12, fontWeight: "bold" }}
                         //   onClick={handleSort("id", prop.propFrom)}
                         className="sortIcon"
-                      />
+                      /></>
+                }
                     </TableCell>
                   );
                 })}
@@ -381,35 +491,35 @@ export const SonicStreamPlays = (props) => {
                 return (
                   <TableRow hover className={classes.tableRow}>
                     <TableCell style={{ ...tableStyle.body }}>
-                      {index + 1}
+                      {isSelected("ID") && index + 1}
                     </TableCell>
                     <TableCell style={{ ...tableStyle.body, fontSize: 15,
                     cursor:'pointer' }}
                     onClick={() => fetchSonicKeyById(file?.sonicKey)}>
-                      {file?.sonicKey?.sonicKey}
+                      {isSelected("SONICKEY") && file?.sonicKey?.sonicKey}
                     </TableCell>
                     <TableCell style={{ ...tableStyle.body, color: "#757575" }}>
-                      {file?.sonicKey?.contentName}
+                      {isSelected("NAME") && file?.sonicKey?.contentName}
                     </TableCell>
                     <TableCell style={{ ...tableStyle.body, color: "#757575" }}>
-                      {file?.sonicKey?.contentOwner}
+                      {isSelected("ARTIST") && file?.sonicKey?.contentOwner}
                     </TableCell>
                     <TableCell style={{ ...tableStyle.body, color: "#757575" }}>
-                      {file?.sonicKey?.contentQuality}
+                      {isSelected("QUALITY") && file?.sonicKey?.contentQuality}
                     </TableCell>
                     <TableCell style={{ ...tableStyle.body, color: "#757575" }}>
-                      {file?.sonicKey?.contentDescription}
+                      {isSelected("DESCRIPTION") && file?.sonicKey?.contentDescription}
                     </TableCell>
                     <TableCell
                     onClick={() => openPopUp(file?.sonicKey?._id)}
                       style={{ ...tableStyle.body, cursor: "pointer" }}
                     >
-                      {file?.totalHits}
+                      {isSelected("HITS") && file?.totalHits}
                     </TableCell>
                   </TableRow>
                 );
               })):<TableRow>
-                <TableCell colspan='7' style={{alignItems:'center'}}>
+                <TableCell colSpan={7}align={'center'}>
                 No Data
                     </TableCell></TableRow>}
             </TableBody>

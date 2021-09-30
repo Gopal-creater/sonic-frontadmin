@@ -2,13 +2,13 @@ import * as actionTypes from '../actions/actionTypes';
 import { cloneDeep } from 'lodash';
 
 const initialState = {
-    day:'na',
-    week: 'na',
-    month: 'na',
-    totalListeningCount : 'na',
-    totalNotListeningCount : 'na',
-    totalErrorCount : 'na',
-    totalRadiostaionCount : 'na',
+    day:'0',
+    week: '0',
+    month: '0',
+    totalListeningCount : '0',
+    totalNotListeningCount : '0',
+    totalErrorCount : '0',
+    totalRadiostaionCount : '0',
     hits: '',
     hitsLoading : false,
     hitsError : false,

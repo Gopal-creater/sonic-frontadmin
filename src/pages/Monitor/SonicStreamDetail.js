@@ -16,11 +16,11 @@ import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import { tableStyle } from "../../globalStyle";
 import UnfoldMoreSharpIcon from "@material-ui/icons/UnfoldMoreSharp";
 import { log } from "../../utils/app.debug";
-import queryString from 'query-string';
+import queryString from "query-string";
 import Communication from "../../services/https/Communication";
 import LoadingSpinner from "./Components/LoadingSpinner";
 import ErrorModal from "./Components/ErrorModal";
-import * as actionCreators from '../../stores/actions/index';
+import * as actionCreators from "../../stores/actions/index";
 import Search from "../SonicKeys/Components/Search";
 
 const useStyles = makeStyles((theme) => ({
@@ -70,41 +70,45 @@ const columns = [
 export const SonicStreamDetail = (props) => {
   const classes = useStyles();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const parsedQueryString = queryString.parse(props.location.search);
   const [totalCount, setTotalCount] = useState(0);
-   const [tableData, setTableData] = useState([]);
+  const [tableData, setTableData] = useState([]);
   const passedData = JSON.parse(localStorage.getItem("passedData"));
-  const [searchValue, setSearchValue] = React.useState()
+  const [searchValue, setSearchValue] = React.useState();
   const [defaultData, setDefaultData] = useState(false);
   const [dataSearch, setDataSearch] = React.useState("");
   const onSearchChange = (searchText) => {
-    console.log('Search Change', searchText);
+    console.log("Search Change", searchText);
     setSearchValue(searchText);
-  //  setPage(0)
-  //  firstFetchSonicKey(0, rowPerPage, searchText)
-  }
+    //  setPage(0)
+    //  firstFetchSonicKey(0, rowPerPage, searchText)
+  };
 
-  const firstFetchSonicKey = (_offset=0,_limit=10) => {
+  const firstFetchSonicKey = (_offset = 0, _limit = 10) => {
     setLoading(true);
-    setError('');
-    Communication.fetchSKForSpecificRadioStation(parsedQueryString.radioStationId,_offset,_limit)
-        .then((res)=>{
-            log('Result',res)
-            setLoading(false);
-            setError('');
-        })
-        .catch((error) => {
-            setLoading(false);
-          });      
-  }
+    setError("");
+    Communication.fetchSKForSpecificRadioStation(
+      parsedQueryString.radioStationId,
+      _offset,
+      _limit
+    )
+      .then((res) => {
+        log("Result", res);
+        setLoading(false);
+        setError("");
+      })
+      .catch((error) => {
+        setLoading(false);
+      });
+  };
 
   useEffect(() => {
-    log('Detail')
+    log("Detail");
     firstFetchSonicKey();
   }, []);
 
-  log('Props',props);
+  log("Props", props);
   return (
     <Grid className={classes.container} elevation={8}>
       <Grid style={{ display: "flex", justifyContent: "space-between" }}>
@@ -122,7 +126,8 @@ export const SonicStreamDetail = (props) => {
             Detected SonicKeys
           </Typography>
           <Typography className={classes.subHeading}>
-            Found {tableData.length} SonicKeys in {passedData.name} radio station
+            Found {tableData.length} SonicKeys in {passedData.name} radio
+            station
             {passedData.isStreamStarted === true && (
               <Badge
                 style={{
@@ -166,80 +171,107 @@ export const SonicStreamDetail = (props) => {
             )}
           </Typography>
         </div>
-        <Search  searchData={onSearchChange} dataSearch={dataSearch} setDataSearch={setDataSearch} setDefaultData={setDefaultData} />
+        {/* <Search  searchData={onSearchChange} dataSearch={dataSearch} setDataSearch={setDataSearch} setDefaultData={setDefaultData} /> */}
       </Grid>
-      {!loading && !error ?
-      <TableContainer style={{ ...tableStyle.container }}>
-        <Table aria-label="Detail table">
-          <TableHead>
-            <TableRow hover>
-              {columns?.map((col) => {
-                return (
-                  <TableCell style={{ ...tableStyle.head }}>
-                    {col}
-                    <UnfoldMoreSharpIcon
-                      style={{ fontSize: 12, fontWeight: "bold" }}
-                      //   onClick={handleSort("id", prop.propFrom)}
-                      className="sortIcon"
-                    />
+      {!loading && !error ? (
+        <TableContainer style={{ ...tableStyle.container }}>
+          <Table aria-label="Detail table">
+            <TableHead>
+              <TableRow hover>
+                {columns?.map((col) => {
+                  return (
+                    <TableCell style={{ ...tableStyle.head }}>
+                      {col}
+                      <UnfoldMoreSharpIcon
+                        style={{ fontSize: 12, fontWeight: "bold" }}
+                        //   onClick={handleSort("id", prop.propFrom)}
+                        className="sortIcon"
+                      />
+                    </TableCell>
+                  );
+                })}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {tableData?.docs?.length > 0 ? (
+                tableData?.docs?.map((file, index) => {
+                  log(file);
+                  return (
+                    <TableRow>
+                      <TableCell style={{ ...tableStyle.body }}>
+                        {index + 1}
+                      </TableCell>
+                      <TableCell style={{ ...tableStyle.body, fontSize: 15 }}>
+                        {file?.sonicKey}
+                      </TableCell>
+                      <TableCell
+                        style={{ ...tableStyle.body, color: "#757575" }}
+                      >
+                        {file?.contentName}
+                      </TableCell>
+                      <TableCell
+                        style={{ ...tableStyle.body, color: "#757575" }}
+                      >
+                        {file?.contentOwner}
+                      </TableCell>
+                      <TableCell
+                        style={{ ...tableStyle.body, color: "#757575" }}
+                      >
+                        {file?.contentQuality}
+                      </TableCell>
+                      <TableCell
+                        style={{ ...tableStyle.body, color: "#757575" }}
+                      >
+                        {file?.contentDescription}
+                      </TableCell>
+                      <TableCell
+                        style={{ ...tableStyle.body, cursor: "pointer" }}
+                      >
+                        {file?.hits}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={7} align={"center"}>
+                    No Data
                   </TableCell>
-                );
-              })}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-          {tableData?.docs?.map((file, index) => {
-              log(file)
-              return(
-            <TableRow>
-              <TableCell style={{ ...tableStyle.body }}>
-                {index+1}
-              </TableCell>
-              <TableCell style={{ ...tableStyle.body,fontSize:15 }}>
-                {file?.sonicKey}
-              </TableCell>
-              <TableCell style={{ ...tableStyle.body,color: "#757575", }}>
-                {file?.contentName}
-              </TableCell>
-              <TableCell style={{ ...tableStyle.body,color: "#757575", }}>
-                {file?.contentOwner}
-              </TableCell>
-              <TableCell style={{ ...tableStyle.body,color: "#757575", }}>
-                {file?.contentQuality}
-              </TableCell>
-              <TableCell style={{ ...tableStyle.body,color: "#757575", }}>
-                {file?.contentDescription}
-              </TableCell>
-              <TableCell style={{ ...tableStyle.body,cursor:'pointer' }}>
-                {file?.hits}
-              </TableCell>
-            </TableRow>
-            )})}
-          </TableBody>
-        </Table>
-      </TableContainer>
-        :
-        loading ?
-            <LoadingSpinner multipleGrow={true} containerStyle={{ height: window.innerHeight / 2 }} />
-            :
-            <ErrorModal errorData={error} additionalStyle={{ height: window.innerHeight / 2 }} />
-    }
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      ) : loading ? (
+        <LoadingSpinner
+          multipleGrow={true}
+          containerStyle={{ height: window.innerHeight / 2 }}
+        />
+      ) : (
+        <ErrorModal
+          errorData={error}
+          additionalStyle={{ height: window.innerHeight / 2 }}
+        />
+      )}
     </Grid>
   );
 };
 
 const mapStateToProps = (state) => {
-  log('State',state)
+  log("State", state);
   return {};
 };
 
-const mapDispatchToProps = (dispatch)=>{
-  return{
-    fetchTotalListeningCount : () => dispatch(actionCreators.fetchTotalListeningCount()),
-    fetchTotalNotListeningCount : () => dispatch(actionCreators.fetchTotalNotListeningCount()),
-    fetchTotalErrorCount : () => dispatch(actionCreators.fetchTotalErrorCount()),
-    fetchTotalRadiostationCount : () => dispatch(actionCreators.fetchTotalRadiostationCount()),
-  }
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchTotalListeningCount: () =>
+      dispatch(actionCreators.fetchTotalListeningCount()),
+    fetchTotalNotListeningCount: () =>
+      dispatch(actionCreators.fetchTotalNotListeningCount()),
+    fetchTotalErrorCount: () => dispatch(actionCreators.fetchTotalErrorCount()),
+    fetchTotalRadiostationCount: () =>
+      dispatch(actionCreators.fetchTotalRadiostationCount()),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SonicStreamDetail);

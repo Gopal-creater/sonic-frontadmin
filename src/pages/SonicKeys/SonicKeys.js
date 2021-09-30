@@ -25,7 +25,8 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import CloseIcon from '@material-ui/icons/Close';
-import { Description } from '@material-ui/icons';
+import IconDownloadSvg from "../../../src/assets/images/iconDownloadSvg.svg";
+import PageviewOutlinedIcon from '@material-ui/icons/PageviewOutlined';
 
 
 const StyledTableCell = withStyles((theme) => ({
@@ -113,7 +114,6 @@ const useStyles = makeStyles({
 
 
 const SonicKeys = (props) => {
-    const [selectedRows, setSelectedRows] = useState([]);
     const [filterColumn, setFilterColumn] = useState(["ID",
         "SONICKEY",
         "NAME",

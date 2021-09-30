@@ -7,6 +7,8 @@ import { cloneDeep } from 'lodash';
 import { compareAsc, format } from 'date-fns';
 import * as actionCreators from '../stores/actions/index';
 import { log } from './app.debug';
+import fileDownload from 'js-file-download';
+import axios from "axios";
 
 export function extractFileName(url) {
   var filename = url.substring(url.lastIndexOf('-') + 1);
@@ -22,7 +24,12 @@ export async function downloadFile(filePath, fileType, setRestrict, s3MetaData) 
   if (s3MetaData !== undefined) {
     await Communication.downloadFileWithS3Key(s3MetaData).then((response) => {
 
-      FileSaver.saveAs(response, extractFileName(filePath));
+      // FileSaver.saveAs(response, extractFileName(filePath));
+      axios.get(response, {
+        responseType: 'blob',
+      }).then(res => {
+        fileDownload(response, extractFileName(filePath));
+      });
     }).catch(error => {
       cogoToast.error("Download Failed.");
       console.log("something went wrong", error)

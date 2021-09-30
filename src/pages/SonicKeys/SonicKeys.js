@@ -46,11 +46,13 @@ const useStyles = makeStyles({
         fontSize: 30,
         fontWeight: 700,
         color: "#343F84",
+        fontFamily: "NunitoSans-ExtraBold",
     },
     subHeading: {
         fontSize: 18,
         fontWeight: 500,
         color: "#00A19A",
+        fontFamily: "NunitoSans-Bold",
     },
     table: {
         minWidth: 700,

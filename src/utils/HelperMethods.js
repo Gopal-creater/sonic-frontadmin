@@ -28,7 +28,7 @@ export async function downloadFile(filePath, fileType, setRestrict, s3MetaData) 
       axios.get(response, {
         responseType: 'blob',
       }).then(res => {
-        fileDownload(response, extractFileName(filePath));
+        fileDownload(res.data, extractFileName(filePath));
       });
     }).catch(error => {
       cogoToast.error("Download Failed.");

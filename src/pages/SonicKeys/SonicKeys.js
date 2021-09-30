@@ -367,7 +367,7 @@ const SonicKeys = (props) => {
                                                 {isSelected("ID") && offset + index + 1}
                                             </TableCell>
                                             <TableCell className={classes.sonicKeyText}>{isSelected("SONICKEY") && data.sonicKey}</TableCell>
-                                            <TableCell className={classes.tableCellNormalText}>{isSelected("NAME") && data.contentFileName}</TableCell>
+                                            <TableCell className={classes.tableCellNormalText}>{isSelected("NAME") && data.contentFileName?.length > 20 ? data.contentFileName?.slice(0, 20) + "..." : data.contentFileName?.length}</TableCell>
                                             <TableCell className={classes.tableCellNormalText}>{isSelected("ARTIST") && (data.contentOwner === "" ? "-" : data.contentOwner)}</TableCell>
                                             <TableCell className={classes.tableCellNormalText}>{isSelected("ENCODED DATE") && (format(new Date(data.contentCreatedDate), 'dd/MM/yyyy'))}</TableCell>
                                             <TableCell className={classes.tableCellNormalText}>{isSelected("DESCRIPTION") && (data.contentDescription === "" ? "-" : data.contentDescription)}</TableCell>

@@ -17,9 +17,10 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 40,
     backgroundColor: "white",
     padding: "2% 2.5%",
+    boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
   },
   heading: {
-    fontSize: 24,
+    fontSize: 30,
     fontFamily: 'NunitoSans-ExtraBold',
     color: "#343F84",
   },
@@ -42,6 +43,8 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 15,
     fontFamily: 'NunitoSans-Bold',
     borderRadius: 8,
+    color: 'white',
+    backgroundColor: '#343F84',
   },
 
   //TABLE
@@ -97,7 +100,7 @@ function Licences(props) {
     if (props.licenceKey.data.length <= 0) {
       fetchLicence();
     }
-  }, []);
+  }, [props]);
 
   useEffect(() => {
     const data = props.licenceKey.data.docs;

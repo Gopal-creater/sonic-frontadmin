@@ -26,18 +26,18 @@ const useStyles = makeStyles((theme) => ({
   },
   heading: {
     fontSize: 30,
-    fontWeight: 700,
+    fontFamily: 'NunitoSans-Bold',
     color: "#343F84",
   },
   subHeading: {
     fontSize: 18,
-    fontWeight: 500,
+    fontFamily: 'NunitoSans-Regular',
     color: "#00A19A",
   },
   found: {
     padding: "30px 0px 0px 0px",
     fontSize: 18,
-    fontWeight: 500,
+    fontFamily: 'NunitoSans-Regular',
     color: "#393F5B",
   },
 

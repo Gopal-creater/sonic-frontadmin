@@ -21,6 +21,26 @@ class Communication {
     }
     return AppWebRequest(`/sonic-keys/owners/${getUserId()}?limit=${limit}&sort=-createdAt&skip=${index}`, "get", axiosConfig)
   }
+
+  searchRadioStation(limit=5, index=0, value='') {
+    index = index > 1 ? (index - 1) * limit : 0
+    const axiosConfig = {
+      params: {
+        filter: {
+          // "$or": [ { "radioSearch.name": { "$regex": `${value ? value : ""}`, "$options": "i" } } ] 
+          $or: [
+            { [`radioSearch.name`]: { "$regex": `${value ? value : ''}`, "$options": "i" } },
+            { [`radioSearch.country`]: { "$regex": `${value ? value : ""}`, "$options": "i" } },
+            { [`radioSearch.streamingUrl`]: { "$regex": `${value ? value : ""}`, "$options": "i" } },
+          ]
+        },
+      },
+    }
+    log('Index & Limit',index,limit)
+    return AppWebRequest(`/radiomonitors/owners/${getUserId()}/subscribed-stations?skip=${index}&limit=${limit}`,
+     "get",axiosConfig)
+  }
+
   fetchLicenceKey() {
     return AppWebRequest(`/users/${getUserId()}/licenses`, "get");
   }

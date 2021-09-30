@@ -115,7 +115,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SonicStreamReader(props) {
-  let hitsArray = [];
   // let radiostations = [];
   let componentRef = useRef(null);
   const classes = useStyles();
@@ -140,23 +139,18 @@ function SonicStreamReader(props) {
   const [subscribedRadioStation, setSubscribedRadioStation] = React.useState(
     []
   );
-  // const subscrideRadioStation = [
-  //   {
-  //     radio: "612f893d4a11109bf4a11392",
-  //   },
-  //   {
-  //     radio: "612f83e94a11109bf4a11391",
-  //   },
-  // ];
 
   const Placeholder = ({ children }) => {
     return <div className={classes.placeholder}>{children}</div>;
   };
-
+  const useStyleClasses = useStyles();
   const [defaultData, setDefaultData] = useState(false);
   const [dataSearch, setDataSearch] = React.useState("");
-
-  const useStyleClasses = useStyles();
+  const [tableData, setTableData] = React.useState([]);
+  const [totalCount, setTotalCount] = React.useState(0);
+  const [page, setTotalPage] = React.useState(0);
+  const [pagingCount, setTotalPageCount] = React.useState(0);
+  const [error, setError] = React.useState("");
   let radiostations = cloneDeep(props.radiostations);
 
   const columns = [
@@ -170,11 +164,33 @@ function SonicStreamReader(props) {
     "ACTION",
   ];
   useEffect(() => {
+    if(tableData.length<=0){
+      searchMethod(0,5,'')
+    }
     if (props.radiostations.length <= 0) {
       props.fetchRadioStations(0, 5);
+      setPageCount(props.page);
       // props.fetchAllRadioStations(0, 620);
     }
   }, []);
+  useEffect(() => {
+    if (defaultData === true) {
+      props.fetchRadioStations(0, 5);
+      setDefaultData(false);
+      setSearchValue('')
+    }
+  }, [defaultData]);
+
+  const searchMethod = (_offset, rowPerPage, searchText) =>{
+    Communication.searchRadioStation(5, 0, searchText).then((res) =>{
+      log("Search Result", res)
+      setTableData(res.docs);
+      setTotalCount(res.totalDocs);
+      setTotalPage(res.totalPages);
+      setError("");
+    }
+    ).catch(err=>log('Error',err));
+  }
 
   const onCountryChange = (e) => {
     log("Country Change", e);
@@ -194,16 +210,19 @@ function SonicStreamReader(props) {
 
   const onSubscribe = (e) => {
     e.preventDefault();
-    log('Subscribe Radio Station',subscribedRadioStation)
+    log("Subscribe Radio Station", subscribedRadioStation);
     Communication.radioStationSubscribed(subscribedRadioStation)
       .then((res) => {
         log("Response Of Subscribed", res);
-        cogoToast.success(res.passedData.length+
-          ' Radios Station Subscribed out of '+subscribedRadioStation.length)
-          setSubscribedRadioStation([])
-          setSubscribedRadioStations([])
-          setSelectRadioStations([])
-          setCountry('')  
+        cogoToast.success(
+          res.passedData.length +
+            " Radios Station Subscribed out of " +
+            subscribedRadioStation.length
+        );
+        setSubscribedRadioStation([]);
+        setSubscribedRadioStations([]);
+        setSelectRadioStations([]);
+        setCountry("");
       })
       .catch((err) => {
         log("Error", err);
@@ -220,6 +239,7 @@ function SonicStreamReader(props) {
       },
     },
   };
+
   const handlePageChange = async (event, value) => {
     const limit = 5;
     const page = value;
@@ -230,52 +250,52 @@ function SonicStreamReader(props) {
   };
 
   const onSearchChange = (searchText) => {
-    console.log('Search Change', searchText);
+    console.log("Search Change", searchText);
     setSearchValue(searchText);
-  //  setPage(0)
-  //  firstFetchSonicKey(0, rowPerPage, searchText)
-  }
+    searchMethod(5,0,searchValue)  
+  };
 
   const onDelete = () => {
-    const data = {"ids":selectedRows}
-    log('Delete Radio Stations',data)
+    const data = { ids: selectedRows };
+    log("Delete Radio Stations", data);
     Communication.onDeleteRadioStations(data)
-    .then(res=>{
-      log('Response',res)
-      props.fetchRadioStations(0, 5);
-      setSelectRadioStations([])
-      setSelectedRows([]);
-      setSelected([]);
-      setPageCount(0);
-    }).catch(err=>log('Error',err))
+      .then((res) => {
+        log("Response", res);
+        props.fetchRadioStations(0, 5);
+        setSelectRadioStations([]);
+        setSelectedRows([]);
+        setSelected([]);
+      })
+      .catch((err) => log("Error", err));
   };
 
   const onStart = () => {
     log("Start Selected Radio Station", selectedRows);
-    const data = {"ids":selectedRows}
-    log('Start Radio Stations',data)
+    const data = { ids: selectedRows };
+    log("Start Radio Stations", data);
     Communication.onStartRadioStations(data)
-    .then(res=>{
-      log('Response',res)
-      props.fetchRadioStations(0, 5);
-      setSelectRadioStations([])
-      setSelectedRows([]);
-      setSelected([]);
-      setPageCount(0);
-    }).catch(err=>log('Error',err))
+      .then((res) => {
+        log("Response", res);
+        props.fetchRadioStations(0, 5);
+        setSelectRadioStations([]);
+        setSelectedRows([]);
+        setSelected([]);
+      })
+      .catch((err) => log("Error", err));
   };
 
   const onStop = () => {
-    const data = {"ids":selectedRows}
-    log('Stop Radio Stations',data)
+    const data = { ids: selectedRows };
+    log("Stop Radio Stations", data);
     Communication.onStopRadioStations(data)
-    .then(res=>{
-      log('Response',res)
-      props.fetchRadioStations(0, 5);
-      setSelectedRows([]);
-      setSelected([]);
-      setPageCount(0);
-    }).catch(err=>log('Error',err))
+      .then((res) => {
+        log("Response", res);
+        props.fetchRadioStations(0, 5);
+        setSelectedRows([]);
+        setSelected([]);
+      })
+      .catch((err) => log("Error", err));
+      setPageCount(props.page);
   };
 
   const isSelected = (radiostation_id) => {
@@ -283,16 +303,16 @@ function SonicStreamReader(props) {
   };
 
   const isSelectedRadioStation = (radiostation_id) => {
-    log(radiostation_id)
+    log(radiostation_id);
     return subscribedRadioStations.includes(radiostation_id);
   };
 
   const handleSelectAllClick = (event) => {
-    log('Event',event.target.checked)
+    log("Event", event.target.checked);
     if (event.target.checked) {
       const newSelecteds = props.radiostations.docs.map((data) => data._id);
       // const data = "radio":{newSelecteds}
-      log('All Stations',newSelecteds)
+      log("All Stations", newSelecteds);
       setSelectedRows(newSelecteds);
       setSelected(newSelecteds);
       return;
@@ -314,14 +334,17 @@ function SonicStreamReader(props) {
       setSelected([...selected]);
     }
   };
-  
+
   const checkBoxForSubscribed = (event, _id) => {
     if (event.target.checked) {
       // setSubscribedRadioStation([...subscribedRadioStation, _id]);
-      setSubscribedRadioStation([...subscribedRadioStation,{
-        'radio':_id}]);
+      setSubscribedRadioStation([
+        ...subscribedRadioStation,
+        {
+          radio: _id,
+        },
+      ]);
       setSubscribedRadioStations([...subscribedRadioStations, _id]);
-      
     } else {
       const index = selectedRows.indexOf(_id);
       subscribedRadioStation.splice(index, 1);
@@ -343,12 +366,14 @@ function SonicStreamReader(props) {
               List {props.totalRadioStreams} radio stations
             </Typography>
           </div>
-          <Search  searchData={onSearchChange} 
-          dataSearch={dataSearch} 
-          setDataSearch={setDataSearch} 
-          setDefaultData={setDefaultData} />
+          <Search
+            searchData={onSearchChange}
+            dataSearch={dataSearch}
+            setDataSearch={setDataSearch}
+            setDefaultData={setDefaultData}
+          />
         </Grid>
-         <Paper
+        <Paper
           maxWidth="lg"
           style={{
             marginTop: 15,
@@ -425,7 +450,7 @@ function SonicStreamReader(props) {
                   "customButton",
                 ].join(" ")}
                 onClick={() => {
-                  onDelete()
+                  onDelete();
                 }}
                 style={{
                   ...styles.submitButton,
@@ -453,72 +478,86 @@ function SonicStreamReader(props) {
             </Grid>
           </Grid>
           <Grid item>
-          <FormControl style={styles.formControl}> 
-            <InputLabel id="mutiple-checkbox-label"
-            style={{paddingLeft:30,color:'grey'}}>Select country of station</InputLabel>
-            <Select
-              id="drop-down"
-              onChange={(e) => onCountryChange(e.target.value)}
-              className="form-control mb-0"
-              value={country}
-              displayEmpty
-              // renderValue={
-              //   country !== ""
-              //     ? undefined
-              //     : () => <Placeholder>Select country of station</Placeholder>
-              // }
-              autoWidth={false}
-              style={{
-                color: "black",
-                backgroundColor: "transparent",
-                outline: "none",
-                border: "none",
-                boxShadow: "none",
-                margin: "0px 30px 0px 20px",
-                width: 220,
-              }}
-            >
-              <MenuItem value="Austria">Austria</MenuItem>
-              <MenuItem value="France">France</MenuItem>
-              <MenuItem value="Germany">Germany</MenuItem>
-            </Select>
+            <FormControl style={styles.formControl}>
+              <InputLabel
+                id="mutiple-checkbox-label"
+                style={{ paddingLeft: 30, color: "grey" }}
+              >
+                Select country of station
+              </InputLabel>
+              <Select
+                id="drop-down"
+                onChange={(e) => onCountryChange(e.target.value)}
+                className="form-control mb-0"
+                value={country}
+                displayEmpty
+                // renderValue={
+                //   country !== ""
+                //     ? undefined
+                //     : () => <Placeholder>Select country of station</Placeholder>
+                // }
+                autoWidth={false}
+                style={{
+                  color: "black",
+                  backgroundColor: "transparent",
+                  outline: "none",
+                  border: "none",
+                  boxShadow: "none",
+                  margin: "0px 30px 0px 20px",
+                  width: 220,
+                }}
+              >
+                <MenuItem value="Austria">Austria</MenuItem>
+                <MenuItem value="France">France</MenuItem>
+                <MenuItem value="Germany">Germany</MenuItem>
+              </Select>
             </FormControl>
-            <FormControl style={styles.formControl}> 
-            <InputLabel id="mutiple-checkbox-label"
-            style={{paddingLeft:30,color:'grey'}}>Select Radio</InputLabel>
-            <Select
-              id="drop-down"
-              className="form-control mb-0"
-              onChange={onRadioStationChange}
-              value={[]}
-              // displayEmpty
-              disabled={country === ""}
-              style={{
-                color: "black",
-                backgroundColor: "transparent",
-                outline: "none",
-                border: "none",
-                boxShadow: "none",
-                margin: "0px 30px 0px 20px",
-                width: 220,
-              }}
-              multiple
-            >
-              {dropDownCountry?.docs?.map((country, index) => {
+            <FormControl style={styles.formControl}>
+              <InputLabel
+                id="mutiple-checkbox-label"
+                style={{ paddingLeft: 30, color: "grey" }}
+              >
+                Select Radio
+              </InputLabel>
+              <Select
+                id="drop-down"
+                className="form-control mb-0"
+                onChange={onRadioStationChange}
+                value={selectRadioStations}
+                input={<Input />}
+                renderValue={(selected) => selected.join(", ")}
+                MenuProps={MenuProps}
+                disabled={country === ""}
+                style={{
+                  color: "black",
+                  backgroundColor: "transparent",
+                  outline: "none",
+                  border: "none",
+                  boxShadow: "none",
+                  margin: "0px 30px 0px 20px",
+                  width: 220,
+                }}
+                multiple
+              >
+                {dropDownCountry?.docs?.map((country, index) => {
                   const isItemSelected = isSelectedRadioStation(country?._id);
-                return (
-                  <MenuItem key={index} value={country?.name} otherDetails={country}>
-                  <Checkbox
+                  return (
+                    <MenuItem
+                      key={index}
+                      value={country?.name}
+                      otherDetails={country}
+                    >
+                      <Checkbox
                         color="#343F84"
                         onChange={(e) => checkBoxForSubscribed(e, country?._id)}
                         checked={isItemSelected}
-                  />
-                    {country?.name}
-                  </MenuItem>
-                );
-              })} 
-            </Select> 
-          </FormControl>
+                      />
+                      <ListItemText primary={country?.name} />
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
             <Button
               variant="contained"
               color="primary"
@@ -527,7 +566,7 @@ function SonicStreamReader(props) {
                 borderRadius: 5,
                 background: "rgb(52, 63, 132)",
                 marginTop: 5,
-                marginLeft:20
+                marginLeft: 20,
               }}
               onClick={onSubscribe}
             >
@@ -542,7 +581,11 @@ function SonicStreamReader(props) {
                 <TableCell padding="checkbox">
                   <Checkbox
                     color="#343F84"
-                    checked={selected.length === radiostations?.docs?.length ? true : false}
+                    checked={
+                      selected.length === radiostations?.docs?.length
+                        ? true
+                        : false
+                    }
                     onChange={handleSelectAllClick}
                     // inputProps={{ 'aria-label': 'select all desserts' }}
                   />

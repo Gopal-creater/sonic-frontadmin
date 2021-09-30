@@ -1,7 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography } from "@material-ui/core";
-import { Link } from "react-router-dom";
 import Icon from "../../assets/images/icon-fail-graphic.png";
 
 const useStyles = makeStyles((theme) => ({
@@ -72,13 +71,13 @@ export default function FailedFileSelection({ title, audioName }) {
           <Typography className={classes.help}>Do you need help?</Typography>
           <Typography className={classes.helpCentre}>
             Use{" "}
-            <Link to="#" style={{ color: "#393F5B" }}>
+            <a href="https://sonicdata.com/" target="_blank" rel="noopener noreferrer" style={{ color: "#393F5B" }}>
               HelpCentre
-            </Link>{" "}
+            </a>{" "}
             or email our{" "}
-            <Link to="#" style={{ color: "#393F5B" }}>
+            <a href="https://sonicdata.com/" target="_blank" rel="noopener noreferrer" style={{ color: "#393F5B" }}>
               Support Team.
-            </Link>
+            </a>
           </Typography>
         </div>
       </Grid>

@@ -5,7 +5,7 @@ import Table from "react-bootstrap/Table";
 import CloseIcon from '@material-ui/icons/Close';
 import Button from '@material-ui/core/Button';
 import DialogActions from '@material-ui/core/DialogActions';
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import DialogLogo from "../../../src/assets/images/key-logo.png";
 
 const useStyles = makeStyles({
@@ -57,7 +57,7 @@ const DailogTable = (props) => {
 
             <DialogTitle id="form-dialog-title">
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <img style={{ width: '30px' }} src={DialogLogo} />
+                    <img style={{ width: '30px' }} src={DialogLogo} alt="" />
                     <div style={{
                         fontFamily: 'NunitoSans-Bold', color: '#343F84', fontSize: '18px'
                     }}>&nbsp; &nbsp;SonicKey: {sonicKey.sonicKey}</div>

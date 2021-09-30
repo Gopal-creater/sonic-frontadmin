@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Button, Grid, Tooltip, Typography } from "@material-ui/core";
+import { Button, Grid, Typography } from "@material-ui/core";
 import Icon from "../../assets/images/icon-add-sound.png";
-import { log } from "../../utils/app.debug";
 import * as mm from "music-metadata-browser";
 import cogoToast from "cogo-toast";
 import Communication from "../../services/https/Communication";
@@ -65,6 +64,8 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 15,
     fontFamily: 'NunitoSans-Bold',
     borderRadius: 8,
+    color: 'white',
+    backgroundColor: '#343F84'
   },
 }));
 

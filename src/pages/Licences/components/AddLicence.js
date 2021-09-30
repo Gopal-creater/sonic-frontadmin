@@ -41,6 +41,8 @@ const useStyles = makeStyles((theme) => ({
     border: "2px solid #343F84",
     marginRight: "2%",
     marginBottom: 20,
+    color: 'white',
+    backgroundColor: '#343F84',
   },
   hint: {
     fontSize: 12,

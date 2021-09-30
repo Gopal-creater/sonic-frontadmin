@@ -1,7 +1,7 @@
 export const tableStyle = {
   container: {
     backgroundColor: "white",
-    padding: "2% 2.5%",
+    padding: "0 2.5%",
   },
   head: {
     color: "rgb(156, 164, 171)",

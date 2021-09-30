@@ -6,19 +6,15 @@ import CloseIcon from '@material-ui/icons/Close';
 const Search = (props) => {
     const { searchData, dataSearch, setDataSearch, setDefaultData } = props;
 
-    // useEffect(() => {
-        
-    // },[props])
-
     const searchDataList = (e) => {
         e.preventDefault();
         setDataSearch(e.target.value);
     }
 
     const handleSearch = () => {
-        one.style.display = 'none';
-        two.style.display = 'none';
-        three.style.display = 'block';
+        document.getElementById('inputID').style.display = 'none';
+        document.getElementById('closeID').style.display = 'none';
+        document.getElementById('searchID').style.display = 'block';
         setDataSearch("")
         setDefaultData(true);
     }
@@ -33,15 +29,10 @@ const Search = (props) => {
     const onSearch = () => {
         searchData(dataSearch);
     }
-
-    let one = document.getElementById('one');
-    let two = document.getElementById('two');
-    let three = document.getElementById('three');
-
     return (
         <div style={{ display: 'flex' }}>
-            <CloseIcon fontSize={'medium'} style={{ display: 'none', color: '#ACACAC' }} id="two" className="closeIconSearch" onClick={handleSearch} />
-            <div style={{ display: 'none' }} id="one" className="searchBox">
+            <CloseIcon fontSize={'medium'} style={{ display: 'none', color: '#ACACAC' }} id="closeID" className="closeIconSearch" onClick={handleSearch} />
+            <div style={{ display: 'none' }} id="inputID" className="searchBox">
 
                 <input className="searchTxt" value={dataSearch} type="text" name="" placeholder="Type to Search" onChange={searchDataList} onKeyPress={enterPressed} />
 
@@ -49,10 +40,10 @@ const Search = (props) => {
                     <img src={SearchImg} onClick={onSearch} />
                 </a>
             </div>
-            <img id="three" className="searchIconClick" src={SearchImg} onClick={() => {
-                one.style.display = 'block';
-                two.style.display = 'block';
-                three.style.display = 'none';
+            <img id="searchID" className="searchIconClick" src={SearchImg} onClick={() => {
+                document.getElementById('inputID').style.display = 'block';
+                document.getElementById('closeID').style.display = 'block';
+                document.getElementById('searchID').style.display = 'none';
             }} />
         </div>
     )

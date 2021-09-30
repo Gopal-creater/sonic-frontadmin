@@ -18,15 +18,13 @@ import { fetchSonicKeys } from "../../stores/actions/sonicKey";
 import { connect, useSelector } from 'react-redux';
 import { format, isValid, sort } from 'date-fns';
 import { converstionOfKb, downloadFile } from '../../utils/HelperMethods';
-import download from "../../../src/assets/images/download.png";
 import Search from "../SonicKeys/Components/Search";
 import viewFilter from "../../../src/assets/images/view.png";
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import CloseIcon from '@material-ui/icons/Close';
-import IconDownloadSvg from "../../../src/assets/images/iconDownloadSvg.svg";
-import PageviewOutlinedIcon from '@material-ui/icons/PageviewOutlined';
+import Download from './Components/Download';
 
 
 const StyledTableCell = withStyles((theme) => ({
@@ -376,9 +374,7 @@ const SonicKeys = (props) => {
                                                     <div style={{ marginRight: '20px' }} className={classes.tableCellIcon} onClick={() => handleClickOpenTable(data)}>
                                                         <VisibilityOutlinedIcon fontSize="small" />&nbsp;View
                                                     </div>
-                                                    <div style={{ marginLeft: '20px' }} className={classes.tableCellIcon} onClick={() => downloadFileData(data)}>
-                                                        <img src={download} />&nbsp;Download
-                                                    </div>
+                                                    <Download prop={data} />
                                                 </div>
                                             </TableCell>
                                         </TableRow>

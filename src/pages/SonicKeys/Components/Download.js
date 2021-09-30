@@ -1,0 +1,102 @@
+import React from 'react'
+import download from "../../../assets/images/download.png"
+import Communication from '../../../services/https/Communication'
+import axios from "axios"
+import fileDownload from 'js-file-download'
+import cogoToast from 'cogo-toast'
+import { log } from '../../../utils/app.debug'
+
+import PropTypes from 'prop-types';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+import Dialog from '@material-ui/core/Dialog';
+import { DialogContent, DialogTitle } from '@material-ui/core'
+
+function CircularProgressWithLabel(props) {
+    return (
+        <Box position="relative" display="inline-flex">
+            <CircularProgress variant="determinate" {...props} />
+            <Box
+                top={0}
+                left={0}
+                bottom={0}
+                right={0}
+                position="absolute"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+            >
+                <Typography variant="caption" component="div" color="textSecondary">{`${Math.round(
+                    props.value,
+                )}%`}</Typography>
+            </Box>
+        </Box>
+    );
+}
+
+CircularProgressWithLabel.propTypes = {
+    /**
+     * The value of the progress indicator for the determinate variant.
+     * Value between 0 and 100.
+     */
+    value: PropTypes.number.isRequired,
+};
+
+export default function Download(data) {
+    const [values, setValues] = React.useState({
+        openDownloadingModal: false,
+        percentComplete: 0
+    })
+
+    function extractFileName(url) {
+        var filename = url.substring(url.lastIndexOf('-') + 1);
+        return filename
+    }
+
+    const downloadFileData = async () => {
+        setValues({ ...values, openDownloadingModal: true })
+        Communication.downloadFileWithS3Key(data?.prop?.s3FileMeta?.Key).then((response) => {
+            axios({
+                url: response,
+                responseType: 'blob',
+                onDownloadProgress: function (progressEvent) {
+                    let percent = Math.floor(progressEvent?.loaded / progressEvent?.total * 100)
+                    setValues({ ...values, percentComplete: percent, openDownloadingModal: true })
+                    log("percent complete", percent)
+
+                }
+            }).then(res => {
+                fileDownload(res.data, extractFileName(data?.prop?.contentFilePath));
+                setValues({ ...values, openDownloadingModal: false })
+            });
+        }).catch((error) => {
+            cogoToast.error(error)
+        })
+    }
+
+    const closeDownloadModal = () => {
+        setValues({ ...values, openDownloadingModal: false })
+    }
+
+
+    return (
+        <>
+            <div style={{ marginLeft: '20px', display: "flex", justifyContent: "center", alignItems: "center" }} onClick={downloadFileData}>
+                <img src={download} width="16px" height="16px" />&nbsp;Download
+            </div>
+            <Dialog
+                open={values?.openDownloadingModal}
+                onClose={closeDownloadModal}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+                disableBackdropClick={true}
+            >
+                <DialogContent style={{ display: "flex", justifyContent: "center", alignItems: "center" }} className="mb-2" >
+                    <div style={{ marginRight: "10px" }}>Download in progress</div>
+                    <CircularProgressWithLabel value={values?.percentComplete} />
+                </DialogContent>
+            </Dialog>
+        </>
+    )
+}

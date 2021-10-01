@@ -11,6 +11,7 @@ import AddLicence from "./components/AddLicence";
 import { fetchLicenceKeys } from "../../stores/actions/licenceKey";
 import { connect } from "react-redux";
 import { format } from "date-fns";
+import SonicSpinner from "../../components/common/SonicSpinner";
 
 const useStyles = makeStyles((theme) => ({
   licenceContainer: {
@@ -21,12 +22,12 @@ const useStyles = makeStyles((theme) => ({
   },
   heading: {
     fontSize: 30,
-    fontFamily: 'NunitoSans-ExtraBold',
+    fontFamily: "NunitoSans-ExtraBold",
     color: "#343F84",
   },
   subHeading: {
     fontSize: 18,
-    fontFamily: 'NunitoSans-Regular',
+    fontFamily: "NunitoSans-Regular",
     color: "#00A19A",
   },
   card: {
@@ -41,10 +42,10 @@ const useStyles = makeStyles((theme) => ({
     padding: "0px 30px",
     textTransform: "initial",
     fontSize: 15,
-    fontFamily: 'NunitoSans-Bold',
+    fontFamily: "NunitoSans-Bold",
     borderRadius: 8,
-    color: 'white',
-    backgroundColor: '#343F84',
+    color: "white",
+    backgroundColor: "#343F84",
   },
 
   //TABLE
@@ -56,23 +57,23 @@ const useStyles = makeStyles((theme) => ({
   tableHead: {
     color: "#ACACAC",
     fontSize: 12,
-    fontFamily: 'NunitoSans-Bold',
+    fontFamily: "NunitoSans-Bold",
   },
   key: {
     color: "#343F84",
     fontSize: 18,
-    fontFamily: 'NunitoSans-Bold',
+    fontFamily: "NunitoSans-Bold",
     paddingTop: 25,
     paddingBottom: 25,
   },
   tableCellColor: {
     color: "#343F84",
     fontSize: 14,
-    fontFamily: 'NunitoSans-Bold',
+    fontFamily: "NunitoSans-Bold",
   },
   tableCellNormalText: {
     fontSize: 14,
-    fontFamily: 'NunitoSans-Regular',
+    fontFamily: "NunitoSans-Regular",
     color: "#757575",
   },
 }));
@@ -91,6 +92,7 @@ function Licences(props) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [licenceData, setLicenceData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   function fetchLicence() {
     props.fetchLicenceKey();
@@ -99,6 +101,9 @@ function Licences(props) {
   useEffect(() => {
     if (props.licenceKey.data.length <= 0) {
       fetchLicence();
+      setLoading(true);
+    } else {
+      setLoading(false);
     }
   }, [props]);
 
@@ -126,42 +131,64 @@ function Licences(props) {
       </Card>
 
       <TableContainer>
-        <Table className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              {tableHead.map((head, index) => (
-                <TableCell className={classes.tableHead} key={index}>
-                  {head}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {licenceData?.map((data, index) => (
-              <TableRow className={classes.tableRow} key={data._id}>
-                <TableCell className={classes.tableCellNormalText}>
-                  {index + 1}
-                </TableCell>
-                <TableCell className={classes.key}>{data.key}</TableCell>
-                <TableCell className={classes.tableCellNormalText}>
-                  {data.encodeUses}
-                </TableCell>
-                <TableCell className={classes.tableCellNormalText}>
-                  {data.maxEncodeUses}
-                </TableCell>
-                <TableCell className={classes.tableCellNormalText}>
-                  {data.isUnlimitedMonitor === true ? "Unlimited" : data.monitoringUses}
-                </TableCell>
-                <TableCell className={classes.tableCellNormalText}>
-                  {format(new Date(data.validity), "dd.MM.yyyy")}
-                </TableCell>
-                <TableCell className={classes.tableCellColor}>
-                  {data.suspended === true ? "Yes" : "No"}
-                </TableCell>
+        {loading ? (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              width: "100%",
+              height: "200px",
+            }}
+          >
+            <SonicSpinner
+              title="Loading Licences Keys..."
+              containerStyle={{
+                height: "100%",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            />
+          </div>
+        ) : (
+          <Table className={classes.table} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                {tableHead.map((head, index) => (
+                  <TableCell className={classes.tableHead} key={index}>
+                    {head}
+                  </TableCell>
+                ))}
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHead>
+            <TableBody>
+              {licenceData?.map((data, index) => (
+                <TableRow className={classes.tableRow} key={data._id}>
+                  <TableCell className={classes.tableCellNormalText}>
+                    {index + 1}
+                  </TableCell>
+                  <TableCell className={classes.key}>{data.key}</TableCell>
+                  <TableCell className={classes.tableCellNormalText}>
+                    {data.encodeUses}
+                  </TableCell>
+                  <TableCell className={classes.tableCellNormalText}>
+                    {data.maxEncodeUses}
+                  </TableCell>
+                  <TableCell className={classes.tableCellNormalText}>
+                    {data.isUnlimitedMonitor === true
+                      ? "Unlimited"
+                      : data.monitoringUses}
+                  </TableCell>
+                  <TableCell className={classes.tableCellNormalText}>
+                    {format(new Date(data.validity), "dd.MM.yyyy")}
+                  </TableCell>
+                  <TableCell className={classes.tableCellColor}>
+                    {data.suspended === true ? "Yes" : "No"}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
       </TableContainer>
 
       <AddLicence open={open} setOpen={setOpen} fetchLicence={fetchLicence} />

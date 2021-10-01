@@ -11,7 +11,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Dialog from '@material-ui/core/Dialog';
-import { DialogContent, DialogTitle } from '@material-ui/core'
+import { DialogContent } from '@material-ui/core'
 
 function CircularProgressWithLabel(props) {
     return (
@@ -43,7 +43,7 @@ CircularProgressWithLabel.propTypes = {
     value: PropTypes.number.isRequired,
 };
 
-export default function Download(data) {
+export default function Download(prop) {
     const [values, setValues] = React.useState({
         openDownloadingModal: false,
         percentComplete: 0
@@ -56,7 +56,7 @@ export default function Download(data) {
 
     const downloadFileData = async () => {
         setValues({ ...values, openDownloadingModal: true })
-        Communication.downloadFileWithS3Key(data?.prop?.s3FileMeta?.Key).then((response) => {
+        Communication.downloadFileWithS3Key(prop?.data?.s3FileMeta?.Key).then((response) => {
             axios({
                 url: response,
                 responseType: 'blob',
@@ -67,7 +67,7 @@ export default function Download(data) {
 
                 }
             }).then(res => {
-                fileDownload(res.data, extractFileName(data?.prop?.contentFilePath));
+                fileDownload(res.data, extractFileName(prop?.data.contentFilePath));
                 setValues({ ...values, openDownloadingModal: false })
             });
         }).catch((error) => {
@@ -82,7 +82,7 @@ export default function Download(data) {
 
     return (
         <>
-            <div style={{ marginLeft: '20px', display: "flex", justifyContent: "center", alignItems: "center" }} onClick={downloadFileData}>
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }} onClick={downloadFileData}>
                 <img src={download} width="16px" height="16px" />&nbsp;Download
             </div>
             <Dialog

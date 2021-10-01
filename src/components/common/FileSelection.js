@@ -129,6 +129,7 @@ export default function FileSelection({ prop }) {
       document.getElementById("contained-button-file").value = ''
     }
   }, [prop])
+  
   function truncate(str, n) {
     return str?.length > n ? str.substr(0, n - 1) + "..." : str;
   }

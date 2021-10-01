@@ -21,6 +21,10 @@ export default function Decode() {
     }
   }, [decode]);
 
+  // React.useEffect(() => {
+  //   window.location.reload(false);
+  // }, [])
+
   return (
     <Grid>
       {decodeError ? (

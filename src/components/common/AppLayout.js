@@ -9,12 +9,7 @@ import Header from "./Header";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
     background: "#f2f2f2",
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    background: "transparent",
   },
   container: {
     marginTop: "5%",
@@ -30,12 +25,13 @@ const useStyles = makeStyles((theme) => ({
     width: "190px",
     paddingTop: "1%",
     position: "fixed",
-    zIndex: 1,
-    overFlowX: "hidden",
+    height: "100%",
   },
   pagecontent: {
-    flex: 1,
+    flexGrow: 1,
     marginLeft: "190px",
+    overflowY: "auto",
+    zIndex: 1
   },
 }));
 

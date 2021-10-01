@@ -28,6 +28,13 @@ const useStyles = makeStyles((theme) => ({
       outline: "none",
     },
   },
+  menuItem: {
+    color: "#757575",
+    fontFamily: "NunitoSans-Regular",
+    "&:hover": {
+      color: "#7078A8"
+    }
+  }
 }));
 
 function SecondaryMenu(props) {
@@ -113,8 +120,8 @@ function SecondaryMenu(props) {
                   id="menu-list-grow"
                   onKeyDown={handleListKeyDown}
                 >
-                  <MenuItem onClick={handleClose}>Profile</MenuItem>
-                  <MenuItem onClick={onPressLogout}>Logout</MenuItem>
+                  <MenuItem onClick={handleClose} className={classes.menuItem}>Profile</MenuItem>
+                  <MenuItem onClick={onPressLogout} className={classes.menuItem}>Logout</MenuItem>
                 </MenuList>
               </ClickAwayListener>
             </Paper>

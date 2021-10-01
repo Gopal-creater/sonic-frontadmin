@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
   pagecontent: {
     flex: 1,
-    marginLeft: "190px"
+    marginLeft: "190px",
   },
 }));
 
@@ -57,7 +57,7 @@ export default function AppLayout({ children }) {
 
           <Grid item id="pageContainer" className={classes.pagecontent}>
             <main >
-              <div style={{ minHeight: "70vh" }}>{children}</div>
+              <div style={{ minHeight: "68vh" }}>{children}</div>
             </main>
 
             <Grid className="pt-4" id="footer">

@@ -11,7 +11,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "white",
     padding: "2% 2.5%",
     boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-    transition: 'width 2s'
   },
   header: {
     display: "flex",
@@ -19,18 +18,18 @@ const useStyles = makeStyles((theme) => ({
   },
   heading: {
     fontSize: 30,
-    fontFamily: "NunitoSans-ExtraBold",
+    fontFamily: 'NunitoSans-ExtraBold',
     color: "#343F84",
   },
   subHeading: {
     paddingBottom: 30,
     fontSize: 18,
-    fontFamily: "NunitoSans-Regular",
+    fontFamily: 'NunitoSans-Regular',
     color: "#00A19A",
   },
   selectFile: {
     fontSize: 12,
-    fontFamily: "NunitoSans-Regular",
+    fontFamily: 'NunitoSans-Regular',
     color: "#ACACAC",
   },
   audioFile: {
@@ -38,14 +37,14 @@ const useStyles = makeStyles((theme) => ({
     width: "30vw",
     marginRight: 30,
     fontSize: 16,
-    fontFamily: "NunitoSans-Regular",
+    fontFamily: 'NunitoSans-Regular',
     color: "#757575",
     borderBottom: "1px solid #757575",
   },
   clue: {
     paddingBottom: 20,
     fontSize: 12,
-    fontFamily: "NunitoSans-Regular",
+    fontFamily: 'NunitoSans-Regular',
     color: "#ACACAC",
   },
   uploadBtn: {
@@ -53,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "0px 20px",
     textTransform: "initial",
     fontSize: 15,
-    fontFamily: "NunitoSans-Bold",
+    fontFamily: 'NunitoSans-Bold',
     color: "#343F84",
     borderRadius: 8,
     border: "2px solid #343F84",
@@ -63,16 +62,15 @@ const useStyles = makeStyles((theme) => ({
     padding: "0px 20px",
     textTransform: "initial",
     fontSize: 15,
-    fontFamily: "NunitoSans-Bold",
+    fontFamily: 'NunitoSans-Bold',
     borderRadius: 8,
-    color: "white",
-    backgroundColor: "#343F84",
+    color: 'white',
+    backgroundColor: '#343F84'
   },
 }));
 
 export default function FileSelection({ prop }) {
   const classes = useStyles();
-  const [render, setRender] = useState(false);
   const [audioData, setAudioData] = useState({
     response: false,
     file: null,
@@ -101,18 +99,12 @@ export default function FileSelection({ prop }) {
   });
 
   React.useEffect(() => {
-    setTimeout(() => {
-      setRender(true);
-    }, 200);
-  }, [prop]);
-
-  React.useEffect(() => {
     if (prop?.clearSelectedFile) {
       setAudioData({
         response: false,
         file: null,
         data: {
-          encodingStrength: "15",
+          encodingStrength: '15',
           contentName: "",
           contentType: "",
           contentDescription: "",
@@ -132,12 +124,12 @@ export default function FileSelection({ prop }) {
           iswcCode: "",
           tuneCode: "",
         },
-        name: null,
-      });
-      document.getElementById("contained-button-file").value = "";
+        name: null
+      })
+      document.getElementById("contained-button-file").value = ''
     }
-  }, [prop]);
-
+  }, [prop])
+  
   function truncate(str, n) {
     return str?.length > n ? str.substr(0, n - 1) + "..." : str;
   }
@@ -184,8 +176,8 @@ export default function FileSelection({ prop }) {
           response: true,
           file: audioData?.file,
           data: response,
-          name: audioData?.file?.name,
-        });
+          name: audioData?.file?.name
+        })
         if (response.length != 0) {
           cogoToast.success("Successfully decoded file.");
           setAudioData({ ...payload });
@@ -270,73 +262,69 @@ export default function FileSelection({ prop }) {
     return prop?.getAudioData(Data);
   };
 
-  if (!render) {
-    return null;
-  } else {
-    return (
-      <Grid className={classes.EncodeDecodeContainer}>
-        <Grid item className={classes.header}>
-          <div>
-            <Typography className={classes.heading}>
-              {prop?.title} SonicKeys
-            </Typography>
-            <Typography className={classes.subHeading}>
-              {audioData?.name !== null && prop?.title === "Encode"
-                ? "Add details to start encoding."
-                : prop?.subTitle}
-            </Typography>
-          </div>
-          <img src={Icon} alt="" style={{ height: 80 }} />
-        </Grid>
-
-        <Grid item>
-          <div style={{ display: "flex" }}>
-            <div>
-              <Typography className={classes.selectFile}>
-                Select a file
-              </Typography>
-              <Typography className={classes.audioFile}>
-                {truncate(audioData?.name, 50)}
-              </Typography>
-              <Typography className={classes.clue}>
-                all audio file formats
-              </Typography>
-            </div>
-
-            {audioData?.name !== null && prop?.title === "Decode" ? (
-              <Button
-                variant="contained"
-                component="span"
-                color="primary"
-                className={classes.decodeBtn}
-                onClick={handleDecode}
-              >
-                Decode
-              </Button>
-            ) : (
-              <>
-                <input
-                  accept="audio/*"
-                  className={classes.input}
-                  id="contained-button-file"
-                  type="file"
-                  style={{ display: "none" }}
-                  onChange={handleAudio}
-                />
-                <label htmlFor="contained-button-file">
-                  <Button
-                    variant="outlined"
-                    component="span"
-                    className={classes.uploadBtn}
-                  >
-                    Upload a file
-                  </Button>
-                </label>
-              </>
-            )}
-          </div>
-        </Grid>
+  return (
+    <Grid className={classes.EncodeDecodeContainer}>
+      <Grid item className={classes.header}>
+        <div>
+          <Typography className={classes.heading}>
+            {prop?.title} SonicKeys
+          </Typography>
+          <Typography className={classes.subHeading}>
+            {audioData?.name !== null && prop?.title === "Encode"
+              ? "Add details to start encoding."
+              : prop?.subTitle}
+          </Typography>
+        </div>
+        <img src={Icon} alt="" style={{ height: 80 }} />
       </Grid>
-    );
-  }
+
+      <Grid item>
+        <div style={{ display: "flex" }}>
+          <div>
+            <Typography className={classes.selectFile}>
+              Select a file
+            </Typography>
+            <Typography className={classes.audioFile}>
+              {truncate(audioData?.name, 50)}
+            </Typography>
+            <Typography className={classes.clue}>
+              all audio file formats
+            </Typography>
+          </div>
+
+          {audioData?.name !== null && prop?.title === "Decode" ? (
+            <Button
+              variant="contained"
+              component="span"
+              color="primary"
+              className={classes.decodeBtn}
+              onClick={handleDecode}
+            >
+              Decode
+            </Button>
+          ) : (
+            <>
+              <input
+                accept="audio/*"
+                className={classes.input}
+                id="contained-button-file"
+                type="file"
+                style={{ display: "none" }}
+                onChange={handleAudio}
+              />
+              <label htmlFor="contained-button-file">
+                <Button
+                  variant="outlined"
+                  component="span"
+                  className={classes.uploadBtn}
+                >
+                  Upload a file
+                </Button>
+              </label>
+            </>
+          )}
+        </div>
+      </Grid>
+    </Grid>
+  );
 }

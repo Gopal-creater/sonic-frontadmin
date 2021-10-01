@@ -416,36 +416,45 @@ export const SonicStreamPlays = (props) => {
             </Grid>
             </Grid>
             <Grid item style={{marginTop:12}}>
-            <FormControl style={styles.formControl}> 
-            <InputLabel id="mutiple-checkbox-label"
-            style={{paddingLeft:30,color:'grey'}}>Filter by channel</InputLabel>
-            <Select
-              id="drop-down"
-              onChange={(e) => setKeysDetected(e.target.value)}
+            <FormControl style={styles.formControl}>
+              <InputLabel
+                id="mutiple-checkbox-label"
+                style={{ paddingLeft: 30, color: "grey",paddingBottom:50,
+              marginBottom:20 }}
+              >
+                Filter by channel
+              </InputLabel>
+              <Select
+                id="drop-down"
+                onChange={(e) => setKeysDetected(e.target.value)}
               className="form-control mb-0"
               //defaultValue={keysDetected}
               value={keysDetected}
-              style={{
-                color: "black",
-                backgroundColor: "transparent",
-                outline: "none",
-                border: "none",
-                margin: "0px 30px 0px 20px",
-                boxShadow: "none",
-                width: 220,
-              }}
-            >  
-            <MenuItem value="STREAMREADER"
-              style={{color:'grey', borderBottom:'1px solid grey',paddingLeft:10,paddingRight:10}}>
+                displayEmpty
+                
+                autoWidth={false}
+                style={{
+                  color: "black",
+                  backgroundColor: "transparent",
+                  outline: "none",
+                  border: "none",
+                  boxShadow: "none",
+                  margin: "10px 30px 0px 20px",
+                  width: 220,
+                }}
+              >
+                <MenuItem value="STREAMREADER"
+              >
                     StreamReader</MenuItem>
                   <MenuItem value="PORTAL"
-                  style={{color:'grey',borderBottom:'1px solid grey',paddingLeft:10,paddingRight:10}}>
+                  >
                     SonicPortal</MenuItem>
                   <MenuItem value="MOBILEAPP"
-                  style={{color:'grey',borderBottom:'1px solid grey',paddingLeft:10,paddingRight:10}}>
+                  >
                     SonicApp</MenuItem>
-            </Select> 
-          </FormControl>
+              </Select>
+            </FormControl>
+            
           <Button
               variant="contained"
               color="primary"

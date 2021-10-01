@@ -11,7 +11,7 @@ import "../SonicKeys/css/table.scss";
 import UnfoldMoreSharpIcon from "@material-ui/icons/UnfoldMoreSharp";
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import DailogTable from '../../components/common/DialogTable';
-import { Box, CircularProgress, Grid, Typography } from '@material-ui/core';
+import { CircularProgress, Grid, Tooltip, Typography } from '@material-ui/core';
 import { tableStyle } from '../../globalStyle';
 import Communication from "../../services/https/Communication";
 import { fetchSonicKeys } from "../../stores/actions/sonicKey";
@@ -25,11 +25,14 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import CloseIcon from '@material-ui/icons/Close';
 import Download from './Components/Download';
+import SonicSpinner from '../../components/common/SonicSpinner';
 
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
+        fontSize: 12,
         color: "#D0D0D0",
+        fontFamily: "NunitoSans-Bold",
     },
     body: {
         fontSize: 14,
@@ -50,9 +53,8 @@ const useStyles = makeStyles({
     },
     subHeading: {
         fontSize: 18,
-        fontWeight: 500,
         color: "#00A19A",
-        fontFamily: "NunitoSans-Bold",
+        fontFamily: "NunitoSans-Regular",
     },
     table: {
         minWidth: 700,
@@ -72,7 +74,7 @@ const useStyles = makeStyles({
     },
     sonicKeyText: {
         color: '#343F84',
-        fontWeight: 'bold',
+        fontFamily: "NunitoSans-ExtraBold",
         fontSize: '18px'
     },
     tableCellColor: {
@@ -85,7 +87,7 @@ const useStyles = makeStyles({
     },
     tableCellNormalText: {
         fontSize: '14px',
-        fontWeight: 'bold',
+        fontFamily: "NunitoSans-Bold",
         color: '#757575',
     },
     columnFilter: {
@@ -122,7 +124,7 @@ const SonicKeys = (props) => {
         "DESCRIPTION",
         "ACTION",])
     const [pageNum, setPage] = React.useState(0);
-    const [loading, setLoading] = React.useState(false);
+    const [loading, setLoading] = React.useState(true);
     const [rowPerPage, setrowPerPage] = React.useState(10)
     const [searchValue, setSearchValue] = React.useState()
     const [openTable, setOpenTable] = React.useState(false)
@@ -159,6 +161,8 @@ const SonicKeys = (props) => {
             setTotalCount(res.totalDocs)
             setTotalPage(res.totalPages)
             setOffset(res.offset)
+
+            setLoading(false);
             // setTotalPageCount(res.pagingCounter)
             setError('')
         }).catch(err => {
@@ -332,7 +336,13 @@ const SonicKeys = (props) => {
                 </Grid>
             </Grid>
             <Grid>
+
                 <TableContainer style={{ ...tableStyle.container }}>
+                    
+                {loading ? <div style={{ display: 'flex', justifyContent: 'center',width:'100%',height:'200px'}}>
+                            <SonicSpinner title="Loading Sonic Keys..." containerStyle={{height:'100%',display:'flex',justifyContent:'center'}}/>
+                        </div>
+                            :
                     <Table className={classes.table} aria-label="simple table">
                         <TableHead>
                             <TableRow>
@@ -354,24 +364,22 @@ const SonicKeys = (props) => {
 
                             </TableRow>
                         </TableHead>
-                        {loading ? <Box sx={{ display: "flex", alignItems: 'center', justifyContent: 'center', }}>
-                            <CircularProgress />
-                        </Box>
-                            : <TableBody>
+
+                            <TableBody>
                                 {tableData?.map((data, index) => {
                                     const isItemSelected = isSelected(data);
                                     return (
                                         <TableRow className={classes.tableRow} key={index}>
-                                            <TableCell component="th" scope="row">
+                                            <TableCell className={classes.tableCellNormalText}>
                                                 {isSelected("ID") && offset + index + 1}
                                             </TableCell>
                                             <TableCell className={classes.sonicKeyText}>{isSelected("SONICKEY") && data.sonicKey}</TableCell>
-                                            <TableCell className={classes.tableCellNormalText}>{isSelected("NAME") && data.contentFileName?.length > 20 ? data.contentFileName?.slice(0, 20) + "..." : data.contentFileName}</TableCell>
-                                            <TableCell className={classes.tableCellNormalText}>{isSelected("ARTIST") && (data.contentOwner === "" ? "-" : data.contentOwner)}</TableCell>
+                                            <Tooltip title={data.originalFileName}><TableCell className={classes.tableCellNormalText}>{isSelected("NAME") && (data.originalFileName !== "" ? (data.contentFileName?.length > 20 ? data.contentFileName?.slice(0, 20) + "..." : data.contentFileName) : (data.contentFileName?.length > 20 ? data.contentFileName?.slice(0, 20) + "..." : data.contentFileName))}</TableCell></Tooltip>
+                                            <Tooltip title={data.contentOwner}><TableCell className={classes.tableCellNormalText}>{isSelected("ARTIST") && (data.contentOwner === "" ? "-" : (data.contentOwner?.length > 20 ? data.contentOwner?.slice(0, 20) + "..." : data.contentOwner))}</TableCell></Tooltip>
                                             <TableCell className={classes.tableCellNormalText}>{isSelected("ENCODED DATE") && (format(new Date(data.contentCreatedDate), 'dd/MM/yyyy'))}</TableCell>
-                                            <TableCell className={classes.tableCellNormalText}>{isSelected("DESCRIPTION") && (data.contentDescription === "" ? "-" : data.contentDescription)}</TableCell>
-                                            <TableCell className={classes.tableCellColor}>
-                                                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                            <Tooltip title={data.contentDescription}><TableCell className={classes.tableCellNormalText}>{isSelected("DESCRIPTION") && (data.contentDescription === "" ? "-" : (data.contentDescription?.length > 20 ? data.contentDescription?.slice(0, 20) + "..." : data.contentDescription))}</TableCell></Tooltip>
+                                            <TableCell className={classes.tableCellColor} width="100px">
+                                                <div style={{ display: 'flex', justifyContent: 'center', fontSize: '14px', fontFamily: "NunitoSans-Bold", }}>
                                                     <div style={{ marginRight: '15px' }} className={classes.tableCellIcon} onClick={() => handleClickOpenTable(data)}>
                                                         <VisibilityOutlinedIcon fontSize="small" />&nbsp;View
                                                     </div>
@@ -381,17 +389,19 @@ const SonicKeys = (props) => {
                                         </TableRow>
                                     )
                                 })}
-                            </TableBody>}
+                            </TableBody>
 
-                    </Table>
+                    </Table>}
                     {openTable && <DailogTable sonicKey={sonicKeys} open={true} setOpenTable={setOpenTable} />}
+                    {!loading ?
                     <Pagination
                         count={page}
                         page={props.pageCount}
                         variant="outlined"
                         shape="rounded"
                         onChange={handlePageChange}
-                    />
+                    />:""}
+                       
                 </TableContainer>
             </Grid>
         </Grid>

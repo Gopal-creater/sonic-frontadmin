@@ -478,7 +478,7 @@ function SonicStreamReader(props) {
             </Grid>
           </Grid>
           <Grid item>
-            <FormControl style={styles.formControl}>
+            <FormControl style={{}}>
               <InputLabel
                 id="mutiple-checkbox-label"
                 style={{ paddingLeft: 30, color: "grey" }}

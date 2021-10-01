@@ -100,7 +100,7 @@ const DailogTable = (props) => {
                         </TableRow>
                         <TableRow>
                             <TableCell className={classes.tableCellOne}>SAMPLING FREQUENCY </TableCell>
-                            <TableCell className={classes.tableCellTwo}>{sonicKey.contentSamplingFrequency} Hz s</TableCell>
+                            <TableCell className={classes.tableCellTwo}>{sonicKey.contentSamplingFrequency} Hz</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell className={classes.tableCellOne}>Encoded Date</TableCell>

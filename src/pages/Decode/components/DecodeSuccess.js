@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
   },
   tableCellNormalText: {
     fontSize: 14,
-    fontFamily: 'NunitoSans-Regular',
+    fontFamily: 'NunitoSans-Bold',
     color: "#757575",
   },
   failedIcon: {

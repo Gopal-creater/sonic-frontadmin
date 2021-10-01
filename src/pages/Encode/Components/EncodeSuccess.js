@@ -3,6 +3,7 @@ import React from 'react'
 import encodeSuccessIcon from "../../../assets/images/icon-success-graphic.svg"
 import { log } from '../../../utils/app.debug'
 import { downloadFile } from '../../../utils/HelperMethods'
+import Download from '../../SonicKeys/Components/Download'
 
 const useStyles = makeStyles(() => ({
     encodeSuccesContainer: {
@@ -36,25 +37,10 @@ const useStyles = makeStyles(() => ({
         marginTop: "8px",
         fontFamily: "NunitoSans-ExtraBold"
     },
-    downloadBtn: {
-        height: 45,
-        padding: "0px 20px",
-        textTransform: "initial",
-        fontSize: 15,
-        fontWeight: 700,
-        borderRadius: 8,
-        backgroundColor: "#393F5B",
-        maxWidth: "120px"
-    },
 }))
 
 export default function EncodeSuccess({ audioName, successData }) {
     const classes = useStyles()
-    log("Success Data", successData)
-
-    const handleDownload = () => {
-        downloadFile(successData?.contentFilePath, successData?.contentFileType, false, successData?.s3FileMeta?.Key);
-    }
 
     return (
         <Grid
@@ -72,15 +58,9 @@ export default function EncodeSuccess({ audioName, successData }) {
                     <Typography className={classes.heading}>Well done!</Typography>
                     <Typography className={classes.subHeading}>Encoding of <b>{audioName}</b> successfully done.</Typography>
                 </div>
-                <Button
-                    variant="contained"
-                    component="span"
-                    color="primary"
-                    className={classes.downloadBtn}
-                    onClick={handleDownload}
-                >
-                    Download
-                </Button>
+                <div style={{ cursor: "pointer", width: "fit-content" }}>
+                    <Download data={successData} />
+                </div>
             </Grid>
 
             <Grid

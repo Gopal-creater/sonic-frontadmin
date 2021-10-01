@@ -360,23 +360,22 @@ const SonicKeys = (props) => {
                             : <TableBody>
                                 {tableData?.map((data, index) => {
                                     const isItemSelected = isSelected(data);
-                                    // console.log("is item selected", isItemSelected);
                                     return (
                                         <TableRow className={classes.tableRow} key={index}>
                                             <TableCell component="th" scope="row">
                                                 {isSelected("ID") && offset + index + 1}
                                             </TableCell>
                                             <TableCell className={classes.sonicKeyText}>{isSelected("SONICKEY") && data.sonicKey}</TableCell>
-                                            <TableCell className={classes.tableCellNormalText}>{isSelected("NAME") && data.contentFileName?.length > 20 ? data.contentFileName?.slice(0, 20) + "..." : data.contentFileName?.length}</TableCell>
+                                            <TableCell className={classes.tableCellNormalText}>{isSelected("NAME") && data.contentFileName?.length > 20 ? data.contentFileName?.slice(0, 20) + "..." : data.contentFileName}</TableCell>
                                             <TableCell className={classes.tableCellNormalText}>{isSelected("ARTIST") && (data.contentOwner === "" ? "-" : data.contentOwner)}</TableCell>
                                             <TableCell className={classes.tableCellNormalText}>{isSelected("ENCODED DATE") && (format(new Date(data.contentCreatedDate), 'dd/MM/yyyy'))}</TableCell>
                                             <TableCell className={classes.tableCellNormalText}>{isSelected("DESCRIPTION") && (data.contentDescription === "" ? "-" : data.contentDescription)}</TableCell>
                                             <TableCell className={classes.tableCellColor}>
                                                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                                    <div style={{ marginRight: '20px' }} className={classes.tableCellIcon} onClick={() => handleClickOpenTable(data)}>
+                                                    <div style={{ marginRight: '15px' }} className={classes.tableCellIcon} onClick={() => handleClickOpenTable(data)}>
                                                         <VisibilityOutlinedIcon fontSize="small" />&nbsp;View
                                                     </div>
-                                                    <Download prop={data} />
+                                                    <Download data={data} />
                                                 </div>
                                             </TableCell>
                                         </TableRow>

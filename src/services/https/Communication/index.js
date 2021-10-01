@@ -36,7 +36,7 @@ class Communication {
         },
       },
     }
-    log('Index & Limit',index,limit)
+    log('Index & Limit',index,limit,value)
     return AppWebRequest(`/radiomonitors/owners/${getUserId()}/subscribed-stations?skip=${index}&limit=${limit}`,
      "get",axiosConfig)
   }

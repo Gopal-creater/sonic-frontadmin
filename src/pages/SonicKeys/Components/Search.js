@@ -51,7 +51,7 @@ const Search = (props) => {
         />
 
         <a className="searchBtn">
-          <img src={SearchImg} onClick={onSearch} />
+          <img src={SearchImg} onClick={onSearch} style={{cursor:'pointer'}}/>
         </a>
       </div>
       <img

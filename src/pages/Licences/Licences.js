@@ -141,7 +141,7 @@ function Licences(props) {
             }}
           >
             <SonicSpinner
-              title="Loading Licences Keys..."
+              title="Loading Licences..."
               containerStyle={{
                 height: "100%",
                 display: "flex",

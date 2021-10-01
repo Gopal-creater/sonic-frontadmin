@@ -58,7 +58,7 @@ export default function EncodeSuccess({ audioName, successData }) {
                     <Typography className={classes.heading}>Well done!</Typography>
                     <Typography className={classes.subHeading}>Encoding of <b>{audioName}</b> successfully done.</Typography>
                 </div>
-                <div style={{ cursor: "pointer", width: "fit-content" }}>
+                <div style={{ cursor: "pointer", display: "flex", justifyContent: "flex-start", width: "fit-content" }}>
                     <Download data={successData} />
                 </div>
             </Grid>

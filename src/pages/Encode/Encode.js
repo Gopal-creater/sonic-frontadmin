@@ -80,7 +80,7 @@ export default function Encode() {
         encodeLoading: false,
         encodeError: null,
         encodeSuccess: null,
-        checkedAuthorization: true
+        checkedAuthorization: false
     });
 
     const closeEncodeProgressPopUp = (sucess, error) => {
@@ -160,12 +160,12 @@ export default function Encode() {
                     subTitle: "Upload a file to start",
                     getAudioData: (audioData) => {
                         setValues({
+                            ...values,
                             clearSelectedFile: false,
                             encodeLoading: false,
                             encodeError: null,
                             encodeSuccess: null,
                             isDataPresent: true,
-                            checkedAuthorization: true,
                             ...audioData
                         })
                     },

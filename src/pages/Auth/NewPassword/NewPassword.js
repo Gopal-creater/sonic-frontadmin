@@ -12,6 +12,7 @@ import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import Button from "@material-ui/core/Button";
 import Spinner from "react-bootstrap/Spinner";
 import { setSession } from "../../../stores/actions/session";
+import AuthFooter from "../AuthFooter";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -87,7 +88,7 @@ export default function NewPassword() {
                 })
                     .then((user) => {
                         localStorage.setItem("user_info", JSON.stringify(user));
-                        dispatch(setSession(response));
+                        dispatch(setSession(user));
                     })
                     .catch(() => {
                         dispatch({ type: 'LOGOUT', });
@@ -216,6 +217,7 @@ export default function NewPassword() {
                     )}
                 </div>
             </form>
+            <AuthFooter />
         </div>
     )
 }

@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { log } from '../../utils/app.debug';
 import SignIn from './SignIn/SignIn';
 import NewPassword from './NewPassword/NewPassword';
+import EmailVerification from './EmailVerification/EmailVerification';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -49,8 +50,9 @@ export default function Authenticator(prop) {
                 {
                     prop?.propName === "NEW_PASSWORD_REQUIRED" ?
                         <NewPassword /> :
-                        prop?.propName === "SignIn" ?
-                            <SignIn /> : ""
+                        prop?.propName === "EmailNotVerified" ? <EmailVerification /> :
+                            prop?.propName === "SignIn" ?
+                                <SignIn /> : ""
                 }
             </Grid>
         </Grid>

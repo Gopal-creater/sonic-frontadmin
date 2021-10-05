@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
         maxWidth: "450px",
         maxHeight: "650px",
         height: "550px",
+        // flexGrow:1,
         [theme.breakpoints.down('md')]: {
             width: "35%",
         },
@@ -43,10 +44,10 @@ export default function Authenticator(prop) {
     return (
         <Grid container className={classes.root} justifyContent="center" alignItems="center">
             <Grid item className={classes.signInCommonContainer} style={{ display: matches ? "none" : "" }}>
-                <img src={SplashScreen} alt="SplashScreen" width="100%" height="100%" />
+                <img src={SplashScreen} alt="SplashScreen" width="100%" height="100%" style={{objectFit:'cover'}} />
             </Grid>
 
-            <Grid item className={classes.signInCommonContainer} style={{ padding: "40px 50px", backgroundColor: "white" }}>
+            <Grid item className={classes.signInCommonContainer} style={{ padding: "40px 50px", backgroundColor: "white"}}>
                 {
                     prop?.propName === "NEW_PASSWORD_REQUIRED" ?
                         <NewPassword /> :

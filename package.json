@@ -60,7 +60,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "make:release": "react-node-cli g"
+    "make:release": "react-node-cli g",
+    "make:release:prod": "REACT_APP_ENV=production react-node-cli g"
   },
   "eslintConfig": {
     "extends": [

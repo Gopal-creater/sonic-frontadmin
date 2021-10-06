@@ -22,7 +22,7 @@ class Communication {
     return AppWebRequest(`/sonic-keys/owners/${getUserId()}?limit=${limit}&sort=-createdAt&skip=${index}`, "get", axiosConfig)
   }
 
-  searchRadioStation(limit=5, index=0, value='') {
+  searchRadioStation(limit = 5, index = 0, value = '') {
     index = index > 1 ? (index - 1) * limit : 0
     const axiosConfig = {
       params: {
@@ -36,9 +36,9 @@ class Communication {
         },
       },
     }
-    log('Index & Limit',index,limit,value)
+    log('Index & Limit', index, limit, value)
     return AppWebRequest(`/radiomonitors/owners/${getUserId()}/subscribed-stations?skip=${index}&limit=${limit}`,
-     "get",axiosConfig)
+      "get", axiosConfig)
   }
 
   fetchLicenceKey() {
@@ -49,20 +49,19 @@ class Communication {
     return AppWebRequest(`/detections/owners/${getUserId()}/RADIOSTATION/count?radioStation=${radioId}`, "get");
   }
 
-  fetchThirdPartySonicKeys(limit=10, index=0,channel='STREAMREADER') {
-    log('Method Call')
-    return AppWebRequest(`/detections/owners/${getUserId()}/${channel}/data?limit=${limit}&sort=-createdAt&skip=${index}`, "get")
+  fetchThirdPartySonicKeys(channel, params) {
+    return AppWebRequest(`/detections/owners/${getUserId()}/${channel}/data`, "get", { params: params })
   }
 
-  fetchThirdPartyDetectedDetails(sonicKey) {
-    return AppWebRequest(`/detections/owners/${getUserId()}/BINARY/sonicKeys/${sonicKey}/detected-details?limit=500&sort=-createdAt&skip=0`, "get")
+  fetchThirdPartyDetectedDetails(sonicKey, params) {
+    return AppWebRequest(`/detections/owners/${getUserId()}/BINARY/sonicKeys/${sonicKey}/detected-details`, "get", { params: params })
   }
 
   getCount(param) {
     return AppWebRequest(
-      param!==undefined?
-      `/radiomonitors/owners/${getUserId()}/subscriber-count${param}`
-      :`/radiomonitors/owners/${getUserId()}/subscriber-count`, "get")
+      param !== undefined ?
+        `/radiomonitors/owners/${getUserId()}/subscriber-count${param}`
+        : `/radiomonitors/owners/${getUserId()}/subscriber-count`, "get")
   }
 
   getSonicKeyById(sonic_key) {
@@ -111,7 +110,7 @@ class Communication {
   }
 
   onStartRadioStations(formData) {
-    log('On Start',formData)
+    log('On Start', formData)
     const axiosConfig = {
       data: formData,
       headers: {
@@ -122,7 +121,7 @@ class Communication {
   }
 
   onStopRadioStations(formData) {
-    log('On Stop',formData)
+    log('On Stop', formData)
     const axiosConfig = {
       data: formData,
       headers: {
@@ -133,7 +132,7 @@ class Communication {
   }
 
   onDeleteRadioStations(formData) {
-    log('On Delete',formData)
+    log('On Delete', formData)
     const axiosConfig = {
       data: formData,
       headers: {

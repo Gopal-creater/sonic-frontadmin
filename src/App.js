@@ -16,7 +16,7 @@ function App() {
     session: state.session,
   }));
 
-  log("session data", session)
+  // log("session data", session)
 
   const dispatch = useDispatch();
 

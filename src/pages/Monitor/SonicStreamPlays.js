@@ -89,6 +89,7 @@ const useStyles = makeStyles((theme) => ({
     "&.active": {
       display: "block",
     },
+    zIndex: 1
   },
   closeDiv: {
     display: "flex",

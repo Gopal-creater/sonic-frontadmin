@@ -5,10 +5,11 @@ import moment from 'moment';
 
 //ThirdPartySonicKeys
 export const fetchThirdPartySonicKeys = (limit, page, channel, startDate, endDate) => {
-    let params = new URLSearchParams(`detectedAt>${moment(startDate).format("YYYY-MM-DD")}&detectedAt<${moment(endDate).format("YYYY-MM-DD")}`)
+    let newEndDate = new Date(endDate)
+    let params = new URLSearchParams(`detectedAt>=${moment(startDate).format("YYYY-MM-DD")}&detectedAt<=${moment(newEndDate?.setDate?.(newEndDate?.getDate?.() + 1)).format("YYYY-MM-DD")}`)
     params.append("limit", limit)
     params.append("skip", page > 1 ? (page - 1) * limit : 0)
-    params.append("sort", "-createdAt")
+    // params.append("sort", "-detectedAt")
     params.append("page", page)
 
     return dispatch => {

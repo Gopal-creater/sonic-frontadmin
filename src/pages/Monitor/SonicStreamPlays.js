@@ -151,10 +151,10 @@ export const SonicStreamPlays = () => {
     endDate: new Date(),
     channelName: "PORTAL",
     sonicDetailModal: false,
-    sonicDetail: null,
     openHitModal: false,
-    hitModalId: null
+    hitModalData: {},
   })
+
 
   useEffect(() => {
     dispatch(fetchThirdPartySonicKeys(10, 1, values?.channelName, values?.startDate, values?.endDate))
@@ -187,7 +187,7 @@ export const SonicStreamPlays = () => {
       tuneCode: response.tuneCode ? response.tuneCode.toUpperCase() : "",
       contentType: response?.contentType,
     });
-    setValues({ ...values, sonicDetailModal: true })
+    setValues({ ...values, sonicDetailModal: true, selectedSonicKey: response })
   }
 
   const isSelected = (radiostation_id) => {
@@ -429,13 +429,13 @@ export const SonicStreamPlays = () => {
                   return (
                     <TableCell style={{ ...tableStyle.head }}>
                       {isItemSelected && (
-                        <>
+                        <div style={{ display: "flex", justifyContent: "flex-start", alignItems: "center" }}>
                           {col}
                           <UnfoldMoreSharpIcon
                             style={{ fontSize: 12, fontWeight: "bold" }}
                             className="sortIcon"
                           />
-                        </>
+                        </div>
                       )}
                     </TableCell>
                   );
@@ -448,7 +448,7 @@ export const SonicStreamPlays = () => {
                   return (
                     <TableRow hover className={classes.tableRow}>
                       <TableCell style={{ ...tableStyle.body }}>
-                        {isSelected("ID") && index + 1}
+                        {isSelected("ID") && (plays?.data?.page * 10 - (10 - (index + 1)))}
                       </TableCell>
 
                       <TableCell
@@ -465,7 +465,10 @@ export const SonicStreamPlays = () => {
                       <TableCell
                         style={{ ...tableStyle.body, color: "#757575" }}
                       >
-                        {isSelected("NAME") && file?.sonicKey?.contentName}
+                        {isSelected("NAME") && file?.sonicKey?.contentName !== "" ?
+                          file?.sonicKey?.contentName :
+                          file?.sonicKey?.originalFileName !== "" ?
+                            file?.sonicKey?.originalFileName : ""}
                       </TableCell>
 
                       <TableCell
@@ -489,7 +492,7 @@ export const SonicStreamPlays = () => {
                       </TableCell>
 
                       <TableCell
-                        onClick={() => setValues({ ...values, openHitModal: true, hitModalId: file?.sonicKey?._id })}
+                        onClick={() => setValues({ ...values, openHitModal: true, hitModalData: { ...file?.sonicKey, totalHits: file?.totalHits } })}
                         style={{ ...tableStyle.body, cursor: "pointer" }}
                       >
                         {isSelected("HITS") && file?.totalHits}
@@ -533,7 +536,8 @@ export const SonicStreamPlays = () => {
           closeHitModal={(flag) => setValues({ ...values, openHitModal: flag })}
           startDate={values?.startDate}
           endDate={values?.endDate}
-          sonicId={values?.hitModalId}
+          channel={values?.channelName}
+          sonicKeyData={values?.hitModalData}
         />
       )}
 

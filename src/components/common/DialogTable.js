@@ -8,6 +8,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import { makeStyles } from "@material-ui/core/styles";
 import DialogLogo from "../../../src/assets/images/key-logo.png";
 import { convertBytesTo } from "../../utils/HelperMethods";
+import { log } from "../../utils/app.debug";
 
 const useStyles = makeStyles({
     dialogPaper: {
@@ -37,6 +38,7 @@ const useStyles = makeStyles({
 const DailogTable = (props) => {
 
     const { sonicKey } = props;
+    log("sonic", sonicKey)
     const theme = useTheme()
     const classes = useStyles();
 
@@ -85,7 +87,7 @@ const DailogTable = (props) => {
                         </TableRow>
                         <TableRow>
                             <TableCell className={classes.tableCellOne}>AUDIO SIZE (IN MB)</TableCell>
-                            <TableCell className={classes.tableCellTwo}>{convertBytesTo(sonicKey.contentSize,"MB")}</TableCell>
+                            <TableCell className={classes.tableCellTwo}>{convertBytesTo(sonicKey.contentSize, "MB")}</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell className={classes.tableCellOne}>INDUSTRY CODES</TableCell>

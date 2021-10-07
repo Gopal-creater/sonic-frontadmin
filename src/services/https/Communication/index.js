@@ -53,8 +53,8 @@ class Communication {
     return AppWebRequest(`/detections/owners/${getUserId()}/${channel}/data`, "get", { params: params })
   }
 
-  fetchThirdPartyDetectedDetails(sonicKey, params) {
-    return AppWebRequest(`/detections/owners/${getUserId()}/BINARY/sonicKeys/${sonicKey}/detected-details`, "get", { params: params })
+  fetchThirdPartyDetectedDetails(sonicKey, channel, params) {
+    return AppWebRequest(`/detections/owners/${getUserId()}/${channel}/sonicKeys/${sonicKey}/detected-details`, "get", { params: params })
   }
 
   getCount(param) {

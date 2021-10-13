@@ -11,7 +11,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Dialog from '@material-ui/core/Dialog';
-import { DialogContent } from '@material-ui/core'
+import { DialogContent, Tooltip } from '@material-ui/core'
 
 function CircularProgressWithLabel(props) {
     return (
@@ -82,9 +82,14 @@ export default function Download(prop) {
 
     return (
         <>
-            <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }} onClick={downloadFileData}>
-                <img src={download} width="16px" height="16px" />&nbsp;Download
-            </div>
+        {
+            prop?.data?.s3FileMeta ? <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }} onClick={downloadFileData}>
+            <img src={download} width="16px" height="16px" />&nbsp;Download
+        </div>: <Tooltip title="File was encoded outside portal. Not downloadable."><div style={{ display: "flex", justifyContent: "center", alignItems: "center",color:"grey" }} >
+            <img src={download} width="16px" height="16px" />&nbsp;Download
+        </div></Tooltip>
+        }
+           
             <Dialog
                 open={values?.openDownloadingModal}
                 onClose={closeDownloadModal}

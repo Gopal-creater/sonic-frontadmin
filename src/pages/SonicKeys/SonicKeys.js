@@ -11,13 +11,13 @@ import "../SonicKeys/css/table.scss";
 import UnfoldMoreSharpIcon from "@material-ui/icons/UnfoldMoreSharp";
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import DailogTable from '../../components/common/DialogTable';
-import { CircularProgress, Grid, Tooltip, Typography } from '@material-ui/core';
+import { Grid, Tooltip, Typography } from '@material-ui/core';
 import { tableStyle } from '../../globalStyle';
 import Communication from "../../services/https/Communication";
 import { fetchSonicKeys } from "../../stores/actions/sonicKey";
-import { connect, useSelector } from 'react-redux';
-import { format, isValid, sort } from 'date-fns';
-import { converstionOfKb, downloadFile } from '../../utils/HelperMethods';
+import { connect } from 'react-redux';
+import { format, isValid } from 'date-fns';
+import { converstionOfKb } from '../../utils/HelperMethods';
 import Search from "../SonicKeys/Components/Search";
 import viewFilter from "../../../src/assets/images/view.png";
 import FormGroup from '@material-ui/core/FormGroup';
@@ -123,22 +123,13 @@ const SonicKeys = (props) => {
         "ENCODED DATE",
         "DESCRIPTION",
         "ACTION",])
-    const [pageNum, setPage] = React.useState(0);
     const [loading, setLoading] = React.useState(true);
     const [rowPerPage, setrowPerPage] = React.useState(10)
-    const [searchValue, setSearchValue] = React.useState()
     const [openTable, setOpenTable] = React.useState(false)
-    const [open, setOpen] = React.useState(false)
     const classes = useStyles();
     const [tableData, setTableData] = React.useState([]);
-    const [totalCount, setTotalCount] = React.useState(0);
     const [page, setTotalPage] = React.useState(0);
-    const [pagingCount, setTotalPageCount] = React.useState(0);
-    const [error, setError] = React.useState('');
-    const [restrict, setrestrict] = React.useState(false)
     const [offset, setOffset] = React.useState(0);
-    const [pageCount, setPageCount] = useState(1);
-    const [selected, setSelected] = useState([]);
     const [defaultData, setDefaultData] = useState(false);
     const [dataSearch, setDataSearch] = React.useState("");
     const [sonicKeys, setSonicKeys] = useState({
@@ -158,15 +149,11 @@ const SonicKeys = (props) => {
         Communication.fetchMySonicKey(_limit, _offset, value).then((res) => {
             console.log("Data Response", res);
             setTableData(res.docs)
-            setTotalCount(res.totalDocs)
             setTotalPage(res.totalPages)
             setOffset(res.offset)
 
             setLoading(false);
-            // setTotalPageCount(res.pagingCounter)
-            setError('')
         }).catch(err => {
-            setError(err)
         })
     }
 
@@ -175,40 +162,31 @@ const SonicKeys = (props) => {
     }, [])
 
     const handleClickOpenTable = async (data) => {
-        // const data = await props.sonicKeys.data.docs[(row)]
-        // const data = await tableData[(row)]
-        console.log("cheking the data for dialog", data);
         setSonicKeys({
             ...sonicKeys,
-            sonicKey: data.sonicKey,
-            contentName: data.contentName,
-            contentOwner: data.contentOwner,
-            contentValidation: data.contentValidation ? "YES" : "NO",
-            contentQuality: data.contentQuality,
-            contentDescription: data.contentDescription,
-            contentFileName: data.contentFileName,
-            contentFileType: data.contentFileType,
-            createdAt: isValid(new Date(data.createdAt)) ? `${format(new Date(data.createdAt), 'dd/MM/yyyy')}` : "--",
+            sonicKey: data?.sonicKey,
+            contentName: data?.contentName,
+            contentOwner: data?.contentOwner,
+            contentValidation: data?.contentValidation ? "YES" : "NO",
+            contentQuality: data?.contentQuality,
+            contentDescription: data?.contentDescription,
+            contentFileName: data?.contentFileName,
+            contentFileType: data?.contentFileType,
+            createdAt: data?.createdAt,
             contentDuration: data?.contentDuration?.toFixed(2),
-            encodingStrength: data.encodingStrength,
-            contentSize: converstionOfKb(data.contentSize),
+            encodingStrength: data?.encodingStrength,
+            contentSize: converstionOfKb(data?.contentSize),
             contentSamplingFrequency: data?.contentSamplingFrequency?.replace('Hz', ''),
-            iswcCode: (data.iswcCode ? data.iswcCode : 'Not Specified'),
-            isrcCode: (data.isrcCode ? data.isrcCode : 'Not Specified'),
-            tuneCode: (data.tuneCode ? data.tuneCode : 'Not Specified'),
-            contentFilePath: data.contentFilePath,
+            iswcCode: (data?.iswcCode ? data?.iswcCode : 'Not Specified'),
+            isrcCode: (data?.isrcCode ? data?.isrcCode : 'Not Specified'),
+            tuneCode: (data?.tuneCode ? data?.tuneCode : 'Not Specified'),
+            contentFilePath: data?.contentFilePath,
             job: data?.job,
-            additionalMetadata: data?.additionalMetadata?.message ? data.additionalMetadata?.message : ''
+            additionalMetadata: data?.additionalMetadata?.message ? data?.additionalMetadata?.message : '',
+            channel: data?.channel
         })
         setOpenTable(true);
     };
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-    function fetchKeys(limit, index) {
-        props.fetchSonicKeys(limit, index);
-    }
 
     useEffect(() => {
         if (tableData.length <= 0) {
@@ -218,31 +196,9 @@ const SonicKeys = (props) => {
 
     const handlePageChange = async (event, value) => {
         const limit = 10;
-        const page = value;
         console.log("This is for event", event);
         firstFetchSonicKey(value, limit)
-        setPageCount(event)
     };
-
-
-    const downloadFileData = async (data) => {
-        console.log("download data");
-        const contentFilePath = data?.contentFilePath;
-        const contentFileType = data?.contentFileType;
-        const s3MetaData = data?.s3FileMeta?.Key;
-        if (data?.downloadable) {
-            if (!restrict) {
-                console.log("restrict", restrict);
-                setrestrict(true)
-                await downloadFile(contentFilePath, contentFileType, setrestrict, s3MetaData)
-                setrestrict(false)
-            } else {
-                return <div style={{ color: 'grey', cursor: 'wait' }} onClick={() => {
-                }} data-toggle="tooltip" data-placement="top" title='Progress'>Download</div>
-            }
-        }
-
-    }
 
     const columns = [
         "ID",
@@ -271,9 +227,6 @@ const SonicKeys = (props) => {
     };
 
     const onSearchChange = (searchText) => {
-        console.log('Search Change', searchText);
-        setSearchValue(searchText);
-        setPage(0)
         firstFetchSonicKey(0, rowPerPage, searchText)
     }
 
@@ -338,32 +291,31 @@ const SonicKeys = (props) => {
             <Grid>
 
                 <TableContainer style={{ ...tableStyle.container }}>
-                    
-                {loading ? <div style={{ display: 'flex', justifyContent: 'center',width:'100%',height:'200px'}}>
-                            <SonicSpinner title="Loading Sonic Keys..." containerStyle={{height:'100%',display:'flex',justifyContent:'center'}}/>
-                        </div>
-                            :
-                    <Table className={classes.table} aria-label="simple table">
-                        <TableHead>
-                            <TableRow>
-                                {columns?.map((col) => {
-                                    const isItemSelected = isSelected(col);
-                                    // console.log("is item selected", isItemSelected);
-                                    return (
-                                        <StyledTableCell>
-                                            <div className={classes.tableCellIcon}>
-                                                {isItemSelected && <> {col}
-                                                    <UnfoldMoreSharpIcon onClick={onClickSortData} style={{ fontSize: '15px', fontWeight: 'bolder' }}
-                                                        //   onClick={handleSort("id", prop.propFrom)}
-                                                        className="sortIcon"
-                                                    /></>}
-                                            </div>
-                                        </StyledTableCell>
-                                    );
-                                })}
 
-                            </TableRow>
-                        </TableHead>
+                    {loading ? <div style={{ display: 'flex', justifyContent: 'center', width: '100%', height: '200px' }}>
+                        <SonicSpinner title="Loading Sonic Keys..." containerStyle={{ height: '100%', display: 'flex', justifyContent: 'center' }} />
+                    </div>
+                        :
+                        <Table className={classes.table} aria-label="simple table">
+                            <TableHead>
+                                <TableRow>
+                                    {columns?.map((col) => {
+                                        const isItemSelected = isSelected(col);
+                                        return (
+                                            <StyledTableCell>
+                                                <div className={classes.tableCellIcon}>
+                                                    {isItemSelected && <> {col}
+                                                        <UnfoldMoreSharpIcon onClick={onClickSortData} style={{ fontSize: '15px', fontWeight: 'bolder' }}
+                                                            //   onClick={handleSort("id", prop.propFrom)}
+                                                            className="sortIcon"
+                                                        /></>}
+                                                </div>
+                                            </StyledTableCell>
+                                        );
+                                    })}
+
+                                </TableRow>
+                            </TableHead>
 
                             <TableBody>
                                 {tableData?.map((data, index) => {
@@ -374,7 +326,11 @@ const SonicKeys = (props) => {
                                                 {isSelected("ID") && offset + index + 1}
                                             </TableCell>
                                             <TableCell className={classes.sonicKeyText}>{isSelected("SONICKEY") && data.sonicKey}</TableCell>
-                                            <Tooltip title={data.originalFileName}><TableCell className={classes.tableCellNormalText}>{isSelected("NAME") && (data.originalFileName !== "" ? (data.contentFileName?.length > 20 ? data.contentFileName?.slice(0, 20) + "..." : data.contentFileName) : (data.contentFileName?.length > 20 ? data.contentFileName?.slice(0, 20) + "..." : data.contentFileName))}</TableCell></Tooltip>
+                                            <Tooltip title={data.originalFileName || data.contentFileName}>
+                                                <TableCell className={classes.tableCellNormalText}>
+                                                    {isSelected("NAME") && (data?.originalFileName?.length > 20 ? data?.originalFileName?.slice(0, 20) + "..." : data?.originalFileName) || (data?.contentFileName?.length > 20 ? data?.contentFileName?.slice(0, 20) + "..." : data?.contentFileName)}
+                                                </TableCell>
+                                            </Tooltip>
                                             <Tooltip title={data.contentOwner}><TableCell className={classes.tableCellNormalText}>{isSelected("ARTIST") && (data.contentOwner === "" ? "-" : (data.contentOwner?.length > 20 ? data.contentOwner?.slice(0, 20) + "..." : data.contentOwner))}</TableCell></Tooltip>
                                             <TableCell className={classes.tableCellNormalText}>{isSelected("ENCODED DATE") && (format(new Date(data.contentCreatedDate), 'dd/MM/yyyy'))}</TableCell>
                                             <Tooltip title={data.contentDescription}><TableCell className={classes.tableCellNormalText}>{isSelected("DESCRIPTION") && (data.contentDescription === "" ? "-" : (data.contentDescription?.length > 20 ? data.contentDescription?.slice(0, 20) + "..." : data.contentDescription))}</TableCell></Tooltip>
@@ -391,17 +347,17 @@ const SonicKeys = (props) => {
                                 })}
                             </TableBody>
 
-                    </Table>}
+                        </Table>}
                     {openTable && <DailogTable sonicKey={sonicKeys} open={true} setOpenTable={setOpenTable} />}
                     {!loading ?
-                    <Pagination
-                        count={page}
-                        page={props.pageCount}
-                        variant="outlined"
-                        shape="rounded"
-                        onChange={handlePageChange}
-                    />:""}
-                       
+                        <Pagination
+                            count={page}
+                            page={props.pageCount}
+                            variant="outlined"
+                            shape="rounded"
+                            onChange={handlePageChange}
+                        /> : ""}
+
                 </TableContainer>
             </Grid>
         </Grid>
@@ -410,19 +366,14 @@ const SonicKeys = (props) => {
 
 
 const mapStateToProps = (state) => {
-    console.log("states", state);
     return {
         sonicKeys: state.sonicKeys,
         totalPage: state.sonicKeys.totalPages,
-        // offset: state.sonicKeys.offset,
-        // pagingCounter: state.sonicKeys.pagingCounter,
-
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        // fetchSonicKeys: () => dispatch(fetchSonicKeys()), for pagination
         fetchSonicKeys: (limit, index) => dispatch(fetchSonicKeys(limit, index)),
 
     };

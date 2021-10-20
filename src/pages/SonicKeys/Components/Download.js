@@ -72,6 +72,7 @@ export default function Download(prop) {
             });
         }).catch((error) => {
             cogoToast.error(error)
+            setValues({ ...values, openDownloadingModal: false })
         })
     }
 
@@ -82,14 +83,14 @@ export default function Download(prop) {
 
     return (
         <>
-        {
-            prop?.data?.s3FileMeta ? <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }} onClick={downloadFileData}>
-            <img src={download} width="16px" height="16px" />&nbsp;Download
-        </div>: <Tooltip title="File was encoded outside portal. Not downloadable."><div style={{ display: "flex", justifyContent: "center", alignItems: "center",color:"grey" }} >
-            <img src={download} width="16px" height="16px" />&nbsp;Download
-        </div></Tooltip>
-        }
-           
+            {
+                prop?.data?.s3FileMeta ? <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }} onClick={downloadFileData}>
+                    <img src={download} width="16px" height="16px" />&nbsp;Download
+                </div> : <Tooltip title="File was encoded outside portal. Not downloadable."><div style={{ display: "flex", justifyContent: "center", alignItems: "center", color: "grey" }} >
+                    <img src={download} width="16px" height="16px" />&nbsp;Download
+                </div></Tooltip>
+            }
+
             <Dialog
                 open={values?.openDownloadingModal}
                 onClose={closeDownloadModal}

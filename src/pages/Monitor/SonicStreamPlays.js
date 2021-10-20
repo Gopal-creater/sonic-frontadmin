@@ -1,6 +1,6 @@
 import {
   Button, Checkbox, FormControl, FormControlLabel, FormGroup, Grid, Input, InputLabel, makeStyles, MenuItem,
-  Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, useTheme,
+  Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography, useTheme,
 } from "@material-ui/core";
 import React, { forwardRef, useEffect, useState } from "react";
 import { tableStyle } from "../../globalStyle";
@@ -19,7 +19,7 @@ import CalendarLogo from "../../../src/assets/icons/icon-calendar.png";
 import viewFilter from "../../../src/assets/images/view.png";
 import { useDispatch, useSelector } from "react-redux";
 import Pagination from "@material-ui/lab/Pagination";
-import HitModal from "./Components/HitModal";
+import HitModal from "../../components/common/HitModal";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -172,9 +172,7 @@ export const SonicStreamPlays = () => {
       contentDescription: response.contentDescription,
       contentFileName: response.contentFileName,
       contentFileType: response.contentFileType,
-      createdAt: isValid(new Date(response.createdAt))
-        ? `${format(new Date(response.createdAt), "dd/MM/yyyy")}`
-        : "--",
+      createdAt: response?.createdAt,
       contentDuration: response?.contentDuration.toFixed(2),
       encodingStrength: response.encodingStrength,
       contentSize: converstionOfKb(response.contentSize),
@@ -187,6 +185,7 @@ export const SonicStreamPlays = () => {
       isrcCode: response.isrcCode ? response.isrcCode.toUpperCase() : "",
       tuneCode: response.tuneCode ? response.tuneCode.toUpperCase() : "",
       contentType: response?.contentType,
+      channel: response?.channel
     });
     setValues({ ...values, sonicDetailModal: true, selectedSonicKey: response })
   }
@@ -463,14 +462,13 @@ export const SonicStreamPlays = () => {
                         {isSelected("SONICKEY") && file?.sonicKey?.sonicKey}
                       </TableCell>
 
-                      <TableCell
-                        style={{ ...tableStyle.body, color: "#757575" }}
-                      >
-                        {isSelected("NAME") && file?.sonicKey?.contentName !== "" ?
-                          file?.sonicKey?.contentName :
-                          file?.sonicKey?.originalFileName !== "" ?
-                            file?.sonicKey?.originalFileName : ""}
-                      </TableCell>
+                      <Tooltip title={file?.sonicKey?.originalFileName || file?.sonicKey?.contentFileName}>
+                        <TableCell
+                          style={{ ...tableStyle.body, color: "#757575" }}
+                        >
+                          {isSelected("NAME") && (file?.sonicKey?.originalFileName?.length > 20 ? file?.sonicKey?.originalFileName?.slice(0, 20) + "..." : file?.sonicKey?.originalFileName) || (file?.sonicKey?.contentFileName?.length > 20 ? file?.sonicKey?.contentFileName?.slice(0, 20) + "..." : file?.sonicKey?.contentFileName)}
+                        </TableCell>
+                      </Tooltip>
 
                       <TableCell
                         style={{ ...tableStyle.body, color: "#757575" }}
@@ -485,15 +483,17 @@ export const SonicStreamPlays = () => {
                           file?.sonicKey?.contentQuality}
                       </TableCell>
 
-                      <TableCell
-                        style={{ ...tableStyle.body, color: "#757575" }}
-                      >
-                        {isSelected("DESCRIPTION") &&
-                          file?.sonicKey?.contentDescription}
-                      </TableCell>
+                      <Tooltip title={file?.sonicKey?.contentDescription}>
+                        <TableCell
+                          style={{ ...tableStyle.body, color: "#757575" }}
+                        >
+                          {isSelected("DESCRIPTION") &&
+                            file?.sonicKey?.contentDescription?.length > 20 ? file?.sonicKey?.contentDescription?.slice(0, 20) + "..." : file?.sonicKey?.contentDescription}
+                        </TableCell>
+                      </Tooltip>
 
                       <TableCell
-                        onClick={() => setValues({ ...values, openHitModal: true, hitModalData: { ...file?.sonicKey, totalHits: file?.totalHits } })}
+                        onClick={() => setValues({ ...values, openHitModal: true, hitModalData: { ...file?.sonicKey } })}
                         style={{ ...tableStyle.body, cursor: "pointer" }}
                       >
                         {isSelected("HITS") && file?.totalHits}

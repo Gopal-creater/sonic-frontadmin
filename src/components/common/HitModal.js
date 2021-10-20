@@ -6,13 +6,13 @@ import CloseIcon from '@material-ui/icons/Close';
 import Button from '@material-ui/core/Button';
 import DialogActions from '@material-ui/core/DialogActions';
 import { makeStyles } from "@material-ui/core/styles";
-import DialogLogo from "../../../assets/images/key-logo.png";
-import { log } from "../../../utils/app.debug";
+import DialogLogo from "../../assets/images/key-logo.png";
+import { log } from "../../utils/app.debug";
 import moment from "moment";
-import Communication from "../../../services/https/Communication";
+import Communication from "../../services/https/Communication";
 import cogoToast from "cogo-toast";
 import { Pagination } from "@material-ui/lab";
-import SonicSpinner from "../../../components/common/SonicSpinner"
+import SonicSpinner from "./SonicSpinner"
 
 const useStyles = makeStyles({
     dialogPaper: {
@@ -47,10 +47,9 @@ const HitModal = (props) => {
         hitLoading: false,
         hitData: null,
         hitError: null,
-        page: 1
+        page: 1,
+        totalHits: 0
     })
-
-    log("hit props", props)
 
     React.useEffect(() => {
         fetchHits(values?.page)
@@ -72,7 +71,7 @@ const HitModal = (props) => {
         Communication.fetchThirdPartyDetectedDetails(props?.sonicKeyData?.sonicKey, props?.channel, params)
             .then((response) => {
                 log("Response of hit", response);
-                setValues({ ...values, hitData: response, page: page, hitLoading: false })
+                setValues({ ...values, hitData: response, page: page, hitLoading: false, totalHits: response?.totalDocs })
             })
             .catch((err) => {
                 log("Hit Error", err);
@@ -100,42 +99,43 @@ const HitModal = (props) => {
                         fontFamily: 'NunitoSans-Bold', color: '#343F84', fontSize: '18px'
                     }}>
                         <span>&nbsp; &nbsp;SonicKey: {props?.sonicKeyData?.sonicKey}</span><br />
-                        <span>&nbsp; &nbsp;{props?.sonicKeyData?.contentName || props?.sonicKeyData?.originalFileName || props?.sonicKeyData?.contentOwner},{props?.sonicKeyData?.totalHits} hits</span>
+                        <span>&nbsp; &nbsp;{props?.sonicKeyData?.contentName || props?.sonicKeyData?.originalFileName || props?.sonicKeyData?.contentOwner},{values?.totalHits} hits</span>
                     </div>
                 </div>
             </DialogTitle>
             {
                 values?.hitLoading ? <SonicSpinner /> :
-                    <TableContainer component={Paper} style={{ marginTop: 10, padding: '10px 25px', border: 'none' }} elevation={0}>
-                        <Table className={classes.table} size="small" aria-label="a dense table">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell className={classes.tableCellOne}>Date</TableCell>
-                                    <TableCell className={classes.tableCellTwo}>Time</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {
-                                    values?.hitData?.docs?.map((data) => {
-                                        return (
-                                            <TableRow>
-                                                <TableCell className={classes.tableCellOne}>{moment(data?.detectedAt).format("DD/MM/YYYY")}</TableCell>
-                                                <TableCell className={classes.tableCellTwo}>{moment(data?.detectedAt).format("HH:MM:SS")}</TableCell>
-                                            </TableRow>
-                                        )
-                                    })
-                                }
-                            </TableBody>
-                        </Table>
+                    values?.hitData?.totalDocs <= 0 ? <div style={{ display: "flex", justifyContent: "center" }}><span>No Data</span></div> :
+                        <TableContainer component={Paper} style={{ marginTop: 10, padding: '10px 25px', border: 'none' }} elevation={0}>
+                            <Table className={classes.table} size="small" aria-label="a dense table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell className={classes.tableCellOne}>Date</TableCell>
+                                        <TableCell className={classes.tableCellTwo}>Time</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {
+                                        values?.hitData?.docs?.map((data) => {
+                                            return (
+                                                <TableRow>
+                                                    <TableCell className={classes.tableCellOne}>{moment(data?.detectedAt).format("DD/MM/YYYY")}</TableCell>
+                                                    <TableCell className={classes.tableCellTwo}>{moment(data?.detectedAt).format("HH:MM:SS")}</TableCell>
+                                                </TableRow>
+                                            )
+                                        })
+                                    }
+                                </TableBody>
+                            </Table>
 
-                        <Pagination
-                            count={values?.hitData?.totalPages}
-                            page={values?.page}
-                            variant="outlined"
-                            shape="rounded"
-                            onChange={(event, value) => fetchHits(value)}
-                        />
-                    </TableContainer>
+                            <Pagination
+                                count={values?.hitData?.totalPages}
+                                page={values?.page}
+                                variant="outlined"
+                                shape="rounded"
+                                onChange={(event, value) => fetchHits(value)}
+                            />
+                        </TableContainer>
             }
             <DialogActions border="none" style={{ margin: '20px', border: 'none' }}>
                 <Button onClick={handleCloseTable} variant="outlined" style={{

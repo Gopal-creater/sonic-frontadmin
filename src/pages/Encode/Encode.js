@@ -19,6 +19,7 @@ import EncodeDecodeLoading from '../../components/common/EncodeDecodeLoading';
 import InputMask from 'react-input-mask';
 import EncodeSuccess from './Components/EncodeSuccess';
 import FailedFileSelection from '../../components/common/FailedFileSelection';
+import moment from 'moment';
 
 const countryCodes = require("country-codes-list");
 const myCountryCodesObject = countryCodes.customList(
@@ -314,7 +315,7 @@ export default function Encode() {
                                 label="Audio length"
                                 inputProps={{ className: classes.textInput, readOnly: true }}
                                 InputLabelProps={{ className: classes.textInputLabel }}
-                                value={new Date(values?.data?.contentDuration * 1000).toISOString().substr(11, 8)}
+                                value={moment.utc(values?.data?.contentDuration * 1000).format("HH:mm:ss:SSS")}
                             />
                         </Grid>
 

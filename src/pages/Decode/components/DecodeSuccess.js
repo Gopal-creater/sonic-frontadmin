@@ -122,7 +122,7 @@ export default function DecodeSuccess({ audioName, title, decodeKeys }) {
     isrcCode: "",
     iswcCode: "",
     tuneCode: "",
-});
+  });
 
   useEffect(() => {
     const len = decodeKeys.data.length;
@@ -133,26 +133,27 @@ export default function DecodeSuccess({ audioName, title, decodeKeys }) {
 
   const handleClickOpenTable = async (data) => {
     setSonicKeys({
-        ...sonicKeys,
-        sonicKey: data.sonicKey,
-        contentName: data.contentName,
-        contentOwner: data.contentOwner,
-        contentValidation: data.contentValidation ? "YES" : "NO",
-        contentQuality: data.contentQuality,
-        contentDescription: data.contentDescription,
-        contentFileName: data.contentFileName,
-        contentFileType: data.contentFileType,
-        createdAt: isValid(new Date(data.createdAt)) ? `${format(new Date(data.createdAt), 'dd/MM/yyyy')}` : "--",
-        contentDuration: data?.contentDuration?.toFixed(2),
-        encodingStrength: data.encodingStrength,
-        contentSize: converstionOfKb(data.contentSize),
-        contentSamplingFrequency: data?.contentSamplingFrequency?.replace('Hz', ''),
-        iswcCode: (data.iswcCode ? data.iswcCode : 'Not Specified'),
-        isrcCode: (data.isrcCode ? data.isrcCode : 'Not Specified'),
-        tuneCode: (data.tuneCode ? data.tuneCode : 'Not Specified'),
-        contentFilePath: data.contentFilePath,
-        job: data?.job,
-        additionalMetadata: data?.additionalMetadata?.message ? data.additionalMetadata?.message : ''
+      ...sonicKeys,
+      sonicKey: data.sonicKey,
+      contentName: data.contentName,
+      contentOwner: data.contentOwner,
+      contentValidation: data.contentValidation ? "YES" : "NO",
+      contentQuality: data.contentQuality,
+      contentDescription: data.contentDescription,
+      contentFileName: data.contentFileName,
+      contentFileType: data.contentFileType,
+      createdAt: data.createdAt,
+      contentDuration: data?.contentDuration?.toFixed(2),
+      encodingStrength: data.encodingStrength,
+      contentSize: converstionOfKb(data.contentSize),
+      contentSamplingFrequency: data?.contentSamplingFrequency?.replace('Hz', ''),
+      iswcCode: (data.iswcCode ? data.iswcCode : 'Not Specified'),
+      isrcCode: (data.isrcCode ? data.isrcCode : 'Not Specified'),
+      tuneCode: (data.tuneCode ? data.tuneCode : 'Not Specified'),
+      contentFilePath: data.contentFilePath,
+      job: data?.job,
+      additionalMetadata: data?.additionalMetadata?.message ? data.additionalMetadata?.message : '',
+      channel: data?.channel
     })
     setOpenTable(true);
   };

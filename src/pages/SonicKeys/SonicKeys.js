@@ -16,8 +16,7 @@ import { tableStyle } from '../../globalStyle';
 import Communication from "../../services/https/Communication";
 import { fetchSonicKeys } from "../../stores/actions/sonicKey";
 import { connect } from 'react-redux';
-import { format, isValid } from 'date-fns';
-import { converstionOfKb } from '../../utils/HelperMethods';
+import { format } from 'date-fns';
 import Search from "../SonicKeys/Components/Search";
 import viewFilter from "../../../src/assets/images/view.png";
 import FormGroup from '@material-ui/core/FormGroup';
@@ -132,18 +131,7 @@ const SonicKeys = (props) => {
     const [offset, setOffset] = React.useState(0);
     const [defaultData, setDefaultData] = useState(false);
     const [dataSearch, setDataSearch] = React.useState("");
-    const [sonicKeys, setSonicKeys] = useState({
-        //sonicKey: "",
-        contentName: "",
-        contentOwner: "",
-        contentValidation: "",
-        contentQuality: "",
-        contentDescription: "",
-        additionalMetadata: {},
-        isrcCode: "",
-        iswcCode: "",
-        tuneCode: "",
-    });
+    const [sonicKeys, setSonicKeys] = useState({});
 
     const firstFetchSonicKey = (_offset = 0, _limit = 10, value = '') => {
         Communication.fetchMySonicKey(_limit, _offset, value).then((res) => {
@@ -162,29 +150,7 @@ const SonicKeys = (props) => {
     }, [])
 
     const handleClickOpenTable = async (data) => {
-        setSonicKeys({
-            ...sonicKeys,
-            sonicKey: data?.sonicKey,
-            contentName: data?.contentName,
-            contentOwner: data?.contentOwner,
-            contentValidation: data?.contentValidation ? "YES" : "NO",
-            contentQuality: data?.contentQuality,
-            contentDescription: data?.contentDescription,
-            contentFileName: data?.contentFileName,
-            contentFileType: data?.contentFileType,
-            createdAt: data?.createdAt,
-            contentDuration: data?.contentDuration?.toFixed(2),
-            encodingStrength: data?.encodingStrength,
-            contentSize: converstionOfKb(data?.contentSize),
-            contentSamplingFrequency: data?.contentSamplingFrequency?.replace('Hz', ''),
-            iswcCode: (data?.iswcCode ? data?.iswcCode : 'Not Specified'),
-            isrcCode: (data?.isrcCode ? data?.isrcCode : 'Not Specified'),
-            tuneCode: (data?.tuneCode ? data?.tuneCode : 'Not Specified'),
-            contentFilePath: data?.contentFilePath,
-            job: data?.job,
-            additionalMetadata: data?.additionalMetadata?.message ? data?.additionalMetadata?.message : '',
-            channel: data?.channel
-        })
+        setSonicKeys(data)
         setOpenTable(true);
     };
 
@@ -304,11 +270,13 @@ const SonicKeys = (props) => {
                                         return (
                                             <StyledTableCell>
                                                 <div className={classes.tableCellIcon}>
-                                                    {isItemSelected && <> {col}
-                                                        <UnfoldMoreSharpIcon onClick={onClickSortData} style={{ fontSize: '15px', fontWeight: 'bolder' }}
-                                                            //   onClick={handleSort("id", prop.propFrom)}
-                                                            className="sortIcon"
-                                                        /></>}
+                                                    {isItemSelected &&
+                                                        <> {col}
+                                                            {/* <UnfoldMoreSharpIcon onClick={onClickSortData} style={{ fontSize: '15px', fontWeight: 'bolder' }}
+                                                                //   onClick={handleSort("id", prop.propFrom)}
+                                                                className="sortIcon"
+                                                            /> */}
+                                                        </>}
                                                 </div>
                                             </StyledTableCell>
                                         );

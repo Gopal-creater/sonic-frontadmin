@@ -1,15 +1,4 @@
-import {
-  Badge,
-  Grid,
-  makeStyles,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from "@material-ui/core";
+import { Badge, Grid, makeStyles, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
@@ -79,7 +68,6 @@ export const SonicStreamDetail = (props) => {
   const [defaultData, setDefaultData] = useState(false);
   const [dataSearch, setDataSearch] = React.useState("");
   const onSearchChange = (searchText) => {
-    console.log("Search Change", searchText);
     setSearchValue(searchText);
     //  setPage(0)
     //  firstFetchSonicKey(0, rowPerPage, searchText)
@@ -104,11 +92,9 @@ export const SonicStreamDetail = (props) => {
   };
 
   useEffect(() => {
-    log("Detail");
     firstFetchSonicKey();
   }, []);
 
-  log("Props", props);
   return (
     <Grid className={classes.container} elevation={8}>
       <Grid style={{ display: "flex", justifyContent: "space-between" }}>
@@ -182,11 +168,11 @@ export const SonicStreamDetail = (props) => {
                   return (
                     <TableCell style={{ ...tableStyle.head }}>
                       {col}
-                      <UnfoldMoreSharpIcon
+                      {/* <UnfoldMoreSharpIcon
                         style={{ fontSize: 12, fontWeight: "bold" }}
                         //   onClick={handleSort("id", prop.propFrom)}
                         className="sortIcon"
-                      />
+                      /> */}
                     </TableCell>
                   );
                 })}
@@ -258,7 +244,6 @@ export const SonicStreamDetail = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  log("State", state);
   return {};
 };
 

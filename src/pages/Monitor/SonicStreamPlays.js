@@ -11,8 +11,6 @@ import ErrorModal from "./Components/ErrorModal";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { fetchThirdPartySonicKeys } from "../../stores/actions/thirdPartySonicKey";
-import { isValid, format } from "date-fns";
-import { converstionOfKb } from "../../utils/HelperMethods";
 import DailogTable from "../../components/common/DialogTable";
 import CloseIcon from "@material-ui/icons/Close";
 import CalendarLogo from "../../../src/assets/icons/icon-calendar.png";
@@ -106,28 +104,6 @@ export const SonicStreamPlays = () => {
   const plays = useSelector(state => state.thirdPartyKeys)
   log("plays", plays)
 
-  const theme = useTheme();
-  const [sonicKey, setSonicKey] = React.useState({
-    sonicKey: "",
-    contentName: "",
-    contentOwner: "",
-    contentValidation: "",
-    contentQuality: "",
-    contentDescription: "",
-    contentFileName: "",
-    contentFileType: "",
-    createdAt: new Date(),
-    contentDuration: "",
-    encodingStrength: "",
-    contentSize: "",
-    contentSamplingFrequency: "",
-    additionalMetadata: {},
-    iswcCode: "",
-    isrcCode: "",
-    tuneCode: "",
-    contentType: "",
-  });
-
   const columns = [
     "ID",
     "SONICKEY",
@@ -154,41 +130,13 @@ export const SonicStreamPlays = () => {
     sonicDetailModal: false,
     openHitModal: false,
     hitModalData: {},
+    selectedSonicKey: {}
   })
 
 
   useEffect(() => {
     dispatch(fetchThirdPartySonicKeys(10, 1, values?.channelName, values?.startDate, values?.endDate))
   }, []);
-
-  function fetchSonicKeyById(response) {
-    setSonicKey({
-      ...sonicKey,
-      sonicKey: response.sonicKey,
-      contentName: response.contentName,
-      contentOwner: response.contentOwner,
-      contentValidation: response.contentValidation ? "YES" : "NO",
-      contentQuality: response.contentQuality,
-      contentDescription: response.contentDescription,
-      contentFileName: response.contentFileName,
-      contentFileType: response.contentFileType,
-      createdAt: response?.createdAt,
-      contentDuration: response?.contentDuration.toFixed(2),
-      encodingStrength: response.encodingStrength,
-      contentSize: converstionOfKb(response.contentSize),
-      contentSamplingFrequency: response?.contentSamplingFrequency?.replace(
-        "Hz",
-        ""
-      ),
-      additionalMetadata: response?.additionalMetadata?.message || "",
-      iswcCode: response.iswcCode ? response.iswcCode.toUpperCase() : "",
-      isrcCode: response.isrcCode ? response.isrcCode.toUpperCase() : "",
-      tuneCode: response.tuneCode ? response.tuneCode.toUpperCase() : "",
-      contentType: response?.contentType,
-      channel: response?.channel
-    });
-    setValues({ ...values, sonicDetailModal: true, selectedSonicKey: response })
-  }
 
   const isSelected = (radiostation_id) => {
     return filterColumn.includes(radiostation_id);
@@ -262,12 +210,6 @@ export const SonicStreamPlays = () => {
         </div>
 
         <Grid style={{ display: "flex" }}>
-          {/* <div style={{ backgroundColor: '', marginRight: '25px' }} >
-        <Search  searchData={onSearchChange} 
-          dataSearch={dataSearch} 
-          setDataSearch={setDataSearch} 
-          setDefaultData={setDefaultData} /></div> */}
-
           <img
             src={viewFilter}
             style={{ cursor: "pointer" }}
@@ -431,10 +373,10 @@ export const SonicStreamPlays = () => {
                       {isItemSelected && (
                         <div style={{ display: "flex", justifyContent: "flex-start", alignItems: "center" }}>
                           {col}
-                          <UnfoldMoreSharpIcon
+                          {/* <UnfoldMoreSharpIcon
                             style={{ fontSize: 12, fontWeight: "bold" }}
                             className="sortIcon"
-                          />
+                          /> */}
                         </div>
                       )}
                     </TableCell>
@@ -457,7 +399,7 @@ export const SonicStreamPlays = () => {
                           fontSize: 15,
                           cursor: "pointer",
                         }}
-                        onClick={() => fetchSonicKeyById(file?.sonicKey)}
+                        onClick={() => setValues({ ...values, sonicDetailModal: true, selectedSonicKey: file?.sonicKey })}
                       >
                         {isSelected("SONICKEY") && file?.sonicKey?.sonicKey}
                       </TableCell>
@@ -525,7 +467,7 @@ export const SonicStreamPlays = () => {
 
       {values?.sonicDetailModal && (
         <DailogTable
-          sonicKey={sonicKey}
+          sonicKey={values?.selectedSonicKey}
           open={true}
           setOpenTable={(flag) => setValues({ ...values, sonicDetailModal: flag })}
         />

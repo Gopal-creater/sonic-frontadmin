@@ -46,7 +46,7 @@ const DailogTable = (props) => {
     });
 
     const { sonicKey } = props;
-    log("sonic props", props)
+    log("sonic props", props.sonicKey)
     const theme = useTheme()
     const classes = useStyles();
 
@@ -84,63 +84,63 @@ const DailogTable = (props) => {
                         <TableBody>
                             <TableRow>
                                 <TableCell className={classes.tableCellOne}>FILE TYPE</TableCell>
-                                <TableCell className={classes.tableCellTwo}>{sonicKey.contentFileType}</TableCell>
+                                <TableCell className={classes.tableCellTwo}>{sonicKey?.contentFileType}</TableCell>
                             </TableRow>
                             <TableRow >
                                 <TableCell className={classes.tableCellOne}>NAME</TableCell>
-                                <TableCell className={classes.tableCellTwo}>{sonicKey.contentFileName}</TableCell>
+                                <TableCell className={classes.tableCellTwo}>{sonicKey?.originalFileName || sonicKey?.contentFileName}</TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell className={classes.tableCellOne}>ARTIST</TableCell>
-                                <TableCell className={classes.tableCellTwo}>{sonicKey.contentOwner}</TableCell>
+                                <TableCell className={classes.tableCellTwo}>{sonicKey?.contentOwner}</TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell className={classes.tableCellOne}>LENGTH (00:00:00:000)</TableCell>
-                                <TableCell className={classes.tableCellTwo}>{moment.utc(sonicKey.contentDuration * 1000).format("HH:mm:ss:SSS")}</TableCell>
+                                <TableCell className={classes.tableCellTwo}>{moment.utc(sonicKey?.contentDuration * 1000).format("HH:mm:ss:SSS")}</TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell className={classes.tableCellOne}>AUDIO SIZE (IN MB)</TableCell>
-                                <TableCell className={classes.tableCellTwo}>{(sonicKey.contentSize / 1024).toFixed(3)}</TableCell>
+                                <TableCell className={classes.tableCellTwo}>{(sonicKey?.contentSize / 1024).toFixed(3)}</TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell className={classes.tableCellOne}>INDUSTRY CODES</TableCell>
                                 <TableCell className={classes.tableCellTwo}>
-                                    ISRC : {sonicKey.isrcCode ? sonicKey.isrcCode : 'Not Specified'}<br />
-                                    ISWC : {sonicKey.iswcCode ? sonicKey.iswcCode : 'Not Specified'} <br />
-                                    Tunecode : {sonicKey.tuneCode ? sonicKey.tuneCode : 'Not Specified'}
+                                    ISRC : {sonicKey?.isrcCode ? sonicKey?.isrcCode : 'Not Specified'}<br />
+                                    ISWC : {sonicKey?.iswcCode ? sonicKey?.iswcCode : 'Not Specified'} <br />
+                                    Tunecode : {sonicKey?.tuneCode ? sonicKey?.tuneCode : 'Not Specified'}
                                 </TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell className={classes.tableCellOne}>UNDERLYING ENCODING OF THE FILE</TableCell>
-                                <TableCell className={classes.tableCellTwo}></TableCell>
+                                <TableCell className={classes.tableCellTwo}>{sonicKey?.contentEncoding}</TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell className={classes.tableCellOne}>SAMPLING FREQUENCY </TableCell>
-                                <TableCell className={classes.tableCellTwo}>{sonicKey.contentSamplingFrequency} Hz</TableCell>
+                                <TableCell className={classes.tableCellTwo}>{sonicKey?.contentSamplingFrequency} Hz</TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell className={classes.tableCellOne}>Encoded Date</TableCell>
-                                <TableCell className={classes.tableCellTwo}>{moment(sonicKey.createdAt).format("DD/MM/YYYY")}</TableCell>
+                                <TableCell className={classes.tableCellTwo}>{moment(sonicKey?.createdAt).format("DD/MM/YYYY")}</TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell className={classes.tableCellOne}>Sonic Key</TableCell>
-                                <TableCell className={classes.tableCellTwo}>{sonicKey.sonicKey}</TableCell>
+                                <TableCell className={classes.tableCellTwo}>{sonicKey?.sonicKey}</TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell className={classes.tableCellOne}>Content Strength</TableCell>
-                                <TableCell className={classes.tableCellTwo}>{sonicKey.encodingStrength}</TableCell>
+                                <TableCell className={classes.tableCellTwo}>{sonicKey?.encodingStrength}</TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell className={classes.tableCellOne}>Content Validation</TableCell>
-                                <TableCell className={classes.tableCellTwo}>{sonicKey.contentValidation}</TableCell>
+                                <TableCell className={classes.tableCellTwo}>{sonicKey?.contentValidation}</TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell className={classes.tableCellOne}>Content Description</TableCell>
-                                <TableCell className={classes.tableCellTwo}>{sonicKey.contentDescription}</TableCell>
+                                <TableCell className={classes.tableCellTwo}>{sonicKey?.contentDescription}</TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell className={classes.tableCellOne}>Addional Meta Data</TableCell>
-                                <TableCell className={classes.tableCellTwo}>{sonicKey.additionalMetadata}</TableCell>
+                                <TableCell className={classes.tableCellTwo}>{sonicKey?.additionalMetadata?.message}</TableCell>
                             </TableRow>
                         </TableBody>
                     </Table>

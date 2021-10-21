@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -10,8 +10,6 @@ import VisibilityOutlinedIcon from "@material-ui/icons/Visibility";
 import { Grid, Typography } from "@material-ui/core";
 import Icon from "../../../assets/images/icon-success-graphic.png";
 import DailogTable from "../../../components/common/DialogTable";
-import { format, isValid } from "date-fns";
-import { converstionOfKb } from "../../../utils/HelperMethods";
 
 const useStyles = makeStyles((theme) => ({
   successContainer: {
@@ -108,54 +106,17 @@ const tableHead = [
 
 export default function DecodeSuccess({ audioName, title, decodeKeys }) {
   const classes = useStyles();
-  const [sonicKeyData, setSonicKeyData] = useState([]);
-  const [keysFound, setKeysFound] = useState(0);
-  const [openTable, setOpenTable] = React.useState(false);
-  const [sonicKeys, setSonicKeys] = useState({
-    //sonicKey: "",
-    contentName: "",
-    contentOwner: "",
-    contentValidation: "",
-    contentQuality: "",
-    contentDescription: "",
-    additionalMetadata: {},
-    isrcCode: "",
-    iswcCode: "",
-    tuneCode: "",
-  });
 
-  useEffect(() => {
-    const len = decodeKeys.data.length;
-    setKeysFound(len);
-    const data = decodeKeys?.data;
-    setSonicKeyData(data);
-  }, [decodeKeys]);
+  const [values, setValues] = useState({
+    openTable: false,
+    sonicKeys: {}
+  })
 
   const handleClickOpenTable = async (data) => {
-    setSonicKeys({
-      ...sonicKeys,
-      sonicKey: data.sonicKey,
-      contentName: data.contentName,
-      contentOwner: data.contentOwner,
-      contentValidation: data.contentValidation ? "YES" : "NO",
-      contentQuality: data.contentQuality,
-      contentDescription: data.contentDescription,
-      contentFileName: data.contentFileName,
-      contentFileType: data.contentFileType,
-      createdAt: data.createdAt,
-      contentDuration: data?.contentDuration?.toFixed(2),
-      encodingStrength: data.encodingStrength,
-      contentSize: converstionOfKb(data.contentSize),
-      contentSamplingFrequency: data?.contentSamplingFrequency?.replace('Hz', ''),
-      iswcCode: (data.iswcCode ? data.iswcCode : 'Not Specified'),
-      isrcCode: (data.isrcCode ? data.isrcCode : 'Not Specified'),
-      tuneCode: (data.tuneCode ? data.tuneCode : 'Not Specified'),
-      contentFilePath: data.contentFilePath,
-      job: data?.job,
-      additionalMetadata: data?.additionalMetadata?.message ? data.additionalMetadata?.message : '',
-      channel: data?.channel
+    setValues({
+      openTable: true,
+      sonicKeys: data
     })
-    setOpenTable(true);
   };
 
   return (
@@ -167,7 +128,7 @@ export default function DecodeSuccess({ audioName, title, decodeKeys }) {
             {title} of <b>{audioName}</b> successfully done.
           </Typography>
           <Typography className={classes.found}>
-            We found <b>{keysFound}</b> SonicKeys.
+            We found <b>{decodeKeys?.data?.length}</b> SonicKeys.
           </Typography>
         </Grid>
         <Grid item className={classes.failedIcon}>
@@ -188,20 +149,20 @@ export default function DecodeSuccess({ audioName, title, decodeKeys }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {sonicKeyData?.map((data) => (
+            {decodeKeys?.data?.map((data) => (
               <TableRow className={classes.tableRow} key={data._id}>
-                <TableCell className={classes.key}>{data.sonicKey}</TableCell>
+                <TableCell className={classes.key}>{data?.sonicKey}</TableCell>
                 <TableCell className={classes.tableCellNormalText}>
-                  {data.contentFileType}
+                  {data?.contentFileType}
                 </TableCell>
                 <TableCell className={classes.tableCellNormalText}>
-                  {data.contentFileName}
+                  {data?.originalFileName || data?.contentFileName}
                 </TableCell>
                 <TableCell className={classes.tableCellNormalText}>
-                  {data.contentSamplingFrequency}
+                  {data?.contentSamplingFrequency}
                 </TableCell>
                 <TableCell className={classes.tableCellNormalText}>
-                  {data.contentOwner}
+                  {data?.contentOwner}
                 </TableCell>
                 <TableCell className={classes.tableCellColor}>
                   <div
@@ -216,7 +177,7 @@ export default function DecodeSuccess({ audioName, title, decodeKeys }) {
             ))}
           </TableBody>
         </Table>
-        {openTable && <DailogTable sonicKey={sonicKeys} open={true} setOpenTable={setOpenTable} />}
+        {values?.openTable && <DailogTable sonicKey={values?.sonicKeys} open={true} setOpenTable={(flag) => { setValues({ ...values, openTable: flag }) }} />}
       </TableContainer>
     </Grid>
   );

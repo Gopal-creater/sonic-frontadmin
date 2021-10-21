@@ -1,62 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
-import Card from "react-bootstrap/Card";
-import {
-  MuiThemeProvider,
-  withStyles,
-  makeStyles,
-} from "@material-ui/core/styles";
+import { makeStyles, } from "@material-ui/core/styles";
 import moment from "moment";
 import { connect } from "react-redux";
-import Avatar from "@material-ui/core/Avatar";
 import Tooltip from "@material-ui/core/Tooltip";
 import cogoToast from "cogo-toast";
-import InfoIcon from "@material-ui/icons/Info";
-import PlayArrowIcon from "@material-ui/icons/PlayArrow";
-import MusicNoteIcon from "@material-ui/icons/MusicNote";
-import MusicOffIcon from "@material-ui/icons/MusicOff";
-import CancelIcon from "@material-ui/icons/Cancel";
-import CloseIcon from "@material-ui/icons/Close";
-import StorageIcon from "@material-ui/icons/Storage";
-import ReorderIcon from "@material-ui/icons/Reorder";
-import MUIDataTable from "mui-datatables";
 import { Badge } from "react-bootstrap";
 import { cloneDeep } from "lodash";
-import axios from "axios";
-import { Auth } from "aws-amplify";
 import ErrorModal from "./Components/ErrorModal";
-import CustomButton from "./Components/CustomButton";
 import Grid from "@material-ui/core/Grid";
-import Constant from "../../assets/Constant";
-import LoadingSpinner from "./Components/LoadingSpinner";
-import InfoCard from "./Components/InfoCard";
-import Graph from "./Components/Graph";
-import GraphCard from "./Components/GraphCard";
 import Hits from "./Components/Hits";
 import * as actionCreators from "../../stores/actions/index";
-import {
-  getAccessToken,
-  getUserId,
-  getAdmin,
-} from "../../services/https/AuthHelper";
-
 import { log } from "../../utils/app.debug";
 import ButtonSpinner from "./Components/ButtonSpinner";
-import {
-  Box,
-  Button,
-  Container,
-  createMuiTheme,
-  FormControl,
-  Input,
-  InputLabel,
-  ListItemText,
-  Menu,
-  MenuItem,
-  Paper,
-  Select,
-  Typography,
-} from "@material-ui/core";
-import BackgoundCard from "./Components/BackgoundCard";
+import { Button, FormControl, Input, InputLabel, ListItemText, MenuItem, Paper, Select, Typography, } from "@material-ui/core";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -64,9 +20,6 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Checkbox from "@material-ui/core/Checkbox";
-import CheckCircleOutlineRoundedIcon from "@material-ui/icons/CheckCircleOutlineRounded";
-import CreateIcon from "@material-ui/icons/Create";
-import CreateOutlinedIcon from "@material-ui/icons/CreateOutlined";
 import Pagination from "@material-ui/lab/Pagination";
 import PlayCircleOutlineRoundedIcon from "@material-ui/icons/PlayCircleOutlineRounded";
 import StopOutlinedIcon from "@material-ui/icons/StopOutlined";
@@ -1641,8 +1594,8 @@ function SonicStreamReader(props) {
         log("Response Of Subscribed", res);
         cogoToast.success(
           res.passedData.length +
-            " Radios Station Subscribed out of " +
-            subscribedRadioStation.length
+          " Radios Station Subscribed out of " +
+          subscribedRadioStation.length
         );
         setSubscribedRadioStation([]);
         setSubscribedRadioStations([]);
@@ -1789,10 +1742,10 @@ function SonicStreamReader(props) {
         <Grid item className={classes.header}>
           <div>
             <Typography className={classes.heading}>
-              Sonic StreamReader
+              Sonic Web Radio
             </Typography>
             <Typography className={classes.subHeading}>
-              List {totalCount} radio stations
+              Currently listening to {totalCount} radio stations
             </Typography>
           </div>
           <Search
@@ -1816,98 +1769,98 @@ function SonicStreamReader(props) {
           className={useStyleClasses.card}
         >
           {/* <Grid style={{ margin: 10 }}> */}
-            <Grid item style={{display:'flex',alignItems:'center'}}>
-              <Button
-                disabled={selectedRows.length > 0 ? false : true}
-                className={[
-                  useStyleClasses.homeTableDelete,
-                  "customButton",
-                ].join(" ")}
-                onClick={() => {
-                  onStart();
-                }}
-                style={{ ...styles.submitButton, marginRight: 10 }}
-              >
-                {startLoading ? (
-                  <ButtonSpinner grow={true} />
-                ) : (
-                  <div style={{ justifyContent: "center", display: "flex" }}>
-                    <PlayCircleOutlineRoundedIcon className={classes.buttons} />
-                    <label
-                      style={{
-                        marginTop: 2,
-                        textTransform: "none",
-                        color: "#343F84",
-                      }}
-                    >
-                      Start
-                    </label>
-                  </div>
-                )}
-              </Button>
-              <Button
-                disabled={selectedRows.length > 0 ? false : true}
-                className={[
-                  useStyleClasses.homeTableDelete,
-                  "customButton",
-                ].join(" ")}
-                onClick={() => {
-                  onStop();
-                }}
-                style={{ ...styles.submitButton }}
-              >
-                {stopLoading ? (
-                  <ButtonSpinner grow={true} />
-                ) : (
-                  <div style={{ justifyContent: "center", display: "flex" }}>
-                    <StopOutlinedIcon className={classes.buttons} />
-                    <label
-                      style={{
-                        marginTop: 2,
-                        textTransform: "none",
-                        color: "#343F84",
-                      }}
-                    >
-                      Stop
-                    </label>
-                  </div>
-                )}
-              </Button>
-              <Button
-                disabled={selectedRows.length > 0 ? false : true}
-                className={[
-                  useStyleClasses.homeTableDelete,
-                  "customButton",
-                ].join(" ")}
-                onClick={() => {
-                  onDelete();
-                }}
-                style={{
-                  ...styles.submitButton,
-                  marginRight: 10,
-                  marginLeft: 15,
-                }}
-              >
-                {deleteLoading ? (
-                  <ButtonSpinner grow={true} />
-                ) : (
-                  <div style={{ justifyContent: "center", display: "flex" }}>
-                    <CancelOutlinedIcon className={classes.buttons} />
-                    <label
-                      style={{
-                        marginTop: 2,
-                        textTransform: "none",
-                        color: "#343F84",
-                      }}
-                    >
-                      Delete
-                    </label>
-                  </div>
-                )}
-              </Button>
-            </Grid>
+          <Grid item style={{ display: 'flex', alignItems: 'center' }}>
+            <Button
+              disabled={selectedRows.length > 0 ? false : true}
+              className={[
+                useStyleClasses.homeTableDelete,
+                "customButton",
+              ].join(" ")}
+              onClick={() => {
+                onStart();
+              }}
+              style={{ ...styles.submitButton, marginRight: 10 }}
+            >
+              {startLoading ? (
+                <ButtonSpinner grow={true} />
+              ) : (
+                <div style={{ justifyContent: "center", display: "flex" }}>
+                  <PlayCircleOutlineRoundedIcon className={classes.buttons} />
+                  <label
+                    style={{
+                      marginTop: 2,
+                      textTransform: "none",
+                      color: "#343F84",
+                    }}
+                  >
+                    Start
+                  </label>
+                </div>
+              )}
+            </Button>
+            <Button
+              disabled={selectedRows.length > 0 ? false : true}
+              className={[
+                useStyleClasses.homeTableDelete,
+                "customButton",
+              ].join(" ")}
+              onClick={() => {
+                onStop();
+              }}
+              style={{ ...styles.submitButton }}
+            >
+              {stopLoading ? (
+                <ButtonSpinner grow={true} />
+              ) : (
+                <div style={{ justifyContent: "center", display: "flex" }}>
+                  <StopOutlinedIcon className={classes.buttons} />
+                  <label
+                    style={{
+                      marginTop: 2,
+                      textTransform: "none",
+                      color: "#343F84",
+                    }}
+                  >
+                    Stop
+                  </label>
+                </div>
+              )}
+            </Button>
+            <Button
+              disabled={selectedRows.length > 0 ? false : true}
+              className={[
+                useStyleClasses.homeTableDelete,
+                "customButton",
+              ].join(" ")}
+              onClick={() => {
+                onDelete();
+              }}
+              style={{
+                ...styles.submitButton,
+                marginRight: 10,
+                marginLeft: 15,
+              }}
+            >
+              {deleteLoading ? (
+                <ButtonSpinner grow={true} />
+              ) : (
+                <div style={{ justifyContent: "center", display: "flex" }}>
+                  <CancelOutlinedIcon className={classes.buttons} />
+                  <label
+                    style={{
+                      marginTop: 2,
+                      textTransform: "none",
+                      color: "#343F84",
+                    }}
+                  >
+                    Delete
+                  </label>
+                </div>
+              )}
+            </Button>
+          </Grid>
           {/* </Grid> */}
-          <Grid item style={{ postion: "relative",display:'flex',alignItems:'center' }}>
+          <Grid item style={{ postion: "relative", display: 'flex', alignItems: 'center' }}>
             <FormControl>
               <InputLabel
                 id="mutiple-checkbox-label"
@@ -2030,7 +1983,7 @@ function SonicStreamReader(props) {
                         selected.length === tableData?.length ? true : false
                       }
                       onChange={handleSelectAllClick}
-                      // inputProps={{ 'aria-label': 'select all desserts' }}
+                    // inputProps={{ 'aria-label': 'select all desserts' }}
                     />
                   </TableCell>
                   {columns?.map((col) => {

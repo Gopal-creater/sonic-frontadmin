@@ -115,6 +115,10 @@ function SonicStreamReader(props) {
   let radiostations = cloneDeep(props.radiostations);
   const [offset, setOffset] = React.useState(0);
 
+  const [values, setValues] = React.useState({
+    currentPage: 1
+  })
+
   const countryNames = [
     {
       name: "Afghanistan",
@@ -1629,6 +1633,9 @@ function SonicStreamReader(props) {
     setPageCount(event);
     setSelectedRows([]);
     setSelected([]);
+    setValues({
+      ...values, currentPage: value
+    })
   };
 
   const onSearchChange = (searchText) => {
@@ -2110,7 +2117,7 @@ function SonicStreamReader(props) {
 
             <Pagination
               count={page}
-              page={props.pageCount}
+              page={values?.currentPage}
               variant="outlined"
               shape="rounded"
               onChange={handlePageChange}

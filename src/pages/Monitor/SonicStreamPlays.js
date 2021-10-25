@@ -316,6 +316,7 @@ export const SonicStreamPlays = () => {
                   color: "grey",
                   paddingBottom: 50,
                   marginBottom: 20,
+                  fontWeight: "bold"
                 }}
               >
                 Filter by channel

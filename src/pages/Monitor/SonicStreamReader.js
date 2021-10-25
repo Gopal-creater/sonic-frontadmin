@@ -1749,7 +1749,7 @@ function SonicStreamReader(props) {
         <Grid item className={classes.header}>
           <div>
             <Typography className={classes.heading}>
-              Sonic Web Radio
+              Sonic StreamReader
             </Typography>
             <Typography className={classes.subHeading}>
               Currently listening to {totalCount} radio stations

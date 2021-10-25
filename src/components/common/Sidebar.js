@@ -104,7 +104,7 @@ export default function Sidebar() {
                         to="/streamreader" exact
                         isActive={(match, location) => { return checkIsActive(match, location, index) }}
                       >
-                        <ListItemText primary={"Web Radio"} classes={{ primary: classes.listItemText }} />
+                        <ListItemText primary={"StreamReader"} classes={{ primary: classes.listItemText }} />
                       </NavLink>
                     </div>
                   )

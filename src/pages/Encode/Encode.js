@@ -81,8 +81,8 @@ export default function Encode() {
         encodeLoading: false,
         encodeError: null,
         encodeSuccess: null,
-        isRightsHolderForEncode: false,
-        isAuthorizedForEncode: true
+        isRightsHolderForEncode: null,
+        isAuthorizedForEncode: null
     });
 
     const closeEncodeProgressPopUp = (sucess, error) => {
@@ -134,8 +134,8 @@ export default function Encode() {
             contentFileName: values?.name,
             contentQuality: values?.data?.contentQuality,
             additionalMetadata: { ...values?.data?.additionalMetadata },
-            isRightsHolderForEncode: values?.isRightsHolderForEncode,
-            isAuthorizedForEncode: values?.isAuthorizedForEncode
+            isRightsHolderForEncode: values?.isRightsHolderForEncode === null ? false : values?.isRightsHolderForEncode,
+            isAuthorizedForEncode: values?.isAuthorizedForEncode === null ? false : values?.isAuthorizedForEncode
         }
         formData.append("data", JSON.stringify(payload));
 
@@ -405,8 +405,9 @@ export default function Encode() {
                                     style={{
                                         color: "#757575", fontWeight: "bold", fontFamily: 'NunitoSans-Regular',
                                     }}
-                                    value={values?.isRightsHolderForEncode ? "Yes" : "No"}
+                                    value={values?.isRightsHolderForEncode === null ? "" : values?.isRightsHolderForEncode ? "Yes" : "No"}
                                     onChange={(event) => { setValues({ ...values, isRightsHolderForEncode: event.target.value === "Yes" ? true : false }) }}>
+
                                     <FormControlLabel value="Yes" control={<Radio style={{
                                         color: "#7078A8"
                                     }} />} label={<Typography style={{
@@ -439,7 +440,7 @@ export default function Encode() {
                                         style={{
                                             color: "#757575", fontWeight: "bold", fontFamily: 'NunitoSans-Regular',
                                         }}
-                                        value={values?.isAuthorizedForEncode ? "Yes" : "No"}
+                                        value={values?.isAuthorizedForEncode === null ? "" : values?.isAuthorizedForEncode ? "Yes" : "No"}
                                         onChange={(event) => { setValues({ ...values, isAuthorizedForEncode: event.target.value === "Yes" ? true : false }) }}>
                                         <FormControlLabel value="Yes" control={<Radio style={{
                                             color: "#7078A8"
@@ -462,17 +463,19 @@ export default function Encode() {
 
                         <Grid container justifyContent="center" className="pt-4">
                             <Button
+                                style={{
+                                    backgroundColor: values?.isAuthorizedForEncode === false && values?.isRightsHolderForEncode === false ? "#DC004E" : values?.isAuthorizedForEncode === null || values?.isRightsHolderForEncode === null ? "" : "#393F5B",
+                                    color: "white"
+                                }}
+                                // #DC004E
+                                // #393F5B
                                 variant={"contained"}
                                 component="span"
                                 color="primary"
-                                disabled={values?.isAuthorizedForEncode || values?.isRightsHolderForEncode ? false : true}
+                                disabled={values?.isAuthorizedForEncode === false && values?.isRightsHolderForEncode === false ? true : values?.isAuthorizedForEncode || values?.isRightsHolderForEncode || values?.isAuthorizedForEncode !== null && values?.isRightsHolderForEncode !== null ? false : true}
                                 className={classes.encodeBtn}
                                 onClick={handleEncode}
                                 type="submit"
-                                style={{
-                                    backgroundColor: values?.isAuthorizedForEncode === false && values?.isRightsHolderForEncode === false ? "#DC004E" : "#393F5B",
-                                    color: "white"
-                                }}
                             >
                                 Encode
                             </Button>

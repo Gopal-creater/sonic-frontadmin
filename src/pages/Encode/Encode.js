@@ -81,7 +81,8 @@ export default function Encode() {
         encodeLoading: false,
         encodeError: null,
         encodeSuccess: null,
-        checkedAuthorization: false
+        isRightsHolderForEncode: false,
+        isAuthorizedForEncode: true
     });
 
     const closeEncodeProgressPopUp = (sucess, error) => {
@@ -129,10 +130,12 @@ export default function Encode() {
             //  volatileMetadata?
             contentName: values?.data?.contentName,
             contentOwner: values?.data?.contentOwner,
-            contentValidation: values?.data?.contentValidation == "Yes" ? true : false,
+            contentValidation: true,
             contentFileName: values?.name,
             contentQuality: values?.data?.contentQuality,
-            additionalMetadata: { ...values?.data?.additionalMetadata }
+            additionalMetadata: { ...values?.data?.additionalMetadata },
+            isRightsHolderForEncode: values?.isRightsHolderForEncode,
+            isAuthorizedForEncode: values?.isAuthorizedForEncode
         }
         formData.append("data", JSON.stringify(payload));
 
@@ -147,6 +150,8 @@ export default function Encode() {
             cogoToast.error(error?.data?.message || error?.message)
         })
     }
+
+    log("encode values", values)
 
     return (
         <Grid className={classes.EncodeContainer} id="encodeDecodeContainer">
@@ -392,7 +397,7 @@ export default function Encode() {
                                 <FormLabel component="legend" style={{
                                     color: "#757575", fontWeight: "bold", fontFamily: 'NunitoSans-Regular',
                                 }}
-                                >Has content been validated for ownership?</FormLabel>
+                                >Are you the Rights Holder for the audio file you wish to encode with a SonicKey?</FormLabel>
                                 <RadioGroup
                                     color="primary"
                                     row aria-label="gender"
@@ -400,8 +405,8 @@ export default function Encode() {
                                     style={{
                                         color: "#757575", fontWeight: "bold", fontFamily: 'NunitoSans-Regular',
                                     }}
-                                    value={values?.data?.contentValidation}
-                                    onChange={(event) => { setValues({ ...values, data: { ...values?.data, contentValidation: event.target.value } }) }}>
+                                    value={values?.isRightsHolderForEncode ? "Yes" : "No"}
+                                    onChange={(event) => { setValues({ ...values, isRightsHolderForEncode: event.target.value === "Yes" ? true : false }) }}>
                                     <FormControlLabel value="Yes" control={<Radio style={{
                                         color: "#7078A8"
                                     }} />} label={<Typography style={{
@@ -412,40 +417,75 @@ export default function Encode() {
                                         fontFamily: 'NunitoSans-Regular', fontWeight: "bold"
                                     }}>No</Typography>} />
                                 </RadioGroup>
+
+                                <ul>
+                                    <li className={classes.textInputLabel}><i >If you select 'Yes' the grey encode button will turn to blue and you can immediately encode the audio file by clicking on the blue encode button.</i></li>
+                                    <li className={classes.textInputLabel}><i>If you select 'No', please answer the question below.</i></li>
+                                </ul>
                             </FormControl>
                         </Grid>
 
-                        <Grid item id="authorization">
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        checked={values?.checkedAuthorization}
-                                        onChange={(event) => { setValues({ ...values, checkedAuthorization: event.target.checked }) }}
-                                        name="checkedAuthorization"
-                                        style={{ color: "#7078A8" }}
-                                    />
-                                }
-                                label={<Typography style={{ color: "#757575", fontWeight: "bold", fontFamily: 'NunitoSans-Regular' }}>I/we/am/are authorised to encode this file</Typography>}
+                        {!values?.isRightsHolderForEncode &&
+                            <Grid item id="contentValidation" className="mt-3">
+                                <FormControl component="fieldset" className={classes.formControl} >
+                                    <FormLabel component="legend" style={{
+                                        color: "#757575", fontWeight: "bold", fontFamily: 'NunitoSans-Regular',
+                                    }}
+                                    >Are you Authorised by the Rights Holder to encode this audio file with a SonicKey?</FormLabel>
+                                    <RadioGroup
+                                        color="primary"
+                                        row aria-label="gender"
+                                        name="gender1"
+                                        style={{
+                                            color: "#757575", fontWeight: "bold", fontFamily: 'NunitoSans-Regular',
+                                        }}
+                                        value={values?.isAuthorizedForEncode ? "Yes" : "No"}
+                                        onChange={(event) => { setValues({ ...values, isAuthorizedForEncode: event.target.value === "Yes" ? true : false }) }}>
+                                        <FormControlLabel value="Yes" control={<Radio style={{
+                                            color: "#7078A8"
+                                        }} />} label={<Typography style={{
+                                            fontFamily: 'NunitoSans-Regular', fontWeight: "bold"
+                                        }}>Yes</Typography>} />
 
-                            />
-                        </Grid>
+                                        <FormControlLabel value="No" control={<Radio style={{ color: "#7078A8" }} />} label={<Typography style={{
+                                            fontFamily: 'NunitoSans-Regular', fontWeight: "bold"
+                                        }}>No</Typography>} />
+                                    </RadioGroup>
+
+                                    <ul>
+                                        <li className={classes.textInputLabel}><i >If you select 'Yes' the grey encode button will turn to blue and you can immediately encode the audio file by clicking on the blue encode button.</i></li>
+                                        <li className={classes.textInputLabel}><i>If you select 'No', you will be unable to encode the file.</i></li>
+                                    </ul>
+                                </FormControl>
+                            </Grid>
+                        }
 
                         <Grid container justifyContent="center" className="pt-4">
                             <Button
-                                variant="contained"
+                                variant={"contained"}
                                 component="span"
                                 color="primary"
-                                disabled={values?.checkedAuthorization ? false : true}
+                                disabled={values?.isAuthorizedForEncode || values?.isRightsHolderForEncode ? false : true}
                                 className={classes.encodeBtn}
                                 onClick={handleEncode}
                                 type="submit"
+                                style={{
+                                    backgroundColor: values?.isAuthorizedForEncode === false && values?.isRightsHolderForEncode === false ? "#DC004E" : "#393F5B",
+                                    color: "white"
+                                }}
                             >
                                 Encode
                             </Button>
                         </Grid>
+
+                        {values?.isAuthorizedForEncode === false && values?.isRightsHolderForEncode === false ?
+                            <Grid container justifyContent="center" className="pt-2" style={{ color: "#DC004E", fontFamily: "NunitoSans-Bold" }}>
+                                Encode Not Authorised
+                            </Grid>
+                            : ""}
                     </form>
 
-                </Grid>
+                </Grid >
             }
 
             <EncodeDecodeLoading
@@ -454,6 +494,6 @@ export default function Encode() {
                 title="Encoding"
                 audioName={values?.name}
             />
-        </Grid>
+        </Grid >
     )
 }

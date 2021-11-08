@@ -1659,32 +1659,32 @@ function SonicStreamReader(props) {
   };
 
   const onStart = () => {
-    log("Start Selected Radio Station", selectedRows);
-    const data = { ids: selectedRows };
-    log("Start Radio Stations", data);
-    Communication.onStartRadioStations(data)
-      .then((res) => {
-        log("Response", res);
-        searchMethod(5, 0, "");
-        setSelectRadioStations([]);
-        setSelectedRows([]);
-        setSelected([]);
-      })
-      .catch((err) => log("Error", err));
+    // log("Start Selected Radio Station", selectedRows);
+    // const data = { ids: selectedRows };
+    // log("Start Radio Stations", data);
+    // Communication.onStartRadioStations(data)
+    //   .then((res) => {
+    //     log("Response", res);
+    //     searchMethod(5, 0, "");
+    //     setSelectRadioStations([]);
+    //     setSelectedRows([]);
+    //     setSelected([]);
+    //   })
+    //   .catch((err) => log("Error", err));
   };
 
   const onStop = () => {
-    const data = { ids: selectedRows };
-    log("Stop Radio Stations", data);
-    Communication.onStopRadioStations(data)
-      .then((res) => {
-        log("Response", res);
-        searchMethod(5, 0, "");
-        setSelectedRows([]);
-        setSelected([]);
-      })
-      .catch((err) => log("Error", err));
-    setPageCount(props.page);
+    // const data = { ids: selectedRows };
+    // log("Stop Radio Stations", data);
+    // Communication.onStopRadioStations(data)
+    //   .then((res) => {
+    //     log("Response", res);
+    //     searchMethod(5, 0, "");
+    //     setSelectedRows([]);
+    //     setSelected([]);
+    //   })
+    //   .catch((err) => log("Error", err));
+    // setPageCount(props.page);
   };
 
   const isSelected = (radiostation_id) => {
@@ -1743,6 +1743,8 @@ function SonicStreamReader(props) {
       setSubscribedRadioStations([...subscribedRadioStations]);
     }
   };
+
+  log("dropdown country", dropDownCountry)
   return (
     <>
       <Grid className={classes.container} elevation={8}>
@@ -1931,7 +1933,17 @@ function SonicStreamReader(props) {
                 }}
                 multiple
               >
-                {dropDownCountry?.docs?.map((country, index) => {
+                {dropDownCountry?.docs?.sort(
+                  function (a, b) {
+                    if (a?.name < b?.name) {
+                      return -1;
+                    }
+                    if (a?.name > b?.name) {
+                      return 1;
+                    }
+                    return 0;
+                  }
+                )?.map((country, index) => {
                   const isItemSelected = isSelectedRadioStation(country?._id);
                   return (
                     <MenuItem

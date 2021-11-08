@@ -132,7 +132,7 @@ const DailogTable = (props) => {
                             </TableRow>
                             <TableRow>
                                 <TableCell className={classes.tableCellOne}>Content Validation</TableCell>
-                                <TableCell className={classes.tableCellTwo}>{sonicKey?.contentValidation}</TableCell>
+                                <TableCell className={classes.tableCellTwo}>{sonicKey?.contentValidation ? "Yes" : "No"}</TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell className={classes.tableCellOne}>Content Description</TableCell>

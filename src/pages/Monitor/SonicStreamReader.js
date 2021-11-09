@@ -1659,32 +1659,32 @@ function SonicStreamReader(props) {
   };
 
   const onStart = () => {
-    // log("Start Selected Radio Station", selectedRows);
-    // const data = { ids: selectedRows };
-    // log("Start Radio Stations", data);
-    // Communication.onStartRadioStations(data)
-    //   .then((res) => {
-    //     log("Response", res);
-    //     searchMethod(5, 0, "");
-    //     setSelectRadioStations([]);
-    //     setSelectedRows([]);
-    //     setSelected([]);
-    //   })
-    //   .catch((err) => log("Error", err));
+    log("Start Selected Radio Station", selectedRows);
+    const data = { ids: selectedRows };
+    log("Start Radio Stations", data);
+    Communication.onStartRadioStations(data)
+      .then((res) => {
+        log("Response", res);
+        searchMethod(5, 0, "");
+        setSelectRadioStations([]);
+        setSelectedRows([]);
+        setSelected([]);
+      })
+      .catch((err) => log("Error", err));
   };
 
   const onStop = () => {
-    // const data = { ids: selectedRows };
-    // log("Stop Radio Stations", data);
-    // Communication.onStopRadioStations(data)
-    //   .then((res) => {
-    //     log("Response", res);
-    //     searchMethod(5, 0, "");
-    //     setSelectedRows([]);
-    //     setSelected([]);
-    //   })
-    //   .catch((err) => log("Error", err));
-    // setPageCount(props.page);
+    const data = { ids: selectedRows };
+    log("Stop Radio Stations", data);
+    Communication.onStopRadioStations(data)
+      .then((res) => {
+        log("Response", res);
+        searchMethod(5, 0, "");
+        setSelectedRows([]);
+        setSelected([]);
+      })
+      .catch((err) => log("Error", err));
+    setPageCount(props.page);
   };
 
   const isSelected = (radiostation_id) => {

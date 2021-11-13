@@ -113,7 +113,7 @@ export const SonicStreamDetail = (props) => {
             Detected SonicKeys
           </Typography>
           <Typography className={classes.subHeading}>
-            Found {tableData?.docs?.length} SonicKeys in {passedData.name} radio
+            Found {tableData?.docs?.length} SonicKeys in {parsedQueryString.radioStationName} radio
             station
             {passedData.isStreamStarted === true && (
               <Badge

@@ -2115,7 +2115,7 @@ function SonicStreamReader(props) {
                           );
                           props.history.push({
                             pathname: `/sonicstreamdetail`,
-                            search: `?radioStationId=${file?.radio?._id}`,
+                            search: `?radioStationId=${file?.radio?._id}&radioStationName=${file?.radio?.name}`,
                           });
                         }}
                       >

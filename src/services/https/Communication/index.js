@@ -73,7 +73,11 @@ class Communication {
     return AppWebRequest(`/detections/owners/${getUserId()}/RADIOSTATION/data?radioStation=${radio_id}&skip=${_offset}&limit=${_limit}&sort=-createdAt`, "get")
   }
 
-  fetchRadioStationsAccToCountry(country, _offset = 0, _limit = 100) {
+  /**
+   * Arun: 13Nov2020: TODO: Temporarily increased the limit from 100 to 200 so that all stations for UK which is more than 100 is listed in the dropdown.
+   * Do a proper fix later.
+   */
+  fetchRadioStationsAccToCountry(country, _offset = 0, _limit = 200) { 
     log(country)
     return AppWebRequest(`/radiostations?country=${country}&skip=${_offset}&limit=${_limit}`, "get")
   }

@@ -46,7 +46,7 @@ class Communication {
   }
 
   fetchRadioStationHits(radioId) {
-    return AppWebRequest(`/detections/owners/${getUserId()}/RADIOSTATION/count?radioStation=${radioId}`, "get");
+    return AppWebRequest(`/detections/owners/${getUserId()}/STREAMREADER/count?radioStation=${radioId}`, "get");
   }
 
   fetchThirdPartySonicKeys(channel, params) {
@@ -70,7 +70,7 @@ class Communication {
 
   fetchSKForSpecificRadioStation(radio_id, _offset = 0, _limit = 10) {
     log(radio_id.radioStationId)
-    return AppWebRequest(`/detections/owners/${getUserId()}/RADIOSTATION/data?radioStation=${radio_id}&skip=${_offset}&limit=${_limit}&sort=-createdAt`, "get")
+    return AppWebRequest(`/detections/owners/${getUserId()}/STREAMREADER/data?radioStation=${radio_id}&skip=${_offset}&limit=${_limit}&sort=-createdAt`, "get")
   }
 
   /**

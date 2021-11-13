@@ -84,6 +84,7 @@ export const SonicStreamDetail = (props) => {
       .then((res) => {
         log("Result", res);
         setLoading(false);
+        setTableData(res)
         setError("");
       })
       .catch((error) => {
@@ -112,7 +113,7 @@ export const SonicStreamDetail = (props) => {
             Detected SonicKeys
           </Typography>
           <Typography className={classes.subHeading}>
-            Found {tableData.length} SonicKeys in {passedData.name} radio
+            Found {tableData?.docs?.length} SonicKeys in {passedData.name} radio
             station
             {passedData.isStreamStarted === true && (
               <Badge
@@ -188,32 +189,32 @@ export const SonicStreamDetail = (props) => {
                         {index + 1}
                       </TableCell>
                       <TableCell style={{ ...tableStyle.body, fontSize: 15 }}>
-                        {file?.sonicKey}
+                        {file?.sonicKey?._id}
                       </TableCell>
                       <TableCell
                         style={{ ...tableStyle.body, color: "#757575" }}
                       >
-                        {file?.contentName}
+                        {file?.sonicKey?.contentName}
                       </TableCell>
                       <TableCell
                         style={{ ...tableStyle.body, color: "#757575" }}
                       >
-                        {file?.contentOwner}
+                        {file?.sonicKey?.contentOwner}
                       </TableCell>
                       <TableCell
                         style={{ ...tableStyle.body, color: "#757575" }}
                       >
-                        {file?.contentQuality}
+                        {file?.sonicKey?.contentQuality}
                       </TableCell>
                       <TableCell
                         style={{ ...tableStyle.body, color: "#757575" }}
                       >
-                        {file?.contentDescription}
+                        {file?.sonicKey?.contentDescription}
                       </TableCell>
                       <TableCell
                         style={{ ...tableStyle.body, cursor: "pointer" }}
                       >
-                        {file?.hits}
+                        {file?.totalHits}
                       </TableCell>
                     </TableRow>
                   );

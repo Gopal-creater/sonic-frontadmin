@@ -92,6 +92,10 @@ export function Dashboard(props) {
     fetchDetectionCount(`?isListeningStarted=false`);
     fetchDetectionCount(`?isError=true`);
     fetchDetectionCount();
+    props.fetchTopRadioStation()
+    props.fetchDaySonicKeyCount(todayRange().split(','))
+    props.fetchWeekSonicKeyCount(weekRange().split(','));
+    props.fetchMonthSonicKeyCount(monthRange(false, true).split(','));
   }, []);
 
   const classes = useStyles();
@@ -340,8 +344,9 @@ const mapDispatchToProps = (dispatch) => {
     fetchRadiostationSonicKeyCount: (radiostationId) =>
       dispatch(actionCreators.fetchRadiostationSonicKeyCount(radiostationId)),
 
-    fetchDaySonicKeyCount: (tommorrow, today) =>
-      dispatch(actionCreators.fetchDaySonicKeyCount(tommorrow, today)),
+    fetchDaySonicKeyCount: (tommorrow, today) =>{
+      dispatch(actionCreators.fetchDaySonicKeyCount(tommorrow, today))
+    },
     fetchWeekSonicKeyCount: (tommorrow, weekBack) =>
       dispatch(actionCreators.fetchWeekSonicKeyCount(tommorrow, weekBack)),
     fetchMonthSonicKeyCount: (tommorrow, monthBack) =>

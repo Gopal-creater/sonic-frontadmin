@@ -47,6 +47,7 @@ export function fetchTopRadioStation(monthRange) {
       .then(res => {
          dispatch(fetchTopRadioStationSuccess(res.data));
          log("fetch top radiostations with graphs response",res);
+         console.log("fetch top radiostations with graphs response",res)
        })
        .catch(err=>{
                 log("fetch top radiostations error",err);

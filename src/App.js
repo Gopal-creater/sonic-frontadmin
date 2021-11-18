@@ -51,12 +51,18 @@ function App() {
       </BrowserRouter>
     );
   }
+
   else if (session?.user?.signInUserSession === null &&
     session?.user?.challengeName === "NEW_PASSWORD_REQUIRED") {
     return <Authenticator propName="NEW_PASSWORD_REQUIRED" />
   }
+
   else if (session?.user?.challengeParam?.userAttributes?.email_verified === "false") {
-    <Authenticator propName="EmailNotVerified" />
+    return <Authenticator propName="EmailNotVerified" />
+  }
+
+  else if (session?.resetPassword) {
+    return <Authenticator propName="ResetPassword" />
   }
 
   return <Authenticator propName="SignIn" />

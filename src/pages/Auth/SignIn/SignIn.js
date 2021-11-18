@@ -10,7 +10,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import Spinner from "react-bootstrap/Spinner";
 import { useDispatch } from "react-redux";
-import { setSession } from '../../../stores/actions/session';
+import { forgotPasword, setSession } from '../../../stores/actions/session';
 import { Auth } from "aws-amplify";
 import cogoToast from 'cogo-toast';
 import AuthFooter from '../AuthFooter';
@@ -100,7 +100,6 @@ export default function SignIn() {
     const [values, setValues] = React.useState({
         showPassword: false,
         loginLoading: false,
-        pwdReset: false,
     });
 
     const dispatch = useDispatch();
@@ -206,7 +205,7 @@ export default function SignIn() {
                 <Grid container justifyContent={'space-between'} className="mt-4">
                     <ForgetPasswordButton
                         type="button"
-                        onClick={() => setValues({ ...values, pwdReset: true })}
+                        onClick={() => dispatch(forgotPasword(true))}
                         disabled={values.loginLoading}
                     >
                         Forget password?

@@ -12,6 +12,15 @@ export const setSession = (user, authState = "") => {
   };
 };
 
+export const forgotPasword = (resetPassword) => {
+  return (dispatch) => {
+    dispatch({
+      type: actionType.SET_RESET_PASSWORD,
+      resetPassword: resetPassword
+    })
+  }
+}
+
 //LOGOUT SESSION
 export const logout = () => {
   return async (dispatch) => {

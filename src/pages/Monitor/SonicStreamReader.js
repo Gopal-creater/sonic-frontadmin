@@ -2063,7 +2063,7 @@ function SonicStreamReader(props) {
                         {moment(new Date(file?.createdAt)).format("DD-MM-YYYY")}
                       </TableCell>
                       <TableCell style={{ ...tableStyle.body }}>
-                        <Hits radioId={file?._id} key={file?._id} />
+                        <Hits radioId={file?.radio?._id} key={file?._id} />
                       </TableCell>
                       <TableCell>
                         {file?.isListeningStarted === true && (
@@ -2115,7 +2115,7 @@ function SonicStreamReader(props) {
                           );
                           props.history.push({
                             pathname: `/sonicstreamdetail`,
-                            search: `?radioStationId=${file._id}`,
+                            search: `?radioStationId=${file?.radio?._id}&radioStationName=${file?.radio?.name}`,
                           });
                         }}
                       >

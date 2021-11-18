@@ -65,7 +65,7 @@ export function fetchDaySonicKeyCount(todayRange) {
       return  axios({
         method: 'get',
         // url: `${httpUrl.API_URL}/radiostations-sonickeys/owners/${ownerId}/dashboard/count?detectedDetails.detectedAt<${todayRange[0]}&detectedDetails.detectedAt>${todayRange[1]}`,
-        url: `${httpUrl.API_URL}/detections/owners/${ownerId}/RADIOSTATION/count/?detectedAt<${todayRange[0]}&detectedAt>${todayRange[1]}`,
+        url: `${httpUrl.API_URL}/detections/owners/${ownerId}/STREAMREADER/count/?detectedAt<${todayRange[0]}&detectedAt>${todayRange[1]}`,
         headers: {
             "Authorization":`Bearer ${getAccessToken()}`
           }
@@ -100,7 +100,7 @@ export function fetchDaySonicKeyCount(todayRange) {
       return  axios({
         method: 'get',
         // url: `${httpUrl.API_URL}/radiostations-sonickeys/owners/${ownerId}/dashboard/count?detectedDetails.detectedAt<${weekRange[0]}&detectedDetails.detectedAt>${weekRange[1]}`, 
-        url: `${httpUrl.API_URL}/detections/owners/${ownerId}/RADIOSTATION/count/?detectedAt<${weekRange[0]}&detectedAt>${weekRange[1]}`,
+        url: `${httpUrl.API_URL}/detections/owners/${ownerId}/STREAMREADER/count/?detectedAt<${weekRange[0]}&detectedAt>${weekRange[1]}`,
         headers: {
             "Authorization":`Bearer ${getAccessToken()}`
           }
@@ -128,7 +128,7 @@ export function fetchDaySonicKeyCount(todayRange) {
       return  axios({
         method: 'get',
         // url: `${httpUrl.API_URL}/radiostations-sonickeys/owners/${ownerId}/dashboard/count?detectedDetails.detectedAt<${monthRange[0]}&detectedDetails.detectedAt>${monthRange[1]}`, 
-        url: `${httpUrl.API_URL}/detections/owners/${ownerId}/RADIOSTATION/count/?detectedAt<${monthRange[0]}&detectedAt>${monthRange[1]}`,
+        url: `${httpUrl.API_URL}/detections/owners/${ownerId}/STREAMREADER/count/?detectedAt<${monthRange[0]}&detectedAt>${monthRange[1]}`,
         headers: {
             "Authorization":`Bearer ${getAccessToken()}`
           }

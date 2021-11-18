@@ -1,5 +1,6 @@
 export function log(...args) {
-  var DEBUG = process.env.REACT_APP_ENV == "production" ? false : true;
+  // var DEBUG = process.env.REACT_APP_ENV == "production" ? false : true;
+  var DEBUG=true
   if (DEBUG) {
     args.length > 0 ? console.log(...args) : console.log("");
   } else {

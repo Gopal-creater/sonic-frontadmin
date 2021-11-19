@@ -10,14 +10,14 @@ exports.downloadLibraryEncoder=(req,res,next)=>{
     switch (platform) {
       case "win":
       case "window":
-        // const fileNameWhileDownload="SonicLibraryEncoder.exe"
+        // const fileNameWhileDownload="SonicLibraryEncoder.rar"
         if (version && version != "latest") {
-          filePath = `${targetDirectory}/window/SonicLibraryEncoder-${version}.exe`;
+          filePath = `${targetDirectory}/window/SonicLibraryEncoder-${version}.rar`;
         } else if (version && version == "latest") {
           const latestVersionDir = `${targetDirectory}/window/latest_version`;
           const files = fs
             .readdirSync(latestVersionDir)
-            .filter((file) => file.includes(".exe"));
+            .filter((file) => file.includes(".rar"));
           filePath = `${targetDirectory}/window/latest_version/${
             files[0]
           }`;
@@ -25,7 +25,7 @@ exports.downloadLibraryEncoder=(req,res,next)=>{
           const latestVersionDir = `${targetDirectory}/window/latest_version`;
           const files = fs
             .readdirSync(latestVersionDir)
-            .filter((file) => file.includes(".exe"));
+            .filter((file) => file.includes(".rar"));
           filePath = `${targetDirectory}/window/latest_version/${
             files[0]
           }`;
@@ -84,10 +84,10 @@ exports.getLibraryEncoderVersionHistory=(req,res,next)=>{
         var versionsDirWin = `${targetDirectory}/window/`;
         var versions = fs
           .readdirSync(versionsDirWin)
-          .filter((file) => file.includes(".exe"));
+          .filter((file) => file.includes(".rar"));
         var latestVersion = fs
           .readdirSync(latestVersionDirWin)
-          .filter((file) => file.includes(".exe"))[0];
+          .filter((file) => file.includes(".rar"))[0];
         versions.forEach((ver) => {
           const versionName = ver
             ?.split?.("-")?.[1]

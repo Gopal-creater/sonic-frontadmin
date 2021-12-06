@@ -3,13 +3,13 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import AppLayout from "../components/common/AppLayout";
 import Encode from "../pages/Encode/Encode";
 import Decode from "../pages/Decode/Decode";
-import Dashboard from "../pages/Monitor/Dashboard";
 import SonicStreamReader from "../pages/Monitor/SonicStreamReader";
 
 import Sonickeys from "../pages/SonicKeys/SonicKeys";
 import Licences from "../pages/Licences/Licences";
 import { SonicStreamDetail } from "../pages/Monitor/SonicStreamDetail";
 import { SonicStreamPlays } from "../pages/Monitor/SonicStreamPlays";
+import { Dashboard } from "../pages/Monitor/Dashboard/Dashboard";
 
 export default function Routes() {
   return (

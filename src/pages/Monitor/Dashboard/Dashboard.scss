@@ -1,0 +1,58 @@
+.dashboard-container {
+  background-color: white;
+  padding: 2% 2.5%;
+  .dashboard-title {
+    font-weight: 700;
+    font-size: 30px;
+    color: #343f84;
+  }
+
+  .dashboard-tables-container {
+    margin-top: 20px;
+    .sonickeysDetected-leftTable-container {
+      .sonickeysDetected-table-container {
+        overflow-x: auto;
+        border: 3px solid #ababab;
+        width: 100%;
+        .sonickeysDetected-table-title {
+          font-weight: bold;
+          font-size: large;
+          padding: 10px;
+        }
+        .sonickeysDetected-table {
+          .table-head {
+            font-weight: bold;
+          }
+        }
+      }
+    }
+
+    .radioStations-subscribed-container {
+      border: 3px solid #ababab;
+      padding: 20px;
+      .radioStations-subscribed-title {
+        text-align: center;
+        font-weight: bold;
+        font-size: large;
+      }
+    }
+
+    .mostPlays-rightTable-container {
+      .mostPlays-table-container {
+        border: 3px solid #ababab;
+        width: 100%;
+        overflow-x: auto;
+        .mostPlays-table-title {
+          font-weight: bold;
+          font-size: large;
+          padding: 10px;
+        }
+        .mostPlays-table {
+          .table-head {
+            font-weight: bold;
+          }
+        }
+      }
+    }
+  }
+}

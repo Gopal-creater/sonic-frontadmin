@@ -12,8 +12,9 @@
     .sonickeysDetected-leftTable-container {
       .sonickeysDetected-table-container {
         overflow-x: auto;
-        border: 3px solid #ababab;
         width: 100%;
+        border-radius: 20px;
+        background-color: red;
         .sonickeysDetected-table-title {
           font-weight: bold;
           font-size: large;

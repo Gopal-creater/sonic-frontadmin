@@ -27,15 +27,15 @@ export function Dashboard() {
               <TableBody>
                 <TableRow >
                   <TableCell className="table-head">Plays</TableCell>
-                  <TableCell >0</TableCell>
+                  <TableCell className="table-cell">0</TableCell>
                 </TableRow>
                 <TableRow >
                   <TableCell className="table-head">Radio Stations</TableCell>
-                  <TableCell >0</TableCell>
+                  <TableCell className="table-cell">0</TableCell>
                 </TableRow>
                 <TableRow >
                   <TableCell className="table-head">Countries</TableCell>
-                  <TableCell >0</TableCell>
+                  <TableCell className="table-cell">0</TableCell>
                 </TableRow>
               </TableBody>
             </Table>
@@ -64,22 +64,22 @@ export function Dashboard() {
               </TableHead>
               <TableBody>
                 <TableRow >
-                  <TableCell >Arba</TableCell>
-                  <TableCell >United Kingdom</TableCell>
-                  <TableCell >0</TableCell>
-                  <TableCell >0</TableCell>
+                  <TableCell className="table-cell">Arba</TableCell>
+                  <TableCell className="table-cell">United Kingdom</TableCell>
+                  <TableCell className="table-cell">0</TableCell>
+                  <TableCell className="table-cell">0</TableCell>
                 </TableRow>
                 <TableRow >
-                  <TableCell >Arba</TableCell>
-                  <TableCell >United Kingdom</TableCell>
-                  <TableCell >0</TableCell>
-                  <TableCell >0</TableCell>
+                  <TableCell className="table-cell">Arba</TableCell>
+                  <TableCell className="table-cell">United Kingdom</TableCell>
+                  <TableCell className="table-cell">0</TableCell>
+                  <TableCell className="table-cell">0</TableCell>
                 </TableRow>
                 <TableRow >
-                  <TableCell >Arba</TableCell>
-                  <TableCell >United Kingdom</TableCell>
-                  <TableCell >0</TableCell>
-                  <TableCell >0</TableCell>
+                  <TableCell className="table-cell">Arba</TableCell>
+                  <TableCell className="table-cell">United Kingdom</TableCell>
+                  <TableCell className="table-cell">0</TableCell>
+                  <TableCell className="table-cell">0</TableCell>
                 </TableRow>
               </TableBody>
             </Table>

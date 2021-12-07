@@ -5,6 +5,7 @@
     font-weight: 700;
     font-size: 30px;
     color: #343f84;
+    font-family: "NunitoSans-Bold";
   }
 
   .dashboard-tables-container {
@@ -14,43 +15,62 @@
         overflow-x: auto;
         width: 100%;
         border-radius: 20px;
-        background-color: red;
+        background-color: #e5f5f4;
+        padding: 20px;
         .sonickeysDetected-table-title {
           font-weight: bold;
           font-size: large;
-          padding: 10px;
+          color: #00a19a;
+          font-family: "NunitoSans-Bold";
         }
         .sonickeysDetected-table {
           .table-head {
             font-weight: bold;
+            color: #757575;
+            font-family: "NunitoSans-Bold";
+          }
+          .table-cell {
+            color: #757575;
           }
         }
       }
     }
 
     .radioStations-subscribed-container {
-      border: 3px solid #ababab;
+      background-color: #e5f5f4;
       padding: 20px;
+      border-radius: 20px;
       .radioStations-subscribed-title {
         text-align: center;
         font-weight: bold;
         font-size: large;
+        color: #00a19a;
+        font-family: "NunitoSans-Bold";
       }
     }
 
     .mostPlays-rightTable-container {
       .mostPlays-table-container {
-        border: 3px solid #ababab;
+        padding: 20px;
+        background-color: #e5f5f4;
         width: 100%;
         overflow-x: auto;
+        border-radius: 20px;
         .mostPlays-table-title {
           font-weight: bold;
           font-size: large;
-          padding: 10px;
+          color: #00a19a;
+          font-family: "NunitoSans-Bold";
         }
         .mostPlays-table {
           .table-head {
             font-weight: bold;
+            color: #757575;
+            font-family: "NunitoSans-Bold";
+          }
+          .table-cell {
+            color: #757575;
+            font-family: "NunitoSans-Regular";
           }
         }
       }

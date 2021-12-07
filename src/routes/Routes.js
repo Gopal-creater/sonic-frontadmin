@@ -10,6 +10,7 @@ import Sonickeys from "../pages/SonicKeys/SonicKeys";
 import Licences from "../pages/Licences/Licences";
 import { SonicStreamDetail } from "../pages/Monitor/SonicStreamDetail";
 import { SonicStreamPlays } from "../pages/Monitor/SonicStreamPlays";
+import Plays from "../pages/Monitor/Plays/Plays";
 
 export default function Routes() {
   return (
@@ -25,6 +26,7 @@ export default function Routes() {
           <Route path="/licences" component={Licences} exact />
           <Route path="/sonicstreamdetail" component={SonicStreamDetail} exact />
           <Route path="/sonicstreamplays" component={SonicStreamPlays} exact />
+          <Route path="/plays" component={Plays} exact />
         </Switch>
       </div>
     </AppLayout>

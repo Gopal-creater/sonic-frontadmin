@@ -1,4 +1,4 @@
-import { Grid } from "@material-ui/core";
+import { Grid, TableContainer, Button } from "@material-ui/core";
 import React from "react";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -6,8 +6,21 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import "./Dashboard.scss"
+import { tableStyle } from "../../../globalStyle";
 
 export function Dashboard() {
+  const columns = [
+    "SonicKey",
+    "Radio Station",
+    "Date",
+    "Time",
+    "Duration",
+    "Audio Filename",
+    "Artist",
+    "Country"
+  ];
+
+  const dummy = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   return (
     <Grid className="dashboard-container">
       <p className="dashboard-title">Dashboard</p>
@@ -85,6 +98,42 @@ export function Dashboard() {
             </Table>
           </Grid>
         </Grid>
+      </Grid>
+
+      <Grid className="dashboardPlays-table-container">
+        <TableContainer style={{ ...tableStyle.container, width: "100%", backgroundColor: "#F4F4F4", borderRadius: "20px" }} className="plays-table">
+          <Table aria-label="Detail table">
+            <TableHead className="dashboardPlays-tableHead">
+              <TableRow hover>
+                {columns?.map((col) => {
+                  return (
+                    <TableCell style={{ ...tableStyle.head, fontSize: '14px' }}>
+                      {col}
+                    </TableCell>
+                  );
+                })}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {dummy.map((index) => (
+                <TableRow key={index} hover className="plays-table-row">
+                  <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>ugGmojtz0XW</TableCell>
+                  <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>BBC London</TableCell>
+                  <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>06/12/2021</TableCell>
+                  <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>11:53</TableCell>
+                  <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>03:43</TableCell>
+                  <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>My Universe</TableCell>
+                  <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>Coldplay</TableCell>
+                  <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>UK</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+
+          <Grid className="dashboardPlays-viewMore-btnContainer">
+            <Button variant="text" className="viewMore-Btn">View more plays &gt;&gt;</Button>
+          </Grid>
+        </TableContainer>
       </Grid>
     </Grid>
   );

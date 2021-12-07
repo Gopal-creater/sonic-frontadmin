@@ -67,7 +67,8 @@ exports.downloadLibraryEncoder=(req,res,next)=>{
     return res.download(filePath, function (err) {
       if (err) {
         console.log(err);
-        return res.status(422).send(`Unable to download: ${err?.message} `);
+        // return res.status(422).send(`Unable to download: ${err?.message} `);
+        return res.status(422).send('Unable to download');
       }
     });
 }
@@ -89,8 +90,7 @@ exports.getLibraryEncoderVersionHistory=(req,res,next)=>{
           .readdirSync(latestVersionDirWin)
           .filter((file) => file.includes(".rar"))[0];
         versions.forEach((ver) => {
-          const versionName = ver
-            ?.split?.("-")?.[1]
+          const versionName = ver.split("-")[1]
           versionHistories[versionName] = ver;
         });
         versionHistories["latest"] = latestVersion;
@@ -107,7 +107,7 @@ exports.getLibraryEncoderVersionHistory=(req,res,next)=>{
           .readdirSync(latestVersionDirMac)
           .filter((file) => file.includes(".dmg"))[0];
         versions.forEach((ver) => {
-          var versionName = ver?.split?.("-")?.[1];
+          var versionName = ver.split("-")[1];
           versionHistories[versionName] = ver;
         });
         versionHistories["latest"] = latestVersion;

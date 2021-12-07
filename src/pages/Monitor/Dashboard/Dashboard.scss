@@ -76,4 +76,22 @@
       }
     }
   }
+
+  .dashboardPlays-table-container {
+    margin-top: 40px;
+    .dashboardPlays-tableHead {
+      background-color: #eaeaea;
+      border-radius: 20px;
+    }
+    .dashboardPlays-viewMore-btnContainer {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 10px;
+      .viewMore-Btn {
+        text-transform: none;
+        background-color: #eaeaea;
+        font-family: "NunitoSans-Regular";
+      }
+    }
+  }
 }

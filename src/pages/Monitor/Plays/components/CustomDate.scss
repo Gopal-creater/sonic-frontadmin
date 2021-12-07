@@ -1,0 +1,15 @@
+.customDate-container {
+  display: flex;
+  align-items: center;
+    .date-title {
+      font-weight: bold;
+      font-size: small;
+    }
+    .date-input {
+      display: block;
+      outline: none;
+      border: none;
+      border-bottom: 1px solid #ababaa;
+    }
+  }
+  

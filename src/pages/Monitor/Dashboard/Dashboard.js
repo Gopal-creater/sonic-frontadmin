@@ -1,4 +1,4 @@
-import { Grid, TableContainer, Button } from "@material-ui/core";
+import { Grid, TableContainer, Button, FormControl, Select, MenuItem, InputLabel } from "@material-ui/core";
 import React from "react";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -9,7 +9,10 @@ import "./Dashboard.scss"
 import { tableStyle } from "../../../globalStyle";
 
 export function Dashboard() {
-  const columns = [
+  const [values, setValues] = React.useState({
+    dayWeekMonth: "Day"
+  })
+  const dashboardPlaysColumns = [
     "SonicKey",
     "Radio Station",
     "Date",
@@ -56,9 +59,28 @@ export function Dashboard() {
         </Grid>
 
         <Grid item lg={3} md={3} sm={4} xs={12} >
-          <Grid item className="radioStations-subscribed-container">
-            <p className="radioStations-subscribed-title">Radio Stations Subscribed</p>
-            <p style={{ textAlign: "center" }}>0</p>
+          <Grid className="radioStations-subscribed-container">
+            <Grid item >
+              <p className="radioStations-subscribed-title">Radio Stations Subscribed</p>
+              <p>0</p>
+            </Grid>
+
+            <Grid item container justifyContent="flex-end">
+              <FormControl variant="standard" className="radioStations-subscribed-formControl">
+                <InputLabel className="subscribed-formControl-title">Date Range</InputLabel>
+                <Select
+                  labelId="demo-simple-select-standard-label"
+                  id="demo-simple-select-standard"
+                  value={values?.dayWeekMonth}
+                  onChange={(event) => setValues({ ...values, dayWeekMonth: event.target.value })}
+                  label="Date Range"
+                >
+                  <MenuItem value={"Day"} >Day</MenuItem>
+                  <MenuItem value={"Week"}>Week</MenuItem>
+                  <MenuItem value={"Month"}>Month</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
           </Grid>
         </Grid>
 
@@ -104,8 +126,8 @@ export function Dashboard() {
         <TableContainer style={{ ...tableStyle.container, width: "100%", backgroundColor: "#F4F4F4", borderRadius: "20px" }} className="plays-table">
           <Table aria-label="Detail table">
             <TableHead className="dashboardPlays-tableHead">
-              <TableRow hover>
-                {columns?.map((col) => {
+              <TableRow hover style={{ borderRadius: "20px" }}>
+                {dashboardPlaysColumns?.map((col) => {
                   return (
                     <TableCell style={{ ...tableStyle.head, fontSize: '14px' }}>
                       {col}
@@ -129,13 +151,13 @@ export function Dashboard() {
               ))}
             </TableBody>
           </Table>
-
-          <Grid className="dashboardPlays-viewMore-btnContainer">
-            <Button variant="text" className="viewMore-Btn">View more plays &gt;&gt;</Button>
-          </Grid>
         </TableContainer>
+
+        <Grid className="dashboardPlays-viewMore-btnContainer">
+          <Button variant="text" className="viewMore-Btn">View more plays &gt;&gt;</Button>
+        </Grid>
       </Grid>
-    </Grid>
+    </Grid >
   );
 }
 

@@ -41,11 +41,16 @@
       padding: 20px;
       border-radius: 20px;
       .radioStations-subscribed-title {
-        text-align: center;
         font-weight: bold;
         font-size: large;
         color: #00a19a;
         font-family: "NunitoSans-Bold";
+      }
+      .radioStations-subscribed-formControl {
+        min-width: 120px;
+        .subscribed-formControl-title {
+          font-weight: bold;
+        }
       }
     }
 
@@ -80,8 +85,15 @@
   .dashboardPlays-table-container {
     margin-top: 40px;
     .dashboardPlays-tableHead {
+      & th:first-child {
+        border-top-left-radius: 15px;
+        border-bottom-left-radius: 15px;
+      }
+      & th:last-child {
+        border-top-right-radius: 15px;
+        border-bottom-right-radius: 15px;
+      }
       background-color: #eaeaea;
-      border-radius: 20px;
     }
     .dashboardPlays-viewMore-btnContainer {
       display: flex;

@@ -97,22 +97,22 @@ export default function Encode() {
         }
         const formData = new FormData();
         formData.append("mediaFile", values?.file);
-        if (values?.data?.contentFileType == 'Music' && (values?.data?.isrcCode == '' || values?.data?.isrcCode === undefined)
-            && (values?.data?.iswcCode == '' || values?.data?.iswcCode === undefined)
-            && (values?.data?.tuneCode == '' || values?.data?.tuneCode === undefined)) {
+        if (values?.data?.contentType === 'Music' && (values?.data?.isrcCode === '' || values?.data?.isrcCode === undefined)
+            && (values?.data?.iswcCode === '' || values?.data?.iswcCode === undefined)
+            && (values?.data?.tuneCode === '' || values?.data?.tuneCode === undefined)) {
             return cogoToast.error("At least one industry code must be given when type is \"Music\".");
         }
-        if (values?.data?.contentFileType == 'Music') {
-            if (values?.data?.isrcCode !== undefined && values?.data?.isrcCode.includes('_')) {
-                return cogoToast.error('ISRC code is incorrect')
-            }
-            if (values?.data?.iswcCode !== undefined && values?.data?.iswcCode.includes('_')) {
-                return cogoToast.error('ISWC code is incorrect')
-            }
-            if (values?.data?.tuneCode !== undefined && values?.data?.tuneCode.includes('_')) {
-                return cogoToast.error('Tune code is incorrect')
-            }
-        }
+        // if (values?.data?.contentType === 'Music') {
+        //     if (values?.data?.isrcCode !== undefined && values?.data?.isrcCode.includes('_')) {
+        //         return cogoToast.error('Isrc code is incorrect')
+        //     }
+        //     if (values?.data?.iswcCode !== undefined && values?.data?.iswcCode.includes('_')) {
+        //         return cogoToast.error('Iswc code is incorrect')
+        //     }
+        //     if (values?.data?.tuneCode !== undefined && values?.data?.tuneCode.includes('_')) {
+        //         return cogoToast.error('Tune code is incorrect')
+        //     }
+        // }
 
         const payload = {
             //  staticMetadata: {
@@ -172,7 +172,7 @@ export default function Encode() {
                             encodeError: null,
                             encodeSuccess: null,
                             isDataPresent: true,
-                            ...audioData
+                            ...audioData,
                         })
                     },
                     clearSelectedFile: values?.clearSelectedFile
@@ -223,71 +223,50 @@ export default function Encode() {
 
                         {values?.data?.contentType === "Music" &&
                             <Grid item id="isrc">
-                                <InputMask
-                                    mask="aa-a99-99-99999"
+                                <p style={{ fontWeight: "bold", color: "#757575", fontFamily: "NunitoSans-Regular", margin: "15px 0px -10px 9px" }}>Industry codes</p>
+                                <TextField
+                                    fullWidth
+                                    id="standard-basic"
+                                    label="ISRC"
+                                    inputProps={{ className: classes.textInput }}
+                                    InputLabelProps={{ className: classes.textInputLabel }}
                                     value={values?.data?.isrcCode}
-                                    onChange={(e) => { setValues({ ...values, data: { ...values?.data, isrcCode: e.target.value } }) }}>
-                                    {(inputProps) =>
-                                        <TextField
-                                            {...inputProps}
-                                            fullWidth
-                                            id="standard-basic"
-                                            label="ISRC"
-                                            inputProps={{ className: classes.textInput }}
-                                            InputLabelProps={{ className: classes.textInputLabel }}
-                                            FormHelperTextProps={{ className: classes.textInputLabel }}
-                                            helperText={values?.data?.isrcCode &&
-                                                values?.data?.isrcCode?.substring(0, 1) !== "_" &&
-                                                !Object.keys(myCountryCodesObject)
-                                                    .toString()
-                                                    .includes(
-                                                        values?.data?.isrcCode?.substring(0, 2).toUpperCase()
-                                                    ) ? "Pass proper country codes." : "Hint: GB-H01-02-12345."} />
-                                    }
-                                </InputMask>
+                                    onChange={(e) => { setValues({ ...values, data: { ...values?.data, isrcCode: e.target.value } }) }}
+                                    FormHelperTextProps={{ className: classes.textInputLabel }}
+                                    helperText="Hint: GB-H01-02-12345."
+                                />
                             </Grid>
                         }
 
                         {values?.data?.contentType === "Music" &&
                             <Grid item id="iswc">
-                                <InputMask
-                                    className="form-control"
-                                    mask="T-999.999.999-*"
+                                <TextField
+                                    fullWidth
+                                    id="standard-basic"
+                                    label="ISWC"
                                     inputProps={{ className: classes.textInput }}
                                     InputLabelProps={{ className: classes.textInputLabel }}
-                                    FormHelperTextProps={{ className: classes.textInputLabel }}
                                     value={values?.data?.iswcCode}
-                                    onChange={(e) => { setValues({ ...values, data: { ...values?.data, iswcCode: e.target.value } }) }} >
-                                    {(inputProps) => <TextField
-                                        {...inputProps}
-                                        fullWidth
-                                        id="standard-basic"
-                                        label="ISWC"
-                                        helperText="Hint: T-123.456.789-C."
-                                    />}
-                                </InputMask>
+                                    onChange={(e) => { setValues({ ...values, data: { ...values?.data, iswcCode: e.target.value } }) }}
+                                    FormHelperTextProps={{ className: classes.textInputLabel }}
+                                    helperText="Hint: T-123.456.789-C."
+                                />
                             </Grid>
                         }
 
                         {values?.data?.contentType === "Music" &&
                             <Grid item id="tunecode">
-                                <InputMask
-                                    className="form-control"
-                                    mask="9999999a"
+                                <TextField
+                                    fullWidth
+                                    id="standard-basic"
+                                    label="Tune Code"
+                                    inputProps={{ className: classes.textInput }}
+                                    InputLabelProps={{ className: classes.textInputLabel }}
                                     value={values?.data?.tuneCode}
-                                    onChange={(e) => { setValues({ ...values, data: { ...values?.data, tuneCode: e.target.value } }) }}>
-                                    {(inputProps) => <TextField
-                                        {...inputProps}
-                                        fullWidth
-                                        inputProps={{ className: classes.textInput }}
-                                        InputLabelProps={{ className: classes.textInputLabel }}
-                                        FormHelperTextProps={{ className: classes.textInputLabel }}
-                                        id="standard-basic"
-                                        label="TuneCode"
-                                        helperText="Hint: 9876543Z."
-                                    />}
-                                </InputMask>
-
+                                    onChange={(e) => { setValues({ ...values, data: { ...values?.data, tuneCode: e.target.value } }) }}
+                                    FormHelperTextProps={{ className: classes.textInputLabel }}
+                                    helperText="Hint: 9876543Z."
+                                />
                             </Grid>
                         }
 
@@ -467,8 +446,6 @@ export default function Encode() {
                                     backgroundColor: values?.isAuthorizedForEncode === false && values?.isRightsHolderForEncode === false ? "#DC004E" : values?.isAuthorizedForEncode === null || values?.isRightsHolderForEncode === null ? "" : "#393F5B",
                                     color: "white"
                                 }}
-                                // #DC004E
-                                // #393F5B
                                 variant={"contained"}
                                 component="span"
                                 color="primary"

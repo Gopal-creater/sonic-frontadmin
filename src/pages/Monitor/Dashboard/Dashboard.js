@@ -124,6 +124,8 @@ export function Dashboard() {
 
       <Grid className="dashboardPlays-table-container">
         <TableContainer style={{ ...tableStyle.container, width: "100%", backgroundColor: "#F4F4F4", borderRadius: "20px" }} className="plays-table">
+          <p className="plays-table-title">10 Most Recent Plays</p>
+
           <Table aria-label="Detail table">
             <TableHead className="dashboardPlays-tableHead">
               <TableRow hover style={{ borderRadius: "20px" }}>

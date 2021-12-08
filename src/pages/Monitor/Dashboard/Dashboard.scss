@@ -113,4 +113,19 @@
       }
     }
   }
+  .dashBoard-Graphs-container{
+    padding-top: 30px;
+    .dashBoard-Graphs-title{
+      font-size: 20px;
+      line-height: 1;
+      color: #343F84;
+      font-family: "NunitoSans-Bold";
+    }
+    .dashBoard-Graphs-subtitle{
+      margin-top: 5px;
+      color: #00A19A;
+      font-size: 18px;
+      font-family: "NunitoSans-Regular";
+    }
+  }
 }

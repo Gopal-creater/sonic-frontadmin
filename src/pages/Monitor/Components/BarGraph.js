@@ -1,13 +1,20 @@
 import React from 'react'
-import "../Styles/BarGraph.css";
-import { Grid } from '@material-ui/core';
 import { Bar } from 'react-chartjs-2';
 
 export const BarGraph = (props) => {
 
-    const options = {
+    const options={
         responsive: true,
-    };
+        // plugins: {
+        //     legend: false,
+        //     tooltip: true,
+        //     title: {
+        //         display: true,
+        //         text: "hello test",
+        //         color: "white",
+        //     }
+        // }
+    }
 
     const data = {
         labels: props?.label,
@@ -21,7 +28,7 @@ export const BarGraph = (props) => {
     };
     return (
         <div className="BarGraphContainer">
-            <div style={{ marginTop: 40 }}>
+            <div style={{ marginTop: 20 }}>
                 <Bar options={options} data={data} />
             </div>
         </div>

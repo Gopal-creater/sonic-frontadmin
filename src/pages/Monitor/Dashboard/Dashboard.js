@@ -6,6 +6,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import "./Dashboard.scss"
+import { BarGraph } from "../Components/BarGraph";
 
 export function Dashboard() {
   return (
@@ -85,6 +86,10 @@ export function Dashboard() {
             </Table>
           </Grid>
         </Grid>
+      </Grid>
+
+      <Grid>
+        <BarGraph />
       </Grid>
     </Grid>
   );

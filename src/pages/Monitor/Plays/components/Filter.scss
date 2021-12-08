@@ -1,0 +1,18 @@
+.filter-container {
+    padding: 10px;
+    .filter-items {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 10px;
+        .filter-date-root {
+            .MuiTextField-root	 {
+                background-color: red;
+            }
+        }
+    }
+    .filter-btn {
+        padding-right: 30px;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+}

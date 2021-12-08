@@ -1,6 +1,6 @@
 import React from 'react';
 import "./Plays.scss";
-import { Grid, TableContainer, TableHead, TableRow, Table, TableBody, TableCell, Button, Dialog } from '@material-ui/core';
+import { Grid, TableContainer, TableHead, TableRow, Table, TableBody, TableCell, Button, Dialog, Popover } from '@material-ui/core';
 import { tableStyle } from '../../../globalStyle';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -25,8 +25,10 @@ export default function Plays() {
     const [values, setValues] = React.useState({
         startDate: new Date().setMonth(new Date().getMonth() - 1),
         endDate: new Date(),
-        openFilter: false,
+        anchorFilter: false
     })
+
+    const openFilter = Boolean(values.anchorFilter);
 
     return (
         <Grid className="plays-container">
@@ -70,15 +72,35 @@ export default function Plays() {
                 </Grid>
 
                 <Grid item className="filter-dialog">
-                    <Button variant="text" className="filter-btn" onClick={() => setValues({...values, openFilter: true})}>
-                        <span>Filter</span>
+                    <Button
+                        aria-describedby="open-filter"
+                        variant="text"
+                        className="filter-btn"
+                        onClick={(e) => setValues({ ...values, anchorFilter: e.currentTarget })}
+                    >
+                        <span style={{lineHeight: 0}}>Filter</span>
                         <FilterList fontSize="medium" />
                     </Button>
-                </Grid>
 
-                <Dialog open={values?.openFilter} onClose={() => setValues({...values, openFilter: false})}>
-                    <Filter />
-                </Dialog>
+                    <Popover
+                        id="open-filter"
+                        open={openFilter}
+                        anchorEl={values.anchorFilter}
+                        onClose={() => setValues({ ...values, anchorFilter: null })}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left',
+                        }}
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                    >
+                        <Filter
+                            onClose={() => setValues({ ...values, anchorFilter: null })}
+                        />
+                    </Popover>
+                </Grid>
             </Grid>
 
             <TableContainer style={{ ...tableStyle.container, width: "100%" }} className="plays-table">

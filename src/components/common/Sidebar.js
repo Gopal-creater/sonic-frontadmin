@@ -92,7 +92,7 @@ export default function Sidebar() {
                       <NavLink
                         className={classes.listItemContainer}
                         activeClassName={classes.activelistItemContainer}
-                        to="/sonicstreamplays" exact
+                        to="/plays" exact
                         isActive={(match, location) => { return checkIsActive(match, location, index) }}
                       >
                         <ListItemText primary={"Plays"} classes={{ primary: classes.listItemText }} />

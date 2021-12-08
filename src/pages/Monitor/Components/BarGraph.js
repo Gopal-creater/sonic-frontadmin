@@ -1,29 +1,29 @@
 import React from 'react'
+import "../Styles/BarGraph.css";
+import { Grid } from '@material-ui/core';
 import { Bar } from 'react-chartjs-2';
-import faker from 'faker';
 
-function BarGraph(props) {
+export const BarGraph = (props) => {
+
     const options = {
         responsive: true,
     };
 
-    const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-
     const data = {
-        labels,
+        labels: props?.label,
         datasets: [
             {
-                label: props?.labels,
-                data: labels.map(() => faker.datatype.number({ min: 0, max: 100 })),
+                label: props?.title,
+                data: props?.data,
                 backgroundColor: 'rgb(66,133,244)',
             }
         ],
     };
     return (
-        <div>
-            <Bar options={options} data={data} />
+        <div className="BarGraphContainer">
+            <div style={{ marginTop: 40 }}>
+                <Bar options={options} data={data} />
+            </div>
         </div>
     )
 }
-
-export default BarGraph

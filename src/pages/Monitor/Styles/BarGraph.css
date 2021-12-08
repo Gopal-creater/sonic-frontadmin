@@ -1,0 +1,16 @@
+
+.BarGraphContainer{
+    padding-top: 30px;
+}
+.plays-title {
+    font-size: 30px;
+    line-height: 1;
+    color: #343F84;
+    font-family: "NunitoSans-Bold";
+}
+.plays-subTitle {
+    margin-top: 5px;
+    color: #00A19A;
+    font-size: 18px;
+    font-family: "NunitoSans-Regular";
+}

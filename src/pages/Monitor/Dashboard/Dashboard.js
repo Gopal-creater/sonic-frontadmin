@@ -7,6 +7,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import "./Dashboard.scss"
 import { tableStyle } from "../../../globalStyle";
+import { BarGraph, BarGraphCard } from "../Components/BarGraph";
 
 export function Dashboard() {
   const [values, setValues] = React.useState({
@@ -24,6 +25,10 @@ export function Dashboard() {
   ];
 
   const dummy = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+  const GraphData = [10, 20, 30, 40, 10, 50, 70]
+  const labels = ["Uk", "Canada", "Germany", "Australia", "America", "Brazil", "Argentina"]
+
   return (
     <Grid className="dashboard-container">
       <p className="dashboard-title">Dashboard</p>
@@ -157,6 +162,27 @@ export function Dashboard() {
 
         <Grid className="dashboardPlays-viewMore-btnContainer">
           <Button variant="text" className="viewMore-Btn">View more plays &gt;&gt;</Button>
+        </Grid>
+      </Grid>
+
+      <Grid className="dashBoard-Graphs-container">
+        <Grid>
+          <span className="dashBoard-Graphs-title">Plays - Chart</span><br />
+          <p className="dashBoard-Graphs-subtitle">See history of sonickey plays</p>
+        </Grid>
+        <Grid container spacing={4}>
+          <Grid item sm={12} lg={6}>
+            <BarGraph title="Plays - Country-wise" label={labels} data={GraphData} />
+          </Grid>
+          <Grid item sm={12} lg={6}>
+            <BarGraph title="Plays - Song-wise" label={labels} data={GraphData} />
+          </Grid>
+          <Grid item sm={12} lg={6}>
+            <BarGraph title="Plays - Station-wise" label={labels} data={GraphData} />
+          </Grid>
+          <Grid item sm={12} lg={6}>
+            <BarGraph title="Plays - Artist-wise" label={labels} data={GraphData} />
+          </Grid>
         </Grid>
       </Grid>
     </Grid >

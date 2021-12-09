@@ -34,7 +34,7 @@ export function Dashboard() {
       <p className="dashboard-title">Dashboard</p>
 
       <Grid container className="dashboard-tables-container" spacing={2}>
-        <Grid item container lg={4} md={4} sm={8} xs={12} className="sonickeysDetected-leftTable-container">
+        <Grid item container lg={3.5} md={4} sm={8} xs={12} className="sonickeysDetected-leftTable-container">
           <Grid className="sonickeysDetected-table-container">
             <p className="sonickeysDetected-table-title">Total SonicKeys Detected</p>
 
@@ -63,29 +63,33 @@ export function Dashboard() {
           </Grid>
         </Grid>
 
-        <Grid item lg={3} md={3} sm={4} xs={12} >
+        <Grid item lg={4.5} md={3} sm={4} xs={12} >
           <Grid className="radioStations-subscribed-container">
-            <Grid item >
-              <p className="radioStations-subscribed-title">Radio Stations Subscribed</p>
-              <p>0</p>
+            <Grid container item >
+              <Grid lg={8}>
+                <span className="radioStations-subscribed-title">Radio Stations Subscribed</span>
+              </Grid>
+
+              <Grid lg={4}>
+                <FormControl variant="standard" className="radioStations-subscribed-formControl">
+                  <InputLabel className="subscribed-formControl-title">Date Range</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-standard-label"
+                    id="demo-simple-select-standard"
+                    value={values?.dayWeekMonth}
+                    onChange={(event) => setValues({ ...values, dayWeekMonth: event.target.value })}
+                    label="Date Range"
+                    style={{ maxWidth: "70px" }}
+                  >
+                    <MenuItem value={"Day"} >Day</MenuItem>
+                    <MenuItem value={"Week"}>Week</MenuItem>
+                    <MenuItem value={"Month"}>Month</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
             </Grid>
 
-            <Grid item container justifyContent="flex-end">
-              <FormControl variant="standard" className="radioStations-subscribed-formControl">
-                <InputLabel className="subscribed-formControl-title">Date Range</InputLabel>
-                <Select
-                  labelId="demo-simple-select-standard-label"
-                  id="demo-simple-select-standard"
-                  value={values?.dayWeekMonth}
-                  onChange={(event) => setValues({ ...values, dayWeekMonth: event.target.value })}
-                  label="Date Range"
-                >
-                  <MenuItem value={"Day"} >Day</MenuItem>
-                  <MenuItem value={"Week"}>Week</MenuItem>
-                  <MenuItem value={"Month"}>Month</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
+            <p className="mt-3">0</p>
           </Grid>
         </Grid>
 

@@ -47,7 +47,8 @@
         font-family: "NunitoSans-Bold";
       }
       .radioStations-subscribed-formControl {
-        min-width: 100px;
+        min-width: 90px;
+        margin-top: 5px;
         .subscribed-formControl-title {
           font-weight: bold;
         }
@@ -113,17 +114,17 @@
       }
     }
   }
-  .dashBoard-Graphs-container{
+  .dashBoard-Graphs-container {
     padding-top: 30px;
-    .dashBoard-Graphs-title{
+    .dashBoard-Graphs-title {
       font-size: 20px;
       line-height: 1;
-      color: #343F84;
+      color: #343f84;
       font-family: "NunitoSans-Bold";
     }
-    .dashBoard-Graphs-subtitle{
+    .dashBoard-Graphs-subtitle {
       margin-top: 5px;
-      color: #00A19A;
+      color: #00a19a;
       font-size: 18px;
       font-family: "NunitoSans-Regular";
     }

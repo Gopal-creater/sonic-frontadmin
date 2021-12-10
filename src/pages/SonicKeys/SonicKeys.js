@@ -300,7 +300,7 @@ const SonicKeys = (props) => {
                                                 </TableCell>
                                             </Tooltip>
                                             <Tooltip title={data.contentOwner}><TableCell className={classes.tableCellNormalText}>{isSelected("ARTIST") && (data.contentOwner === "" ? "-" : (data.contentOwner?.length > 20 ? data.contentOwner?.slice(0, 20) + "..." : data.contentOwner))}</TableCell></Tooltip>
-                                            <TableCell className={classes.tableCellNormalText}>{isSelected("ENCODED DATE") && (format(new Date(data.contentCreatedDate), 'dd/MM/yyyy'))}</TableCell>
+                                            <TableCell className={classes.tableCellNormalText}>{isSelected("ENCODED DATE") && (format(new Date(data?.createdAt), 'dd/MM/yyyy'))}</TableCell>
                                             <Tooltip title={data.contentDescription}><TableCell className={classes.tableCellNormalText}>{isSelected("DESCRIPTION") && (data.contentDescription === "" ? "-" : (data.contentDescription?.length > 20 ? data.contentDescription?.slice(0, 20) + "..." : data.contentDescription))}</TableCell></Tooltip>
                                             <TableCell className={classes.tableCellColor} width="100px">
                                                 <div style={{ display: 'flex', justifyContent: 'center', fontSize: '14px', fontFamily: "NunitoSans-Bold", }}>

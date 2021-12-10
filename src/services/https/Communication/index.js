@@ -77,7 +77,7 @@ class Communication {
    * Arun: 13Nov2020: TODO: Temporarily increased the limit from 100 to 200 so that all stations for UK which is more than 100 is listed in the dropdown.
    * Do a proper fix later.
    */
-  fetchRadioStationsAccToCountry(country, _offset = 0, _limit = 200) { 
+  fetchRadioStationsAccToCountry(country, _offset = 0, _limit = 200) {
     log(country)
     return AppWebRequest(`/radiostations?country=${country}&skip=${_offset}&limit=${_limit}`, "get")
   }
@@ -216,6 +216,10 @@ class Communication {
     };
     //return 0;
     return AppWebRequest(`/radiomonitors/owners/${getUserId()}/subscribe-bulk`, "post", axiosConfig);
+  }
+
+  userAuthentication() {
+    return AppWebRequest('users/authorize')
   }
 
 }

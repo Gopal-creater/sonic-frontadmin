@@ -5,7 +5,12 @@ const initialState = {
   user: null,
   authState: '',
   loading: true,
-  resetPassword: false
+  resetPassword: false,
+  authentication: {
+    loading: true,
+    data: {},
+    error: null
+  }
 };
 const sessionRed = (state = initialState, action) =>
   produce(state, (draft) => {
@@ -18,6 +23,24 @@ const sessionRed = (state = initialState, action) =>
 
       case actionTypes.SET_RESET_PASSWORD:
         draft.resetPassword = action.resetPassword
+        break;
+
+      case actionTypes.SET_AUTHENTICATION_LOADING:
+        draft.authentication.loading = true
+        break;
+
+      case actionTypes.SET_AUTHENTICATION_SUCCESS:
+        draft.authentication.loading = false;
+        draft.authentication.error = null;
+        draft.authentication.data = action.data
+        break;
+
+      case actionTypes.SET_AUTHENTICATION_ERROR:
+        draft.authentication.loading = false;
+        draft.authentication.error = action.data;
+        break;
+
+      default:
         break;
     }
   });

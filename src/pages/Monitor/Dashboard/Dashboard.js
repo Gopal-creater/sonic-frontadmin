@@ -7,8 +7,12 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import "./Dashboard.scss"
 import { tableStyle } from "../../../globalStyle";
-import { BarGraph, BarGraphCard } from "../Components/BarGraph";
+import { BarGraph } from "../Components/BarGraph";
 import { makeStyles } from "@material-ui/styles";
+import { log } from "../../../utils/app.debug";
+import { monthRange, todayRange, weekRange } from "../../../utils/HelperMethods";
+import { useDispatch } from "react-redux";
+import { getTotalSonicKeysDetectedAction, getTotalSubscribedStationAction } from "../../../stores/actions/dashboard.action";
 
 const useStyles = makeStyles((theme) => ({
   menuItems: {
@@ -28,6 +32,14 @@ export function Dashboard() {
   const [values, setValues] = React.useState({
     dayWeekMonth: "Day"
   })
+
+  const dispatch = useDispatch()
+
+  React.useEffect(() => {
+    dispatch(getTotalSonicKeysDetectedAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1]))
+    dispatch(getTotalSubscribedStationAction())
+  }, [])
+
   const dashboardPlaysColumns = [
     "SonicKey",
     "Radio Station",
@@ -43,6 +55,19 @@ export function Dashboard() {
 
   const GraphData = [10, 20, 30, 40, 10, 50, 70]
   const labels = ["Uk", "Canada", "Germany", "Australia", "America", "Brazil", "Argentina"]
+
+  const setDateRange = (dateRange) => {
+    setValues({ ...values, dayWeekMonth: dateRange })
+    if (dateRange === "Day") {
+      dispatch(getTotalSonicKeysDetectedAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1]))
+    }
+    else if (dateRange === "Week") {
+      dispatch(getTotalSonicKeysDetectedAction(weekRange()?.split(",")?.[0], weekRange()?.split(",")?.[1]))
+    }
+    else {
+      dispatch(getTotalSonicKeysDetectedAction(monthRange()?.split(",")?.[0], monthRange()?.split(",")?.[1]))
+    }
+  }
 
   return (
     <Grid className="dashboard-container">
@@ -92,7 +117,7 @@ export function Dashboard() {
                     labelId="demo-simple-select-standard-label"
                     id="demo-simple-select-standard"
                     value={values?.dayWeekMonth}
-                    onChange={(event) => setValues({ ...values, dayWeekMonth: event.target.value })}
+                    onChange={(event) => setDateRange(event.target.value)}
                     label="Date Range"
                     style={{ maxWidth: "70px" }}
                     className="subscribed-formControl-menu"

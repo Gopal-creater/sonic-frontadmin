@@ -3,17 +3,15 @@ import { Bar } from 'react-chartjs-2';
 
 export const BarGraph = (props) => {
 
-    const options={
+    const options = {
         responsive: true,
         // plugins: {
-        //     legend: false,
-        //     tooltip: true,
         //     title: {
+        //         align: 'start',
         //         display: true,
-        //         text: "hello test",
-        //         color: "white",
-        //     }
-        // }
+        //         text: props?.title,
+        //     },
+        // },
     }
 
     const data = {

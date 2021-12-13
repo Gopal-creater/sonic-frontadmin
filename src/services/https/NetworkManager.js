@@ -9,6 +9,7 @@ import { log } from '../../utils/app.debug';
 const appAxiosInstance = axios.create({
     baseURL: httpUrl.API_URL
 })
+
 //request interceptor that will add auth token to every request
 appAxiosInstance.interceptors.request.use(function (config) {
     const token = getAccessToken();
@@ -20,6 +21,7 @@ appAxiosInstance.interceptors.request.use(function (config) {
 
 //Any Request to Server
 export function AppWebRequest(endUrl, method, config) {
+    var responseError = {}
     return new Promise((resolve, reject) => {
         const defaultConfig = {
             url: endUrl,
@@ -32,26 +34,52 @@ export function AppWebRequest(endUrl, method, config) {
             log("response", response);
             resolve(response.data);
         }).catch(error => {
-            if (error.response) {
+            log("error", error);
+            if (error?.response) {
                 if (error.response.status === 401) {
-
                     // case for refresh token
-                    // cogoToast.error("Your session is invalid. Please log in again");
                     store.dispatch(logout());
                     localStorage.clear()
-                    //    window.location.href = "/auth/login";
                 }
-                log("error", error.response);
-                const err = error.response.data;
-                reject(err)
-            } else if (error.request) {
-                const err = new Error("Request error!!!")
-                reject(err)
+                responseError = {
+                    ...error.response?.data,
+                    ...getProperErrorMessageFromError(error.response?.data),
+                    status: error.response.status,
+                    headers: error.response.headers,
+                };
+            } else if (error?.request) {
+                responseError = {
+                    ...error,
+                    message: "Can not made connection to the server"
+                };
             } else {
-                error.message = "Unexpected error occured!!!"
-                reject(error)
+                responseError = {
+                    ...error,
+                    message: "Unexpected error occured!"
+                };
             }
-
+            reject({
+                ...responseError,
+                data: responseError
+            })
         })
     })
+}
+
+function getProperErrorMessageFromError(error) {
+    const errorObj = {
+        message: "",
+        errorData: []
+    }
+
+    if (typeof (error?.message) == "string") {
+        errorObj.message = error?.message
+    } else if (Array.isArray(error?.message) && typeof (error?.message[0]) == "string") {
+        errorObj.errorData = error?.message
+        errorObj.message = error?.message[0]
+    } else {
+        errorObj.message = error?.error || "Unexpected error occures"
+    }
+
+    return errorObj
 }

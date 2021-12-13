@@ -4,6 +4,7 @@ import { getAccessToken } from './AuthHelper';
 import cogoToast from 'cogo-toast';
 import { logout } from '../../stores/actions';
 import store from '../../stores';
+import { log } from '../../utils/app.debug';
 
 const appAxiosInstance = axios.create({
     baseURL: httpUrl.API_URL
@@ -28,7 +29,7 @@ export function AppWebRequest(endUrl, method, config) {
 
         const finalConfig = Object.assign(defaultConfig, config || {});
         appAxiosInstance(finalConfig).then(response => {
-            console.log("response", response);
+            log("response", response);
             resolve(response.data);
         }).catch(error => {
             if (error.response) {
@@ -40,7 +41,7 @@ export function AppWebRequest(endUrl, method, config) {
                     localStorage.clear()
                     //    window.location.href = "/auth/login";
                 }
-                console.log("error", error.response);
+                log("error", error.response);
                 const err = error.response.data;
                 reject(err)
             } else if (error.request) {

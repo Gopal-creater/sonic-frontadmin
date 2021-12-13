@@ -1,12 +1,17 @@
 import React from 'react';
 import "./Plays.scss";
-import { Grid, TableContainer, TableHead, TableRow, Table, TableBody, TableCell, Button, Dialog, Popover } from '@material-ui/core';
+import { Grid, TableContainer, TableHead, TableRow, Table, TableBody, TableCell, Button, Popover } from '@material-ui/core';
 import { tableStyle } from '../../../globalStyle';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import CustomDate from './components/CustomDate';
 import { FilterList } from '@material-ui/icons';
 import Filter from './components/Filter';
+import { Pagination } from '@material-ui/lab';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { log } from '../../../utils/app.debug';
+import { fetchPlaysLists } from '../../../stores/actions';
 
 const columns = [
     "SonicKey",
@@ -19,7 +24,7 @@ const columns = [
     "Country"
 ];
 
-const dummy = [1, 2, 3, 4, 5];
+const dummy = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 export default function Plays() {
     const [values, setValues] = React.useState({
@@ -29,6 +34,16 @@ export default function Plays() {
     })
 
     const openFilter = Boolean(values.anchorFilter);
+
+    const dispatch = useDispatch();
+
+    const state = useSelector(state => state.playsList)
+
+    log("PLAYS:", state);
+
+    React.useEffect(() => {
+        dispatch(fetchPlaysLists());
+    }, [])
 
     return (
         <Grid className="plays-container">
@@ -44,9 +59,9 @@ export default function Plays() {
                 </Grid> */}
             </Grid>
 
-            <Grid container className="plays-filter-container">
-                <Grid item className="filter-dates">
-                    <Grid>
+            <Grid className="plays-filter-container">
+                <Grid className="filter-dates">
+                    <Grid className="filter-startDate">
                         <DatePicker
                             selected={values?.startDate}
                             onChange={(date) => setValues({ ...values, startDate: date })}
@@ -60,7 +75,7 @@ export default function Plays() {
                         <p style={{ fontSize: '18px' }}>to</p>
                     </Grid>
 
-                    <Grid>
+                    <Grid className="filter-endDate">
                         <DatePicker
                             selected={values?.endDate}
                             onChange={(date) => setValues({ ...values, endDate: date })}
@@ -71,14 +86,14 @@ export default function Plays() {
                     </Grid>
                 </Grid>
 
-                <Grid item className="filter-dialog">
+                <Grid className="filter-dialog">
                     <Button
                         aria-describedby="open-filter"
                         variant="text"
                         className="filter-btn"
                         onClick={(e) => setValues({ ...values, anchorFilter: e.currentTarget })}
                     >
-                        <span style={{lineHeight: 0}}>Filter</span>
+                        <span style={{ lineHeight: 0, marginRight: 5 }}>Filter</span>
                         <FilterList fontSize="medium" />
                     </Button>
 
@@ -131,6 +146,15 @@ export default function Plays() {
                         ))}
                     </TableBody>
                 </Table>
+
+                <Pagination
+                    className="plays-lists-pagination"
+                    count={5}
+                    page={1}
+                    variant="outlined"
+                    shape="rounded"
+                // onChange={handlePageChange}
+                />
             </TableContainer>
         </Grid>
     )

@@ -4,7 +4,6 @@
     .plays-title-container {
       .plays-title {
         font-size: 30px;
-        line-height: 1;
         color: #343F84;
         font-family: "NunitoSans-Bold";
       }
@@ -47,13 +46,22 @@
     }
   }
   
+  @media screen and(max-width:"850px") {
+    .plays-filter-container {
+      .filter-dates {
+        flex-direction: column;
+        .filter-endDate {
+          align-self: flex-end;
+        }
+      }
+    }
+  }
+
   @media screen and(max-width:"600px") {
     .plays-filter-container {
-      .filter-dropdowns {
+      flex-direction: column;
+      .filter-dialog {
         margin-top: 20px;
-        .filter-btn {
-          margin-top: 10px;
-        }
       }
     }
   }

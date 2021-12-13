@@ -8,8 +8,23 @@ import TableRow from '@material-ui/core/TableRow';
 import "./Dashboard.scss"
 import { tableStyle } from "../../../globalStyle";
 import { BarGraph, BarGraphCard } from "../Components/BarGraph";
+import { makeStyles } from "@material-ui/styles";
+
+const useStyles = makeStyles((theme) => ({
+  menuItems: {
+    "& ul": {
+      backgroundColor: "#FFFFFF",
+    },
+    "& li": {
+      fontSize: "14px",
+      fontFamily: "NunitoSans-Bold",
+      color: "#757575"
+    },
+  }
+}));
 
 export function Dashboard() {
+  const classes = useStyles();
   const [values, setValues] = React.useState({
     dayWeekMonth: "Day"
   })
@@ -80,8 +95,10 @@ export function Dashboard() {
                     onChange={(event) => setValues({ ...values, dayWeekMonth: event.target.value })}
                     label="Date Range"
                     style={{ maxWidth: "70px" }}
+                    className="subscribed-formControl-menu"
+                    MenuProps={{ classes: { paper: classes.menuItems } }}
                   >
-                    <MenuItem value={"Day"} >Day</MenuItem>
+                    <MenuItem value={"Day"}>Day</MenuItem>
                     <MenuItem value={"Week"}>Week</MenuItem>
                     <MenuItem value={"Month"}>Month</MenuItem>
                   </Select>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormControl, Grid, Input, InputLabel, MenuItem, Select, Button, TextField } from '@material-ui/core'
+import { FormControl, Grid, InputLabel, MenuItem, Select, Button, TextField } from '@material-ui/core'
 import { countries } from '../../../../constants/constants';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -55,38 +55,36 @@ export default function Filter(props) {
                 </FormControl>
 
                 <FormControl>
-                    <InputLabel
-                        id="mutiple-checkbox-label"
-                        style={{
-                            paddingLeft: 30,
-                            color: "grey",
-                            paddingBottom: 50,
-                            marginBottom: 20,
-                            fontFamily: "NunitoSans-Bold",
-                        }}
-                    >
-                        SonicKey
-                    </InputLabel>
-                    <Select
-                        id="drop-down"
-                        className="form-control"
-                        value={values?.sonickey}
+                    <TextField
+                        id="sonickey"
+                        label="SonicKey"
+                        type="text"
+                        defaultValue=""
                         onChange={(e) => setValues({ ...values, sonickey: e.target.value })}
-                        autoWidth={false}
                         style={{
                             color: "#757575",
                             backgroundColor: "transparent",
                             outline: "none",
                             border: "none",
                             boxShadow: "none",
-                            margin: "10px 30px 0px 20px",
+                            margin: "0px 30px 0px 20px",
+                            padding: "5px 0px",
                             width: 220,
                         }}
-                    >
-                        <MenuItem value="ugGmojtz0XW">ugGmojtz0XW</MenuItem>
-                        <MenuItem value="ugGmojtz0XW">ugGmojtz0XW</MenuItem>
-                        <MenuItem value="ugGmojtz0XW">ugGmojtz0XW</MenuItem>
-                    </Select>
+                        InputLabelProps={{
+                            style: {
+                                paddingLeft: 10,
+                                fontFamily: "NunitoSans-Bold",
+                            }
+                        }}
+                        InputProps={{
+                            style: {
+                                paddingLeft: 12,
+                                color: 'grey',
+                                fontFamily: "NunitoSans-Regular",
+                            },
+                        }}
+                    />
                 </FormControl>
 
                 <FormControl>
@@ -105,8 +103,8 @@ export default function Filter(props) {
                     <Select
                         id="drop-down"
                         className="form-control"
-                        value={values?.channelName}
-                        onChange={(e) => setValues({ ...values, channelName: e.target.value })}
+                        value={values?.radioStation}
+                        onChange={(e) => setValues({ ...values, radioStation: e.target.value })}
                         autoWidth={false}
                         style={{
                             color: "#757575",
@@ -126,30 +124,30 @@ export default function Filter(props) {
 
                 <FormControl>
                     <TextField
-                        id="date"
-                        label="Encoded Date"
-                        type="date"
+                        id="artist"
+                        label="Artist"
+                        type="text"
                         defaultValue=""
-                        onChange={(date) => setValues({ ...values, encodedDate: date })}
+                        onChange={(e) => setValues({ ...values, artist: e.target.value })}
                         style={{
                             color: "#757575",
                             backgroundColor: "transparent",
                             outline: "none",
                             border: "none",
                             boxShadow: "none",
-                            margin: "5px 30px 0px 20px",
+                            margin: "0px 30px 0px 20px",
+                            padding: "5px 0px",
                             width: 220,
                         }}
                         InputLabelProps={{
-                            shrink: true,
                             style: {
-                                paddingLeft: 3,
+                                paddingLeft: 10,
                                 fontFamily: "NunitoSans-Bold",
                             }
                         }}
                         InputProps={{
                             style: {
-                                paddingLeft: 10,
+                                paddingLeft: 12,
                                 color: 'grey',
                                 fontFamily: "NunitoSans-Regular",
                             },
@@ -196,73 +194,69 @@ export default function Filter(props) {
                 </FormControl>
 
                 <FormControl>
-                    <InputLabel
-                        id="mutiple-checkbox-label"
-                        style={{
-                            paddingLeft: 30,
-                            color: "grey",
-                            paddingBottom: 50,
-                            marginBottom: 20,
-                            fontFamily: "NunitoSans-Bold",
-                        }}
-                    >
-                        Song
-                    </InputLabel>
-                    <Select
-                        id="drop-down"
-                        className="form-control"
-                        value={values?.song}
+                    <TextField
+                        id="song"
+                        label="Song"
+                        type="text"
+                        defaultValue=""
                         onChange={(e) => setValues({ ...values, song: e.target.value })}
-                        autoWidth={false}
                         style={{
                             color: "#757575",
                             backgroundColor: "transparent",
                             outline: "none",
                             border: "none",
                             boxShadow: "none",
-                            margin: "10px 30px 0px 20px",
+                            margin: "0px 30px 0px 20px",
+                            padding: "5px 0px",
                             width: 220,
                         }}
-                    >
-                        <MenuItem value="Paradise">Paradise</MenuItem>
-                        <MenuItem value="Forever">Forever</MenuItem>
-                        <MenuItem value="Rasputin">Rasputin</MenuItem>
-                    </Select>
+                        InputLabelProps={{
+                            style: {
+                                paddingLeft: 10,
+                                fontFamily: "NunitoSans-Bold",
+                            }
+                        }}
+                        InputProps={{
+                            style: {
+                                paddingLeft: 12,
+                                color: 'grey',
+                                fontFamily: "NunitoSans-Bold",
+                            },
+                        }}
+                    />
                 </FormControl>
 
                 <FormControl>
-                    <InputLabel
-                        id="mutiple-checkbox-label"
-                        style={{
-                            paddingLeft: 30,
-                            color: "grey",
-                            paddingBottom: 50,
-                            marginBottom: 20,
-                            fontFamily: "NunitoSans-Bold",
-                        }}
-                    >
-                        Artist
-                    </InputLabel>
-                    <Select
-                        id="drop-down"
-                        className="form-control"
-                        value={values?.artist}
-                        onChange={(e) => setValues({ ...values, artist: e.target.value })}
-                        autoWidth={false}
+                    <TextField
+                        id="date"
+                        label="Encoded Date"
+                        type="date"
+                        defaultValue=""
+                        onChange={(date) => setValues({ ...values, encodedDate: date })}
                         style={{
                             color: "#757575",
                             backgroundColor: "transparent",
                             outline: "none",
                             border: "none",
                             boxShadow: "none",
-                            margin: "10px 30px 0px 20px",
+                            margin: "5px 30px 0px 20px",
                             width: 220,
                         }}
-                    >
-                        <MenuItem value="Coldplay">Coldplay</MenuItem>
-                        <MenuItem value="Chris Brown">Chris Brown</MenuItem>
-                        <MenuItem value="Boney M">Boney M</MenuItem>
-                    </Select>
+                        InputLabelProps={{
+                            shrink: true,
+                            style: {
+                                paddingLeft: 3,
+                                fontFamily: "NunitoSans-Bold",
+                            }
+                        }}
+                        InputProps={{
+                            style: {
+                                paddingLeft: 10,
+                                color: 'grey',
+                                fontFamily: "NunitoSans-Regular",
+                            },
+                        }}
+                    />
                 </FormControl>
             </Grid>
             <Grid className="filter-btn" container justifyContent="flex-end">

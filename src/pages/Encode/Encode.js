@@ -147,7 +147,7 @@ export default function Encode() {
         }).catch((error) => {
             closeEncodeProgressPopUp(null, error?.data);
             log("Encode Error", error)
-            cogoToast.error(error?.data?.message || error?.message)
+            cogoToast.error(error?.data?._message || error?._message)
         })
     }
 

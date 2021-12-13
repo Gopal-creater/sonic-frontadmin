@@ -8,6 +8,10 @@ import CustomDate from './components/CustomDate';
 import { FilterList } from '@material-ui/icons';
 import Filter from './components/Filter';
 import { Pagination } from '@material-ui/lab';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { log } from '../../../utils/app.debug';
+import { fetchPlaysLists } from '../../../stores/actions';
 
 const columns = [
     "SonicKey",
@@ -30,6 +34,16 @@ export default function Plays() {
     })
 
     const openFilter = Boolean(values.anchorFilter);
+
+    const dispatch = useDispatch();
+
+    const state = useSelector(state => state.playsList)
+
+    log("PLAYS:", state);
+
+    React.useEffect(() => {
+        dispatch(fetchPlaysLists());
+    }, [])
 
     return (
         <Grid className="plays-container">

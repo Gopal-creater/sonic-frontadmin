@@ -78,7 +78,7 @@ function getProperErrorMessageFromError(error) {
         errorObj.errorData = error?.message
         errorObj.message = error?.message[0]
     } else {
-        errorObj.message = error?.error || "Unexpected error occures"
+        errorObj.message = error?.error || "Unexpected error occured"
     }
 
     return errorObj

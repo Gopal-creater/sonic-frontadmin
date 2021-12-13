@@ -54,6 +54,8 @@ export default function Plays() {
                             customInput={<CustomDate calender />}
                             dateFormat="MMM d,yyyy"
                             title="Start Date"
+                            showYearDropdown
+                            showMonthDropdown
                         />
                     </Grid>
 
@@ -68,6 +70,8 @@ export default function Plays() {
                             customInput={<CustomDate />}
                             dateFormat="MMM d,yyyy"
                             title="End Date"
+                            showYearDropdown
+                            showMonthDropdown
                         />
                     </Grid>
                 </Grid>

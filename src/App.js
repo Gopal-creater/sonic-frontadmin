@@ -18,25 +18,26 @@ function App() {
     session: state.session,
   }));
 
+  const [authenticating, setAuthenticating] = React.useState(true)
+
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch({ type: actionTypes.SET_AUTHENTICATION_LOADING })
     Communication.userAuthentication().then((response) => {
       const loggedInUser = localStorage.getItem("user_info");
       if (loggedInUser) {
         const foundUser = JSON.parse(loggedInUser);
         dispatch(setSession(foundUser));
       }
-      dispatch({ type: actionTypes.SET_AUTHENTICATION_SUCCESS, data: response })
+      setAuthenticating(false)
     }).catch((error) => {
-      dispatch({ type: actionTypes.SET_AUTHENTICATION_ERROR, data: error?.message })
+      setAuthenticating(false)
       cogoToast.error(error?.message || "Error authorizing")
     })
   }, []);
 
   // showing spinner while checking user is logged in or not
-  if (session?.authentication?.loading) {
+  if (authenticating) {
     return <SonicSpinner title="Authenticating..." />;
   }
 

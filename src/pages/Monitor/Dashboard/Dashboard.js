@@ -11,8 +11,8 @@ import { BarGraph } from "../Components/BarGraph";
 import { makeStyles } from "@material-ui/styles";
 import { log } from "../../../utils/app.debug";
 import { monthRange, todayRange, weekRange } from "../../../utils/HelperMethods";
-import { useDispatch } from "react-redux";
-import { getTotalSonicKeysDetectedAction, getTotalSubscribedStationAction } from "../../../stores/actions/dashboard.action";
+import { useDispatch, useSelector } from "react-redux";
+import { getMostPlayedStationsDataAction, getTotalSonicKeysCountAction, getTotalSubscribedStationAction } from "../../../stores/actions/dashboard.action";
 
 const useStyles = makeStyles((theme) => ({
   menuItems: {
@@ -33,11 +33,15 @@ export function Dashboard() {
     dayWeekMonth: "Day"
   })
 
+  const dashboard = useSelector(state => state.dashboard)
+  log("Dashboard Data", dashboard)
+
   const dispatch = useDispatch()
 
   React.useEffect(() => {
-    dispatch(getTotalSonicKeysDetectedAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1]))
+    dispatch(getTotalSonicKeysCountAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1]))
     dispatch(getTotalSubscribedStationAction())
+    dispatch(getMostPlayedStationsDataAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1]))
   }, [])
 
   const dashboardPlaysColumns = [
@@ -59,13 +63,13 @@ export function Dashboard() {
   const setDateRange = (dateRange) => {
     setValues({ ...values, dayWeekMonth: dateRange })
     if (dateRange === "Day") {
-      dispatch(getTotalSonicKeysDetectedAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1]))
+      dispatch(getTotalSonicKeysCountAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1]))
     }
     else if (dateRange === "Week") {
-      dispatch(getTotalSonicKeysDetectedAction(weekRange()?.split(",")?.[0], weekRange()?.split(",")?.[1]))
+      dispatch(getTotalSonicKeysCountAction(weekRange()?.split(",")?.[0], weekRange()?.split(",")?.[1]))
     }
     else {
-      dispatch(getTotalSonicKeysDetectedAction(monthRange()?.split(",")?.[0], monthRange()?.split(",")?.[1]))
+      dispatch(getTotalSonicKeysCountAction(monthRange()?.split(",")?.[0], monthRange()?.split(",")?.[1]))
     }
   }
 
@@ -88,7 +92,7 @@ export function Dashboard() {
               <TableBody>
                 <TableRow >
                   <TableCell className="table-head">Plays</TableCell>
-                  <TableCell className="table-cell">0</TableCell>
+                  <TableCell className="table-cell">{dashboard?.totalSonicKeysCount?.data?.playsCount || "--"}</TableCell>
                 </TableRow>
                 <TableRow >
                   <TableCell className="table-head">Radio Stations</TableCell>

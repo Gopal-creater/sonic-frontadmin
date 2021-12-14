@@ -7,10 +7,8 @@ import Routes from "./routes/Routes";
 import Amplify from "aws-amplify";
 import awsconfig from "./config/aws-exports";
 import Authenticator from "./pages/Auth/Authenticator";
-import { log } from "./utils/app.debug";
 import Communication from "./services/https/Communication";
 import cogoToast from "cogo-toast";
-import * as actionTypes from "./stores/actions/session/actionTypes";
 
 Amplify.configure(awsconfig);
 function App() {
@@ -18,25 +16,26 @@ function App() {
     session: state.session,
   }));
 
+  const [authenticating, setAuthenticating] = React.useState(true)
+
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch({ type: actionTypes.SET_AUTHENTICATION_LOADING })
     Communication.userAuthentication().then((response) => {
       const loggedInUser = localStorage.getItem("user_info");
       if (loggedInUser) {
         const foundUser = JSON.parse(loggedInUser);
         dispatch(setSession(foundUser));
       }
-      dispatch({ type: actionTypes.SET_AUTHENTICATION_SUCCESS, data: response })
+      setAuthenticating(false)
     }).catch((error) => {
-      dispatch({ type: actionTypes.SET_AUTHENTICATION_ERROR, data: error?.message })
+      setAuthenticating(false)
       cogoToast.error(error?.message || "Error authorizing")
     })
   }, []);
 
   // showing spinner while checking user is logged in or not
-  if (session?.authentication?.loading) {
+  if (authenticating) {
     return <SonicSpinner title="Authenticating..." />;
   }
 

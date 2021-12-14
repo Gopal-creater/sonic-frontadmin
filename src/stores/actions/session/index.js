@@ -2,12 +2,11 @@ import Amplify from "aws-amplify";
 import * as actionType from "./actionTypes";
 
 //Profile
-export const setSession = (user, authState = "") => {
+export const setSession = (user) => {
   return (dispatch) => {
     dispatch({
       type: actionType.SET_USER,
       user: user,
-      authState: authState
     });
   };
 };

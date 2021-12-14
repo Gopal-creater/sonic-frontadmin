@@ -8,6 +8,19 @@
     font-family: "NunitoSans-Bold";
   }
 
+  .radioStations-subscribed-formControl {
+    min-width: 150px;
+    margin-top: 8px;
+    .subscribed-formControl-title {
+      font-weight: bold;
+    }
+    .subscribed-formControl-menu {
+      font-size: 14px;
+      color: #757575;
+      font-family: "NunitoSans-Bold";
+    }
+  }
+
   .dashboard-tables-container {
     margin-top: 20px;
     .sonickeysDetected-leftTable-container {
@@ -45,18 +58,7 @@
         font-size: large;
         color: #00a19a;
         font-family: "NunitoSans-Bold";
-      }
-      .radioStations-subscribed-formControl {
-        min-width: 90px;
-        margin-top: 5px;
-        .subscribed-formControl-title {
-          font-weight: bold;
-        }
-        .subscribed-formControl-menu {
-            font-size: 14px;
-            color: #757575;
-            font-family: "NunitoSans-Bold";
-        }
+        text-align: center;
       }
     }
 

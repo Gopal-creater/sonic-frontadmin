@@ -1,4 +1,5 @@
 import { Grid, TableContainer, Button, FormControl, Select, MenuItem, InputLabel } from "@material-ui/core";
+import CircularProgress from '@material-ui/core/CircularProgress';
 import React from "react";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -64,21 +65,44 @@ export function Dashboard() {
     setValues({ ...values, dayWeekMonth: dateRange })
     if (dateRange === "Day") {
       dispatch(getTotalSonicKeysCountAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1]))
+      dispatch(getMostPlayedStationsDataAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1]))
     }
     else if (dateRange === "Week") {
       dispatch(getTotalSonicKeysCountAction(weekRange()?.split(",")?.[0], weekRange()?.split(",")?.[1]))
+      dispatch(getMostPlayedStationsDataAction(weekRange()?.split(",")?.[0], weekRange()?.split(",")?.[1]))
     }
     else {
       dispatch(getTotalSonicKeysCountAction(monthRange()?.split(",")?.[0], monthRange()?.split(",")?.[1]))
+      dispatch(getMostPlayedStationsDataAction(monthRange()?.split(",")?.[0], monthRange()?.split(",")?.[1]))
     }
   }
 
   return (
     <Grid className="dashboard-container">
-      <p className="dashboard-title">Dashboard</p>
+
+      <Grid container justifyContent="space-between">
+        <p className="dashboard-title">Dashboard</p>
+
+        <FormControl variant="standard" className="radioStations-subscribed-formControl">
+          <InputLabel className="subscribed-formControl-title">Date Range</InputLabel>
+          <Select
+            labelId="demo-simple-select-standard-label"
+            id="demo-simple-select-standard"
+            value={values?.dayWeekMonth}
+            onChange={(event) => setDateRange(event.target.value)}
+            label="Date Range"
+            className="subscribed-formControl-menu"
+            MenuProps={{ classes: { paper: classes.menuItems } }}
+          >
+            <MenuItem value={"Day"}>Day</MenuItem>
+            <MenuItem value={"Week"}>Week</MenuItem>
+            <MenuItem value={"Month"}>Month</MenuItem>
+          </Select>
+        </FormControl>
+      </Grid>
 
       <Grid container className="dashboard-tables-container" spacing={2}>
-        <Grid item container lg={3.5} md={4} sm={8} xs={12} className="sonickeysDetected-leftTable-container">
+        <Grid item container lg={4} md={4} sm={8} xs={12} className="sonickeysDetected-leftTable-container">
           <Grid className="sonickeysDetected-table-container">
             <p className="sonickeysDetected-table-title">Total SonicKeys Detected</p>
 
@@ -89,57 +113,67 @@ export function Dashboard() {
                   <TableCell className="table-head">Subscribed</TableCell>
                 </TableRow>
               </TableHead>
+
               <TableBody>
                 <TableRow >
                   <TableCell className="table-head">Plays</TableCell>
-                  <TableCell className="table-cell">{dashboard?.totalSonicKeysCount?.data?.playsCount || "--"}</TableCell>
+                  <TableCell className="table-cell">
+                    {
+                      dashboard?.totalSonicKeysCount?.loading
+                        ? <CircularProgress size={15} />
+                        : dashboard?.totalSonicKeysCount?.error ?
+                          "--"
+                          : dashboard?.totalSonicKeysCount?.data?.playsCount
+                    }
+                  </TableCell>
                 </TableRow>
+
                 <TableRow >
                   <TableCell className="table-head">Radio Stations</TableCell>
-                  <TableCell className="table-cell">0</TableCell>
+                  <TableCell className="table-cell">
+                    {
+                      dashboard?.totalSonicKeysCount?.loading
+                        ? <CircularProgress size={15} />
+                        : dashboard?.totalSonicKeysCount?.error ?
+                          "--"
+                          : dashboard?.totalSonicKeysCount?.data?.radioStationsCount
+                    }
+                  </TableCell>
                 </TableRow>
+
                 <TableRow >
                   <TableCell className="table-head">Countries</TableCell>
-                  <TableCell className="table-cell">0</TableCell>
+                  <TableCell className="table-cell">
+                    {
+                      dashboard?.totalSonicKeysCount?.loading
+                        ? <CircularProgress size={15} />
+                        : dashboard?.totalSonicKeysCount?.error ?
+                          "--"
+                          : dashboard?.totalSonicKeysCount?.data?.countriesCount
+                    }
+                  </TableCell>
                 </TableRow>
               </TableBody>
             </Table>
           </Grid>
         </Grid>
 
-        <Grid item lg={4.5} md={3} sm={4} xs={12} >
+        <Grid item lg={3} md={3} sm={4} xs={12} >
           <Grid className="radioStations-subscribed-container">
-            <Grid container item >
-              <Grid lg={8}>
-                <span className="radioStations-subscribed-title">Radio Stations Subscribed</span>
-              </Grid>
-
-              <Grid lg={4}>
-                <FormControl variant="standard" className="radioStations-subscribed-formControl">
-                  <InputLabel className="subscribed-formControl-title">Date Range</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-standard-label"
-                    id="demo-simple-select-standard"
-                    value={values?.dayWeekMonth}
-                    onChange={(event) => setDateRange(event.target.value)}
-                    label="Date Range"
-                    style={{ maxWidth: "70px" }}
-                    className="subscribed-formControl-menu"
-                    MenuProps={{ classes: { paper: classes.menuItems } }}
-                  >
-                    <MenuItem value={"Day"}>Day</MenuItem>
-                    <MenuItem value={"Week"}>Week</MenuItem>
-                    <MenuItem value={"Month"}>Month</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-            </Grid>
-
-            <p className="mt-3">0</p>
+            <p className="radioStations-subscribed-title">Radio Stations Subscribed</p>
+            <p className="mt-3" style={{ textAlign: "center" }}>
+              {
+                dashboard?.totalSubscribedStationCount?.loading
+                  ? <CircularProgress size={20} />
+                  : dashboard?.totalSubscribedStationCount?.error ?
+                    "--"
+                    : dashboard?.totalSubscribedStationCount?.data
+              }
+            </p>
           </Grid>
         </Grid>
 
-        <Grid item lg={5} md={5} sm={12} xs={12} className="mostPlays-rightTable-container">
+        <Grid item container lg={5} md={5} sm={12} xs={12} className="mostPlays-rightTable-container">
           <Grid className="mostPlays-table-container">
             <p className="mostPlays-table-title">Most Plays by Radio Stations</p>
 
@@ -149,28 +183,32 @@ export function Dashboard() {
                   <TableCell className="table-head">Radio Station</TableCell>
                   <TableCell className="table-head">Country</TableCell>
                   <TableCell className="table-head">Plays</TableCell>
-                  <TableCell className="table-head">Unique Sogs Played</TableCell>
+                  <TableCell className="table-head">Unique Songs Played</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                <TableRow >
-                  <TableCell className="table-cell">Arba</TableCell>
-                  <TableCell className="table-cell">United Kingdom</TableCell>
-                  <TableCell className="table-cell">0</TableCell>
-                  <TableCell className="table-cell">0</TableCell>
-                </TableRow>
-                <TableRow >
-                  <TableCell className="table-cell">Arba</TableCell>
-                  <TableCell className="table-cell">United Kingdom</TableCell>
-                  <TableCell className="table-cell">0</TableCell>
-                  <TableCell className="table-cell">0</TableCell>
-                </TableRow>
-                <TableRow >
-                  <TableCell className="table-cell">Arba</TableCell>
-                  <TableCell className="table-cell">United Kingdom</TableCell>
-                  <TableCell className="table-cell">0</TableCell>
-                  <TableCell className="table-cell">0</TableCell>
-                </TableRow>
+                {
+                  dashboard?.mostPlayedStations?.loading ?
+                    <TableRow >
+                      <TableCell colSpan={4} align="center"><CircularProgress size={20} /></TableCell>
+                    </TableRow> :
+                    dashboard?.mostPlayedStations?.data?.length === 0 ?
+                      <TableRow >
+                        <TableCell colSpan={4} align="center" className="table-cell">No Data</TableCell>
+                      </TableRow>
+                      : dashboard?.mostPlayedStations?.data?.map((data, index) => {
+                        if (index <= 2) {
+                          return (
+                            <TableRow >
+                              <TableCell className="table-cell">{data?.radioStation?.name}</TableCell>
+                              <TableCell className="table-cell">{data?.radioStation?.country}</TableCell>
+                              <TableCell className="table-cell">{data?.playsCount?.playsCount}</TableCell>
+                              <TableCell className="table-cell">{data?.playsCount?.uniquePlaysCount}</TableCell>
+                            </TableRow>
+                          )
+                        }
+                      })
+                }
               </TableBody>
             </Table>
           </Grid>

@@ -20,6 +20,7 @@ import moment from "moment";
 import DailogTable from "../../../components/common/DialogTable";
 import { useHistory } from "react-router-dom";
 import SonicSpinner from "../../../components/common/SonicSpinner";
+import { fetchGraphDataAction } from "../../../stores/actions";
 
 const useStyles = makeStyles((theme) => ({
   menuItems: {
@@ -57,6 +58,13 @@ export function Dashboard() {
     dispatch(getPlaysListsAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1], "STREAMREADER", 1, 10))
   }, [])
 
+  const stateGraph = useSelector(state => state.graphData)
+
+
+  React.useEffect(() => {
+    dispatch(fetchGraphDataAction());
+  }, [])
+
   const GraphData = [10, 20, 30, 40, 10, 50, 70]
   const labels = ["Uk", "Canada", "Germany", "Australia", "America", "Brazil", "Argentina"]
 
@@ -78,6 +86,9 @@ export function Dashboard() {
       dispatch(getPlaysListsAction(monthRange()?.split(",")?.[0], monthRange()?.split(",")?.[1], "STREAMREADER", 1, 10))
     }
   }
+  console.log("testing data:", stateGraph?.data?.playsArtistWise)
+  const artistWiseData = stateGraph?.data?.playsArtistWise;
+  console.log("artistWise :", artistWiseData)
 
   return (
     <Grid className="dashboard-container">
@@ -304,9 +315,9 @@ export function Dashboard() {
         </Grid>
         <Grid container spacing={4}>
           <Grid item sm={12} lg={6}>
-            <BarGraph title="Plays - Country-wise" label={labels} data={GraphData} />
+            <BarGraph title="Plays - Country-wise" data={stateGraph} />
           </Grid>
-          <Grid item sm={12} lg={6}>
+          {/* <Grid item sm={12} lg={6}>
             <BarGraph title="Plays - Song-wise" label={labels} data={GraphData} />
           </Grid>
           <Grid item sm={12} lg={6}>
@@ -314,7 +325,7 @@ export function Dashboard() {
           </Grid>
           <Grid item sm={12} lg={6}>
             <BarGraph title="Plays - Artist-wise" label={labels} data={GraphData} />
-          </Grid>
+          </Grid> */}
         </Grid>
       </Grid>
 

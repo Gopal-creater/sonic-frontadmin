@@ -233,6 +233,10 @@ class Communication {
     return AppWebRequest(`/detections/owners/${getUserId()}/list-plays`, "get", { params: params })
   }
 
+  fetchGraphData() {
+    return AppWebRequest(`/detections/owners/${getUserId()}/plays-dashboard-graph-data`, "get");
+  }
+
 }
 
 export default new Communication();

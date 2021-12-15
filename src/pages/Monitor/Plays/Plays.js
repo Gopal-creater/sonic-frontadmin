@@ -107,23 +107,32 @@ export default function Plays() {
             </Grid>
 
             <TableContainer style={{ ...tableStyle.container, width: "100%" }} className="plays-table">
-                {playsList?.loading ?
+                {/* {playsList?.loading ?
                     <div style={{ display: 'flex', justifyContent: 'center', width: '100%', height: '200px' }}>
                         <SonicSpinner title="Loading Sonic Keys..." containerStyle={{ height: '100%', display: 'flex', justifyContent: 'center' }} />
                     </div>
-                    : <Table aria-label="Detail table">
-                        <TableHead>
-                            <TableRow hover>
-                                {playsTableHeads?.map((col) => (
-                                    <TableCell key={col} style={{ ...tableStyle.head, fontSize: '14px' }}>
-                                        {col}
-                                    </TableCell>
-                                )
-                                )}
+                    :  */}
+                <Table aria-label="Detail table">
+                    <TableHead>
+                        <TableRow hover>
+                            {playsTableHeads?.map((col) => (
+                                <TableCell key={col} style={{ ...tableStyle.head, fontSize: '14px' }}>
+                                    {col}
+                                </TableCell>
+                            )
+                            )}
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {playsList?.loading ?
+                            <TableRow>
+                                <TableCell colSpan={8} align={"center"} style={{ ...tableStyle.body, fontSize: '14px' }}>
+                                    <div style={{ display: 'flex', justifyContent: 'center', width: '100%', height: '200px' }}>
+                                        <SonicSpinner title="Loading Sonic Keys..." containerStyle={{ height: '100%', display: 'flex', justifyContent: 'center' }} />
+                                    </div>
+                                </TableCell>
                             </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {playsList?.data?.docs?.length > 0 ? (
+                            : playsList?.data?.docs?.length > 0 ? (
                                 playsList?.data?.docs?.map((data) => (
                                     <TableRow key={data?._id} hover className="plays-table-row">
                                         <Tooltip title={data?.sonicKey?.sonicKey}>
@@ -168,8 +177,8 @@ export default function Plays() {
                                     </TableCell>
                                 </TableRow>
                             )}
-                        </TableBody>
-                    </Table>}
+                    </TableBody>
+                </Table>
 
                 {values?.sonicKeyModal && (
                     <DailogTable

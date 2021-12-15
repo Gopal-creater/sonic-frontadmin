@@ -1,4 +1,4 @@
-import { Grid, TableContainer, Button, FormControl, Select, MenuItem, InputLabel } from "@material-ui/core";
+import { Grid, TableContainer, Button, FormControl, Select, MenuItem, InputLabel, Tooltip } from "@material-ui/core";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import React from "react";
 import Table from '@material-ui/core/Table';
@@ -14,6 +14,11 @@ import { log } from "../../../utils/app.debug";
 import { monthRange, todayRange, weekRange } from "../../../utils/HelperMethods";
 import { useDispatch, useSelector } from "react-redux";
 import { getMostPlayedStationsDataAction, getTotalSonicKeysCountAction, getTotalSubscribedStationAction } from "../../../stores/actions/dashboard.action";
+import { playsTableHeads } from "../../../constants/constants"
+import { getPlaysListsAction } from "../../../stores/actions";
+import moment from "moment";
+import DailogTable from "../../../components/common/DialogTable";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   menuItems: {
@@ -31,32 +36,25 @@ const useStyles = makeStyles((theme) => ({
 export function Dashboard() {
   const classes = useStyles();
   const [values, setValues] = React.useState({
-    dayWeekMonth: "Day"
+    dayWeekMonth: "Day",
+    sonicKeyModal: false,
+    selectedSonicKey: {},
   })
 
   const dashboard = useSelector(state => state.dashboard)
+  const plays = useSelector(state => state.playsList)
   log("Dashboard Data", dashboard)
 
   const dispatch = useDispatch()
+
+  const history = useHistory()
 
   React.useEffect(() => {
     dispatch(getTotalSonicKeysCountAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1]))
     dispatch(getTotalSubscribedStationAction())
     dispatch(getMostPlayedStationsDataAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1]))
+    dispatch(getPlaysListsAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1], "STREAMREADER", 1, 10))
   }, [])
-
-  const dashboardPlaysColumns = [
-    "SonicKey",
-    "Radio Station",
-    "Date",
-    "Time",
-    "Duration",
-    "Audio Filename",
-    "Artist",
-    "Country"
-  ];
-
-  const dummy = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   const GraphData = [10, 20, 30, 40, 10, 50, 70]
   const labels = ["Uk", "Canada", "Germany", "Australia", "America", "Brazil", "Argentina"]
@@ -66,14 +64,17 @@ export function Dashboard() {
     if (dateRange === "Day") {
       dispatch(getTotalSonicKeysCountAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1]))
       dispatch(getMostPlayedStationsDataAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1]))
+      dispatch(getPlaysListsAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1], "STREAMREADER", 1, 10))
     }
     else if (dateRange === "Week") {
       dispatch(getTotalSonicKeysCountAction(weekRange()?.split(",")?.[0], weekRange()?.split(",")?.[1]))
       dispatch(getMostPlayedStationsDataAction(weekRange()?.split(",")?.[0], weekRange()?.split(",")?.[1]))
+      dispatch(getPlaysListsAction(weekRange()?.split(",")?.[0], weekRange()?.split(",")?.[1], "STREAMREADER", 1, 10))
     }
     else {
       dispatch(getTotalSonicKeysCountAction(monthRange()?.split(",")?.[0], monthRange()?.split(",")?.[1]))
       dispatch(getMostPlayedStationsDataAction(monthRange()?.split(",")?.[0], monthRange()?.split(",")?.[1]))
+      dispatch(getPlaysListsAction(monthRange()?.split(",")?.[0], monthRange()?.split(",")?.[1], "STREAMREADER", 1, 10))
     }
   }
 
@@ -222,7 +223,7 @@ export function Dashboard() {
           <Table aria-label="Detail table">
             <TableHead className="dashboardPlays-tableHead">
               <TableRow hover style={{ borderRadius: "20px" }}>
-                {dashboardPlaysColumns?.map((col) => {
+                {playsTableHeads?.map((col) => {
                   return (
                     <TableCell style={{ ...tableStyle.head, fontSize: '14px' }}>
                       {col}
@@ -232,24 +233,57 @@ export function Dashboard() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {dummy.map((index) => (
-                <TableRow key={index} hover className="plays-table-row">
-                  <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>ugGmojtz0XW</TableCell>
-                  <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>BBC London</TableCell>
-                  <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>06/12/2021</TableCell>
-                  <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>11:53</TableCell>
-                  <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>03:43</TableCell>
-                  <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>My Universe</TableCell>
-                  <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>Coldplay</TableCell>
-                  <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>UK</TableCell>
+              {plays?.data?.docs?.length > 0 ? (
+                plays?.data?.docs?.map((data) => (
+                  <TableRow key={data?._id} hover className="plays-table-row">
+                    <Tooltip title={data?.sonicKey?.sonicKey}>
+                      <TableCell
+                        style={{ ...tableStyle.body, color: "#00A19A", fontSize: '14px', cursor: "pointer" }}
+                        onClick={() => setValues({ ...values, sonicKeyModal: true, selectedSonicKey: data?.sonicKey })}
+                      >
+                        {data?.sonicKey?.sonicKey}
+                      </TableCell>
+                    </Tooltip>
+                    <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
+                      {data?.radioStation?.name?.length > 20 ? data?.radioStation?.name?.slice(0, 20) + "..." : data?.radioStation?.name}
+                    </TableCell>
+                    <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
+                      {moment(data?.detectedAt).utc().format("DD/MM/YYYY")}
+                    </TableCell>
+                    <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
+                      {moment(data?.detectedAt).utc().format("HH:mm")}
+                    </TableCell>
+                    <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
+                      {moment.utc(data?.sonicKey?.contentDuration * 1000).format("mm:ss")}
+                    </TableCell>
+                    <Tooltip title={data?.sonicKey?.originalFileName || data?.sonicKey?.contentFileName}>
+                      <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
+                        {(data?.sonicKey?.originalFileName?.length > 20 ? data?.sonicKey?.originalFileName?.slice(0, 20) + "..." : data?.sonicKey?.originalFileName) || (data?.sonicKey?.contentFileName?.length > 20 ? data?.sonicKey?.contentFileName?.slice(0, 20) + "..." : data?.sonicKey?.contentFileName)}
+                      </TableCell>
+                    </Tooltip>
+                    <Tooltip title={data?.sonicKey?.contentOwner}>
+                      <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
+                        {(data?.sonicKey?.contentOwner === "" ? "-" : (data?.sonicKey?.contentOwner?.length > 20 ? data?.sonicKey?.contentOwner?.slice(0, 20) + "..." : data?.sonicKey?.contentOwner))}
+                      </TableCell>
+                    </Tooltip>
+                    <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
+                      {data?.radioStation?.country}
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={8} align={"center"} style={{ ...tableStyle.body, fontSize: '14px' }}>
+                    No Data
+                  </TableCell>
                 </TableRow>
-              ))}
+              )}
             </TableBody>
           </Table>
         </TableContainer>
 
         <Grid className="dashboardPlays-viewMore-btnContainer">
-          <Button variant="text" className="viewMore-Btn">View more plays &gt;&gt;</Button>
+          <Button variant="text" className="viewMore-Btn" onClick={() => history.push("/plays")}>View more plays &gt;&gt;</Button>
         </Grid>
       </Grid>
 
@@ -273,6 +307,14 @@ export function Dashboard() {
           </Grid>
         </Grid>
       </Grid>
+
+      {values?.sonicKeyModal && (
+        <DailogTable
+          sonicKey={values?.selectedSonicKey}
+          open={true}
+          setOpenTable={(flag) => setValues({ ...values, sonicKeyModal: flag })}
+        />
+      )}
     </Grid >
   );
 }

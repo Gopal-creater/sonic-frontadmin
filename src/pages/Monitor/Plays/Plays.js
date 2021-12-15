@@ -1,6 +1,6 @@
 import React from 'react';
 import "./Plays.scss";
-import { Grid, TableContainer, TableHead, TableRow, Table, TableBody, TableCell, Button, Popover } from '@material-ui/core';
+import { Grid, TableContainer, TableHead, TableRow, Table, TableBody, TableCell, Button, Popover, Tooltip } from '@material-ui/core';
 import { tableStyle } from '../../../globalStyle';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -8,28 +8,30 @@ import CustomDate from './components/CustomDate';
 import { FilterList } from '@material-ui/icons';
 import Filter from './components/Filter';
 import { Pagination } from '@material-ui/lab';
-
-const columns = [
-    "SonicKey",
-    "Radio Station",
-    "Date",
-    "Time",
-    "Duration",
-    "Audio Filename",
-    "Artist",
-    "Country"
-];
-
-const dummy = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+import { useDispatch, useSelector } from 'react-redux';
+import SonicSpinner from '../../../components/common/SonicSpinner';
+import moment from 'moment';
+import { playsTableHeads } from '../../../constants/constants';
+import { getPlaysListsAction } from '../../../stores/actions/playsList';
+import DailogTable from '../../../components/common/DialogTable';
 
 export default function Plays() {
     const [values, setValues] = React.useState({
         startDate: new Date().setMonth(new Date().getMonth() - 1),
         endDate: new Date(),
-        anchorFilter: false
+        anchorFilter: false,
+        sonicKeyModal: false,
+        selectedSonicKey: {},
+        channel: "STREAMREADER"
     })
-
     const openFilter = Boolean(values.anchorFilter);
+
+    const dispatch = useDispatch();
+    const playsList = useSelector(state => state.playsList)
+
+    React.useEffect(() => {
+        dispatch(getPlaysListsAction(values?.startDate, values?.endDate, values?.channel, playsList?.data?.page, 10));
+    }, [values?.startDate, values?.endDate])
 
     return (
         <Grid className="plays-container">
@@ -109,42 +111,85 @@ export default function Plays() {
             </Grid>
 
             <TableContainer style={{ ...tableStyle.container, width: "100%" }} className="plays-table">
-                <Table aria-label="Detail table">
-                    <TableHead>
-                        <TableRow hover>
-                            {columns?.map((col) => {
-                                return (
-                                    <TableCell style={{ ...tableStyle.head, fontSize: '14px' }}>
+                {playsList?.loading ?
+                    <div style={{ display: 'flex', justifyContent: 'center', width: '100%', height: '200px' }}>
+                        <SonicSpinner title="Loading Sonic Keys..." containerStyle={{ height: '100%', display: 'flex', justifyContent: 'center' }} />
+                    </div>
+                    : <Table aria-label="Detail table">
+                        <TableHead>
+                            <TableRow hover>
+                                {playsTableHeads?.map((col) => (
+                                    <TableCell key={col} style={{ ...tableStyle.head, fontSize: '14px' }}>
                                         {col}
                                     </TableCell>
-                                );
-                            })}
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {dummy.map((index) => (
-                            <TableRow key={index} hover className="plays-table-row">
-                                <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>ugGmojtz0XW</TableCell>
-                                <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>BBC London</TableCell>
-                                <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>06/12/2021</TableCell>
-                                <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>11:53</TableCell>
-                                <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>03:43</TableCell>
-                                <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>My Universe</TableCell>
-                                <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>Coldplay</TableCell>
-                                <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>UK</TableCell>
+                                )
+                                )}
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
+                        </TableHead>
+                        <TableBody>
+                            {playsList?.data?.docs?.length > 0 ? (
+                                playsList?.data?.docs?.map((data) => (
+                                    <TableRow key={data?._id} hover className="plays-table-row">
+                                        <Tooltip title={data?.sonicKey?.sonicKey}>
+                                            <TableCell
+                                                style={{ ...tableStyle.body, color: "#00A19A", fontSize: '14px' }}
+                                                onClick={() => setValues({ ...values, sonicKeyModal: true, selectedSonicKey: data?.sonicKey })}
+                                            >
+                                                {data?.sonicKey?.sonicKey}
+                                            </TableCell>
+                                        </Tooltip>
+                                        <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
+                                            {data?.radioStation?.name?.length > 20 ? data?.radioStation?.name?.slice(0, 20) + "..." : data?.radioStation?.name}
+                                        </TableCell>
+                                        <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
+                                            {moment(data?.detectedAt).utc().format("DD/MM/YYYY")}
+                                        </TableCell>
+                                        <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
+                                            {moment(data?.detectedAt).utc().format("HH:mm")}
+                                        </TableCell>
+                                        <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
+                                            {moment.utc(data?.sonicKey?.contentDuration * 1000).format("mm:ss")}
+                                        </TableCell>
+                                        <Tooltip title={data?.sonicKey?.originalFileName || data?.sonicKey?.contentFileName}>
+                                            <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
+                                                {(data?.sonicKey?.originalFileName?.length > 20 ? data?.sonicKey?.originalFileName?.slice(0, 20) + "..." : data?.sonicKey?.originalFileName) || (data?.sonicKey?.contentFileName?.length > 20 ? data?.sonicKey?.contentFileName?.slice(0, 20) + "..." : data?.sonicKey?.contentFileName)}
+                                            </TableCell>
+                                        </Tooltip>
+                                        <Tooltip title={data?.sonicKey?.contentOwner}>
+                                            <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
+                                                {(data?.sonicKey?.contentOwner === "" ? "-" : (data?.sonicKey?.contentOwner?.length > 20 ? data?.sonicKey?.contentOwner?.slice(0, 20) + "..." : data?.sonicKey?.contentOwner))}
+                                            </TableCell>
+                                        </Tooltip>
+                                        <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
+                                            {data?.radioStation?.country}
+                                        </TableCell>
+                                    </TableRow>
+                                ))
+                            ) : (
+                                <TableRow>
+                                    <TableCell colSpan={8} align={"center"} style={{ ...tableStyle.body, fontSize: '14px' }}>
+                                        No Data
+                                    </TableCell>
+                                </TableRow>
+                            )}
+                        </TableBody>
+                    </Table>}
 
-                <Pagination
-                    className="plays-lists-pagination"
-                    count={5}
-                    page={1}
+                {values?.sonicKeyModal && (
+                    <DailogTable
+                        sonicKey={values?.selectedSonicKey}
+                        open={true}
+                        setOpenTable={(flag) => setValues({ ...values, sonicKeyModal: flag })}
+                    />
+                )}
+
+                {!playsList?.loading ? <Pagination
+                    count={playsList?.data?.totalPages}
+                    page={playsList?.data?.page}
                     variant="outlined"
                     shape="rounded"
-                // onChange={handlePageChange}
-                />
+                    onChange={(event, value) => dispatch(getPlaysListsAction(values?.startDate, values?.endDate, values?.channel, value, 10))}
+                /> : ""}
             </TableContainer>
         </Grid>
     )

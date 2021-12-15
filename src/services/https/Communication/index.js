@@ -1,3 +1,4 @@
+import moment from "moment";
 import { log } from "../../../utils/app.debug";
 import { getUserId } from "../AuthHelper";
 import { AppWebRequest } from "../NetworkManager";
@@ -220,6 +221,16 @@ class Communication {
 
   userAuthentication() {
     return AppWebRequest('users/authorize')
+  }
+
+  getPlaysLists(startDate, endDate, channel, page, limit) {
+    let params = new URLSearchParams(`detectedAt>=${moment(startDate).format("YYYY-MM-DD")}&detectedAt<=${moment(endDate).format("YYYY-MM-DD")}`)
+    params.append("channel", channel)
+    params.append("limit", limit);
+    params.append("page", page);
+    params.append("skip", page > 1 ? (page - 1) * limit : 0)
+
+    return AppWebRequest(`/detections/owners/${getUserId()}/list-plays`, "get", { params: params })
   }
 
 }

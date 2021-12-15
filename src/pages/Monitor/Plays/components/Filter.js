@@ -21,7 +21,7 @@ export default function Filter(props) {
             <Grid className="filter-items">
                 <FormControl>
                     <InputLabel
-                        id="mutiple-checkbox-label"
+                        id="mutiple-channel-label"
                         style={{
                             paddingLeft: 30,
                             color: "grey",
@@ -33,7 +33,7 @@ export default function Filter(props) {
                         Channel
                     </InputLabel>
                     <Select
-                        id="drop-down"
+                        id="channel-drop-down"
                         className="form-control"
                         value={values?.channelName}
                         onChange={(e) => setValues({ ...values, channelName: e.target.value })}
@@ -89,7 +89,7 @@ export default function Filter(props) {
 
                 <FormControl>
                     <InputLabel
-                        id="mutiple-checkbox-label"
+                        id="mutiple-radioStation-label"
                         style={{
                             paddingLeft: 30,
                             color: "grey",
@@ -101,7 +101,7 @@ export default function Filter(props) {
                         Radio Station
                     </InputLabel>
                     <Select
-                        id="drop-down"
+                        id="radioStation-drop-down"
                         className="form-control"
                         value={values?.radioStation}
                         onChange={(e) => setValues({ ...values, radioStation: e.target.value })}
@@ -157,7 +157,7 @@ export default function Filter(props) {
 
                 <FormControl>
                     <InputLabel
-                        id="mutiple-checkbox-label"
+                        id="mutiple-country-label"
                         style={{
                             paddingLeft: 30,
                             color: "grey",
@@ -169,7 +169,7 @@ export default function Filter(props) {
                         Country
                     </InputLabel>
                     <Select
-                        id="drop-down"
+                        id="country-drop-down"
                         className="form-control mb-0"
                         value={values?.country}
                         onChange={(e) => setValues({ ...values, country: e.target.value })}
@@ -187,7 +187,7 @@ export default function Filter(props) {
                     >
                         {countries?.map((country) => {
                             return (
-                                <MenuItem value={country?.name}>{country?.name}</MenuItem>
+                                <MenuItem value={country?.name} key={country}>{country?.name}</MenuItem>
                             );
                         })}
                     </Select>
@@ -266,7 +266,7 @@ export default function Filter(props) {
                     style={{ textTransform: 'none', fontFamily: 'NunitoSans-Bold' }}
                     onClick={props?.onClose}
                 >
-                    Cancel
+                    Reset
                 </Button>
                 <Button
                     variant="contained"

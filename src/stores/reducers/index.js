@@ -11,6 +11,7 @@ import countReducer from './count';
 import cardRadiostationsReducer from './cardRadioStaion';
 import topRadiostationReducer from './topRadioStation';
 import dashboardReducer from './dashboard.reducers';
+import playsListsReducer from './playsListsRed';
 
 const appReducer = combineReducers({
   session: sessionRed,
@@ -23,7 +24,8 @@ const appReducer = combineReducers({
   count: countReducer,
   cardRadioStaions: cardRadiostationsReducer,
   topRadiostation: topRadiostationReducer,
-  dashboard: dashboardReducer
+  dashboard: dashboardReducer,
+  playsList: playsListsReducer,
 });
 
 const rootReducer = (state, action) => {

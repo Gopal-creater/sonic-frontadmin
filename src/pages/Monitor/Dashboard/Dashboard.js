@@ -6,21 +6,20 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import "./Dashboard.scss"
 import { tableStyle } from "../../../globalStyle";
 import { BarGraph } from "../Components/BarGraph";
 import { makeStyles } from "@material-ui/styles";
 import { log } from "../../../utils/app.debug";
 import { monthRange, todayRange, weekRange } from "../../../utils/HelperMethods";
 import { useDispatch, useSelector } from "react-redux";
-import { getMostPlayedStationsDataAction, getTotalSonicKeysCountAction, getTotalSubscribedStationAction } from "../../../stores/actions/dashboard.action";
+import { getGraphDataAction, getMostPlayedStationsDataAction, getTotalSonicKeysCountAction, getTotalSubscribedStationAction } from "../../../stores/actions/dashboard.action";
 import { playsTableHeads } from "../../../constants/constants"
 import { getPlaysListsAction } from "../../../stores/actions";
 import moment from "moment";
 import DailogTable from "../../../components/common/DialogTable";
 import { useHistory } from "react-router-dom";
 import SonicSpinner from "../../../components/common/SonicSpinner";
-import { fetchGraphDataAction } from "../../../stores/actions";
+import "./Dashboard.scss"
 
 const useStyles = makeStyles((theme) => ({
   menuItems: {
@@ -52,21 +51,12 @@ export function Dashboard() {
   const history = useHistory()
 
   React.useEffect(() => {
-    dispatch(getTotalSonicKeysCountAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1]))
     dispatch(getTotalSubscribedStationAction())
+    dispatch(getTotalSonicKeysCountAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1]))
     dispatch(getMostPlayedStationsDataAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1]))
     dispatch(getPlaysListsAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1], "STREAMREADER", 1, 10))
+    dispatch(getGraphDataAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1]));
   }, [])
-
-  const stateGraph = useSelector(state => state.graphData)
-
-
-  React.useEffect(() => {
-    dispatch(fetchGraphDataAction());
-  }, [])
-
-  const GraphData = [10, 20, 30, 40, 10, 50, 70]
-  const labels = ["Uk", "Canada", "Germany", "Australia", "America", "Brazil", "Argentina"]
 
   const setDateRange = (dateRange) => {
     setValues({ ...values, dayWeekMonth: dateRange })
@@ -74,21 +64,21 @@ export function Dashboard() {
       dispatch(getTotalSonicKeysCountAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1]))
       dispatch(getMostPlayedStationsDataAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1]))
       dispatch(getPlaysListsAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1], "STREAMREADER", 1, 10))
+      dispatch(getGraphDataAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1]));
     }
     else if (dateRange === "Week") {
       dispatch(getTotalSonicKeysCountAction(weekRange()?.split(",")?.[0], weekRange()?.split(",")?.[1]))
       dispatch(getMostPlayedStationsDataAction(weekRange()?.split(",")?.[0], weekRange()?.split(",")?.[1]))
       dispatch(getPlaysListsAction(weekRange()?.split(",")?.[0], weekRange()?.split(",")?.[1], "STREAMREADER", 1, 10))
+      dispatch(getGraphDataAction(weekRange()?.split(",")?.[0], weekRange()?.split(",")?.[1]));
     }
     else {
       dispatch(getTotalSonicKeysCountAction(monthRange()?.split(",")?.[0], monthRange()?.split(",")?.[1]))
       dispatch(getMostPlayedStationsDataAction(monthRange()?.split(",")?.[0], monthRange()?.split(",")?.[1]))
       dispatch(getPlaysListsAction(monthRange()?.split(",")?.[0], monthRange()?.split(",")?.[1], "STREAMREADER", 1, 10))
+      dispatch(getGraphDataAction(monthRange()?.split(",")?.[0], monthRange()?.split(",")?.[1]));
     }
   }
-  console.log("testing data:", stateGraph?.data?.playsArtistWise)
-  const artistWiseData = stateGraph?.data?.playsArtistWise;
-  console.log("artistWise :", artistWiseData)
 
   return (
     <Grid className="dashboard-container">
@@ -315,17 +305,33 @@ export function Dashboard() {
         </Grid>
         <Grid container spacing={4}>
           <Grid item sm={12} lg={6}>
-            <BarGraph title="Plays - Country-wise" data={stateGraph} />
-          </Grid>
-          {/* <Grid item sm={12} lg={6}>
-            <BarGraph title="Plays - Song-wise" label={labels} data={GraphData} />
-          </Grid>
-          <Grid item sm={12} lg={6}>
-            <BarGraph title="Plays - Station-wise" label={labels} data={GraphData} />
+            <BarGraph
+              title="Plays - Country-wise"
+              label={dashboard?.graphData?.data?.playsCountryWise?.map(data => data?._id)}
+              data={dashboard?.graphData?.data?.playsCountryWise?.map(data => data?.total)}
+            />
           </Grid>
           <Grid item sm={12} lg={6}>
-            <BarGraph title="Plays - Artist-wise" label={labels} data={GraphData} />
-          </Grid> */}
+            <BarGraph
+              title="Plays - Song-wise"
+              label={dashboard?.graphData?.data?.playsSongWise?.map(data => data?._id)}
+              data={dashboard?.graphData?.data?.playsSongWise?.map(data => data?.total)}
+            />
+          </Grid>
+          <Grid item sm={12} lg={6}>
+            <BarGraph
+              title="Plays - Station-wise"
+              label={dashboard?.graphData?.data?.playsStationWise?.map(data => data?._id)}
+              data={dashboard?.graphData?.data?.playsStationWise?.map(data => data?.total)}
+            />
+          </Grid>
+          <Grid item sm={12} lg={6}>
+            <BarGraph
+              title="Plays - Artist-wise"
+              label={dashboard?.graphData?.data?.playsArtistWise?.map(data => data?._id)}
+              data={dashboard?.graphData?.data?.playsArtistWise?.map(data => data?.total)}
+            />
+          </Grid>
         </Grid>
       </Grid>
 

@@ -16,6 +16,11 @@ const initialState = {
         loading: false,
         data: [],
         error: null
+    },
+    graphData: {
+        loading: false,
+        data: {},
+        error: null
     }
 }
 
@@ -67,6 +72,22 @@ const dashboardReducer = (state = initialState, action) =>
                 draft.mostPlayedStations.loading = false
                 draft.mostPlayedStations.data = []
                 draft.mostPlayedStations.error = action.data
+                break
+
+            case actionTypes.SET_DASHBOARDGRAPH_LOADING:
+                draft.graphData.loading = true
+                break
+
+            case actionTypes.SET_DASHBOARDGRAPH_SUCCESS:
+                draft.graphData.loading = false
+                draft.graphData.data = action.data
+                draft.graphData.error = null
+                break
+
+            case actionTypes.SET_DASHBOARDGRAPH_ERROR:
+                draft.graphData.loading = false
+                draft.graphData.data = {}
+                draft.graphData.error = action.data
                 break
 
             default:

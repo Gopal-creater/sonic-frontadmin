@@ -1,6 +1,6 @@
 import cogoToast from "cogo-toast"
 import moment from "moment"
-import { getMostPlayedStationsData, getTotalSonicKeysCount, getTotalSubscribedStation } from "../../services/https/resources/Dashboard.api"
+import { getGraphData, getMostPlayedStationsData, getTotalSonicKeysCount, getTotalSubscribedStation } from "../../services/https/resources/Dashboard.api"
 import { log } from "../../utils/app.debug"
 import * as actionTypes from "../actions/actionTypes"
 
@@ -49,3 +49,25 @@ export const getMostPlayedStationsDataAction = (startDate, endDate) => {
         })
     }
 }
+
+export const getGraphDataAction = (startDate, endDate) => {
+    let params = new URLSearchParams(`detectedAt>=${moment(startDate).format("YYYY-MM-DD")}&detectedAt<=${moment(endDate).format("YYYY-MM-DD")}`)
+    return dispatch => {
+        dispatch({
+            type: actionTypes.SET_DASHBOARDGRAPH_LOADING
+        })
+        getGraphData(params)
+            .then((response) => {
+                dispatch({
+                    type: actionTypes.SET_DASHBOARDGRAPH_SUCCESS,
+                    data: response
+                })
+            }).catch(error => {
+                dispatch({
+                    type: actionTypes.SET_DASHBOARDGRAPH_ERROR,
+                    error: error?.message
+                })
+                cogoToast.error(error?.message)
+            })
+    }
+};

@@ -13,7 +13,6 @@ import topRadiostationReducer from './topRadioStation';
 import dashboardReducer from './dashboard.reducers';
 import playsListsReducer from './playsListsRed';
 
-import graphDataReducer from './graphDataReducer';
 const appReducer = combineReducers({
   session: sessionRed,
   sonicKeys: sonicKeyRed, //for access the data have same name
@@ -27,7 +26,6 @@ const appReducer = combineReducers({
   topRadiostation: topRadiostationReducer,
   dashboard: dashboardReducer,
   playsList: playsListsReducer,
-  graphData: graphDataReducer,
 });
 
 const rootReducer = (state, action) => {

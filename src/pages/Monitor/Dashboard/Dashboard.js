@@ -19,6 +19,7 @@ import { getPlaysListsAction } from "../../../stores/actions";
 import moment from "moment";
 import DailogTable from "../../../components/common/DialogTable";
 import { useHistory } from "react-router-dom";
+import SonicSpinner from "../../../components/common/SonicSpinner";
 
 const useStyles = makeStyles((theme) => ({
   menuItems: {
@@ -233,51 +234,60 @@ export function Dashboard() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {plays?.data?.docs?.length > 0 ? (
-                plays?.data?.docs?.map((data) => (
-                  <TableRow key={data?._id} hover className="plays-table-row">
-                    <Tooltip title={data?.sonicKey?.sonicKey}>
-                      <TableCell
-                        style={{ ...tableStyle.body, color: "#00A19A", fontSize: '14px', cursor: "pointer" }}
-                        onClick={() => setValues({ ...values, sonicKeyModal: true, selectedSonicKey: data?.sonicKey })}
-                      >
-                        {data?.sonicKey?.sonicKey}
-                      </TableCell>
-                    </Tooltip>
-                    <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
-                      {data?.radioStation?.name?.length > 20 ? data?.radioStation?.name?.slice(0, 20) + "..." : data?.radioStation?.name}
-                    </TableCell>
-                    <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
-                      {moment(data?.detectedAt).utc().format("DD/MM/YYYY")}
-                    </TableCell>
-                    <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
-                      {moment(data?.detectedAt).utc().format("HH:mm")}
-                    </TableCell>
-                    <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
-                      {moment.utc(data?.sonicKey?.contentDuration * 1000).format("mm:ss")}
-                    </TableCell>
-                    <Tooltip title={data?.sonicKey?.originalFileName || data?.sonicKey?.contentFileName}>
-                      <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
-                        {(data?.sonicKey?.originalFileName?.length > 20 ? data?.sonicKey?.originalFileName?.slice(0, 20) + "..." : data?.sonicKey?.originalFileName) || (data?.sonicKey?.contentFileName?.length > 20 ? data?.sonicKey?.contentFileName?.slice(0, 20) + "..." : data?.sonicKey?.contentFileName)}
-                      </TableCell>
-                    </Tooltip>
-                    <Tooltip title={data?.sonicKey?.contentOwner}>
-                      <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
-                        {(data?.sonicKey?.contentOwner === "" ? "-" : (data?.sonicKey?.contentOwner?.length > 20 ? data?.sonicKey?.contentOwner?.slice(0, 20) + "..." : data?.sonicKey?.contentOwner))}
-                      </TableCell>
-                    </Tooltip>
-                    <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
-                      {data?.radioStation?.country}
+              {
+                plays?.loading ?
+                  <TableRow>
+                    <TableCell colSpan={8} align={"center"} style={{ ...tableStyle.body, fontSize: '14px' }}>
+                      <div style={{ display: 'flex', justifyContent: 'center', width: '100%', height: '70px' }}>
+                        <SonicSpinner title="Loading Sonic Keys..." containerStyle={{ height: '100%', display: 'flex', justifyContent: 'center' }} />
+                      </div>
                     </TableCell>
                   </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={8} align={"center"} style={{ ...tableStyle.body, fontSize: '14px' }}>
-                    No Data
-                  </TableCell>
-                </TableRow>
-              )}
+                  : plays?.data?.docs?.length > 0 ? (
+                    plays?.data?.docs?.map((data) => (
+                      <TableRow key={data?._id} hover className="plays-table-row">
+                        <Tooltip title={data?.sonicKey?.sonicKey}>
+                          <TableCell
+                            style={{ ...tableStyle.body, color: "#00A19A", fontSize: '14px', cursor: "pointer" }}
+                            onClick={() => setValues({ ...values, sonicKeyModal: true, selectedSonicKey: data?.sonicKey })}
+                          >
+                            {data?.sonicKey?.sonicKey}
+                          </TableCell>
+                        </Tooltip>
+                        <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
+                          {data?.radioStation?.name?.length > 20 ? data?.radioStation?.name?.slice(0, 20) + "..." : data?.radioStation?.name}
+                        </TableCell>
+                        <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
+                          {moment(data?.detectedAt).utc().format("DD/MM/YYYY")}
+                        </TableCell>
+                        <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
+                          {moment(data?.detectedAt).utc().format("HH:mm")}
+                        </TableCell>
+                        <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
+                          {moment.utc(data?.sonicKey?.contentDuration * 1000).format("mm:ss")}
+                        </TableCell>
+                        <Tooltip title={data?.sonicKey?.originalFileName || data?.sonicKey?.contentFileName}>
+                          <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
+                            {(data?.sonicKey?.originalFileName?.length > 20 ? data?.sonicKey?.originalFileName?.slice(0, 20) + "..." : data?.sonicKey?.originalFileName) || (data?.sonicKey?.contentFileName?.length > 20 ? data?.sonicKey?.contentFileName?.slice(0, 20) + "..." : data?.sonicKey?.contentFileName)}
+                          </TableCell>
+                        </Tooltip>
+                        <Tooltip title={data?.sonicKey?.contentOwner}>
+                          <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
+                            {(data?.sonicKey?.contentOwner === "" ? "-" : (data?.sonicKey?.contentOwner?.length > 20 ? data?.sonicKey?.contentOwner?.slice(0, 20) + "..." : data?.sonicKey?.contentOwner))}
+                          </TableCell>
+                        </Tooltip>
+                        <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
+                          {data?.radioStation?.country}
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  ) : (
+                    <TableRow>
+                      <TableCell colSpan={8} align={"center"} style={{ ...tableStyle.body, fontSize: '14px' }}>
+                        No Data
+                      </TableCell>
+                    </TableRow>
+                  )}
             </TableBody>
           </Table>
         </TableContainer>

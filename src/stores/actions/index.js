@@ -10,3 +10,4 @@ export {
 } from './count';
 export { fetchTopRadioStation } from './topRadioStation';
 export { fetchPlaysLists } from './playsList'
+export { fetchGraphDataAction } from './fetchGraphDataAction'

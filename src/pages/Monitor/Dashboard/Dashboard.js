@@ -1,5 +1,5 @@
 import { Grid, TableContainer, Button, FormControl, Select, MenuItem, InputLabel } from "@material-ui/core";
-import React from "react";
+import React, { useEffect } from "react";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -9,6 +9,9 @@ import "./Dashboard.scss"
 import { tableStyle } from "../../../globalStyle";
 import { BarGraph, BarGraphCard } from "../Components/BarGraph";
 import { makeStyles } from "@material-ui/styles";
+import { useDispatch, useSelector } from "react-redux";
+import { log } from "../../../utils/app.debug";
+import { fetchGraphDataAction } from "../../../stores/actions";
 
 const useStyles = makeStyles((theme) => ({
   menuItems: {
@@ -41,8 +44,21 @@ export function Dashboard() {
 
   const dummy = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
+  const dispatch = useDispatch();
+
+  const stateGraph = useSelector(state => state.graphData)
+
+
+  useEffect(() => {
+    dispatch(fetchGraphDataAction());
+  }, [])
+
   const GraphData = [10, 20, 30, 40, 10, 50, 70]
   const labels = ["Uk", "Canada", "Germany", "Australia", "America", "Brazil", "Argentina"]
+
+  console.log("testing data:", stateGraph?.data?.playsArtistWise)
+  const artistWiseData = stateGraph?.data?.playsArtistWise;
+  console.log("artistWise :", artistWiseData)
 
   return (
     <Grid className="dashboard-container">
@@ -193,9 +209,9 @@ export function Dashboard() {
         </Grid>
         <Grid container spacing={4}>
           <Grid item sm={12} lg={6}>
-            <BarGraph title="Plays - Country-wise" label={labels} data={GraphData} />
+            <BarGraph title="Plays - Country-wise" data={stateGraph} />
           </Grid>
-          <Grid item sm={12} lg={6}>
+          {/* <Grid item sm={12} lg={6}>
             <BarGraph title="Plays - Song-wise" label={labels} data={GraphData} />
           </Grid>
           <Grid item sm={12} lg={6}>
@@ -203,7 +219,7 @@ export function Dashboard() {
           </Grid>
           <Grid item sm={12} lg={6}>
             <BarGraph title="Plays - Artist-wise" label={labels} data={GraphData} />
-          </Grid>
+          </Grid> */}
         </Grid>
       </Grid>
     </Grid >

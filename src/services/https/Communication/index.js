@@ -240,6 +240,10 @@ class Communication {
     return AppWebRequest(`/detections/owners/${getUserId()}/list-plays?limit=${limit}&sort=-createdAt&skip=${index}`, "get", axiosConfig)
   }
 
+  fetchGraphData() {
+    return AppWebRequest(`/detections/owners/${getUserId()}/plays-dashboard-graph-data`, "get");
+  }
+
 }
 
 export default new Communication();

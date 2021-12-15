@@ -1,3 +1,4 @@
+import moment from "moment";
 import { log } from "../../../utils/app.debug";
 import { getUserId } from "../AuthHelper";
 import { AppWebRequest } from "../NetworkManager";
@@ -222,22 +223,14 @@ class Communication {
     return AppWebRequest('users/authorize')
   }
 
-  fetchPlayList(limit, index, value) {
-    index = index > 1 ? (index - 1) * limit : 0
-    const axiosConfig = {
-      params: {
-        filter: {
-          $or: [
-            { [`sonicKey`]: { "$regex": `${value ? value : ''}`, "$options": "i" } },
-            { [`contentFileName`]: { "$regex": `${value ? value : ""}`, "$options": "i" } },
-            { [`contentOwner`]: { "$regex": `${value ? value : ""}`, "$options": "i" } },
-            // { [`country`]: { "$regex": `${value ? value : ""}`, "$options": "i" } },
-          ],
-        },
-      },
-    }
-    // list-plays?channel=STREAMREADER&limit=2&detectedAt>=2021-12-01&detectedAt<2021-12-11&relation_sonicKey.contentOwner=ArBa&relation_filter={"sonicKey.contentName":{ "$regex": "bo", "$options": "i" }}
-    return AppWebRequest(`/detections/owners/${getUserId()}/list-plays?limit=${limit}&sort=-createdAt&skip=${index}`, "get", axiosConfig)
+  getPlaysLists(startDate, endDate, channel, page, limit) {
+    let params = new URLSearchParams(`detectedAt>=${moment(startDate).format("YYYY-MM-DD")}&detectedAt<=${moment(endDate).format("YYYY-MM-DD")}`)
+    params.append("channel", channel)
+    params.append("limit", limit);
+    params.append("page", page);
+    params.append("skip", page > 1 ? (page - 1) * limit : 0)
+
+    return AppWebRequest(`/detections/owners/${getUserId()}/list-plays`, "get", { params: params })
   }
 
 }

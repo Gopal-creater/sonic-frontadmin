@@ -2,13 +2,12 @@ import Communication from '../../services/https/Communication';
 import { log } from '../../utils/app.debug';
 import * as actionType from './actionTypes';
 
-export const fetchPlaysLists = (limit = 10, index = 0) => {
-    index = index > 1 ? (index - 1) * limit : 0
+export const getPlaysListsAction = (startDate, endDate, channel, page, limit) => {
     return dispatch => {
         dispatch({
             type: actionType.FETCH_PLAYS_LISTS_LOADING
         })
-        Communication.fetchPlayList(limit, index)
+        Communication.getPlaysLists(startDate, endDate, channel, page, limit)
             .then((data) => {
                 log("plays-list", data);
                 dispatch({

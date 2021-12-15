@@ -9,4 +9,4 @@ export {
         fetchTotalListeningCount, fetchTotalNotListeningCount, fetchTotalErrorCount, fetchTotalRadiostationCount
 } from './count';
 export { fetchTopRadioStation } from './topRadioStation';
-export { fetchPlaysLists } from './playsList'
+export { getPlaysListsAction } from './playsList'

@@ -278,7 +278,7 @@ export function Dashboard() {
                           </TableCell>
                         </Tooltip>
                         <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
-                          {data?.radioStation?.country}
+                          {data?.radioStation?.country}np
                         </TableCell>
                       </TableRow>
                     ))

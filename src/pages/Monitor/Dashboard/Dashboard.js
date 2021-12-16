@@ -164,7 +164,7 @@ export function Dashboard() {
         <Grid item lg={3} md={3} sm={4} xs={12} >
           <Grid className="radioStations-subscribed-container">
             <p className="radioStations-subscribed-title">Radio Stations Subscribed</p>
-            <p className="mt-3" style={{ textAlign: "center" }}>
+            <p className="mt-3" style={{ textAlign: "center", color: "#757575" }}>
               {
                 dashboard?.totalSubscribedStationCount?.loading
                   ? <CircularProgress size={20} />

@@ -14,6 +14,8 @@ import moment from 'moment';
 import { playsTableHeads } from '../../../constants/constants';
 import { getPlaysListsAction } from '../../../stores/actions/playsList';
 import DailogTable from '../../../components/common/DialogTable';
+import { log } from '../../../utils/app.debug';
+import { useParams } from 'react-router-dom';
 
 export default function Plays() {
     const [values, setValues] = React.useState({
@@ -33,6 +35,7 @@ export default function Plays() {
         dispatch(getPlaysListsAction(values?.startDate, values?.endDate, values?.channel, playsList?.data?.page, 10));
     }, [values?.startDate, values?.endDate])
 
+    log("params", useParams())
     return (
         <Grid className="plays-container">
             <Grid container justifyContent="space-between" className="plays-title-container">

@@ -41,6 +41,7 @@ const dashboardReducer = (state = initialState, action) =>
                 draft.totalSonicKeysCount.loading = false
                 draft.totalSonicKeysCount.data = {}
                 draft.totalSonicKeysCount.error = action.data
+                break
 
             case actionTypes.SET_TOTALSUBSCRIBEDSTATION_COUNT_LOADING:
                 draft.totalSubscribedStationCount.loading = true

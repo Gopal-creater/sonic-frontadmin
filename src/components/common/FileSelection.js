@@ -94,6 +94,9 @@ export default function FileSelection({ prop }) {
       isrcCode: "",
       iswcCode: "",
       tuneCode: "",
+      distributor: "",
+      version: "",
+      label: ""
     },
     name: null,
   });
@@ -123,13 +126,16 @@ export default function FileSelection({ prop }) {
           isrcCode: "",
           iswcCode: "",
           tuneCode: "",
+          distributor: "",
+          version: "",
+          label: ""
         },
         name: null
       })
       document.getElementById("contained-button-file").value = ''
     }
   }, [prop])
-  
+
   function truncate(str, n) {
     return str?.length > n ? str.substr(0, n - 1) + "..." : str;
   }
@@ -163,6 +169,9 @@ export default function FileSelection({ prop }) {
         isrcCode: "",
         iswcCode: "",
         tuneCode: "",
+        distributor: "",
+        version: "",
+        label: ""
       },
       name: null,
     };
@@ -247,6 +256,9 @@ export default function FileSelection({ prop }) {
             isrcCode: "",
             iswcCode: "",
             tuneCode: "",
+            distributor: "",
+            version: "",
+            label: ""
           },
           name: file?.name,
         };

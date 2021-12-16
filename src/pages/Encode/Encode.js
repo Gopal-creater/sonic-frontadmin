@@ -135,7 +135,10 @@ export default function Encode() {
             contentQuality: values?.data?.contentQuality,
             additionalMetadata: { ...values?.data?.additionalMetadata },
             isRightsHolderForEncode: values?.isRightsHolderForEncode === null ? false : values?.isRightsHolderForEncode,
-            isAuthorizedForEncode: values?.isAuthorizedForEncode === null ? false : values?.isAuthorizedForEncode
+            isAuthorizedForEncode: values?.isAuthorizedForEncode === null ? false : values?.isAuthorizedForEncode,
+            distributor: values?.data?.distributor,
+            version: values?.data?.version,
+            label: values?.data?.label
         }
         formData.append("data", JSON.stringify(payload));
 
@@ -358,6 +361,39 @@ export default function Encode() {
                                 rows={4}
                                 value={values?.data?.contentDescription}
                                 onChange={(e) => { setValues({ ...values, data: { ...values?.data, contentDescription: e.target.value } }) }} />
+                        </Grid>
+
+                        <Grid item id="distributor">
+                            <TextField
+                                fullWidth
+                                id="standard-basic"
+                                label="Distributor"
+                                inputProps={{ className: classes.textInput }}
+                                InputLabelProps={{ className: classes.textInputLabel }}
+                                value={values?.data?.distributor}
+                                onChange={(e) => { setValues({ ...values, data: { ...values?.data, distributor: e.target.value } }) }} />
+                        </Grid>
+
+                        <Grid item id="version">
+                            <TextField
+                                fullWidth
+                                id="standard-basic"
+                                label="Version"
+                                inputProps={{ className: classes.textInput }}
+                                InputLabelProps={{ className: classes.textInputLabel }}
+                                value={values?.data?.version}
+                                onChange={(e) => { setValues({ ...values, data: { ...values?.data, version: e.target.value } }) }} />
+                        </Grid>
+
+                        <Grid item id="label">
+                            <TextField
+                                fullWidth
+                                id="standard-basic"
+                                label="Label"
+                                inputProps={{ className: classes.textInput }}
+                                InputLabelProps={{ className: classes.textInputLabel }}
+                                value={values?.data?.label}
+                                onChange={(e) => { setValues({ ...values, data: { ...values?.data, label: e.target.value } }) }} />
                         </Grid>
 
                         <Grid item id="additionalMetadata">

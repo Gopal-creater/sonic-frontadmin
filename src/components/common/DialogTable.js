@@ -139,6 +139,18 @@ const DailogTable = (props) => {
                                 <TableCell className={classes.tableCellTwo}>{sonicKey?.contentDescription}</TableCell>
                             </TableRow>
                             <TableRow>
+                                <TableCell className={classes.tableCellOne}>Distributor</TableCell>
+                                <TableCell className={classes.tableCellTwo}>{sonicKey?.distributor}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell className={classes.tableCellOne}>Version</TableCell>
+                                <TableCell className={classes.tableCellTwo}>{sonicKey?.version}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell className={classes.tableCellOne}>Label</TableCell>
+                                <TableCell className={classes.tableCellTwo}>{sonicKey?.label}</TableCell>
+                            </TableRow>
+                            <TableRow>
                                 <TableCell className={classes.tableCellOne}>Addional Meta Data</TableCell>
                                 <TableCell className={classes.tableCellTwo}>{sonicKey?.additionalMetadata?.message}</TableCell>
                             </TableRow>

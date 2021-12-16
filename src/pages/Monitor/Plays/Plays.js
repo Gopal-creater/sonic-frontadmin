@@ -4,7 +4,7 @@ import { Grid, TableContainer, TableHead, TableRow, Table, TableBody, TableCell,
 import { tableStyle } from '../../../globalStyle';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import CustomDate from './components/CustomDate';
+import { CustomDate } from './components/CustomDate';
 import { FilterList } from '@material-ui/icons';
 import Filter from './components/Filter';
 import { Pagination } from '@material-ui/lab';
@@ -14,24 +14,36 @@ import moment from 'moment';
 import { playsTableHeads } from '../../../constants/constants';
 import { getPlaysListsAction } from '../../../stores/actions/playsList';
 import DailogTable from '../../../components/common/DialogTable';
+import * as actioTypes from "../../../stores/actions/actionTypes";
+import { log } from '../../../utils/app.debug';
 
 export default function Plays() {
     const [values, setValues] = React.useState({
-        startDate: new Date().setMonth(new Date().getMonth() - 1),
-        endDate: new Date(),
         anchorFilter: false,
         sonicKeyModal: false,
         selectedSonicKey: {},
-        channel: "STREAMREADER"
     })
     const openFilter = Boolean(values.anchorFilter);
 
     const dispatch = useDispatch();
     const playsList = useSelector(state => state.playsList)
+    log("playsList", playsList)
 
     React.useEffect(() => {
-        dispatch(getPlaysListsAction(values?.startDate, values?.endDate, values?.channel, playsList?.data?.page, 10));
-    }, [values?.startDate, values?.endDate])
+        dispatch(getPlaysListsAction(
+            playsList?.dates?.startDate,
+            playsList?.dates?.endDate,
+            playsList?.filters?.channel,
+            playsList?.data?.page,
+            10,
+            playsList?.filters?.sonickey,
+            playsList?.filters?.country,
+            playsList?.filters?.artist,
+            playsList?.filters?.radioStation,
+            playsList?.filters?.song,
+            playsList?.filters?.encodedDate,
+        ));
+    }, [playsList?.dates?.startDate, playsList?.dates?.endDate])
 
     return (
         <Grid className="plays-container">
@@ -51,9 +63,9 @@ export default function Plays() {
                 <Grid className="filter-dates">
                     <Grid className="filter-startDate">
                         <DatePicker
-                            selected={values?.startDate}
-                            onChange={(date) => setValues({ ...values, startDate: date })}
-                            customInput={<CustomDate calender />}
+                            selected={playsList?.dates?.startDate}
+                            onChange={(date) => dispatch({ type: actioTypes.SET_PLAYS_DATES, data: { ...playsList.dates, startDate: date } })}
+                            customInput={<CustomDate calender="true" />}
                             dateFormat="MMM d,yyyy"
                             title="Start Date"
                             showYearDropdown
@@ -67,8 +79,8 @@ export default function Plays() {
 
                     <Grid className="filter-endDate">
                         <DatePicker
-                            selected={values?.endDate}
-                            onChange={(date) => setValues({ ...values, endDate: date })}
+                            selected={playsList?.dates?.endDate}
+                            onChange={(date) => dispatch({ type: actioTypes.SET_PLAYS_DATES, data: { ...playsList.dates, endDate: date } })}
                             customInput={<CustomDate />}
                             dateFormat="MMM d,yyyy"
                             title="End Date"
@@ -93,7 +105,7 @@ export default function Plays() {
                         id="open-filter"
                         open={openFilter}
                         anchorEl={values.anchorFilter}
-                        onClose={() => setValues({ ...values, anchorFilter: null })}
+                        onClose={() => setValues({ ...values, anchorFilter: false })}
                         anchorOrigin={{
                             vertical: 'bottom',
                             horizontal: 'left',
@@ -104,18 +116,15 @@ export default function Plays() {
                         }}
                     >
                         <Filter
-                            onClose={() => setValues({ ...values, anchorFilter: null })}
+                            setClose={(flag) => setValues({ ...values, anchorFilter: flag })}
+                            values={values}
+                            page={playsList?.data?.page}
                         />
                     </Popover>
                 </Grid>
             </Grid>
 
             <TableContainer style={{ ...tableStyle.container, width: "100%" }} className="plays-table">
-                {/* {playsList?.loading ?
-                    <div style={{ display: 'flex', justifyContent: 'center', width: '100%', height: '200px' }}>
-                        <SonicSpinner title="Loading Sonic Keys..." containerStyle={{ height: '100%', display: 'flex', justifyContent: 'center' }} />
-                    </div>
-                    :  */}
                 <Table aria-label="Detail table">
                     <TableHead>
                         <TableRow hover>
@@ -131,7 +140,7 @@ export default function Plays() {
                         {playsList?.loading ?
                             <TableRow>
                                 <TableCell colSpan={8} align={"center"} style={{ ...tableStyle.body, fontSize: '14px' }}>
-                                    <div style={{ display: 'flex', justifyContent: 'center', width: '100%', height: '200px' }}>
+                                    <div style={{ display: 'flex', justifyContent: 'center', width: '100%', height: '100px' }}>
                                         <SonicSpinner title="Loading Sonic Keys..." containerStyle={{ height: '100%', display: 'flex', justifyContent: 'center' }} />
                                     </div>
                                 </TableCell>
@@ -192,13 +201,26 @@ export default function Plays() {
                     />
                 )}
 
-                {!playsList?.loading ? <Pagination
-                    count={playsList?.data?.totalPages}
-                    page={playsList?.data?.page}
-                    variant="outlined"
-                    shape="rounded"
-                    onChange={(event, value) => dispatch(getPlaysListsAction(values?.startDate, values?.endDate, values?.channel, value, 10))}
-                /> : ""}
+                {!playsList?.loading ?
+                    <Pagination
+                        count={playsList?.data?.totalPages}
+                        page={playsList?.data?.page}
+                        variant="outlined"
+                        shape="rounded"
+                        onChange={(event, value) => dispatch(getPlaysListsAction(
+                            playsList?.dates?.startDate,
+                            playsList?.dates?.endDate,
+                            playsList?.filters?.channel,
+                            value,
+                            10,
+                            playsList?.filters?.sonickey,
+                            playsList?.filters?.country,
+                            playsList?.filters?.artist,
+                            playsList?.filters?.radioStation,
+                            playsList?.filters?.song,
+                            playsList?.filters?.encodedDate,
+                        ))}
+                    /> : ""}
             </TableContainer>
         </Grid>
     )

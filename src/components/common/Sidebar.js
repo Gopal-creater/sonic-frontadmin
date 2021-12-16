@@ -34,16 +34,19 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "NunitoSans-Bold",
   }
 }));
+
 export default function Sidebar() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [newActiveLink, setNewActiveLink] = React.useState(null);
 
-  const listItem = [{ link: "/encode", linkText: "Encode" },
-  { link: "/decode", linkText: "Decode" },
-  { link: "/monitor", linkText: "Monitor" },
-  { link: "/sonic-keys", linkText: "SonicKeys" },
-  { link: "/licences", linkText: "Licenses" }]
+  const listItem = [
+    { link: "/encode", linkText: "Encode" },
+    { link: "/decode", linkText: "Decode" },
+    { link: "/monitor", linkText: "Monitor" },
+    { link: "/sonic-keys", linkText: "SonicKeys" },
+    { link: "/licences", linkText: "Licenses" }
+  ]
 
   const checkIsActive = (match, location, index) => {
     match && setNewActiveLink(index); // <-- set active index
@@ -56,7 +59,7 @@ export default function Sidebar() {
         listItem?.map((data, index) => {
           if (data?.linkText === "Monitor") {
             return (
-              <>
+              <div key={index}>
                 <NavLink
                   className={classes.listItemContainer}
                   activeClassName={classes.activelistItemContainer}
@@ -109,10 +112,11 @@ export default function Sidebar() {
                     </div>
                   )
                 }
-              </>);
+              </div>);
           } else {
             return (
               <NavLink
+                key={index}
                 className={classes.listItemContainer}
                 activeClassName={classes.activelistItemContainer}
                 to={data?.link}

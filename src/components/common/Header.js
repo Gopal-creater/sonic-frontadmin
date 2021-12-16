@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Header() {
   const classes = useStyles();
   return (
-    <AppBar position="fixed" className={classes.appBar} elevation={0.2}>
+    <AppBar position="fixed" className={classes.appBar} elevation={0}>
       <Container maxWidth="xl" className={classes.container}>
         <Toolbar className={classes.toolBar}>
           <img alt="logo" src={LogoWithTextImg} style={{ width: 80 }} />

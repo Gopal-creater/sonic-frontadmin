@@ -61,6 +61,8 @@ export function Dashboard() {
         artist: "",
         radioStation: "",
         song: "",
+        label: "",
+        distributor: "",
         encodedDate: ""
       }
     })

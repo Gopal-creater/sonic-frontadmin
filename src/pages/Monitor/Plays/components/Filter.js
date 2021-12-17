@@ -247,6 +247,74 @@ export default function Filter(props) {
 
                     <FormControl>
                         <TextField
+                            id="label"
+                            label="Label"
+                            type="text"
+                            defaultValue=""
+                            value={plays?.filters?.label}
+                            onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, label: e.target.value } })}
+                            style={{
+                                color: "#757575",
+                                backgroundColor: "transparent",
+                                outline: "none",
+                                border: "none",
+                                boxShadow: "none",
+                                margin: "0px 30px 0px 20px",
+                                padding: "5px 0px",
+                                width: 220,
+                            }}
+                            InputLabelProps={{
+                                style: {
+                                    paddingLeft: 10,
+                                    fontFamily: "NunitoSans-Bold",
+                                }
+                            }}
+                            InputProps={{
+                                style: {
+                                    paddingLeft: 12,
+                                    color: 'grey',
+                                    fontFamily: "NunitoSans-Bold",
+                                },
+                            }}
+                        />
+                    </FormControl>
+
+                    <FormControl>
+                        <TextField
+                            id="distributor"
+                            label="Distributor"
+                            type="text"
+                            defaultValue=""
+                            value={plays?.filters?.distributor}
+                            onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, distributor: e.target.value } })}
+                            style={{
+                                color: "#757575",
+                                backgroundColor: "transparent",
+                                outline: "none",
+                                border: "none",
+                                boxShadow: "none",
+                                margin: "0px 30px 0px 20px",
+                                padding: "5px 0px",
+                                width: 220,
+                            }}
+                            InputLabelProps={{
+                                style: {
+                                    paddingLeft: 10,
+                                    fontFamily: "NunitoSans-Bold",
+                                }
+                            }}
+                            InputProps={{
+                                style: {
+                                    paddingLeft: 12,
+                                    color: 'grey',
+                                    fontFamily: "NunitoSans-Bold",
+                                },
+                            }}
+                        />
+                    </FormControl>
+
+                    <FormControl>
+                        <TextField
                             id="date"
                             label="Encoded Date"
                             type="date"
@@ -294,6 +362,8 @@ export default function Filter(props) {
                                 artist: "",
                                 radioStation: "",
                                 song: "",
+                                label: "",
+                                distributor: "",
                                 encodedDate: ""
                             }
                         })}

@@ -15,7 +15,9 @@ const initialState = {
         artist: "",
         radioStation: "",
         song: "",
-        encodedDate: ""
+        encodedDate: "",
+        label: "",
+        distributor: "",
     },
     error: null,
 };

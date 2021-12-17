@@ -31,6 +31,12 @@ export const getPlaysListsAction = (startDate, endDate, channel, page, limit, re
     if (playsFilters?.song) {
         params.append("relation_sonicKey.originalFileName", playsFilters?.song);
     }
+    if (playsFilters?.label) {
+        params.append("relation_sonicKey.label", playsFilters?.label);
+    }
+    if (playsFilters?.distributor) {
+        params.append("relation_sonicKey.distributor", playsFilters?.distributor);
+    }
     if (playsFilters?.encodedDate) {
         params.append("relation_sonicKey.createdAt", playsFilters?.encodedDate);
     }

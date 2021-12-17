@@ -13,6 +13,7 @@ export const BarGraph = (props) => {
         datasets: [
             {
                 label: props?.title,
+                maxBarThickness: 50,
                 data: props?.data,
                 backgroundColor: 'rgb(66,133,244)',
             }

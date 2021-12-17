@@ -5,12 +5,13 @@ import { log } from '../../utils/app.debug';
 import * as actionType from './actionTypes';
 import cogoToast from 'cogo-toast';
 
-export const getPlaysListsAction = (startDate, endDate, channel, page, limit) => {
+export const getPlaysListsAction = (startDate, endDate, channel, page, limit, recentPlays = false) => {
     let params = new URLSearchParams(`detectedAt>=${moment(startDate).format("YYYY-MM-DD")}&detectedAt<=${moment(endDate).format("YYYY-MM-DD")}`)
     params.append("channel", channel)
     params.append("limit", limit);
-    params.append("page", page);
-    params.append("skip", page > 1 ? (page - 1) * limit : 0)
+    !recentPlays && params.append("page", page)
+    !recentPlays && params.append("skip", page > 1 ? (page - 1) * limit : 0)
+    params.append("recentPlays", recentPlays)
 
     log("store", store.getState().playsList)
     let playsFilters = store.getState()?.playsList?.filters

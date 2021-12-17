@@ -7,9 +7,12 @@ import Button from '@material-ui/core/Button';
 import DialogActions from '@material-ui/core/DialogActions';
 import { makeStyles } from "@material-ui/core/styles";
 import DialogLogo from "../../../src/assets/images/key-logo.png";
-import { log } from "../../utils/app.debug";
 import HitModal from "./HitModal"
 import moment from "moment";
+import { useHistory } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux";
+import * as actionTypes from "../../stores/actions/actionTypes"
+import * as sessionActionTypes from "../../stores/actions/session/actionTypes"
 
 const useStyles = makeStyles({
     dialogPaper: {
@@ -45,8 +48,11 @@ const DailogTable = (props) => {
         endDate: new Date(),
     });
 
+    const dispatch = useDispatch()
+    const plays = useSelector(state => state.playsList)
+    const history = useHistory()
+
     const { sonicKey } = props;
-    log("sonic props", props.sonicKey)
     const theme = useTheme()
     const classes = useStyles();
 
@@ -54,10 +60,15 @@ const DailogTable = (props) => {
         props.setOpenTable(false)
     };
 
-    const viewPlays = () => {
-        setValues({ ...values, openHitModal: true, hitModalData: { ...sonicKey } })
+    // const viewPlays = () => {
+    //     setValues({ ...values, openHitModal: true, hitModalData: { ...sonicKey } })
+    // }
+    const viewPlaysWithSonicKey = () => {
+        dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, sonicKey: sonicKey?.sonicKey } })
+        props.setOpenTable(false)
+        dispatch({ type: sessionActionTypes.SET_SIDEBAR, data: true });
+        history.push("/plays")
     }
-
     return (
         <>
             <Dialog open={true} fullWidth={true} className={classes.dialogPaper}>
@@ -139,7 +150,19 @@ const DailogTable = (props) => {
                                 <TableCell className={classes.tableCellTwo}>{sonicKey?.contentDescription}</TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell className={classes.tableCellOne}>Addional Meta Data</TableCell>
+                                <TableCell className={classes.tableCellOne}>Distributor</TableCell>
+                                <TableCell className={classes.tableCellTwo}>{sonicKey?.distributor}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell className={classes.tableCellOne}>Version</TableCell>
+                                <TableCell className={classes.tableCellTwo}>{sonicKey?.version}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell className={classes.tableCellOne}>Label</TableCell>
+                                <TableCell className={classes.tableCellTwo}>{sonicKey?.label}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell className={classes.tableCellOne}>Additional Meta Data</TableCell>
                                 <TableCell className={classes.tableCellTwo}>{sonicKey?.additionalMetadata?.message}</TableCell>
                             </TableRow>
                         </TableBody>
@@ -156,7 +179,7 @@ const DailogTable = (props) => {
                         style={{
                             fontFamily: 'NunitoSans-Bold', color: 'white', backgroundColor: '#343F84', textTransform: 'none', borderRadius: '8px', padding: '12px 20px'
                         }}
-                        onClick={viewPlays}
+                        onClick={viewPlaysWithSonicKey}
                     >
                         View Plays
                     </Button>

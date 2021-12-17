@@ -221,7 +221,6 @@ class Communication {
   userAuthentication() {
     return AppWebRequest('users/authorize')
   }
-
 }
 
 export default new Communication();

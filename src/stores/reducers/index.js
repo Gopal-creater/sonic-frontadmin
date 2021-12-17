@@ -1,4 +1,4 @@
-import {combineReducers } from 'redux';
+import { combineReducers } from 'redux';
 
 import sonicKeyRed from './sonicKeyRed';
 import profileRed from './profileRed';
@@ -10,25 +10,30 @@ import globalReducer from './global';
 import countReducer from './count';
 import cardRadiostationsReducer from './cardRadioStaion';
 import topRadiostationReducer from './topRadioStation';
+import dashboardReducer from './dashboard.reducers';
+import playsListsReducer from './playsListsRed';
+
 const appReducer = combineReducers({
-    session:sessionRed,
-    sonicKeys : sonicKeyRed, //for access the data have same name
-    profile : profileRed,
-    licenceKey : licenceKeyRed,
-    thirdPartyKeys: thirdPartyRed,
-    radioStations: radiostationsReducer,
-    radioPageNumber:globalReducer,
-    count:countReducer,
-    cardRadioStaions:cardRadiostationsReducer,
-    topRadiostation:topRadiostationReducer,
-  });
+  session: sessionRed,
+  sonicKeys: sonicKeyRed, //for access the data have same name
+  profile: profileRed,
+  licenceKey: licenceKeyRed,
+  thirdPartyKeys: thirdPartyRed,
+  radioStations: radiostationsReducer,
+  radioPageNumber: globalReducer,
+  count: countReducer,
+  cardRadioStaions: cardRadiostationsReducer,
+  topRadiostation: topRadiostationReducer,
+  dashboard: dashboardReducer,
+  playsList: playsListsReducer,
+});
 
-  const rootReducer = (state, action) => {
-    if (action.type === 'LOGOUT') {
-        localStorage.removeItem('user_info')
-        state = undefined
-    }
-    return appReducer(state, action)
-  };
+const rootReducer = (state, action) => {
+  if (action.type === 'LOGOUT') {
+    localStorage.removeItem('user_info')
+    state = undefined
+  }
+  return appReducer(state, action)
+};
 
-  export default rootReducer
+export default rootReducer

@@ -5,13 +5,13 @@ export const tableStyle = {
   },
   head: {
     color: "rgb(156, 164, 171)",
-    fontWeight: 'bold',
     fontSize: 10,
+    fontFamily: "NunitoSans-Bold"
   },
   body: {
     fontSize: 12,
-    fontWeight: 'bold',
     color: "#343F5B",
+    fontFamily: "NunitoSans-Bold"
   },
   tableRow: {
     "&:hover": {

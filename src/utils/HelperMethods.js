@@ -9,6 +9,7 @@ import * as actionCreators from "../stores/actions/index";
 import { log } from "./app.debug";
 import fileDownload from "js-file-download";
 import axios from "axios";
+import moment from "moment";
 
 export function extractFileName(url) {
   var filename = url.substring(url.lastIndexOf("-") + 1);
@@ -99,11 +100,11 @@ export function online() {
 export function validURL(str) {
   var pattern = new RegExp(
     "^(https?:\\/\\/)?" + // protocol
-      "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
-      "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
-      "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
-      "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
-      "(\\#[-a-z\\d_]*)?$",
+    "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+    "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+    "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+    "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+    "(\\#[-a-z\\d_]*)?$",
     "i"
   ); // fragment locator
   return !!pattern.test(str);
@@ -160,36 +161,21 @@ export function sortByDate(arr) {
 }
 
 export function todayRange() {
-  const d = new Date();
-  // log('todayRange d',d)
-  const today = format(d.setDate(d.getDate()), "yyyy-MM-dd");
-  const tommorrow = format(d.setDate(d.getDate() + 1), "yyyy-MM-dd");
-  // log('tomm, today', tommorrow, today);
-  return `${tommorrow},${today}`;
+  let today = moment().format("YYYY-MM-DD")
+  let yesterday = moment().subtract(1, 'days').format("YYYY-MM-DD")
+  return `${yesterday},${today}`
 }
 
 export function weekRange() {
-  const d = new Date();
-  // log('weekRange d',d)
-  const tommorrow = format(d.setDate(d.getDate() + 1), "yyyy-MM-dd");
-  const weekBack = format(d.setDate(d.getDate() - 8), "yyyy-MM-dd");
-  // log('tomm, weekBack', tommorrow, weekBack);
-  return `${tommorrow},${weekBack}`;
+  let startOfWeek = moment().subtract(7, "days").format("YYYY-MM-DD")
+  let today = moment().format("YYYY-MM-DD")
+  return `${startOfWeek},${today}`
 }
 
-export function monthRange(fromToday = true, fromtommorrow = false) {
-  const d = new Date();
-  let from;
-  // log('monthRange d',d)
-  if (fromToday) {
-    from = format(d.setDate(d.getDate()), "yyyy-MM-dd");
-  }
-  if (fromtommorrow) {
-    from = format(d.setDate(d.getDate() + 1), "yyyy-MM-dd");
-  }
-  const MonthBack = format(d.setDate(d.getDate() - 31), "yyyy-MM-dd");
-  // log('tomm, MonthBack', tommorrow, MonthBack);
-  return `${from},${MonthBack}`;
+export function monthRange() {
+  let today = moment().format("YYYY-MM-DD")
+  let monthBack = moment().subtract(1, "months").format("YYYY-MM-DD")
+  return `${monthBack},${today}`;
 }
 
 export function yearRange() {
@@ -201,9 +187,7 @@ export function yearRange() {
   var date = new Date(year - 1, month, day);
 
   const today = format(d, "yyyy-MM-dd");
-  // const tommorrow = format(d.setDate(d.getDate() + 1), 'yyyy-MM-dd');
   const yearBack = format(date, "yyyy-MM-dd");
-  // log('todayyyyyy, yearBackkkkkkkkkk', today, yearBack);
   return `${today},${yearBack}`;
 }
 

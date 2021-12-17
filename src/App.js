@@ -7,10 +7,8 @@ import Routes from "./routes/Routes";
 import Amplify from "aws-amplify";
 import awsconfig from "./config/aws-exports";
 import Authenticator from "./pages/Auth/Authenticator";
-import { log } from "./utils/app.debug";
 import Communication from "./services/https/Communication";
 import cogoToast from "cogo-toast";
-import * as actionTypes from "./stores/actions/session/actionTypes";
 
 Amplify.configure(awsconfig);
 function App() {

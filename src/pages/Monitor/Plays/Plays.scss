@@ -1,0 +1,70 @@
+.plays-container {
+    background-color: #fff;
+    padding: 2% 2.5%;
+    .plays-title-container {
+      .plays-title {
+        font-size: 30px;
+        color: #343F84;
+        font-family: "NunitoSans-Bold";
+      }
+      .plays-subTitle {
+        margin-top: 5px;
+        color: #00A19A;
+        font-size: 18px;
+        font-family: "NunitoSans-Regular";
+      }
+    }
+  
+    .plays-filter-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 25px;
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      margin-top: 20px;
+      margin-bottom: 30px;
+      .filter-dates {
+          display: flex;
+          align-items: center;
+          color: #343F84;
+      }
+      .filter-dialog {
+          display: flex;
+        .filter-btn {
+            font-size: 18px;
+            font-family: "NunitoSans-Bold";
+            color: #343F84;
+        }
+      }
+    }
+
+    .plays-table {
+        .plays-table-row {
+            &:hover {
+                box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 1px 5px rgba(0,0,0,0.22);
+                cursor: pointer;
+            }
+        }
+    }
+  }
+  
+  @media screen and(max-width:"850px") {
+    .plays-filter-container {
+      .filter-dates {
+        flex-direction: column;
+        .filter-endDate {
+          align-self: flex-end;
+        }
+      }
+    }
+  }
+
+  @media screen and(max-width:"600px") {
+    .plays-filter-container {
+      flex-direction: column;
+      .filter-dialog {
+        margin-top: 20px;
+      }
+    }
+  }
+  

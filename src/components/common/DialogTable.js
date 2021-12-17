@@ -7,12 +7,12 @@ import Button from '@material-ui/core/Button';
 import DialogActions from '@material-ui/core/DialogActions';
 import { makeStyles } from "@material-ui/core/styles";
 import DialogLogo from "../../../src/assets/images/key-logo.png";
-import { log } from "../../utils/app.debug";
 import HitModal from "./HitModal"
 import moment from "moment";
 import { useHistory } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux";
 import * as actionTypes from "../../stores/actions/actionTypes"
+import * as sessionActionTypes from "../../stores/actions/session/actionTypes"
 
 const useStyles = makeStyles({
     dialogPaper: {
@@ -66,6 +66,7 @@ const DailogTable = (props) => {
     const viewPlaysWithSonicKey = () => {
         dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, sonicKey: sonicKey?.sonicKey } })
         props.setOpenTable(false)
+        dispatch({ type: sessionActionTypes.SET_SIDEBAR, data: true });
         history.push("/plays")
     }
     return (

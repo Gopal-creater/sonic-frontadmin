@@ -6,7 +6,11 @@ import sonickeyGrey from "../../assets/images/sonickey-grey.png";
 import sonickeyTeal from "../../assets/images/sonickey-teal.png";
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom"
+import { Grid } from "@material-ui/core";
+import { useDispatch, useSelector } from "react-redux";
+import * as actionTypes from "../../stores/actions/session/actionTypes"
+import { useLocation } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   keyImage: {
@@ -36,8 +40,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Sidebar() {
+  const location = useLocation()
+
+  const session = useSelector(state => state.session)
+  const dispatch = useDispatch()
+
+  React.useEffect(() => {
+    if (location?.pathname === "/plays" || location?.pathname === "/dashboard" || location?.pathname === "/streamreader") {
+      dispatch({ type: actionTypes.SET_SIDEBAR, data: true });
+    }
+  }, [])
+
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
   const [newActiveLink, setNewActiveLink] = React.useState(null);
 
   const listItem = [
@@ -60,27 +74,24 @@ export default function Sidebar() {
           if (data?.linkText === "Monitor") {
             return (
               <div key={index}>
-                <NavLink
+                <Grid
                   className={classes.listItemContainer}
-                  activeClassName={classes.activelistItemContainer}
                   onClick={() => {
-                    setOpen((open) => !open);
+                    dispatch({ type: actionTypes.SET_SIDEBAR, data: !session?.sidebar });
+                    checkIsActive(true, "", 2)
                   }}
-                  to="/dashboard"
-                  isActive={(match, location) => { return checkIsActive(match, location, index) }}
-                  exact
-                  style={{ justifyContent: "flex-start" }}
+                  style={{ justifyContent: "flex-start", cursor: "pointer" }}
                 >
-                  <div style={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
-                    <img src={newActiveLink === 2 ? sonickeyTeal : sonickeyGrey} alt="key" className={classes.keyImage} />
-                    <ListItemText primary={"Monitor"} classes={{ primary: classes.listItemText }} style={{ color: newActiveLink === 2 ? "#00A19A" : "#757575" }} />
+                  <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                    <img src={sonickeyGrey} alt="key" className={classes.keyImage} />
+                    <ListItemText primary={"Monitor"} classes={{ primary: classes.listItemText }} />
 
-                    {open ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+                    {session?.sidebar ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
                   </div>
-                </NavLink>
+                </Grid>
 
                 {
-                  open && (
+                  session?.sidebar && (
                     <div style={{ paddingLeft: 30 }}>
                       <NavLink
                         className={classes.listItemContainer}

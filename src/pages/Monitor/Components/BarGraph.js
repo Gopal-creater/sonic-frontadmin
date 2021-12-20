@@ -1,17 +1,27 @@
 import { CircularProgress } from '@material-ui/core';
 import React from 'react'
-import { Bar } from 'react-chartjs-2';
+import { Bar, Chart } from 'react-chartjs-2';
 import { useSelector } from 'react-redux';
 
 export const BarGraph = (props) => {
-    const options = {
+    var options = {
         responsive: true,
+        // scales: {
+        //     xAxes: [{
+        //         barThickness: 5,  // number (pixels) or 'flex'
+        //         maxBarThickness: 5 // number (pixels)
+        //     }]
+        // }
     }
 
-    const data = {
+    var data = {
         labels: props?.label,
         datasets: [
             {
+                // barPercentage: 2,
+                barThickness: 30,
+                maxBarThickness: 35,
+                // minBarLength: 2,
                 label: props?.title,
                 data: props?.data,
                 backgroundColor: 'rgb(66,133,244)',

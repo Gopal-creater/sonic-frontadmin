@@ -19,6 +19,7 @@ import moment from "moment";
 import DailogTable from "../../../components/common/DialogTable";
 import { useHistory } from "react-router-dom";
 import SonicSpinner from "../../../components/common/SonicSpinner";
+import * as actionTypes from "../../../stores/actions/actionTypes"
 import "./Dashboard.scss"
 
 const useStyles = makeStyles((theme) => ({
@@ -51,10 +52,22 @@ export function Dashboard() {
   const history = useHistory()
 
   React.useEffect(() => {
+    dispatch({
+      type: actionTypes.SET_PLAYS_FILTER,
+      data: {
+        channel: "STREAMREADER",
+        sonicKey: "",
+        country: "",
+        artist: "",
+        radioStation: "",
+        song: "",
+        encodedDate: ""
+      }
+    })
     dispatch(getTotalSubscribedStationAction())
     dispatch(getTotalSonicKeysCountAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1]))
     dispatch(getMostPlayedStationsDataAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1]))
-    dispatch(getPlaysListsAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1], "STREAMREADER", 1, 10))
+    dispatch(getPlaysListsAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1], "STREAMREADER", 1, 10, false))
     dispatch(getGraphDataAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1]));
   }, [])
 
@@ -63,19 +76,19 @@ export function Dashboard() {
     if (dateRange === "Day") {
       dispatch(getTotalSonicKeysCountAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1]))
       dispatch(getMostPlayedStationsDataAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1]))
-      dispatch(getPlaysListsAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1], "STREAMREADER", 1, 10))
+      dispatch(getPlaysListsAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1], "STREAMREADER", 1, 10, false))
       dispatch(getGraphDataAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1]));
     }
     else if (dateRange === "Week") {
       dispatch(getTotalSonicKeysCountAction(weekRange()?.split(",")?.[0], weekRange()?.split(",")?.[1]))
       dispatch(getMostPlayedStationsDataAction(weekRange()?.split(",")?.[0], weekRange()?.split(",")?.[1]))
-      dispatch(getPlaysListsAction(weekRange()?.split(",")?.[0], weekRange()?.split(",")?.[1], "STREAMREADER", 1, 10))
+      dispatch(getPlaysListsAction(weekRange()?.split(",")?.[0], weekRange()?.split(",")?.[1], "STREAMREADER", 1, 10, false))
       dispatch(getGraphDataAction(weekRange()?.split(",")?.[0], weekRange()?.split(",")?.[1]));
     }
     else {
       dispatch(getTotalSonicKeysCountAction(monthRange()?.split(",")?.[0], monthRange()?.split(",")?.[1]))
       dispatch(getMostPlayedStationsDataAction(monthRange()?.split(",")?.[0], monthRange()?.split(",")?.[1]))
-      dispatch(getPlaysListsAction(monthRange()?.split(",")?.[0], monthRange()?.split(",")?.[1], "STREAMREADER", 1, 10))
+      dispatch(getPlaysListsAction(monthRange()?.split(",")?.[0], monthRange()?.split(",")?.[1], "STREAMREADER", 1, 10, false))
       dispatch(getGraphDataAction(monthRange()?.split(",")?.[0], monthRange()?.split(",")?.[1]));
     }
   }

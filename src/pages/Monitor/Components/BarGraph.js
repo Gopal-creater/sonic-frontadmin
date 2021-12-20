@@ -23,6 +23,7 @@ export const BarGraph = (props) => {
                 maxBarThickness: 35,
                 // minBarLength: 2,
                 label: props?.title,
+                maxBarThickness: 50,
                 data: props?.data,
                 backgroundColor: 'rgb(66,133,244)',
             }

@@ -161,36 +161,18 @@ export function sortByDate(arr) {
 }
 
 export function todayRange() {
-  // const d = new Date();
-  // const today = format(d.setDate(d.getDate()), "yyyy-MM-dd");
-  // const tommorrow = format(d.setDate(d.getDate() + 1), "yyyy-MM-dd");
-  // return `${tommorrow},${today}`;
   let today = moment().format("YYYY-MM-DD")
   let yesterday = moment().subtract(1, 'days').format("YYYY-MM-DD")
   return `${yesterday},${today}`
 }
 
 export function weekRange() {
-  // const d = new Date();
-  // const tommorrow = format(d.setDate(d.getDate() + 1), "yyyy-MM-dd");
-  // const weekBack = format(d.setDate(d.getDate() - 8), "yyyy-MM-dd");
-  // return `${tommorrow},${weekBack}`;
   let startOfWeek = moment().subtract(7, "days").format("YYYY-MM-DD")
   let today = moment().format("YYYY-MM-DD")
   return `${startOfWeek},${today}`
 }
 
-export function monthRange(fromToday = true, fromtommorrow = false) {
-  // const d = new Date();
-  // let from;
-  // if (fromToday) {
-  //   from = format(d.setDate(d.getDate()), "yyyy-MM-dd");
-  // }
-  // if (fromtommorrow) {
-  //   from = format(d.setDate(d.getDate() + 1), "yyyy-MM-dd");
-  // }
-  // const MonthBack = format(d.setDate(d.getDate() - 31), "yyyy-MM-dd");
-  // return `${from},${MonthBack}`;
+export function monthRange() {
   let today = moment().format("YYYY-MM-DD")
   let monthBack = moment().subtract(1, "months").format("YYYY-MM-DD")
   return `${monthBack},${today}`;

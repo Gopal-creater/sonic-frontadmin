@@ -26,12 +26,6 @@ export default function Filter(props) {
             plays?.filters?.channel,
             props?.page,
             10,
-            plays?.filters?.sonicKey,
-            plays?.filters?.country,
-            plays?.filters?.artist,
-            plays?.filters?.radioStation,
-            plays?.filters?.song,
-            plays?.filters?.encodedDate,
         ));
 
         props?.setClose(false);

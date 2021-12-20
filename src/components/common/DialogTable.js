@@ -13,6 +13,8 @@ import { useHistory } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux";
 import * as actionTypes from "../../stores/actions/actionTypes"
 import * as sessionActionTypes from "../../stores/actions/session/actionTypes"
+import { log } from "../../utils/app.debug";
+import { getPlaysListsAction } from "../../stores/actions";
 
 const useStyles = makeStyles({
     dialogPaper: {
@@ -64,11 +66,20 @@ const DailogTable = (props) => {
     //     setValues({ ...values, openHitModal: true, hitModalData: { ...sonicKey } })
     // }
     const viewPlaysWithSonicKey = () => {
-        dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, sonicKey: sonicKey?.sonicKey } })
-        props.setOpenTable(false)
+        dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, sonicKey: sonicKey?.sonicKey, channel: sonicKey?.channel } })
+        dispatch(getPlaysListsAction(
+            plays?.dates?.startDate,
+            plays?.dates?.endDate,
+            sonicKey?.channel,
+            1,
+            10,
+        )); props.setOpenTable(false)
         dispatch({ type: sessionActionTypes.SET_SIDEBAR, data: true });
         history.push("/plays")
     }
+
+    log("sonic", sonicKey)
+
     return (
         <>
             <Dialog open={true} fullWidth={true} className={classes.dialogPaper}>

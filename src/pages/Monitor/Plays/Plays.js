@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import SonicSpinner from '../../../components/common/SonicSpinner';
 import moment from 'moment';
 import { playsTableHeads } from '../../../constants/constants';
-import { getPlaysListsAction } from '../../../stores/actions/playsList';
+import { getPlaysListsAction, getAllRadioStationsAction } from '../../../stores/actions/playsList';
 import DailogTable from '../../../components/common/DialogTable';
 import * as actioTypes from "../../../stores/actions/actionTypes";
 import { log } from '../../../utils/app.debug';
@@ -28,8 +28,6 @@ export default function Plays() {
     const dispatch = useDispatch();
     const playsList = useSelector(state => state.playsList)
 
-    log("playsList", playsList)
-
     React.useEffect(() => {
         dispatch(getPlaysListsAction(
             playsList?.dates?.startDate,
@@ -38,7 +36,11 @@ export default function Plays() {
             playsList?.data?.page,
             10,
         ));
-    }, [playsList?.dates?.startDate, playsList?.dates?.endDate, playsList?.filters?.sonicKey])
+    }, [playsList?.dates?.startDate, playsList?.dates?.endDate])
+
+    React.useEffect(() => {
+        dispatch(getAllRadioStationsAction())
+    }, [])
 
     return (
         <Grid className="plays-container">
@@ -113,7 +115,6 @@ export default function Plays() {
                         <Filter
                             setClose={(flag) => setValues({ ...values, anchorFilter: flag })}
                             values={values}
-                            page={playsList?.data?.page}
                         />
                     </Popover>
                 </Grid>
@@ -145,7 +146,7 @@ export default function Plays() {
                                     <TableRow key={data?._id} hover className="plays-table-row">
                                         <Tooltip title={data?.sonicKey?.sonicKey}>
                                             <TableCell
-                                                style={{ ...tableStyle.body, color: "#00A19A", fontSize: '14px' }}
+                                                style={{ ...tableStyle.body, color: "#00A19A", fontSize: '14px', cursor: "pointer" }}
                                                 onClick={() => setValues({ ...values, sonicKeyModal: true, selectedSonicKey: data?.sonicKey })}
                                             >
                                                 {data?.sonicKey?.sonicKey}

@@ -1,6 +1,6 @@
 import moment from 'moment';
 import store from '../../stores';
-import { getPlaysLists } from '../../services/https/resources/Plays.api';
+import { getAllRadioStations, getPlaysLists } from '../../services/https/resources/Plays.api';
 import { log } from '../../utils/app.debug';
 import * as actionType from './actionTypes';
 import cogoToast from 'cogo-toast';
@@ -13,7 +13,7 @@ export const getPlaysListsAction = (startDate, endDate, channel, page, limit, re
     !recentPlays && params.append("skip", page > 1 ? (page - 1) * limit : 0)
     params.append("recentPlays", recentPlays)
 
-    log("store", store.getState().playsList)
+    // log("store", store.getState().playsList)
     let playsFilters = store.getState()?.playsList?.filters
 
     if (playsFilters?.sonicKey) {
@@ -31,8 +31,16 @@ export const getPlaysListsAction = (startDate, endDate, channel, page, limit, re
     if (playsFilters?.song) {
         params.append("relation_sonicKey.originalFileName", playsFilters?.song);
     }
+    if (playsFilters?.label) {
+        params.append("relation_sonicKey.label", playsFilters?.label);
+    }
+    if (playsFilters?.distributor) {
+        params.append("relation_sonicKey.distributor", playsFilters?.distributor);
+    }
     if (playsFilters?.encodedDate) {
-        params.append("relation_sonicKey.createdAt", playsFilters?.encodedDate);
+        let startOfEncodedDate = moment(playsFilters?.encodedDate).subtract(1, "days").format('YYYY-MM-DD')
+        params.append(`relation_sonicKey.createdAt>`, startOfEncodedDate);
+        params.append(`relation_sonicKey.createdAt<`, playsFilters?.encodedDate);
     }
 
     return dispatch => {
@@ -41,7 +49,7 @@ export const getPlaysListsAction = (startDate, endDate, channel, page, limit, re
         })
         getPlaysLists(params)
             .then((data) => {
-                log("Plays detected", data);
+                // log("Plays detected", data);
                 dispatch({
                     type: actionType.FETCH_PLAYS_LISTS_SUCCESS,
                     data: data
@@ -50,10 +58,21 @@ export const getPlaysListsAction = (startDate, endDate, channel, page, limit, re
                 log("Plays detected error", error);
                 dispatch({
                     type: actionType.FETCH_PLAYS_LISTS_ERROR,
-                    error: error
+                    error: error?.message
                 })
                 cogoToast.error(error?.message)
             })
     }
-
 };
+
+export const getAllRadioStationsAction = () => {
+    return (dispatch) => {
+        dispatch({ type: actionType.GET_ALL_RADIOSTATIONS_LOADING })
+        getAllRadioStations().then((response) => {
+            dispatch({ type: actionType.GET_ALL_RADIOSTATIONS_SUCCESS, data: response })
+        }).catch((error) => {
+            dispatch({ type: actionType.GET_ALL_RADIOSTATIONS_ERROR, data: error?.message })
+            cogoToast.error(error?.message)
+        })
+    }
+}

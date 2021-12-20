@@ -1,35 +1,46 @@
 import React from 'react'
-import { FormControl, Grid, InputLabel, MenuItem, Select, Button, TextField } from '@material-ui/core'
+import { FormControl, Grid, InputLabel, MenuItem, Select, Button, TextField, Checkbox, ListItemText } from '@material-ui/core'
 import { countries } from '../../../../constants/constants';
 import "./Filter.scss";
 import { useDispatch, useSelector } from 'react-redux';
 import { getPlaysListsAction } from '../../../../stores/actions';
 import { log } from '../../../../utils/app.debug';
-import cogoToast from 'cogo-toast';
 import * as actionTypes from '../../../../stores/actions/actionTypes'
+import cogoToast from 'cogo-toast';
 
 export default function Filter(props) {
     const dispatch = useDispatch();
     const plays = useSelector(state => state.playsList);
-    log("plays", plays)
+
+    const filteredRadioStation = plays?.allRadioStations?.data?.filter((data) => {
+        if (plays.filters.country === "") {
+            return data
+        }
+        if (data.country === plays.filters.country) {
+            return data
+        }
+    })
 
     const handleFilter = (e) => {
         e.preventDefault();
-        // if (playsfilters?.channel === "" || playsfilters?.channel === undefined) {
-        //     cogoToast.error("Channel is mandatory");
-        //     return
-        // }
 
         dispatch(getPlaysListsAction(
             plays?.dates?.startDate,
             plays?.dates?.endDate,
             plays?.filters?.channel,
-            props?.page,
+            1,
             10,
         ));
 
         props?.setClose(false);
     }
+
+    const handleCountriesRadiostations = (e) => {
+        dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, country: e, radioStation: "" } })
+        // dispatch(getCountriesRadioStationsAction([e]))
+    };
+
+    log("FILTER", plays?.filters)
 
     return (
         <div className="filter-container">
@@ -75,7 +86,6 @@ export default function Filter(props) {
                             id="sonickey"
                             label="SonicKey"
                             type="text"
-                            defaultValue=""
                             value={plays?.filters?.sonicKey}
                             onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, sonicKey: e.target.value } })}
                             style={{
@@ -121,7 +131,7 @@ export default function Filter(props) {
                             id="country-drop-down"
                             className="form-control mb-0"
                             value={plays?.filters?.country}
-                            onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, country: e.target.value } })}
+                            onChange={(e) => handleCountriesRadiostations(e.target.value)}
                             displayEmpty
                             autoWidth={false}
                             style={{
@@ -143,11 +153,57 @@ export default function Filter(props) {
                     </FormControl>
 
                     <FormControl>
+                        <InputLabel
+                            id="mutiple-radioStation-label"
+                            style={{
+                                paddingLeft: 30,
+                                color: "grey",
+                                paddingBottom: 50,
+                                marginBottom: 20,
+                                fontFamily: "NunitoSans-Bold",
+                            }}
+                        >
+                            Radio Station
+                        </InputLabel>
+                        <Select
+                            id="radioStation-drop-down"
+                            className="form-control"
+                            value={plays?.filters?.radioStation}
+                            onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, radioStation: e.target.value } })}
+                            autoWidth={false}
+                            disabled={filteredRadioStation?.length === 0 ? true : false}
+                            style={{
+                                color: "#757575",
+                                backgroundColor: "transparent",
+                                outline: "none",
+                                border: "none",
+                                boxShadow: "none",
+                                margin: "10px 30px 0px 20px",
+                                width: 220,
+                            }}
+                        >
+                            {filteredRadioStation?.
+                                map((data, index) => {
+                                    return (
+                                        <MenuItem key={index} value={data?.name}>
+                                            {/* <Checkbox style={{ color: '#343F84' }} /> */}
+                                            <ListItemText primary={data?.name} />
+                                        </MenuItem>
+                                    );
+                                })}
+                        </Select>
+                        {filteredRadioStation?.length === 0 ?
+                            <span style={{ color: "red", fontSize: 12, marginLeft: 20 }}>
+                                No radio station for {plays?.filters?.country}
+                            </span> : ""
+                        }
+                    </FormControl>
+
+                    <FormControl>
                         <TextField
                             id="artist"
                             label="Artist"
                             type="text"
-                            defaultValue=""
                             value={plays?.filters?.artist}
                             onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, artist: e.target.value } })}
                             style={{
@@ -177,48 +233,78 @@ export default function Filter(props) {
                     </FormControl>
 
                     <FormControl>
-                        <InputLabel
-                            id="mutiple-radioStation-label"
-                            style={{
-                                paddingLeft: 30,
-                                color: "grey",
-                                paddingBottom: 50,
-                                marginBottom: 20,
-                                fontFamily: "NunitoSans-Bold",
-                            }}
-                        >
-                            Radio Station
-                        </InputLabel>
-                        <Select
-                            id="radioStation-drop-down"
-                            className="form-control"
-                            value={plays?.filters?.radioStation}
-                            onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, radioStation: e.target.value } })}
-                            autoWidth={false}
+                        <TextField
+                            id="song"
+                            label="Song"
+                            type="text"
+                            value={plays?.filters?.song}
+                            onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, song: e.target.value } })}
                             style={{
                                 color: "#757575",
                                 backgroundColor: "transparent",
                                 outline: "none",
                                 border: "none",
                                 boxShadow: "none",
-                                margin: "10px 30px 0px 20px",
+                                margin: "0px 30px 0px 20px",
+                                padding: "5px 0px",
                                 width: 220,
                             }}
-                        >
-                            <MenuItem value="ArBa-Test-Radio">ArBa-Test-Radio</MenuItem>
-                            <MenuItem value="BBC London">BBC London</MenuItem>
-                            <MenuItem value="BBC Leeds">BBC Leeds</MenuItem>
-                        </Select>
+                            InputLabelProps={{
+                                style: {
+                                    paddingLeft: 10,
+                                    fontFamily: "NunitoSans-Bold",
+                                }
+                            }}
+                            InputProps={{
+                                style: {
+                                    paddingLeft: 12,
+                                    color: 'grey',
+                                    fontFamily: "NunitoSans-Bold",
+                                },
+                            }}
+                        />
                     </FormControl>
 
                     <FormControl>
                         <TextField
-                            id="song"
-                            label="Song"
+                            id="label"
+                            label="Label"
                             type="text"
-                            defaultValue=""
-                            value={plays?.filters?.song}
-                            onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, song: e.target.value } })}
+                            value={plays?.filters?.label}
+                            onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, label: e.target.value } })}
+                            style={{
+                                color: "#757575",
+                                backgroundColor: "transparent",
+                                outline: "none",
+                                border: "none",
+                                boxShadow: "none",
+                                margin: "0px 30px 0px 20px",
+                                padding: "5px 0px",
+                                width: 220,
+                            }}
+                            InputLabelProps={{
+                                style: {
+                                    paddingLeft: 10,
+                                    fontFamily: "NunitoSans-Bold",
+                                }
+                            }}
+                            InputProps={{
+                                style: {
+                                    paddingLeft: 12,
+                                    color: 'grey',
+                                    fontFamily: "NunitoSans-Bold",
+                                }
+                            }}
+                        />
+                    </FormControl>
+
+                    <FormControl>
+                        <TextField
+                            id="distributor"
+                            label="Distributor"
+                            type="text"
+                            value={plays?.filters?.distributor}
+                            onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, distributor: e.target.value } })}
                             style={{
                                 color: "#757575",
                                 backgroundColor: "transparent",
@@ -250,7 +336,7 @@ export default function Filter(props) {
                             id="date"
                             label="Encoded Date"
                             type="date"
-                            defaultValue=""
+                            format="DD/MM/YYYY"
                             value={plays?.filters?.encodedDate}
                             onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, encodedDate: e.target.value } })}
                             style={{
@@ -294,6 +380,8 @@ export default function Filter(props) {
                                 artist: "",
                                 radioStation: "",
                                 song: "",
+                                label: "",
+                                distributor: "",
                                 encodedDate: ""
                             }
                         })}

@@ -1,5 +1,6 @@
 import * as actionTypes from "../actions/actionTypes";
 import produce from "immer";
+import { log } from "../../utils/app.debug";
 
 const initialState = {
     loading: false,
@@ -15,9 +16,16 @@ const initialState = {
         artist: "",
         radioStation: "",
         song: "",
-        encodedDate: ""
+        encodedDate: "",
+        label: "",
+        distributor: "",
     },
     error: null,
+    allRadioStations: {
+        loading: false,
+        data: [],
+        error: null,
+    }
 };
 
 const playsListsReducer = (state = initialState, action) =>
@@ -29,7 +37,7 @@ const playsListsReducer = (state = initialState, action) =>
                 break;
 
             case actionTypes.FETCH_PLAYS_LISTS_ERROR:
-                draft.error = action.error;
+                draft.error = action.data;
                 draft.loading = false;
                 break;
 
@@ -44,6 +52,22 @@ const playsListsReducer = (state = initialState, action) =>
 
             case actionTypes.SET_PLAYS_FILTER:
                 draft.filters = action.data;
+                break;
+
+            case actionTypes.GET_ALL_RADIOSTATIONS_LOADING:
+                draft.allRadioStations.loading = true;
+                break;
+
+            case actionTypes.GET_ALL_RADIOSTATIONS_SUCCESS:
+                draft.allRadioStations.loading = false;
+                draft.allRadioStations.data = action?.data?.docs?.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
+                draft.allRadioStations.error = null
+                break;
+
+            case actionTypes.GET_ALL_RADIOSTATIONS_ERROR:
+                draft.allRadioStations.loading = false;
+                draft.allRadioStations.data = [];
+                draft.allRadioStations.error = action.data;
                 break;
 
             default:

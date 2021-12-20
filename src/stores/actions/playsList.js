@@ -1,6 +1,6 @@
 import moment from 'moment';
 import store from '../../stores';
-import { getCountriesRadioStations, getPlaysLists } from '../../services/https/resources/Plays.api';
+import { getAllRadioStations, getPlaysLists } from '../../services/https/resources/Plays.api';
 import { log } from '../../utils/app.debug';
 import * as actionType from './actionTypes';
 import cogoToast from 'cogo-toast';
@@ -38,7 +38,9 @@ export const getPlaysListsAction = (startDate, endDate, channel, page, limit, re
         params.append("relation_sonicKey.distributor", playsFilters?.distributor);
     }
     if (playsFilters?.encodedDate) {
-        params.append("relation_sonicKey.createdAt", playsFilters?.encodedDate);
+        let startOfEncodedDate = moment(playsFilters?.encodedDate).subtract(1, "days").format('YYYY-MM-DD')
+        params.append(`relation_sonicKey.createdAt>`, startOfEncodedDate);
+        params.append(`relation_sonicKey.createdAt<`, playsFilters?.encodedDate);
     }
 
     return dispatch => {
@@ -63,36 +65,14 @@ export const getPlaysListsAction = (startDate, endDate, channel, page, limit, re
     }
 };
 
-export const getCountriesRadioStationsAction = (country) => {
-    let filters = store.getState()?.playsList?.filters;
-
-    return dispatch => {
-        dispatch({
-            type: actionType.FETCH_COUNTRIES_RADIOSTATIONS_LOADING,
+export const getAllRadioStationsAction = () => {
+    return (dispatch) => {
+        dispatch({ type: actionType.GET_ALL_RADIOSTATIONS_LOADING })
+        getAllRadioStations().then((response) => {
+            dispatch({ type: actionType.GET_ALL_RADIOSTATIONS_SUCCESS, data: response })
+        }).catch((error) => {
+            dispatch({ type: actionType.GET_ALL_RADIOSTATIONS_ERROR, data: error?.message })
+            cogoToast.error(error?.message)
         })
-        getCountriesRadioStations(country)
-            .then((data) => {
-                log("Coutries found", data);
-                if (data?.docs?.length === 0 || filters?.country !== country) {
-                    dispatch({
-                        type: actionType.SET_PLAYS_FILTER,
-                        data: {
-                            ...filters,
-                            radioStation: [],
-                        }
-                    })
-                }
-                dispatch({
-                    type: actionType.FETCH_COUNTRIES_RADIOSTATIONS_SUCCESS,
-                    data: data
-                })
-            }).catch(error => {
-                log("Error finding countries", error);
-                dispatch({
-                    type: actionType.FETCH_COUNTRIES_RADIOSTATIONS_ERROR,
-                    error: error?.message
-                })
-                cogoToast.error(error?.message)
-            })
     }
 }

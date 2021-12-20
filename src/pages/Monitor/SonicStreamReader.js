@@ -68,7 +68,6 @@ const useStyles = makeStyles((theme) => ({
   tableRow: {
     "&:hover": {
       boxShadow: "0 14px 28px rgba(0,0,0,0.25), 0 1px 5px rgba(0,0,0,0.22)",
-      cursor: "pointer",
     },
   },
   placeholder: {
@@ -2069,7 +2068,6 @@ function SonicStreamReader(props) {
                         {file?.isListeningStarted === true && (
                           <Badge
                             style={{
-                              cursor: "pointer",
                               background: "rgb(229, 245, 244)",
                               color: "rgb(72, 187, 183)",
                               padding: 5,
@@ -2083,7 +2081,6 @@ function SonicStreamReader(props) {
                           file.error === null && (
                             <Badge
                               style={{
-                                cursor: "pointer",
                                 background: "rgb(244, 237, 151)",
                                 color: "rgb(183, 170, 53)",
                                 padding: 5,
@@ -2096,7 +2093,6 @@ function SonicStreamReader(props) {
                           file.error !== null && (
                             <Badge
                               style={{
-                                cursor: "pointer",
                                 background: "rgb(242, 125, 162)",
                                 color: "rgb(130, 24, 13)",
                                 padding: 5,
@@ -2107,7 +2103,7 @@ function SonicStreamReader(props) {
                           )}
                       </TableCell>
                       <TableCell
-                        style={{ ...tableStyle.body }}
+                        style={{ ...tableStyle.body, cursor: "pointer" }}
                         onClick={() => {
                           localStorage.setItem(
                             "passedData",

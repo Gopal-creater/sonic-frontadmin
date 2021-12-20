@@ -62,8 +62,7 @@ const useStyles = makeStyles({
     },
     tableRow: {
         "&:hover": {
-            boxShadow: "0 14px 28px rgba(0,0,0,0.25), 0 1px 5px rgba(0,0,0,0.22)",
-            cursor: "pointer",
+            boxShadow: "0 14px 28px rgba(0,0,0,0.25), 0 1px 5px rgba(0,0,0,0.22)"
         },
     },
     jobName: {
@@ -304,7 +303,7 @@ const SonicKeys = (props) => {
                                             <Tooltip title={data.contentDescription}><TableCell className={classes.tableCellNormalText}>{isSelected("DESCRIPTION") && (data.contentDescription === "" ? "-" : (data.contentDescription?.length > 20 ? data.contentDescription?.slice(0, 20) + "..." : data.contentDescription))}</TableCell></Tooltip>
                                             <TableCell className={classes.tableCellColor} width="100px">
                                                 <div style={{ display: 'flex', justifyContent: 'center', fontSize: '14px', fontFamily: "NunitoSans-Bold", }}>
-                                                    <div style={{ marginRight: '15px' }} className={classes.tableCellIcon} onClick={() => handleClickOpenTable(data)}>
+                                                    <div style={{ marginRight: '15px', cursor: "pointer" }} className={classes.tableCellIcon} onClick={() => handleClickOpenTable(data)}>
                                                         <VisibilityOutlinedIcon fontSize="small" />&nbsp;View
                                                     </div>
                                                     <Download data={data} />

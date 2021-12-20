@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 export function Dashboard() {
   const classes = useStyles();
   const [values, setValues] = React.useState({
-    dayWeekMonth: "Day",
+    dayWeekMonth: "Month",
     sonicKeyModal: false,
     selectedSonicKey: {},
   })
@@ -67,10 +67,10 @@ export function Dashboard() {
       }
     })
     dispatch(getTotalSubscribedStationAction())
-    dispatch(getTotalSonicKeysCountAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1]))
-    dispatch(getMostPlayedStationsDataAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1]))
-    dispatch(getPlaysListsAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1], "STREAMREADER", 1, 10, false))
-    dispatch(getGraphDataAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1]));
+    dispatch(getTotalSonicKeysCountAction(monthRange()?.split(",")?.[0], monthRange()?.split(",")?.[1]))
+    dispatch(getMostPlayedStationsDataAction(monthRange()?.split(",")?.[0], monthRange()?.split(",")?.[1]))
+    dispatch(getPlaysListsAction(monthRange()?.split(",")?.[0], monthRange()?.split(",")?.[1], "STREAMREADER", 1, 10, false))
+    dispatch(getGraphDataAction(monthRange()?.split(",")?.[0], monthRange()?.split(",")?.[1]));
   }, [])
 
   const setDateRange = (dateRange) => {
@@ -112,15 +112,15 @@ export function Dashboard() {
             className="subscribed-formControl-menu"
             MenuProps={{ classes: { paper: classes.menuItems } }}
           >
-            <MenuItem value={"Day"}>Day</MenuItem>
-            <MenuItem value={"Week"}>Week</MenuItem>
-            <MenuItem value={"Month"}>Month</MenuItem>
+            <MenuItem value={"Day"}>Today</MenuItem>
+            <MenuItem value={"Week"}>Last 7 Days</MenuItem>
+            <MenuItem value={"Month"}>Last 30 Days</MenuItem>
           </Select>
         </FormControl>
       </Grid>
 
       <Grid container className="dashboard-tables-container" spacing={2}>
-        <Grid item container lg={4} md={4} sm={8} xs={12} className="sonickeysDetected-leftTable-container">
+        <Grid item container lg={3} md={4} sm={8} xs={12} className="sonickeysDetected-leftTable-container">
           <Grid className="sonickeysDetected-table-container">
             <p className="sonickeysDetected-table-title">Total SonicKeys Detected</p>
 
@@ -176,7 +176,7 @@ export function Dashboard() {
           </Grid>
         </Grid>
 
-        <Grid item lg={3} md={3} sm={4} xs={12} >
+        <Grid item lg={2} md={3} sm={4} xs={12} >
           <Grid className="radioStations-subscribed-container">
             <p className="radioStations-subscribed-title">Radio Stations Subscribed</p>
             <p className="mt-3" style={{ textAlign: "center", color: "#757575" }}>
@@ -191,7 +191,7 @@ export function Dashboard() {
           </Grid>
         </Grid>
 
-        <Grid item container lg={5} md={5} sm={12} xs={12} className="mostPlays-rightTable-container">
+        <Grid item container lg={7} md={5} sm={12} xs={12} className="mostPlays-rightTable-container">
           <Grid className="mostPlays-table-container">
             <p className="mostPlays-table-title">Most Plays by Radio Stations</p>
 

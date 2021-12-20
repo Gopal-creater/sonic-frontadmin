@@ -84,11 +84,15 @@ export default function Download(prop) {
     return (
         <>
             {
-                prop?.data?.s3FileMeta ? <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }} onClick={downloadFileData}>
-                    <img src={download} width="16px" height="16px" />&nbsp;Download
-                </div> : <Tooltip title="File was encoded outside portal. Not downloadable."><div style={{ display: "flex", justifyContent: "center", alignItems: "center", color: "grey" }} >
-                    <img src={download} width="16px" height="16px" />&nbsp;Download
-                </div></Tooltip>
+                prop?.data?.s3FileMeta ?
+                    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", cursor: "pointer" }} onClick={downloadFileData}>
+                        <img src={download} width="16px" height="16px" />&nbsp;Download
+                    </div> :
+                    <Tooltip title="File was encoded outside portal. Not downloadable.">
+                        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", color: "grey", cursor: "pointer" }} >
+                            <img src={download} width="16px" height="16px" />&nbsp;Download
+                        </div>
+                    </Tooltip>
             }
 
             <Dialog

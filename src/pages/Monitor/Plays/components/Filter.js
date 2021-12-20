@@ -3,7 +3,7 @@ import { FormControl, Grid, InputLabel, MenuItem, Select, Button, TextField, Che
 import { countries } from '../../../../constants/constants';
 import "./Filter.scss";
 import { useDispatch, useSelector } from 'react-redux';
-import { getCountriesRadioStationsAction, getPlaysListsAction } from '../../../../stores/actions';
+import { getPlaysListsAction } from '../../../../stores/actions';
 import { log } from '../../../../utils/app.debug';
 import * as actionTypes from '../../../../stores/actions/actionTypes'
 import cogoToast from 'cogo-toast';
@@ -11,6 +11,15 @@ import cogoToast from 'cogo-toast';
 export default function Filter(props) {
     const dispatch = useDispatch();
     const plays = useSelector(state => state.playsList);
+
+    const filteredRadioStation = plays?.allRadioStations?.data?.filter((data) => {
+        if (plays.filters.country === "") {
+            return data
+        }
+        if (data.country === plays.filters.country) {
+            return data
+        }
+    })
 
     const handleFilter = (e) => {
         e.preventDefault();
@@ -27,11 +36,11 @@ export default function Filter(props) {
     }
 
     const handleCountriesRadiostations = (e) => {
-        dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, country: e } })
-        dispatch(getCountriesRadioStationsAction([e]))
+        dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, country: e, radioStation: "" } })
+        // dispatch(getCountriesRadioStationsAction([e]))
     };
 
-    log("FILTER", plays?.filters?.radioStation)
+    log("FILTER", plays?.filters)
 
     return (
         <div className="filter-container">
@@ -162,9 +171,7 @@ export default function Filter(props) {
                             value={plays?.filters?.radioStation}
                             onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, radioStation: e.target.value } })}
                             autoWidth={false}
-                            multiple
-                            disabled={plays?.filters?.country === "" || plays?.countriesRadioStation?.data?.docs?.length === 0}
-                            renderValue={(selected) => selected.join(", ")}
+                            disabled={filteredRadioStation?.length === 0 ? true : false}
                             style={{
                                 color: "#757575",
                                 backgroundColor: "transparent",
@@ -175,22 +182,21 @@ export default function Filter(props) {
                                 width: 220,
                             }}
                         >
-                            {plays?.countriesRadioStation?.data?.docs?.
-                                map((country, index) => {
+                            {filteredRadioStation?.
+                                map((data, index) => {
                                     return (
-                                        <MenuItem key={index} value={country?.name}>
-                                            <Checkbox style={{ color: '#343F84' }} />
-                                            <ListItemText primary={country?.name} />
+                                        <MenuItem key={index} value={data?.name}>
+                                            {/* <Checkbox style={{ color: '#343F84' }} /> */}
+                                            <ListItemText primary={data?.name} />
                                         </MenuItem>
                                     );
                                 })}
                         </Select>
-                        {plays?.countriesRadioStation?.data?.docs?.length === 0 && (
-                            <span
-                                style={{ color: "red", fontSize: '12px', marginLeft: '20px' }}>
-                                No Radio Station for selected country*
-                            </span>
-                        )}
+                        {filteredRadioStation?.length === 0 ?
+                            <span style={{ color: "red", fontSize: 12, marginLeft: 20 }}>
+                                No radio station for {plays?.filters?.country}
+                            </span> : ""
+                        }
                     </FormControl>
 
                     <FormControl>
@@ -287,7 +293,7 @@ export default function Filter(props) {
                                     paddingLeft: 12,
                                     color: 'grey',
                                     fontFamily: "NunitoSans-Bold",
-                                },
+                                }
                             }}
                         />
                     </FormControl>
@@ -330,6 +336,7 @@ export default function Filter(props) {
                             id="date"
                             label="Encoded Date"
                             type="date"
+                            format="DD/MM/YYYY"
                             value={plays?.filters?.encodedDate}
                             onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, encodedDate: e.target.value } })}
                             style={{
@@ -371,7 +378,7 @@ export default function Filter(props) {
                                 sonicKey: "",
                                 country: "",
                                 artist: "",
-                                radioStation: [],
+                                radioStation: "",
                                 song: "",
                                 label: "",
                                 distributor: "",

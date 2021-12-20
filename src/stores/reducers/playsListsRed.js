@@ -1,5 +1,6 @@
 import * as actionTypes from "../actions/actionTypes";
 import produce from "immer";
+import { log } from "../../utils/app.debug";
 
 const initialState = {
     loading: false,
@@ -13,18 +14,18 @@ const initialState = {
         sonicKey: "",
         country: "",
         artist: "",
-        radioStation: [],
+        radioStation: "",
         song: "",
         encodedDate: "",
         label: "",
         distributor: "",
     },
     error: null,
-    countriesRadioStation: {
+    allRadioStations: {
         loading: false,
         data: [],
         error: null,
-    },
+    }
 };
 
 const playsListsReducer = (state = initialState, action) =>
@@ -53,22 +54,20 @@ const playsListsReducer = (state = initialState, action) =>
                 draft.filters = action.data;
                 break;
 
-            case actionTypes.FETCH_COUNTRIES_RADIOSTATIONS_LOADING:
-                draft.countriesRadioStation.loading = true;
-                draft.countriesRadioStation.data = [];
-                draft.countriesRadioStation.error = null;
+            case actionTypes.GET_ALL_RADIOSTATIONS_LOADING:
+                draft.allRadioStations.loading = true;
                 break;
 
-            case actionTypes.FETCH_COUNTRIES_RADIOSTATIONS_SUCCESS:
-                draft.countriesRadioStation.loading = false;
-                draft.countriesRadioStation.data = action.data;
-                draft.countriesRadioStation.error = null;
+            case actionTypes.GET_ALL_RADIOSTATIONS_SUCCESS:
+                draft.allRadioStations.loading = false;
+                draft.allRadioStations.data = action?.data?.docs?.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
+                draft.allRadioStations.error = null
                 break;
 
-            case actionTypes.FETCH_COUNTRIES_RADIOSTATIONS_ERROR:
-                draft.countriesRadioStation.loading = false;
-                draft.countriesRadioStation.data = [];
-                draft.countriesRadioStation.error = action.data;
+            case actionTypes.GET_ALL_RADIOSTATIONS_ERROR:
+                draft.allRadioStations.loading = false;
+                draft.allRadioStations.data = [];
+                draft.allRadioStations.error = action.data;
                 break;
 
             default:

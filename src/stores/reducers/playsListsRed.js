@@ -13,13 +13,18 @@ const initialState = {
         sonicKey: "",
         country: "",
         artist: "",
-        radioStation: "",
+        radioStation: [],
         song: "",
         encodedDate: "",
         label: "",
         distributor: "",
     },
     error: null,
+    countriesRadioStation: {
+        loading: false,
+        data: [],
+        error: null,
+    },
 };
 
 const playsListsReducer = (state = initialState, action) =>
@@ -31,7 +36,7 @@ const playsListsReducer = (state = initialState, action) =>
                 break;
 
             case actionTypes.FETCH_PLAYS_LISTS_ERROR:
-                draft.error = action.error;
+                draft.error = action.data;
                 draft.loading = false;
                 break;
 
@@ -46,6 +51,24 @@ const playsListsReducer = (state = initialState, action) =>
 
             case actionTypes.SET_PLAYS_FILTER:
                 draft.filters = action.data;
+                break;
+
+            case actionTypes.FETCH_COUNTRIES_RADIOSTATIONS_LOADING:
+                draft.countriesRadioStation.loading = true;
+                draft.countriesRadioStation.data = [];
+                draft.countriesRadioStation.error = null;
+                break;
+
+            case actionTypes.FETCH_COUNTRIES_RADIOSTATIONS_SUCCESS:
+                draft.countriesRadioStation.loading = false;
+                draft.countriesRadioStation.data = action.data;
+                draft.countriesRadioStation.error = null;
+                break;
+
+            case actionTypes.FETCH_COUNTRIES_RADIOSTATIONS_ERROR:
+                draft.countriesRadioStation.loading = false;
+                draft.countriesRadioStation.data = [];
+                draft.countriesRadioStation.error = action.data;
                 break;
 
             default:

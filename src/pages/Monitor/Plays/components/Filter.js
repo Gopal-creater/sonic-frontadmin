@@ -1,35 +1,37 @@
 import React from 'react'
-import { FormControl, Grid, InputLabel, MenuItem, Select, Button, TextField } from '@material-ui/core'
+import { FormControl, Grid, InputLabel, MenuItem, Select, Button, TextField, Checkbox, ListItemText } from '@material-ui/core'
 import { countries } from '../../../../constants/constants';
 import "./Filter.scss";
 import { useDispatch, useSelector } from 'react-redux';
-import { getPlaysListsAction } from '../../../../stores/actions';
+import { getCountriesRadioStationsAction, getPlaysListsAction } from '../../../../stores/actions';
 import { log } from '../../../../utils/app.debug';
-import cogoToast from 'cogo-toast';
 import * as actionTypes from '../../../../stores/actions/actionTypes'
+import cogoToast from 'cogo-toast';
 
 export default function Filter(props) {
     const dispatch = useDispatch();
     const plays = useSelector(state => state.playsList);
-    log("plays", plays)
 
     const handleFilter = (e) => {
         e.preventDefault();
-        // if (playsfilters?.channel === "" || playsfilters?.channel === undefined) {
-        //     cogoToast.error("Channel is mandatory");
-        //     return
-        // }
 
         dispatch(getPlaysListsAction(
             plays?.dates?.startDate,
             plays?.dates?.endDate,
             plays?.filters?.channel,
-            props?.page,
+            1,
             10,
         ));
 
         props?.setClose(false);
     }
+
+    const handleCountriesRadiostations = (e) => {
+        dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, country: e } })
+        dispatch(getCountriesRadioStationsAction([e]))
+    };
+
+    log("FILTER", plays?.filters?.radioStation)
 
     return (
         <div className="filter-container">
@@ -75,7 +77,6 @@ export default function Filter(props) {
                             id="sonickey"
                             label="SonicKey"
                             type="text"
-                            defaultValue=""
                             value={plays?.filters?.sonicKey}
                             onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, sonicKey: e.target.value } })}
                             style={{
@@ -121,7 +122,7 @@ export default function Filter(props) {
                             id="country-drop-down"
                             className="form-control mb-0"
                             value={plays?.filters?.country}
-                            onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, country: e.target.value } })}
+                            onChange={(e) => handleCountriesRadiostations(e.target.value)}
                             displayEmpty
                             autoWidth={false}
                             style={{
@@ -143,11 +144,60 @@ export default function Filter(props) {
                     </FormControl>
 
                     <FormControl>
+                        <InputLabel
+                            id="mutiple-radioStation-label"
+                            style={{
+                                paddingLeft: 30,
+                                color: "grey",
+                                paddingBottom: 50,
+                                marginBottom: 20,
+                                fontFamily: "NunitoSans-Bold",
+                            }}
+                        >
+                            Radio Station
+                        </InputLabel>
+                        <Select
+                            id="radioStation-drop-down"
+                            className="form-control"
+                            value={plays?.filters?.radioStation}
+                            onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, radioStation: e.target.value } })}
+                            autoWidth={false}
+                            multiple
+                            disabled={plays?.filters?.country === "" || plays?.countriesRadioStation?.data?.docs?.length === 0}
+                            renderValue={(selected) => selected.join(", ")}
+                            style={{
+                                color: "#757575",
+                                backgroundColor: "transparent",
+                                outline: "none",
+                                border: "none",
+                                boxShadow: "none",
+                                margin: "10px 30px 0px 20px",
+                                width: 220,
+                            }}
+                        >
+                            {plays?.countriesRadioStation?.data?.docs?.
+                                map((country, index) => {
+                                    return (
+                                        <MenuItem key={index} value={country?.name}>
+                                            <Checkbox style={{ color: '#343F84' }} />
+                                            <ListItemText primary={country?.name} />
+                                        </MenuItem>
+                                    );
+                                })}
+                        </Select>
+                        {plays?.countriesRadioStation?.data?.docs?.length === 0 && (
+                            <span
+                                style={{ color: "red", fontSize: '12px', marginLeft: '20px' }}>
+                                No Radio Station for selected country*
+                            </span>
+                        )}
+                    </FormControl>
+
+                    <FormControl>
                         <TextField
                             id="artist"
                             label="Artist"
                             type="text"
-                            defaultValue=""
                             value={plays?.filters?.artist}
                             onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, artist: e.target.value } })}
                             style={{
@@ -177,46 +227,10 @@ export default function Filter(props) {
                     </FormControl>
 
                     <FormControl>
-                        <InputLabel
-                            id="mutiple-radioStation-label"
-                            style={{
-                                paddingLeft: 30,
-                                color: "grey",
-                                paddingBottom: 50,
-                                marginBottom: 20,
-                                fontFamily: "NunitoSans-Bold",
-                            }}
-                        >
-                            Radio Station
-                        </InputLabel>
-                        <Select
-                            id="radioStation-drop-down"
-                            className="form-control"
-                            value={plays?.filters?.radioStation}
-                            onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, radioStation: e.target.value } })}
-                            autoWidth={false}
-                            style={{
-                                color: "#757575",
-                                backgroundColor: "transparent",
-                                outline: "none",
-                                border: "none",
-                                boxShadow: "none",
-                                margin: "10px 30px 0px 20px",
-                                width: 220,
-                            }}
-                        >
-                            <MenuItem value="ArBa-Test-Radio">ArBa-Test-Radio</MenuItem>
-                            <MenuItem value="BBC London">BBC London</MenuItem>
-                            <MenuItem value="BBC Leeds">BBC Leeds</MenuItem>
-                        </Select>
-                    </FormControl>
-
-                    <FormControl>
                         <TextField
                             id="song"
                             label="Song"
                             type="text"
-                            defaultValue=""
                             value={plays?.filters?.song}
                             onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, song: e.target.value } })}
                             style={{
@@ -250,7 +264,6 @@ export default function Filter(props) {
                             id="label"
                             label="Label"
                             type="text"
-                            defaultValue=""
                             value={plays?.filters?.label}
                             onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, label: e.target.value } })}
                             style={{
@@ -284,7 +297,6 @@ export default function Filter(props) {
                             id="distributor"
                             label="Distributor"
                             type="text"
-                            defaultValue=""
                             value={plays?.filters?.distributor}
                             onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, distributor: e.target.value } })}
                             style={{
@@ -318,7 +330,6 @@ export default function Filter(props) {
                             id="date"
                             label="Encoded Date"
                             type="date"
-                            defaultValue=""
                             value={plays?.filters?.encodedDate}
                             onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, encodedDate: e.target.value } })}
                             style={{
@@ -360,7 +371,7 @@ export default function Filter(props) {
                                 sonicKey: "",
                                 country: "",
                                 artist: "",
-                                radioStation: "",
+                                radioStation: [],
                                 song: "",
                                 label: "",
                                 distributor: "",

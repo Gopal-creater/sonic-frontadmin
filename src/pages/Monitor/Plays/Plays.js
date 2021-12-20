@@ -28,8 +28,6 @@ export default function Plays() {
     const dispatch = useDispatch();
     const playsList = useSelector(state => state.playsList)
 
-    log("playsList", playsList)
-
     React.useEffect(() => {
         dispatch(getPlaysListsAction(
             playsList?.dates?.startDate,
@@ -113,7 +111,6 @@ export default function Plays() {
                         <Filter
                             setClose={(flag) => setValues({ ...values, anchorFilter: flag })}
                             values={values}
-                            page={playsList?.data?.page}
                         />
                     </Popover>
                 </Grid>

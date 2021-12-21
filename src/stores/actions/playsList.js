@@ -6,11 +6,9 @@ import * as actionType from './actionTypes';
 import cogoToast from 'cogo-toast';
 
 export const getPlaysListsAction = (startDate, endDate, channel, page, limit, recentPlays = false) => {
-    // let params = new URLSearchParams()
-    let newEndDate = moment(endDate).set({ hour: 23 }).toISOString()
+    let newEndDate = moment(endDate).endOf("days").toISOString()
     let params = new URLSearchParams(`detectedAt>=${moment(startDate).format("YYYY-MM-DD")}&detectedAt<=date(${newEndDate})`)
 
-    log("new End Date", newEndDate)
     params.append("channel", channel)
     params.append("limit", limit);
     !recentPlays && params.append("page", page)

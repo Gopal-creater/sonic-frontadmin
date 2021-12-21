@@ -5,9 +5,8 @@ import { log } from "../../utils/app.debug"
 import * as actionTypes from "../actions/actionTypes"
 
 export const getTotalSonicKeysCountAction = (startDate, endDate) => {
-    // log("startDate", startDate)
-    // log("endDate", endDate)
-    let params = new URLSearchParams(`detectedAt>=${moment(startDate).format("YYYY-MM-DD")}&detectedAt<=${moment(endDate).format("YYYY-MM-DD")}`)
+    let newEndDate = moment(endDate).endOf("days").toISOString()
+    let params = new URLSearchParams(`detectedAt>=${moment(startDate).format("YYYY-MM-DD")}&detectedAt<=date(${newEndDate})`)
     return (dispatch) => {
         dispatch({ type: actionTypes.SET_TOTALSONICKEYS_COUNT_LOADING })
         getTotalSonicKeysCount(params).then((response) => {
@@ -36,7 +35,8 @@ export const getTotalSubscribedStationAction = () => {
 }
 
 export const getMostPlayedStationsDataAction = (startDate, endDate) => {
-    let params = new URLSearchParams(`detectedAt>=${moment(startDate).format("YYYY-MM-DD")}&detectedAt<=${moment(endDate).format("YYYY-MM-DD")}`)
+    let newEndDate = moment(endDate).endOf("days").toISOString()
+    let params = new URLSearchParams(`detectedAt>=${moment(startDate).format("YYYY-MM-DD")}&detectedAt<=date(${newEndDate})`)
     return (dispatch) => {
         dispatch({ type: actionTypes.SET_MOSTPLAYEDSTATION_LOADING })
         getMostPlayedStationsData(params).then((response) => {
@@ -51,7 +51,8 @@ export const getMostPlayedStationsDataAction = (startDate, endDate) => {
 }
 
 export const getGraphDataAction = (startDate, endDate) => {
-    let params = new URLSearchParams(`detectedAt>=${moment(startDate).format("YYYY-MM-DD")}&detectedAt<=${moment(endDate).format("YYYY-MM-DD")}`)
+    let newEndDate = moment(endDate).endOf("days").toISOString()
+    let params = new URLSearchParams(`detectedAt>=${moment(startDate).format("YYYY-MM-DD")}&detectedAt<=date(${newEndDate})`)
     return dispatch => {
         dispatch({
             type: actionTypes.SET_DASHBOARDGRAPH_LOADING

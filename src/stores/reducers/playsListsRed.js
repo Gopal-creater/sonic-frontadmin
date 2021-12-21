@@ -10,7 +10,7 @@ const initialState = {
         endDate: new Date(),
     },
     filters: {
-        channel: "STREAMREADER",
+        channel: "ALL",
         sonicKey: "",
         country: "",
         artist: "",

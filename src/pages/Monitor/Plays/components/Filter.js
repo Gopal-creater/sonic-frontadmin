@@ -180,6 +180,7 @@ export default function Filter(props) {
                                 boxShadow: "none",
                                 margin: "10px 30px 0px 20px",
                                 width: 220,
+                                height: "45px",
                             }}
                         >
                             {filteredRadioStation?.

@@ -122,19 +122,19 @@ export function Dashboard() {
       <Grid container className="dashboard-tables-container" spacing={2}>
         <Grid item container lg={3} md={4} sm={8} xs={12} className="sonickeysDetected-leftTable-container">
           <Grid className="sonickeysDetected-table-container">
-            <p className="sonickeysDetected-table-title">Total SonicKeys Detected</p>
+            <p className="sonickeysDetected-table-title">Summary</p>
 
             <Table className="sonickeysDetected-table" size="small">
               <TableHead>
                 <TableRow>
                   <TableCell ></TableCell>
-                  <TableCell className="table-head">Subscribed</TableCell>
+                  <TableCell className="table-head">Counts</TableCell>
                 </TableRow>
               </TableHead>
 
               <TableBody>
                 <TableRow >
-                  <TableCell className="table-head">Plays</TableCell>
+                  <TableCell className="table-head">Total Plays</TableCell>
                   <TableCell className="table-cell">
                     {
                       dashboard?.totalSonicKeysCount?.loading
@@ -147,7 +147,7 @@ export function Dashboard() {
                 </TableRow>
 
                 <TableRow >
-                  <TableCell className="table-head">Radio Stations</TableCell>
+                  <TableCell className="table-head">At Radio Stations</TableCell>
                   <TableCell className="table-cell">
                     {
                       dashboard?.totalSonicKeysCount?.loading
@@ -160,7 +160,7 @@ export function Dashboard() {
                 </TableRow>
 
                 <TableRow >
-                  <TableCell className="table-head">Countries</TableCell>
+                  <TableCell className="table-head">In Countries</TableCell>
                   <TableCell className="table-cell">
                     {
                       dashboard?.totalSonicKeysCount?.loading
@@ -178,7 +178,7 @@ export function Dashboard() {
 
         <Grid item lg={2} md={3} sm={4} xs={12} >
           <Grid className="radioStations-subscribed-container">
-            <p className="radioStations-subscribed-title">Radio Stations Subscribed</p>
+            <p className="radioStations-subscribed-title">Radio Stations Selected</p>
             <p className="mt-3" style={{ textAlign: "center", color: "#757575" }}>
               {
                 dashboard?.totalSubscribedStationCount?.loading
@@ -201,7 +201,7 @@ export function Dashboard() {
                   <TableCell className="table-head">Radio Station</TableCell>
                   <TableCell className="table-head">Country</TableCell>
                   <TableCell className="table-head">Plays</TableCell>
-                  <TableCell className="table-head">Unique Songs Played</TableCell>
+                  <TableCell className="table-head">Unique Tracks Played</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -313,7 +313,7 @@ export function Dashboard() {
         </Grid>
       </Grid>
 
-      <Grid className="dashBoard-Graphs-container">
+      {/* <Grid className="dashBoard-Graphs-container">
         <Grid>
           <span className="dashBoard-Graphs-title">Plays - Chart</span><br />
           <p className="dashBoard-Graphs-subtitle">See history of sonickey plays</p>
@@ -348,7 +348,7 @@ export function Dashboard() {
             />
           </Grid>
         </Grid>
-      </Grid>
+      </Grid> */}
 
       {values?.sonicKeyModal && (
         <DailogTable

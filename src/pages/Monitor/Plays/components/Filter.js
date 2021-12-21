@@ -235,7 +235,7 @@ export default function Filter(props) {
                     <FormControl>
                         <TextField
                             id="song"
-                            label="Song"
+                            label="Track"
                             type="text"
                             value={plays?.filters?.song}
                             onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, song: e.target.value } })}

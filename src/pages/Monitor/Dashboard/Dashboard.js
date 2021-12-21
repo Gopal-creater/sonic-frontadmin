@@ -55,7 +55,7 @@ export function Dashboard() {
     dispatch({
       type: actionTypes.SET_PLAYS_FILTER,
       data: {
-        channel: "STREAMREADER",
+        channel: "ALL",
         sonicKey: "",
         country: "",
         artist: "",
@@ -69,7 +69,7 @@ export function Dashboard() {
     dispatch(getTotalSubscribedStationAction())
     dispatch(getTotalSonicKeysCountAction(monthRange()?.split(",")?.[0], monthRange()?.split(",")?.[1]))
     dispatch(getMostPlayedStationsDataAction(monthRange()?.split(",")?.[0], monthRange()?.split(",")?.[1]))
-    dispatch(getPlaysListsAction(monthRange()?.split(",")?.[0], monthRange()?.split(",")?.[1], "STREAMREADER", 1, 10, false))
+    dispatch(getPlaysListsAction(monthRange()?.split(",")?.[0], monthRange()?.split(",")?.[1], "ALL", 1, 10, false))
     dispatch(getGraphDataAction(monthRange()?.split(",")?.[0], monthRange()?.split(",")?.[1]));
   }, [])
 
@@ -78,19 +78,19 @@ export function Dashboard() {
     if (dateRange === "Day") {
       dispatch(getTotalSonicKeysCountAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1]))
       dispatch(getMostPlayedStationsDataAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1]))
-      dispatch(getPlaysListsAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1], "STREAMREADER", 1, 10, false))
+      dispatch(getPlaysListsAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1], "ALL", 1, 10, false))
       dispatch(getGraphDataAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1]));
     }
     else if (dateRange === "Week") {
       dispatch(getTotalSonicKeysCountAction(weekRange()?.split(",")?.[0], weekRange()?.split(",")?.[1]))
       dispatch(getMostPlayedStationsDataAction(weekRange()?.split(",")?.[0], weekRange()?.split(",")?.[1]))
-      dispatch(getPlaysListsAction(weekRange()?.split(",")?.[0], weekRange()?.split(",")?.[1], "STREAMREADER", 1, 10, false))
+      dispatch(getPlaysListsAction(weekRange()?.split(",")?.[0], weekRange()?.split(",")?.[1], "ALL", 1, 10, false))
       dispatch(getGraphDataAction(weekRange()?.split(",")?.[0], weekRange()?.split(",")?.[1]));
     }
     else {
       dispatch(getTotalSonicKeysCountAction(monthRange()?.split(",")?.[0], monthRange()?.split(",")?.[1]))
       dispatch(getMostPlayedStationsDataAction(monthRange()?.split(",")?.[0], monthRange()?.split(",")?.[1]))
-      dispatch(getPlaysListsAction(monthRange()?.split(",")?.[0], monthRange()?.split(",")?.[1], "STREAMREADER", 1, 10, false))
+      dispatch(getPlaysListsAction(monthRange()?.split(",")?.[0], monthRange()?.split(",")?.[1], "ALL", 1, 10, false))
       dispatch(getGraphDataAction(monthRange()?.split(",")?.[0], monthRange()?.split(",")?.[1]));
     }
   }

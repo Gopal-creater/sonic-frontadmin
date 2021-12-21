@@ -66,11 +66,11 @@ const DailogTable = (props) => {
     //     setValues({ ...values, openHitModal: true, hitModalData: { ...sonicKey } })
     // }
     const viewPlaysWithSonicKey = () => {
-        dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, sonicKey: sonicKey?.sonicKey, channel: sonicKey?.channel } })
+        dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, sonicKey: sonicKey?.sonicKey, channel: "ALL" } })
         dispatch(getPlaysListsAction(
             plays?.dates?.startDate,
             plays?.dates?.endDate,
-            sonicKey?.channel,
+            "ALL",
             1,
             10,
         )); props.setOpenTable(false)

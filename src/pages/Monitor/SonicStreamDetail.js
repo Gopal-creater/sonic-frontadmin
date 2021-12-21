@@ -53,7 +53,7 @@ const columns = [
   "ARTIST",
   "QUALITY",
   "DESCRIPTION",
-  "HITS",
+  "PLAYS",
 ];
 
 export const SonicStreamDetail = (props) => {

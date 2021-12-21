@@ -1530,7 +1530,7 @@ function SonicStreamReader(props) {
     "RADIO NAME",
     "RADIO URL",
     "ADDED DATE",
-    "HITS",
+    "PLAYS",
     "STATUS",
     "ACTION",
   ];
@@ -1778,7 +1778,7 @@ function SonicStreamReader(props) {
         >
           {/* <Grid style={{ margin: 10 }}> */}
           <Grid item style={{ display: 'flex', alignItems: 'center' }}>
-            <Button
+            {/* <Button
               disabled={selectedRows.length > 0 ? false : true}
               className={[
                 useStyleClasses.homeTableDelete,
@@ -1805,8 +1805,8 @@ function SonicStreamReader(props) {
                   </label>
                 </div>
               )}
-            </Button>
-            <Button
+            </Button> */}
+            {/* <Button
               disabled={selectedRows.length > 0 ? false : true}
               className={[
                 useStyleClasses.homeTableDelete,
@@ -1833,7 +1833,7 @@ function SonicStreamReader(props) {
                   </label>
                 </div>
               )}
-            </Button>
+            </Button> */}
             <Button
               disabled={selectedRows.length > 0 ? false : true}
               className={[

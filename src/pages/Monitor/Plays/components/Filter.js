@@ -75,6 +75,7 @@ export default function Filter(props) {
                                 width: 220,
                             }}
                         >
+                            <MenuItem value="ALL">ALL</MenuItem>
                             <MenuItem value="STREAMREADER">StreamReader</MenuItem>
                             <MenuItem value="PORTAL">SonicPortal</MenuItem>
                             <MenuItem value="MOBILEAPP">SonicApp</MenuItem>
@@ -375,7 +376,7 @@ export default function Filter(props) {
                         onClick={() => dispatch({
                             type: actionTypes.SET_PLAYS_FILTER,
                             data: {
-                                channel: "STREAMREADER",
+                                channel: "ALL",
                                 sonicKey: "",
                                 country: "",
                                 artist: "",

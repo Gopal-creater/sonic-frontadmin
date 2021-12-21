@@ -9,7 +9,6 @@ export const getPlaysListsAction = (startDate, endDate, channel, page, limit, re
     let newEndDate = moment(endDate).endOf("days").toISOString()
     let params = new URLSearchParams(`detectedAt>=${moment(startDate).format("YYYY-MM-DD")}&detectedAt<=date(${newEndDate})`)
 
-    params.append("channel", channel)
     params.append("limit", limit);
     !recentPlays && params.append("page", page)
     !recentPlays && params.append("skip", page > 1 ? (page - 1) * limit : 0)
@@ -17,6 +16,8 @@ export const getPlaysListsAction = (startDate, endDate, channel, page, limit, re
 
     // log("store", store.getState().playsList)
     let playsFilters = store.getState()?.playsList?.filters
+
+    channel === "ALL" ? params.append("channel", "") : params.append("channel", channel)
 
     if (playsFilters?.sonicKey) {
         params.append("relation_sonicKey.sonicKey", playsFilters?.sonicKey);

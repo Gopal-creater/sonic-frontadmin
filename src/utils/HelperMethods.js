@@ -161,7 +161,8 @@ export function sortByDate(arr) {
 }
 
 export function todayRange() {
-  let today = moment().format("YYYY-MM-DD")
+  let today = moment().startOf("day").format("YYYY-MM-DD")
+  log("todays date", today)
   let yesterday = moment().subtract(1, 'days').format("YYYY-MM-DD")
   return `${yesterday},${today}`
 }

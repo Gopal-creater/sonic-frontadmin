@@ -42,6 +42,8 @@ export default function Plays() {
         dispatch(getAllRadioStationsAction())
     }, [])
 
+    log("plays", playsList)
+
     return (
         <Grid className="plays-container">
             <Grid container justifyContent="space-between" className="plays-title-container">
@@ -162,7 +164,7 @@ export default function Plays() {
                                             {moment(data?.detectedAt).utc().format("HH:mm")}
                                         </TableCell>
                                         <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
-                                            {moment.utc(data?.sonicKey?.contentDuration * 1000).format("mm:ss")}
+                                            {data?.detectedDuration ? moment.utc(data?.detectedDuration * 1000).format("mm:ss") : moment.utc(data?.sonicKey?.contentDuration * 1000).format("mm:ss")}
                                         </TableCell>
                                         <Tooltip title={data?.sonicKey?.originalFileName || data?.sonicKey?.contentFileName}>
                                             <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>

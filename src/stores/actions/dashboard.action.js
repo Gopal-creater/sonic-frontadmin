@@ -7,6 +7,7 @@ import * as actionTypes from "../actions/actionTypes"
 export const getTotalSonicKeysCountAction = (startDate, endDate) => {
     let newEndDate = moment(endDate).endOf("days").toISOString()
     let params = new URLSearchParams(`detectedAt>=${moment(startDate).format("YYYY-MM-DD")}&detectedAt<=date(${newEndDate})`)
+    params.append("channel", "STREAMREADER")
     return (dispatch) => {
         dispatch({ type: actionTypes.SET_TOTALSONICKEYS_COUNT_LOADING })
         getTotalSonicKeysCount(params).then((response) => {

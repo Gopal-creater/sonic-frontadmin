@@ -41,8 +41,8 @@ export const getPlaysListsAction = (startDate, endDate, channel, page, limit, re
         params.append("relation_sonicKey.distributor", playsFilters?.distributor);
     }
     if (playsFilters?.encodedDate) {
-        let startOfEncodedDate = moment(playsFilters?.encodedDate).subtract(1, "days").format('YYYY-MM-DD')
-        params.append(`relation_sonicKey.createdAt>`, startOfEncodedDate);
+        let startOfEncodedDate = moment(playsFilters?.encodedDate).startOf("days").toISOString()
+        params.append(`relation_sonicKey.createdAt>`, `date(${startOfEncodedDate})`)
         params.append(`relation_sonicKey.createdAt<`, `date(${moment(playsFilters?.encodedDate).endOf("days").toISOString()})`)
     }
 

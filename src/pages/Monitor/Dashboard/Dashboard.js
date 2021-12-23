@@ -16,7 +16,7 @@ import { getGraphDataAction, getMostPlayedStationsDataAction, getTotalSonicKeysC
 import { playsTableHeads } from "../../../constants/constants"
 import { getPlaysListsAction } from "../../../stores/actions";
 import moment from "moment";
-import DailogTable from "../../../components/common/DialogTable";
+import MetaDataDialog from "../../../components/common/MetaDataDialog";
 import { useHistory } from "react-router-dom";
 import SonicSpinner from "../../../components/common/SonicSpinner";
 import * as actionTypes from "../../../stores/actions/actionTypes"
@@ -351,7 +351,7 @@ export function Dashboard() {
       </Grid> */}
 
       {values?.sonicKeyModal && (
-        <DailogTable
+        <MetaDataDialog
           sonicKey={values?.selectedSonicKey}
           open={true}
           setOpenTable={(flag) => setValues({ ...values, sonicKeyModal: flag })}

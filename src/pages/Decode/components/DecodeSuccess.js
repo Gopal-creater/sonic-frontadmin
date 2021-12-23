@@ -9,7 +9,7 @@ import TableRow from "@material-ui/core/TableRow";
 import VisibilityOutlinedIcon from "@material-ui/icons/Visibility";
 import { Grid, Typography } from "@material-ui/core";
 import Icon from "../../../assets/images/icon-success-graphic.png";
-import DailogTable from "../../../components/common/DialogTable";
+import MetaDataDialog from "../../../components/common/MetaDataDialog";
 
 const useStyles = makeStyles((theme) => ({
   successContainer: {
@@ -177,7 +177,7 @@ export default function DecodeSuccess({ audioName, title, decodeKeys }) {
             ))}
           </TableBody>
         </Table>
-        {values?.openTable && <DailogTable sonicKey={values?.sonicKeys} open={true} setOpenTable={(flag) => { setValues({ ...values, openTable: flag }) }} />}
+        {values?.openTable && <MetaDataDialog sonicKey={values?.sonicKeys} open={true} setOpenTable={(flag) => { setValues({ ...values, openTable: flag }) }} />}
       </TableContainer>
     </Grid>
   );

@@ -10,7 +10,7 @@ import Pagination from "@material-ui/lab/Pagination";
 import "../SonicKeys/css/table.scss";
 import UnfoldMoreSharpIcon from "@material-ui/icons/UnfoldMoreSharp";
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
-import DailogTable from '../../components/common/DialogTable';
+import MetaDataDailog from '../../components/common/MetaDataDialog';
 import { Grid, Tooltip, Typography } from '@material-ui/core';
 import { tableStyle } from '../../globalStyle';
 import Communication from "../../services/https/Communication";
@@ -315,7 +315,7 @@ const SonicKeys = (props) => {
                             </TableBody>
 
                         </Table>}
-                    {openTable && <DailogTable sonicKey={sonicKeys} open={true} setOpenTable={setOpenTable} />}
+                    {openTable && <MetaDataDailog sonicKey={sonicKeys} open={true} setOpenTable={setOpenTable} />}
                     {!loading ?
                         <Pagination
                             count={page}

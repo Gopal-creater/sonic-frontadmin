@@ -11,7 +11,7 @@ import ErrorModal from "./Components/ErrorModal";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { fetchThirdPartySonicKeys } from "../../stores/actions/thirdPartySonicKey";
-import DailogTable from "../../components/common/DialogTable";
+import MetaDataDialog from "../../components/common/MetaDataDialog";
 import CloseIcon from "@material-ui/icons/Close";
 import CalendarLogo from "../../../src/assets/icons/icon-calendar.png";
 import viewFilter from "../../../src/assets/images/view.png";
@@ -467,7 +467,7 @@ export const SonicStreamPlays = () => {
       )}
 
       {values?.sonicDetailModal && (
-        <DailogTable
+        <MetaDataDialog
           sonicKey={values?.selectedSonicKey}
           open={true}
           setOpenTable={(flag) => setValues({ ...values, sonicDetailModal: flag })}

@@ -13,7 +13,7 @@ import SonicSpinner from '../../../components/common/SonicSpinner';
 import moment from 'moment';
 import { playsTableHeads } from '../../../constants/constants';
 import { getPlaysListsAction, getAllRadioStationsAction } from '../../../stores/actions/playsList';
-import DailogTable from '../../../components/common/DialogTable';
+import MetaDataDialog from '../../../components/common/MetaDataDialog';
 import * as actioTypes from "../../../stores/actions/actionTypes";
 import { log } from '../../../utils/app.debug';
 
@@ -192,7 +192,7 @@ export default function Plays() {
                 </Table>
 
                 {values?.sonicKeyModal && (
-                    <DailogTable
+                    <MetaDataDialog
                         sonicKey={values?.selectedSonicKey}
                         open={true}
                         setOpenTable={(flag) => setValues({ ...values, sonicKeyModal: flag })}

@@ -221,6 +221,10 @@ class Communication {
   userAuthentication() {
     return AppWebRequest('users/authorize')
   }
+
+  editSonicMetaData(key, payload) {
+    return AppWebRequest(`sonic-keys/${key}`, 'patch', { data: payload })
+  }
 }
 
 export default new Communication();

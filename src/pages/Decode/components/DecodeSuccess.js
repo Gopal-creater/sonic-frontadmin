@@ -10,6 +10,7 @@ import VisibilityOutlinedIcon from "@material-ui/icons/Visibility";
 import { Grid, Typography } from "@material-ui/core";
 import Icon from "../../../assets/images/icon-success-graphic.png";
 import MetaDataDialog from "../../../components/common/MetaDataDialog";
+import { log } from "../../../utils/app.debug";
 
 const useStyles = makeStyles((theme) => ({
   successContainer: {
@@ -109,16 +110,19 @@ export default function DecodeSuccess({ audioName, title, decodeKeys }) {
 
   const [values, setValues] = useState({
     openTable: false,
-    sonicKeys: {}
+    selectedSonicKey: {},
+    soincKeys: decodeKeys
   })
 
   const handleClickOpenTable = async (data) => {
     setValues({
+      ...values,
       openTable: true,
-      sonicKeys: data
+      selectedSonicKey: data
     })
   };
 
+  log("decoded", values)
   return (
     <Grid className={classes.successContainer}>
       <Grid container className={classes.header}>
@@ -149,7 +153,7 @@ export default function DecodeSuccess({ audioName, title, decodeKeys }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {decodeKeys?.data?.map((data) => (
+            {values?.soincKeys?.data?.map((data) => (
               <TableRow className={classes.tableRow} key={data._id}>
                 <TableCell className={classes.key}>{data?.sonicKey}</TableCell>
                 <TableCell className={classes.tableCellNormalText}>
@@ -177,7 +181,21 @@ export default function DecodeSuccess({ audioName, title, decodeKeys }) {
             ))}
           </TableBody>
         </Table>
-        {values?.openTable && <MetaDataDialog sonicKey={values?.sonicKeys} open={true} setOpenTable={(flag) => { setValues({ ...values, openTable: flag }) }} />}
+        {values?.openTable &&
+          <MetaDataDialog
+            sonicKey={values?.selectedSonicKey}
+            open={true}
+            setOpenTable={(flag) => { setValues({ ...values, openTable: flag }) }}
+            updateMetaData={(newData) => {
+              let newSonicData = values?.soincKeys?.data?.map((data) => {
+                if (data?._id === newData?.sonicKey) {
+                  return newData
+                }
+                return data
+              })
+              setValues({ ...values, selectedSonicKey: newData, soincKeys: { ...values?.soincKeys, data: newSonicData } })
+            }}
+          />}
       </TableContainer>
     </Grid>
   );

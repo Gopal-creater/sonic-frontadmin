@@ -25,6 +25,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import CloseIcon from '@material-ui/icons/Close';
 import Download from './Components/Download';
 import SonicSpinner from '../../components/common/SonicSpinner';
+import { log } from '../../utils/app.debug';
 
 
 const StyledTableCell = withStyles((theme) => ({
@@ -215,6 +216,7 @@ const SonicKeys = (props) => {
         document.getElementById('columnFilter').classList.remove('active');
     }
 
+    log("Table Data", tableData)
 
     return (
         <Grid className={classes.gridContainer}>
@@ -315,7 +317,24 @@ const SonicKeys = (props) => {
                             </TableBody>
 
                         </Table>}
-                    {openTable && <MetaDataDailog sonicKey={sonicKeys} open={true} setOpenTable={setOpenTable} />}
+
+                    {openTable &&
+                        <MetaDataDailog
+                            sonicKey={sonicKeys}
+                            open={true}
+                            setOpenTable={setOpenTable}
+                            updateMetaData={(key) => {
+                                setSonicKeys(key)
+                                let newTableData = tableData?.map((data, index) => {
+                                    if (data?._id === key?.sonicKey) {
+                                        return key
+                                    }
+                                    return data
+                                })
+                                setTableData(newTableData)
+                            }}
+                        />}
+
                     {!loading ?
                         <Pagination
                             count={page}

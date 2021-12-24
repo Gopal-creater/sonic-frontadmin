@@ -196,6 +196,10 @@ export default function Plays() {
                         sonicKey={values?.selectedSonicKey}
                         open={true}
                         setOpenTable={(flag) => setValues({ ...values, sonicKeyModal: flag })}
+                        updateMetaData={(key) => {
+                            setValues({ ...values, selectedSonicKey: key })
+                            dispatch({ type: actioTypes.UPDATE_EDITED_PLAYSLIST, data: key })
+                        }}
                     />
                 )}
 

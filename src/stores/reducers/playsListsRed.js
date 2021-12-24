@@ -70,6 +70,16 @@ const playsListsReducer = (state = initialState, action) =>
                 draft.allRadioStations.error = action.data;
                 break;
 
+            case actionTypes.UPDATE_EDITED_PLAYSLIST:
+                draft.data.docs = draft.data.docs.map((play, index) => {
+                    if (play?.sonicKey?._id === action.data.sonicKey) {
+                        play.sonicKey = action.data
+                        return play
+                    }
+                    return play
+                })
+                break;
+
             default:
                 break;
         }

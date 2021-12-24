@@ -355,6 +355,9 @@ export function Dashboard() {
           sonicKey={values?.selectedSonicKey}
           open={true}
           setOpenTable={(flag) => setValues({ ...values, sonicKeyModal: flag })}
+          updateMetaData={(key) => {
+            dispatch({ type: actionTypes.UPDATE_EDITED_PLAYSLIST, data: key })
+          }}
         />
       )}
     </Grid >

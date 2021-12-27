@@ -101,6 +101,9 @@ const MetaDataDailog = (props) => {
     }
 
     const updateSonicKey = () => {
+        if (values?.updateSonicKeyLoading) {
+            return
+        }
         setValues({ ...values, updateSonicKeyLoading: true })
         let payload = {
             isrcCode: values?.updatingSonicKey?.isrcCode || values?.sonicKey?.isrcCode,

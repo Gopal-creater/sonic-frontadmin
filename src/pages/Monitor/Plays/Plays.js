@@ -14,8 +14,7 @@ import moment from 'moment';
 import { playsTableHeads } from '../../../constants/constants';
 import { getPlaysListsAction, getAllRadioStationsAction } from '../../../stores/actions/playsList';
 import DailogTable from '../../../components/common/DialogTable';
-import * as actioTypes from "../../../stores/actions/actionTypes";
-import { log } from '../../../utils/app.debug';
+import * as actionTypes from "../../../stores/actions/actionTypes";
 
 export default function Plays() {
     const [values, setValues] = React.useState({
@@ -42,8 +41,6 @@ export default function Plays() {
         dispatch(getAllRadioStationsAction())
     }, [])
 
-    log("plays", playsList)
-
     return (
         <Grid className="plays-container">
             <Grid container justifyContent="space-between" className="plays-title-container">
@@ -63,7 +60,7 @@ export default function Plays() {
                     <Grid className="filter-startDate">
                         <DatePicker
                             selected={playsList?.dates?.startDate}
-                            onChange={(date) => dispatch({ type: actioTypes.SET_PLAYS_DATES, data: { ...playsList.dates, startDate: date } })}
+                            onChange={(date) => dispatch({ type: actionTypes.SET_PLAYS_DATES, data: { ...playsList.dates, startDate: date } })}
                             customInput={<CustomDate calender="true" />}
                             dateFormat="MMM d,yyyy"
                             title="Start Date"
@@ -79,7 +76,7 @@ export default function Plays() {
                     <Grid className="filter-endDate">
                         <DatePicker
                             selected={playsList?.dates?.endDate}
-                            onChange={(date) => dispatch({ type: actioTypes.SET_PLAYS_DATES, data: { ...playsList.dates, endDate: date } })}
+                            onChange={(date) => dispatch({ type: actionTypes.SET_PLAYS_DATES, data: { ...playsList.dates, endDate: date } })}
                             customInput={<CustomDate />}
                             dateFormat="MMM d,yyyy"
                             title="End Date"

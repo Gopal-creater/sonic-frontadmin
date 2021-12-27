@@ -1415,3 +1415,14 @@ export const playsTableHeads = [
   "Artist",
   "Country"
 ]
+
+export const streamReaderTableHeads = [
+  "ID",
+  "LOGO",
+  "RADIO NAME",
+  "RADIO URL",
+  "ADDED DATE",
+  "PLAYS",
+  "STATUS",
+  "ACTION",
+];

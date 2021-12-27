@@ -8,6 +8,20 @@
     font-family: "NunitoSans-Bold";
   }
 
+  .radioStations-export-formControl {
+    min-width: 55px;
+    margin-top: 8px;
+    .subscribed-formControl-title {
+      font-weight: bold;
+      font-size: 20px;
+    }
+    .subscribed-formControl-menu {
+      font-size: 14px;
+      color: #757575;
+      font-family: "NunitoSans-Bold";
+    }
+  }
+
   .radioStations-subscribed-formControl {
     min-width: 150px;
     margin-top: 8px;

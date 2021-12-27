@@ -1,4 +1,4 @@
-import { Grid, TableContainer, Button, FormControl, Select, MenuItem, InputLabel, Tooltip } from "@material-ui/core";
+import { Grid, TableContainer, Button, FormControl, Select, MenuItem, InputLabel, Tooltip, Menu, IconButton, Box } from "@material-ui/core";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import React from "react";
 import Table from '@material-ui/core/Table';
@@ -20,6 +20,8 @@ import DailogTable from "../../../components/common/DialogTable";
 import { useHistory } from "react-router-dom";
 import SonicSpinner from "../../../components/common/SonicSpinner";
 import * as actionTypes from "../../../stores/actions/actionTypes"
+import FileCopyOutlinedIcon from '@material-ui/icons/FileCopyOutlined';
+import { CSVLink, CSVDownload } from "react-csv";
 import "./Dashboard.scss"
 
 const useStyles = makeStyles((theme) => ({
@@ -42,6 +44,15 @@ export function Dashboard() {
     sonicKeyModal: false,
     selectedSonicKey: {},
   })
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const dashboard = useSelector(state => state.dashboard)
   const plays = useSelector(state => state.playsList)
@@ -95,28 +106,97 @@ export function Dashboard() {
     }
   }
 
+  const csvData = [
+    ["firstname", "lastname", "email"],
+    ["Ahmed", "Tomi", "ah@smthing.co.com"],
+    ["Raed", "Labes", "rl@smthing.co.com"],
+    ["Yezzi", "Min l3b", "ymin@cocococo.com"]
+  ];
+
   return (
     <Grid className="dashboard-container">
 
       <Grid container justifyContent="space-between">
         <p className="dashboard-title">Dashboard</p>
 
-        <FormControl variant="standard" className="radioStations-subscribed-formControl">
-          <InputLabel className="subscribed-formControl-title">Date Range</InputLabel>
-          <Select
-            labelId="demo-simple-select-standard-label"
-            id="demo-simple-select-standard"
-            value={values?.dayWeekMonth}
-            onChange={(event) => setDateRange(event.target.value)}
-            label="Date Range"
-            className="subscribed-formControl-menu"
-            MenuProps={{ classes: { paper: classes.menuItems } }}
-          >
-            <MenuItem value={"Day"}>Today</MenuItem>
-            <MenuItem value={"Week"}>Last 7 Days</MenuItem>
-            <MenuItem value={"Month"}>Last 30 Days</MenuItem>
-          </Select>
-        </FormControl>
+        <div>
+          <FormControl variant="standard" className="radioStations-export-formControl" style={{ backgroundColor: "" }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+
+              <Tooltip title="Export">
+                <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
+                  <FileCopyOutlinedIcon />
+                </IconButton>
+              </Tooltip>
+            </Box>
+            <Menu
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              onClick={handleClose}
+              PaperProps={{
+                elevation: 0,
+                sx: {
+                  overflow: 'visible',
+                  filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                  mt: 1.5,
+                  '& .MuiAvatar-root': {
+                    width: 32,
+                    height: 32,
+                    ml: -0.5,
+                    mr: 1,
+                  },
+                  '&:before': {
+                    content: '""',
+                    display: 'block',
+                    position: 'absolute',
+                    top: 0,
+                    right: 14,
+                    width: 10,
+                    height: 10,
+                    bgcolor: 'background.paper',
+                    transform: 'translateY(-50%) rotate(45deg)',
+                    zIndex: 0,
+                  },
+                },
+              }}
+              transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+              anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+            >
+              <MenuItem>
+                Excel
+              </MenuItem>
+              <MenuItem>
+                <CSVLink
+                  data={csvData}
+                  filename={"sonickey-file.csv"}
+                  className=""
+                  target="_blank"
+                  style={{ color: "#000000", textDecoration: "none" }}
+                >
+                  CSV
+                </CSVLink>
+              </MenuItem>
+            </Menu>
+          </FormControl>
+
+          <FormControl variant="standard" className="radioStations-subscribed-formControl">
+            <InputLabel className="subscribed-formControl-title">Date Range</InputLabel>
+            <Select
+              labelId="demo-simple-select-standard-label"
+              id="demo-simple-select-standard"
+              value={values?.dayWeekMonth}
+              onChange={(event) => setDateRange(event.target.value)}
+              label="Date Range"
+              className="subscribed-formControl-menu"
+              MenuProps={{ classes: { paper: classes.menuItems } }}
+            >
+              <MenuItem value={"Day"}>Today</MenuItem>
+              <MenuItem value={"Week"}>Last 7 Days</MenuItem>
+              <MenuItem value={"Month"}>Last 30 Days</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
       </Grid>
 
       <Grid container className="dashboard-tables-container" spacing={2}>

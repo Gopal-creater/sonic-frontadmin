@@ -4,7 +4,7 @@ import AppLayout from "../components/common/AppLayout";
 import Encode from "../pages/Encode/Encode";
 import Decode from "../pages/Decode/Decode";
 import SonicStreamReader from "../pages/Monitor/SonicStreamReader";
-
+import StreamReader from "../pages/Monitor/StreamReader/StreamReader";
 import Sonickeys from "../pages/SonicKeys/SonicKeys";
 import Licences from "../pages/Licences/Licences";
 import { SonicStreamDetail } from "../pages/Monitor/SonicStreamDetail";
@@ -21,7 +21,7 @@ export default function Routes() {
           <Route path="/encode" component={Encode} exact />
           <Route path="/decode" component={Decode} exact />
           <Route path="/dashboard" component={Dashboard} exact />
-          <Route path="/streamreader" component={SonicStreamReader} exact />
+          <Route path="/streamreader" component={StreamReader} exact />
           <Route path="/sonic-keys" component={Sonickeys} exact />
           <Route path="/licences" component={Licences} exact />
           <Route path="/sonicstreamdetail" component={SonicStreamDetail} exact />

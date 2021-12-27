@@ -1,6 +1,5 @@
 import * as actionTypes from "../actions/actionTypes";
 import produce from "immer";
-import { log } from "../../utils/app.debug";
 
 const initialState = {
     loading: false,

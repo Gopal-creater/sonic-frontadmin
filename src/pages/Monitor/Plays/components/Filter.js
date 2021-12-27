@@ -1,12 +1,13 @@
 import React from 'react'
-import { FormControl, Grid, InputLabel, MenuItem, Select, Button, TextField, Checkbox, ListItemText } from '@material-ui/core'
+import { FormControl, Grid, InputLabel, MenuItem, Select, Button, TextField, ListItemText, InputAdornment } from '@material-ui/core'
 import { countries } from '../../../../constants/constants';
 import "./Filter.scss";
 import { useDispatch, useSelector } from 'react-redux';
 import { getPlaysListsAction } from '../../../../stores/actions';
-import { log } from '../../../../utils/app.debug';
-import * as actionTypes from '../../../../stores/actions/actionTypes'
-import cogoToast from 'cogo-toast';
+import * as actionTypes from '../../../../stores/actions/actionTypes';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { CalendarTodayOutlined } from '@material-ui/icons';
 
 export default function Filter(props) {
     const dispatch = useDispatch();
@@ -34,13 +35,6 @@ export default function Filter(props) {
 
         props?.setClose(false);
     }
-
-    const handleCountriesRadiostations = (e) => {
-        dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, country: e, radioStation: "" } })
-        // dispatch(getCountriesRadioStationsAction([e]))
-    };
-
-    log("FILTER", plays?.filters)
 
     return (
         <div className="filter-container">
@@ -108,7 +102,7 @@ export default function Filter(props) {
                             InputProps={{
                                 style: {
                                     paddingLeft: 12,
-                                    color: 'grey',
+                                    color: '#757575',
                                     fontFamily: "NunitoSans-Regular",
                                 },
                             }}
@@ -132,7 +126,7 @@ export default function Filter(props) {
                             id="country-drop-down"
                             className="form-control mb-0"
                             value={plays?.filters?.country}
-                            onChange={(e) => handleCountriesRadiostations(e.target.value)}
+                            onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, country: e.target.value, radioStation: "" } })}
                             displayEmpty
                             autoWidth={false}
                             style={{
@@ -155,7 +149,7 @@ export default function Filter(props) {
 
                     <FormControl>
                         <InputLabel
-                            id="mutiple-radioStation-label"
+                            id="radioStation-label"
                             style={{
                                 paddingLeft: 30,
                                 color: "grey",
@@ -188,7 +182,6 @@ export default function Filter(props) {
                                 map((data, index) => {
                                     return (
                                         <MenuItem key={index} value={data?.name}>
-                                            {/* <Checkbox style={{ color: '#343F84' }} /> */}
                                             <ListItemText primary={data?.name} />
                                         </MenuItem>
                                     );
@@ -227,7 +220,7 @@ export default function Filter(props) {
                             InputProps={{
                                 style: {
                                     paddingLeft: 12,
-                                    color: 'grey',
+                                    color: '#757575',
                                     fontFamily: "NunitoSans-Regular",
                                 },
                             }}
@@ -260,8 +253,8 @@ export default function Filter(props) {
                             InputProps={{
                                 style: {
                                     paddingLeft: 12,
-                                    color: 'grey',
-                                    fontFamily: "NunitoSans-Bold",
+                                    color: '#757575',
+                                    fontFamily: "NunitoSans-Regular",
                                 },
                             }}
                         />
@@ -293,8 +286,8 @@ export default function Filter(props) {
                             InputProps={{
                                 style: {
                                     paddingLeft: 12,
-                                    color: 'grey',
-                                    fontFamily: "NunitoSans-Bold",
+                                    color: '#757575',
+                                    fontFamily: "NunitoSans-Regular",
                                 }
                             }}
                         />
@@ -326,44 +319,54 @@ export default function Filter(props) {
                             InputProps={{
                                 style: {
                                     paddingLeft: 12,
-                                    color: 'grey',
-                                    fontFamily: "NunitoSans-Bold",
+                                    color: '#757575',
+                                    fontFamily: "NunitoSans-Regular",
                                 },
                             }}
                         />
                     </FormControl>
 
                     <FormControl>
-                        <TextField
-                            id="date"
-                            label="Encoded Date"
-                            type="date"
-                            format="DD/MM/YYYY"
-                            value={plays?.filters?.encodedDate}
-                            onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, encodedDate: e.target.value } })}
-                            style={{
-                                color: "#757575",
-                                backgroundColor: "transparent",
-                                outline: "none",
-                                border: "none",
-                                boxShadow: "none",
-                                margin: "5px 30px 0px 20px",
-                                width: 220,
-                            }}
-                            InputLabelProps={{
-                                shrink: true,
-                                style: {
-                                    paddingLeft: 3,
-                                    fontFamily: "NunitoSans-Bold",
-                                }
-                            }}
-                            InputProps={{
-                                style: {
-                                    paddingLeft: 10,
-                                    color: 'grey',
-                                    fontFamily: "NunitoSans-Regular",
-                                },
-                            }}
+                        <DatePicker
+                            selected={plays?.filters?.encodedDate}
+                            onChange={(date) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, encodedDate: date } })}
+                            customInput={
+                                <TextField
+                                    id="date"
+                                    label="Encoded Date"
+                                    style={{
+                                        color: "#757575",
+                                        backgroundColor: "transparent",
+                                        outline: "none",
+                                        border: "none",
+                                        boxShadow: "none",
+                                        margin: "5px 30px 0px 20px",
+                                        width: 220,
+                                    }}
+                                    InputLabelProps={{
+                                        style: {
+                                            marginLeft: 8,
+                                            fontFamily: "NunitoSans-Bold",
+                                        }
+                                    }}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <CalendarTodayOutlined />
+                                            </InputAdornment>
+                                        ),
+                                        style: {
+                                            paddingLeft: 10,
+                                            color: '#757575',
+                                            fontFamily: "NunitoSans-Regular",
+                                        },
+                                    }}
+                                />
+                            }
+                            dateFormat="MMM d,yyyy"
+                            title="Encoded Date"
+                            showYearDropdown
+                            showMonthDropdown
                         />
                     </FormControl>
                 </Grid>

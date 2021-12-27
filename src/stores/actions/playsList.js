@@ -14,7 +14,6 @@ export const getPlaysListsAction = (startDate, endDate, channel, page, limit, re
     !recentPlays && params.append("skip", page > 1 ? (page - 1) * limit : 0)
     params.append("recentPlays", recentPlays)
 
-    // log("store", store.getState().playsList)
     let playsFilters = store.getState()?.playsList?.filters
 
     channel === "ALL" ? params.append("channel", "") : params.append("channel", channel)
@@ -47,33 +46,28 @@ export const getPlaysListsAction = (startDate, endDate, channel, page, limit, re
     }
 
     return dispatch => {
-        dispatch({
-            type: actionType.FETCH_PLAYS_LISTS_LOADING
+        dispatch({ type: actionType.FETCH_PLAYS_LISTS_LOADING })
+
+        getPlaysLists(params).then((data) => {
+            log("Plays detected", data);
+            dispatch({ type: actionType.FETCH_PLAYS_LISTS_SUCCESS, data: data })
+        }).catch(error => {
+            log("Plays detected error", error);
+            dispatch({ type: actionType.FETCH_PLAYS_LISTS_ERROR, error: error?.message })
+            cogoToast.error(error?.message)
         })
-        getPlaysLists(params)
-            .then((data) => {
-                // log("Plays detected", data);
-                dispatch({
-                    type: actionType.FETCH_PLAYS_LISTS_SUCCESS,
-                    data: data
-                })
-            }).catch(error => {
-                log("Plays detected error", error);
-                dispatch({
-                    type: actionType.FETCH_PLAYS_LISTS_ERROR,
-                    error: error?.message
-                })
-                cogoToast.error(error?.message)
-            })
     }
 };
 
 export const getAllRadioStationsAction = () => {
     return (dispatch) => {
         dispatch({ type: actionType.GET_ALL_RADIOSTATIONS_LOADING })
+
         getAllRadioStations().then((response) => {
+            log("Radio Stations", response);
             dispatch({ type: actionType.GET_ALL_RADIOSTATIONS_SUCCESS, data: response })
         }).catch((error) => {
+            log("Radio Stations Error", error);
             dispatch({ type: actionType.GET_ALL_RADIOSTATIONS_ERROR, data: error?.message })
             cogoToast.error(error?.message)
         })

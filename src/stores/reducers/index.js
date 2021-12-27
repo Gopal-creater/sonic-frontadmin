@@ -12,6 +12,7 @@ import cardRadiostationsReducer from './cardRadioStaion';
 import topRadiostationReducer from './topRadioStation';
 import dashboardReducer from './dashboard.reducers';
 import playsListsReducer from './playsListsRed';
+import streamReaderReducer from './streamReader.reducer';
 
 const appReducer = combineReducers({
   session: sessionRed,
@@ -26,6 +27,7 @@ const appReducer = combineReducers({
   topRadiostation: topRadiostationReducer,
   dashboard: dashboardReducer,
   playsList: playsListsReducer,
+  streamReader: streamReaderReducer,
 });
 
 const rootReducer = (state, action) => {

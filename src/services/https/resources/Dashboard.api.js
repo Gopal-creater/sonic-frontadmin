@@ -6,7 +6,7 @@ export const getTotalSonicKeysCount = (params) => {
 }
 
 export const getTotalSubscribedStation = () => {
-    return AppWebRequest(`/radiomonitors/owners/${getUserId()}/subscriber-count`)
+    return AppWebRequest(`/radiomonitors/owners/${getUserId()}/subscribed-stations-count`)
 }
 
 export const getMostPlayedStationsData = (params) => {

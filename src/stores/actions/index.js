@@ -10,4 +10,4 @@ export {
 } from './count';
 export { fetchTopRadioStation } from './topRadioStation';
 export { getPlaysListsAction, getAllRadioStationsAction } from './playsList';
-export { fetchRadioStationsActions } from './streamReader.action';
+export { fetchRadioStationsActions, getSubscribedStationCountActions } from './streamReader.action';

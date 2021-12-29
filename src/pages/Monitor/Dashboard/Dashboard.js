@@ -323,7 +323,7 @@ export function Dashboard() {
                           </TableCell>
                         </Tooltip>
                         <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
-                          {data?.radioStation?.name?.length > 20 ? data?.radioStation?.name?.slice(0, 20) + "..." : data?.radioStation?.name}
+                          {data?.radioStation?.name?.length > 20 ? data?.radioStation?.name?.slice(0, 20) + "..." : data?.radioStation?.name || "---"}
                         </TableCell>
                         <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
                           {moment(data?.detectedAt).utc().format("DD/MM/YYYY")}
@@ -341,11 +341,11 @@ export function Dashboard() {
                         </Tooltip>
                         <Tooltip title={data?.sonicKey?.contentOwner}>
                           <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
-                            {(data?.sonicKey?.contentOwner === "" ? "-" : (data?.sonicKey?.contentOwner?.length > 20 ? data?.sonicKey?.contentOwner?.slice(0, 20) + "..." : data?.sonicKey?.contentOwner))}
+                            {(data?.sonicKey?.contentOwner === "" ? "---" : (data?.sonicKey?.contentOwner?.length > 20 ? data?.sonicKey?.contentOwner?.slice(0, 20) + "..." : data?.sonicKey?.contentOwner))}
                           </TableCell>
                         </Tooltip>
                         <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
-                          {data?.radioStation?.country}np
+                          {data?.radioStation?.country || "---"}
                         </TableCell>
                       </TableRow>
                     ))

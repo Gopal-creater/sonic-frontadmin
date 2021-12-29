@@ -5,17 +5,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { Badge } from "react-bootstrap";
 import Grid from "@material-ui/core/Grid";
 import Hits from "../Components/Hits";
-import { log } from "../../../utils/app.debug";
 import { FormControl, InputLabel, ListItemText, MenuItem, Button, Popover, Select, Typography, Tooltip, Table, TableBody, TableContainer, TableCell, TableHead, TableRow } from "@material-ui/core";
 import Pagination from "@material-ui/lab/Pagination";
 import { tableStyle } from "../../../globalStyle";
 import IconEdit from "../../../assets/icons/icon-edit.png";
 import IconTick from "../../../assets/icons/icon-tick.png";
-import Search from "../../SonicKeys/Components/Search";
 import { streamReaderTableHeads, countries } from "../../../constants/constants";
 import SonicSpinner from "../../../components/common/SonicSpinner";
 import ErrorModal from "../Components/ErrorModal";
-import { fetchRadioStationsActions, getAllRadioStationsAction } from "../../../stores/actions";
+import { fetchRadioStationsActions, getAllRadioStationsAction, getSubscribedStationCountActions } from "../../../stores/actions";
 import { FilterList } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
@@ -26,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     },
     card: {
         display: "flex",
-        justifyContent: "space-between",
+        justifyContent: "flex-end",
         alignItems: 'center',
         padding: 25,
         marginTop: 20,
@@ -46,15 +44,12 @@ export default function SonicStreamReader(props) {
         anchorFilter: false,
         country: '',
         radio: '',
-        dataSearch: '',
-        defaultData: '',
     })
     const openFilter = Boolean(values.anchorFilter);
 
     const dispatch = useDispatch();
     const plays = useSelector(state => state.playsList);
     const radioStation = useSelector(state => state.streamReader);
-    log(radioStation)
 
     const filteredRadioStation = plays?.allRadioStations?.data?.filter((data) => {
         if (values?.country === "") {
@@ -67,13 +62,9 @@ export default function SonicStreamReader(props) {
 
     React.useEffect(() => {
         dispatch(getAllRadioStationsAction());
-        dispatch(fetchRadioStationsActions(5, radioStation?.data?.page, "", ""));
+        dispatch(getSubscribedStationCountActions());
+        dispatch(fetchRadioStationsActions(5, radioStation?.stations?.data?.page, "", ""));
     }, [])
-
-    const handleRadioStation = (e) => {
-        setValues({ ...values, radio: e.target.value });
-        dispatch(fetchRadioStationsActions(5, 1, "", e.target.value));
-    }
 
     const handleFilter = () => {
         setValues({ ...values, anchorFilter: false });
@@ -89,15 +80,15 @@ export default function SonicStreamReader(props) {
                             Sonic StreamReader
                         </Typography>
                         <Typography style={{ fontSize: 18, fontFamily: 'NunitoSans-Regular', color: "#00A19A", paddingBottom: 30 }}>
-                            Currently listening to {radioStation?.data?.totalDocs} radio stations
+                            Currently listening to {radioStation?.stationCount?.data} radio stations
                         </Typography>
                     </div>
-                    <Search
-                        searchData={(value) => dispatch(fetchRadioStationsActions(5, 1, "", value))}
+                    {/* <Search
+                        searchData={(value) => dispatch(fetchRadioStationsActions(5, 1, "", values?.radio,))}
                         dataSearch={values?.dataSearch}
                         setDataSearch={(res) => setValues({ ...values, dataSearch: res })}
-                        setDefaultData={(res) => setValues({ ...values, defaultData: res })}
-                    />
+                        setDefaultData={(flag) => setValues({ ...values, defaultData: flag })}
+                    /> */}
                 </Grid>
 
                 <Grid container className={classes.card}>
@@ -105,7 +96,7 @@ export default function SonicStreamReader(props) {
                         <Button
                             aria-describedby="open-filter"
                             variant="text"
-                            style={{ display: 'flex', alignItems: 'center' }}
+                            style={{ display: 'flex', alignItems: 'center', color: "#343F84" }}
                             onClick={(e) => setValues({ ...values, anchorFilter: e.currentTarget })}
                         >
                             <span style={{ marginRight: 5, fontFamily: 'NunitoSans-Bold', fontSize: '16px' }}>Filter</span>
@@ -119,11 +110,11 @@ export default function SonicStreamReader(props) {
                             onClose={() => setValues({ ...values, anchorFilter: false })}
                             anchorOrigin={{
                                 vertical: 'bottom',
-                                horizontal: 'right',
+                                horizontal: 'left',
                             }}
                             transformOrigin={{
                                 vertical: 'center',
-                                horizontal: 'left',
+                                horizontal: 'right',
                             }}
                         >
                             <div className="filter-container">
@@ -136,7 +127,7 @@ export default function SonicStreamReader(props) {
                                             id="country-drop-down"
                                             className="form-control mb-0"
                                             value={values?.country}
-                                            onChange={(e) => setValues({ ...values, country: e.target.value })}
+                                            onChange={(e) => setValues({ ...values, country: e.target.value, radio: "" })}
                                             displayEmpty
                                             autoWidth={false}
                                             style={{ color: "#757575", backgroundColor: "transparent", outline: "none", border: "none", boxShadow: "none", margin: "10px 30px 0px 20px", width: 220 }}
@@ -200,30 +191,6 @@ export default function SonicStreamReader(props) {
                             </div>
                         </Popover>
                     </Grid>
-
-                    <Grid item>
-                        <FormControl>
-                            <InputLabel id="radioStation-label" style={{ paddingLeft: 30, color: "grey", paddingBottom: 50, marginBottom: 20, fontFamily: "NunitoSans-Bold", }}>
-                                Radio Station
-                            </InputLabel>
-                            <Select
-                                id="radioStation-drop-down"
-                                className="form-control"
-                                value={values?.radio}
-                                onChange={handleRadioStation}
-                                autoWidth={false}
-                                style={{ color: "#757575", backgroundColor: "transparent", outline: "none", border: "none", boxShadow: "none", margin: "10px 20px 0px 20px", width: 220, height: "45px" }}
-                            >
-                                {plays?.allRadioStations?.data?.map((data, index) => {
-                                    return (
-                                        <MenuItem key={index} value={data?.name}>
-                                            <ListItemText primary={data?.name} />
-                                        </MenuItem>
-                                    );
-                                })}
-                            </Select>
-                        </FormControl>
-                    </Grid>
                 </Grid>
 
                 <TableContainer style={{ ...tableStyle.container }}>
@@ -241,43 +208,43 @@ export default function SonicStreamReader(props) {
                         </TableHead>
 
                         <TableBody>
-                            {!radioStation?.loading && !radioStation?.error ?
-                                radioStation?.data?.docs?.length > 0 ?
-                                    radioStation?.data?.docs?.map((file, index) => {
+                            {!radioStation?.stations?.loading && !radioStation?.stations?.error ?
+                                radioStation?.stations?.data?.docs?.length > 0 ?
+                                    radioStation?.stations?.data?.docs?.map((file, index) => {
                                         return (
                                             <TableRow key={file?._id} hover className={classes.tableRow}>
                                                 <TableCell style={{ ...tableStyle.body }}>
-                                                    {radioStation?.data?.offset + index + 1}
+                                                    {radioStation?.stations?.data?.offset + index + 1}
                                                 </TableCell>
                                                 <TableCell>
                                                     <img src={IconTick} />
                                                 </TableCell>
                                                 <TableCell style={{ ...tableStyle.body, fontSize: 15 }}>
-                                                    {file?.radio?.name}
+                                                    {file?.name}
                                                 </TableCell>
-                                                <Tooltip title={file?.radio?.streamingUrl}>
+                                                <Tooltip title={file?.streamingUrl}>
                                                     <TableCell style={{ ...tableStyle.body, color: "#757575", whiteSpace: "nowrap", textOverflow: "ellipsis", maxWidth: 200, wordWrap: "none", overflow: "hidden" }}>
-                                                        {file?.radio?.streamingUrl}
+                                                        {file?.streamingUrl}
                                                     </TableCell>
                                                 </Tooltip>
                                                 <TableCell style={{ ...tableStyle.body, color: "#757575" }}>
-                                                    {moment(new Date(file?.radio?.createdAt)).format("DD-MM-YYYY")}
+                                                    {moment(new Date(file?.createdAt)).format("DD-MM-YYYY")}
                                                 </TableCell>
                                                 <TableCell style={{ ...tableStyle.body }}>
-                                                    <Hits radioId={file?.radio?._id} key={file?.radio?._id} />
+                                                    <Hits radioId={file?._id} key={file?._id} />
                                                 </TableCell>
                                                 <TableCell>
-                                                    {file?.radio?.isStreamStarted === true && (
+                                                    {file?.isStreamStarted === true && (
                                                         <Badge style={{ background: "rgb(229, 245, 244)", color: "rgb(72, 187, 183)", padding: 5, fontWeight: "lighter" }}>
                                                             LISTENING
                                                         </Badge>
                                                     )}
-                                                    {file?.radio?.isStreamStarted === false && file?.radio?.error === null && (
+                                                    {file?.isStreamStarted === false && file?.error === null && (
                                                         <Badge style={{ background: "rgb(244, 237, 151)", color: "rgb(183, 170, 53)", padding: 5 }}>
                                                             NOT LISTENING
                                                         </Badge>
                                                     )}
-                                                    {file?.radio?.isStreamStarted === false && file?.radio?.error !== null && (
+                                                    {file?.isStreamStarted === false && file?.error !== null && (
                                                         <Badge style={{ background: "rgb(242, 125, 162)", color: "rgb(130, 24, 13)", padding: 5 }}>
                                                             ERROR
                                                         </Badge>
@@ -289,7 +256,7 @@ export default function SonicStreamReader(props) {
                                                         localStorage.setItem("passedData", JSON.stringify(file));
                                                         props.history.push({
                                                             pathname: `/sonicstreamdetail`,
-                                                            search: `?radioStationId=${file?.radio?._id}&radioStationName=${file?.radio?.name}`,
+                                                            search: `?radioStationId=${file?._id}&radioStationName=${file?.name}`,
                                                         });
                                                     }}
                                                 >
@@ -304,7 +271,7 @@ export default function SonicStreamReader(props) {
                                             </TableCell>
                                         </TableRow>
                                     )
-                                : radioStation?.loading ? (
+                                : radioStation?.stations?.loading ? (
                                     <TableRow>
                                         <TableCell colSpan={8} align={"center"} style={{ ...tableStyle.body, fontSize: '14px' }}>
                                             <div style={{ display: 'flex', justifyContent: 'center', width: '100%', height: '100px' }}>
@@ -316,7 +283,7 @@ export default function SonicStreamReader(props) {
                                     <TableRow>
                                         <TableCell colSpan={8} align={"center"} style={{ ...tableStyle.body, fontSize: '14px' }}>
                                             <div style={{ display: 'flex', justifyContent: 'center', width: '100%', height: '100px' }}>
-                                                <ErrorModal errorData={radioStation?.error} additionalStyle={{ height: '100%', display: 'flex', justifyContent: 'center' }} />
+                                                <ErrorModal errorData={radioStation?.stations?.error} additionalStyle={{ height: '100%', display: 'flex', justifyContent: 'center' }} />
                                             </div>
                                         </TableCell>
                                     </TableRow>
@@ -324,9 +291,9 @@ export default function SonicStreamReader(props) {
                         </TableBody>
                     </Table>
 
-                    {!radioStation?.loading && <Pagination
-                        count={radioStation?.data?.totalPages}
-                        page={radioStation?.data?.page}
+                    {!radioStation?.stations?.loading && <Pagination
+                        count={radioStation?.stations?.data?.totalPages}
+                        page={radioStation?.stations?.data?.page}
                         variant="outlined"
                         shape="rounded"
                         onChange={(event, value) => dispatch(fetchRadioStationsActions(5, value, values?.country, values?.radio))}

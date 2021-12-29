@@ -40,7 +40,11 @@ const useStyles = makeStyles({
         fontSize: '14px',
         color: '#757575',
     },
-    table: {
+    textInput: {
+        fontFamily: 'NunitoSans-Bold',
+        fontWeight: '700',
+        fontSize: '14px',
+        color: '#757575',
     }
 });
 
@@ -115,10 +119,26 @@ const MetaDataDailog = (props) => {
                 message: values?.updatingSonicKey?.additionalMetadata?.message || values?.sonicKey?.additionalMetadata?.message
             },
             distributor: values?.updatingSonicKey?.distributor || values?.sonicKey?.distributor,
-            version: values?.updatingSonicKey?.version || values?.sonicKey?.version
+            version: values?.updatingSonicKey?.version || values?.sonicKey?.version,
+            contentFileName: values?.updatingSonicKey?.contentFileName || values?.sonicKey?.contentFileName
         }
         Communication.editSonicMetaData(values?.sonicKey?.sonicKey, payload).then((response) => {
-            setValues({ ...values, updateSonicKeyLoading: false, sonicKey: response, switchEdit: false })
+            setValues({
+                ...values, updateSonicKeyLoading: false, sonicKey: response, switchEdit: false,
+                updatingSonicKey: {
+                    contentFileName: "",
+                    isrcCode: "",
+                    iswcCode: "",
+                    tuneCode: "",
+                    contentOwner: "",
+                    contentDescription: "",
+                    additionalMetadata: {
+                        message: ""
+                    },
+                    distributor: "",
+                    version: ""
+                }
+            })
             props.updateMetaData(response)
             cogoToast.success("Successfully updated meta-data")
         }).catch((error) => {
@@ -142,7 +162,7 @@ const MetaDataDailog = (props) => {
                         !values?.updateSonicKeyLoading && setValues({ ...values, switchEdit: !values?.switchEdit })
                     }}
                 >
-                    Switch to {values?.switchEdit ? "view" : "edit"}
+                    Switch to {values?.switchEdit ? "view metadata" : "edit metadata"}
                 </Button>
                 <IconButton
                     aria-label="close"
@@ -165,30 +185,40 @@ const MetaDataDailog = (props) => {
                         <img style={{ width: '30px' }} src={DialogLogo} alt="" />
                         <div style={{
                             fontFamily: 'NunitoSans-Bold', color: '#343F84', fontSize: '18px'
-                        }}>&nbsp; &nbsp;SonicKey: {values?.sonicKey?.sonicKey}</div>
+                        }}>&nbsp; &nbsp;SonicKey: {values?.sonicKey?.sonicKey || "---"}</div>
                     </div>
                 </DialogTitle>
 
-                <TableContainer component={Paper} style={{ marginTop: 5, padding: '10px 25px', border: 'none' }} elevation={0}>
+                <TableContainer component={Paper} style={{ marginTop: 5, padding: '10px 20px', border: 'none' }} elevation={0}>
                     <Table className={classes.table} size="small" aria-label="a dense table">
                         <TableBody>
                             <TableRow>
                                 <TableCell className={classes.tableCellOne}>FILE TYPE</TableCell>
-                                <TableCell className={classes.tableCellTwo}>{values?.sonicKey?.contentFileType}</TableCell>
+                                <TableCell className={classes.tableCellTwo}>{values?.sonicKey?.contentFileType || "---"}</TableCell>
                             </TableRow>
 
                             <TableRow >
-                                <TableCell className={classes.tableCellOne}>NAME</TableCell>
+                                <TableCell className={classes.tableCellOne}>TRACK FILE NAME</TableCell>
+                                <TableCell className={classes.tableCellTwo}>
+                                    {
+                                        values?.sonicKey?.originalFileName || "--"
+                                    }
+                                </TableCell>
+                            </TableRow>
+
+                            <TableRow >
+                                <TableCell className={classes.tableCellOne}>CONTENT NAME</TableCell>
                                 <TableCell className={classes.tableCellTwo}>
                                     {
                                         values?.switchEdit ?
                                             <TextField
                                                 id="audioNameInput"
                                                 fullWidth
-                                                placeholder="Edit name"
+                                                placeholder="Edit content name"
+                                                inputProps={{ className: classes.textInput }}
                                                 value={values?.updatingSonicKey?.contentFileName}
                                                 onChange={(e) => setValues({ ...values, updatingSonicKey: { ...values?.updatingSonicKey, contentFileName: e.target.value } })} /> :
-                                            values?.sonicKey?.originalFileName || values?.sonicKey?.contentFileName
+                                            values?.sonicKey?.contentFileName || "--"
                                     }
                                 </TableCell>
                             </TableRow>
@@ -202,21 +232,22 @@ const MetaDataDailog = (props) => {
                                                 id="ownerInput"
                                                 fullWidth
                                                 placeholder="Edit artist"
+                                                inputProps={{ className: classes.textInput }}
                                                 value={values?.updatingSonicKey?.contentOwner}
                                                 onChange={(e) => setValues({ ...values, updatingSonicKey: { ...values?.updatingSonicKey, contentOwner: e.target.value } })} /> :
-                                            values?.sonicKey?.contentOwner
+                                            values?.sonicKey?.contentOwner || "---"
                                     }
                                 </TableCell>
                             </TableRow>
 
                             <TableRow>
                                 <TableCell className={classes.tableCellOne}>LENGTH (00:00:00:000)</TableCell>
-                                <TableCell className={classes.tableCellTwo}>{moment.utc(values?.sonicKey?.contentDuration * 1000).format("HH:mm:ss:SSS")}</TableCell>
+                                <TableCell className={classes.tableCellTwo}>{moment.utc(values?.sonicKey?.contentDuration * 1000).format("HH:mm:ss:SSS") || "---"}</TableCell>
                             </TableRow>
 
                             <TableRow>
                                 <TableCell className={classes.tableCellOne}>AUDIO SIZE (IN MB)</TableCell>
-                                <TableCell className={classes.tableCellTwo}>{(values?.sonicKey?.contentSize / 1024).toFixed(3)}</TableCell>
+                                <TableCell className={classes.tableCellTwo}>{(values?.sonicKey?.contentSize / 1024).toFixed(3) || "---"}</TableCell>
                             </TableRow>
 
                             <TableRow>
@@ -228,6 +259,7 @@ const MetaDataDailog = (props) => {
                                                 id="isrcInput"
                                                 fullWidth
                                                 placeholder="Edit isrc"
+                                                inputProps={{ className: classes.textInput }}
                                                 value={values?.updatingSonicKey?.isrcCode}
                                                 onChange={(e) => setValues({ ...values, updatingSonicKey: { ...values?.updatingSonicKey, isrcCode: e.target.value } })}
                                             />
@@ -240,6 +272,7 @@ const MetaDataDailog = (props) => {
                                                 id="iswcInput"
                                                 fullWidth
                                                 placeholder="Edit iswc"
+                                                inputProps={{ className: classes.textInput }}
                                                 value={values?.updatingSonicKey?.iswcCode}
                                                 onChange={(e) => setValues({ ...values, updatingSonicKey: { ...values?.updatingSonicKey, iswcCode: e.target.value } })}
                                             />
@@ -252,6 +285,7 @@ const MetaDataDailog = (props) => {
                                                 id="tuneInput"
                                                 fullWidth
                                                 placeholder="Edit tunecode"
+                                                inputProps={{ className: classes.textInput }}
                                                 value={values?.updatingSonicKey?.tuneCode}
                                                 onChange={(e) => setValues({ ...values, updatingSonicKey: { ...values?.updatingSonicKey, tun: e.target.value } })}
                                             />
@@ -263,32 +297,32 @@ const MetaDataDailog = (props) => {
 
                             <TableRow>
                                 <TableCell className={classes.tableCellOne}>UNDERLYING ENCODING OF THE FILE</TableCell>
-                                <TableCell className={classes.tableCellTwo}>{values?.sonicKey?.contentEncoding}</TableCell>
+                                <TableCell className={classes.tableCellTwo}>{values?.sonicKey?.contentEncoding || "---"}</TableCell>
                             </TableRow>
 
                             <TableRow>
-                                <TableCell className={classes.tableCellOne}>SAMPLING FREQUENCY </TableCell>
-                                <TableCell className={classes.tableCellTwo}>{values?.sonicKey?.contentSamplingFrequency} Hz</TableCell>
+                                <TableCell className={classes.tableCellOne}>SAMPLING FREQUENCY (Hz) </TableCell>
+                                <TableCell className={classes.tableCellTwo}>{values?.sonicKey?.contentSamplingFrequency || "---"}</TableCell>
                             </TableRow>
 
                             <TableRow>
                                 <TableCell className={classes.tableCellOne}>Encoded Date</TableCell>
-                                <TableCell className={classes.tableCellTwo}>{moment(values?.sonicKey?.createdAt).format("DD/MM/YYYY")}</TableCell>
+                                <TableCell className={classes.tableCellTwo}>{moment(values?.sonicKey?.createdAt).format("DD/MM/YYYY") || "---"}</TableCell>
                             </TableRow>
 
                             <TableRow>
                                 <TableCell className={classes.tableCellOne}>Sonic Key</TableCell>
-                                <TableCell className={classes.tableCellTwo}>{values?.sonicKey?.sonicKey}</TableCell>
+                                <TableCell className={classes.tableCellTwo}>{values?.sonicKey?.sonicKey || "---"}</TableCell>
                             </TableRow>
 
                             <TableRow>
                                 <TableCell className={classes.tableCellOne}>Content Strength</TableCell>
-                                <TableCell className={classes.tableCellTwo}>{values?.sonicKey?.encodingStrength}</TableCell>
+                                <TableCell className={classes.tableCellTwo}>{values?.sonicKey?.encodingStrength || "---"}</TableCell>
                             </TableRow>
 
                             <TableRow>
                                 <TableCell className={classes.tableCellOne}>Content Validation</TableCell>
-                                <TableCell className={classes.tableCellTwo}>{values?.sonicKey?.contentValidation ? "Yes" : "No"}</TableCell>
+                                <TableCell className={classes.tableCellTwo}>{values?.sonicKey?.contentValidation ? "Yes" : "No" || "---"}</TableCell>
                             </TableRow>
 
                             <TableRow>
@@ -300,11 +334,12 @@ const MetaDataDailog = (props) => {
                                                 id="descriptionInput"
                                                 fullWidth
                                                 placeholder="Edit description"
+                                                inputProps={{ className: classes.textInput }}
                                                 value={values?.updatingSonicKey?.contentDescription}
                                                 onChange={(e) => setValues({ ...values, updatingSonicKey: { ...values?.updatingSonicKey, contentDescription: e.target.value } })}
                                                 multiline
                                                 minRows={3} /> :
-                                            values?.sonicKey?.contentDescription
+                                            values?.sonicKey?.contentDescription || "---"
                                     }
                                 </TableCell>
                             </TableRow>
@@ -318,10 +353,11 @@ const MetaDataDailog = (props) => {
                                                 id="distributorInput"
                                                 fullWidth
                                                 placeholder="Edit distributor"
+                                                inputProps={{ className: classes.textInput }}
                                                 value={values?.updatingSonicKey?.distributor}
                                                 onChange={(e) => setValues({ ...values, updatingSonicKey: { ...values?.updatingSonicKey, distributor: e.target.value } })}
                                             /> :
-                                            values?.sonicKey?.distributor
+                                            values?.sonicKey?.distributor || "---"
                                     }
                                 </TableCell>
                             </TableRow>
@@ -335,17 +371,18 @@ const MetaDataDailog = (props) => {
                                                 id="versionInput"
                                                 fullWidth
                                                 placeholder="Edit version"
+                                                inputProps={{ className: classes.textInput }}
                                                 value={values?.updatingSonicKey?.version}
                                                 onChange={(e) => setValues({ ...values, updatingSonicKey: { ...values?.updatingSonicKey, version: e.target.value } })}
                                             /> :
-                                            values?.sonicKey?.version
+                                            values?.sonicKey?.version || "---"
                                     }
                                 </TableCell>
                             </TableRow>
 
                             <TableRow>
                                 <TableCell className={classes.tableCellOne}>Label</TableCell>
-                                <TableCell className={classes.tableCellTwo}>{values?.sonicKey?.label}</TableCell>
+                                <TableCell className={classes.tableCellTwo}>{values?.sonicKey?.label || "---"}</TableCell>
                             </TableRow>
 
                             <TableRow>
@@ -357,10 +394,11 @@ const MetaDataDailog = (props) => {
                                                 id="additionalInput"
                                                 fullWidth
                                                 placeholder="Edit additional metadata"
+                                                inputProps={{ className: classes.textInput }}
                                                 value={values?.updatingSonicKey?.additionalMetadata?.message}
                                                 onChange={(e) => setValues({ ...values, updatingSonicKey: { ...values?.updatingSonicKey, additionalMetadata: { ...values?.updatingSonicKey?.additionalMetadata, message: e.target.value } } })}
                                             /> :
-                                            values?.sonicKey?.additionalMetadata?.message
+                                            values?.sonicKey?.additionalMetadata?.message || "---"
                                     }
                                 </TableCell>
                             </TableRow>

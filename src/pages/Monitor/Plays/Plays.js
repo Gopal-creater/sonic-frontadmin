@@ -149,33 +149,33 @@ export default function Plays() {
                                                 style={{ ...tableStyle.body, color: "#00A19A", fontSize: '14px', cursor: "pointer" }}
                                                 onClick={() => setValues({ ...values, sonicKeyModal: true, selectedSonicKey: data?.sonicKey })}
                                             >
-                                                {data?.sonicKey?.sonicKey}
+                                                {data?.sonicKey?.sonicKey || "---"}
                                             </TableCell>
                                         </Tooltip>
                                         <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
-                                            {data?.radioStation?.name?.length > 20 ? data?.radioStation?.name?.slice(0, 20) + "..." : data?.radioStation?.name}
+                                            {data?.radioStation?.name?.length > 20 ? data?.radioStation?.name?.slice(0, 20) + "..." : data?.radioStation?.name || "---"}
                                         </TableCell>
                                         <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
-                                            {moment(data?.detectedAt).utc().format("DD/MM/YYYY")}
+                                            {moment(data?.detectedAt).utc().format("DD/MM/YYYY") || "---"}
                                         </TableCell>
                                         <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
-                                            {moment(data?.detectedAt).utc().format("HH:mm")}
+                                            {moment(data?.detectedAt).utc().format("HH:mm") || "---"}
                                         </TableCell>
                                         <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
-                                            {data?.detectedDuration ? moment.utc(data?.detectedDuration * 1000).format("mm:ss") : moment.utc(data?.sonicKey?.contentDuration * 1000).format("mm:ss")}
+                                            {data?.detectedDuration ? moment.utc(data?.detectedDuration * 1000).format("mm:ss") : moment.utc(data?.sonicKey?.contentDuration * 1000).format("mm:ss") || "---"}
                                         </TableCell>
                                         <Tooltip title={data?.sonicKey?.originalFileName || data?.sonicKey?.contentFileName}>
                                             <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
-                                                {(data?.sonicKey?.originalFileName?.length > 20 ? data?.sonicKey?.originalFileName?.slice(0, 20) + "..." : data?.sonicKey?.originalFileName) || (data?.sonicKey?.contentFileName?.length > 20 ? data?.sonicKey?.contentFileName?.slice(0, 20) + "..." : data?.sonicKey?.contentFileName)}
+                                                {(data?.sonicKey?.originalFileName?.length > 20 ? data?.sonicKey?.originalFileName?.slice(0, 20) + "..." : data?.sonicKey?.originalFileName) || (data?.sonicKey?.contentFileName?.length > 20 ? data?.sonicKey?.contentFileName?.slice(0, 20) + "..." : data?.sonicKey?.contentFileName) || "---"}
                                             </TableCell>
                                         </Tooltip>
                                         <Tooltip title={data?.sonicKey?.contentOwner}>
                                             <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
-                                                {(data?.sonicKey?.contentOwner === "" ? "-" : (data?.sonicKey?.contentOwner?.length > 20 ? data?.sonicKey?.contentOwner?.slice(0, 20) + "..." : data?.sonicKey?.contentOwner))}
+                                                {(data?.sonicKey?.contentOwner === "" ? "---" : (data?.sonicKey?.contentOwner?.length > 20 ? data?.sonicKey?.contentOwner?.slice(0, 20) + "..." : data?.sonicKey?.contentOwner))}
                                             </TableCell>
                                         </Tooltip>
                                         <TableCell style={{ ...tableStyle.body, fontSize: '14px' }}>
-                                            {data?.radioStation?.country}
+                                            {data?.radioStation?.country || "---"}
                                         </TableCell>
                                     </TableRow>
                                 ))

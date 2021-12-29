@@ -12,7 +12,6 @@ import IconEdit from "../../../assets/icons/icon-edit.png";
 import IconTick from "../../../assets/icons/icon-tick.png";
 import { streamReaderTableHeads, countries } from "../../../constants/constants";
 import SonicSpinner from "../../../components/common/SonicSpinner";
-import ErrorModal from "../Components/ErrorModal";
 import { fetchRadioStationsActions, getAllRadioStationsAction, getSubscribedStationCountActions } from "../../../stores/actions";
 import { FilterList } from "@material-ui/icons";
 
@@ -220,15 +219,15 @@ export default function SonicStreamReader(props) {
                                                     <img src={IconTick} />
                                                 </TableCell>
                                                 <TableCell style={{ ...tableStyle.body, fontSize: 15 }}>
-                                                    {file?.name}
+                                                    {file?.name || "---"}
                                                 </TableCell>
                                                 <Tooltip title={file?.streamingUrl}>
                                                     <TableCell style={{ ...tableStyle.body, color: "#757575", whiteSpace: "nowrap", textOverflow: "ellipsis", maxWidth: 200, wordWrap: "none", overflow: "hidden" }}>
-                                                        {file?.streamingUrl}
+                                                        {file?.streamingUrl || "---"}
                                                     </TableCell>
                                                 </Tooltip>
                                                 <TableCell style={{ ...tableStyle.body, color: "#757575" }}>
-                                                    {moment(new Date(file?.createdAt)).format("DD-MM-YYYY")}
+                                                    {moment(new Date(file?.createdAt)).format("DD-MM-YYYY") || "---"}
                                                 </TableCell>
                                                 <TableCell style={{ ...tableStyle.body }}>
                                                     <Hits radioId={file?._id} key={file?._id} />
@@ -281,9 +280,9 @@ export default function SonicStreamReader(props) {
                                     </TableRow>
                                 ) : (
                                     <TableRow>
-                                        <TableCell colSpan={8} align={"center"} style={{ ...tableStyle.body, fontSize: '14px' }}>
-                                            <div style={{ display: 'flex', justifyContent: 'center', width: '100%', height: '100px' }}>
-                                                <ErrorModal errorData={radioStation?.stations?.error} additionalStyle={{ height: '100%', display: 'flex', justifyContent: 'center' }} />
+                                        <TableCell colSpan={8} align={"center"} style={{ ...tableStyle.body, fontSize: '14px', backgroundColor: 'pink' }}>
+                                            <div style={{ display: 'flex', justifyContent: 'center', width: '100%', height: '20px' }}>
+                                                ERROR LOADING DATA
                                             </div>
                                         </TableCell>
                                     </TableRow>

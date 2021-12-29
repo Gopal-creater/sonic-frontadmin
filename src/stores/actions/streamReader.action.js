@@ -23,7 +23,6 @@ export const fetchRadioStationsActions = (limit, page, country, radiostations) =
         }).catch((err) => {
             log("Radio Stations Error", err);
             dispatch({ type: actionTypes.FETCH_RADIOSTATIONS_ERROR, data: err?.message })
-            cogoToast.error(err?.message);
         })
     }
 }

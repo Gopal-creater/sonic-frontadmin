@@ -1,8 +1,9 @@
 import cogoToast from "cogo-toast"
 import moment from "moment"
-import { getGraphData, getMostPlayedStationsData, getTotalSonicKeysCount, getTotalSubscribedStation } from "../../services/https/resources/Dashboard.api"
+import { getGraphData, getMostPlayedStationsData, getTotalSonicKeysCount, getTotalSubscribedStation, exportDashboardData, exportPlaysData } from "../../services/https/resources/Dashboard.api"
 import { log } from "../../utils/app.debug"
 import * as actionTypes from "../actions/actionTypes"
+import fileDownload from 'js-file-download'
 
 export const getTotalSonicKeysCountAction = (startDate, endDate) => {
     let newEndDate = moment(endDate).endOf("days").toISOString()
@@ -67,6 +68,70 @@ export const getGraphDataAction = (startDate, endDate) => {
             }).catch(error => {
                 dispatch({
                     type: actionTypes.SET_DASHBOARDGRAPH_ERROR,
+                    error: error?.message
+                })
+                cogoToast.error(error?.message)
+            })
+    }
+};
+
+export const getExportDataAction = (startDate, endDate, limit = 2000, fileFormat) => {
+    let newEndDate = moment(endDate).endOf("days").toISOString()
+    let params = new URLSearchParams(`detectedAt>=${moment(startDate).format("YYYY-MM-DD")}&detectedAt<=date(${newEndDate})`)
+    params.append("limit", limit);
+    params.append("channel", "STREAMREADER");
+    return dispatch => {
+        dispatch({
+            type: actionTypes.SET_EXPORTDATA_LOADING
+        })
+        exportDashboardData(fileFormat, params)
+            .then((response) => {
+                log("export data", response)
+                dispatch({
+                    type: actionTypes.SET_EXPORTDATA_SUCCESS,
+                    data: response
+                })
+                fileDownload(response, `Dashboard-Plays-Views(${moment(startDate).format("YYYY_MM_DD")}-to-${moment(endDate).format("YYYY_MM_DD")}).zip`);
+
+            }).catch(error => {
+                log("data error", error)
+                dispatch({
+
+                    type: actionTypes.SET_EXPORTDATA_ERROR,
+                    error: error?.message
+                })
+                cogoToast.error(error?.message)
+            })
+    }
+};
+
+export const getExportPlaysDataAction = (startDate, endDate, limit = 2000, sonicKey, fileFormat) => {
+    let newEndDate = moment(endDate).endOf("days").toISOString()
+    let params = new URLSearchParams(`detectedAt>=${moment(startDate).format("YYYY-MM-DD")}&detectedAt<=date(${newEndDate})`)
+    params.append("limit", limit);
+    return dispatch => {
+        dispatch({
+            type: actionTypes.SET_EXPORTPLAYSDATA_LOADING
+        })
+        exportPlaysData(sonicKey, fileFormat, params)
+            .then((response) => {
+                log("export data", response)
+                dispatch({
+                    type: actionTypes.SET_EXPORTPLAYSDATA_SUCCESS,
+                    data: response
+                })
+                if (fileFormat === "xlsx") {
+                    fileDownload(response, `Dashboard-Sonic-History(${moment(startDate).format("YYYY_MM_DD")}-to-${moment(endDate).format("YYYY_MM_DD")}).xlsx`);
+                } else {
+                    fileDownload(response, `Dashboard-Sonic-History(${moment(startDate).format("YYYY_MM_DD")}-to-${moment(endDate).format("YYYY_MM_DD")}).zip`);
+                }
+
+
+            }).catch(error => {
+                log("data error", error)
+                dispatch({
+
+                    type: actionTypes.SET_EXPORTPLAYSDATA_ERROR,
                     error: error?.message
                 })
                 cogoToast.error(error?.message)

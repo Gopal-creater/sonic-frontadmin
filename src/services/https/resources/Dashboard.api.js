@@ -16,3 +16,11 @@ export const getMostPlayedStationsData = (params) => {
 export const getGraphData = (params) => {
     return AppWebRequest(`/detections/owners/${getUserId()}/plays-dashboard-graph-data`, 'get', { params: params });
 }
+
+export const exportDashboardData = (fileFormat, params) => {
+    return AppWebRequest(`/detections/owners/${getUserId()}/export/dashboard-plays-view/${fileFormat}`, 'get', { params: params, responseType: "blob" });
+}
+
+export const exportPlaysData = (sonicKey, format, params) => {
+    return AppWebRequest(`/detections/owners/${getUserId()}/export/history-of-sonickey/${sonicKey}/${format}`, 'get', { params: params, responseType: "blob" });
+}

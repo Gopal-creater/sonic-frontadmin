@@ -1,5 +1,5 @@
 import React from "react";
-import { IconButton, Dialog, DialogTitle, TableContainer, TableRow, TableCell, useTheme, TableBody, TextField, CircularProgress } from "@material-ui/core";
+import { IconButton, Dialog, DialogTitle, TableContainer, TableRow, TableCell, useTheme, TableBody, TextField, CircularProgress, FormControl, Box, Tooltip, Menu, MenuItem } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import Table from "react-bootstrap/Table";
 import CloseIcon from '@material-ui/icons/Close';
@@ -19,6 +19,8 @@ import EditIcon from '@material-ui/icons/Edit';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import cogoToast from "cogo-toast";
 import Communication from "../../services/https/Communication";
+import FileCopyOutlinedIcon from '@material-ui/icons/FileCopyOutlined';
+import { getExportPlaysDataAction } from "../../stores/actions/dashboard.action";
 
 const useStyles = makeStyles({
     dialogPaper: {
@@ -148,6 +150,18 @@ const MetaDataDailog = (props) => {
     }
 
     log("values", values)
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget)
+    };
+
+    const handleClose = (value) => {
+        dispatch(getExportPlaysDataAction(props?.sonicKey?.playsStartDate, props?.sonicKey?.playsEndDate, 2000, values?.sonicKey?.sonicKey, value))
+        setAnchorEl(null);
+    };
 
     return (
         <>
@@ -406,37 +420,75 @@ const MetaDataDailog = (props) => {
                     </Table>
                 </TableContainer>
 
-                <DialogActions border="none" style={{ margin: '20px', border: 'none' }}>
-                    <Button onClick={handleCloseTable} variant="outlined" style={{
-                        fontFamily: 'NunitoSans-Bold', color: '#343F84', borderColor: '#343F84', borderWidth: '2px', borderRadius: '8px', textTransform: 'none', padding: '10px 20px', minWidth: "110px"
-                    }}>
-                        Cancel
-                    </Button>
+                <DialogActions border="none" style={{ margin: '20px', border: 'none', display: "flex", justifyContent: "space-between" }}>
+                    <div>
+                        {props?.sonicKey?.showExport &&
+                            <FormControl variant="standard" className="radioStations-export-formControl" style={{ backgroundColor: "" }}>
+                                <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
 
-                    {
-                        values?.switchEdit ?
-                            <Button
-                                variant="contained"
-                                style={{
-                                    fontFamily: 'NunitoSans-Bold', color: 'white', backgroundColor: '#343F84', textTransform: 'none', borderRadius: '8px', padding: '12px 20px', minWidth: "115px"
-                                }}
-                                onClick={updateSonicKey}
-                            >
-                                {
-                                    values?.updateSonicKeyLoading ? <CircularProgress style={{ color: "white" }} size={24} /> : " Update"
-                                }
-                            </Button>
-                            :
-                            <Button
-                                variant="contained"
-                                style={{
-                                    fontFamily: 'NunitoSans-Bold', color: 'white', backgroundColor: '#343F84', textTransform: 'none', borderRadius: '8px', padding: '12px 20px'
-                                }}
-                                onClick={viewPlaysWithSonicKey}
-                            >
-                                View Plays
-                            </Button>
-                    }
+                                    <Tooltip title="Export">
+                                        <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
+                                            <FileCopyOutlinedIcon />
+                                        </IconButton>
+                                    </Tooltip>
+                                </Box>
+                                <Menu
+                                    anchorEl={anchorEl}
+                                    open={open}
+                                    onClose={() => setAnchorEl(null)}
+                                    transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                                    anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+                                >
+                                    <MenuItem
+                                        value="xlsx"
+                                        onClick={() => handleClose("xlsx")}
+                                    >
+                                        Excel
+                                    </MenuItem>
+                                    <MenuItem
+                                        onClick={() => handleClose("csv")}
+                                        value="csv"
+                                    >
+                                        CSV
+                                    </MenuItem>
+                                </Menu>
+                            </FormControl>
+                        }
+                    </div>
+                    <div>
+                        <Button onClick={handleCloseTable} variant="outlined" style={{
+                            marginRight: "15px",
+                            fontFamily: 'NunitoSans-Bold', color: '#343F84', borderColor: '#343F84', borderWidth: '2px', borderRadius: '8px', textTransform: 'none', padding: '10px 20px', minWidth: "110px"
+                        }}>
+                            Cancel
+                        </Button>
+
+
+                        {
+                            values?.switchEdit ?
+                                <Button
+                                    variant="contained"
+                                    style={{
+                                        fontFamily: 'NunitoSans-Bold', color: 'white', backgroundColor: '#343F84', textTransform: 'none', borderRadius: '8px', padding: '12px 20px', minWidth: "115px"
+                                    }}
+                                    onClick={updateSonicKey}
+                                >
+                                    {
+                                        values?.updateSonicKeyLoading ? <CircularProgress style={{ color: "white" }} size={24} /> : " Update"
+                                    }
+                                </Button>
+                                :
+                                <Button
+                                    variant="contained"
+                                    style={{
+                                        fontFamily: 'NunitoSans-Bold', color: 'white', backgroundColor: '#343F84', textTransform: 'none', borderRadius: '8px', padding: '12px 20px'
+                                    }}
+                                    onClick={viewPlaysWithSonicKey}
+                                >
+                                    View Plays
+                                </Button>
+                        }
+                    </div>
                 </DialogActions>
             </Dialog>
 

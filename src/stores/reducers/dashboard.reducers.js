@@ -21,6 +21,16 @@ const initialState = {
         loading: false,
         data: {},
         error: null
+    },
+    exportData: {
+        loading: false,
+        data: {},
+        error: null
+    },
+    exportPlaysData: {
+        loading: false,
+        data: {},
+        error: null
     }
 }
 
@@ -89,6 +99,39 @@ const dashboardReducer = (state = initialState, action) =>
                 draft.graphData.loading = false
                 draft.graphData.data = {}
                 draft.graphData.error = action.data
+                break
+
+            case actionTypes.SET_EXPORTDATA_LOADING:
+                draft.exportData.loading = true
+                break
+
+            case actionTypes.SET_EXPORTDATA_SUCCESS:
+                draft.exportData.loading = false
+                draft.exportData.data = action.data
+                draft.exportData.error = null
+                break
+
+            case actionTypes.SET_EXPORTDATA_ERROR:
+                draft.exportData.loading = false
+                draft.exportData.data = {}
+                draft.exportData.error = action.data
+                break
+
+
+            case actionTypes.SET_EXPORTPLAYSDATA_LOADING:
+                draft.exportPlaysData.loading = true
+                break
+
+            case actionTypes.SET_EXPORTPLAYSDATA_SUCCESS:
+                draft.exportPlaysData.loading = false
+                draft.exportPlaysData.data = action.data
+                draft.exportPlaysData.error = null
+                break
+
+            case actionTypes.SET_EXPORTPLAYSDATA_ERROR:
+                draft.exportPlaysData.loading = false
+                draft.exportPlaysData.data = {}
+                draft.exportPlaysData.error = action.data
                 break
 
             default:

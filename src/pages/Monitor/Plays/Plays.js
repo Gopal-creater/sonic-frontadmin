@@ -147,7 +147,7 @@ export default function Plays() {
                                         <Tooltip title={data?.sonicKey?.sonicKey}>
                                             <TableCell
                                                 style={{ ...tableStyle.body, color: "#00A19A", fontSize: '14px', cursor: "pointer" }}
-                                                onClick={() => setValues({ ...values, sonicKeyModal: true, selectedSonicKey: data?.sonicKey })}
+                                                onClick={() => setValues({ ...values, sonicKeyModal: true, selectedSonicKey: { ...data?.sonicKey, showExport: true, playsStartDate: playsList?.dates?.startDate, playsEndDate: playsList?.dates?.endDate } })}
                                             >
                                                 {data?.sonicKey?.sonicKey}
                                             </TableCell>

@@ -12,7 +12,7 @@ import { makeStyles } from "@material-ui/styles";
 import { log } from "../../../utils/app.debug";
 import { monthRange, todayRange, weekRange } from "../../../utils/HelperMethods";
 import { useDispatch, useSelector } from "react-redux";
-import { getGraphDataAction, getMostPlayedStationsDataAction, getTotalSonicKeysCountAction, getTotalSubscribedStationAction } from "../../../stores/actions/dashboard.action";
+import { getExportDataAction, getGraphDataAction, getMostPlayedStationsDataAction, getTotalSonicKeysCountAction, getTotalSubscribedStationAction } from "../../../stores/actions/dashboard.action";
 import { playsTableHeads } from "../../../constants/constants"
 import { getPlaysListsAction } from "../../../stores/actions";
 import moment from "moment";
@@ -21,7 +21,6 @@ import { useHistory } from "react-router-dom";
 import SonicSpinner from "../../../components/common/SonicSpinner";
 import * as actionTypes from "../../../stores/actions/actionTypes"
 import FileCopyOutlinedIcon from '@material-ui/icons/FileCopyOutlined';
-import { CSVLink, CSVDownload } from "react-csv";
 import "./Dashboard.scss"
 
 const useStyles = makeStyles((theme) => ({
@@ -47,10 +46,19 @@ export function Dashboard() {
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(event.currentTarget)
   };
-  const handleClose = () => {
+
+  const handleClose = (value) => {
+    if (values.dayWeekMonth === "Day") {
+      dispatch(getExportDataAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1], 2000, value))
+    } else if (values.dayWeekMonth === "Week") {
+      dispatch(getExportDataAction(weekRange()?.split(",")?.[0], weekRange()?.split(",")?.[1], 2000, value))
+    } else {
+      dispatch(getExportDataAction(monthRange()?.split(",")?.[0], monthRange()?.split(",")?.[1], 2000, value))
+    }
     setAnchorEl(null);
   };
 
@@ -106,13 +114,6 @@ export function Dashboard() {
     }
   }
 
-  const csvData = [
-    ["firstname", "lastname", "email"],
-    ["Ahmed", "Tomi", "ah@smthing.co.com"],
-    ["Raed", "Labes", "rl@smthing.co.com"],
-    ["Yezzi", "Min l3b", "ymin@cocococo.com"]
-  ];
-
   return (
     <Grid className="dashboard-container">
 
@@ -132,50 +133,21 @@ export function Dashboard() {
             <Menu
               anchorEl={anchorEl}
               open={open}
-              onClose={handleClose}
-              onClick={handleClose}
-              PaperProps={{
-                elevation: 0,
-                sx: {
-                  overflow: 'visible',
-                  filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-                  mt: 1.5,
-                  '& .MuiAvatar-root': {
-                    width: 32,
-                    height: 32,
-                    ml: -0.5,
-                    mr: 1,
-                  },
-                  '&:before': {
-                    content: '""',
-                    display: 'block',
-                    position: 'absolute',
-                    top: 0,
-                    right: 14,
-                    width: 10,
-                    height: 10,
-                    bgcolor: 'background.paper',
-                    transform: 'translateY(-50%) rotate(45deg)',
-                    zIndex: 0,
-                  },
-                },
-              }}
+              onClose={() => setAnchorEl(null)}
               transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-              anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+              anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
             >
-              <MenuItem>
+              <MenuItem
+                value="xlsx"
+                onClick={() => handleClose("xlsx")}
+              >
                 Excel
               </MenuItem>
-              <MenuItem>
-                <CSVLink
-                  data={csvData}
-                  filename={"sonickey-file.csv"}
-                  className=""
-                  target="_blank"
-                  style={{ color: "#000000", textDecoration: "none" }}
-                >
-                  CSV
-                </CSVLink>
+              <MenuItem
+                onClick={() => handleClose("csv")}
+                value="csv"
+              >
+                CSV
               </MenuItem>
             </Menu>
           </FormControl>

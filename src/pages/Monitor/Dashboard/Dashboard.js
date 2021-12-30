@@ -20,7 +20,7 @@ import MetaDataDialog from "../../../components/common/MetaDataDialog";
 import { useHistory } from "react-router-dom";
 import SonicSpinner from "../../../components/common/SonicSpinner";
 import * as actionTypes from "../../../stores/actions/actionTypes"
-import FileCopyOutlinedIcon from '@material-ui/icons/FileCopyOutlined';
+import ExportIcon from '@material-ui/icons/GetApp';
 import "./Dashboard.scss"
 
 const useStyles = makeStyles((theme) => ({
@@ -125,9 +125,15 @@ export function Dashboard() {
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
 
               <Tooltip title="Export">
-                <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
-                  <FileCopyOutlinedIcon />
-                </IconButton>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={handleClick}
+                  size="small"
+                  endIcon={<ExportIcon />}
+                >
+                  Export
+                </Button>
               </Tooltip>
             </Box>
             <Menu

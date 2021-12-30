@@ -19,7 +19,6 @@ import EditIcon from '@material-ui/icons/Edit';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import cogoToast from "cogo-toast";
 import Communication from "../../services/https/Communication";
-import FileCopyOutlinedIcon from '@material-ui/icons/FileCopyOutlined';
 import { getExportPlaysDataAction } from "../../stores/actions/dashboard.action";
 
 const useStyles = makeStyles({
@@ -126,22 +125,9 @@ const MetaDataDailog = (props) => {
         }
         Communication.editSonicMetaData(values?.sonicKey?.sonicKey, payload).then((response) => {
             setValues({
-                ...values, updateSonicKeyLoading: false, sonicKey: response, switchEdit: false,
-                updatingSonicKey: {
-                    contentFileName: "",
-                    isrcCode: "",
-                    iswcCode: "",
-                    tuneCode: "",
-                    contentOwner: "",
-                    contentDescription: "",
-                    additionalMetadata: {
-                        message: ""
-                    },
-                    distributor: "",
-                    version: ""
-                }
+                ...values, updateSonicKeyLoading: false, sonicKey: response, switchEdit: false
             })
-            props.updateMetaData({ ...values?.sonicKey, ...response })
+            props.updateMetaData(response)
             cogoToast.success("Successfully updated meta-data")
         }).catch((error) => {
             setValues({ ...values, updateSonicKeyLoading: false })
@@ -420,75 +406,39 @@ const MetaDataDailog = (props) => {
                     </Table>
                 </TableContainer>
 
-                <DialogActions border="none" style={{ margin: '20px', border: 'none', display: "flex", justifyContent: "space-between" }}>
-                    <div>
-                        {props?.sonicKey?.showExport &&
-                            <FormControl variant="standard" className="radioStations-export-formControl" style={{ backgroundColor: "" }}>
-                                <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+                <DialogActions border="none" style={{ margin: '20px', border: 'none' }}>
 
-                                    <Tooltip title="Export">
-                                        <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
-                                            <FileCopyOutlinedIcon />
-                                        </IconButton>
-                                    </Tooltip>
-                                </Box>
-                                <Menu
-                                    anchorEl={anchorEl}
-                                    open={open}
-                                    onClose={() => setAnchorEl(null)}
-                                    transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                                    anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-                                >
-                                    {/* <MenuItem
-                                        value="xlsx"
-                                        onClick={() => handleClose("xlsx")}
-                                    >
-                                        Excel
-                                    </MenuItem> */}
-                                    <MenuItem
-                                        onClick={() => handleClose("csv")}
-                                        value="csv"
-                                    >
-                                        CSV
-                                    </MenuItem>
-                                </Menu>
-                            </FormControl>
-                        }
-                    </div>
-                    <div>
-                        <Button onClick={handleCloseTable} variant="outlined" style={{
-                            marginRight: "15px",
-                            fontFamily: 'NunitoSans-Bold', color: '#343F84', borderColor: '#343F84', borderWidth: '2px', borderRadius: '8px', textTransform: 'none', padding: '10px 20px', minWidth: "110px"
-                        }}>
-                            Cancel
-                        </Button>
+                    <Button onClick={handleCloseTable} variant="outlined" style={{
+                        marginRight: "15px",
+                        fontFamily: 'NunitoSans-Bold', color: '#343F84', borderColor: '#343F84', borderWidth: '2px', borderRadius: '8px', textTransform: 'none', padding: '10px 20px', minWidth: "110px"
+                    }}>
+                        Cancel
+                    </Button>
 
-
-                        {
-                            values?.switchEdit ?
-                                <Button
-                                    variant="contained"
-                                    style={{
-                                        fontFamily: 'NunitoSans-Bold', color: 'white', backgroundColor: '#343F84', textTransform: 'none', borderRadius: '8px', padding: '12px 20px', minWidth: "115px"
-                                    }}
-                                    onClick={updateSonicKey}
-                                >
-                                    {
-                                        values?.updateSonicKeyLoading ? <CircularProgress style={{ color: "white" }} size={24} /> : " Update"
-                                    }
-                                </Button>
-                                :
-                                <Button
-                                    variant="contained"
-                                    style={{
-                                        fontFamily: 'NunitoSans-Bold', color: 'white', backgroundColor: '#343F84', textTransform: 'none', borderRadius: '8px', padding: '12px 20px'
-                                    }}
-                                    onClick={viewPlaysWithSonicKey}
-                                >
-                                    View Plays
-                                </Button>
-                        }
-                    </div>
+                    {
+                        values?.switchEdit ?
+                            <Button
+                                variant="contained"
+                                style={{
+                                    fontFamily: 'NunitoSans-Bold', color: 'white', backgroundColor: '#343F84', textTransform: 'none', borderRadius: '8px', padding: '12px 20px', minWidth: "115px"
+                                }}
+                                onClick={updateSonicKey}
+                            >
+                                {
+                                    values?.updateSonicKeyLoading ? <CircularProgress style={{ color: "white" }} size={24} /> : " Update"
+                                }
+                            </Button>
+                            :
+                            <Button
+                                variant="contained"
+                                style={{
+                                    fontFamily: 'NunitoSans-Bold', color: 'white', backgroundColor: '#343F84', textTransform: 'none', borderRadius: '8px', padding: '12px 20px'
+                                }}
+                                onClick={viewPlaysWithSonicKey}
+                            >
+                                View Plays
+                            </Button>
+                    }
                 </DialogActions>
             </Dialog>
 

@@ -12,3 +12,7 @@ export const getAllRadioStations = () => {
         }
     })
 }
+
+export const getSonicHistoryDataFile = (format, params) => {
+    return AppWebRequest(`/detections/owners/${getUserId()}/export/history-of-sonickey/${format}`, "get", { params: params, responseType: "blob" })
+}

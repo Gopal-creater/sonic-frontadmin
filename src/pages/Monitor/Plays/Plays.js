@@ -1,6 +1,6 @@
 import React from 'react';
 import "./Plays.scss";
-import { Grid, TableContainer, TableHead, TableRow, Table, TableBody, TableCell, Button, Popover, Tooltip } from '@material-ui/core';
+import { Grid, TableContainer, TableHead, TableRow, Table, TableBody, TableCell, Button, Popover, Tooltip, Box, Menu, MenuItem } from '@material-ui/core';
 import { tableStyle } from '../../../globalStyle';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -12,9 +12,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import SonicSpinner from '../../../components/common/SonicSpinner';
 import moment from 'moment';
 import { playsTableHeads } from '../../../constants/constants';
-import { getPlaysListsAction, getAllRadioStationsAction } from '../../../stores/actions/playsList';
+import { getPlaysListsAction, getAllRadioStationsAction, getSonickeyHistoryDataAction } from '../../../stores/actions/playsList';
 import MetaDataDialog from '../../../components/common/MetaDataDialog';
 import * as actionTypes from "../../../stores/actions/actionTypes";
+import ExportIcon from '@material-ui/icons/GetApp';
 import { log } from '../../../utils/app.debug';
 
 export default function Plays() {
@@ -42,6 +43,18 @@ export default function Plays() {
         dispatch(getAllRadioStationsAction())
     }, [])
 
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+
+    const dataExportHandleClick = (event) => {
+        setAnchorEl(event.currentTarget)
+    };
+
+    const dataExportHandleClose = (value) => {
+        dispatch(getSonickeyHistoryDataAction(playsList?.dates?.startDate, playsList?.dates?.endDate, playsList?.filters?.channel, value))
+        setAnchorEl(null);
+    };
+
     return (
         <Grid className="plays-container">
             <Grid container justifyContent="space-between" className="plays-title-container">
@@ -49,11 +62,42 @@ export default function Plays() {
                     <span className="plays-title">Plays - List</span><br />
                     <p className="plays-subTitle">See history of sonickeys</p>
                 </Grid>
-                {/* <Grid>
-                    <IconButton>
-                        <img src={view} alt="filter-icon" />
-                    </IconButton>
-                </Grid> */}
+                <Grid>
+                    <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+
+                        <Tooltip title="Export">
+                            <Button
+                                variant="outlined"
+                                color="primary"
+                                onClick={dataExportHandleClick}
+                                size="small"
+                                endIcon={<ExportIcon />}
+                            >
+                                Export
+                            </Button>
+                        </Tooltip>
+                    </Box>
+                    <Popover
+                        anchorEl={anchorEl}
+                        open={open}
+                        onClose={() => setAnchorEl(null)}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left',
+                        }}
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                    >
+                        <MenuItem
+                            onClick={() => dataExportHandleClose("csv")}
+                            value="csv"
+                        >
+                            CSV
+                        </MenuItem>
+                    </Popover>
+                </Grid>
             </Grid>
 
             <Grid className="plays-filter-container">

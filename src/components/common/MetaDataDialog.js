@@ -20,6 +20,7 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import cogoToast from "cogo-toast";
 import Communication from "../../services/https/Communication";
 import { getExportPlaysDataAction } from "../../stores/actions/dashboard.action";
+import { playsListInitialState } from "../../stores/reducers/playsListsRed";
 
 const useStyles = makeStyles({
     dialogPaper: {
@@ -92,8 +93,9 @@ const MetaDataDailog = (props) => {
     // const viewPlays = () => {
     //     setValues({ ...values, openHitModal: true, hitModalData: { ...sonicKey } })
     // }
+
     const viewPlaysWithSonicKey = () => {
-        dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, sonicKey: values?.sonicKey?.sonicKey, channel: "ALL" } })
+        dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...playsListInitialState?.filters, sonicKey: values?.sonicKey?.sonicKey } })
         dispatch(getPlaysListsAction(
             plays?.dates?.startDate,
             plays?.dates?.endDate,

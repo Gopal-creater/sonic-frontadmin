@@ -1,7 +1,7 @@
 import * as actionTypes from "../actions/actionTypes";
 import produce from "immer";
 
-const initialState = {
+export const playsListInitialState = {
     loading: false,
     data: [],
     dates: {
@@ -27,7 +27,7 @@ const initialState = {
     }
 };
 
-const playsListsReducer = (state = initialState, action) =>
+const playsListsReducer = (state = playsListInitialState, action) =>
     produce(state, (draft) => {
         switch (action.type) {
             case actionTypes.FETCH_PLAYS_LISTS_SUCCESS:

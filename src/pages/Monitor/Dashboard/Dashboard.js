@@ -1,4 +1,4 @@
-import { Grid, TableContainer, Button, FormControl, Select, MenuItem, InputLabel, Tooltip, Menu, IconButton, Box } from "@material-ui/core";
+import { Grid, TableContainer, Button, FormControl, Select, MenuItem, InputLabel, Tooltip, Menu, IconButton, Box, Popover } from "@material-ui/core";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import React from "react";
 import Table from '@material-ui/core/Table';
@@ -47,11 +47,11 @@ export function Dashboard() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
-  const handleClick = (event) => {
+  const dataExportHandleClick = (event) => {
     setAnchorEl(event.currentTarget)
   };
 
-  const handleClose = (value) => {
+  const dataExportHandleClose = (value) => {
     if (values.dayWeekMonth === "Day") {
       dispatch(getExportDataAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1], 2000, value))
     } else if (values.dayWeekMonth === "Week") {
@@ -128,7 +128,7 @@ export function Dashboard() {
                 <Button
                   variant="outlined"
                   color="primary"
-                  onClick={handleClick}
+                  onClick={dataExportHandleClick}
                   size="small"
                   endIcon={<ExportIcon />}
                 >
@@ -136,26 +136,32 @@ export function Dashboard() {
                 </Button>
               </Tooltip>
             </Box>
-            <Menu
+            <Popover
               anchorEl={anchorEl}
               open={open}
               onClose={() => setAnchorEl(null)}
-              transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-              anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
             >
               {/* <MenuItem
                 value="xlsx"
-                onClick={() => handleClose("xlsx")}
+                onClick={() => dataExportHandleClose("xlsx")}
               >
                 Excel
               </MenuItem> */}
               <MenuItem
-                onClick={() => handleClose("csv")}
+                onClick={() => dataExportHandleClose("csv")}
                 value="csv"
               >
                 CSV
               </MenuItem>
-            </Menu>
+            </Popover>
           </FormControl>
 
           <FormControl variant="standard" className="radioStations-subscribed-formControl">

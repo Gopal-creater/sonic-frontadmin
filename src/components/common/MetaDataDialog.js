@@ -141,7 +141,7 @@ const MetaDataDailog = (props) => {
                     version: ""
                 }
             })
-            props.updateMetaData(response)
+            props.updateMetaData({ ...values?.sonicKey, ...response })
             cogoToast.success("Successfully updated meta-data")
         }).catch((error) => {
             setValues({ ...values, updateSonicKeyLoading: false })
@@ -439,12 +439,12 @@ const MetaDataDailog = (props) => {
                                     transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                                     anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
                                 >
-                                    <MenuItem
+                                    {/* <MenuItem
                                         value="xlsx"
                                         onClick={() => handleClose("xlsx")}
                                     >
                                         Excel
-                                    </MenuItem>
+                                    </MenuItem> */}
                                     <MenuItem
                                         onClick={() => handleClose("csv")}
                                         value="csv"

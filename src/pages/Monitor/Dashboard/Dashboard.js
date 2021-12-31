@@ -20,7 +20,7 @@ import MetaDataDialog from "../../../components/common/MetaDataDialog";
 import { useHistory } from "react-router-dom";
 import SonicSpinner from "../../../components/common/SonicSpinner";
 import * as actionTypes from "../../../stores/actions/actionTypes"
-import ExportIcon from '@material-ui/icons/GetApp';
+// import ExportIcon from '@material-ui/icons/GetApp';
 import "./Dashboard.scss"
 
 const useStyles = makeStyles((theme) => ({
@@ -44,23 +44,16 @@ export function Dashboard() {
     selectedSonicKey: {},
   })
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-
-  const dataExportHandleClick = (event) => {
-    setAnchorEl(event.currentTarget)
-  };
-
-  const dataExportHandleClose = (value) => {
-    if (values.dayWeekMonth === "Day") {
-      dispatch(getExportDataAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1], 2000, value))
-    } else if (values.dayWeekMonth === "Week") {
-      dispatch(getExportDataAction(weekRange()?.split(",")?.[0], weekRange()?.split(",")?.[1], 2000, value))
-    } else {
-      dispatch(getExportDataAction(monthRange()?.split(",")?.[0], monthRange()?.split(",")?.[1], 2000, value))
-    }
-    setAnchorEl(null);
-  };
+  // const dataExportHandleClose = (value) => {
+  //   if (values.dayWeekMonth === "Day") {
+  //     dispatch(getExportDataAction(todayRange()?.split(",")?.[0], todayRange()?.split(",")?.[1], 2000, value))
+  //   } else if (values.dayWeekMonth === "Week") {
+  //     dispatch(getExportDataAction(weekRange()?.split(",")?.[0], weekRange()?.split(",")?.[1], 2000, value))
+  //   } else {
+  //     dispatch(getExportDataAction(monthRange()?.split(",")?.[0], monthRange()?.split(",")?.[1], 2000, value))
+  //   }
+  //   setAnchorEl(null);
+  // };
 
   const dashboard = useSelector(state => state.dashboard)
   const plays = useSelector(state => state.playsList)
@@ -121,7 +114,7 @@ export function Dashboard() {
         <p className="dashboard-title">Dashboard</p>
 
         <div>
-          <FormControl variant="standard" className="radioStations-export-formControl" style={{ backgroundColor: "" }}>
+          {/* <FormControl variant="standard" className="radioStations-export-formControl" style={{ backgroundColor: "" }}>
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
 
               <Tooltip title="Export">
@@ -142,19 +135,19 @@ export function Dashboard() {
               onClose={() => setAnchorEl(null)}
               anchorOrigin={{
                 vertical: 'bottom',
-                horizontal: 'left',
+                horizontal: 'Center',
               }}
               transformOrigin={{
                 vertical: 'top',
-                horizontal: 'right',
+                horizontal: 'Center',
               }}
             >
-              {/* <MenuItem
+              <MenuItem
                 value="xlsx"
                 onClick={() => dataExportHandleClose("xlsx")}
               >
                 Excel
-              </MenuItem> */}
+              </MenuItem>
               <MenuItem
                 onClick={() => dataExportHandleClose("csv")}
                 value="csv"
@@ -162,7 +155,7 @@ export function Dashboard() {
                 CSV
               </MenuItem>
             </Popover>
-          </FormControl>
+          </FormControl> */}
 
           <FormControl variant="standard" className="radioStations-subscribed-formControl">
             <InputLabel className="subscribed-formControl-title">Date Range</InputLabel>

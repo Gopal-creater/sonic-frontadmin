@@ -4,6 +4,7 @@ import { getGraphData, getMostPlayedStationsData, getTotalSonicKeysCount, getTot
 import { log } from "../../utils/app.debug"
 import * as actionTypes from "../actions/actionTypes"
 import fileDownload from 'js-file-download'
+import store from '../../stores';
 
 export const getTotalSonicKeysCountAction = (startDate, endDate) => {
     let newEndDate = moment(endDate).endOf("days").toISOString()
@@ -75,11 +76,47 @@ export const getGraphDataAction = (startDate, endDate) => {
     }
 };
 
-export const getExportDataAction = (startDate, endDate, limit = 2000, fileFormat) => {
+export const getExportDataAction = (startDate, endDate, channel, limit = 2000, fileFormat) => {
     let newEndDate = moment(endDate).endOf("days").toISOString()
     let params = new URLSearchParams(`detectedAt>=${moment(startDate).format("YYYY-MM-DD")}&detectedAt<=date(${newEndDate})`)
     params.append("limit", limit);
-    params.append("channel", "STREAMREADER");
+
+    // params.append("channel", "STREAMREADER");
+
+    let playsFilters = store.getState()?.playsList?.filters
+
+    // channel === "ALL" ? params.append("channel", "") : params.append("channel", channel)
+
+    if (channel !== "ALL") {
+        params.append("channel", channel)
+    }
+    if (playsFilters?.sonicKey) {
+        params.append("relation_sonicKey.sonicKey", playsFilters?.sonicKey);
+    }
+    if (playsFilters?.country) {
+        params.append("relation_radioStation.country", playsFilters?.country);
+    }
+    if (playsFilters?.artist) {
+        params.append("relation_sonicKey.contentOwner", playsFilters?.artist);
+    }
+    if (playsFilters?.radioStation) {
+        params.append("relation_radioStation.name", playsFilters?.radioStation);
+    }
+    if (playsFilters?.song) {
+        params.append("relation_sonicKey.originalFileName", playsFilters?.song);
+    }
+    if (playsFilters?.label) {
+        params.append("relation_sonicKey.label", playsFilters?.label);
+    }
+    if (playsFilters?.distributor) {
+        params.append("relation_sonicKey.distributor", playsFilters?.distributor);
+    }
+    if (playsFilters?.encodedDate) {
+        let startOfEncodedDate = moment(playsFilters?.encodedDate).startOf("days").toISOString()
+        params.append(`relation_sonicKey.createdAt>`, `date(${startOfEncodedDate})`)
+        params.append(`relation_sonicKey.createdAt<`, `date(${moment(playsFilters?.encodedDate).endOf("days").toISOString()})`)
+    }
+
     return dispatch => {
         dispatch({
             type: actionTypes.SET_EXPORTDATA_LOADING
@@ -91,7 +128,7 @@ export const getExportDataAction = (startDate, endDate, limit = 2000, fileFormat
                     type: actionTypes.SET_EXPORTDATA_SUCCESS,
                     data: response
                 })
-                fileDownload(response, `Dashboard-Plays-Views(${moment(startDate).format("YYYY_MM_DD")}-to-${moment(endDate).format("YYYY_MM_DD")}).zip`);
+                fileDownload(response, `Plays & Radio Plays Export-(${moment(startDate).format("YYYY_MM_DD")}-to-${moment(endDate).format("YYYY_MM_DD")})_${fileFormat}.zip`);
 
             }).catch(error => {
                 log("data error", error)
@@ -121,9 +158,9 @@ export const getExportPlaysDataAction = (startDate, endDate, limit = 2000, sonic
                     data: response
                 })
                 if (fileFormat === "xlsx") {
-                    fileDownload(response, `Dashboard-Sonic-History(${moment(startDate).format("YYYY_MM_DD")}-to-${moment(endDate).format("YYYY_MM_DD")}).xlsx`);
+                    fileDownload(response, `Plays & Radio Plays Export-(${moment(startDate).format("YYYY_MM_DD")}-to-${moment(endDate).format("YYYY_MM_DD")})_${fileFormat}.xlsx`);
                 } else {
-                    fileDownload(response, `Dashboard-Sonic-History(${moment(startDate).format("YYYY_MM_DD")}-to-${moment(endDate).format("YYYY_MM_DD")}).zip`);
+                    fileDownload(response, `Plays & Radio Plays Export-(${moment(startDate).format("YYYY_MM_DD")}-to-${moment(endDate).format("YYYY_MM_DD")})_${fileFormat}.zip`);
                 }
 
 

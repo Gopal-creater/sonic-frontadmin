@@ -17,8 +17,11 @@ export const getPlaysListsAction = (startDate, endDate, channel, page, limit, re
 
     let playsFilters = store.getState()?.playsList?.filters
 
-    channel === "ALL" ? params.append("channel", "") : params.append("channel", channel)
+    // channel === "ALL" ? params.append("channel", "") : params.append("channel", channel)
 
+    if (channel !== "ALL") {
+        params.append("channel", channel)
+    }
     if (playsFilters?.sonicKey) {
         params.append("relation_sonicKey.sonicKey", playsFilters?.sonicKey);
     }
@@ -105,9 +108,9 @@ export const getSonickeyHistoryDataAction = (startDate, endDate, channel, format
             log("Plays detected", data);
             dispatch({ type: actionType.GET_SONICKEYHISTORYDATA_SUCCESS, data: data })
             if (format === "xlsx") {
-                fileDownload(data, `History-of-sonic-keys(${moment(startDate).format("YYYY_MM_DD")}-to-${moment(endDate).format("YYYY_MM_DD")}).xlsx`);
+                fileDownload(data, `SonicKey Plays & SonicKey Plays on Radio Export-(${moment(startDate).format("YYYY_MM_DD")}-to-${moment(endDate).format("YYYY_MM_DD")})_${format}.xlsx`);
             } else {
-                fileDownload(data, `History-of-sonic-keys(${moment(startDate).format("YYYY_MM_DD")}-to-${moment(endDate).format("YYYY_MM_DD")})_${format}.zip`);
+                fileDownload(data, `SonicKey Plays & SonicKey Plays on Radio Export-(${moment(startDate).format("YYYY_MM_DD")}-to-${moment(endDate).format("YYYY_MM_DD")})_${format}.zip`);
             }
         }).catch(error => {
             log("Plays detected error", error);

@@ -1,6 +1,6 @@
 import React from 'react';
 import "./Plays.scss";
-import { Grid, TableContainer, TableHead, TableRow, Table, TableBody, TableCell, Button, Popover, Tooltip, Box, Menu, MenuItem } from '@material-ui/core';
+import { Grid, TableContainer, TableHead, TableRow, Table, TableBody, TableCell, Button, Popover, Tooltip, Box, Menu, MenuItem, FormControl, InputLabel, Select } from '@material-ui/core';
 import { tableStyle } from '../../../globalStyle';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -17,12 +17,15 @@ import MetaDataDialog from '../../../components/common/MetaDataDialog';
 import * as actionTypes from "../../../stores/actions/actionTypes";
 import ExportIcon from '@material-ui/icons/GetApp';
 import { log } from '../../../utils/app.debug';
+import { getExportDataAction } from '../../../stores/actions/dashboard.action';
+
 
 export default function Plays() {
     const [values, setValues] = React.useState({
         anchorFilter: false,
         sonicKeyModal: false,
         selectedSonicKey: {},
+        format: "",
     })
     const openFilter = Boolean(values.anchorFilter);
 
@@ -50,8 +53,13 @@ export default function Plays() {
         setAnchorEl(event.currentTarget)
     };
 
-    const dataExportHandleClose = (value) => {
-        dispatch(getSonickeyHistoryDataAction(playsList?.dates?.startDate, playsList?.dates?.endDate, playsList?.filters?.channel, value))
+    const handleExport = (value) => {
+        setValues({ ...values, format: value })
+        if (playsList?.filters?.sonicKey) {
+            dispatch(getSonickeyHistoryDataAction(playsList?.dates?.startDate, playsList?.dates?.endDate, playsList?.filters?.channel, value))
+        } else {
+            dispatch(getExportDataAction(playsList?.dates?.startDate, playsList?.dates?.endDate, playsList?.filters?.channel, 2000, value))
+        }
         setAnchorEl(null);
     };
 
@@ -63,12 +71,15 @@ export default function Plays() {
                     <p className="plays-subTitle">See history of sonickeys</p>
                 </Grid>
                 <Grid>
+
                     <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
 
                         <Tooltip title="Export">
                             <Button
-                                variant="outlined"
-                                color="primary"
+                                style={{
+                                    borderBottom: "1px solid #949494",
+                                    borderRadius: "0px"
+                                }}
                                 onClick={dataExportHandleClick}
                                 size="small"
                                 endIcon={<ExportIcon />}
@@ -78,20 +89,24 @@ export default function Plays() {
                         </Tooltip>
                     </Box>
                     <Popover
+
                         anchorEl={anchorEl}
                         open={open}
                         onClose={() => setAnchorEl(null)}
                         anchorOrigin={{
                             vertical: 'bottom',
-                            horizontal: 'left',
+                            horizontal: 'Center',
                         }}
                         transformOrigin={{
                             vertical: 'top',
-                            horizontal: 'right',
+                            horizontal: 'Center',
                         }}
                     >
                         <MenuItem
-                            onClick={() => dataExportHandleClose("csv")}
+                            style={{
+                                minWidth: "90px",
+                            }}
+                            onClick={() => handleExport("csv")}
                             value="csv"
                         >
                             CSV

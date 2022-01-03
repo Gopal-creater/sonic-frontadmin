@@ -1,4 +1,15 @@
-import { Badge, Grid, makeStyles, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, } from "@material-ui/core";
+import {
+  Badge,
+  Grid,
+  makeStyles,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
@@ -84,7 +95,7 @@ export const SonicStreamDetail = (props) => {
       .then((res) => {
         log("Result", res);
         setLoading(false);
-        setTableData(res)
+        setTableData(res);
         setError("");
       })
       .catch((error) => {
@@ -113,8 +124,8 @@ export const SonicStreamDetail = (props) => {
             Detected SonicKeys
           </Typography>
           <Typography className={classes.subHeading}>
-            Found {tableData?.docs?.length} SonicKeys in {parsedQueryString.radioStationName} radio
-            station
+            Found {tableData?.docs?.length} SonicKeys in{" "}
+            {parsedQueryString.radioStationName} radio station
             {passedData.isStreamStarted === true && (
               <Badge
                 style={{
@@ -122,6 +133,7 @@ export const SonicStreamDetail = (props) => {
                   background: "rgb(229, 245, 244)",
                   color: "rgb(72, 187, 183)",
                   padding: 5,
+                  marginLeft: 5,
                   fontWeight: "lighter",
                 }}
               >

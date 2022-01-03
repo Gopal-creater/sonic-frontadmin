@@ -1,5 +1,5 @@
 import React from "react";
-import { IconButton, Dialog, DialogTitle, TableContainer, TableRow, TableCell, useTheme, TableBody, TextField, CircularProgress, FormControl, Box, Tooltip, Menu, MenuItem } from "@material-ui/core";
+import { IconButton, Grid, Dialog, DialogTitle, TableContainer, TableRow, TableCell, useTheme, TableBody, TextField, CircularProgress, FormControl, Box, Tooltip, Menu, MenuItem } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import Table from "react-bootstrap/Table";
 import CloseIcon from '@material-ui/icons/Close';
@@ -154,42 +154,46 @@ const MetaDataDailog = (props) => {
     return (
         <>
             <Dialog open={true} fullWidth={true} className={classes.dialogPaper}>
-                <Button
-                    variant="contained"
-                    style={{ backgroundColor: "#343F84", color: "white" }}
-                    size="large"
-                    className={classes.button}
-                    startIcon={values?.switchEdit ? <VisibilityIcon /> : <EditIcon />}
-                    onClick={() => {
-                        !values?.updateSonicKeyLoading && setValues({ ...values, switchEdit: !values?.switchEdit })
-                    }}
-                >
-                    Switch to {values?.switchEdit ? "view metadata" : "edit metadata"}
-                </Button>
-                <IconButton
-                    aria-label="close"
-                    style={{
-                        position: 'absolute',
-                        right: theme.spacing(1),
-                        top: theme.spacing(6),
-                        color: '#343F84',
-                    }}
-                    onClick={handleCloseTable}
-                    data-toggle="tooltip"
-                    data-placement="top"
-                    title='Close'
-                >
-                    <CloseIcon />
-                </IconButton>
+                {
+                    props?.enableEditMode &&
+                    <Button
+                        variant="contained"
+                        style={{ backgroundColor: "#343F84", color: "white" }}
+                        size="large"
+                        className={classes.button}
+                        startIcon={values?.switchEdit ? <VisibilityIcon /> : <EditIcon />}
+                        onClick={() => {
+                            !values?.updateSonicKeyLoading && setValues({ ...values, switchEdit: !values?.switchEdit })
+                        }}
+                    >
+                        Switch to {values?.switchEdit ? "view metadata" : "edit metadata"}
+                    </Button>
+                }
 
-                <DialogTitle id="form-dialog-title">
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <img style={{ width: '30px' }} src={DialogLogo} alt="" />
-                        <div style={{
-                            fontFamily: 'NunitoSans-Bold', color: '#343F84', fontSize: '18px'
-                        }}>&nbsp; &nbsp;SonicKey: {values?.sonicKey?.sonicKey || "---"}</div>
-                    </div>
-                </DialogTitle>
+                <Grid container justifyContent="space-between">
+                    <DialogTitle id="form-dialog-title">
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <img style={{ width: '30px' }} src={DialogLogo} alt="" />
+                            <div style={{
+                                fontFamily: 'NunitoSans-Bold', color: '#343F84', fontSize: '18px'
+                            }}>&nbsp; &nbsp;SonicKey: {values?.sonicKey?.sonicKey || "---"}</div>
+                        </div>
+                    </DialogTitle>
+
+                    <IconButton
+                        aria-label="close"
+                        style={{
+                            right: theme.spacing(1),
+                            color: '#343F84',
+                        }}
+                        onClick={handleCloseTable}
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title='Close'
+                    >
+                        <CloseIcon />
+                    </IconButton>
+                </Grid>
 
                 <TableContainer component={Paper} style={{ marginTop: 5, padding: '10px 20px', border: 'none' }} elevation={0}>
                     <Table className={classes.table} size="small" aria-label="a dense table">
@@ -418,7 +422,7 @@ const MetaDataDailog = (props) => {
                     </Button>
 
                     {
-                        values?.switchEdit ?
+                        values?.switchEdit && props?.enableEditMode ?
                             <Button
                                 variant="contained"
                                 style={{

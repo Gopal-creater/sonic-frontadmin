@@ -333,6 +333,7 @@ const SonicKeys = (props) => {
                                 })
                                 setTableData(newTableData)
                             }}
+                            enableEditMode={true}
                         />}
 
                     {!loading ?

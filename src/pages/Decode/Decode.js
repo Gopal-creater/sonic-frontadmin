@@ -16,14 +16,10 @@ export default function Decode() {
   const [audioName, setAudioName] = useState(null);
 
   React.useEffect(() => {
-    if (decode?.displayResults === true) {
+    if (decode?.displayResults) {
       setDecodeError(null);
     }
   }, [decode]);
-
-  // React.useEffect(() => {
-  //   window.location.reload(false);
-  // }, [])
 
   return (
     <Grid>
@@ -31,7 +27,7 @@ export default function Decode() {
         <FailedFileSelection audioName={audioName} title="Decoding" />
       ) : null}
 
-      {decode?.displayResults === true ? (
+      {decode?.displayResults ? (
         <DecodeSuccess
           audioName={audioName}
           title="Decoding"

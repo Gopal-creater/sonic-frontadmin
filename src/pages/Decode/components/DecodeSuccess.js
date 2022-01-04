@@ -10,7 +10,6 @@ import VisibilityOutlinedIcon from "@material-ui/icons/Visibility";
 import { Grid, Typography } from "@material-ui/core";
 import Icon from "../../../assets/images/icon-success-graphic.png";
 import MetaDataDialog from "../../../components/common/MetaDataDialog";
-import { log } from "../../../utils/app.debug";
 
 const useStyles = makeStyles((theme) => ({
   successContainer: {
@@ -105,39 +104,38 @@ const tableHead = [
   "ACTION",
 ];
 
-export default function DecodeSuccess({ audioName, title, decodeKeys }) {
+export default function DecodeSuccess(props) {
   const classes = useStyles();
 
   const [values, setValues] = useState({
     openTable: false,
     selectedSonicKey: {},
-    soincKeys: decodeKeys
+    sonickeys: props?.decodeKeys
   })
 
+  React.useEffect(() => {
+    setValues({ ...values, sonickeys: props?.decodeKeys })
+  }, [props])
+
   const handleClickOpenTable = async (data) => {
-    setValues({
-      ...values,
-      openTable: true,
-      selectedSonicKey: data
-    })
+    setValues({ ...values, openTable: true, selectedSonicKey: data })
   };
 
-  log("decoded", values)
   return (
     <Grid className={classes.successContainer}>
       <Grid container className={classes.header}>
         <Grid item>
           <Typography className={classes.heading}>Well done!</Typography>
           <Typography className={classes.subHeading}>
-            {title} of <b>{audioName}</b> successfully done.
+            {props?.title} of <b>{props?.audioName}</b> successfully done.
           </Typography>
           <Typography className={classes.found}>
-            We found <b>{decodeKeys?.data?.length}</b> SonicKeys.
+            We found <b>{props?.decodeKeys?.data?.length}</b> SonicKeys.
           </Typography>
         </Grid>
         <Grid item className={classes.failedIcon}>
           <img src={Icon} alt="Failed" style={{ height: 80, width: 80 }} />
-          <Typography className={classes.failed}>{title} done</Typography>
+          <Typography className={classes.failed}>{props?.title} done</Typography>
         </Grid>
       </Grid>
 
@@ -153,7 +151,7 @@ export default function DecodeSuccess({ audioName, title, decodeKeys }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {values?.soincKeys?.data?.map((data) => (
+            {values?.sonickeys?.data?.map((data) => (
               <TableRow className={classes.tableRow} key={data._id}>
                 <TableCell className={classes.key}>{data?.sonicKey}</TableCell>
                 <TableCell className={classes.tableCellNormalText}>
@@ -187,13 +185,13 @@ export default function DecodeSuccess({ audioName, title, decodeKeys }) {
             open={true}
             setOpenTable={(flag) => { setValues({ ...values, openTable: flag }) }}
             updateMetaData={(newData) => {
-              let newSonicData = values?.soincKeys?.data?.map((data) => {
+              let newSonicData = values?.sonickeys?.data?.map((data) => {
                 if (data?._id === newData?.sonicKey) {
                   return newData
                 }
                 return data
               })
-              setValues({ ...values, selectedSonicKey: newData, soincKeys: { ...values?.soincKeys, data: newSonicData } })
+              setValues({ ...values, selectedSonicKey: newData, soincKeys: { ...values?.sonickeys, data: newSonicData } })
             }}
           />}
       </TableContainer>

@@ -62,7 +62,7 @@ const MetaDataDailog = (props) => {
         sonicKey: props?.sonicKey,
         updateSonicKeyLoading: false,
         updatingSonicKey: {
-            contentFileName: "",
+            contentName: "",
             isrcCode: "",
             iswcCode: "",
             tuneCode: "",
@@ -75,6 +75,24 @@ const MetaDataDailog = (props) => {
             version: ""
         }
     });
+
+    React.useEffect(() => {
+        setValues({
+            ...values, updatingSonicKey: {
+                contentName: props?.sonicKey?.contentName || "",
+                isrcCode: props?.sonicKey?.isrcCode || "",
+                iswcCode: props?.sonicKey?.iswcCode || "",
+                tuneCode: props?.sonicKey?.tuneCode || "",
+                contentOwner: props?.sonicKey?.contentOwner || "",
+                contentDescription: props?.sonicKey?.contentDescription || "",
+                additionalMetadata: {
+                    message: props?.sonicKey?.additionalMetadata?.message || ""
+                },
+                distributor: props?.sonicKey?.distributor || "",
+                version: props?.sonicKey?.version || ""
+            }
+        })
+    }, [])
 
     const dispatch = useDispatch()
     const plays = useSelector(state => state.playsList)
@@ -123,7 +141,7 @@ const MetaDataDailog = (props) => {
             },
             distributor: values?.updatingSonicKey?.distributor || values?.sonicKey?.distributor,
             version: values?.updatingSonicKey?.version || values?.sonicKey?.version,
-            contentFileName: values?.updatingSonicKey?.contentFileName || values?.sonicKey?.contentFileName
+            contentName: values?.updatingSonicKey?.contentName || values?.sonicKey?.contentName
         }
         Communication.editSonicMetaData(values?.sonicKey?.sonicKey, payload).then((response) => {
             setValues({
@@ -222,9 +240,9 @@ const MetaDataDailog = (props) => {
                                                 fullWidth
                                                 placeholder="Edit content name"
                                                 inputProps={{ className: classes.textInput }}
-                                                value={values?.updatingSonicKey?.contentFileName}
-                                                onChange={(e) => setValues({ ...values, updatingSonicKey: { ...values?.updatingSonicKey, contentFileName: e.target.value } })} /> :
-                                            values?.sonicKey?.contentFileName || "--"
+                                                value={values?.updatingSonicKey?.contentName}
+                                                onChange={(e) => setValues({ ...values, updatingSonicKey: { ...values?.updatingSonicKey, contentName: e.target.value } })} /> :
+                                            values?.sonicKey?.contentName || "--"
                                     }
                                 </TableCell>
                             </TableRow>

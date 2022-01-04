@@ -131,7 +131,7 @@ export default function Encode() {
             contentName: values?.data?.contentName,
             contentOwner: values?.data?.contentOwner,
             contentValidation: true,
-            contentFileName: values?.data?.contentName,
+            contentFileName: values?.name,
             contentQuality: values?.data?.contentQuality,
             additionalMetadata: { ...values?.data?.additionalMetadata },
             isRightsHolderForEncode: values?.isRightsHolderForEncode === null ? false : values?.isRightsHolderForEncode,

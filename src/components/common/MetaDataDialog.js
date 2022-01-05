@@ -222,7 +222,7 @@ const MetaDataDailog = (props) => {
                             </TableRow>
 
                             <TableRow >
-                                <TableCell className={classes.tableCellOne}>TRACK FILE NAME</TableCell>
+                                <TableCell className={classes.tableCellOne}>ORIGINAL FILENAME</TableCell>
                                 <TableCell className={classes.tableCellTwo}>
                                     {
                                         values?.sonicKey?.originalFileName || "--"

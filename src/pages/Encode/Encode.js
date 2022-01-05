@@ -184,18 +184,23 @@ export default function Encode() {
 
             {values?.isDataPresent && values?.encodeSuccess === null && values?.encodeError === null &&
                 <Grid className={classes.encodeDataContainer} id="encodeDataContainer">
-                    <Typography className={classes.heading} id="encodeDataTitle">MetaData of {values?.name}</Typography>
+                    <Typography className={classes.heading} id="encodeDataTitle">MetaData of Uploaded file {values?.name}</Typography>
 
                     <form className={classes.encodeForm}>
                         <Grid item id="audioName">
                             <TextField
                                 fullWidth
                                 id="standard-basic"
-                                label="Audio name"
-                                inputProps={{ className: classes.textInput }}
+                                label="Title"
+                                inputProps={{
+                                    className: classes.textInput,
+                                }}
                                 InputLabelProps={{ className: classes.textInputLabel }}
                                 value={values?.data?.contentName}
-                                onChange={(e) => { setValues({ ...values, data: { ...values?.data, contentName: e.target.value } }) }} />
+                                onChange={(e) => { setValues({ ...values, data: { ...values?.data, contentName: e.target.value } }) }}
+                                helperText={values?.data?.contentName ? "" : "Song,Video or Audio track title"}
+                                autoComplete='off'
+                            />
                         </Grid>
 
                         <Grid item id="audioType">

@@ -1411,7 +1411,7 @@ export const playsTableHeads = [
   "Date",
   "Time",
   "Duration",
-  "Track Filename",
+  "Original Filename",
   "Artist",
   "Country"
 ]

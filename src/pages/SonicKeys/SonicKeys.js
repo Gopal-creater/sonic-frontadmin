@@ -117,7 +117,7 @@ const useStyles = makeStyles({
 const SonicKeys = (props) => {
     const [filterColumn, setFilterColumn] = useState(["ID",
         "SONICKEY",
-        "NAME",
+        "ORIGINAL FILENAME",
         "ARTIST",
         "ENCODED DATE",
         "DESCRIPTION",
@@ -169,7 +169,7 @@ const SonicKeys = (props) => {
     const columns = [
         "ID",
         "SONICKEY",
-        "NAME",
+        "ORIGINAL FILENAME",
         "ARTIST",
         "ENCODED DATE",
         "DESCRIPTION",
@@ -297,19 +297,22 @@ const SonicKeys = (props) => {
                                             <TableCell className={classes.sonicKeyText}>{isSelected("SONICKEY") && data.sonicKey}</TableCell>
                                             <Tooltip title={data.originalFileName || data.contentFileName}>
                                                 <TableCell className={classes.tableCellNormalText}>
-                                                    {isSelected("NAME") && (data?.originalFileName?.length > 20 ? data?.originalFileName?.slice(0, 20) + "..." : data?.originalFileName) || (data?.contentFileName?.length > 20 ? data?.contentFileName?.slice(0, 20) + "..." : data?.contentFileName)}
+                                                    {isSelected("ORIGINAL FILENAME") && ((data?.originalFileName?.length > 20 ? data?.originalFileName?.slice(0, 20) + "..." : data?.originalFileName) || (data?.contentFileName?.length > 20 ? data?.contentFileName?.slice(0, 20) + "..." : data?.contentFileName))}
                                                 </TableCell>
                                             </Tooltip>
                                             <Tooltip title={data.contentOwner}><TableCell className={classes.tableCellNormalText}>{isSelected("ARTIST") && (data.contentOwner === "" ? "---" : (data.contentOwner?.length > 20 ? data.contentOwner?.slice(0, 20) + "..." : data.contentOwner))}</TableCell></Tooltip>
                                             <TableCell className={classes.tableCellNormalText}>{isSelected("ENCODED DATE") && (format(new Date(data?.createdAt), 'dd/MM/yyyy'))}</TableCell>
                                             <Tooltip title={data.contentDescription}><TableCell className={classes.tableCellNormalText}>{isSelected("DESCRIPTION") && (data.contentDescription === "" ? "---" : (data.contentDescription?.length > 20 ? data.contentDescription?.slice(0, 20) + "..." : data.contentDescription))}</TableCell></Tooltip>
                                             <TableCell className={classes.tableCellColor} width="100px">
-                                                <div style={{ display: 'flex', justifyContent: 'center', fontSize: '14px', fontFamily: "NunitoSans-Bold", }}>
-                                                    <div style={{ marginRight: '15px', cursor: "pointer" }} className={classes.tableCellIcon} onClick={() => handleClickOpenTable(data)}>
-                                                        <VisibilityOutlinedIcon fontSize="small" />&nbsp;View
+                                                {
+                                                    isSelected("ACTION") &&
+                                                    <div style={{ display: 'flex', justifyContent: 'center', fontSize: '14px', fontFamily: "NunitoSans-Bold", }}>
+                                                        <div style={{ marginRight: '15px', cursor: "pointer" }} className={classes.tableCellIcon} onClick={() => handleClickOpenTable(data)}>
+                                                            <VisibilityOutlinedIcon fontSize="small" />&nbsp;View
+                                                        </div>
+                                                        <Download data={data} />
                                                     </div>
-                                                    <Download data={data} />
-                                                </div>
+                                                }
                                             </TableCell>
                                         </TableRow>
                                     )

@@ -53,7 +53,6 @@ const useStyles = makeStyles((theme) => ({
   tableRow: {
     "&:hover": {
       boxShadow: "0 14px 28px rgba(0,0,0,0.25), 0 1px 5px rgba(0,0,0,0.22)",
-      cursor: "pointer",
     },
   },
   key: {
@@ -71,6 +70,7 @@ const useStyles = makeStyles((theme) => ({
   tableCellIcon: {
     display: "flex",
     alignItems: "center",
+    cursor: "pointer"
   },
   tableCellNormalText: {
     fontSize: 14,
@@ -98,7 +98,7 @@ const useStyles = makeStyles((theme) => ({
 const tableHead = [
   "SONICKEY",
   "FILE TYPE",
-  "NAME",
+  "ORIGINAL FILENAME",
   "FREQUENCY",
   "OWNER",
   "ACTION",

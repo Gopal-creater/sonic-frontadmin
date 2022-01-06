@@ -184,7 +184,7 @@ export default function Encode() {
 
             {values?.isDataPresent && values?.encodeSuccess === null && values?.encodeError === null &&
                 <Grid className={classes.encodeDataContainer} id="encodeDataContainer">
-                    <Typography className={classes.heading} id="encodeDataTitle">MetaData of Uploaded file {values?.name}</Typography>
+                    <Typography className={classes.heading} id="encodeDataTitle">MetaData of Uploaded file "{values?.name}"</Typography>
 
                     <form className={classes.encodeForm}>
                         <Grid item id="audioName">

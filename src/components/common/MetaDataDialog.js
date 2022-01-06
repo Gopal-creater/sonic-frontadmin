@@ -231,7 +231,7 @@ const MetaDataDailog = (props) => {
                             </TableRow>
 
                             <TableRow >
-                                <TableCell className={classes.tableCellOne}>CONTENT NAME</TableCell>
+                                <TableCell className={classes.tableCellOne}>TITLE</TableCell>
                                 <TableCell className={classes.tableCellTwo}>
                                     {
                                         values?.switchEdit ?

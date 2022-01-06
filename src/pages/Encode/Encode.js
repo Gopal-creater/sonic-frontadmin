@@ -198,7 +198,8 @@ export default function Encode() {
                                 InputLabelProps={{ className: classes.textInputLabel }}
                                 value={values?.data?.contentName}
                                 onChange={(e) => { setValues({ ...values, data: { ...values?.data, contentName: e.target.value } }) }}
-                                helperText={values?.data?.contentName ? "" : "Song,Video or Audio track title"}
+                                // helperText="Song,Video or Audio track title"
+                                placeholder='Song,Video or Audio track title'
                                 autoComplete='off'
                             />
                         </Grid>

@@ -42,6 +42,7 @@ export default function Decode() {
             decode?.displayResults || decodeError
               ? "Upload a file to start again."
               : "Upload a file to start.",
+          shadow: decode?.displayResults || decodeError ? true : false,
           getAudioData: (audioData) => {
             setValues({ ...values, ...audioData });
           },

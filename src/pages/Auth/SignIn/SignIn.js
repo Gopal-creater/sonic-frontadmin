@@ -1,4 +1,4 @@
-import { Grid, Typography } from '@material-ui/core'
+import { Grid } from '@material-ui/core'
 import React from 'react'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { useForm, Controller } from "react-hook-form";
@@ -14,14 +14,17 @@ import { forgotPasword, setSession } from '../../../stores/actions/session';
 import { Auth } from "aws-amplify";
 import cogoToast from 'cogo-toast';
 import AuthFooter from '../AuthFooter';
+import { H1, H4 } from '../../../StyledComponents/StyledHeadings';
 
 const useStyles = makeStyles((theme) => ({
     signInRoot: {
         backgroundColor: "white",
         width: "100%",
-        maxWidth: "450px",
-        maxHeight: "650px",
         height: "100%",
+        overflow: "auto",
+        "&::-webkit-scrollbar": { display: "none" },
+        "&::-ms-overflow-style": "none",  /* IE and Edge */
+        "&::-scrollbar-width": "none",/* Firefox */
     }
     ,
     signInHeading: {
@@ -124,8 +127,8 @@ export default function SignIn() {
         <Grid className={classes.signInRoot} justifyContent="center" alignItems="center">
             <form onSubmit={handleSubmit(signIn)}>
                 <Grid item>
-                    <Typography className={classes.signInHeading} id="encodeDataTitle">SonicPortal</Typography>
-                    <Typography className={classes.signInSubHeading} id="encodeDataTitle">Encode. Manage. Monitor. Report.</Typography>
+                    <H1>SonicPortal</H1>
+                    <H4>Encode. Manage. Monitor. Report.</H4>
                 </Grid>
                 <Controller
                     name="username"
@@ -198,7 +201,7 @@ export default function SignIn() {
                     rules={{ required: "Password is required" }}
                 />
 
-                <Grid container justifyContent={'space-between'} style={{ marginTop: "40px" }}>
+                <Grid container justifyContent={'space-between'} style={{ marginTop: "35px" }}>
                     <ForgetPasswordButton
                         type="button"
                         onClick={() => dispatch(forgotPasword(true))}

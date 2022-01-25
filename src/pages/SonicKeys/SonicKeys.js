@@ -6,9 +6,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Pagination from "@material-ui/lab/Pagination";
 import "../SonicKeys/css/table.scss";
-import UnfoldMoreSharpIcon from "@material-ui/icons/UnfoldMoreSharp";
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import MetaDataDailog from '../../components/common/MetaDataDialog';
 import { Grid, Tooltip, Typography } from '@material-ui/core';
@@ -26,7 +24,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Download from './Components/Download';
 import SonicSpinner from '../../components/common/SonicSpinner';
 import { log } from '../../utils/app.debug';
-
+import CustomPagination from '../../components/common/CustomPagination';
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -40,7 +38,7 @@ const StyledTableCell = withStyles((theme) => ({
     },
 }))(TableCell);
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     gridContainer: {
         boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
         position: 'relative',
@@ -110,8 +108,8 @@ const useStyles = makeStyles({
         alignItems: 'center',
         justifyContent: 'space-between',
         cursor: 'pointer',
-    },
-});
+    }
+}));
 
 
 const SonicKeys = (props) => {
@@ -208,10 +206,10 @@ const SonicKeys = (props) => {
         console.log("sorting data is successfull", tableData.sort());
     }
 
-
     const openColumnFilter = () => {
         document.getElementById('columnFilter').classList.add('active');
     }
+
     const closeColumnFilter = () => {
         document.getElementById('columnFilter').classList.remove('active');
     }
@@ -340,13 +338,12 @@ const SonicKeys = (props) => {
                         />}
 
                     {!loading ?
-                        <Pagination
+                        <CustomPagination
                             count={page}
-                            page={props.pageCount}
-                            variant="outlined"
-                            shape="rounded"
+                            page={props?.pageCount}
                             onChange={handlePageChange}
-                        /> : ""}
+                        />
+                        : ""}
 
                 </TableContainer>
             </Grid>

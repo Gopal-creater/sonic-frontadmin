@@ -6,11 +6,11 @@ import * as mm from "music-metadata-browser";
 import cogoToast from "cogo-toast";
 import Communication from "../../services/https/Communication";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   EncodeDecodeContainer: {
     backgroundColor: "white",
     padding: "2% 2.5%",
-    boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+    boxShadow: (shadow) => shadow.boxShadow,
   },
   header: {
     display: "flex",
@@ -70,7 +70,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function FileSelection({ prop }) {
-  const classes = useStyles();
+  const shadow = {
+    boxShadow: prop?.shadow ? "none" : "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+  }
+  const classes = useStyles(shadow);
   const [audioData, setAudioData] = useState({
     response: false,
     file: null,

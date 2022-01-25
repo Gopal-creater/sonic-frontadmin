@@ -10,28 +10,32 @@ import SignIn from './SignIn/SignIn';
 import NewPassword from './NewPassword/NewPassword';
 import EmailVerification from './EmailVerification/EmailVerification';
 import ResetPassword from './ResetPassword/ResetPassword';
+import waveSignIn from "../../assets/images/wave-signin.png";
 
 
 const useStyles = makeStyles((theme) => ({
     root: {
         backgroundColor: "#393F5B",
         height: "100vh",
+        backgroundImage: `url(${waveSignIn})`,
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        // backgroundSize: "cover"
     },
     signInCommonContainer: {
         backgroundColor: "white",
-        width: "26%",
+        width: "27%",
         maxWidth: "450px",
         maxHeight: "650px",
-        height: "550px",
-        // flexGrow:1,
+        height: "535px",
         [theme.breakpoints.down('md')]: {
-            width: "35%",
+            width: "40%",
         },
         [theme.breakpoints.down('sm')]: {
-            width: "45%",
+            width: "50%",
         },
         [theme.breakpoints.down('xs')]: {
-            width: "75%",
+            width: "80%",
         },
     },
 }));

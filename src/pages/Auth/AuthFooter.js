@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function AuthFooter() {
     return (
-        <Grid className="pt-4" id="footer">
+        <Grid id="footer" style={{ marginTop: "30px" }}>
             <span style={{ fontSize: "small", color: "#ACACAC", fontFamily: "NunitoSans-Regular", fontWeight: "medium" }}>
                 <span>&#169;</span> {new Date().getFullYear()} SonicData Ltd. All rights reserved.
             </span>

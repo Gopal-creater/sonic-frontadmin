@@ -39,13 +39,10 @@ const useStyles = makeStyles((theme) => ({
     textInput: {
         fontFamily: "NunitoSans-Regular",
         fontSize: 18,
-        color: "#757575"
+        color: "#757575",
+        WebkitBoxShadow: "0 0 0px 1000px white inset"
     },
-    textInputLable: {
-        fontFamily: "NunitoSans-Regular",
-        fontSize: 18,
-        color: "#757575"
-    }
+
 }));
 
 const SignInButton = withStyles({
@@ -139,15 +136,14 @@ export default function SignIn() {
                         fieldState: { error },
                     }) => (
                         <TextField
-                            label="Username *"
                             fullWidth
+                            placeholder="Username *"
                             value={value}
                             onChange={onChange}
                             error={!!error}
-                            className="mt-2"
+                            style={{ marginTop: "35px" }}
                             helperText={error?.message}
                             inputProps={{ className: classes.textInput }}
-                            InputLabelProps={{ className: classes.textInputLable }}
                         />
                     )}
                     rules={{ required: "Username is required" }}
@@ -163,15 +159,15 @@ export default function SignIn() {
                         fieldState: { error },
                     }) => (
                         <TextField
-                            label="Password *"
+                            placeholder="Password *"
                             fullWidth
                             type={values.showPassword ? "text" : "password"}
                             value={value}
                             onChange={onChange}
                             error={!!error}
                             helperText={error?.message}
-                            className="mt-2"
-                            InputLabelProps={{ className: classes.textInputLable }}
+                            inputProps={{ className: classes.textInput }}
+                            className="mt-3"
                             InputProps={{
                                 endAdornment: (
                                     <InputAdornment position="end">
@@ -202,13 +198,13 @@ export default function SignIn() {
                     rules={{ required: "Password is required" }}
                 />
 
-                <Grid container justifyContent={'space-between'} className="mt-4">
+                <Grid container justifyContent={'space-between'} style={{ marginTop: "40px" }}>
                     <ForgetPasswordButton
                         type="button"
                         onClick={() => dispatch(forgotPasword(true))}
                         disabled={values.loginLoading}
                     >
-                        Forget password?
+                        Forgot password?
                     </ForgetPasswordButton>
 
                     {values.loginLoading ? (
@@ -228,7 +224,7 @@ export default function SignIn() {
                     )}
                 </Grid>
 
-                <Grid container direction="column" alignItems="flex-end" className="mt-4">
+                <Grid container direction="column" alignItems="flex-end" style={{ marginTop: "35px" }}>
                     <p style={{ color: "#757575", fontWeight: "bold", fontFamily: "NunitoSans-Regular", fontSize: 14 }}>Don't have an account?</p>
 
                     <SignUpButton

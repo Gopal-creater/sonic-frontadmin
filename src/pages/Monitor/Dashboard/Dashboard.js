@@ -22,6 +22,9 @@ import SonicSpinner from "../../../components/common/SonicSpinner";
 import * as actionTypes from "../../../stores/actions/actionTypes"
 // import ExportIcon from '@material-ui/icons/GetApp';
 import "./Dashboard.scss"
+import WelcomeBack from "./Components/WelcomeBack/WelcomeBack";
+import Stats from "./Components/Stats/Stats";
+import radio from "../../../assets/icons/icon-teal-radio.png"
 
 const useStyles = makeStyles((theme) => ({
   menuItems: {
@@ -110,70 +113,46 @@ export function Dashboard() {
   return (
     <Grid className="dashboard-container">
 
-      <Grid container justifyContent="space-between">
-        <p className="dashboard-title">Dashboard</p>
+      <WelcomeBack totalRadioStations={956} />
 
-        <div>
-          {/* <FormControl variant="standard" className="radioStations-export-formControl" style={{ backgroundColor: "" }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-
-              <Tooltip title="Export">
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  onClick={dataExportHandleClick}
-                  size="small"
-                  endIcon={<ExportIcon />}
-                >
-                  Export
-                </Button>
-              </Tooltip>
-            </Box>
-            <Popover
-              anchorEl={anchorEl}
-              open={open}
-              onClose={() => setAnchorEl(null)}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'Center',
-              }}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'Center',
-              }}
-            >
-              <MenuItem
-                value="xlsx"
-                onClick={() => dataExportHandleClose("xlsx")}
-              >
-                Excel
-              </MenuItem>
-              <MenuItem
-                onClick={() => dataExportHandleClose("csv")}
-                value="csv"
-              >
-                CSV
-              </MenuItem>
-            </Popover>
-          </FormControl> */}
-
-          <FormControl variant="standard" className="radioStations-subscribed-formControl">
-            <InputLabel className="subscribed-formControl-title">Date Range</InputLabel>
-            <Select
-              labelId="demo-simple-select-standard-label"
-              id="demo-simple-select-standard"
-              value={values?.dayWeekMonth}
-              onChange={(event) => setDateRange(event.target.value)}
-              label="Date Range"
-              className="subscribed-formControl-menu"
-              MenuProps={{ classes: { paper: classes.menuItems } }}
-            >
-              <MenuItem value={"Day"}>Today</MenuItem>
-              <MenuItem value={"Week"}>Last 7 Days</MenuItem>
-              <MenuItem value={"Month"}>Last 30 Days</MenuItem>
-            </Select>
-          </FormControl>
-        </div>
+      <Grid container spacing={3}>
+        <Grid item lg={3} sm={6} xs={12} >
+          <Stats
+            imgSrc={radio}
+            title={"My Artist"}
+            ownerShipTitle="from"
+            loading={false}
+            data={"37"}
+            error={null}
+          />
+        </Grid>
+        <Grid item lg={3} sm={6} xs={12} >
+          <Stats
+            imgSrc={radio}
+            title={"My Artist"}
+            ownerShipTitle="from"
+            loading={false}
+            data={"37"}
+            error={null}
+          />        </Grid>
+        <Grid item lg={3} sm={6} xs={12} >
+          <Stats
+            imgSrc={radio}
+            title={"My Artist"}
+            ownerShipTitle="from"
+            loading={false}
+            data={"37"}
+            error={null}
+          />        </Grid>
+        <Grid item lg={3} sm={6} xs={12}>
+          <Stats
+            imgSrc={radio}
+            title={"My Artist"}
+            ownerShipTitle="from"
+            loading={false}
+            data={"37"}
+            error={null}
+          />        </Grid>
       </Grid>
 
       <Grid container className="dashboard-tables-container" spacing={2}>

@@ -8,6 +8,7 @@ const theme = {
     secondary: {
       mediumNavy: "#485290",
       lightNavy: "#7078A8",
+      lightTeal: "#E0F0EF",
       disabled: "#E0E0E0",
       grey: "#757575",
       mediumGrey: "#ACACAC",

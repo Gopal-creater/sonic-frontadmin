@@ -15,6 +15,7 @@ import { Auth } from "aws-amplify";
 import cogoToast from 'cogo-toast';
 import AuthFooter from '../AuthFooter';
 import { H1, H4 } from '../../../StyledComponents/StyledHeadings';
+import { StyledTextField } from '../../../StyledComponents/StyledAppTextInput/StyledAppTextInput';
 
 const useStyles = makeStyles((theme) => ({
     signInRoot: {
@@ -200,6 +201,8 @@ export default function SignIn() {
                     )}
                     rules={{ required: "Password is required" }}
                 />
+
+                {/* <StyledTextField /> */}
 
                 <Grid container justifyContent={'space-between'} style={{ marginTop: "35px" }}>
                     <ForgetPasswordButton

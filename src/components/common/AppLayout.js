@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundPositionY: 'top',
   },
   subContainer: {
-    padding: "1% 4%",
+    padding: "0% 4%",
     width: "100%",
     display: "flex",
   },
@@ -35,8 +35,8 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     marginLeft: "190px",
     overflowY: "auto",
-    paddingRight: 20,
-    paddingLeft: 20
+    paddingRight: "20px",
+    paddingLeft: "20px"
   },
 }));
 

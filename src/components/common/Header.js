@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
     background: "transparent",
+    paddingRight: "20px"
   },
   toolBar: {
     background: "white",
@@ -19,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
   container: {
     paddingLeft: "3%",
-    paddingRight: "calc(3% + 10px)"
+    paddingRight: "3%"
   }
 }));
 export default function Header() {

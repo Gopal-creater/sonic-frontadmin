@@ -1,4 +1,4 @@
-import { Grid, TableContainer, Button, FormControl, Select, MenuItem, InputLabel, Tooltip, Menu, IconButton, Box, Popover } from "@material-ui/core";
+import { Grid, TableContainer, Button, FormControl, Select, MenuItem, InputLabel, Tooltip, Menu, IconButton, Box, Popover, Container } from "@material-ui/core";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import React from "react";
 import Table from '@material-ui/core/Table';
@@ -115,6 +115,7 @@ export function Dashboard() {
 
       <WelcomeBack totalRadioStations={956} />
 
+      {/* <Box style={{ overflow: "hidden" }}> */}
       <Grid container spacing={3}>
         <Grid item lg={3} sm={6} xs={12} >
           <Stats
@@ -152,10 +153,11 @@ export function Dashboard() {
             loading={false}
             data={"37"}
             error={null}
-          />        </Grid>
+          />
+        </Grid>
       </Grid>
-
-      <Grid container className="dashboard-tables-container" spacing={2}>
+      {/* </Box> */}
+      {/* <Grid container className="dashboard-tables-container" spacing={2}>
         <Grid item container lg={3} md={4} sm={8} xs={12} className="sonickeysDetected-leftTable-container">
           <Grid className="sonickeysDetected-table-container">
             <p className="sonickeysDetected-table-title">Summary</p>
@@ -347,7 +349,7 @@ export function Dashboard() {
         <Grid className="dashboardPlays-viewMore-btnContainer">
           <Button variant="text" className="viewMore-Btn" onClick={() => history.push("/plays")}>View more plays &gt;&gt;</Button>
         </Grid>
-      </Grid>
+      </Grid> */}
 
       {/* <Grid className="dashBoard-Graphs-container">
         <Grid>

@@ -17,8 +17,8 @@ const useStyles = makeStyles((theme) => ({
         height: "100vh",
         backgroundImage: `url(${waveSignIn})`,
         backgroundRepeat: "no-repeat",
-        backgroundPositionY: "90%",
-        backgroundPositionX: "center",
+        // backgroundPositionY: "90%",
+        backgroundPosition: "center",
         // backgroundSize: "cover"
     },
     signInCommonContainer: {

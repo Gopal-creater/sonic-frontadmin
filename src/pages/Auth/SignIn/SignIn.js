@@ -15,8 +15,11 @@ import { Auth } from "aws-amplify";
 import cogoToast from 'cogo-toast';
 import AuthFooter from '../AuthFooter';
 import { H1, H4 } from '../../../StyledComponents/StyledHeadings';
+import AppTextInput from '../../../components/common/AppTextInput/AppTextInput';
+import { StyledTextField } from '../../../StyledComponents/StyledAppTextInput/StyledAppTextInput';
+import theme from '../../../theme';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     signInRoot: {
         backgroundColor: "white",
         width: "100%",
@@ -40,10 +43,8 @@ const useStyles = makeStyles((theme) => ({
         fontFamily: 'NunitoSans-ExtraBold',
     },
     textInput: {
-        fontFamily: "NunitoSans-Regular",
-        fontSize: 18,
-        color: "#757575",
-        WebkitBoxShadow: "0 0 0px 1000px white inset"
+        WebkitBoxShadow: "0 0 0px 1000px white inset",
+        // WebkitTextFillColor: theme.colors.secondary.lightNavy,
     },
 
 }));
@@ -138,13 +139,13 @@ export default function SignIn() {
                         field: { onChange, value },
                         fieldState: { error },
                     }) => (
-                        <TextField
+                        <StyledTextField
                             fullWidth
-                            placeholder="Username *"
+                            label="Username*"
                             value={value}
                             onChange={onChange}
                             error={!!error}
-                            style={{ marginTop: "35px" }}
+                            style={{ marginTop: "25px" }}
                             helperText={error?.message}
                             inputProps={{ className: classes.textInput }}
                         />
@@ -156,13 +157,13 @@ export default function SignIn() {
                     name="password"
                     control={control}
                     defaultValue=""
-                    className="mt-3"
+                    className="mt-1"
                     render={({
                         field: { onChange, value },
                         fieldState: { error },
                     }) => (
-                        <TextField
-                            placeholder="Password *"
+                        <StyledTextField
+                            label="Password*"
                             fullWidth
                             type={values.showPassword ? "text" : "password"}
                             value={value}
@@ -170,7 +171,7 @@ export default function SignIn() {
                             error={!!error}
                             helperText={error?.message}
                             inputProps={{ className: classes.textInput }}
-                            className="mt-3"
+                            className="mt-1"
                             InputProps={{
                                 endAdornment: (
                                     <InputAdornment position="end">
@@ -200,6 +201,8 @@ export default function SignIn() {
                     )}
                     rules={{ required: "Password is required" }}
                 />
+
+                {/* <AppTextInput /> */}
 
                 <Grid container justifyContent={'space-between'} style={{ marginTop: "35px" }}>
                     <ForgetPasswordButton

@@ -3,10 +3,9 @@ import styled from "styled-components";
 import theme from "../../theme";
 
 export const StyledTextField = styled(({ width, ...props }) => (
-    <TextField {...props}
-
-    />
+    <TextField {...props} />
 ))`
+&& {
 width:${props => props.width || "100%"};
 
 //For label
@@ -14,6 +13,7 @@ width:${props => props.width || "100%"};
     color:${theme.colors.secondary.lightNavy};
     font-family:${theme.fontFamily.nunitoSansRegular};
     font-size:${theme.fontSize.h4};
+    z-index:1;
 };
 
 & label.Mui-focused {
@@ -48,4 +48,5 @@ width:${props => props.width || "100%"};
 & .MuiInput-underline:after {
   border-bottom-color: ${theme.colors.primary.teal};
 };
+}
 `

@@ -1,4 +1,4 @@
-import { Grid, Typography } from '@material-ui/core'
+import { Grid } from '@material-ui/core'
 import React from 'react'
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { useForm, Controller } from "react-hook-form";
@@ -14,14 +14,20 @@ import { forgotPasword, setSession } from '../../../stores/actions/session';
 import { Auth } from "aws-amplify";
 import cogoToast from 'cogo-toast';
 import AuthFooter from '../AuthFooter';
+import { H1, H4 } from '../../../StyledComponents/StyledHeadings';
+import AppTextInput from '../../../components/common/AppTextInput/AppTextInput';
+import { StyledTextField } from '../../../StyledComponents/StyledAppTextInput/StyledAppTextInput';
+import theme from '../../../theme';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     signInRoot: {
         backgroundColor: "white",
         width: "100%",
-        maxWidth: "450px",
-        maxHeight: "650px",
         height: "100%",
+        overflow: "auto",
+        "&::-webkit-scrollbar": { display: "none" },
+        "&::-ms-overflow-style": "none",  /* IE and Edge */
+        "&::-scrollbar-width": "none",/* Firefox */
     }
     ,
     signInHeading: {
@@ -37,15 +43,10 @@ const useStyles = makeStyles((theme) => ({
         fontFamily: 'NunitoSans-ExtraBold',
     },
     textInput: {
-        fontFamily: "NunitoSans-Regular",
-        fontSize: 18,
-        color: "#757575"
+        WebkitBoxShadow: "0 0 0px 1000px white inset",
+        // WebkitTextFillColor: theme.colors.secondary.lightNavy,
     },
-    textInputLable: {
-        fontFamily: "NunitoSans-Regular",
-        fontSize: 18,
-        color: "#757575"
-    }
+
 }));
 
 const SignInButton = withStyles({
@@ -127,8 +128,8 @@ export default function SignIn() {
         <Grid className={classes.signInRoot} justifyContent="center" alignItems="center">
             <form onSubmit={handleSubmit(signIn)}>
                 <Grid item>
-                    <Typography className={classes.signInHeading} id="encodeDataTitle">SonicPortal</Typography>
-                    <Typography className={classes.signInSubHeading} id="encodeDataTitle">Encode. Manage. Monitor. Report.</Typography>
+                    <H1>SonicPortal</H1>
+                    <H4>Encode. Manage. Monitor. Report.</H4>
                 </Grid>
                 <Controller
                     name="username"
@@ -138,16 +139,15 @@ export default function SignIn() {
                         field: { onChange, value },
                         fieldState: { error },
                     }) => (
-                        <TextField
-                            label="Username *"
+                        <StyledTextField
                             fullWidth
+                            label="Username*"
                             value={value}
                             onChange={onChange}
                             error={!!error}
-                            className="mt-2"
+                            style={{ marginTop: "25px" }}
                             helperText={error?.message}
                             inputProps={{ className: classes.textInput }}
-                            InputLabelProps={{ className: classes.textInputLable }}
                         />
                     )}
                     rules={{ required: "Username is required" }}
@@ -157,21 +157,21 @@ export default function SignIn() {
                     name="password"
                     control={control}
                     defaultValue=""
-                    className="mt-3"
+                    className="mt-1"
                     render={({
                         field: { onChange, value },
                         fieldState: { error },
                     }) => (
-                        <TextField
-                            label="Password *"
+                        <StyledTextField
+                            label="Password*"
                             fullWidth
                             type={values.showPassword ? "text" : "password"}
                             value={value}
                             onChange={onChange}
                             error={!!error}
                             helperText={error?.message}
-                            className="mt-2"
-                            InputLabelProps={{ className: classes.textInputLable }}
+                            inputProps={{ className: classes.textInput }}
+                            className="mt-1"
                             InputProps={{
                                 endAdornment: (
                                     <InputAdornment position="end">
@@ -202,13 +202,15 @@ export default function SignIn() {
                     rules={{ required: "Password is required" }}
                 />
 
-                <Grid container justifyContent={'space-between'} className="mt-4">
+                {/* <AppTextInput /> */}
+
+                <Grid container justifyContent={'space-between'} style={{ marginTop: "35px" }}>
                     <ForgetPasswordButton
                         type="button"
                         onClick={() => dispatch(forgotPasword(true))}
                         disabled={values.loginLoading}
                     >
-                        Forget password?
+                        Forgot password?
                     </ForgetPasswordButton>
 
                     {values.loginLoading ? (
@@ -228,7 +230,7 @@ export default function SignIn() {
                     )}
                 </Grid>
 
-                <Grid container direction="column" alignItems="flex-end" className="mt-4">
+                <Grid container direction="column" alignItems="flex-end" style={{ marginTop: "35px" }}>
                     <p style={{ color: "#757575", fontWeight: "bold", fontFamily: "NunitoSans-Regular", fontSize: 14 }}>Don't have an account?</p>
 
                     <SignUpButton

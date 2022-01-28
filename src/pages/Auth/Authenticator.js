@@ -4,34 +4,37 @@ import { makeStyles } from '@material-ui/core/styles';
 import SplashScreen from "./../../assets/images/SplashScreen.png"
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { useDispatch, useSelector } from "react-redux";
-import { log } from '../../utils/app.debug';
 import SignIn from './SignIn/SignIn';
 import NewPassword from './NewPassword/NewPassword';
 import EmailVerification from './EmailVerification/EmailVerification';
 import ResetPassword from './ResetPassword/ResetPassword';
+import waveSignIn from "../../assets/images/wave-signin.png";
 
 
 const useStyles = makeStyles((theme) => ({
     root: {
         backgroundColor: "#393F5B",
         height: "100vh",
+        backgroundImage: `url(${waveSignIn})`,
+        backgroundRepeat: "no-repeat",
+        // backgroundPositionY: "90%",
+        backgroundPosition: "center",
+        // backgroundSize: "cover"
     },
     signInCommonContainer: {
-        backgroundColor: "white",
-        width: "26%",
+        width: "27%",
         maxWidth: "450px",
         maxHeight: "650px",
-        height: "550px",
-        // flexGrow:1,
+        height: "540px",
+
         [theme.breakpoints.down('md')]: {
-            width: "35%",
+            width: "40%",
         },
         [theme.breakpoints.down('sm')]: {
-            width: "45%",
+            width: "48%",
         },
         [theme.breakpoints.down('xs')]: {
-            width: "75%",
+            width: "80%",
         },
     },
 }));
@@ -68,7 +71,7 @@ export default function Authenticator(prop) {
                 <img src={SplashScreen} alt="SplashScreen" width="100%" height="100%" style={{ objectFit: 'cover' }} />
             </Grid>
 
-            <Grid item className={classes.signInCommonContainer} style={{ padding: "40px 50px", backgroundColor: "white" }}>
+            <Grid item className={classes.signInCommonContainer} style={{ padding: "45px 64px", backgroundColor: "white" }}>
                 {<ShowComponents />}
             </Grid>
         </Grid>

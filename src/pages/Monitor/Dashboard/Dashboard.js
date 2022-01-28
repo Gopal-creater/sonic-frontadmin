@@ -1,4 +1,4 @@
-import { Grid, TableContainer, Button, FormControl, Select, MenuItem, InputLabel, Tooltip, Menu, IconButton, Box, Popover } from "@material-ui/core";
+import { Grid, TableContainer, Button, FormControl, Select, MenuItem, InputLabel, Tooltip, Menu, IconButton, Box, Popover, Container } from "@material-ui/core";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import React from "react";
 import Table from '@material-ui/core/Table';
@@ -22,6 +22,10 @@ import SonicSpinner from "../../../components/common/SonicSpinner";
 import * as actionTypes from "../../../stores/actions/actionTypes"
 // import ExportIcon from '@material-ui/icons/GetApp';
 import "./Dashboard.scss"
+import WelcomeBack from "./Components/WelcomeBack/WelcomeBack";
+import Stats from "./Components/Stats/Stats";
+import radio from "../../../assets/icons/icon-teal-radio.png"
+import FilterComponent from "../../../components/common/FilterComponent/FilterComponent";
 
 const useStyles = makeStyles((theme) => ({
   menuItems: {
@@ -110,73 +114,61 @@ export function Dashboard() {
   return (
     <Grid className="dashboard-container">
 
-      <Grid container justifyContent="space-between">
-        <p className="dashboard-title">Dashboard</p>
+      <WelcomeBack totalRadioStations={956} />
 
-        <div>
-          {/* <FormControl variant="standard" className="radioStations-export-formControl" style={{ backgroundColor: "" }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-
-              <Tooltip title="Export">
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  onClick={dataExportHandleClick}
-                  size="small"
-                  endIcon={<ExportIcon />}
-                >
-                  Export
-                </Button>
-              </Tooltip>
-            </Box>
-            <Popover
-              anchorEl={anchorEl}
-              open={open}
-              onClose={() => setAnchorEl(null)}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'Center',
-              }}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'Center',
-              }}
-            >
-              <MenuItem
-                value="xlsx"
-                onClick={() => dataExportHandleClose("xlsx")}
-              >
-                Excel
-              </MenuItem>
-              <MenuItem
-                onClick={() => dataExportHandleClose("csv")}
-                value="csv"
-              >
-                CSV
-              </MenuItem>
-            </Popover>
-          </FormControl> */}
-
-          <FormControl variant="standard" className="radioStations-subscribed-formControl">
-            <InputLabel className="subscribed-formControl-title">Date Range</InputLabel>
-            <Select
-              labelId="demo-simple-select-standard-label"
-              id="demo-simple-select-standard"
-              value={values?.dayWeekMonth}
-              onChange={(event) => setDateRange(event.target.value)}
-              label="Date Range"
-              className="subscribed-formControl-menu"
-              MenuProps={{ classes: { paper: classes.menuItems } }}
-            >
-              <MenuItem value={"Day"}>Today</MenuItem>
-              <MenuItem value={"Week"}>Last 7 Days</MenuItem>
-              <MenuItem value={"Month"}>Last 30 Days</MenuItem>
-            </Select>
-          </FormControl>
-        </div>
+      <Grid>
+        <FilterComponent
+          startDate={plays?.dates?.startDate}
+          onChangeStartDate={(date) => dispatch({ type: actionTypes.SET_PLAYS_DATES, data: { ...plays.dates, startDate: date } })}
+          endDate={plays?.dates?.endDate}
+          onChangeEndDate={(date) => dispatch({ type: actionTypes.SET_PLAYS_DATES, data: { ...plays.dates, endDate: date } })}
+        />
       </Grid>
 
-      <Grid container className="dashboard-tables-container" spacing={2}>
+
+      {/* <Box style={{ overflow: "hidden" }}> */}
+      <Grid container spacing={3}>
+        <Grid item lg={3} sm={6} xs={12} >
+          <Stats
+            imgSrc={radio}
+            title={"My Artist"}
+            ownerShipTitle="from"
+            loading={false}
+            data={"37"}
+            error={null}
+          />
+        </Grid>
+        <Grid item lg={3} sm={6} xs={12} >
+          <Stats
+            imgSrc={radio}
+            title={"My Artist"}
+            ownerShipTitle="from"
+            loading={false}
+            data={"37"}
+            error={null}
+          />        </Grid>
+        <Grid item lg={3} sm={6} xs={12} >
+          <Stats
+            imgSrc={radio}
+            title={"My Artist"}
+            ownerShipTitle="from"
+            loading={false}
+            data={"37"}
+            error={null}
+          />        </Grid>
+        <Grid item lg={3} sm={6} xs={12}>
+          <Stats
+            imgSrc={radio}
+            title={"My Artist"}
+            ownerShipTitle="from"
+            loading={false}
+            data={"37"}
+            error={null}
+          />
+        </Grid>
+      </Grid>
+      {/* </Box> */}
+      {/* <Grid container className="dashboard-tables-container" spacing={2}>
         <Grid item container lg={3} md={4} sm={8} xs={12} className="sonickeysDetected-leftTable-container">
           <Grid className="sonickeysDetected-table-container">
             <p className="sonickeysDetected-table-title">Summary</p>
@@ -368,7 +360,7 @@ export function Dashboard() {
         <Grid className="dashboardPlays-viewMore-btnContainer">
           <Button variant="text" className="viewMore-Btn" onClick={() => history.push("/plays")}>View more plays &gt;&gt;</Button>
         </Grid>
-      </Grid>
+      </Grid> */}
 
       {/* <Grid className="dashBoard-Graphs-container">
         <Grid>

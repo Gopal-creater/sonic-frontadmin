@@ -35,8 +35,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     marginLeft: "190px",
     overflowY: "auto",
-    paddingRight: "20px",
-    paddingLeft: "20px"
+
   },
 }));
 

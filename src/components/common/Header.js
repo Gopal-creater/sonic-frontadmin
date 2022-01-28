@@ -11,7 +11,6 @@ const useStyles = makeStyles((theme) => ({
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
     background: "transparent",
-    paddingRight: "20px"
   },
   toolBar: {
     background: "white",

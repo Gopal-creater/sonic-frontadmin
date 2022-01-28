@@ -19,13 +19,13 @@ const useStyles = makeStyles((theme) => ({
   },
   container: {
     paddingLeft: "3%",
-    paddingRight: "3%"
+    paddingRight: "calc(3% + 10px)"
   }
 }));
 export default function Header() {
   const classes = useStyles();
   return (
-    <AppBar position="fixed" className={classes.appBar} elevation={0}>
+    <AppBar position="sticky" className={classes.appBar} elevation={0}>
       <Container maxWidth="xl" className={classes.container}>
         <Toolbar className={classes.toolBar}>
           <img alt="logo" src={LogoWithTextImg} style={{ width: 80 }} />

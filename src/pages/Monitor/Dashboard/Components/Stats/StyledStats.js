@@ -29,7 +29,7 @@ export const DataContainer = styled.span`
 
 export const StatsContainer = styled(Grid)`
     background-color:${theme.colors.secondary.lightTeal};
-    margin-top:25px;
+    margin-top:5px;
     padding:15px;
     min-height:140px;
     cursor:pointer;

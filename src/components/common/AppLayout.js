@@ -6,15 +6,19 @@ import { Container, Grid } from "@material-ui/core";
 import Footer from "./Footer";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
+import Wave from "../../assets/images/wave-pages.svg"
 
 const useStyles = makeStyles((theme) => ({
   root: {
     background: "#f2f2f2",
   },
   container: {
-    marginTop: "5%",
     paddingLeft: "3%",
     paddingRight: "3%",
+    backgroundImage: `url(${Wave})`,
+    backgroundRepeat: 'no-repeat',
+    backgroundPositionX: 'right',
+    backgroundPositionY: 'top',
   },
   subContainer: {
     padding: "1% 4%",
@@ -31,7 +35,8 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     marginLeft: "190px",
     overflowY: "auto",
-    zIndex: 1
+    paddingRight: 20,
+    paddingLeft: 20
   },
 }));
 

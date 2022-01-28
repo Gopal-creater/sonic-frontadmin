@@ -9,8 +9,9 @@ import styled from 'styled-components';
 import Download from '../../../assets/images/iconDownloadSvg.svg'
 
 const Container = styled.div`
+    background-color: white;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    margin-top: 20px;
+    margin-top: 30px;
     margin-bottom: 30px;
     padding: 20px 25px;
     display: flex;

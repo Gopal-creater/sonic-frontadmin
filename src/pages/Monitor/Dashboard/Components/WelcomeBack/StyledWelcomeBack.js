@@ -8,6 +8,5 @@ export const WelcomeBackContainer = styled(Grid)`
     padding:30px 30px 30px 40px;
     background-image:url(${wave});
     background-repeat:no-repeat;
-    background-positionY:top;
-    background-positionX:right;
+    background-position-x: -120px;
 `

@@ -25,6 +25,7 @@ import "./Dashboard.scss"
 import WelcomeBack from "./Components/WelcomeBack/WelcomeBack";
 import Stats from "./Components/Stats/Stats";
 import radio from "../../../assets/icons/icon-teal-radio.png"
+import FilterComponent from "../../../components/common/FilterComponent/FilterComponent";
 
 const useStyles = makeStyles((theme) => ({
   menuItems: {
@@ -114,6 +115,16 @@ export function Dashboard() {
     <Grid className="dashboard-container">
 
       <WelcomeBack totalRadioStations={956} />
+
+      <Grid>
+        <FilterComponent
+          startDate={plays?.dates?.startDate}
+          onChangeStartDate={(date) => dispatch({ type: actionTypes.SET_PLAYS_DATES, data: { ...plays.dates, startDate: date } })}
+          endDate={plays?.dates?.endDate}
+          onChangeEndDate={(date) => dispatch({ type: actionTypes.SET_PLAYS_DATES, data: { ...plays.dates, endDate: date } })}
+        />
+      </Grid>
+
 
       {/* <Box style={{ overflow: "hidden" }}> */}
       <Grid container spacing={3}>

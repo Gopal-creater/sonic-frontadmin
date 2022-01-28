@@ -23,10 +23,15 @@ const useStyles = makeStyles((theme) => ({
   secondaryButton: {
     textTransform: "none",
     fontFamily: "NunitoSans-Black",
+    margin: "0px",
+    padding: "0px",
     color: "white",
     "&:focus": {
       outline: "none",
     },
+    "&:hover": {
+      backgroundColor: "white",
+    }
   },
   menuItem: {
     color: "#757575",
@@ -95,6 +100,8 @@ function SecondaryMenu(props) {
         endIcon={<ArrowDropDownIcon />}
         onClick={handleToggle}
         style={{ color: "#7078A8" }}
+        disableFocusRipple
+        disableRipple
       >
         {session?.user?.signInUserSession?.idToken?.payload?.email || session?.user?.username}
       </Button>
@@ -104,6 +111,7 @@ function SecondaryMenu(props) {
         role={undefined}
         transition
         disablePortal
+        placement="bottom-end"
       >
         {({ TransitionProps, placement }) => (
           <Grow
@@ -113,7 +121,7 @@ function SecondaryMenu(props) {
                 placement === "bottom" ? "center top" : "center bottom",
             }}
           >
-            <Paper>
+            <Paper style={{ minWidth: "110px" }}>
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList
                   autoFocusItem={open}

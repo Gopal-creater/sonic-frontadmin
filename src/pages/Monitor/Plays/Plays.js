@@ -1,12 +1,7 @@
 import React from 'react';
 import "./Plays.scss";
-import { Grid, TableContainer, TableHead, TableRow, Table, TableBody, TableCell, Button, Popover, Tooltip, Box, Menu, MenuItem, FormControl, InputLabel, Select } from '@material-ui/core';
+import { Grid, TableContainer, TableHead, TableRow, Table, TableBody, TableCell, Button, Popover, Tooltip, Box, MenuItem } from '@material-ui/core';
 import { tableStyle } from '../../../globalStyle';
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { CustomDate } from './components/CustomDate';
-import { FilterList } from '@material-ui/icons';
-import Filter from './components/Filter';
 import { Pagination } from '@material-ui/lab';
 import { useDispatch, useSelector } from 'react-redux';
 import SonicSpinner from '../../../components/common/SonicSpinner';
@@ -16,8 +11,10 @@ import { getPlaysListsAction, getAllRadioStationsAction, getSonickeyHistoryDataA
 import MetaDataDialog from '../../../components/common/MetaDataDialog';
 import * as actionTypes from "../../../stores/actions/actionTypes";
 import ExportIcon from '@material-ui/icons/GetApp';
-import { log } from '../../../utils/app.debug';
 import { getExportDataAction } from '../../../stores/actions/dashboard.action';
+import { H1, H4 } from '../../../StyledComponents/StyledHeadings';
+import theme from '../../../theme';
+import FilterComponent from '../../../components/common/FilterComponent/FilterComponent';
 
 
 export default function Plays() {
@@ -67,13 +64,13 @@ export default function Plays() {
         <Grid className="plays-container">
             <Grid container justifyContent="space-between" className="plays-title-container">
                 <Grid>
-                    <span className="plays-title">Plays - List</span><br />
-                    <p className="plays-subTitle">See history of sonickeys</p>
+                    <H1>My Plays</H1>
+                    <H4 color={theme.colors.primary.teal} fontFamily={theme.fontFamily.nunitoSansRegular}>
+                        Showing 1-10 of 42 plays
+                    </H4>
                 </Grid>
-                <Grid>
-
+                {/* <Grid>
                     <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-
                         <Tooltip title="Export">
                             <Button
                                 style={{
@@ -89,7 +86,6 @@ export default function Plays() {
                         </Tooltip>
                     </Box>
                     <Popover
-
                         anchorEl={anchorEl}
                         open={open}
                         onClose={() => setAnchorEl(null)}
@@ -112,71 +108,16 @@ export default function Plays() {
                             CSV
                         </MenuItem>
                     </Popover>
-                </Grid>
+                </Grid> */}
             </Grid>
 
-            <Grid className="plays-filter-container">
-                <Grid className="filter-dates">
-                    <Grid className="filter-startDate">
-                        <DatePicker
-                            selected={playsList?.dates?.startDate}
-                            onChange={(date) => dispatch({ type: actionTypes.SET_PLAYS_DATES, data: { ...playsList.dates, startDate: date } })}
-                            customInput={<CustomDate calender="true" />}
-                            dateFormat="MMM d,yyyy"
-                            title="Start Date"
-                            showYearDropdown
-                            showMonthDropdown
-                        />
-                    </Grid>
-
-                    <Grid className="mt-4 mx-3">
-                        <p style={{ fontSize: '18px' }}>to</p>
-                    </Grid>
-
-                    <Grid className="filter-endDate">
-                        <DatePicker
-                            selected={playsList?.dates?.endDate}
-                            onChange={(date) => dispatch({ type: actionTypes.SET_PLAYS_DATES, data: { ...playsList.dates, endDate: date } })}
-                            customInput={<CustomDate />}
-                            dateFormat="MMM d,yyyy"
-                            title="End Date"
-                            showYearDropdown
-                            showMonthDropdown
-                        />
-                    </Grid>
-                </Grid>
-
-                <Grid className="filter-dialog">
-                    <Button
-                        aria-describedby="open-filter"
-                        variant="text"
-                        className="filter-btn"
-                        onClick={(e) => setValues({ ...values, anchorFilter: e.currentTarget })}
-                    >
-                        <span style={{ lineHeight: 0, marginRight: 5 }}>Filter</span>
-                        <FilterList fontSize="medium" />
-                    </Button>
-
-                    <Popover
-                        id="open-filter"
-                        open={openFilter}
-                        anchorEl={values.anchorFilter}
-                        onClose={() => setValues({ ...values, anchorFilter: false })}
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'left',
-                        }}
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                        }}
-                    >
-                        <Filter
-                            setClose={(flag) => setValues({ ...values, anchorFilter: flag })}
-                            values={values}
-                        />
-                    </Popover>
-                </Grid>
+            <Grid>
+                <FilterComponent
+                    startDate={playsList?.dates?.startDate}
+                    onChangeStartDate={(date) => dispatch({ type: actionTypes.SET_PLAYS_DATES, data: { ...playsList.dates, startDate: date } })}
+                    endDate={playsList?.dates?.endDate}
+                    onChangeEndDate={(date) => dispatch({ type: actionTypes.SET_PLAYS_DATES, data: { ...playsList.dates, endDate: date } })}
+                />
             </Grid>
 
             <TableContainer style={{ ...tableStyle.container, width: "100%" }} className="plays-table">

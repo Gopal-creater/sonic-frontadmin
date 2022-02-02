@@ -27,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
   },
   sidebarContainer: {
     width: "190px",
-    paddingTop: "1%",
     position: "fixed",
     height: "100%",
   },

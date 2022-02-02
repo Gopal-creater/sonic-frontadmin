@@ -11,6 +11,8 @@ class Communication {
       params: {
         filter: {
           $or: [
+            // {["owner"]:getUserId()},
+            // {["relation_owner.companies"]:{"$in":["---company id---"]}},
             { [`sonicKey`]: { "$regex": `${value ? value : ''}`, "$options": "i" } },
             { [`contentFileName`]: { "$regex": `${value ? value : ""}`, "$options": "i" } },
             { [`contentOwner`]: { "$regex": `${value ? value : ""}`, "$options": "i" } },

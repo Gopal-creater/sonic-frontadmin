@@ -7,37 +7,77 @@ import sonickeyTeal from "../../assets/images/sonickey-teal.png";
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 import { NavLink } from "react-router-dom"
-import { Grid } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import * as actionTypes from "../../stores/actions/session/actionTypes"
 import { useLocation } from 'react-router-dom'
+import { useTheme } from "styled-components";
+import MenuOpenIcon from '@material-ui/icons/MenuOpen';
+import { Grid } from "@material-ui/core";
+import { routeList } from "../../routes/RoutesData";
 
-const useStyles = makeStyles((theme) => ({
-  keyImage: {
-    height: 17,
-    width: 17,
-    marginRight: 15,
-  },
-  listContainer: {
-    minWidth: "180px",
-  }
-  ,
-  listItemContainer: {
-    paddingLeft: 0,
-    paddingBottom: 15,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    textDecoration: "none",
-    color: "#757575",
-  },
-  activelistItemContainer: {
-    color: "#00A19A"
-  },
-  listItemText: {
-    fontFamily: "NunitoSans-Bold",
-  }
-}));
+const useStyles = makeStyles(() => {
+  const theme = useTheme()
+  return ({
+    toggleButton: {
+      cursor: "pointer",
+      width: "10px"
+    },
+    menuIcon: {
+      fontSize: 28,
+      color: theme.colors.secondary.grey,
+      marginBottom: 10
+    },
+    showMenu: {
+      fontSize: theme.fontSize.h4,
+      fontFamily: theme.fontFamily.nunitoSansBold,
+      color: theme.colors.secondary.grey,
+      lineHeight: 0.2,
+    },
+    listContainer: {
+      minWidth: "180px",
+      marginTop: 30
+    },
+    keyImage: {
+      height: 15,
+      width: 15,
+      marginRight: 15,
+    },
+    listItemContainer: {
+      paddingLeft: 0,
+      paddingBottom: 15,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      textDecoration: "none",
+      color: theme.colors.secondary.mediumGrey,
+      "&:hover": {
+        color: theme.colors.secondary.lightNavy
+      }
+    },
+    activelistItemContainer: {
+      fontFamily: theme.fontFamily.nunitoSansBold,
+      color: theme.colors.primary.teal,
+      fontSize: "15px",
+    },
+    listItemText: {
+      fontSize: "15px",
+      fontFamily: theme.fontFamily.nunitoSansBold,
+    },
+    childListItemContainer: {
+      display: "flex",
+      justifyContent: "flex-start",
+      alignItems: "center",
+      textDecoration: "none",
+      color: theme.colors.secondary.mediumGrey,
+      "&:hover": {
+        color: theme.colors.secondary.lightNavy
+      }
+    },
+    activeChildListItemContainer: {
+      color: theme.colors.secondary.grey,
+    },
+  })
+});
 
 export default function Sidebar() {
   const location = useLocation()
@@ -45,102 +85,112 @@ export default function Sidebar() {
   const session = useSelector(state => state.session)
   const dispatch = useDispatch()
 
+  const classes = useStyles();
+  const [newActiveLink, setNewActiveLink] = React.useState(null);
+
+  const [state, setState] = React.useState({
+    menuToggled: false
+  })
+
   React.useEffect(() => {
-    if (location?.pathname === "/plays" || location?.pathname === "/dashboard" || location?.pathname === "/streamreader") {
+    if (getChildItemInArray()?.includes(location?.pathname)) {
       dispatch({ type: actionTypes.SET_SIDEBAR, data: true });
     }
   }, [])
 
-  const classes = useStyles();
-  const [newActiveLink, setNewActiveLink] = React.useState(null);
-
-  const listItem = [
-    { link: "/encode", linkText: "Encode" },
-    { link: "/decode", linkText: "Decode" },
-    { link: "/monitor", linkText: "Monitor" },
-    { link: "/sonic-keys", linkText: "SonicKeys" },
-    { link: "/licences", linkText: "Licenses" }
-  ]
 
   const checkIsActive = (match, location, index) => {
     match && setNewActiveLink(index); // <-- set active index
     return match; // <-- return boolean
   }
 
-  return (
-    <List className={classes.listContainer}>
-      {
-        listItem?.map((data, index) => {
-          if (data?.linkText === "Monitor") {
-            return (
-              <div key={index}>
-                <Grid
-                  className={classes.listItemContainer}
-                  onClick={() => {
-                    dispatch({ type: actionTypes.SET_SIDEBAR, data: !session?.sidebar });
-                    checkIsActive(true, "", 2)
-                  }}
-                  style={{ justifyContent: "flex-start", cursor: "pointer" }}
-                >
-                  <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    <img src={sonickeyGrey} alt="key" className={classes.keyImage} />
-                    <ListItemText primary={"Monitor"} classes={{ primary: classes.listItemText }} />
-
-                    {session?.sidebar ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
-                  </div>
-                </Grid>
-
-                {
-                  session?.sidebar && (
-                    <div style={{ paddingLeft: 30 }}>
-                      <NavLink
-                        className={classes.listItemContainer}
-                        activeClassName={classes.activelistItemContainer}
-                        to={"/dashboard"}
-                        exact
-                        isActive={(match, location) => { return checkIsActive(match, location, index) }}
-                      >
-                        <ListItemText primary={"Dashboard"} classes={{ primary: classes.listItemText }} />
-                      </NavLink>
-
-                      <NavLink
-                        className={classes.listItemContainer}
-                        activeClassName={classes.activelistItemContainer}
-                        to="/plays" exact
-                        isActive={(match, location) => { return checkIsActive(match, location, index) }}
-                      >
-                        <ListItemText primary={"Plays"} classes={{ primary: classes.listItemText }} />
-                      </NavLink>
-
-                      <NavLink
-                        className={classes.listItemContainer}
-                        activeClassName={classes.activelistItemContainer}
-                        to="/streamreader" exact
-                        isActive={(match, location) => { return checkIsActive(match, location, index) }}
-                      >
-                        <ListItemText primary={"StreamReader"} classes={{ primary: classes.listItemText }} />
-                      </NavLink>
-                    </div>
-                  )
-                }
-              </div>);
-          } else {
-            return (
-              <NavLink
-                key={index}
-                className={classes.listItemContainer}
-                activeClassName={classes.activelistItemContainer}
-                to={data?.link}
-                exact
-                isActive={(match, location) => { return checkIsActive(match, location, index) }}
-              >
-                <img src={newActiveLink === index ? sonickeyTeal : sonickeyGrey} alt="key" className={classes.keyImage} />
-                <ListItemText primary={data?.linkText} classes={{ primary: classes.listItemText }} />
-              </NavLink>
-            )
-          }
+  const getChildItemInArray = () => {
+    let childArray = []
+    for (let index = 0; index < routeList.length; index++) {
+      const item = routeList[index];
+      if (item?.children) {
+        item?.children?.map((child) => {
+          childArray.push(child?.link)
         })
       }
-    </List>
+    }
+    return childArray
+  }
+
+  return (
+    <>
+      <Grid className={classes.toggleButton} onClick={() => setState({ ...state, menuToggled: !state.menuToggled })}>
+        <MenuOpenIcon className={classes.menuIcon} /><br />
+        {!state.menuToggled && <span className={classes.showMenu}>Show<br />menu</span>}
+      </Grid>
+
+      {
+        state.menuToggled &&
+        <List className={classes.listContainer}>
+          {
+            routeList?.map((data, index) => {
+              //For handling children navigation
+              if (data?.children) {
+                return (
+                  <div key={index} >
+                    <NavLink
+                      className={classes.listItemContainer}
+                      to={data?.children?.[0]?.link}
+                      onClick={() => {
+                        dispatch({ type: actionTypes.SET_SIDEBAR, data: !session?.sidebar });
+                        checkIsActive(true, "", index)
+                      }}
+                      style={{ justifyContent: "flex-start", paddingBottom: 5 }}
+                    >
+                      <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                        <img src={newActiveLink === index ? sonickeyTeal : sonickeyGrey} alt="key" className={classes.keyImage} />
+                        <ListItemText primary={data?.linkText} classes={{ primary: newActiveLink === index ? classes?.activelistItemContainer : classes.listItemText }} />
+
+                        {
+                          session?.sidebar ?
+                            <ArrowDropUpIcon style={{ color: newActiveLink === index ? "#00A19A" : "#757575" }} /> :
+                            <ArrowDropDownIcon style={{ color: newActiveLink === index ? "#00A19A" : "#757575" }} />
+                        }
+                      </div>
+                    </NavLink>
+
+                    <div style={{ paddingBottom: 10 }}>
+                      {
+                        session?.sidebar && data?.children?.map((childData) => {
+                          return (
+                            <NavLink
+                              className={classes.childListItemContainer}
+                              activeClassName={classes.activeChildListItemContainer}
+                              to={childData?.link}
+                              exact
+                              isActive={(match, location) => checkIsActive(match, location, index)}
+                            >
+                              <ListItemText primary={childData?.linkText} classes={{ primary: classes.listItemText }} />
+                            </NavLink>
+                          )
+                        })
+                      }
+                    </div>
+                  </div>
+                )
+              }
+              return (
+                <NavLink
+                  key={index}
+                  className={classes.listItemContainer}
+                  activeClassName={classes.activelistItemContainer}
+                  to={data?.link}
+                  exact
+                  isActive={(match, location) => checkIsActive(match, location, index)}
+                >
+                  <img src={newActiveLink === index ? sonickeyTeal : sonickeyGrey} alt="key" className={classes.keyImage} />
+                  <ListItemText primary={data?.linkText} classes={{ primary: classes.listItemText }} />
+                </NavLink>
+              )
+            })
+          }
+        </List>
+      }
+    </>
   );
 }

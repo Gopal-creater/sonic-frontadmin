@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid } from '@material-ui/core';
+import { Grid, MenuItem, Popover } from '@material-ui/core';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { CustomDate } from './components/CustomDate';
@@ -33,6 +33,11 @@ const Image = styled.img`
 `;
 
 export default function FilterComponent(props) {
+    const [state, setState] = React.useState({
+        anchorEl: null
+    })
+    const open = Boolean(state.anchorEl);
+
     return (
         <Container>
             <Grid container className="filter-dates">
@@ -76,29 +81,29 @@ export default function FilterComponent(props) {
                         Filter
                     </span>
                 </FilterExport>
-                <FilterExport>
+                <FilterExport onClick={(e) => setState({ ...state, anchorEl: e.currentTarget })}>
                     <Image src={Download} alt='Export' />
                     <span style={{ fontSize: theme.fontSize.h4, fontFamily: theme.fontFamily.nunitoSansBold, color: theme.colors.primary.navy }}>
                         Export
                     </span>
-                    {/* <Popover
-                        anchorEl={anchorEl}
-                        open={open}
-                        onClose={() => setAnchorEl(null)}
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'Center',
-                        }}
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'Center',
-                        }}
-                    >
-                        <MenuItem style={{minWidth: "90px"}} onClick={() => handleExport("csv")} value="csv">
-                            CSV
-                        </MenuItem>
-                    </Popover> */}
                 </FilterExport>
+                <Popover
+                    anchorEl={state.anchorEl}
+                    open={open}
+                    onClose={() => setState({ ...state, anchorEl: null })}
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'Center',
+                    }}
+                    transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'Center',
+                    }}
+                >
+                    <MenuItem style={{ minWidth: "90px" }} value="csv">
+                        CSV
+                    </MenuItem>
+                </Popover>
             </Grid>
         </Container>
     );

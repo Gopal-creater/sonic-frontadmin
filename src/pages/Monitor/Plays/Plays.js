@@ -15,7 +15,8 @@ import { getExportDataAction } from '../../../stores/actions/dashboard.action';
 import { H1, H4 } from '../../../StyledComponents/StyledHeadings';
 import theme from '../../../theme';
 import FilterComponent from '../../../components/common/FilterComponent/FilterComponent';
-
+import Search from '../../SonicKeys/Components/Search';
+import viewFilter from '../../../assets/images/view.png'
 
 export default function Plays() {
     const [values, setValues] = React.useState({
@@ -69,46 +70,19 @@ export default function Plays() {
                         Showing 1-10 of 42 plays
                     </H4>
                 </Grid>
-                {/* <Grid>
-                    <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-                        <Tooltip title="Export">
-                            <Button
-                                style={{
-                                    borderBottom: "1px solid #949494",
-                                    borderRadius: "0px"
-                                }}
-                                onClick={dataExportHandleClick}
-                                size="small"
-                                endIcon={<ExportIcon />}
-                            >
-                                Export
-                            </Button>
-                        </Tooltip>
-                    </Box>
-                    <Popover
-                        anchorEl={anchorEl}
-                        open={open}
-                        onClose={() => setAnchorEl(null)}
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'Center',
-                        }}
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'Center',
-                        }}
-                    >
-                        <MenuItem
-                            style={{
-                                minWidth: "90px",
-                            }}
-                            onClick={() => handleExport("csv")}
-                            value="csv"
-                        >
-                            CSV
-                        </MenuItem>
-                    </Popover>
-                </Grid> */}
+                <Grid style={{ display: 'flex', justifyContent: 'center' }}>
+                    <div style={{ marginRight: '10px' }} >
+                        <Search
+                        // searchData={onSearchChange} 
+                        // dataSearch={dataSearch} 
+                        // setDataSearch={setDataSearch} 
+                        // setDefaultData={setDefaultData}
+                        />
+                    </div>
+                    <div>
+                        <img src={viewFilter} style={{ cursor: 'pointer' }} />
+                    </div>
+                </Grid>
             </Grid>
 
             <Grid>

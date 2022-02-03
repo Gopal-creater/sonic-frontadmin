@@ -89,7 +89,7 @@ export default function Sidebar() {
   const [newActiveLink, setNewActiveLink] = React.useState(null);
 
   const [state, setState] = React.useState({
-    menuToggled: false
+    menuToggled: true
   })
 
   React.useEffect(() => {

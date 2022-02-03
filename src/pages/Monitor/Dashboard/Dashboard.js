@@ -104,13 +104,13 @@ export function Dashboard() {
         </Grid>
       </Grid>
 
-      <Grid style={{ backgroundColor: "white", marginTop: "30px", padding: "45px" }}>
+      {/* <Grid style={{ backgroundColor: "white", marginTop: "30px", padding: "45px" }}>
         <H3>10 Most Recent Plays</H3>
         <DashboardTable
           headers={tableHeaders}
           minCellWidth={140}
         />
-      </Grid>
+      </Grid> */}
 
       {/* {values?.sonicKeyModal && (
         <MetaDataDialog

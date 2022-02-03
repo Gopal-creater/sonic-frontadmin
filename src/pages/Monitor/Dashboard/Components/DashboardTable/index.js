@@ -1,7 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import React from 'react';
 import "./styles.css";
-import { log } from '../../../../../utils/app.debug';
 import { ResizableTable, TableWrapper } from './StyleTable';
 
 const createHeaders = (headers) => {
@@ -73,8 +72,6 @@ export default function DashboardTable({ headers, minCellWidth }) {
                                 left: 0,
                                 zIndex: 88,
                                 backgroundColor: "white",
-                                borderTop: "2px solid black",
-                                borderLeft: "2px solid black"
                             }}
                         >
                             <span>{columns[0]?.text}</span>
@@ -86,8 +83,6 @@ export default function DashboardTable({ headers, minCellWidth }) {
                                 left: 0,
                                 zIndex: 88,
                                 backgroundColor: "white",
-                                borderTop: "2px solid black",
-                                borderRight: "2px solid black"
                             }}
                         >
                             <span>{columns[1]?.text}</span>
@@ -113,11 +108,11 @@ export default function DashboardTable({ headers, minCellWidth }) {
                 <tbody>
                     <tr>
                         <td style={{
-                            position: "sticky", left: 0, zIndex: 88, backgroundColor: "white", borderLeft: "2px solid black"
+                            position: "sticky", left: 0, zIndex: 88, backgroundColor: "white",
                         }}>
                             <span>Large Detroit Style Pizza</span>
                         </td>
-                        <td style={{ borderRight: "2px solid black" }}>
+                        <td >
                             <span>3213456785</span>
                         </td>
                         <td>
@@ -136,13 +131,13 @@ export default function DashboardTable({ headers, minCellWidth }) {
                             left: 0,
                             zIndex: 88,
                             backgroundColor: "white",
-                            borderLeft: "2px solid black"
+
                         }}>
                             <span>
                                 Double Decker Club With Fries. Pickles, extra side avacado
                             </span>
                         </td>
-                        <td style={{ borderRight: "2px solid black" }}>
+                        <td >
                             <span>9874563245</span>
                         </td>
                         <td>
@@ -157,12 +152,11 @@ export default function DashboardTable({ headers, minCellWidth }) {
                     </tr>
                     <tr >
                         <td style={{
-                            position: "sticky", left: 0, zIndex: 88, backgroundColor: "white", borderLeft: "2px solid black",
-                            borderBottom: "2px solid black"
+                            position: "sticky", left: 0, zIndex: 88, backgroundColor: "white",
                         }}>
                             <span>Family Sized Lobster Dinner</span>
                         </td>
-                        <td style={{ borderRight: "2px solid black", borderBottom: "2px solid black" }}>
+                        <td >
                             <span>3456781234</span>
                         </td>
                         <td>

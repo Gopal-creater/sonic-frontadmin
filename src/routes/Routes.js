@@ -3,7 +3,6 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import AppLayout from "../components/common/AppLayout";
 import Encode from "../pages/Encode/Encode";
 import Decode from "../pages/Decode/Decode";
-import SonicStreamReader from "../pages/Monitor/SonicStreamReader";
 import StreamReader from "../pages/Monitor/StreamReader/StreamReader";
 import Sonickeys from "../pages/SonicKeys/SonicKeys";
 import Licences from "../pages/Licences/Licences";
@@ -11,6 +10,9 @@ import { SonicStreamDetail } from "../pages/Monitor/SonicStreamDetail";
 import { SonicStreamPlays } from "../pages/Monitor/SonicStreamPlays";
 import { Dashboard } from "../pages/Monitor/Dashboard/Dashboard";
 import Plays from "../pages/Monitor/Plays/Plays";
+import Tracks from "../pages/Monitor/Tracks/Tracks";
+import Artists from "../pages/Monitor/Artists/Artists";
+import Countries from "../pages/Monitor/Countries/Countries";
 
 export default function Routes() {
   return (
@@ -27,6 +29,10 @@ export default function Routes() {
           <Route path="/sonicstreamdetail" component={SonicStreamDetail} exact />
           <Route path="/sonicstreamplays" component={SonicStreamPlays} exact />
           <Route path="/plays" component={Plays} exact />
+          <Route path="/tracks" component={Tracks} exact />
+          <Route path="/artists" component={Artists} exact />
+          <Route path="/radio-stations" component={Artists} exact />
+          <Route path="/countries" component={Countries} exact />
         </Switch>
       </div>
     </AppLayout>

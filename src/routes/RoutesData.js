@@ -7,11 +7,11 @@ export const routeList = [
         children: [
             { link: "/dashboard", linkText: "Dashboard" },
             { link: "/plays", linkText: "My Plays" },
-            { link: "/plays", linkText: "My Tracks" },
-            { link: "/plays", linkText: "Artists" },
-            { link: "/plays", linkText: "Radio Stations" },
-            { link: "/plays", linkText: "Countries" },
-            { link: "/streamreader", linkText: "StreamReader" }
+            { link: "/tracks", linkText: "My Tracks" },
+            { link: "/artists", linkText: "Artists" },
+            { link: "/radio-stations", linkText: "Radio Stations" },
+            { link: "/countries", linkText: "Countries" },
+            { link: "/streamreader", linkText: "StreamReader" },
         ]
     },
     { link: "/sonic-keys", linkText: "SonicKeys" },

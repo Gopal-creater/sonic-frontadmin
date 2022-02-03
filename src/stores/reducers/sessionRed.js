@@ -5,7 +5,7 @@ const initialState = {
   user: null,
   loading: true,
   resetPassword: false,
-  sidebar: false
+  sidebar: false,
 };
 const sessionRed = (state = initialState, action) =>
   produce(state, (draft) => {

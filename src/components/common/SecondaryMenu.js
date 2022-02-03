@@ -1,4 +1,5 @@
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import ArrowDropUpOutlinedIcon from '@material-ui/icons/ArrowDropUpOutlined';
 import React from "react";
 import Button from "@material-ui/core/Button";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
@@ -25,19 +26,25 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "NunitoSans-Black",
     margin: "0px",
     padding: "0px",
-    color: "white",
+    color: "#757575 !important",
     "&:focus": {
       outline: "none",
     },
     "&:hover": {
       backgroundColor: "white",
+      color: "#7078A8 !important"
     }
   },
   menuItem: {
     color: "#757575",
     fontFamily: "NunitoSans-Regular",
+    margin: "0px",
+    padding: "0px",
+    paddingRight: "30px",
+    borderBottom: "1px solid #F4F4F4",
     "&:hover": {
-      color: "#7078A8"
+      color: "#7078A8",
+      backgroundColor: "white",
     }
   }
 }));
@@ -45,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
 function SecondaryMenu(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [arrowIcon, setArrowIcon] = React.useState(false)
   const anchorRef = React.useRef(null);
   const dispatch = useDispatch();
 
@@ -121,15 +129,18 @@ function SecondaryMenu(props) {
                 placement === "bottom" ? "center top" : "center bottom",
             }}
           >
-            <Paper style={{ minWidth: "110px" }}>
+            <Paper style={{ minWidth: "110px", borderRadius: "0px", boxShadow: "none", border: "1px solid #E0E0E0" }}>
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList
+                  // style={{ backgroundColor: "green" }}
                   autoFocusItem={open}
                   id="menu-list-grow"
                   onKeyDown={handleListKeyDown}
                 >
-                  <MenuItem onClick={handleClose} className={classes.menuItem}>Profile</MenuItem>
-                  <MenuItem onClick={onPressLogout} className={classes.menuItem}>Logout</MenuItem>
+                  <div style={{ margin: "10px 15px 10px 20px" }}>
+                    <MenuItem onClick={handleClose} className={classes.menuItem}>Profile</MenuItem>
+                    <MenuItem onClick={onPressLogout} className={classes.menuItem}>Logout</MenuItem>
+                  </div>
                 </MenuList>
               </ClickAwayListener>
             </Paper>

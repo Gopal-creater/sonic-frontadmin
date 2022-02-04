@@ -1406,23 +1406,13 @@ export const countries = [
 ];
 
 export const playsTableHeads = [
-  "SonicKey",
-  "Radio Station",
-  "Date",
-  "Time",
-  "Duration",
-  "Original Filename",
-  "Artist",
-  "Country"
+  "SonicKey", "Radio Station", "Date", "Time", "Duration", "Original Filename", "Artist", "Country"
 ]
 
 export const streamReaderTableHeads = [
-  "ID",
-  "LOGO",
-  "RADIO NAME",
-  "RADIO URL",
-  "ADDED DATE",
-  "PLAYS",
-  "STATUS",
-  "ACTION",
+  "ID", "LOGO", "RADIO NAME", "RADIO URL", "ADDED DATE", "PLAYS", "STATUS", "ACTION",
 ];
+
+export const dashboardPlaysTableHeads = [
+  "ARTIST", "TITLE", "RADIO STATION", "DATE", "TIME", "DURATION", "COUNTRY", "SONICKEY", "ISRC"
+]

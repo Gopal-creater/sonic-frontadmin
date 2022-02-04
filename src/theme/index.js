@@ -12,7 +12,8 @@ const theme = {
       disabled: "#E0E0E0",
       grey: "#757575",
       mediumGrey: "#ACACAC",
-      lightGrey: "#F4F4F4"
+      lightGrey: "#F4F4F4",
+      error: "#DF165D"
     }
   },
   fontSize: {

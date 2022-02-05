@@ -13,7 +13,8 @@ const theme = {
       grey: "#757575",
       mediumGrey: "#ACACAC",
       lightGrey: "#F4F4F4",
-      error: "#DF165D"
+      error: "#DF165D",
+      tableColor: "#FBFBFB"
     }
   },
   fontSize: {
@@ -21,7 +22,8 @@ const theme = {
     h2: "26px",
     h3: "22px",
     h4: "18px",
-    h5: "14px"
+    h5: "14px",
+    h6: "11px"
   },
   fontFamily: {
     nunitoSansBlack: "NunitoSans-Black",

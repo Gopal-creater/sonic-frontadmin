@@ -96,7 +96,7 @@ export default function DashboardTable() {
                 </StyledTableHead>
                 <StyledTableBody>
                     {rows.map((row, index) => {
-                        if (index % 2 === 0) {
+                        if (index % 2 !== 0) {
                             return (
                                 <StyledTableRow key={row.name}>
                                     <AlternateDataColumn>

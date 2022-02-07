@@ -1,6 +1,6 @@
 import React from 'react';
 import "./Plays.scss";
-import { Grid, TableContainer, TableHead, TableRow, Table, TableBody, TableCell, Button, Popover, Tooltip, Box, MenuItem } from '@material-ui/core';
+import { Grid, TableContainer, TableHead, TableRow, Table, TableBody, TableCell, Tooltip } from '@material-ui/core';
 import { tableStyle } from '../../../globalStyle';
 import { Pagination } from '@material-ui/lab';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,23 +10,20 @@ import { playsTableHeads } from '../../../constants/constants';
 import { getPlaysListsAction, getAllRadioStationsAction, getSonickeyHistoryDataAction } from '../../../stores/actions/playsList';
 import MetaDataDialog from '../../../components/common/MetaDataDialog';
 import * as actionTypes from "../../../stores/actions/actionTypes";
-import ExportIcon from '@material-ui/icons/GetApp';
 import { getExportDataAction } from '../../../stores/actions/dashboard.action';
 import { H1, H4 } from '../../../StyledComponents/StyledHeadings';
 import theme from '../../../theme';
 import FilterComponent from '../../../components/common/FilterComponent/FilterComponent';
 import Search from '../../SonicKeys/Components/Search';
 import viewFilter from '../../../assets/images/view.png'
+import PlaysFilter from './components/PlaysFilter';
 
 export default function Plays() {
     const [values, setValues] = React.useState({
-        anchorFilter: false,
         sonicKeyModal: false,
         selectedSonicKey: {},
         format: "",
     })
-    const openFilter = Boolean(values.anchorFilter);
-
     const dispatch = useDispatch();
     const playsList = useSelector(state => state.playsList)
 
@@ -44,21 +41,24 @@ export default function Plays() {
         dispatch(getAllRadioStationsAction())
     }, [])
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
-
-    const dataExportHandleClick = (event) => {
-        setAnchorEl(event.currentTarget)
-    };
-
     const handleExport = (value) => {
         setValues({ ...values, format: value })
         if (playsList?.filters?.sonicKey) {
-            dispatch(getSonickeyHistoryDataAction(playsList?.dates?.startDate, playsList?.dates?.endDate, playsList?.filters?.channel, value))
+            dispatch(getSonickeyHistoryDataAction(
+                playsList?.dates?.startDate,
+                playsList?.dates?.endDate,
+                playsList?.filters?.channel,
+                value
+            ))
         } else {
-            dispatch(getExportDataAction(playsList?.dates?.startDate, playsList?.dates?.endDate, playsList?.filters?.channel, 2000, value))
+            dispatch(getExportDataAction(
+                playsList?.dates?.startDate,
+                playsList?.dates?.endDate,
+                playsList?.filters?.channel,
+                2000,
+                value
+            ))
         }
-        setAnchorEl(null);
     };
 
     return (
@@ -91,6 +91,8 @@ export default function Plays() {
                     onChangeStartDate={(date) => dispatch({ type: actionTypes.SET_PLAYS_DATES, data: { ...playsList.dates, startDate: date } })}
                     endDate={playsList?.dates?.endDate}
                     onChangeEndDate={(date) => dispatch({ type: actionTypes.SET_PLAYS_DATES, data: { ...playsList.dates, endDate: date } })}
+                    filterComponent={<PlaysFilter open={true} />}
+                    exportData={(value) => handleExport(value)}
                 />
             </Grid>
 

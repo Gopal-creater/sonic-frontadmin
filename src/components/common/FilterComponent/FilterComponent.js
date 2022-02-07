@@ -5,103 +5,108 @@ import "react-datepicker/dist/react-datepicker.css";
 import { CustomDate } from './components/CustomDate';
 import { H5 } from '../../../StyledComponents/StyledHeadings';
 import theme from '../../../theme';
-import styled from 'styled-components';
-import Download from '../../../assets/images/iconDownloadSvg.svg'
-
-const Container = styled.div`
-    background-color: white;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    margin-top: 30px;
-    margin-bottom: 30px;
-    padding: 20px 25px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-`;
-
-const FilterExport = styled.div`
-    display: flex;
-    align-items: center;
-    margin-left: 40px;
-    cursor: pointer;
-`;
-
-const Image = styled.img`
-    width: 25px;
-    height: 25px;
-    margin-right: 10px;
-`;
+import Download from '../../../assets/images/iconDownloadSvg.svg';
+import FilterDialog from './components/FilterDialog';
+import { Container, ContainerItem, FilterExport, Image } from './Filter.styled';
+import TimezoneSelect from "react-timezone-select";
+import { log } from '../../../utils/app.debug';
+import "./DatePicker.css";
 
 export default function FilterComponent(props) {
+    const { filterComponent, openFilter = true, exportData } = props;
     const [state, setState] = React.useState({
-        anchorEl: null
+        exportAnchorEl: null,
     })
-    const open = Boolean(state.anchorEl);
+    const openExport = Boolean(state.exportAnchorEl);
+    const [selectedTimezone, setSelectedTimezone] = React.useState({})
+
+    const handleExportData = (value) => {
+        log("Export File", value)
+        exportData(value);
+    }
 
     return (
-        <Container>
-            <Grid container className="filter-dates">
-                <Grid item>
+        <Container container spacing={1}>
+            <ContainerItem item>
+                <Grid>
                     <DatePicker
+                        wrapperClassName='date-picker'
                         selected={props?.startDate}
                         onChange={props?.onChangeStartDate}
                         customInput={<CustomDate calender="true" />}
                         dateFormat="MMM d,yyyy"
                         title="Start Date"
-                        showYearDropdown
-                        showMonthDropdown
+                        // showYearDropdown
+                        // showMonthDropdown
                         startDate={props?.startDate}
                         endDate={props?.endDate}
                     />
                 </Grid>
 
-                <Grid item className="mt-4 mx-3">
+                <Grid className="mt-4 mx-3">
                     <H5 color={theme.colors.secondary.mediumGrey}>to</H5>
                 </Grid>
 
-                <Grid item>
+                <Grid>
                     <DatePicker
+                        wrapperClassName='date-picker'
                         selected={props?.endDate}
                         onChange={props?.onChangeEndDate}
                         customInput={<CustomDate />}
                         dateFormat="MMM d,yyyy"
                         title="End Date"
-                        showYearDropdown
-                        showMonthDropdown
+                        // showYearDropdown
+                        // showMonthDropdown
                         startDate={props?.startDate}
                         endDate={props?.endDate}
                     />
                 </Grid>
+            </ContainerItem>
+
+            <Grid className="select-wrapper">
+                <TimezoneSelect
+                    value={selectedTimezone}
+                    onChange={setSelectedTimezone}
+                />
             </Grid>
 
-            <Grid style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <FilterExport>
-                    <Image src={Download} alt='Filter' />
-                    <span style={{ fontSize: theme.fontSize.h4, fontFamily: theme.fontFamily.nunitoSansBold, color: theme.colors.primary.navy }}>
-                        Filter
-                    </span>
-                </FilterExport>
-                <FilterExport onClick={(e) => setState({ ...state, anchorEl: e.currentTarget })}>
+            <Grid style={{ display: 'flex', justifyContent: 'flex-end' }} item>
+                <Grid>
+                    {filterComponent && openFilter ? (
+                        <FilterDialog>
+                            {({ close }) => {
+                                var componentInsideDialogMoreProps = React.cloneElement(
+                                    filterComponent,
+                                    { closeDialog: close }
+                                );
+                                return (
+                                    <Grid>
+                                        {componentInsideDialogMoreProps}
+                                    </Grid>
+                                );
+                            }}
+                        </FilterDialog>
+                    ) : null}
+                </Grid>
+                {exportData ? <FilterExport onClick={(e) => setState({ ...state, exportAnchorEl: e.currentTarget })}>
                     <Image src={Download} alt='Export' />
                     <span style={{ fontSize: theme.fontSize.h4, fontFamily: theme.fontFamily.nunitoSansBold, color: theme.colors.primary.navy }}>
                         Export
                     </span>
-                </FilterExport>
+                </FilterExport> : null}
+
                 <Popover
-                    anchorEl={state.anchorEl}
-                    open={open}
-                    onClose={() => setState({ ...state, anchorEl: null })}
-                    anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'Center',
-                    }}
-                    transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'Center',
-                    }}
+                    anchorEl={state.exportAnchorEl}
+                    open={openExport}
+                    onClose={() => setState({ ...state, exportAnchorEl: null })}
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'Center' }}
+                    transformOrigin={{ vertical: 'top', horizontal: 'Center' }}
                 >
-                    <MenuItem style={{ minWidth: "90px" }} value="csv">
-                        CSV
+                    <MenuItem style={{ minWidth: "90px" }} value="csv" onClick={() => handleExportData('csv')}>
+                        .csv file
+                    </MenuItem>
+                    <MenuItem style={{ minWidth: "90px" }} value="xlsx" onClick={() => handleExportData('xlsx')}>
+                        .xlsx file
                     </MenuItem>
                 </Popover>
             </Grid>

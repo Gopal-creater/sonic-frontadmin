@@ -1,15 +1,16 @@
 import React from 'react'
-import { FormControl, Grid, InputLabel, MenuItem, Select, Button, TextField, ListItemText, InputAdornment } from '@material-ui/core'
+import { FormControl, InputLabel, MenuItem, Select, Button, TextField, ListItemText, InputAdornment } from '@material-ui/core'
 import { countries } from '../../../../constants/constants';
-import "./Filter.scss";
 import { useDispatch, useSelector } from 'react-redux';
 import { getPlaysListsAction } from '../../../../stores/actions';
 import * as actionTypes from '../../../../stores/actions/actionTypes';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { CalendarTodayOutlined } from '@material-ui/icons';
+import { CalendarTodayOutlined, CloseOutlined } from '@material-ui/icons';
+import { FilterButton, FilterContainer, FilterHeader, FilterItems } from './PlaysFilter.styled';
+import { H3 } from '../../../../StyledComponents/StyledHeadings';
 
-export default function Filter(props) {
+export default function PlaysFilter({ closeDialog }) {
     const dispatch = useDispatch();
     const plays = useSelector(state => state.playsList);
 
@@ -32,14 +33,21 @@ export default function Filter(props) {
             1,
             10,
         ));
-
-        props?.setClose(false);
+        closeDialog?.();
     }
 
     return (
-        <div className="filter-container">
+        <FilterContainer>
+            <FilterHeader>
+                <div>
+                    <H3>Filter</H3>
+                </div>
+                <div style={{ cursor: 'pointer' }}>
+                    <CloseOutlined onClick={() => closeDialog?.()} />
+                </div>
+            </FilterHeader>
             <form>
-                <Grid className="filter-items">
+                <FilterItems>
                     <FormControl>
                         <InputLabel
                             id="mutiple-channel-label"
@@ -369,9 +377,9 @@ export default function Filter(props) {
                             showMonthDropdown
                         />
                     </FormControl>
-                </Grid>
+                </FilterItems>
 
-                <Grid className="filter-btn" container justifyContent="flex-end">
+                <FilterButton>
                     <Button
                         variant="contained"
                         className="mx-3"
@@ -401,8 +409,8 @@ export default function Filter(props) {
                     >
                         Apply
                     </Button>
-                </Grid>
+                </FilterButton>
             </form>
-        </div>
+        </FilterContainer>
     )
 }

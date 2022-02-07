@@ -6,7 +6,7 @@ export const StyledToolTip = styled(ReactTooltip)`
     max-width: 230px !important;
     margin-top: 1.75rem !important;
     border: 2px solid ${theme.colors.secondary.lightNavy} !important;
-
+    font-family: ${theme.fontFamily.nunitoSansRegular};
     ::after{
         left: 90% !important;
     }

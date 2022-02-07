@@ -24,7 +24,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import Download from './Components/Download';
 import SonicSpinner from '../../components/common/SonicSpinner';
 import { log } from '../../utils/app.debug';
-import CustomPagination from '../../components/common/CustomPagination';
+import CustomPagination from '../../components/common/Pagination/CustomPagination';
+import PaginationCount from '../../components/common/Pagination/PaginationCount';
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -126,18 +127,20 @@ const SonicKeys = (props) => {
     const classes = useStyles();
     const [tableData, setTableData] = React.useState([]);
     const [page, setTotalPage] = React.useState(0);
+    const [initialPageData, setInitialPageData] = useState()
     const [offset, setOffset] = React.useState(0);
     const [defaultData, setDefaultData] = useState(false);
     const [dataSearch, setDataSearch] = React.useState("");
     const [sonicKeys, setSonicKeys] = useState({});
+    const [totalDocs, setTotalDocs] = useState(0)
 
     const firstFetchSonicKey = (_offset = 0, _limit = 10, value = '') => {
         Communication.fetchMySonicKey(_limit, _offset, value).then((res) => {
-            console.log("Data Response", res);
             setTableData(res.docs)
             setTotalPage(res.totalPages)
             setOffset(res.offset)
-
+            setTotalDocs(res.totalDocs)
+            setInitialPageData(res.page)
             setLoading(false);
         }).catch(err => {
         })
@@ -160,7 +163,6 @@ const SonicKeys = (props) => {
 
     const handlePageChange = async (event, value) => {
         const limit = 10;
-        console.log("This is for event", event);
         firstFetchSonicKey(value, limit)
     };
 
@@ -175,7 +177,6 @@ const SonicKeys = (props) => {
     ];
 
     const checkBox = (event, _id) => {
-        console.log(_id, event.target.checked);
         if (event.target.checked) {
             console.log("column1:", event, _id);
             setFilterColumn([...filterColumn, _id]);
@@ -236,7 +237,6 @@ const SonicKeys = (props) => {
                             <FormGroup column>
                                 {columns?.map((col) => {
                                     const isItemSelected = isSelected(col);
-                                    console.log("is item selected:", isItemSelected);
                                     return (
                                         <FormControlLabel
                                             control={<Checkbox
@@ -338,11 +338,18 @@ const SonicKeys = (props) => {
                         />}
 
                     {!loading ?
-                        <CustomPagination
-                            count={page}
-                            page={props?.pageCount}
-                            onChange={handlePageChange}
-                        />
+                        <Grid container justifyContent="space-between" alignItems="center">
+                            <Grid item xs={12} sm={6} md={6}>
+                                <PaginationCount name="SonicKeys" total={totalDocs} start={offset} end={tableData.length} />
+                            </Grid>
+                            <Grid item xs={12} sm={6} md={6}>
+                                <CustomPagination
+                                    count={page}
+                                    page={props?.pageCount}
+                                    onChange={handlePageChange}
+                                />
+                            </Grid>
+                        </Grid>
                         : ""}
 
                 </TableContainer>
@@ -356,6 +363,7 @@ const mapStateToProps = (state) => {
     return {
         sonicKeys: state.sonicKeys,
         totalPage: state.sonicKeys.totalPages,
+        totalDocs: state.sonicKeys.totalDocs,
     };
 };
 

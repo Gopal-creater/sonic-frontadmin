@@ -16,6 +16,10 @@ export const ResizableTable = styled.table`
     minmax(50px, 1fr)
     minmax(50px, 1fr)
     minmax(50px, 1fr)
+    minmax(50px, 1fr)
+    minmax(50px, 1fr)
+    minmax(50px, 1fr)
+    minmax(50px, 1fr)
     minmax(50px, 1fr);
 `
 
@@ -33,7 +37,7 @@ export const StyledTableRow = styled.tr`
 
 export const StyledTableHeadColumn = styled.th`
     position: relative;
-    padding-bottom:15px;
+    padding: 16px 20px 16px 15px;
     color: ${props => props.theme.colors.secondary.mediumGrey};
     font-family:${props => props.theme.fontFamily.nunitoSansRegular};
     font-size:11px;
@@ -45,7 +49,7 @@ export const TableResizer = styled.div`
     cursor: col-resize;
     right: 10px !important;
     top: 0;
-    width: 1px;
+    width: 2px;
     height: 100%;
     z-index: 1;
     &:hover {
@@ -56,15 +60,19 @@ export const TableResizer = styled.div`
     }
 `
 export const TableDataColumn = styled.td`
-    padding-top:15px;
-    padding-bottom:15px;
+    padding: 16px 20px 16px 15px;
     color: ${props => props.theme.colors.secondary.grey};
     font-family:${props => props.theme.fontFamily.nunitoSansBold};
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 `
 export const AlternateDataColumn = styled.td`
-    padding-top:15px;
-    padding-bottom:15px;
+    padding: 16px 20px 16px 15px;
     background-color:${props => props.theme.colors.secondary.tableColor};
     color: ${props => props.theme.colors.secondary.grey};
     font-family:${props => props.theme.fontFamily.nunitoSansBold};
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 `

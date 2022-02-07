@@ -28,7 +28,8 @@ const theme = {
   fontFamily: {
     nunitoSansBlack: "NunitoSans-Black",
     nunitoSansBold: "NunitoSans-Bold",
-    nunitoSansRegular: "NunitoSans-Regular"
+    nunitoSansMediumBold: "NunitoSans-ExtraBold",
+    nunitoSansRegular: "NunitoSans-Regular",
   }
 }
 

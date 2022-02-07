@@ -86,7 +86,9 @@ export function Dashboard() {
           loading={plays?.loading}
           onClickTryAgain={() => { dispatch(getPlaysListsAction(plays?.dates?.startDate, plays?.dates?.endDate, "ALL", 1, 10, false)) }}
         >
-          <DashboardTable />
+          <DashboardTable
+            data={plays?.data?.docs || []}
+          />
         </CommonDataLoadErrorSuccess>
       </Grid>
 

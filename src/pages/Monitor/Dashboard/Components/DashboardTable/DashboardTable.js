@@ -1,10 +1,12 @@
-import { TableCell } from '@material-ui/core';
 import React from 'react';
 import {
     TableWrapper, ResizableTable, StyledTableHead, StyledTableRow,
     StyledTableHeadColumn, StyledTableBody, TableResizer, TableDataColumn, AlternateDataColumn
 } from './TableStyle';
 import { useRef } from "react";
+import { log } from '../../../../../utils/app.debug';
+import { dashboardPlaysTableHeads } from '../../../../../constants/constants';
+import { useTheme } from 'styled-components';
 
 const createHeaders = (headers) => {
     return headers.map((item) => ({
@@ -13,7 +15,9 @@ const createHeaders = (headers) => {
     }));
 };
 
-export default function DashboardTable() {
+export default function DashboardTable({ data }) {
+    log("Dashboard Table Data", data)
+    const theme = useTheme()
     function createData(name, calories, fat, carbs, protein) {
         return { name, calories, fat, carbs, protein };
     }
@@ -32,7 +36,7 @@ export default function DashboardTable() {
     })
 
     const tableElement = useRef(null)
-    const columns = createHeaders(["ARTIST", "TITLE", "RADIO STATION", "DATE", "TIME"])
+    const columns = createHeaders(dashboardPlaysTableHeads)
 
     const mouseMove = React.useCallback(
         (e) => {
@@ -95,29 +99,81 @@ export default function DashboardTable() {
                     </StyledTableRow>
                 </StyledTableHead>
                 <StyledTableBody>
-                    {rows.map((row, index) => {
+                    {data?.map((row, index) => {
                         if (index % 2 !== 0) {
                             return (
-                                <StyledTableRow key={row.name}>
-                                    <AlternateDataColumn>
-                                        {row.name}
+                                <StyledTableRow key={row?.sonicKey?._id}>
+                                    <AlternateDataColumn
+                                        style={{
+                                            color: theme.colors.primary.navy,
+                                            fontSize: theme.fontSize.h4,
+                                            fontFamily: theme.fontFamily.nunitoSansMediumBold
+                                        }}
+                                    >
+                                        {row?.sonicKey?.contentOwner || "---"}
                                     </AlternateDataColumn>
-                                    <AlternateDataColumn>{row.calories}</AlternateDataColumn>
-                                    <AlternateDataColumn>{row.fat}</AlternateDataColumn>
-                                    <AlternateDataColumn>{row.carbs}</AlternateDataColumn>
-                                    <AlternateDataColumn>{row.protein}</AlternateDataColumn>
+                                    <AlternateDataColumn
+                                        style={{
+                                            color: theme.colors.primary.graphite,
+                                            fontSize: theme.fontSize.h4,
+                                            fontFamily: theme.fontFamily.nunitoSansMediumBold
+                                        }}
+                                    >
+                                        {row?.sonicKey?.contentFileName || "---"}
+                                    </AlternateDataColumn>
+                                    <AlternateDataColumn>{row?.sonicKey?.channel || "---"}</AlternateDataColumn>
+                                    <AlternateDataColumn>{row?.sonicKey?.createdAt || "---"}</AlternateDataColumn>
+                                    <AlternateDataColumn>33:44:10</AlternateDataColumn>
+                                    <AlternateDataColumn>{row?.sonicKey?.contentDuration || "---"}</AlternateDataColumn>
+                                    <AlternateDataColumn>United Kingdom</AlternateDataColumn>
+                                    <AlternateDataColumn
+                                        style={{
+                                            color: theme.colors.primary.navy,
+                                            fontSize: theme.fontSize.h5,
+                                            fontFamily: theme.fontFamily.nunitoSansMediumBold
+                                        }}
+                                    >
+                                        {row?.sonicKey?.sonicKey || "---"}
+                                    </AlternateDataColumn>
+                                    <AlternateDataColumn>{row?.sonicKey?.isrcCode || "---"}</AlternateDataColumn>
                                 </StyledTableRow>
                             )
                         }
                         return (
-                            <StyledTableRow key={row.name}>
-                                <TableDataColumn>
-                                    {row.name}
+                            <StyledTableRow key={row?.sonicKey?._id}>
+                                <TableDataColumn
+                                    style={{
+                                        color: theme.colors.primary.navy,
+                                        fontSize: theme.fontSize.h4,
+                                        fontFamily: theme.fontFamily.nunitoSansMediumBold
+                                    }}
+                                >
+                                    {row?.sonicKey?.contentOwner || "---"}
                                 </TableDataColumn>
-                                <TableDataColumn>{row.calories}</TableDataColumn>
-                                <TableDataColumn>{row.fat}</TableDataColumn>
-                                <TableDataColumn>{row.carbs}</TableDataColumn>
-                                <TableDataColumn>{row.protein}</TableDataColumn>
+                                <TableDataColumn
+                                    style={{
+                                        color: theme.colors.primary.graphite,
+                                        fontSize: theme.fontSize.h4,
+                                        fontFamily: theme.fontFamily.nunitoSansMediumBold
+                                    }}
+                                >
+                                    {row?.sonicKey?.contentFileName || "---"}
+                                </TableDataColumn>
+                                <TableDataColumn>{row?.sonicKey?.channel || "---"}</TableDataColumn>
+                                <TableDataColumn>{row?.sonicKey?.createdAt || "---"}</TableDataColumn>
+                                <TableDataColumn>33:44:10</TableDataColumn>
+                                <TableDataColumn>{row?.sonicKey?.contentDuration || "---"}</TableDataColumn>
+                                <TableDataColumn>United Kingdom</TableDataColumn>
+                                <TableDataColumn
+                                    style={{
+                                        color: theme.colors.primary.navy,
+                                        fontSize: theme.fontSize.h5,
+                                        fontFamily: theme.fontFamily.nunitoSansMediumBold
+                                    }}
+                                >
+                                    {row?.sonicKey?.sonicKey || "---"}
+                                </TableDataColumn>
+                                <TableDataColumn>{row?.sonicKey?.isrcCode || "---"}</TableDataColumn>
                             </StyledTableRow>
                         )
                     })}

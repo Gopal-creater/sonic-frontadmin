@@ -1,14 +1,16 @@
 import React from 'react';
+import { useTheme } from 'styled-components';
 // import ReactTooltip from 'react-tooltip';
 import { StyledToolTip } from '../../StyledComponents/StyledToolTip/StyledToolTip';
 
-export default function CustomToolTip({ id, placement, toolTipText, textColor, bgColor, borderColor, ...props }) {
+export default function CustomToolTip({ id, placement, toolTipText, textColor, bgColor, fontFamily, borderColor, ...props }) {
+    const theme = useTheme();
     return (
         <StyledToolTip
             id={id}
             place={placement}
-            textColor={textColor}
-            backgroundColor={bgColor}
+            textColor={textColor || theme.colors.primary.teal}
+            backgroundColor={bgColor || "white"}
             borderColor={borderColor}
             effect='solid'
             overridePosition={(
@@ -21,6 +23,7 @@ export default function CustomToolTip({ id, placement, toolTipText, textColor, b
                 top = Math.max(0, top);
                 return { top, left }
             }}
+            fontFamily={fontFamily || theme.fontFamily.nunitoSansRegular}
         >
             <span>{toolTipText}</span>
         </StyledToolTip>

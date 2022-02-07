@@ -63,7 +63,7 @@ export function Dashboard() {
         />
       </Grid>
 
-      <Grid container spacing={3}>
+      <Grid container spacing={3} xs={12}>
         <Grid item lg={3} sm={6} xs={12} >
           <Stats
             imgSrc={radio}

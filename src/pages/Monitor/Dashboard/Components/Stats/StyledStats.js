@@ -1,6 +1,7 @@
-import { Grid } from "@material-ui/core";
+import { Grid, Tooltip } from "@material-ui/core";
 import styled from "styled-components";
 import theme from "../../../../../theme";
+import ReactTooltip from 'react-tooltip';
 
 export const Title = styled.h3(({ color, fontSize, fontFamily }) => ({
     "color": color || theme.colors.primary.graphite,
@@ -9,6 +10,7 @@ export const Title = styled.h3(({ color, fontSize, fontFamily }) => ({
 }))
 
 export const IconContainer = styled(Grid)`
+position: static;
 width:100%;
 display:flex;
 justify-content:flex-end;

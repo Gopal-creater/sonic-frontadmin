@@ -6,6 +6,8 @@ import FilterComponent from '../../../components/common/FilterComponent/FilterCo
 import { H1, H2, H3, H4 } from '../../../StyledComponents/StyledHeadings';
 import { TrackContainer } from './Styles';
 import TracksTable from './Component/TracksTable';
+import PaginationCount from '../../../components/common/Pagination/PaginationCount';
+import CustomPagination from '../../../components/common/Pagination/CustomPagination';
 
 export default function Tracks() {
     const theme = useTheme()
@@ -23,16 +25,26 @@ export default function Tracks() {
                 <FilterComponent />
             </Grid>
 
-            <Grid>
-                <CommonDataLoadErrorSuccess
-                    error={null}
-                    loading={false}
-                    onClickTryAgain={() => { }}
-                >
-                    <TracksTable />
-                </CommonDataLoadErrorSuccess>
-            </Grid>
+            <CommonDataLoadErrorSuccess
+                error={null}
+                loading={false}
+                onClickTryAgain={() => { }}
+            >
+                <TracksTable />
+            </CommonDataLoadErrorSuccess>
 
+            <Grid container justifyContent="space-between" alignItems="center" style={{ marginTop: "30px" }}>
+                <Grid item xs={12} sm={6} md={8}>
+                    <PaginationCount name="Tracks" total={30} start={1} end={10} />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4}>
+                    <CustomPagination
+                        count={2}
+                        page={20}
+                        onChange={() => { }}
+                    />
+                </Grid>
+            </Grid>
         </TrackContainer>
     );
 }

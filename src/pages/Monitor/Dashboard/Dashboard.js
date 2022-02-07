@@ -1,4 +1,4 @@
-import { Grid } from "@material-ui/core";
+import { Container, Grid } from "@material-ui/core";
 import React from "react";
 import { log } from "../../../utils/app.debug";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,6 +11,7 @@ import { H3 } from "../../../StyledComponents/StyledHeadings";
 import CommonDataLoadErrorSuccess from "../../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess";
 import { getPlaysListsAction } from "../../../stores/actions";
 import DashboardTable from "./Components/DashboardTable/DashboardTable";
+import { CardContainer, TableContainer } from "./DashboardStyles";
 
 export function Dashboard() {
   const dispatch = useDispatch()
@@ -29,57 +30,48 @@ export function Dashboard() {
 
       <WelcomeBack totalRadioStations={956} />
 
-      <Grid>
-        <FilterComponent
-          startDate={plays?.dates?.startDate}
-          onChangeStartDate={(date) => dispatch({ type: actionTypes.SET_PLAYS_DATES, data: { ...plays.dates, startDate: date } })}
-          endDate={plays?.dates?.endDate}
-          onChangeEndDate={(date) => dispatch({ type: actionTypes.SET_PLAYS_DATES, data: { ...plays.dates, endDate: date } })}
+      <FilterComponent
+        startDate={plays?.dates?.startDate}
+        onChangeStartDate={(date) => dispatch({ type: actionTypes.SET_PLAYS_DATES, data: { ...plays.dates, startDate: date } })}
+        endDate={plays?.dates?.endDate}
+        onChangeEndDate={(date) => dispatch({ type: actionTypes.SET_PLAYS_DATES, data: { ...plays.dates, endDate: date } })}
+      />
+
+      <CardContainer >
+        <Stats
+          imgSrc={radio}
+          title={"My Artist"}
+          ownerShipTitle="from"
+          loading={false}
+          data={"37"}
+          error={null}
         />
-      </Grid>
+        <Stats
+          imgSrc={radio}
+          title={"My Artist"}
+          ownerShipTitle="from"
+          loading={false}
+          data={"37"}
+          error={null}
+        />
+        <Stats
+          imgSrc={radio}
+          title={"My Artist"}
+          ownerShipTitle="from"
+          loading={false}
+          data={"37"}
+          error={null} />
+        <Stats
+          imgSrc={radio}
+          title={"My Artist"}
+          ownerShipTitle="from"
+          loading={false}
+          data={"37"}
+          error={null}
+        />
+      </CardContainer>
 
-      <Grid container spacing={3} style={{ width: "100%" }}>
-        <Grid item lg={3} sm={6} xs={12} >
-          <Stats
-            imgSrc={radio}
-            title={"My Artist"}
-            ownerShipTitle="from"
-            loading={false}
-            data={"37"}
-            error={null}
-          />
-        </Grid>
-        <Grid item lg={3} sm={6} xs={12} >
-          <Stats
-            imgSrc={radio}
-            title={"My Artist"}
-            ownerShipTitle="from"
-            loading={false}
-            data={"37"}
-            error={null}
-          />        </Grid>
-        <Grid item lg={3} sm={6} xs={12} >
-          <Stats
-            imgSrc={radio}
-            title={"My Artist"}
-            ownerShipTitle="from"
-            loading={false}
-            data={"37"}
-            error={null}
-          />        </Grid>
-        <Grid item lg={3} sm={6} xs={12}>
-          <Stats
-            imgSrc={radio}
-            title={"My Artist"}
-            ownerShipTitle="from"
-            loading={false}
-            data={"37"}
-            error={null}
-          />
-        </Grid>
-      </Grid>
-
-      <Grid style={{ backgroundColor: "white", marginTop: "30px", padding: "45px" }}>
+      <TableContainer>
         <H3>10 Most Recent Plays</H3>
         <CommonDataLoadErrorSuccess
           error={plays?.error}
@@ -90,7 +82,7 @@ export function Dashboard() {
             data={plays?.data?.docs || []}
           />
         </CommonDataLoadErrorSuccess>
-      </Grid>
+      </TableContainer>
 
       {/* {values?.sonicKeyModal && (
         <MetaDataDialog

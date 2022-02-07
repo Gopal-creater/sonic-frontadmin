@@ -31,6 +31,12 @@ export const H5 = styled.h5(({ color, fontSize, fontFamily }) => ({
     "font-family": fontFamily || theme.fontFamily.nunitoSansBold
 }))
 
+export const H6 = styled.h6(({ color, fontSize, fontFamily }) => ({
+    "color": color || theme.colors.primary.graphite,
+    "font-size": fontSize || theme.fontSize.h6,
+    "font-family": fontFamily || theme.fontFamily.nunitoSansBold
+}))
+
 export const Span = styled.span(({ color, fontFamily, fontSize, align }) => ({
     "color": color,
     "font-size": fontSize,

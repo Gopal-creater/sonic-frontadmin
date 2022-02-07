@@ -1,16 +1,27 @@
 import React from 'react'
+import styled, { useTheme } from 'styled-components'
+import { H5, H6 } from '../../StyledComponents/StyledHeadings'
+
+const FooterContainer = styled.div`
+  padding: 5;
+`
 
 export default function Footer() {
+  const theme = useTheme()
   return (
-    <div
-      style={{ padding: 5 }}
-    >
-      <span style={{ fontSize: "small", color: "#ACACAC", fontFamily: "NunitoSans-Regular", fontWeight: 500 }}>
-        <span>&#169;</span> {new Date().getFullYear()} SonicData Ltd. All rights reserved.
-      </span><br />
-      <span style={{ fontSize: "small", color: "#757575", fontFamily: "NunitoSans-Regular", fontWeight: "bold" }}>
-        SonicKey<sup>TM</sup>, Returning value to the artist and rights holder.
-      </span>
-    </div>
+    <FooterContainer>
+      <H6
+        fontFamily={theme.fontFamily.nunitoSansBold}
+        color={theme.colors.secondary.mediumGrey}
+      >
+        <span>&#169;</span>{new Date().getFullYear()} SonicData Ltd. All rights reserved.
+      </H6>
+      <H6
+        fontFamily={theme.fontFamily.nunitoSansBlack}
+        color={theme.colors.secondary.grey}
+      >
+        SonicKeyTM, Returning value to the artist and rights holder.
+      </H6>
+    </FooterContainer>
   )
 }

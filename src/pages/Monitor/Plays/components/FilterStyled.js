@@ -8,7 +8,6 @@ export const FilterContainer = styled(Grid)`
 export const FilterHeader = styled(Grid)`
     display: flex;
     justify-content: space-between;
-    /* align-items: center; */
     padding: 0px 20px 30px 20px;
 `
 
@@ -23,7 +22,7 @@ export const FilterItems = styled(Grid)`
 
 export const FilterButton = styled(Grid)`
     padding-right: 30px;
-    margin-top: 20px;
+    margin-top: 50px;
     display: flex;
     justify-content: flex-end;
 `

@@ -11,11 +11,9 @@ import { getPlaysListsAction, getAllRadioStationsAction, getSonickeyHistoryDataA
 import MetaDataDialog from '../../../components/common/MetaDataDialog';
 import * as actionTypes from "../../../stores/actions/actionTypes";
 import { getExportDataAction } from '../../../stores/actions/dashboard.action';
-import { H1, H4 } from '../../../StyledComponents/StyledHeadings';
-import theme from '../../../theme';
+import { H1 } from '../../../StyledComponents/StyledHeadings';
 import FilterComponent from '../../../components/common/FilterComponent/FilterComponent';
-import Search from '../../SonicKeys/Components/Search';
-import viewFilter from '../../../assets/images/view.png'
+import PaginationCount from '../../../components/common/Pagination/PaginationCount';
 import PlaysFilter from './components/PlaysFilter';
 
 export default function Plays() {
@@ -66,22 +64,16 @@ export default function Plays() {
             <Grid container justifyContent="space-between" className="plays-title-container">
                 <Grid>
                     <H1>My Plays</H1>
-                    <H4 color={theme.colors.primary.teal} fontFamily={theme.fontFamily.nunitoSansRegular}>
+                    {/* <H4 color={theme.colors.primary.teal} fontFamily={theme.fontFamily.nunitoSansRegular}>
                         Showing 1-10 of 42 plays
-                    </H4>
-                </Grid>
-                <Grid style={{ display: 'flex', justifyContent: 'center' }}>
-                    <div style={{ marginRight: '10px' }} >
-                        <Search
-                        // searchData={onSearchChange} 
-                        // dataSearch={dataSearch} 
-                        // setDataSearch={setDataSearch} 
-                        // setDefaultData={setDefaultData}
-                        />
-                    </div>
-                    <div>
-                        <img src={viewFilter} style={{ cursor: 'pointer' }} />
-                    </div>
+                    </H4> */}
+                    <PaginationCount
+                        heading={true}
+                        name="plays"
+                        start={playsList?.data?.offset}
+                        end={playsList?.data?.docs?.length}
+                        total={playsList?.data?.totalDocs}
+                    />
                 </Grid>
             </Grid>
 

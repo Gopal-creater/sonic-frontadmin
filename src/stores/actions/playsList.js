@@ -43,10 +43,15 @@ export const getPlaysListsAction = (startDate, endDate, channel, page, limit, re
     if (playsFilters?.distributor) {
         params.append("relation_sonicKey.distributor", playsFilters?.distributor);
     }
-    if (playsFilters?.encodedDate) {
-        let startOfEncodedDate = moment(playsFilters?.encodedDate).startOf("days").toISOString()
+    if (playsFilters?.encodedStartDate) {
+        let startOfEncodedDate = moment(playsFilters?.encodedStartDate).startOf("days").toISOString()
         params.append(`relation_sonicKey.createdAt>`, `date(${startOfEncodedDate})`)
-        params.append(`relation_sonicKey.createdAt<`, `date(${moment(playsFilters?.encodedDate).endOf("days").toISOString()})`)
+        if (playsFilters?.encodedEndDate) {
+            let endOfEncodedDate = moment(playsFilters?.encodedEndDate).endOf("days").toISOString()
+            params.append(`relation_sonicKey.createdAt<`, `date(${endOfEncodedDate})`)
+        } else {
+            params.append(`relation_sonicKey.createdAt<`, `date(${moment(playsFilters?.encodedStartDate).endOf("days").toISOString()})`)
+        }
     }
 
     return dispatch => {
@@ -95,10 +100,15 @@ export const getSonickeyHistoryDataAction = (startDate, endDate, channel, format
     if (playsFilters?.distributor) {
         params.append("relation_sonicKey.distributor", playsFilters?.distributor);
     }
-    if (playsFilters?.encodedDate) {
-        let startOfEncodedDate = moment(playsFilters?.encodedDate).startOf("days").toISOString()
+    if (playsFilters?.encodedStartDate) {
+        let startOfEncodedDate = moment(playsFilters?.encodedStartDate).startOf("days").toISOString()
         params.append(`relation_sonicKey.createdAt>`, `date(${startOfEncodedDate})`)
-        params.append(`relation_sonicKey.createdAt<`, `date(${moment(playsFilters?.encodedDate).endOf("days").toISOString()})`)
+        if (playsFilters?.encodedEndDate) {
+            let endOfEncodedDate = moment(playsFilters?.encodedEndDate).endOf("days").toISOString()
+            params.append(`relation_sonicKey.createdAt<`, `date(${endOfEncodedDate})`)
+        } else {
+            params.append(`relation_sonicKey.createdAt<`, `date(${moment(playsFilters?.encodedStartDate).endOf("days").toISOString()})`)
+        }
     }
 
     return dispatch => {

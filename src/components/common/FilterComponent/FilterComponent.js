@@ -1,16 +1,14 @@
 import React from 'react';
-import { Grid, MenuItem, Popover } from '@material-ui/core';
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { CustomDate } from './components/CustomDate';
+import { Grid, InputLabel, Select } from '@material-ui/core';
 import { H5 } from '../../../StyledComponents/StyledHeadings';
 import theme from '../../../theme';
-import Download from '../../../assets/images/iconDownloadSvg.svg';
 import FilterDialog from './components/FilterDialog';
-import { Container, ContainerItem, FilterExport, Image } from './Filter.styled';
+import { Container, ContainerItem, CustomMenuItem, CustomPopup, FilterExport } from './Filter.styled';
 import TimezoneSelect from "react-timezone-select";
 import { log } from '../../../utils/app.debug';
-import "./DatePicker.css";
+import CustomDatePicker from './components/CustomDatePicker';
+import AppButton from '../AppButton/AppButton';
+import { ArrowDownward } from '@material-ui/icons';
 
 export default function FilterComponent(props) {
     const { filterComponent, openFilter = true, exportData } = props;
@@ -29,15 +27,12 @@ export default function FilterComponent(props) {
         <Container container spacing={1}>
             <ContainerItem item>
                 <Grid>
-                    <DatePicker
-                        wrapperClassName='date-picker'
+                    <CustomDatePicker
                         selected={props?.startDate}
                         onChange={props?.onChangeStartDate}
-                        customInput={<CustomDate calender="true" />}
+                        calender={true}
                         dateFormat="MMM d,yyyy"
                         title="Start Date"
-                        // showYearDropdown
-                        // showMonthDropdown
                         startDate={props?.startDate}
                         endDate={props?.endDate}
                     />
@@ -48,15 +43,11 @@ export default function FilterComponent(props) {
                 </Grid>
 
                 <Grid>
-                    <DatePicker
-                        wrapperClassName='date-picker'
+                    <CustomDatePicker
                         selected={props?.endDate}
                         onChange={props?.onChangeEndDate}
-                        customInput={<CustomDate />}
                         dateFormat="MMM d,yyyy"
                         title="End Date"
-                        // showYearDropdown
-                        // showMonthDropdown
                         startDate={props?.startDate}
                         endDate={props?.endDate}
                     />
@@ -64,10 +55,38 @@ export default function FilterComponent(props) {
             </ContainerItem>
 
             <Grid className="select-wrapper">
-                <TimezoneSelect
+                {/* <InputLabel
+                    id="mutiple-channel-label"
+                    style={{
+                        paddingLeft: 30,
+                        color: "#757575",
+                        fontFamily: "NunitoSans-Bold",
+                        fontSize: 12
+                    }}
+                >
+                    Channel
+                </InputLabel> */}
+                {/* <Select
+                    id="channel-drop-down"
+                    className="form-control"
                     value={selectedTimezone}
                     onChange={setSelectedTimezone}
-                />
+                    autoWidth={false}
+                    style={{
+                        color: "#757575",
+                        backgroundColor: "transparent",
+                        outline: "none",
+                        border: "none",
+                        boxShadow: "none",
+                        margin: "10px 30px 0px 20px",
+                        width: 220,
+                    }}
+                > */}
+                {/* <TimezoneSelect
+                    value={selectedTimezone}
+                    onChange={setSelectedTimezone}
+                /> */}
+                {/* </Select> */}
             </Grid>
 
             <Grid style={{ display: 'flex', justifyContent: 'flex-end' }} item>
@@ -89,26 +108,29 @@ export default function FilterComponent(props) {
                     ) : null}
                 </Grid>
                 {exportData ? <FilterExport onClick={(e) => setState({ ...state, exportAnchorEl: e.currentTarget })}>
-                    <Image src={Download} alt='Export' />
-                    <span style={{ fontSize: theme.fontSize.h4, fontFamily: theme.fontFamily.nunitoSansBold, color: theme.colors.primary.navy }}>
+                    <AppButton
+                        variant="none"
+                        fontSize={theme.fontSize.h4}
+                        startIcon={<ArrowDownward />}
+                    >
                         Export
-                    </span>
+                    </AppButton>
                 </FilterExport> : null}
 
-                <Popover
+                <CustomPopup
                     anchorEl={state.exportAnchorEl}
                     open={openExport}
                     onClose={() => setState({ ...state, exportAnchorEl: null })}
-                    anchorOrigin={{ vertical: 'bottom', horizontal: 'Center' }}
-                    transformOrigin={{ vertical: 'top', horizontal: 'Center' }}
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                    transformOrigin={{ vertical: 'top', horizontal: 'center' }}
                 >
-                    <MenuItem style={{ minWidth: "90px" }} value="csv" onClick={() => handleExportData('csv')}>
+                    <CustomMenuItem value="csv" onClick={() => handleExportData('csv')}>
                         .csv file
-                    </MenuItem>
-                    <MenuItem style={{ minWidth: "90px" }} value="xlsx" onClick={() => handleExportData('xlsx')}>
+                    </CustomMenuItem>
+                    <CustomMenuItem value="xlsx" onClick={() => handleExportData('xlsx')}>
                         .xlsx file
-                    </MenuItem>
-                </Popover>
+                    </CustomMenuItem>
+                </CustomPopup>
             </Grid>
         </Container>
     );

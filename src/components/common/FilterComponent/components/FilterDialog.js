@@ -1,8 +1,18 @@
 import React from "react";
+import { makeStyles } from '@material-ui/core/styles';
 import MUIDialog from "@material-ui/core/Dialog";
 import theme from "../../../../theme";
-import Download from '../../../../assets/images/iconDownloadSvg.svg';
-import { FilterExport, Image } from "../Filter.styled";
+import { FilterExport } from "../Filter.styled";
+import AppButton from "../../AppButton/AppButton";
+import { TuneRounded } from "@material-ui/icons";
+
+const useStyles = makeStyles({
+    root: {
+        "& .MuiDialog-paper": {
+            borderRadius: 0
+        }
+    },
+});
 
 export default function CustomDialog({
     disabled = false,
@@ -12,6 +22,7 @@ export default function CustomDialog({
     ...props
 }) {
     const [isOpen, setIsOpen] = React.useState(open || false);
+    const classes = useStyles();
 
     const handleClickOpen = () => {
         setIsOpen(true);
@@ -24,12 +35,16 @@ export default function CustomDialog({
     return (
         <React.Fragment>
             <FilterExport onClick={!disabled && handleClickOpen}>
-                <Image src={Download} alt='Filter' />
-                <span style={{ fontSize: theme.fontSize.h4, fontFamily: theme.fontFamily.nunitoSansBold, color: theme.colors.primary.navy }}>
+                <AppButton
+                    variant="none"
+                    fontSize={theme.fontSize.h4}
+                    startIcon={<TuneRounded />}
+                >
                     Filter
-                </span>
+                </AppButton>
             </FilterExport>
             <MUIDialog
+                className={classes.root}
                 open={isOpen}
                 maxWidth="md"
                 // onClose={handleClose}

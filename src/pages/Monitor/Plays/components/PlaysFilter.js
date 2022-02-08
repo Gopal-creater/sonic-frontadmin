@@ -1,14 +1,15 @@
 import React from 'react'
-import { FormControl, InputLabel, MenuItem, Select, Button, TextField, ListItemText, InputAdornment } from '@material-ui/core'
+import { FormControl, InputLabel, MenuItem, Select, TextField, ListItemText, Grid } from '@material-ui/core'
 import { countries } from '../../../../constants/constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPlaysListsAction } from '../../../../stores/actions';
 import * as actionTypes from '../../../../stores/actions/actionTypes';
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { CalendarTodayOutlined, CloseOutlined } from '@material-ui/icons';
-import { FilterButton, FilterContainer, FilterHeader, FilterItems } from './PlaysFilter.styled';
-import { H3 } from '../../../../StyledComponents/StyledHeadings';
+import { CloseOutlined } from '@material-ui/icons';
+import { FilterButton, FilterContainer, FilterHeader, FilterItems } from './FilterStyled';
+import { H3, H5 } from '../../../../StyledComponents/StyledHeadings';
+import AppButton from '../../../../components/common/AppButton/AppButton';
+import theme from '../../../../theme';
+import CustomDatePicker from '../../../../components/common/FilterComponent/components/CustomDatePicker';
 
 export default function PlaysFilter({ closeDialog }) {
     const dispatch = useDispatch();
@@ -46,7 +47,7 @@ export default function PlaysFilter({ closeDialog }) {
                     <CloseOutlined onClick={() => closeDialog?.()} />
                 </div>
             </FilterHeader>
-            <form>
+            <form onSubmit={handleFilter}>
                 <FilterItems>
                     <FormControl>
                         <InputLabel
@@ -333,57 +334,39 @@ export default function PlaysFilter({ closeDialog }) {
                             }}
                         />
                     </FormControl>
-
-                    <FormControl>
-                        <DatePicker
-                            selected={plays?.filters?.encodedDate}
-                            onChange={(date) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, encodedDate: date } })}
-                            customInput={
-                                <TextField
-                                    id="date"
-                                    label="Encoded Date"
-                                    style={{
-                                        color: "#757575",
-                                        backgroundColor: "transparent",
-                                        outline: "none",
-                                        border: "none",
-                                        boxShadow: "none",
-                                        margin: "5px 30px 0px 20px",
-                                        width: 220,
-                                    }}
-                                    InputLabelProps={{
-                                        style: {
-                                            marginLeft: 8,
-                                            fontFamily: "NunitoSans-Bold",
-                                        }
-                                    }}
-                                    InputProps={{
-                                        endAdornment: (
-                                            <InputAdornment position="end">
-                                                <CalendarTodayOutlined />
-                                            </InputAdornment>
-                                        ),
-                                        style: {
-                                            paddingLeft: 10,
-                                            color: '#757575',
-                                            fontFamily: "NunitoSans-Regular",
-                                        },
-                                    }}
-                                />
-                            }
-                            dateFormat="MMM d,yyyy"
-                            title="Encoded Date"
-                            showYearDropdown
-                            showMonthDropdown
-                        />
-                    </FormControl>
                 </FilterItems>
 
+                <FormControl>
+                    <Grid style={{ display: 'flex', margin: "15px 30px 0px 20px" }}>
+                        <CustomDatePicker
+                            selected={plays?.filters?.encodedStartDate}
+                            onChange={(date) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, encodedStartDate: date } })}
+                            calender={true}
+                            dateFormat="MMM d,yyyy"
+                            title="Encoded Start Date"
+                            startDate={plays?.filters?.encodedStartDate}
+                            endDate={plays?.filters?.encodedEndDate}
+                        />
+
+                        <div className="mt-4 mx-3">
+                            <H5 color={theme.colors.secondary.mediumGrey}>to</H5>
+                        </div>
+
+                        <CustomDatePicker
+                            selected={plays?.filters?.encodedEndDate}
+                            onChange={(date) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, encodedEndDate: date } })}
+                            dateFormat="MMM d,yyyy"
+                            title="End Date"
+                            startDate={plays?.filters?.encodedStartDate}
+                            endDate={plays?.filters?.encodedEndDate}
+                        />
+                    </Grid>
+                </FormControl>
+
                 <FilterButton>
-                    <Button
-                        variant="contained"
+                    <AppButton
+                        variant="outline"
                         className="mx-3"
-                        style={{ textTransform: 'none', fontFamily: 'NunitoSans-Bold' }}
                         onClick={() => dispatch({
                             type: actionTypes.SET_PLAYS_FILTER,
                             data: {
@@ -400,15 +383,13 @@ export default function PlaysFilter({ closeDialog }) {
                         })}
                     >
                         Reset
-                    </Button>
-                    <Button
-                        variant="contained"
+                    </AppButton>
+                    <AppButton
+                        variant="fill"
                         type="submit"
-                        style={{ textTransform: 'none', fontFamily: 'NunitoSans-Bold', backgroundColor: '#343F84', color: '#fff' }}
-                        onClick={handleFilter}
                     >
                         Apply
-                    </Button>
+                    </AppButton>
                 </FilterButton>
             </form>
         </FilterContainer>

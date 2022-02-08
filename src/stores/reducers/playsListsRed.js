@@ -15,9 +15,10 @@ export const playsListInitialState = {
         artist: "",
         radioStation: "",
         song: "",
-        encodedDate: "",
         label: "",
         distributor: "",
+        encodedStartDate: "",
+        encodedEndDate: "",
     },
     error: null,
     allRadioStations: {

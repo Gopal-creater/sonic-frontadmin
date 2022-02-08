@@ -1,24 +1,7 @@
 import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import React from 'react';
 import styled, { useTheme } from 'styled-components';
-
-const StyledTableHead = styled(TableCell)`
-    color: ${props => props.theme.colors.secondary.mediumGrey};
-    font-family:${props => props.theme.fontFamily.nunitoSansBold};
-    font-size:12px;
-    border-bottom:none;
-`
-const StyledTableData = styled(TableCell)`
-    color: ${props => props.theme.colors.secondary.grey};
-    font-family:${props => props.theme.fontFamily.nunitoSansBold};
-    border-bottom:none;
-`
-const AlternateStyledTableData = styled(TableCell)`
-    color: ${props => props.theme.colors.secondary.grey};
-    font-family:${props => props.theme.fontFamily.nunitoSansBold};
-    background-color:${props => props.theme.colors.secondary.tableColor};
-    border-bottom:none;
-`
+import { AlternateStyledTableData, StyledTableData, StyledTableHead } from '../../../../StyledComponents/StyledTable/StyledTable';
 
 export default function TracksTable({ data }) {
     const theme = useTheme()

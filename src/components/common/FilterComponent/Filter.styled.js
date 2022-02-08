@@ -1,5 +1,6 @@
-import { Grid } from "@material-ui/core";
+import { Grid, MenuItem, Popover } from "@material-ui/core";
 import styled from "styled-components";
+import theme from "../../../theme";
 
 export const Container = styled(Grid)`
     background-color: white;
@@ -19,12 +20,22 @@ export const ContainerItem = styled(Grid)`
 export const FilterExport = styled.div`
     display: flex;
     align-items: center;
-    margin-left: 40px;
     cursor: pointer;
 `;
 
-export const Image = styled.img`
-    width: 25px;
-    height: 25px;
-    margin-right: 10px;
-`;
+export const CustomPopup = styled(Popover)`
+    .MuiPaper-root {
+        border-radius: 0px;
+        border: 2px solid ${theme.colors.secondary.lightNavy};
+        box-shadow: none;
+        min-width: 120px;
+    }
+`
+export const CustomMenuItem = styled(MenuItem)`
+    font-family: ${theme.fontFamily.nunitoSansRegular};
+    color: ${theme.colors.primary.graphite};
+    :hover{
+        background-color: white;
+        color: ${theme.colors.secondary.lightNavy};
+    }
+`

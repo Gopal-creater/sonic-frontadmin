@@ -3,6 +3,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Grid } from '@material-ui/core';
 import styled from 'styled-components';
+import './DatePicker.css';
+import theme from '../../../../theme';
+import { CalendarTodayOutlined } from '@material-ui/icons';
 
 const DateInput = styled.div`
     display: flex;
@@ -37,16 +40,17 @@ const CustomDate = React.forwardRef((props, ref) => (
 export default function CustomDatePicker({ title, selected, onChange, calender = false, startDate, endDate, ...props }) {
     return <div>
         <DatePicker
+            wrapperClassName='date-picker'
             selected={selected}
             onChange={onChange}
             customInput={<CustomDate calender={calender} />}
-            {...props}
             dateFormat="MMM d,yyyy"
             title={title || ""}
             startDate={startDate || null}
             endDate={endDate || null}
-            showYearDropdown
-            showMonthDropdown
+            {...props}
+        // showYearDropdown
+        // showMonthDropdown
         />
     </div>;
 }

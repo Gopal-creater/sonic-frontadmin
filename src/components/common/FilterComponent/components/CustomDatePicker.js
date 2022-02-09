@@ -14,9 +14,17 @@ const DateInput = styled.div`
 
 const CustomDate = React.forwardRef((props, ref) => (
     <DateInput>
-        {props?.calender ? <CalendarTodayOutlined className="me-3 mt-2" style={{ color: theme.colors.secondary.mediumGrey }} /> : null}
+        {props?.calender ?
+            <CalendarTodayOutlined className="me-3 mt-3" style={{ color: theme.colors.secondary.grey }} fontSize='small' />
+            : null
+        }
         <Grid style={{ width: '120px' }}>
-            <span style={{ fontSize: '12px', fontFamily: theme.fontFamily.nunitoSansBold, color: theme.colors.secondary.mediumGrey }}>
+            <span style={{
+                fontSize: theme.fontSize.h6,
+                fontFamily: theme.fontFamily.nunitoSansBold,
+                color: theme.colors.secondary.mediumGrey
+            }}
+            >
                 {props?.title || "Date"}
             </span>
             <input
@@ -26,8 +34,8 @@ const CustomDate = React.forwardRef((props, ref) => (
                     outline: 'none',
                     border: 'none',
                     borderBottom: `1px solid ${theme.colors.secondary.mediumGrey}`,
-                    color: theme.colors.secondary.grey,
-                    fontFamily: theme.fontFamily.nunitoSansBold,
+                    color: props?.filter ? theme.colors.secondary.lightNavy : theme.colors.secondary.mediumGrey,
+                    fontFamily: props?.filter ? theme.fontFamily.nunitoSansRegular : theme.fontFamily.nunitoSansBold,
                     fontSize: theme.fontSize.h4,
                     width: '100%',
                 }}
@@ -37,13 +45,13 @@ const CustomDate = React.forwardRef((props, ref) => (
 )
 )
 
-export default function CustomDatePicker({ title, selected, onChange, calender = false, startDate, endDate, ...props }) {
+export default function CustomDatePicker({ title, selected, onChange, calender = false, filter = false, startDate, endDate, ...props }) {
     return <div>
         <DatePicker
             wrapperClassName='date-picker'
             selected={selected}
             onChange={onChange}
-            customInput={<CustomDate calender={calender} />}
+            customInput={<CustomDate calender={calender} filter={filter} />}
             dateFormat="MMM d,yyyy"
             title={title || ""}
             startDate={startDate || null}

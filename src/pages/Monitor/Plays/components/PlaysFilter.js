@@ -5,11 +5,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getPlaysListsAction } from '../../../../stores/actions';
 import * as actionTypes from '../../../../stores/actions/actionTypes';
 import { CloseOutlined } from '@material-ui/icons';
-import { FilterButton, FilterContainer, FilterHeader, FilterItems } from './FilterStyled';
+import { FilterButton, FilterContainer, FilterForm, FilterHeader, FilterItems } from './FilterStyled';
 import { H3, H5 } from '../../../../StyledComponents/StyledHeadings';
 import AppButton from '../../../../components/common/AppButton/AppButton';
 import theme from '../../../../theme';
 import CustomDatePicker from '../../../../components/common/FilterComponent/components/CustomDatePicker';
+import ChannelDropDown from '../../../../components/common/AppTextInput/ChannelDropdown';
+import { StyledTextField } from '../../../../StyledComponents/StyledAppTextInput/StyledAppTextInput';
+import CustomDropDown from '../../../../components/common/AppTextInput/CustomDropDown';
 
 export default function PlaysFilter({ closeDialog }) {
     const dispatch = useDispatch();
@@ -48,296 +51,141 @@ export default function PlaysFilter({ closeDialog }) {
                 </div>
             </FilterHeader>
             <form onSubmit={handleFilter}>
-                <FilterItems>
-                    <FormControl>
-                        <InputLabel
-                            id="mutiple-channel-label"
-                            style={{
-                                paddingLeft: 30,
-                                color: "grey",
-                                paddingBottom: 50,
-                                marginBottom: 20,
-                                fontFamily: "NunitoSans-Bold",
+                <FilterItems container>
+                    <FilterForm>
+                        <ChannelDropDown
+                            id="channel-dropdown"
+                            labelText="Channel"
+                            formControlProps={{
+                                fullWidth: true
                             }}
-                        >
-                            Channel
-                        </InputLabel>
-                        <Select
-                            id="channel-drop-down"
-                            className="form-control"
-                            value={plays?.filters?.channel}
-                            onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, channel: e.target.value } })}
-                            autoWidth={false}
-                            style={{
-                                color: "#757575",
-                                backgroundColor: "transparent",
-                                outline: "none",
-                                border: "none",
-                                boxShadow: "none",
-                                margin: "10px 30px 0px 20px",
-                                width: 220,
+                            inputProps={{
+                                value: plays?.filters?.channel,
+                                onChange: (e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, channel: e.target.value } })
                             }}
-                        >
-                            <MenuItem value="ALL">All</MenuItem>
-                            <MenuItem value="STREAMREADER">StreamReader</MenuItem>
-                            <MenuItem value="PORTAL">SonicPortal</MenuItem>
-                            <MenuItem value="MOBILEAPP">SonicApp</MenuItem>
-                        </Select>
-                    </FormControl>
+                        />
+                    </FilterForm>
 
-                    <FormControl>
-                        <TextField
-                            id="sonickey"
+                    <FilterForm>
+                        <StyledTextField
+                            fullWidth
                             label="SonicKey"
-                            type="text"
                             value={plays?.filters?.sonicKey}
                             onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, sonicKey: e.target.value } })}
-                            style={{
-                                color: "#757575",
-                                backgroundColor: "transparent",
-                                outline: "none",
-                                border: "none",
-                                boxShadow: "none",
-                                margin: "0px 30px 0px 20px",
-                                padding: "5px 0px",
-                                width: 220,
-                            }}
                             InputLabelProps={{
                                 style: {
-                                    paddingLeft: 10,
-                                    fontFamily: "NunitoSans-Bold",
+                                    fontSize: theme.fontSize.h4,
+                                    color: theme.colors.secondary.mediumGrey,
+                                    fontFamily: theme.fontFamily.nunitoSansBold
                                 }
                             }}
-                            InputProps={{
-                                style: {
-                                    paddingLeft: 12,
-                                    color: '#757575',
-                                    fontFamily: "NunitoSans-Regular",
-                                },
-                            }}
+                            inputProps={{ style: { fontSize: theme.fontSize.h4 } }}
                         />
-                    </FormControl>
+                    </FilterForm>
 
-                    <FormControl>
-                        <InputLabel
-                            id="mutiple-country-label"
-                            style={{
-                                paddingLeft: 30,
-                                color: "grey",
-                                paddingBottom: 50,
-                                marginBottom: 20,
-                                fontFamily: "NunitoSans-Bold",
+                    <FilterForm>
+                        <CustomDropDown
+                            id="country-dropdown"
+                            labelText="Country"
+                            formControlProps={{
+                                fullWidth: true
                             }}
-                        >
-                            Country
-                        </InputLabel>
-                        <Select
-                            id="country-drop-down"
-                            className="form-control mb-0"
-                            value={plays?.filters?.country}
-                            onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, country: e.target.value, radioStation: "" } })}
-                            displayEmpty
-                            autoWidth={false}
-                            style={{
-                                color: "#757575",
-                                backgroundColor: "transparent",
-                                outline: "none",
-                                border: "none",
-                                boxShadow: "none",
-                                margin: "10px 30px 0px 20px",
-                                width: 220,
+                            inputProps={{
+                                value: plays?.filters?.country,
+                                onChange: (e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, country: e.target.value, radioStation: "" } }),
+                                displayEmpty: true
                             }}
-                        >
-                            {countries?.map((country) => {
-                                return (
-                                    <MenuItem value={country?.name} key={country?.name}>{country?.name}</MenuItem>
-                                );
-                            })}
-                        </Select>
-                    </FormControl>
+                            data={countries || []}
+                        />
+                    </FilterForm>
 
-                    <FormControl>
-                        <InputLabel
-                            id="radioStation-label"
-                            style={{
-                                paddingLeft: 30,
-                                color: "grey",
-                                paddingBottom: 50,
-                                marginBottom: 20,
-                                fontFamily: "NunitoSans-Bold",
+                    <FilterForm>
+                        <CustomDropDown
+                            id="radioStation-dropdown"
+                            labelText="Radio Station"
+                            formControlProps={{
+                                fullWidth: true
                             }}
-                        >
-                            Radio Station
-                        </InputLabel>
-                        <Select
-                            id="radioStation-drop-down"
-                            className="form-control"
-                            value={plays?.filters?.radioStation}
-                            onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, radioStation: e.target.value } })}
-                            autoWidth={false}
-                            disabled={filteredRadioStation?.length === 0 ? true : false}
-                            style={{
-                                color: "#757575",
-                                backgroundColor: "transparent",
-                                outline: "none",
-                                border: "none",
-                                boxShadow: "none",
-                                margin: "10px 30px 0px 20px",
-                                width: 220,
-                                height: "45px",
+                            inputProps={{
+                                value: plays?.filters?.radioStation,
+                                onChange: (e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, radioStation: e.target.value } }),
+                                disabled: filteredRadioStation?.length === 0 ? true : false
                             }}
-                        >
-                            {filteredRadioStation?.
-                                map((data, index) => {
-                                    return (
-                                        <MenuItem key={index} value={data?.name}>
-                                            <ListItemText primary={data?.name} />
-                                        </MenuItem>
-                                    );
-                                })}
-                        </Select>
-                        {filteredRadioStation?.length === 0 ?
-                            <span style={{ color: "red", fontSize: 12, marginLeft: 20 }}>
-                                No radio station for {plays?.filters?.country}
-                            </span> : ""
-                        }
-                    </FormControl>
+                            data={filteredRadioStation || []}
+                        />
+                    </FilterForm>
 
-                    <FormControl>
-                        <TextField
-                            id="artist"
-                            label="Artist"
-                            type="text"
+                    <FilterForm>
+                        <StyledTextField
+                            fullWidth
+                            label="Artist name"
                             value={plays?.filters?.artist}
                             onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, artist: e.target.value } })}
-                            style={{
-                                color: "#757575",
-                                backgroundColor: "transparent",
-                                outline: "none",
-                                border: "none",
-                                boxShadow: "none",
-                                margin: "0px 30px 0px 20px",
-                                padding: "5px 0px",
-                                width: 220,
-                            }}
                             InputLabelProps={{
                                 style: {
-                                    paddingLeft: 10,
-                                    fontFamily: "NunitoSans-Bold",
+                                    fontSize: theme.fontSize.h4,
+                                    color: theme.colors.secondary.mediumGrey,
+                                    fontFamily: theme.fontFamily.nunitoSansBold
                                 }
                             }}
-                            InputProps={{
-                                style: {
-                                    paddingLeft: 12,
-                                    color: '#757575',
-                                    fontFamily: "NunitoSans-Regular",
-                                },
-                            }}
+                            inputProps={{ style: { fontSize: theme.fontSize.h4 } }}
                         />
-                    </FormControl>
+                    </FilterForm>
 
-                    <FormControl>
-                        <TextField
-                            id="song"
+                    <FilterForm>
+                        <StyledTextField
+                            fullWidth
                             label="Track"
-                            type="text"
                             value={plays?.filters?.song}
                             onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, song: e.target.value } })}
-                            style={{
-                                color: "#757575",
-                                backgroundColor: "transparent",
-                                outline: "none",
-                                border: "none",
-                                boxShadow: "none",
-                                margin: "0px 30px 0px 20px",
-                                padding: "5px 0px",
-                                width: 220,
-                            }}
                             InputLabelProps={{
                                 style: {
-                                    paddingLeft: 10,
-                                    fontFamily: "NunitoSans-Bold",
+                                    fontSize: theme.fontSize.h4,
+                                    color: theme.colors.secondary.mediumGrey,
+                                    fontFamily: theme.fontFamily.nunitoSansBold
                                 }
                             }}
-                            InputProps={{
-                                style: {
-                                    paddingLeft: 12,
-                                    color: '#757575',
-                                    fontFamily: "NunitoSans-Regular",
-                                },
-                            }}
+                            inputProps={{ style: { fontSize: theme.fontSize.h4 } }}
                         />
-                    </FormControl>
+                    </FilterForm>
 
-                    <FormControl>
-                        <TextField
-                            id="label"
+                    <FilterForm>
+                        <StyledTextField
+                            fullWidth
                             label="Label"
-                            type="text"
                             value={plays?.filters?.label}
                             onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, label: e.target.value } })}
-                            style={{
-                                color: "#757575",
-                                backgroundColor: "transparent",
-                                outline: "none",
-                                border: "none",
-                                boxShadow: "none",
-                                margin: "0px 30px 0px 20px",
-                                padding: "5px 0px",
-                                width: 220,
-                            }}
                             InputLabelProps={{
                                 style: {
-                                    paddingLeft: 10,
-                                    fontFamily: "NunitoSans-Bold",
+                                    fontSize: theme.fontSize.h4,
+                                    color: theme.colors.secondary.mediumGrey,
+                                    fontFamily: theme.fontFamily.nunitoSansBold
                                 }
                             }}
-                            InputProps={{
-                                style: {
-                                    paddingLeft: 12,
-                                    color: '#757575',
-                                    fontFamily: "NunitoSans-Regular",
-                                }
-                            }}
+                            inputProps={{ style: { fontSize: theme.fontSize.h4 } }}
                         />
-                    </FormControl>
+                    </FilterForm>
 
-                    <FormControl>
-                        <TextField
-                            id="distributor"
+                    <FilterForm>
+                        <StyledTextField
+                            fullWidth
                             label="Distributor"
-                            type="text"
                             value={plays?.filters?.distributor}
                             onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, distributor: e.target.value } })}
-                            style={{
-                                color: "#757575",
-                                backgroundColor: "transparent",
-                                outline: "none",
-                                border: "none",
-                                boxShadow: "none",
-                                margin: "0px 30px 0px 20px",
-                                padding: "5px 0px",
-                                width: 220,
-                            }}
                             InputLabelProps={{
                                 style: {
-                                    paddingLeft: 10,
-                                    fontFamily: "NunitoSans-Bold",
+                                    fontSize: theme.fontSize.h4,
+                                    color: theme.colors.secondary.mediumGrey,
+                                    fontFamily: theme.fontFamily.nunitoSansBold
                                 }
                             }}
-                            InputProps={{
-                                style: {
-                                    paddingLeft: 12,
-                                    color: '#757575',
-                                    fontFamily: "NunitoSans-Regular",
-                                },
-                            }}
+                            inputProps={{ style: { fontSize: theme.fontSize.h4 } }}
                         />
-                    </FormControl>
+                    </FilterForm>
                 </FilterItems>
 
                 <FormControl>
-                    <Grid style={{ display: 'flex', margin: "15px 30px 0px 20px" }}>
+                    <Grid style={{ display: 'flex', margin: "30px 30px 0px 20px" }}>
                         <CustomDatePicker
                             selected={plays?.filters?.encodedStartDate}
                             onChange={(date) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, encodedStartDate: date } })}
@@ -346,10 +194,11 @@ export default function PlaysFilter({ closeDialog }) {
                             title="Encoded Start Date"
                             startDate={plays?.filters?.encodedStartDate}
                             endDate={plays?.filters?.encodedEndDate}
+                            filter={true}
                         />
 
                         <div className="mt-4 mx-3">
-                            <H5 color={theme.colors.secondary.mediumGrey}>to</H5>
+                            <H5 color={theme.colors.secondary.grey}>to</H5>
                         </div>
 
                         <CustomDatePicker
@@ -359,6 +208,7 @@ export default function PlaysFilter({ closeDialog }) {
                             title="End Date"
                             startDate={plays?.filters?.encodedStartDate}
                             endDate={plays?.filters?.encodedEndDate}
+                            filter={true}
                         />
                     </Grid>
                 </FormControl>
@@ -378,7 +228,8 @@ export default function PlaysFilter({ closeDialog }) {
                                 song: "",
                                 label: "",
                                 distributor: "",
-                                encodedDate: ""
+                                encodedStartDate: "",
+                                encodedEndDate: ""
                             }
                         })}
                     >

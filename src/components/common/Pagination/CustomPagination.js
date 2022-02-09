@@ -16,13 +16,13 @@ const useStyles = makeStyles(() => {
                 backgroundColor: '#fff',
             },
             "& .Mui-selected": {
-                fontSize: "18px",
+                fontSize: "16px",
                 padding: "1px",
                 margin: "1px",
-                color: theme.colors.primary.navy,
+                color: theme.fontFamily.nunitoSansBold,
                 border: `1px solid ${theme.colors.primary.teal}`,
                 backgroundColor: '#fff',
-                borderRadius: 0
+                borderRadius: 0,
             },
             "& .MuiPaginationItem-textPrimary": {
                 fontSize: "18px",
@@ -41,6 +41,7 @@ const useStyles = makeStyles(() => {
             },
             "&:hover .MuiPaginationItem-icon": {
                 border: `1px solid ${theme.colors.primary.navy}`,
+                // backgroundColor: "green"
             }
         }
     })

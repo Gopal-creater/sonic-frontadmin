@@ -13,6 +13,7 @@ import topRadiostationReducer from './topRadioStation';
 import dashboardReducer from './dashboard.reducers';
 import playsListsReducer from './playsListsRed';
 import streamReaderReducer from './streamReader.reducer';
+import countriesReducer from './countries.reducers';
 
 const appReducer = combineReducers({
   session: sessionRed,
@@ -28,6 +29,7 @@ const appReducer = combineReducers({
   dashboard: dashboardReducer,
   playsList: playsListsReducer,
   streamReader: streamReaderReducer,
+  country: countriesReducer,
 });
 
 const rootReducer = (state, action) => {

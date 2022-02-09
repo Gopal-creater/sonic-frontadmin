@@ -7,7 +7,6 @@ import StreamReader from "../pages/Monitor/StreamReader/StreamReader";
 import Sonickeys from "../pages/SonicKeys/SonicKeys";
 import Licences from "../pages/Licences/Licences";
 import { SonicStreamDetail } from "../pages/Monitor/SonicStreamDetail";
-import { SonicStreamPlays } from "../pages/Monitor/SonicStreamPlays";
 import { Dashboard } from "../pages/Monitor/Dashboard/Dashboard";
 import Plays from "../pages/Monitor/Plays/Plays";
 import Tracks from "../pages/Monitor/Tracks/Tracks";
@@ -27,7 +26,6 @@ export default function Routes() {
           <Route path="/sonic-keys" component={Sonickeys} exact />
           <Route path="/licences" component={Licences} exact />
           <Route path="/sonicstreamdetail" component={SonicStreamDetail} exact />
-          <Route path="/sonicstreamplays" component={SonicStreamPlays} exact />
           <Route path="/plays" component={Plays} exact />
           <Route path="/tracks" component={Tracks} exact />
           <Route path="/artists" component={Artists} exact />

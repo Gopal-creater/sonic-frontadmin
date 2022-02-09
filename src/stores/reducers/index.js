@@ -14,6 +14,7 @@ import dashboardReducer from './dashboard.reducers';
 import playsListsReducer from './playsListsRed';
 import streamReaderReducer from './streamReader.reducer';
 import { trackReducer } from './trackReducer';
+import countriesReducer from './countries.reducers';
 
 const appReducer = combineReducers({
   session: sessionRed,
@@ -29,7 +30,8 @@ const appReducer = combineReducers({
   dashboard: dashboardReducer,
   playsList: playsListsReducer,
   streamReader: streamReaderReducer,
-  track: trackReducer
+  track: trackReducer,
+  country: countriesReducer,
 });
 
 const rootReducer = (state, action) => {

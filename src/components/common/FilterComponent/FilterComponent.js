@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, InputLabel, Select } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { H5 } from '../../../StyledComponents/StyledHeadings';
 import theme from '../../../theme';
 import FilterDialog from './components/FilterDialog';
@@ -24,7 +24,7 @@ export default function FilterComponent(props) {
     }
 
     return (
-        <Container container spacing={1}>
+        <Container container>
             <ContainerItem item>
                 <Grid>
                     <CustomDatePicker
@@ -39,7 +39,7 @@ export default function FilterComponent(props) {
                 </Grid>
 
                 <Grid className="mt-4 mx-3">
-                    <H5 color={theme.colors.secondary.mediumGrey}>to</H5>
+                    <H5 color={theme.colors.secondary.grey}>to</H5>
                 </Grid>
 
                 <Grid>
@@ -55,38 +55,10 @@ export default function FilterComponent(props) {
             </ContainerItem>
 
             <Grid className="select-wrapper">
-                {/* <InputLabel
-                    id="mutiple-channel-label"
-                    style={{
-                        paddingLeft: 30,
-                        color: "#757575",
-                        fontFamily: "NunitoSans-Bold",
-                        fontSize: 12
-                    }}
-                >
-                    Channel
-                </InputLabel> */}
-                {/* <Select
-                    id="channel-drop-down"
-                    className="form-control"
-                    value={selectedTimezone}
-                    onChange={setSelectedTimezone}
-                    autoWidth={false}
-                    style={{
-                        color: "#757575",
-                        backgroundColor: "transparent",
-                        outline: "none",
-                        border: "none",
-                        boxShadow: "none",
-                        margin: "10px 30px 0px 20px",
-                        width: 220,
-                    }}
-                > */}
                 {/* <TimezoneSelect
                     value={selectedTimezone}
                     onChange={setSelectedTimezone}
                 /> */}
-                {/* </Select> */}
             </Grid>
 
             <Grid style={{ display: 'flex', justifyContent: 'flex-end' }} item>

@@ -34,6 +34,7 @@ export const CustomPopup = styled(Popover)`
 export const CustomMenuItem = styled(MenuItem)`
     font-family: ${theme.fontFamily.nunitoSansRegular};
     color: ${theme.colors.primary.graphite};
+    border-bottom: 1px solid ${theme.colors.secondary.lightGrey};
     :hover{
         background-color: white;
         color: ${theme.colors.secondary.lightNavy};

@@ -1406,7 +1406,7 @@ export const countries = [
 ];
 
 export const playsTableHeads = [
-  "SonicKey", "Radio Station", "Date", "Time", "Duration", "Original Filename", "Artist", "Country"
+  "ARTIST", "TITLE", "TIME", "DURATION", "COUNTRY", "SONICKEY", "ISRC", "LABEL", "DISTRIBUTOR",
 ]
 
 export const streamReaderTableHeads = [

@@ -9,7 +9,7 @@ import { TuneRounded } from "@material-ui/icons";
 const useStyles = makeStyles({
     root: {
         "& .MuiDialog-paper": {
-            borderRadius: 0
+            borderRadius: 0,
         }
     },
 });

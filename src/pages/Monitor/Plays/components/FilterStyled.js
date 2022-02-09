@@ -1,4 +1,4 @@
-import { Grid } from "@material-ui/core";
+import { FormControl, Grid } from "@material-ui/core";
 import styled from "styled-components";
 
 export const FilterContainer = styled(Grid)`
@@ -12,12 +12,17 @@ export const FilterHeader = styled(Grid)`
 `
 
 export const FilterItems = styled(Grid)`
+    padding: 0px 20px 0px 20px;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-gap: 10px;
+    grid-gap: 20px;
     @media (max-width: 600px) {
         grid-template-columns: 1fr;
     }
+`
+
+export const FilterForm = styled(FormControl)`
+    width: 220px;
 `
 
 export const FilterButton = styled(Grid)`

@@ -1,4 +1,4 @@
-import { Container, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import React from "react";
 import { log } from "../../../utils/app.debug";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,6 +24,23 @@ export function Dashboard() {
   }, [])
 
   log("Dashboard plays", plays)
+
+  const createStableTableData = () => {
+    let stableTableData = plays?.data?.docs?.map((data) => {
+      return {
+        contentOwner: data?.sonicKey?.contentOwner,
+        contentFileName: data?.sonicKey?.contentFileName,
+        channel: data?.sonicKey?.channel,
+        createdAt: data?.sonicKey?.createdAt,
+        time: "33:44",
+        contentDuration: data?.sonicKey?.contentDuration,
+        country: data?.sonicKey?.country || "United Kingdom",
+        sonicKey: data?.sonicKey?.sonicKey,
+        isrcCode: data?.sonicKey?.isrcCode || "1234fghj"
+      }
+    })
+    return stableTableData
+  }
 
   return (
     <Grid >
@@ -79,7 +96,7 @@ export function Dashboard() {
           onClickTryAgain={() => { dispatch(getPlaysListsAction(plays?.dates?.startDate, plays?.dates?.endDate, "ALL", 1, 10, false)) }}
         >
           <DashboardTable
-            data={plays?.data?.docs || []}
+            data={createStableTableData()}
           />
         </CommonDataLoadErrorSuccess>
       </TableContainer>

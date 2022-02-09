@@ -1414,5 +1414,13 @@ export const streamReaderTableHeads = [
 ];
 
 export const dashboardPlaysTableHeads = [
-  "ARTIST", "TITLE", "RADIO STATION", "DATE", "TIME", "DURATION", "COUNTRY", "SONICKEY", "ISRC"
+  { title: "ARTIST", orderBy: "contentOwner" },
+  { title: "TITLE", orderBy: "contentFileName" },
+  { title: "RADIO STATION", orderBy: "channel" },
+  { title: "DATE", orderBy: "createdAt" },
+  { title: "TIME", orderBy: "time" },
+  { title: "DURATION", orderBy: "contentDuration" },
+  { title: "COUNTRY", orderBy: "country" },
+  { title: "SONICKEY", orderBy: "sonicKey" },
+  { title: "ISRC", orderBy: "isrcCode" }
 ]

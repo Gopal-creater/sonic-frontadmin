@@ -34,7 +34,6 @@ export const StatsContainer = styled(Grid)`
     margin-top:5px;
     padding:15px;
     min-height:140px;
-    cursor:pointer;
 
     :hover{
         background-color:white;

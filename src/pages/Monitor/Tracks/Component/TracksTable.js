@@ -1,6 +1,6 @@
 import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import React from 'react';
-import styled, { useTheme } from 'styled-components';
+import { useTheme } from 'styled-components';
 import { AlternateStyledTableData, StyledTableData, StyledTableHead } from '../../../../StyledComponents/StyledTable/StyledTable';
 
 export default function TracksTable({ data }) {

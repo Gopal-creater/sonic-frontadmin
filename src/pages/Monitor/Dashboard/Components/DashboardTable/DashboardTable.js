@@ -7,33 +7,28 @@ import { useRef } from "react";
 import { log } from '../../../../../utils/app.debug';
 import { dashboardPlaysTableHeads } from '../../../../../constants/constants';
 import { useTheme } from 'styled-components';
+import Dropdown from "../../../../../assets/icons/dropdown.png"
 
 const createHeaders = (headers) => {
     return headers.map((item) => ({
-        text: item,
-        ref: useRef()
+        text: item.title,
+        ref: useRef(),
+        orderBy: item.orderBy
     }));
 };
 
 export default function DashboardTable({ data }) {
     log("Dashboard Table Data", data)
-    const theme = useTheme()
-    function createData(name, calories, fat, carbs, protein) {
-        return { name, calories, fat, carbs, protein };
-    }
 
-    const rows = [
-        createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-        createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-        createData('Eclair', 262, 16.0, 24, 6.0),
-        createData('Cupcake', 305, 3.7, 67, 4.3),
-        createData('Gingerbread', 356, 16.0, 49, 3.9),
-    ];
+    const theme = useTheme()
 
     const [state, setState] = React.useState({
         tableHeight: "auto",
-        activeColumnIndex: null
+        activeColumnIndex: null,
+        data: data || [],
     })
+
+    const [sortOrder, setSortOrder] = React.useState("ASC")
 
     const tableElement = useRef(null)
     const columns = createHeaders(dashboardPlaysTableHeads)
@@ -84,25 +79,59 @@ export default function DashboardTable({ data }) {
         };
     }, [state.activeColumnIndex, mouseMove, mouseUp, removeListeners]);
 
+    const sorting = (col) => {
+        if (sortOrder === "ASC") {
+            let sorted = state.data.sort((a, b) => {
+                if (a[col] > b[col]) {
+                    return 1
+                }
+                if (a[col] < b[col]) {
+                    return -1
+                }
+                return 0
+            })
+            setState({ ...state, data: sorted })
+            setSortOrder("DSC")
+        }
+        if (sortOrder === "DSC") {
+            let sorted = state.data.sort((a, b) => {
+                if (a[col] < b[col]) {
+                    return 1
+                }
+                if (a[col] > b[col]) {
+                    return -1
+                }
+                return 0
+            })
+            setState({ ...state, data: sorted })
+            setSortOrder("ASC")
+        }
+    }
+
     return (
         <TableWrapper>
             <ResizableTable ref={tableElement}>
                 <StyledTableHead>
                     <StyledTableRow>
-                        {columns.map(({ ref, text }, index) => {
+                        {columns.map(({ ref, text, orderBy }, index) => {
                             return (
-                                <StyledTableHeadColumn ref={ref} onMouseDown={() => setState({ ...state, activeColumnIndex: index })}>
-                                    {text} <TableResizer style={{ height: state.tableHeight }} />
+                                <StyledTableHeadColumn
+                                    ref={ref}
+                                    onClick={() => sorting(orderBy)}
+                                >
+                                    {text}
+                                    <img src={Dropdown} height={15} alt="dropdown" />
+                                    <TableResizer onMouseDown={() => setState({ ...state, activeColumnIndex: index })} style={{ height: state.tableHeight }} />
                                 </StyledTableHeadColumn>
                             )
                         })}
                     </StyledTableRow>
                 </StyledTableHead>
                 <StyledTableBody>
-                    {data?.map((row, index) => {
+                    {state.data?.map((row, index) => {
                         if (index % 2 !== 0) {
                             return (
-                                <StyledTableRow key={row?.sonicKey?._id}>
+                                <StyledTableRow key={index}>
                                     <AlternateDataColumn
                                         style={{
                                             color: theme.colors.primary.navy,
@@ -110,7 +139,7 @@ export default function DashboardTable({ data }) {
                                             fontFamily: theme.fontFamily.nunitoSansMediumBold
                                         }}
                                     >
-                                        {row?.sonicKey?.contentOwner || "---"}
+                                        {row?.contentOwner || "---"}
                                     </AlternateDataColumn>
                                     <AlternateDataColumn
                                         style={{
@@ -119,13 +148,13 @@ export default function DashboardTable({ data }) {
                                             fontFamily: theme.fontFamily.nunitoSansMediumBold
                                         }}
                                     >
-                                        {row?.sonicKey?.contentFileName || "---"}
+                                        {row?.contentFileName || "---"}
                                     </AlternateDataColumn>
-                                    <AlternateDataColumn>{row?.sonicKey?.channel || "---"}</AlternateDataColumn>
-                                    <AlternateDataColumn>{row?.sonicKey?.createdAt || "---"}</AlternateDataColumn>
-                                    <AlternateDataColumn>33:44:10</AlternateDataColumn>
-                                    <AlternateDataColumn>{row?.sonicKey?.contentDuration || "---"}</AlternateDataColumn>
-                                    <AlternateDataColumn>United Kingdom</AlternateDataColumn>
+                                    <AlternateDataColumn>{row?.channel || "---"}</AlternateDataColumn>
+                                    <AlternateDataColumn>{row?.createdAt || "---"}</AlternateDataColumn>
+                                    <AlternateDataColumn>{row?.time}</AlternateDataColumn>
+                                    <AlternateDataColumn>{row?.contentDuration || "---"}</AlternateDataColumn>
+                                    <AlternateDataColumn>{row?.country}</AlternateDataColumn>
                                     <AlternateDataColumn
                                         style={{
                                             color: theme.colors.primary.navy,
@@ -133,14 +162,14 @@ export default function DashboardTable({ data }) {
                                             fontFamily: theme.fontFamily.nunitoSansMediumBold
                                         }}
                                     >
-                                        {row?.sonicKey?.sonicKey || "---"}
+                                        {row?.sonicKey || "---"}
                                     </AlternateDataColumn>
-                                    <AlternateDataColumn>{row?.sonicKey?.isrcCode || "---"}</AlternateDataColumn>
+                                    <AlternateDataColumn>{row?.isrcCode || "---"}</AlternateDataColumn>
                                 </StyledTableRow>
                             )
                         }
                         return (
-                            <StyledTableRow key={row?.sonicKey?._id}>
+                            <StyledTableRow key={index}>
                                 <TableDataColumn
                                     style={{
                                         color: theme.colors.primary.navy,
@@ -148,7 +177,7 @@ export default function DashboardTable({ data }) {
                                         fontFamily: theme.fontFamily.nunitoSansMediumBold
                                     }}
                                 >
-                                    {row?.sonicKey?.contentOwner || "---"}
+                                    {row?.contentOwner || "---"}
                                 </TableDataColumn>
                                 <TableDataColumn
                                     style={{
@@ -157,13 +186,13 @@ export default function DashboardTable({ data }) {
                                         fontFamily: theme.fontFamily.nunitoSansMediumBold
                                     }}
                                 >
-                                    {row?.sonicKey?.contentFileName || "---"}
+                                    {row?.contentFileName || "---"}
                                 </TableDataColumn>
-                                <TableDataColumn>{row?.sonicKey?.channel || "---"}</TableDataColumn>
-                                <TableDataColumn>{row?.sonicKey?.createdAt || "---"}</TableDataColumn>
-                                <TableDataColumn>33:44:10</TableDataColumn>
-                                <TableDataColumn>{row?.sonicKey?.contentDuration || "---"}</TableDataColumn>
-                                <TableDataColumn>United Kingdom</TableDataColumn>
+                                <TableDataColumn>{row?.channel || "---"}</TableDataColumn>
+                                <TableDataColumn>{row?.createdAt || "---"}</TableDataColumn>
+                                <TableDataColumn>{row?.time}</TableDataColumn>
+                                <TableDataColumn>{row?.contentDuration || "---"}</TableDataColumn>
+                                <TableDataColumn>{row?.country}</TableDataColumn>
                                 <TableDataColumn
                                     style={{
                                         color: theme.colors.primary.navy,
@@ -171,9 +200,9 @@ export default function DashboardTable({ data }) {
                                         fontFamily: theme.fontFamily.nunitoSansMediumBold
                                     }}
                                 >
-                                    {row?.sonicKey?.sonicKey || "---"}
+                                    {row?.sonicKey || "---"}
                                 </TableDataColumn>
-                                <TableDataColumn>{row?.sonicKey?.isrcCode || "---"}</TableDataColumn>
+                                <TableDataColumn>{row?.isrcCode || "---"}</TableDataColumn>
                             </StyledTableRow>
                         )
                     })}

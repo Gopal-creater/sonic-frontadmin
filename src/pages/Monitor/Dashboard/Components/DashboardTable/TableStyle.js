@@ -37,10 +37,19 @@ export const StyledTableRow = styled.tr`
 
 export const StyledTableHeadColumn = styled.th`
     position: relative;
-    padding: 16px 20px 16px 15px;
+    padding: 16px 5px 16px 5px;
     color: ${props => props.theme.colors.secondary.mediumGrey};
     font-family:${props => props.theme.fontFamily.nunitoSansRegular};
     font-size:11px;
+    display: flex;
+    justify-content:flex-start;
+    &:hover {
+        color:${props => props.theme.colors.primary.navy};
+    };
+    &:active {
+        color:${props => props.theme.colors.secondary.lightNavy};
+    };
+    cursor: pointer;
 `
 
 export const TableResizer = styled.div`
@@ -59,16 +68,18 @@ export const TableResizer = styled.div`
         background-color: ${props => props.theme.colors.secondary.lightNavy};
     }
 `
+
 export const TableDataColumn = styled.td`
-    padding: 16px 20px 16px 15px;
+    padding: 16px 20px 16px 5px;
     color: ${props => props.theme.colors.secondary.grey};
     font-family:${props => props.theme.fontFamily.nunitoSansBold};
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
 `
+
 export const AlternateDataColumn = styled.td`
-    padding: 16px 20px 16px 15px;
+    padding: 16px 20px 16px 5px;
     background-color:${props => props.theme.colors.secondary.tableColor};
     color: ${props => props.theme.colors.secondary.grey};
     font-family:${props => props.theme.fontFamily.nunitoSansBold};

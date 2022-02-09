@@ -10,7 +10,6 @@ const useStyles = makeStyles(() => {
         root: {
             ".MuiPaginationItem-root": {
                 backgroundColor: '#fff',
-                color: theme.colors.primary.navy,
             },
             "&:hover .MuiPaginationItem-root": {
                 backgroundColor: '#fff',
@@ -19,7 +18,8 @@ const useStyles = makeStyles(() => {
                 fontSize: "16px",
                 padding: "1px",
                 margin: "1px",
-                color: theme.fontFamily.nunitoSansBold,
+                fontFamily: theme.fontFamily.nunitoSansBold,
+                color: theme.colors.primary.navy,
                 border: `1px solid ${theme.colors.primary.teal}`,
                 backgroundColor: '#fff',
                 borderRadius: 0,
@@ -43,7 +43,7 @@ const useStyles = makeStyles(() => {
                 border: `1px solid ${theme.colors.primary.navy}`,
                 // backgroundColor: "green"
             }
-        }
+        },
     })
 });
 
@@ -54,7 +54,9 @@ export default function CustomPagination(props) {
         <Pagination
             disableFocusRipple
             disableRipple
-            classes={{ root: classes.root }}
+            classes={{
+                root: classes.root,
+            }}
             count={props?.count}
             page={props?.page}
             shape="rounded"

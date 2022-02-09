@@ -32,7 +32,7 @@ export default function TracksTable({ data }) {
                         {rows.map((row, index) => {
                             if (index % 2 !== 0) {
                                 return (
-                                    <TableRow key={row.name}>
+                                    <TableRow key={row.name} >
                                         <AlternateStyledTableData
                                             style={{
                                                 color: theme.colors.primary.navy,

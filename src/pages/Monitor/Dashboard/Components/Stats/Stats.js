@@ -1,4 +1,4 @@
-import { Grid, Tooltip } from '@material-ui/core';
+import { CircularProgress, Grid, Tooltip } from '@material-ui/core';
 import React from 'react';
 import { DataContainer, IconContainer, OwnershipTitleContainer, StatsContainer, Title, HelperText } from './StyledStats';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
@@ -12,14 +12,16 @@ export default function Stats(
     const helpText = "Brief explanation lorem impsum dolor text example";
     return (
         <StatsContainer container>
-            <Grid item xs={6} container alignItems='flex-end'>
+            <Grid item xs={4} container alignItems='flex-end'>
                 <img src={imgSrc} alt="Status image" width={50} height={50} />
             </Grid>
 
-            <Grid item xs={6} container flexDirection="column" alignContent='space-between'>
+            <Grid item xs={8} container flexDirection="column" alignContent='space-between'>
                 <Grid item container justifyContent='flex-end'>
                     <OwnershipTitleContainer>{ownerShipTitle || ""}</OwnershipTitleContainer>
-                    <DataContainer>{data || "---"}</DataContainer><br />
+                    {
+                        loading ? <><CircularProgress size={25} /><br /></> : <DataContainer>{data || "---"}</DataContainer>
+                    }<br />
                     <Title style={{ textAlign: "end" }}>{title || "---"}</Title>
                 </Grid>
                 <IconContainer item>

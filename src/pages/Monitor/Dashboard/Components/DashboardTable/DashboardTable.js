@@ -127,12 +127,53 @@ export default function DashboardTable({ data }) {
                         })}
                     </StyledTableRow>
                 </StyledTableHead>
+
+
                 <StyledTableBody>
-                    {state.data?.map((row, index) => {
-                        if (index % 2 !== 0) {
+                    {
+                        state.data?.map((row, index) => {
+                            if (index % 2 !== 0) {
+                                return (
+                                    <StyledTableRow key={index}>
+                                        <AlternateDataColumn
+                                            style={{
+                                                color: theme.colors.primary.navy,
+                                                fontSize: theme.fontSize.h4,
+                                                fontFamily: theme.fontFamily.nunitoSansMediumBold
+                                            }}
+                                        >
+                                            {row?.contentOwner || "---"}
+                                        </AlternateDataColumn>
+                                        <AlternateDataColumn
+                                            style={{
+                                                color: theme.colors.primary.graphite,
+                                                fontSize: theme.fontSize.h4,
+                                                fontFamily: theme.fontFamily.nunitoSansMediumBold
+                                            }}
+                                        >
+                                            {row?.contentFileName || "---"}
+                                        </AlternateDataColumn>
+                                        <AlternateDataColumn>{row?.channel || "---"}</AlternateDataColumn>
+                                        <AlternateDataColumn>{row?.createdAt || "---"}</AlternateDataColumn>
+                                        <AlternateDataColumn>{row?.time}</AlternateDataColumn>
+                                        <AlternateDataColumn>{row?.contentDuration || "---"}</AlternateDataColumn>
+                                        <AlternateDataColumn>{row?.country}</AlternateDataColumn>
+                                        <AlternateDataColumn
+                                            style={{
+                                                color: theme.colors.primary.navy,
+                                                fontSize: theme.fontSize.h5,
+                                                fontFamily: theme.fontFamily.nunitoSansMediumBold
+                                            }}
+                                        >
+                                            {row?.sonicKey || "---"}
+                                        </AlternateDataColumn>
+                                        <AlternateDataColumn>{row?.isrcCode || "---"}</AlternateDataColumn>
+                                    </StyledTableRow>
+                                )
+                            }
                             return (
                                 <StyledTableRow key={index}>
-                                    <AlternateDataColumn
+                                    <TableDataColumn
                                         style={{
                                             color: theme.colors.primary.navy,
                                             fontSize: theme.fontSize.h4,
@@ -140,8 +181,8 @@ export default function DashboardTable({ data }) {
                                         }}
                                     >
                                         {row?.contentOwner || "---"}
-                                    </AlternateDataColumn>
-                                    <AlternateDataColumn
+                                    </TableDataColumn>
+                                    <TableDataColumn
                                         style={{
                                             color: theme.colors.primary.graphite,
                                             fontSize: theme.fontSize.h4,
@@ -149,13 +190,13 @@ export default function DashboardTable({ data }) {
                                         }}
                                     >
                                         {row?.contentFileName || "---"}
-                                    </AlternateDataColumn>
-                                    <AlternateDataColumn>{row?.channel || "---"}</AlternateDataColumn>
-                                    <AlternateDataColumn>{row?.createdAt || "---"}</AlternateDataColumn>
-                                    <AlternateDataColumn>{row?.time}</AlternateDataColumn>
-                                    <AlternateDataColumn>{row?.contentDuration || "---"}</AlternateDataColumn>
-                                    <AlternateDataColumn>{row?.country}</AlternateDataColumn>
-                                    <AlternateDataColumn
+                                    </TableDataColumn>
+                                    <TableDataColumn>{row?.channel || "---"}</TableDataColumn>
+                                    <TableDataColumn>{row?.createdAt || "---"}</TableDataColumn>
+                                    <TableDataColumn>{row?.time}</TableDataColumn>
+                                    <TableDataColumn>{row?.contentDuration || "---"}</TableDataColumn>
+                                    <TableDataColumn>{row?.country}</TableDataColumn>
+                                    <TableDataColumn
                                         style={{
                                             color: theme.colors.primary.navy,
                                             fontSize: theme.fontSize.h5,
@@ -163,49 +204,11 @@ export default function DashboardTable({ data }) {
                                         }}
                                     >
                                         {row?.sonicKey || "---"}
-                                    </AlternateDataColumn>
-                                    <AlternateDataColumn>{row?.isrcCode || "---"}</AlternateDataColumn>
+                                    </TableDataColumn>
+                                    <TableDataColumn>{row?.isrcCode || "---"}</TableDataColumn>
                                 </StyledTableRow>
                             )
-                        }
-                        return (
-                            <StyledTableRow key={index}>
-                                <TableDataColumn
-                                    style={{
-                                        color: theme.colors.primary.navy,
-                                        fontSize: theme.fontSize.h4,
-                                        fontFamily: theme.fontFamily.nunitoSansMediumBold
-                                    }}
-                                >
-                                    {row?.contentOwner || "---"}
-                                </TableDataColumn>
-                                <TableDataColumn
-                                    style={{
-                                        color: theme.colors.primary.graphite,
-                                        fontSize: theme.fontSize.h4,
-                                        fontFamily: theme.fontFamily.nunitoSansMediumBold
-                                    }}
-                                >
-                                    {row?.contentFileName || "---"}
-                                </TableDataColumn>
-                                <TableDataColumn>{row?.channel || "---"}</TableDataColumn>
-                                <TableDataColumn>{row?.createdAt || "---"}</TableDataColumn>
-                                <TableDataColumn>{row?.time}</TableDataColumn>
-                                <TableDataColumn>{row?.contentDuration || "---"}</TableDataColumn>
-                                <TableDataColumn>{row?.country}</TableDataColumn>
-                                <TableDataColumn
-                                    style={{
-                                        color: theme.colors.primary.navy,
-                                        fontSize: theme.fontSize.h5,
-                                        fontFamily: theme.fontFamily.nunitoSansMediumBold
-                                    }}
-                                >
-                                    {row?.sonicKey || "---"}
-                                </TableDataColumn>
-                                <TableDataColumn>{row?.isrcCode || "---"}</TableDataColumn>
-                            </StyledTableRow>
-                        )
-                    })}
+                        })}
                 </StyledTableBody>
             </ResizableTable>
         </TableWrapper>

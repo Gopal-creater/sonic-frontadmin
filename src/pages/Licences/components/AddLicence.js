@@ -12,6 +12,7 @@ import { Grid } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import cogoToast from "cogo-toast";
 import Communication from "../../../services/https/Communication";
+import AppButton from "../../../components/common/AppButton/AppButton";
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -35,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     width: "25%",
     padding: "23px 0px",
     textTransform: "initial",
-    fontSize: 15,
+    // fontSize: 15,
     fontFamily: 'NunitoSans-Bold',
     borderRadius: 8,
     border: "2px solid #343F84",
@@ -78,7 +79,7 @@ export default function AddLicence({ open, setOpen, fetchLicence }) {
       maxWidth="sm"
       fullWidth
     >
-      <Grid style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+      <Grid style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <DialogTitle id="form-dialog-title">
           <div className={classes.heading}>Add a licence key</div>
         </DialogTitle>
@@ -105,14 +106,19 @@ export default function AddLicence({ open, setOpen, fetchLicence }) {
           e.g. 009FF191-A342-400A-AE3D-0D789D4545EF
         </DialogContentText>
       </DialogContent>
-      <DialogActions>
-        <Button
+      <DialogActions style={{ paddingLeft: 24, paddingRight: 24, paddingBottom: 36 }}>
+        <AppButton
+          variant="outline"
           onClick={() => setOpen(false)}
-          className={classes.button}
-          variant="outlined"
+          fontSize={15}
+          style={{
+            height: 45,
+            padding: "0px 30px",
+            borderWidth: 3
+          }}
         >
           Cancel
-        </Button>
+        </AppButton>
         {loading ? (
           <Button
             className={classes.addButton}
@@ -122,17 +128,19 @@ export default function AddLicence({ open, setOpen, fetchLicence }) {
             <Spinner animation="border" size="sm"></Spinner>
           </Button>
         ) : (
-          <Button
+          <AppButton
             onClick={() => {
               onSubmitNewKey();
               setOpen(false);
             }}
-            className={classes.addButton}
-            variant="contained"
-            color="primary"
+            variant="fill"
+            fontSize={15}
+            style={{
+              height: 45,
+              padding: "0px 30px",
+            }}
           >
-            Add Licence
-          </Button>
+            Add licence</AppButton>
         )}
       </DialogActions>
     </Dialog>

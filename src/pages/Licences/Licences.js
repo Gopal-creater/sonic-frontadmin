@@ -12,6 +12,10 @@ import { fetchLicenceKeys } from "../../stores/actions/licenceKey";
 import { connect } from "react-redux";
 import { format } from "date-fns";
 import SonicSpinner from "../../components/common/SonicSpinner";
+import AppButton from "../../components/common/AppButton/AppButton";
+import { H1 } from "../../StyledComponents/StyledHeadings";
+import CommonDataLoadErrorSuccess from "../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess";
+import LicenceTable from "./components/LicenceTable";
 
 const useStyles = makeStyles((theme) => ({
   licenceContainer: {
@@ -114,22 +118,26 @@ function Licences(props) {
 
   return (
     <Grid className={classes.licenceContainer}>
-      <Typography className={classes.heading}>Licences</Typography>
+      <H1>Licences</H1>
       <Typography className={classes.subHeading}>
         Add a new licence key.
       </Typography>
       <Card className={classes.card}>
-        <Button
-          variant="contained"
-          component="span"
-          color="primary"
-          className={classes.button}
-          onClick={() => setOpen(true)}
-        >
-          Add licence
-        </Button>
+        <AppButton variant="fill" fontSize={15} onClick={() => setOpen(true)}
+          style={{
+            height: 45,
+            padding: "0px 30px",
+          }}> Add Licence</AppButton>
       </Card>
 
+      <CommonDataLoadErrorSuccess
+        // error={props?.licenceKey?.error}
+        loading={loading}
+        onClickTryAgain={() => { props.fetchLicenceKey() }}
+      >
+        <LicenceTable data={licenceData} />
+      </CommonDataLoadErrorSuccess>
+      {/* 
       <TableContainer>
         {loading ? (
           <div
@@ -189,7 +197,7 @@ function Licences(props) {
             </TableBody>
           </Table>
         )}
-      </TableContainer>
+      </TableContainer> */}
 
       <AddLicence open={open} setOpen={setOpen} fetchLicence={fetchLicence} />
     </Grid>

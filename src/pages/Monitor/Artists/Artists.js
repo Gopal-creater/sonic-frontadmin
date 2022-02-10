@@ -2,7 +2,7 @@ import { Grid } from '@material-ui/core';
 import React from 'react';
 import { useTheme } from 'styled-components';
 import PaginationCount from '../../../components/common/Pagination/PaginationCount';
-import { H1, H4 } from '../../../StyledComponents/StyledHeadings';
+import { H1 } from '../../../StyledComponents/StyledHeadings';
 import FilterComponent from "../../../components/common/FilterComponent/FilterComponent"
 import { ArtistContainer } from './Styles';
 import CustomPagination from '../../../components/common/Pagination/CustomPagination';
@@ -59,7 +59,7 @@ export default function Artists() {
             <H1 fontFamily={theme.fontFamily.nunitoSansBold}>My Artist</H1>
             <PaginationCount
                 heading={true}
-                name={"Artist"}
+                name={"artist"}
                 start={monitor?.artist?.data?.offset}
                 end={monitor?.artist?.data?.docs?.length}
                 total={monitor?.artist?.data?.totalDocs}
@@ -84,7 +84,7 @@ export default function Artists() {
                 <Grid container justifyContent="space-between" alignItems="center" style={{ marginTop: "30px" }}>
                     <Grid item xs={12} sm={4} md={6}>
                         <PaginationCount
-                            name="Artists"
+                            name="artists"
                             total={monitor?.artist?.data?.totalDocs}
                             start={monitor?.artist?.data?.offset}
                             end={monitor?.artist?.data?.docs?.length}

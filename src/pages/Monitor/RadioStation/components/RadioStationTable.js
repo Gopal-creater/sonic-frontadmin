@@ -1,71 +1,113 @@
-import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
+import { Grid, Table, TableBody, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import React from 'react';
 import { useTheme } from 'styled-components';
+import { artistTableHeads, radioStationTableHeads } from '../../../../constants/constants';
 import { AlternateStyledTableData, StyledTableData, StyledTableHead } from '../../../../StyledComponents/StyledTable/StyledTable';
+import dropdown from "../../../../assets/icons/dropdown.png"
 
 export default function RadioStationTable({ data }) {
     const theme = useTheme()
-    function createData(name, calories, fat, carbs, protein) {
-        return { name, calories, fat, carbs, protein };
+
+    const [state, setState] = React.useState({
+        data: data || [],
+    })
+    const [sortOrder, setSortOrder] = React.useState("ASC")
+
+    const sorting = (col) => {
+        if (sortOrder === "ASC") {
+            let sorted = state.data.sort((a, b) => {
+                if (a[col] > b[col]) {
+                    return 1
+                }
+                if (a[col] < b[col]) {
+                    return -1
+                }
+                return 0
+            })
+            setState({ ...state, data: sorted })
+            setSortOrder("DSC")
+        }
+        if (sortOrder === "DSC") {
+            let sorted = state.data.sort((a, b) => {
+                if (a[col] < b[col]) {
+                    return 1
+                }
+                if (a[col] > b[col]) {
+                    return -1
+                }
+                return 0
+            })
+            setState({ ...state, data: sorted })
+            setSortOrder("ASC")
+        }
     }
 
-    const rows = [
-        createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-        createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-        createData('Eclair', 262, 16.0, 24, 6.0),
-        createData('Cupcake', 305, 3.7, 67, 4.3),
-        createData('Gingerbread', 356, 16.0, 49, 3.9),
-    ];
     return (
         <Grid>
             <TableContainer >
                 <Table aria-label="customized table">
                     <TableHead>
                         <TableRow>
-                            <StyledTableHead >RADIO STATION</StyledTableHead>
-                            <StyledTableHead >COUNTRY</StyledTableHead>
-                            <StyledTableHead >PLAYS</StyledTableHead>
-                            <StyledTableHead>TRACKS</StyledTableHead>
-                            <StyledTableHead>ARTIST</StyledTableHead>
+                            {
+                                radioStationTableHeads?.map((data, index) => {
+                                    return (
+                                        <StyledTableHead
+                                            key={index}
+                                            onClick={() => sorting(data?.orderBy)}
+                                        >
+                                            {data?.title} <img src={dropdown} alt="dropdown" height={15} />
+                                        </StyledTableHead>
+                                    )
+                                })
+                            }
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map((row, index) => {
-                            if (index % 2 !== 0) {
-                                return (
-                                    <TableRow key={row.name} >
-                                        <AlternateStyledTableData
-                                            style={{
-                                                color: theme.colors.primary.navy,
-                                                fontSize: theme.fontSize.h4,
-                                                fontFamily: theme.fontFamily.nunitoSansBold
-                                            }}
-                                        >
-                                            {row.name}
-                                        </AlternateStyledTableData>
-                                        <AlternateStyledTableData >{row.calories}</AlternateStyledTableData>
-                                        <AlternateStyledTableData >{row.fat}</AlternateStyledTableData>
-                                        <AlternateStyledTableData >{row.carbs}</AlternateStyledTableData>
-                                    </TableRow>
-                                )
-                            }
-                            return (
-                                <TableRow key={row.name}>
-                                    <StyledTableData
-                                        style={{
-                                            color: theme.colors.primary.navy,
-                                            fontSize: theme.fontSize.h4,
-                                            fontFamily: theme.fontFamily.nunitoSansBold
-                                        }}
-                                    >
-                                        {row.name}
+                        {
+                            state?.data?.length === 0 ?
+                                <TableRow key={0}>
+                                    <StyledTableData colSpan={5} style={{ textAlign: "center" }}>
+                                        No Data
                                     </StyledTableData>
-                                    <StyledTableData >{row.calories}</StyledTableData>
-                                    <StyledTableData >{row.fat}</StyledTableData>
-                                    <StyledTableData >{row.carbs}</StyledTableData>
-                                </TableRow>
-                            )
-                        })}
+                                </TableRow> :
+                                state?.data?.map((row, index) => {
+                                    if (index % 2 !== 0) {
+                                        return (
+                                            <TableRow key={index} >
+                                                <AlternateStyledTableData
+                                                    style={{
+                                                        color: theme.colors.primary.navy,
+                                                        fontSize: theme.fontSize.h4,
+                                                        fontFamily: theme.fontFamily.nunitoSansBold
+                                                    }}
+                                                >
+                                                    {row?.radioStation || "---"}
+                                                </AlternateStyledTableData>
+                                                <AlternateStyledTableData >{`${row?.country}` || "---"}</AlternateStyledTableData>
+                                                <AlternateStyledTableData >{`${row?.plays}` || "---"}</AlternateStyledTableData>
+                                                <AlternateStyledTableData >{`${row?.tracks}` || "---"}</AlternateStyledTableData>
+                                                <AlternateStyledTableData >{`${row?.artist}` || "---"}</AlternateStyledTableData>
+                                            </TableRow>
+                                        )
+                                    }
+                                    return (
+                                        <TableRow key={index}>
+                                            <StyledTableData
+                                                style={{
+                                                    color: theme.colors.primary.navy,
+                                                    fontSize: theme.fontSize.h4,
+                                                    fontFamily: theme.fontFamily.nunitoSansBold
+                                                }}
+                                            >
+                                                {row?.radioStation || "---"}
+                                            </StyledTableData>
+                                            <StyledTableData >{`${row?.country}` || "---"}</StyledTableData>
+                                            <StyledTableData >{`${row?.plays}` || "---"}</StyledTableData>
+                                            <StyledTableData >{`${row?.tracks}` || "---"}</StyledTableData>
+                                            <StyledTableData >{`${row?.artist}` || "---"}</StyledTableData>
+                                        </TableRow>
+                                    )
+                                })}
                     </TableBody>
                 </Table>
             </TableContainer>

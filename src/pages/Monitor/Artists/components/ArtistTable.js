@@ -66,7 +66,7 @@ export default function ArtistTable({ data }) {
                         {
                             state?.data?.length === 0 ?
                                 <TableRow key={0}>
-                                    <StyledTableData colSpan={4} style={{ textAlign: "center" }}>
+                                    <StyledTableData colSpan={5} style={{ textAlign: "center" }}>
                                         No Data
                                     </StyledTableData>
                                 </TableRow> :

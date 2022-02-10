@@ -6,7 +6,6 @@ import { H1, H4 } from '../../../StyledComponents/StyledHeadings';
 import FilterComponent from "../../../components/common/FilterComponent/FilterComponent"
 import { ArtistContainer } from './Styles';
 import CustomPagination from '../../../components/common/Pagination/CustomPagination';
-import PlaysFilter from '../Plays/components/PlaysFilter';
 import CommonDataLoadErrorSuccess from '../../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess';
 import ArtistTable from './components/ArtistTable';
 import { useDispatch, useSelector } from 'react-redux';
@@ -30,10 +29,6 @@ export default function Artists() {
         error: actionTypes.SET_ARTIST_ERROR,
     }
 
-    const handleExport = (format) => {
-        dispatch(getMonitorExportAction(actions, monitor?.dates?.startDate, monitor?.dates?.endDate, format, 2000, "ARTISTS"))
-    }
-
     const createStableArtistData = () => {
         const artistData = monitor?.artist?.data?.docs?.map((data) => {
             return (
@@ -49,6 +44,10 @@ export default function Artists() {
         return artistData
     }
 
+    const handleExport = (format) => {
+        dispatch(getMonitorExportAction(monitor?.dates?.startDate, monitor?.dates?.endDate, format, 2000, "ARTISTS"))
+    }
+
     const handleArtistPageChange = (event, value) => {
         dispatch(getMonitorListAction(actions, monitor?.dates?.startDate, monitor?.dates?.endDate, value, "10", "ARTISTS"))
     }
@@ -58,12 +57,6 @@ export default function Artists() {
     return (
         <ArtistContainer>
             <H1 fontFamily={theme.fontFamily.nunitoSansBold}>My Artist</H1>
-            {/* <H4
-                color={theme.colors.primary.teal}
-                fontFamily={theme.fontFamily.nunitoSansRegular}
-            >
-                Showing 1-10 of 38 tracks
-            </H4> */}
             <PaginationCount
                 heading={true}
                 name={"Artist"}
@@ -88,25 +81,24 @@ export default function Artists() {
                 onClickTryAgain={() => dispatch(getMonitorListAction(actions, monitor?.dates?.startDate, monitor?.dates?.endDate, monitor?.artist?.data?.page, "10", "ARTISTS"))}
             >
                 <ArtistTable data={createStableArtistData()} />
+                <Grid container justifyContent="space-between" alignItems="center" style={{ marginTop: "30px" }}>
+                    <Grid item xs={12} sm={4} md={6}>
+                        <PaginationCount
+                            name="Artists"
+                            total={monitor?.artist?.data?.totalDocs}
+                            start={monitor?.artist?.data?.offset}
+                            end={monitor?.artist?.data?.docs?.length}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={8} md={6}>
+                        <CustomPagination
+                            count={monitor?.artist?.data?.totalPages}
+                            page={monitor?.artist?.data?.page}
+                            onChange={handleArtistPageChange}
+                        />
+                    </Grid>
+                </Grid>
             </CommonDataLoadErrorSuccess>
-
-            <Grid container justifyContent="space-between" alignItems="center" style={{ marginTop: "30px" }}>
-                <Grid item xs={12} sm={6} md={8}>
-                    <PaginationCount
-                        name="Artists"
-                        total={monitor?.artist?.data?.totalDocs}
-                        start={monitor?.artist?.data?.offset}
-                        end={monitor?.artist?.data?.docs?.length}
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6} md={4}>
-                    <CustomPagination
-                        count={monitor?.artist?.data?.totalPages}
-                        page={monitor?.artist?.data?.page}
-                        onChange={handleArtistPageChange}
-                    />
-                </Grid>
-            </Grid>
         </ArtistContainer>
     );
 }

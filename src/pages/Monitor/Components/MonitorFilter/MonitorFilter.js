@@ -1,11 +1,10 @@
 import React from 'react'
-import { FormControl, InputLabel, MenuItem, Select, TextField, ListItemText, Grid } from '@material-ui/core'
+import { FormControl, Grid } from '@material-ui/core'
 import { countries } from '../../../../constants/constants';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPlaysListsAction } from '../../../../stores/actions';
 import * as actionTypes from '../../../../stores/actions/actionTypes';
 import { CloseOutlined } from '@material-ui/icons';
-import { FilterButton, FilterContainer, FilterForm, FilterHeader, FilterItems } from './FilterStyled';
+import { FilterButton, FilterContainer, FilterForm, FilterHeader, FilterItems } from './MonitorFilterStyles';
 import { H3, H5 } from '../../../../StyledComponents/StyledHeadings';
 import AppButton from '../../../../components/common/AppButton/AppButton';
 import theme from '../../../../theme';
@@ -15,33 +14,26 @@ import { StyledTextField } from '../../../../StyledComponents/StyledAppTextInput
 import CustomDropDown from '../../../../components/common/AppTextInput/CustomDropDown';
 import { getMonitorListAction } from '../../../../stores/actions/monitorActions/monitorActions';
 
-export default function PlaysFilter({ closeDialog, playsBy }) {
+export default function MonitorFilter({ closeDialog, playsBy, actions }) {
     const dispatch = useDispatch();
-    const plays = useSelector(state => state.playsList);
+    const monitor = useSelector(state => state.monitor);
+    const radioStations = useSelector(state => state.radioStations)
 
-    const filteredRadioStation = plays?.allRadioStations?.data?.filter((data) => {
-        if (plays.filters.country === "") {
+    const filteredRadioStation = radioStations.data?.filter((data) => {
+        if (monitor.filters.country === "") {
             return data
         }
-        if (data.country === plays.filters.country) {
+        if (data.country === monitor.filters.country) {
             return data
         }
     })
 
-    const actions = {
-        loading: "",
-        error: "",
-        data: ""
-    }
-
     const handleFilter = (e) => {
         e.preventDefault();
-
         dispatch(getMonitorListAction(
             actions,
-            plays?.dates?.startDate,
-            plays?.dates?.endDate,
-            plays?.filters?.channel,
+            monitor?.dates?.startDate,
+            monitor?.dates?.endDate,
             1,
             10,
             playsBy
@@ -69,8 +61,8 @@ export default function PlaysFilter({ closeDialog, playsBy }) {
                                 fullWidth: true
                             }}
                             inputProps={{
-                                value: plays?.filters?.channel,
-                                onChange: (e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, channel: e.target.value } })
+                                value: monitor?.filters?.channel,
+                                onChange: (e) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, channel: e.target.value } })
                             }}
                         />
                     </FilterForm>
@@ -79,8 +71,8 @@ export default function PlaysFilter({ closeDialog, playsBy }) {
                         <StyledTextField
                             fullWidth
                             label="SonicKey"
-                            value={plays?.filters?.sonicKey}
-                            onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, sonicKey: e.target.value } })}
+                            value={monitor?.filters?.sonicKey}
+                            onChange={(e) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, sonicKey: e.target.value } })}
                             InputLabelProps={{
                                 style: {
                                     fontSize: theme.fontSize.h4,
@@ -100,8 +92,8 @@ export default function PlaysFilter({ closeDialog, playsBy }) {
                                 fullWidth: true
                             }}
                             inputProps={{
-                                value: plays?.filters?.country,
-                                onChange: (e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, country: e.target.value, radioStation: "" } }),
+                                value: monitor?.filters?.country,
+                                onChange: (e) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, country: e.target.value, radioStation: "" } }),
                                 displayEmpty: true
                             }}
                             data={countries || []}
@@ -116,8 +108,8 @@ export default function PlaysFilter({ closeDialog, playsBy }) {
                                 fullWidth: true
                             }}
                             inputProps={{
-                                value: plays?.filters?.radioStation,
-                                onChange: (e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, radioStation: e.target.value } }),
+                                value: monitor?.filters?.radioStation,
+                                onChange: (e) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, radioStation: e.target.value } }),
                                 disabled: filteredRadioStation?.length === 0 ? true : false
                             }}
                             data={filteredRadioStation || []}
@@ -128,8 +120,8 @@ export default function PlaysFilter({ closeDialog, playsBy }) {
                         <StyledTextField
                             fullWidth
                             label="Artist name"
-                            value={plays?.filters?.artist}
-                            onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, artist: e.target.value } })}
+                            value={monitor?.filters?.artist}
+                            onChange={(e) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, artist: e.target.value } })}
                             InputLabelProps={{
                                 style: {
                                     fontSize: theme.fontSize.h4,
@@ -145,8 +137,8 @@ export default function PlaysFilter({ closeDialog, playsBy }) {
                         <StyledTextField
                             fullWidth
                             label="Track"
-                            value={plays?.filters?.song}
-                            onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, song: e.target.value } })}
+                            value={monitor?.filters?.song}
+                            onChange={(e) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, song: e.target.value } })}
                             InputLabelProps={{
                                 style: {
                                     fontSize: theme.fontSize.h4,
@@ -162,8 +154,8 @@ export default function PlaysFilter({ closeDialog, playsBy }) {
                         <StyledTextField
                             fullWidth
                             label="Label"
-                            value={plays?.filters?.label}
-                            onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, label: e.target.value } })}
+                            value={monitor?.filters?.label}
+                            onChange={(e) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, label: e.target.value } })}
                             InputLabelProps={{
                                 style: {
                                     fontSize: theme.fontSize.h4,
@@ -179,8 +171,8 @@ export default function PlaysFilter({ closeDialog, playsBy }) {
                         <StyledTextField
                             fullWidth
                             label="Distributor"
-                            value={plays?.filters?.distributor}
-                            onChange={(e) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, distributor: e.target.value } })}
+                            value={monitor?.filters?.distributor}
+                            onChange={(e) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, distributor: e.target.value } })}
                             InputLabelProps={{
                                 style: {
                                     fontSize: theme.fontSize.h4,
@@ -196,13 +188,13 @@ export default function PlaysFilter({ closeDialog, playsBy }) {
                 <FormControl>
                     <Grid style={{ display: 'flex', margin: "30px 30px 0px 20px" }}>
                         <CustomDatePicker
-                            selected={plays?.filters?.encodedStartDate}
-                            onChange={(date) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, encodedStartDate: date } })}
+                            selected={monitor?.filters?.encodedStartDate}
+                            onChange={(date) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, encodedStartDate: date } })}
                             calender={true}
                             dateFormat="MMM d,yyyy"
                             title="Encoded Start Date"
-                            startDate={plays?.filters?.encodedStartDate}
-                            endDate={plays?.filters?.encodedEndDate}
+                            startDate={monitor?.filters?.encodedStartDate}
+                            endDate={monitor?.filters?.encodedEndDate}
                             filter={true}
                         />
 
@@ -211,12 +203,12 @@ export default function PlaysFilter({ closeDialog, playsBy }) {
                         </div>
 
                         <CustomDatePicker
-                            selected={plays?.filters?.encodedEndDate}
-                            onChange={(date) => dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...plays?.filters, encodedEndDate: date } })}
+                            selected={monitor?.filters?.encodedEndDate}
+                            onChange={(date) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, encodedEndDate: date } })}
                             dateFormat="MMM d,yyyy"
                             title="End Date"
-                            startDate={plays?.filters?.encodedStartDate}
-                            endDate={plays?.filters?.encodedEndDate}
+                            startDate={monitor?.filters?.encodedStartDate}
+                            endDate={monitor?.filters?.encodedEndDate}
                             filter={true}
                         />
                     </Grid>
@@ -227,7 +219,7 @@ export default function PlaysFilter({ closeDialog, playsBy }) {
                         variant="outline"
                         className="mx-3"
                         onClick={() => dispatch({
-                            type: actionTypes.SET_PLAYS_FILTER,
+                            type: actionTypes.SET_MONITOR_FILTERS,
                             data: {
                                 channel: "ALL",
                                 sonicKey: "",

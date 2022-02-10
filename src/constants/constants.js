@@ -1424,3 +1424,10 @@ export const dashboardPlaysTableHeads = [
   { title: "SONICKEY", orderBy: "sonicKey" },
   { title: "ISRC", orderBy: "isrcCode" }
 ]
+
+export const trackTableHeads = [
+  { title: "TRACK NAME", orderBy: "trackName" },
+  { title: "PLAYS", orderBy: "plays" },
+  { title: "RADIO STATION", orderBy: "radioStation" },
+  { title: "country", orderBy: "country" },
+]

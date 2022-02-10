@@ -21,11 +21,6 @@ export const playsListInitialState = {
         encodedEndDate: "",
     },
     error: null,
-    allRadioStations: {
-        loading: false,
-        data: [],
-        error: null,
-    }
 };
 
 const playsListsReducer = (state = playsListInitialState, action) =>
@@ -52,22 +47,6 @@ const playsListsReducer = (state = playsListInitialState, action) =>
 
             case actionTypes.SET_PLAYS_FILTER:
                 draft.filters = action.data;
-                break;
-
-            case actionTypes.GET_ALL_RADIOSTATIONS_LOADING:
-                draft.allRadioStations.loading = true;
-                break;
-
-            case actionTypes.GET_ALL_RADIOSTATIONS_SUCCESS:
-                draft.allRadioStations.loading = false;
-                draft.allRadioStations.data = action?.data?.docs?.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
-                draft.allRadioStations.error = null
-                break;
-
-            case actionTypes.GET_ALL_RADIOSTATIONS_ERROR:
-                draft.allRadioStations.loading = false;
-                draft.allRadioStations.data = [];
-                draft.allRadioStations.error = action.data;
                 break;
 
             case actionTypes.UPDATE_EDITED_PLAYSLIST:

@@ -14,6 +14,8 @@ import { streamReaderTableHeads, countries } from "../../../constants/constants"
 import SonicSpinner from "../../../components/common/SonicSpinner";
 import { fetchRadioStationsActions, getAllRadioStationsAction, getSubscribedStationCountActions } from "../../../stores/actions";
 import { FilterList } from "@material-ui/icons";
+import { H1, H4 } from "../../../StyledComponents/StyledHeadings";
+import { useTheme } from "styled-components";
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -39,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SonicStreamReader(props) {
     const classes = useStyles();
+    const theme = useTheme()
     const [values, setValues] = React.useState({
         anchorFilter: false,
         country: '',
@@ -73,22 +76,13 @@ export default function SonicStreamReader(props) {
     return (
         <>
             <Grid className={classes.container}>
-                <Grid item style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <div>
-                        <Typography style={{ fontSize: 30, fontFamily: 'NunitoSans-Bold', color: "#343F84" }}>
-                            Sonic StreamReader
-                        </Typography>
-                        <Typography style={{ fontSize: 18, fontFamily: 'NunitoSans-Regular', color: "#00A19A", paddingBottom: 30 }}>
-                            Currently listening to {radioStation?.stationCount?.data} radio stations
-                        </Typography>
-                    </div>
-                    {/* <Search
-                        searchData={(value) => dispatch(fetchRadioStationsActions(5, 1, "", values?.radio,))}
-                        dataSearch={values?.dataSearch}
-                        setDataSearch={(res) => setValues({ ...values, dataSearch: res })}
-                        setDefaultData={(flag) => setValues({ ...values, defaultData: flag })}
-                    /> */}
-                </Grid>
+                <H1>Sonic StreamReader</H1>
+                <H4
+                    color={theme.colors.primary.teal}
+                    fontFamily={theme.fontFamily.nunitoSansRegular}
+                >
+                    Currently listening to {radioStation?.stationCount?.data} radio stations
+                </H4>
 
                 <Grid container className={classes.card}>
                     <Grid item>

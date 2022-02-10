@@ -340,7 +340,12 @@ const SonicKeys = (props) => {
                     {!loading ?
                         <Grid container justifyContent="space-between" alignItems="center">
                             <Grid item xs={12} sm={6} md={6}>
-                                <PaginationCount name="SonicKeys" total={totalDocs} start={offset} end={tableData.length} />
+                                <PaginationCount
+                                    name="SonicKeys"
+                                    total={totalDocs}
+                                    start={offset}
+                                    end={tableData.length}
+                                />
                             </Grid>
                             <Grid item xs={12} sm={6} md={6}>
                                 <CustomPagination

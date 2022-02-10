@@ -79,7 +79,7 @@ const useStyles = makeStyles(() => {
   })
 });
 
-export default function Sidebar() {
+export default function Sidebar({ showMenu, toggleMenu }) {
   const location = useLocation()
 
   const session = useSelector(state => state.session)
@@ -87,10 +87,6 @@ export default function Sidebar() {
 
   const classes = useStyles();
   const [newActiveLink, setNewActiveLink] = React.useState(null);
-
-  const [state, setState] = React.useState({
-    menuToggled: true
-  })
 
   React.useEffect(() => {
     if (getChildItemInArray()?.includes(location?.pathname)) {
@@ -119,13 +115,13 @@ export default function Sidebar() {
 
   return (
     <>
-      <Grid className={classes.toggleButton} onClick={() => setState({ ...state, menuToggled: !state.menuToggled })}>
+      <Grid className={classes.toggleButton} onClick={() => toggleMenu?.()}>
         <MenuOpenIcon className={classes.menuIcon} /><br />
-        {!state.menuToggled && <span className={classes.showMenu}>Show<br />menu</span>}
+        {!showMenu && <span className={classes.showMenu}>Show<br />menu</span>}
       </Grid>
 
       {
-        state.menuToggled &&
+        showMenu &&
         <List className={classes.listContainer}>
           {
             routeList?.map((data, index) => {

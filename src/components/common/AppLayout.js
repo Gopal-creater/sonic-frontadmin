@@ -41,6 +41,12 @@ const useStyles = makeStyles((theme) => ({
 export default function AppLayout({ children }) {
   const classes = useStyles();
 
+  const [showSideBarMenu, setShowSideBarMenu] = React.useState(true)
+
+  const toggleMenu = () => {
+    setShowSideBarMenu(!showSideBarMenu)
+  }
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -51,7 +57,7 @@ export default function AppLayout({ children }) {
         <Toolbar />
         <Grid id="container" className={classes.subContainer}>
           <Grid item id="sidebarContainer" className={classes.sidebarContainer}>
-            <Sidebar />
+            <Sidebar showMenu={showSideBarMenu} toggleMenu={toggleMenu} />
           </Grid>
 
           <Grid item id="pageContainer" className={classes.pagecontent}>

@@ -5,7 +5,7 @@ import profileRed from './profileRed';
 import licenceKeyRed from './licenceKeyRed';
 import sessionRed from './sessionRed';
 import thirdPartyRed from './thirdPartyRed';
-import radiostationsReducer from './RadioStation';
+import radiostationsReducer from './radioStationReducer';
 import globalReducer from './global';
 import countReducer from './count';
 import cardRadiostationsReducer from './cardRadioStaion';
@@ -13,8 +13,8 @@ import topRadiostationReducer from './topRadioStation';
 import dashboardReducer from './dashboard.reducers';
 import playsListsReducer from './playsListsRed';
 import streamReaderReducer from './streamReader.reducer';
-import { trackReducer } from './trackReducer';
 import countriesReducer from './countries.reducers';
+import monitorReducer from './monitor/monitorReducer';
 
 const appReducer = combineReducers({
   session: sessionRed,
@@ -30,8 +30,8 @@ const appReducer = combineReducers({
   dashboard: dashboardReducer,
   playsList: playsListsReducer,
   streamReader: streamReaderReducer,
-  track: trackReducer,
   country: countriesReducer,
+  monitor: monitorReducer
 });
 
 const rootReducer = (state, action) => {

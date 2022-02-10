@@ -21,6 +21,7 @@ export default function FilterComponent(props) {
     const handleExportData = (value) => {
         log("Export File", value)
         exportData(value);
+        setState({ ...state, exportAnchorEl: null })
     }
 
     return (

@@ -130,14 +130,14 @@ function Licences(props) {
           }}> Add Licence</AppButton>
       </Card>
 
-      <CommonDataLoadErrorSuccess
+      {/* <CommonDataLoadErrorSuccess
         // error={props?.licenceKey?.error}
         loading={loading}
         onClickTryAgain={() => { props.fetchLicenceKey() }}
       >
         <LicenceTable data={licenceData} />
-      </CommonDataLoadErrorSuccess>
-      {/* 
+      </CommonDataLoadErrorSuccess> */}
+
       <TableContainer>
         {loading ? (
           <div
@@ -197,7 +197,7 @@ function Licences(props) {
             </TableBody>
           </Table>
         )}
-      </TableContainer> */}
+      </TableContainer>
 
       <AddLicence open={open} setOpen={setOpen} fetchLicence={fetchLicence} />
     </Grid>

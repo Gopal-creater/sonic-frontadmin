@@ -34,6 +34,13 @@ const monitorInitialState = {
         error: null,
         loading: false,
         data: {}
+    },
+    artist: {
+        error: null,
+        loading: false,
+        data: {
+
+        }
     }
 };
 
@@ -99,6 +106,24 @@ const monitorReducer = (state = monitorInitialState, action) =>
                 draft.radioStation.loading = false
                 draft.radioStation.error = action.data
                 break
+
+            // For Artist
+            case actionTypes.SET_ARTIST_LOADING:
+                draft.artist.loading = true
+                draft.artist.error = null
+                break
+
+            case actionTypes.SET_ARTIST_SUCCESS:
+                draft.artist.loading = false
+                draft.artist.error = null
+                draft.artist.data = action.data
+                break
+
+            case actionTypes.SET_ARTIST_ERROR:
+                draft.artist.loading = false
+                draft.artist.error = action.data
+                break
+
 
             default:
                 break

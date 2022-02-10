@@ -194,7 +194,6 @@ export default function PlaysFilter({ closeDialog }) {
                             title="Encoded Start Date"
                             startDate={plays?.filters?.encodedStartDate}
                             endDate={plays?.filters?.encodedEndDate}
-                            filter={true}
                         />
 
                         <div className="mt-4 mx-3">
@@ -208,7 +207,6 @@ export default function PlaysFilter({ closeDialog }) {
                             title="End Date"
                             startDate={plays?.filters?.encodedStartDate}
                             endDate={plays?.filters?.encodedEndDate}
-                            filter={true}
                         />
                     </Grid>
                 </FormControl>

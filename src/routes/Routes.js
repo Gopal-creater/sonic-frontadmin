@@ -12,6 +12,7 @@ import Plays from "../pages/Monitor/Plays/Plays";
 import Tracks from "../pages/Monitor/Tracks/Tracks";
 import Artists from "../pages/Monitor/Artists/Artists";
 import Countries from "../pages/Monitor/Countries/Countries";
+import RadioStations from "../pages/Monitor/RadioStation/RadioStation";
 
 export default function Routes() {
   return (
@@ -29,7 +30,7 @@ export default function Routes() {
           <Route path="/plays" component={Plays} exact />
           <Route path="/tracks" component={Tracks} exact />
           <Route path="/artists" component={Artists} exact />
-          <Route path="/radio-stations" component={Artists} exact />
+          <Route path="/radio-stations" component={RadioStations} exact />
           <Route path="/countries" component={Countries} exact />
         </Switch>
       </div>

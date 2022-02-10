@@ -41,7 +41,7 @@
 .react-datepicker__day--today,
 .react-datepicker__day--keyboard-selected {
     border-radius: 0;
-    /* outline: 1px solid #00A19A; */
-    background-color: #fff;
+    outline: 1px solid #00A19A;
+    background-color: #E0EFEF;
     color: #757575;
 }

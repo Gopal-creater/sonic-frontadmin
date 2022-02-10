@@ -15,7 +15,7 @@ function PaginationCount({
                 fontFamily: heading ? theme.fontFamily.nunitoSansRegular : theme.fontFamily.nunitoSansBold,
                 fontSize: heading ? "18px" : "14px"
             }}>
-                Showing {start + 1}-{start + end} of {total} {name}
+                {end > 0 ? `Showing ${start + 1}-${start + end} of ${total} ${name}` : `0 ${name}`}
             </span>
         </div>)
 }

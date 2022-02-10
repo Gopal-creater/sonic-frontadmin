@@ -6,7 +6,7 @@ import * as actionType from './actionTypes';
 import cogoToast from 'cogo-toast';
 import fileDownload from 'js-file-download'
 
-export const getPlaysListsAction = (startDate, endDate, channel, page, limit, recentPlays = false) => {
+export const getPlaysListsAction = (startDate, endDate, channel, page, limit, playsBy, recentPlays = false) => {
     let newEndDate = moment(endDate).endOf("days").toISOString()
     let params = new URLSearchParams(`detectedAt>=${moment(startDate).format("YYYY-MM-DD")}&detectedAt<=date(${newEndDate})`)
 
@@ -21,6 +21,9 @@ export const getPlaysListsAction = (startDate, endDate, channel, page, limit, re
 
     if (channel !== "ALL") {
         params.append("channel", channel)
+    }
+    if (playsBy) {
+        params.append("playsBy", playsBy)
     }
     if (playsFilters?.sonicKey) {
         params.append("relation_sonicKey.sonicKey", playsFilters?.sonicKey);

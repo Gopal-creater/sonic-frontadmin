@@ -1406,7 +1406,17 @@ export const countries = [
 ];
 
 export const playsTableHeads = [
-  "ARTIST", "TITLE", "TIME", "DURATION", "COUNTRY", "SONICKEY", "ISRC", "LABEL", "DISTRIBUTOR",
+  { title: "ARTIST", orderBy: "artist" },
+  { title: "TITLE", orderBy: "title" },
+  { title: "RADIO STATION", orderBy: "radioStation" },
+  { title: "DATE", orderBy: "date" },
+  { title: "TIME", orderBy: "time" },
+  { title: "DURATION", orderBy: "duration" },
+  { title: "COUNTRY", orderBy: "country" },
+  { title: "SONICKEY", orderBy: "sonickey" },
+  { title: "ISRC", orderBy: "isrcCode" },
+  { title: "LABEL", orderBy: "label" },
+  { title: "DISTRIBUTOR", orderBy: "distributor" }
 ]
 
 export const streamReaderTableHeads = [

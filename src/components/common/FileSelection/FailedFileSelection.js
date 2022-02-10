@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography } from "@material-ui/core";
-import Icon from "../../assets/images/icon-fail-graphic.png";
+import Icon from "../../../assets/images/icon-fail-graphic.png";
 
 const useStyles = makeStyles((theme) => ({
   failedContainer: {

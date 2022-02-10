@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import FileSelection from "../../components/common/FileSelection";
+import FileSelection from "../../components/common/FileSelection/FileSelection";
 import { Grid } from "@material-ui/core";
-import FailedFileSelection from "../../components/common/FailedFileSelection";
+import FailedFileSelection from "../../components/common/FileSelection/FailedFileSelection";
 import DecodeSuccess from "./components/DecodeSuccess";
-import EncodeDecodeLoading from "../../components/common/EncodeDecodeLoading";
+import EncodeDecodeLoading from "../../components/common/FileSelection/EncodeDecodeLoading";
 
 export default function Decode() {
   const [loading, setLoading] = useState(false);

@@ -12,6 +12,8 @@ import PaginationCount from '../../../components/common/Pagination/PaginationCou
 import PlaysFilter from './components/PlaysFilter';
 import CommonDataLoadErrorSuccess from '../../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess';
 import PlaysTable from './components/PlaysTable';
+import CustomPagination from '../../../components/common/Pagination/CustomPagination';
+import { log } from '../../../utils/app.debug';
 
 export default function Plays() {
     const [values, setValues] = React.useState({
@@ -21,6 +23,8 @@ export default function Plays() {
     })
     const dispatch = useDispatch();
     const playsList = useSelector(state => state.playsList);
+
+    log("PLAYS", playsList.data)
 
     React.useEffect(() => {
         dispatch(getPlaysListsAction(
@@ -35,6 +39,25 @@ export default function Plays() {
     React.useEffect(() => {
         dispatch(getAllRadioStationsAction())
     }, [])
+
+    const createStableTableData = () => {
+        let stableTableData = playsList?.data?.docs?.map((data) => {
+            return {
+                artist: data?.sonicKey?.contentOwner,
+                title: data?.sonicKey?.contentFileName,
+                radioStation: data?.radioStation?.name,
+                date: data?.sonicKey?.detectedAt,
+                time: data?.sonicKey?.detectedAt,
+                duration: data?.sonicKey?.contentDuration,
+                country: data?.radioStation?.country,
+                sonicKey: data?.sonicKey?.sonicKey,
+                isrcCode: data?.sonicKey?.isrcCode,
+                label: data?.sonicKey?.label,
+                distributor: data?.sonicKey?.distributor
+            }
+        })
+        return stableTableData
+    }
 
     const handleExport = (value) => {
         setValues({ ...values, format: value })
@@ -87,7 +110,30 @@ export default function Plays() {
                 loading={playsList?.loading}
                 onClickTryAgain={() => dispatch(getPlaysListsAction(playsList?.dates?.startDate, playsList?.dates?.endDate, playsList?.filters?.channel, playsList?.data?.page, 10))}
             >
-                <PlaysTable data={playsList?.data?.docs || []} />
+                <PlaysTable data={createStableTableData()} />
+                <Grid container justifyContent="space-between" alignItems="center" style={{ marginTop: "30px" }}>
+                    <Grid item xs={12} sm={4} md={8}>
+                        <PaginationCount
+                            name="plays"
+                            start={playsList?.data?.offset}
+                            end={playsList?.data?.docs?.length}
+                            total={playsList?.data?.totalDocs}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={8} md={4}>
+                        <CustomPagination
+                            count={playsList?.data?.totalPages}
+                            page={playsList?.data?.page}
+                            onChange={(event, value) => dispatch(getPlaysListsAction(
+                                playsList?.dates?.startDate,
+                                playsList?.dates?.endDate,
+                                playsList?.filters?.channel,
+                                value,
+                                10
+                            ))}
+                        />
+                    </Grid>
+                </Grid>
             </CommonDataLoadErrorSuccess>
 
             {/*

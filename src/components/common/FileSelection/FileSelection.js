@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Button, Grid, Typography } from "@material-ui/core";
-import Icon from "../../assets/images/icon-add-sound.png";
+import { Grid, Typography } from "@material-ui/core";
+import Icon from "../../../assets/images/icon-add-sound.png";
 import * as mm from "music-metadata-browser";
 import cogoToast from "cogo-toast";
-import Communication from "../../services/https/Communication";
+import Communication from "../../../services/https/Communication";
+import { H1, H4, H6 } from "../../../StyledComponents/StyledHeadings";
+import theme from "../../../theme";
+import AppButton from "../AppButton/AppButton";
 
 const useStyles = makeStyles(() => ({
   EncodeDecodeContainer: {
@@ -12,60 +15,15 @@ const useStyles = makeStyles(() => ({
     padding: "2% 2.5%",
     boxShadow: (shadow) => shadow.boxShadow,
   },
-  header: {
-    display: "flex",
-    justifyContent: "space-between",
-  },
-  heading: {
-    fontSize: 30,
-    fontFamily: 'NunitoSans-ExtraBold',
-    color: "#343F84",
-  },
-  subHeading: {
-    paddingBottom: 30,
-    fontSize: 18,
-    fontFamily: 'NunitoSans-Regular',
-    color: "#00A19A",
-  },
-  selectFile: {
-    fontSize: 12,
-    fontFamily: 'NunitoSans-Regular',
-    color: "#ACACAC",
-  },
   audioFile: {
     height: 25,
     width: "30vw",
     marginRight: 30,
+    marginBottom: 5,
     fontSize: 16,
-    fontFamily: 'NunitoSans-Regular',
-    color: "#757575",
-    borderBottom: "1px solid #757575",
-  },
-  clue: {
-    paddingBottom: 20,
-    fontSize: 12,
-    fontFamily: 'NunitoSans-Regular',
-    color: "#ACACAC",
-  },
-  uploadBtn: {
-    height: 45,
-    padding: "0px 20px",
-    textTransform: "initial",
-    fontSize: 15,
-    fontFamily: 'NunitoSans-Bold',
-    color: "#343F84",
-    borderRadius: 8,
-    border: "2px solid #343F84",
-  },
-  decodeBtn: {
-    height: 45,
-    padding: "0px 20px",
-    textTransform: "initial",
-    fontSize: 15,
-    fontFamily: 'NunitoSans-Bold',
-    borderRadius: 8,
-    color: 'white',
-    backgroundColor: '#343F84'
+    fontFamily: `${theme.fontFamily.nunitoSansRegular}`,
+    color: `${theme.colors.secondary.grey}`,
+    borderBottom: `1px solid ${theme.colors.secondary.grey}`,
   },
 }));
 
@@ -279,16 +237,14 @@ export default function FileSelection({ prop }) {
 
   return (
     <Grid className={classes.EncodeDecodeContainer}>
-      <Grid item className={classes.header}>
+      <Grid item style={{ display: 'flex', justifyContent: 'space-between' }}>
         <div>
-          <Typography className={classes.heading}>
-            {prop?.title} SonicKeys
-          </Typography>
-          <Typography className={classes.subHeading}>
+          <H1>{prop?.title} SonicKeys</H1>
+          <H4 fontFamily={theme.fontFamily.nunitoSansRegular} color={theme.colors.primary.teal}>
             {audioData?.name !== null && prop?.title === "Encode"
               ? "Add details to start encoding."
               : prop?.subTitle}
-          </Typography>
+          </H4>
         </div>
         <img src={Icon} alt="" style={{ height: 80 }} />
       </Grid>
@@ -296,45 +252,45 @@ export default function FileSelection({ prop }) {
       <Grid item>
         <div style={{ display: "flex" }}>
           <div>
-            <Typography className={classes.selectFile}>
-              Select a file
-            </Typography>
+            <H6 color={theme.colors.secondary.grey} fontFamily={theme.fontFamily.nunitoSansRegular}>Select a file</H6>
             <Typography className={classes.audioFile}>
               {truncate(audioData?.name, 50)}
             </Typography>
-            <Typography className={classes.clue}>
+            <H6 color={theme.colors.secondary.mediumGrey} fontFamily={theme.fontFamily.nunitoSansRegular}>
               all audio file formats
-            </Typography>
+            </H6>
           </div>
 
           {audioData?.name !== null && prop?.title === "Decode" ? (
-            <Button
-              variant="contained"
-              component="span"
-              color="primary"
-              className={classes.decodeBtn}
-              onClick={handleDecode}
-            >
-              Decode
-            </Button>
+            <>
+              <label htmlFor="contained-button-file-decode">
+                <AppButton
+                  variant="fill"
+                  onClick={handleDecode}
+                  style={{ height: 45 }}
+                >
+                  Decode
+                </AppButton>
+              </label>
+            </>
           ) : (
             <>
               <input
                 accept="audio/*"
-                className={classes.input}
                 id="contained-button-file"
                 type="file"
                 style={{ display: "none" }}
                 onChange={handleAudio}
               />
               <label htmlFor="contained-button-file">
-                <Button
-                  variant="outlined"
+                <AppButton
+                  variant="outline"
                   component="span"
-                  className={classes.uploadBtn}
+                  fontFamily={theme.fontFamily.nunitoSansBold}
+                  style={{ height: 45 }}
                 >
                   Upload a file
-                </Button>
+                </AppButton>
               </label>
             </>
           )}

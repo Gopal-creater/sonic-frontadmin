@@ -35,6 +35,7 @@ export default function FilterComponent(props) {
                         title="Start Date"
                         startDate={props?.startDate}
                         endDate={props?.endDate}
+                        dateRange={true}
                     />
                 </Grid>
 
@@ -50,6 +51,7 @@ export default function FilterComponent(props) {
                         title="End Date"
                         startDate={props?.startDate}
                         endDate={props?.endDate}
+                        dateRange={true}
                     />
                 </Grid>
             </ContainerItem>

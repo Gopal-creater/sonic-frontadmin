@@ -1,18 +1,15 @@
-import { Grid } from '@material-ui/core';
 import moment from 'moment';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import styled, { useTheme } from 'styled-components';
-import CustomPagination from '../../../../components/common/Pagination/CustomPagination';
-import PaginationCount from '../../../../components/common/Pagination/PaginationCount';
 import { playsTableHeads } from '../../../../constants/constants';
-import { getPlaysListsAction } from '../../../../stores/actions';
 import { AlternateDataColumn, ResizableTable, StyledTableBody, StyledTableHead, StyledTableHeadColumn, StyledTableRow, TableDataColumn, TableResizer, TableWrapper } from '../../Dashboard/Components/DashboardTable/TableStyle';
+import Dropdown from "../../../../assets/icons/dropdown.png"
 
 const createHeaders = (headers) => {
     return headers.map((item) => ({
-        text: item,
-        ref: React.useRef()
+        text: item.title,
+        ref: React.useRef(),
+        orderBy: item.orderBy
     }));
 };
 
@@ -20,12 +17,12 @@ export default function PlaysTable({ data }) {
     const theme = useTheme()
     const [state, setState] = React.useState({
         tableHeight: "auto",
-        activeColumnIndex: null
+        activeColumnIndex: null,
+        data: data || [],
     })
+    const [sortOrder, setSortOrder] = React.useState("ASC");
     const tableElement = React.useRef(null)
     const columns = createHeaders(playsTableHeads)
-    const dispatch = useDispatch();
-    const playsList = useSelector(state => state.playsList);
 
     const mouseMove = React.useCallback(
         (e) => {
@@ -71,102 +68,88 @@ export default function PlaysTable({ data }) {
         };
     }, [state.activeColumnIndex, mouseMove, mouseUp, removeListeners]);
 
+    const sorting = (col) => {
+        if (sortOrder === "ASC") {
+            let sorted = state.data.sort((a, b) => {
+                if (a[col] > b[col]) {
+                    return 1
+                }
+                if (a[col] < b[col]) {
+                    return -1
+                }
+                return 0
+            })
+            setState({ ...state, data: sorted })
+            setSortOrder("DSC")
+        }
+        if (sortOrder === "DSC") {
+            let sorted = state.data.sort((a, b) => {
+                if (a[col] < b[col]) {
+                    return 1
+                }
+                if (a[col] > b[col]) {
+                    return -1
+                }
+                return 0
+            })
+            setState({ ...state, data: sorted })
+            setSortOrder("ASC")
+        }
+    }
+
     return (
-        <Grid>
-            <TableWrapper>
-                <ResizableTable ref={tableElement}>
-                    <StyledTableHead>
-                        <StyledTableRow>
-                            {columns.map(({ ref, text }, index) => {
-                                return (
-                                    <StyledTableHeadColumn ref={ref} onMouseDown={() => setState({ ...state, activeColumnIndex: index })}>
-                                        {text} <TableResizer style={{ height: state.tableHeight }} />
-                                    </StyledTableHeadColumn>
-                                )
-                            })}
-                        </StyledTableRow>
-                    </StyledTableHead>
-                    <StyledTableBody>
-                        {data?.map((row, index) => {
-                            if (index % 2 !== 0) {
-                                return (
-                                    <StyledTableRow key={row?._id}>
-                                        <AlternateDataColumn
-                                            style={{
-                                                color: theme.colors.primary.navy,
-                                                fontSize: theme.fontSize.h4,
-                                                fontFamily: theme.fontFamily.nunitoSansMediumBold
-                                            }}
-                                        >
-                                            {row?.sonicKey?.contentOwner || "---"}
-                                        </AlternateDataColumn>
-                                        <AlternateDataColumn
-                                            style={{
-                                                color: theme.colors.primary.graphite,
-                                                fontSize: theme.fontSize.h4,
-                                                fontFamily: theme.fontFamily.nunitoSansMediumBold
-                                            }}
-                                        >
-                                            {row?.sonicKey?.contentFileName || "---"}
-                                        </AlternateDataColumn>
-                                        <AlternateDataColumn>{moment(row?.detectedAt).utc().format("HH:mm:SS") || "---"}</AlternateDataColumn>
-                                        <AlternateDataColumn>{moment.utc(row?.sonicKey?.contentDuration * 1000).format("mm:ss") || "---"}</AlternateDataColumn>
-                                        <AlternateDataColumn>{row?.radioStation?.country || "---"}</AlternateDataColumn>
-                                        <AlternateDataColumn
-                                            style={{
-                                                color: theme.colors.primary.navy,
-                                                fontSize: theme.fontSize.h5,
-                                                fontFamily: theme.fontFamily.nunitoSansMediumBold
-                                            }}
-                                        >
-                                            {row?.sonicKey?.sonicKey || "---"}
-                                        </AlternateDataColumn>
-                                        <AlternateDataColumn
-                                            style={{
-                                                color: theme.colors.primary.graphite,
-                                                fontSize: theme.fontSize.h5,
-                                                fontFamily: theme.fontFamily.nunitoSansMediumBold
-                                            }}
-                                        >
-                                            {row?.sonicKey?.isrcCode || "---"}
-                                        </AlternateDataColumn>
-                                        <AlternateDataColumn>{row?.sonicKey?.label || "---"}</AlternateDataColumn>
-                                        <AlternateDataColumn>{row?.sonicKey?.distributor || "---"}</AlternateDataColumn>
-                                    </StyledTableRow>
-                                )
-                            }
+        <TableWrapper>
+            <ResizableTable ref={tableElement}>
+                <StyledTableHead>
+                    <StyledTableRow>
+                        {columns.map(({ ref, text, orderBy }, index) => {
                             return (
-                                <StyledTableRow key={row?._id}>
-                                    <TableDataColumn
+                                <StyledTableHeadColumn ref={ref} onClick={() => sorting(orderBy)}>
+                                    {text}
+                                    <img src={Dropdown} height={15} alt="dropdown" />
+                                    <TableResizer onMouseDown={() => setState({ ...state, activeColumnIndex: index })} style={{ height: state.tableHeight }} />
+                                </StyledTableHeadColumn>
+                            )
+                        })}
+                    </StyledTableRow>
+                </StyledTableHead>
+                <StyledTableBody>
+                    {state.data?.map((row, index) => {
+                        if (index % 2 !== 0) {
+                            return (
+                                <StyledTableRow key={index}>
+                                    <AlternateDataColumn
                                         style={{
                                             color: theme.colors.primary.navy,
                                             fontSize: theme.fontSize.h4,
                                             fontFamily: theme.fontFamily.nunitoSansMediumBold
                                         }}
                                     >
-                                        {row?.sonicKey?.contentOwner || "---"}
-                                    </TableDataColumn>
-                                    <TableDataColumn
+                                        {row?.artist || "---"}
+                                    </AlternateDataColumn>
+                                    <AlternateDataColumn
                                         style={{
                                             color: theme.colors.primary.graphite,
                                             fontSize: theme.fontSize.h4,
                                             fontFamily: theme.fontFamily.nunitoSansMediumBold
                                         }}
                                     >
-                                        {row?.sonicKey?.contentFileName || "---"}
-                                    </TableDataColumn>
-                                    <TableDataColumn>{moment(row?.detectedAt).utc().format("HH:mm:SS") || "---"}</TableDataColumn>
-                                    <TableDataColumn>{moment.utc(row?.sonicKey?.contentDuration * 1000).format("mm:ss") || "---"}</TableDataColumn>
-                                    <TableDataColumn>{row?.radioStation?.country || "---"}</TableDataColumn>
-                                    <TableDataColumn
+                                        {row?.title || "---"}
+                                    </AlternateDataColumn>
+                                    <AlternateDataColumn>{row?.radioStation || "---"}</AlternateDataColumn>
+                                    <AlternateDataColumn>{moment(row?.date).utc().format("DD/MM/YYYY") || "---"}</AlternateDataColumn>
+                                    <AlternateDataColumn>{moment(row?.time).utc().format("HH:mm:SS") || "---"}</AlternateDataColumn>
+                                    <AlternateDataColumn>{moment.utc(row?.duration * 1000).format("mm:ss") || "---"}</AlternateDataColumn>
+                                    <AlternateDataColumn>{row?.country || "---"}</AlternateDataColumn>
+                                    <AlternateDataColumn
                                         style={{
                                             color: theme.colors.primary.navy,
                                             fontSize: theme.fontSize.h5,
                                             fontFamily: theme.fontFamily.nunitoSansMediumBold
                                         }}
                                     >
-                                        {row?.sonicKey?.sonicKey || "---"}
-                                    </TableDataColumn>
+                                        {row?.sonicKey || "---"}
+                                    </AlternateDataColumn>
                                     <AlternateDataColumn
                                         style={{
                                             color: theme.colors.primary.graphite,
@@ -174,40 +157,63 @@ export default function PlaysTable({ data }) {
                                             fontFamily: theme.fontFamily.nunitoSansMediumBold
                                         }}
                                     >
-                                        {row?.sonicKey?.isrcCode || "---"}
+                                        {row?.isrcCode || "---"}
                                     </AlternateDataColumn>
-                                    <AlternateDataColumn>{row?.sonicKey?.label || "---"}</AlternateDataColumn>
-                                    <AlternateDataColumn>{row?.sonicKey?.distributor || "---"}</AlternateDataColumn>
+                                    <AlternateDataColumn>{row?.label || "---"}</AlternateDataColumn>
+                                    <AlternateDataColumn>{row?.distributor || "---"}</AlternateDataColumn>
                                 </StyledTableRow>
                             )
-                        })}
-                    </StyledTableBody>
-                </ResizableTable>
-            </TableWrapper>
-
-            <Grid container alignItems="center" className='mt-3'>
-                <Grid item xs={12} sm={4} md={6}>
-                    <PaginationCount
-                        name="plays"
-                        start={playsList?.data?.offset}
-                        end={playsList?.data?.docs?.length}
-                        total={playsList?.data?.totalDocs}
-                    />
-                </Grid>
-                <Grid item xs={12} sm={8} md={6}>
-                    <CustomPagination
-                        count={playsList?.data?.totalPages}
-                        page={playsList?.data?.page}
-                        onChange={(event, value) => dispatch(getPlaysListsAction(
-                            playsList?.dates?.startDate,
-                            playsList?.dates?.endDate,
-                            playsList?.filters?.channel,
-                            value,
-                            10
-                        ))}
-                    />
-                </Grid>
-            </Grid>
-        </Grid>
+                        }
+                        return (
+                            <StyledTableRow key={row?._id}>
+                                <TableDataColumn
+                                    style={{
+                                        color: theme.colors.primary.navy,
+                                        fontSize: theme.fontSize.h4,
+                                        fontFamily: theme.fontFamily.nunitoSansMediumBold
+                                    }}
+                                >
+                                    {row?.artist || "---"}
+                                </TableDataColumn>
+                                <TableDataColumn
+                                    style={{
+                                        color: theme.colors.primary.graphite,
+                                        fontSize: theme.fontSize.h4,
+                                        fontFamily: theme.fontFamily.nunitoSansMediumBold
+                                    }}
+                                >
+                                    {row?.title || "---"}
+                                </TableDataColumn>
+                                <TableDataColumn>{row?.radioStation || "---"}</TableDataColumn>
+                                <TableDataColumn>{moment(row?.date).utc().format("DD/MM/YYYY") || "---"}</TableDataColumn>
+                                <TableDataColumn>{moment(row?.time).utc().format("HH:mm:SS") || "---"}</TableDataColumn>
+                                <TableDataColumn>{moment.utc(row?.duration * 1000).format("mm:ss") || "---"}</TableDataColumn>
+                                <TableDataColumn>{row?.country || "---"}</TableDataColumn>
+                                <TableDataColumn
+                                    style={{
+                                        color: theme.colors.primary.navy,
+                                        fontSize: theme.fontSize.h5,
+                                        fontFamily: theme.fontFamily.nunitoSansMediumBold
+                                    }}
+                                >
+                                    {row?.sonicKey || "---"}
+                                </TableDataColumn>
+                                <TableDataColumn
+                                    style={{
+                                        color: theme.colors.primary.graphite,
+                                        fontSize: theme.fontSize.h5,
+                                        fontFamily: theme.fontFamily.nunitoSansMediumBold
+                                    }}
+                                >
+                                    {row?.isrcCode || "---"}
+                                </TableDataColumn>
+                                <TableDataColumn>{row?.label || "---"}</TableDataColumn>
+                                <TableDataColumn>{row?.distributor || "---"}</TableDataColumn>
+                            </StyledTableRow>
+                        )
+                    })}
+                </StyledTableBody>
+            </ResizableTable>
+        </TableWrapper>
     );
 }

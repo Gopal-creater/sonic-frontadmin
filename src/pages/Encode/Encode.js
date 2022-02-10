@@ -1,6 +1,5 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
-import FileSelection from '../../components/common/FileSelection';
 import TextField from '@material-ui/core/TextField';
 import { Button, Grid, Typography } from '@material-ui/core'
 import Select from '@material-ui/core/Select';
@@ -11,15 +10,14 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import cogoToast from 'cogo-toast';
 import Communication from '../../services/https/Communication';
 import { log } from '../../utils/app.debug';
-import EncodeDecodeLoading from '../../components/common/EncodeDecodeLoading';
-import InputMask from 'react-input-mask';
 import EncodeSuccess from './Components/EncodeSuccess';
-import FailedFileSelection from '../../components/common/FailedFileSelection';
 import moment from 'moment';
+import EncodeDecodeLoading from '../../components/common/FileSelection/EncodeDecodeLoading';
+import FailedFileSelection from '../../components/common/FileSelection/FailedFileSelection';
+import FileSelection from '../../components/common/FileSelection/FileSelection';
 
 const countryCodes = require("country-codes-list");
 const myCountryCodesObject = countryCodes.customList(

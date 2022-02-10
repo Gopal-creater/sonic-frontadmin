@@ -5,7 +5,7 @@ import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import Typography from '@material-ui/core/Typography';
 import { Grid } from '@material-ui/core'
-import encodeKeyImg from "../../assets/images/loadingKey.png"
+import encodeKeyImg from "../../../assets/images/loadingKey.png"
 
 const styles = (theme) => ({
     root: {

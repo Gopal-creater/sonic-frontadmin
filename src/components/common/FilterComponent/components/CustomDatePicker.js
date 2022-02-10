@@ -34,8 +34,8 @@ const CustomDate = React.forwardRef((props, ref) => (
                     outline: 'none',
                     border: 'none',
                     borderBottom: `1px solid ${theme.colors.secondary.mediumGrey}`,
-                    color: props?.filter ? theme.colors.secondary.lightNavy : theme.colors.secondary.mediumGrey,
-                    fontFamily: props?.filter ? theme.fontFamily.nunitoSansRegular : theme.fontFamily.nunitoSansBold,
+                    color: props?.dateRange ? theme.colors.secondary.mediumGrey : theme.colors.secondary.lightNavy,
+                    fontFamily: props?.dateRange ? theme.fontFamily.nunitoSansBold : theme.fontFamily.nunitoSansRegular,
                     fontSize: theme.fontSize.h4,
                     width: '100%',
                 }}
@@ -45,13 +45,13 @@ const CustomDate = React.forwardRef((props, ref) => (
 )
 )
 
-export default function CustomDatePicker({ title, selected, onChange, calender = false, filter = false, startDate, endDate, ...props }) {
+export default function CustomDatePicker({ title, selected, onChange, calender = false, dateRange = false, startDate, endDate, ...props }) {
     return <div>
         <DatePicker
             wrapperClassName='date-picker'
             selected={selected}
             onChange={onChange}
-            customInput={<CustomDate calender={calender} filter={filter} />}
+            customInput={<CustomDate calender={calender} dateRange={dateRange} />}
             dateFormat="MMM d,yyyy"
             title={title || ""}
             startDate={startDate || null}

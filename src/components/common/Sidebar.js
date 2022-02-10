@@ -94,7 +94,6 @@ export default function Sidebar({ showMenu, toggleMenu }) {
     }
   }, [])
 
-
   const checkIsActive = (match, location, index) => {
     match && setNewActiveLink(index); // <-- set active index
     return match; // <-- return boolean

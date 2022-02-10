@@ -34,8 +34,17 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     marginLeft: "190px",
     overflowY: "auto",
-
   },
+  hiddenSideBarContainer: {
+    width: "80px",
+    position: "fixed",
+    height: "100%",
+  },
+  widePageContent: {
+    flexGrow: 1,
+    marginLeft: "80px",
+    overflowY: "auto",
+  }
 }));
 
 export default function AppLayout({ children }) {
@@ -56,11 +65,19 @@ export default function AppLayout({ children }) {
       <Container maxWidth="xl" className={classes.container}>
         <Toolbar />
         <Grid id="container" className={classes.subContainer}>
-          <Grid item id="sidebarContainer" className={classes.sidebarContainer}>
+          <Grid
+            item
+            id="sidebarContainer"
+            className={!showSideBarMenu ? classes.hiddenSideBarContainer : classes.sidebarContainer}
+          >
             <Sidebar showMenu={showSideBarMenu} toggleMenu={toggleMenu} />
           </Grid>
 
-          <Grid item id="pageContainer" className={classes.pagecontent}>
+          <Grid
+            item
+            id="pageContainer"
+            className={!showSideBarMenu ? classes.widePageContent : classes.pagecontent}
+          >
             <main >
               <div style={{ minHeight: "68vh" }}>{children}</div>
             </main>

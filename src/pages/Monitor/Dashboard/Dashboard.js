@@ -45,7 +45,8 @@ export function Dashboard() {
         sonicKey: data?.sonicKey?.sonicKey,
         isrcCode: data?.sonicKey?.isrcCode,
         label: data?.sonicKey?.label,
-        distributor: data?.sonicKey?.distributor
+        distributor: data?.sonicKey?.distributor,
+        modal: data?.sonicKey
       }
     })
     return stableTableData

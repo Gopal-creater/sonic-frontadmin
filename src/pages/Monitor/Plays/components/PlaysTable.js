@@ -4,11 +4,8 @@ import styled, { useTheme } from 'styled-components';
 import { playsTableHeads } from '../../../../constants/constants';
 import { AlternateDataColumn, ResizableTable, StyledTableBody, StyledTableHead, StyledTableHeadColumn, StyledTableRow, TableDataColumn, TableResizer, TableWrapper } from '../../Dashboard/Components/DashboardTable/TableStyle';
 import Dropdown from "../../../../assets/icons/dropdown.png";
-import * as actionTypes from "../../../../stores/actions/actionTypes";
 import MetaDataDialog from "../../../../components/common/MetaDataDialog";
-import { Grid } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
-import { log } from '../../../../utils/app.debug';
 import { CustomTooltip } from '../../../../StyledComponents/StyledToolTip/CustomTooltip';
 
 const createHeaders = (headers) => {
@@ -279,10 +276,6 @@ export default function PlaysTable({ data }) {
                             sonicKey={state?.selectedSonicKey}
                             open={true}
                             setOpenTable={(flag) => setState({ ...state, sonicKeyModal: flag })}
-                            updateMetaData={(key) => {
-                                setState({ ...state, selectedSonicKey: key })
-                                dispatch({ type: actionTypes.UPDATE_EDITED_PLAYSLIST, data: key })
-                            }}
                         />
                     )}
                 </ResizableTable>

@@ -34,10 +34,10 @@ export default function Artists() {
             return (
                 {
                     artistName: data?.artist,
-                    country: data?.countriesCount,
                     plays: data?.playsCount,
-                    radioStation: data?.radioStationCount,
                     uniquePlaysCount: data?.uniquePlaysCount,
+                    radioStation: data?.radioStationCount,
+                    country: data?.countriesCount,
                 }
             )
         })

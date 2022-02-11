@@ -24,7 +24,6 @@ export default function RadioStations() {
             actions,
             monitor?.dates?.startDate,
             monitor?.dates?.endDate,
-            monitor?.filters?.channel,
             monitor?.radioStation?.data?.page,
             10,
             "RADIOSTATIONS"
@@ -41,11 +40,12 @@ export default function RadioStations() {
         const radioStationData = monitor?.radioStation?.data?.docs?.map((data) => {
             return (
                 {
-                    radioStation: "Radio Asam",
-                    country: "Nepal",
-                    plays: "1",
-                    tracks: "will come back",
-                    artist: "legend pop",
+                    radioStation: data?.radioStation?.name,
+                    countriesCount: data?.countriesCount,
+                    playsCount: data?.playsCount,
+                    uniquePlays: data?.uniquePlaysCount,
+                    artistsCount: data?.artistsCount,
+
                 }
             )
         })
@@ -91,7 +91,6 @@ export default function RadioStations() {
                 onClickTryAgain={() => dispatch(getMonitorListAction(
                     monitor?.dates?.startDate,
                     monitor?.dates?.endDate,
-                    monitor?.filters?.channel,
                     monitor?.radioStation?.data?.page,
                     10,
                     "RADIOSTATIONS"

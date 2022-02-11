@@ -83,10 +83,10 @@ export default function RadioStationTable({ data }) {
                                                 >
                                                     {row?.radioStation || "---"}
                                                 </AlternateStyledTableData>
-                                                <AlternateStyledTableData >{`${row?.country}` || "---"}</AlternateStyledTableData>
-                                                <AlternateStyledTableData >{`${row?.plays}` || "---"}</AlternateStyledTableData>
-                                                <AlternateStyledTableData >{`${row?.tracks}` || "---"}</AlternateStyledTableData>
-                                                <AlternateStyledTableData >{`${row?.artist}` || "---"}</AlternateStyledTableData>
+                                                <AlternateStyledTableData >{`${row?.countriesCount}` || "---"}</AlternateStyledTableData>
+                                                <AlternateStyledTableData >{`${row?.playsCount}` || "---"}</AlternateStyledTableData>
+                                                <AlternateStyledTableData >{`${row?.uniquePlays}` || "---"}</AlternateStyledTableData>
+                                                <AlternateStyledTableData >{`${row?.artistsCount}` || "---"}</AlternateStyledTableData>
                                             </TableRow>
                                         )
                                     }
@@ -101,10 +101,10 @@ export default function RadioStationTable({ data }) {
                                             >
                                                 {row?.radioStation || "---"}
                                             </StyledTableData>
-                                            <StyledTableData >{`${row?.country}` || "---"}</StyledTableData>
-                                            <StyledTableData >{`${row?.plays}` || "---"}</StyledTableData>
-                                            <StyledTableData >{`${row?.tracks}` || "---"}</StyledTableData>
-                                            <StyledTableData >{`${row?.artist}` || "---"}</StyledTableData>
+                                            <StyledTableData >{`${row?.countriesCount}` || "---"}</StyledTableData>
+                                            <StyledTableData >{`${row?.playsCount}` || "---"}</StyledTableData>
+                                            <StyledTableData >{`${row?.uniquePlays}` || "---"}</StyledTableData>
+                                            <StyledTableData >{`${row?.artistsCount}` || "---"}</StyledTableData>
                                         </TableRow>
                                     )
                                 })}

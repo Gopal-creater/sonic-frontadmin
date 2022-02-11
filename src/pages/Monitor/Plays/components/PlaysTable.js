@@ -3,7 +3,12 @@ import React from 'react';
 import styled, { useTheme } from 'styled-components';
 import { playsTableHeads } from '../../../../constants/constants';
 import { AlternateDataColumn, ResizableTable, StyledTableBody, StyledTableHead, StyledTableHeadColumn, StyledTableRow, TableDataColumn, TableResizer, TableWrapper } from '../../Dashboard/Components/DashboardTable/TableStyle';
-import Dropdown from "../../../../assets/icons/dropdown.png"
+import Dropdown from "../../../../assets/icons/dropdown.png";
+import * as actionTypes from "../../../../stores/actions/actionTypes";
+import MetaDataDialog from "../../../../components/common/MetaDataDialog";
+import { Grid } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
+import { log } from '../../../../utils/app.debug';
 
 const createHeaders = (headers) => {
     return headers.map((item) => ({
@@ -19,7 +24,10 @@ export default function PlaysTable({ data }) {
         tableHeight: "auto",
         activeColumnIndex: null,
         data: data || [],
+        sonicKeyModal: false,
+        selectedSonicKey: {},
     })
+    const dispatch = useDispatch();
     const [sortOrder, setSortOrder] = React.useState("ASC");
     const tableElement = React.useRef(null)
     const columns = createHeaders(playsTableHeads)
@@ -153,8 +161,10 @@ export default function PlaysTable({ data }) {
                                             style={{
                                                 color: theme.colors.primary.navy,
                                                 fontSize: theme.fontSize.h5,
-                                                fontFamily: theme.fontFamily.nunitoSansMediumBold
+                                                fontFamily: theme.fontFamily.nunitoSansMediumBold,
+                                                cursor: 'pointer'
                                             }}
+                                            onClick={() => setState({ ...state, sonicKeyModal: true, selectedSonicKey: row?.modal })}
                                         >
                                             {row?.sonicKey || "---"}
                                         </AlternateDataColumn>
@@ -201,8 +211,10 @@ export default function PlaysTable({ data }) {
                                         style={{
                                             color: theme.colors.primary.navy,
                                             fontSize: theme.fontSize.h5,
-                                            fontFamily: theme.fontFamily.nunitoSansMediumBold
+                                            fontFamily: theme.fontFamily.nunitoSansMediumBold,
+                                            cursor: 'pointer'
                                         }}
+                                        onClick={() => setState({ ...state, sonicKeyModal: true, selectedSonicKey: row?.modal })}
                                     >
                                         {row?.sonicKey || "---"}
                                     </TableDataColumn>
@@ -221,6 +233,18 @@ export default function PlaysTable({ data }) {
                             )
                         })}
                     </StyledTableBody>
+
+                    {state?.sonicKeyModal && (
+                        <MetaDataDialog
+                            sonicKey={state?.selectedSonicKey}
+                            open={true}
+                            setOpenTable={(flag) => setState({ ...state, sonicKeyModal: flag })}
+                            updateMetaData={(key) => {
+                                setState({ ...state, selectedSonicKey: key })
+                                dispatch({ type: actionTypes.UPDATE_EDITED_PLAYSLIST, data: key })
+                            }}
+                        />
+                    )}
                 </ResizableTable>
             }
         </TableWrapper>

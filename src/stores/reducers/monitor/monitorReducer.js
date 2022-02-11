@@ -90,6 +90,16 @@ const monitorReducer = (state = monitorInitialState, action) =>
                 draft.plays.error = action.data
                 break
 
+            case actionTypes.UPDATE_EDITED_PLAYSLIST:
+                draft.plays.data.docs = draft.plays.data.docs.map((play, index) => {
+                    if (play?.sonicKey?._id === action.data.sonicKey) {
+                        play.sonicKey = action.data
+                        return play
+                    }
+                    return play
+                })
+                break;
+
             //For radioStation
             case actionTypes.SET_RADIOSTATION_LOADING:
                 draft.radioStation.loading = true

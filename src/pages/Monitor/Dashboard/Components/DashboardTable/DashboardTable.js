@@ -9,6 +9,7 @@ import { playsTableHeads } from '../../../../../constants/constants';
 import { useTheme } from 'styled-components';
 import Dropdown from "../../../../../assets/icons/dropdown.png"
 import moment from 'moment';
+import { Tooltip } from '@material-ui/core';
 
 const createHeaders = (headers) => {
     return headers.map((item) => ({
@@ -128,10 +129,21 @@ export default function DashboardTable({ data }) {
                                         <StyledTableHeadColumn
                                             ref={ref}
                                             onClick={() => sorting(orderBy)}
+                                            style={{
+                                                width: index === 0 || index === 1 ? "90px" : "",
+                                                position: index === 0 || index === 1 ? "sticky" : "",
+                                                left: index === 0 ? 0 : index === 1 ? "90px" : "",
+                                                background: index === 0 || index === 1 ? "white" : "",
+                                                zIndex: index === 0 || index === 1 ? 1 : ""
+                                            }}
                                         >
                                             {text}
                                             <img src={Dropdown} height={15} alt="dropdown" />
-                                            <TableResizer onMouseDown={() => setState({ ...state, activeColumnIndex: index })} style={{ height: state.tableHeight }} />
+                                            {
+                                                index === 0 || index === 1 ?
+                                                    "" :
+                                                    <TableResizer onMouseDown={() => setState({ ...state, activeColumnIndex: index })} style={{ height: state.tableHeight }} />
+                                            }
                                         </StyledTableHeadColumn>
                                     )
                                 })}
@@ -143,24 +155,36 @@ export default function DashboardTable({ data }) {
                                 if (index % 2 !== 0) {
                                     return (
                                         <StyledTableRow key={index}>
-                                            <AlternateDataColumn
-                                                style={{
-                                                    color: theme.colors.primary.navy,
-                                                    fontSize: theme.fontSize.h4,
-                                                    fontFamily: theme.fontFamily.nunitoSansMediumBold
-                                                }}
-                                            >
-                                                {row?.artist || "---"}
-                                            </AlternateDataColumn>
-                                            <AlternateDataColumn
-                                                style={{
-                                                    color: theme.colors.primary.graphite,
-                                                    fontSize: theme.fontSize.h4,
-                                                    fontFamily: theme.fontFamily.nunitoSansMediumBold
-                                                }}
-                                            >
-                                                {row?.title || "---"}
-                                            </AlternateDataColumn>
+                                            <Tooltip title={row?.artist || "---"}>
+                                                <AlternateDataColumn
+                                                    style={{
+                                                        color: theme.colors.primary.navy,
+                                                        fontSize: theme.fontSize.h4,
+                                                        fontFamily: theme.fontFamily.nunitoSansMediumBold,
+                                                        position: "sticky",
+                                                        width: "90px",
+                                                        left: 0,
+                                                        background: theme.colors.secondary.tableColor
+                                                    }}
+                                                >
+                                                    {row?.artist || "---"}
+                                                </AlternateDataColumn>
+                                            </Tooltip>
+                                            <Tooltip title={row?.title || "---"}>
+                                                <AlternateDataColumn
+                                                    style={{
+                                                        color: theme.colors.primary.graphite,
+                                                        fontSize: theme.fontSize.h4,
+                                                        fontFamily: theme.fontFamily.nunitoSansMediumBold,
+                                                        position: "sticky",
+                                                        width: "90px",
+                                                        left: "90px",
+                                                        background: theme.colors.secondary.tableColor
+                                                    }}
+                                                >
+                                                    {row?.title || "---"}
+                                                </AlternateDataColumn>
+                                            </Tooltip>
                                             <AlternateDataColumn>{row?.radioStation || "---"}</AlternateDataColumn>
                                             <AlternateDataColumn>{moment(row?.date).utc().format("DD/MM/YYYY") || "---"}</AlternateDataColumn>
                                             <AlternateDataColumn>{moment(row?.time).utc().format("HH:mm:SS") || "---"}</AlternateDataColumn>
@@ -191,24 +215,37 @@ export default function DashboardTable({ data }) {
                                 }
                                 return (
                                     <StyledTableRow key={index}>
-                                        <TableDataColumn
-                                            style={{
-                                                color: theme.colors.primary.navy,
-                                                fontSize: theme.fontSize.h4,
-                                                fontFamily: theme.fontFamily.nunitoSansMediumBold
-                                            }}
-                                        >
-                                            {row?.artist || "---"}
-                                        </TableDataColumn>
-                                        <TableDataColumn
-                                            style={{
-                                                color: theme.colors.primary.graphite,
-                                                fontSize: theme.fontSize.h4,
-                                                fontFamily: theme.fontFamily.nunitoSansMediumBold
-                                            }}
-                                        >
-                                            {row?.title || "---"}
-                                        </TableDataColumn>
+                                        <Tooltip title={row?.artist || "---"}>
+                                            <TableDataColumn
+                                                style={{
+                                                    color: theme.colors.primary.navy,
+                                                    fontSize: theme.fontSize.h4,
+                                                    fontFamily: theme.fontFamily.nunitoSansMediumBold,
+                                                    position: "sticky",
+                                                    width: "90px",
+                                                    left: 0,
+                                                    background: "white"
+                                                }}
+                                            >
+                                                {row?.artist || "---"}
+                                            </TableDataColumn>
+                                        </Tooltip>
+
+                                        <Tooltip title={row?.title || "---"}>
+                                            <TableDataColumn
+                                                style={{
+                                                    color: theme.colors.primary.graphite,
+                                                    fontSize: theme.fontSize.h4,
+                                                    fontFamily: theme.fontFamily.nunitoSansMediumBold,
+                                                    position: "sticky",
+                                                    width: "90px",
+                                                    left: "90px",
+                                                    background: "white"
+                                                }}
+                                            >
+                                                {row?.title || "---"}
+                                            </TableDataColumn>
+                                        </Tooltip>
                                         <TableDataColumn>{row?.radioStation || "---"}</TableDataColumn>
                                         <TableDataColumn>{moment(row?.date).utc().format("DD/MM/YYYY") || "---"}</TableDataColumn>
                                         <TableDataColumn>{moment(row?.time).utc().format("HH:mm:SS") || "---"}</TableDataColumn>
@@ -240,6 +277,6 @@ export default function DashboardTable({ data }) {
                         </StyledTableBody>
                     </ResizableTable>
             }
-        </TableWrapper>
+        </TableWrapper >
     );
 }

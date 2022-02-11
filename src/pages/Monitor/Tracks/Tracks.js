@@ -83,7 +83,7 @@ export default function Tracks() {
             <CommonDataLoadErrorSuccess
                 error={monitor?.track?.error}
                 loading={monitor?.track?.loading}
-                onClickTryAgain={() => { }}
+                onClickTryAgain={() => { dispatch(getMonitorListAction(actions, monitor?.dates?.startDate, monitor?.dates?.endDate, monitor?.track?.data?.page, "10", "TRACKS")) }}
             >
                 <>
                     <TracksTable data={createStableTrackData()} />

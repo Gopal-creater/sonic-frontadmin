@@ -7,59 +7,69 @@ import { useTheme } from 'styled-components';
 import FilterComponent from '../../../components/common/FilterComponent/FilterComponent';
 import { useDispatch, useSelector } from 'react-redux';
 import * as actionTypes from "../../../stores/actions/actionTypes";
-import PlaysFilter from '../Plays/components/PlaysFilter';
+// import PlaysFilter from '../Plays/components/PlaysFilter';
 import PaginationCount from '../../../components/common/Pagination/PaginationCount';
 import { log } from '../../../utils/app.debug';
-import { getCountriesAction } from '../../../stores/actions/countires.action';
 import CommonDataLoadErrorSuccess from '../../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess';
 import CountriesTable from './Components/CountriesTable';
 import CustomPagination from '../../../components/common/Pagination/CustomPagination';
-import CountriesFilterModal from './Components/CountriesFilterModal';
+// import CountriesFilterModal from './Components/CountriesFilterModal';
+import { getMonitorExportAction, getMonitorListAction } from '../../../stores/actions/monitorActions/monitorActions';
+import MonitorFilter from '../Components/MonitorFilter/MonitorFilter';
 
 export default function Countries() {
     const theme = useTheme();
     const dispatch = useDispatch();
-    const countries = useSelector(state => state.country);
-    log("countries state", countries);
+    const monitor = useSelector(state => state.monitor);
+
+    const actions = {
+        loading: actionTypes.SET_COUNTRIES_LOADING,
+        success: actionTypes.SET_COUNTRIES_SUCCESS,
+        error: actionTypes.SET_COUNTRIES_ERROR
+    }
+
+    log("countries state", monitor?.country);
+
 
     useEffect(() => {
-        dispatch(getCountriesAction());
-    }, []);
+        dispatch(getMonitorListAction(actions, monitor?.dates?.startDate, monitor?.dates?.endDate, monitor?.track?.data?.page, "10", "COUNTRIES"))
+    }, [monitor?.dates?.startDate, monitor?.dates?.endDate])
 
-    const handleExport = (value) => {
-        // setValues({ ...values, format: value })
-        // if (playsList?.filters?.sonicKey) {
-        //     dispatch(getSonickeyHistoryDataAction(
-        //         playsList?.dates?.startDate,
-        //         playsList?.dates?.endDate,
-        //         playsList?.filters?.channel,
-        //         value
-        //     ))
-        // } else {
-        //     dispatch(getExportDataAction(
-        //         playsList?.dates?.startDate,
-        //         playsList?.dates?.endDate,
-        //         playsList?.filters?.channel,
-        //         2000,
-        //         value
-        //     ))
-        // }
+    const handleExport = (format) => {
+        dispatch(getMonitorExportAction(monitor?.dates?.startDate, monitor?.dates?.endDate, format, 2000, "COUNTRIES"))
     };
+
+    const handleCountriesPageChange = (event, value) => {
+        dispatch(getMonitorListAction(actions, monitor?.dates?.startDate, monitor?.dates?.endDate, value, "10", "COUNTRIES"))
+    }
+
+
+    const createStableCountryData = () => {
+        const trackData = monitor?.country?.data?.docs?.map((data) => {
+            return (
+                {
+                    radioStationName: data?.radioStationName,
+                    plays: data?.playsCount,
+                    tracks: data?.tracksCount,
+                    artists: data?.artistsCount,
+                    radioStations: data?.radioStationsCount,
+                }
+            )
+        })
+        return trackData
+    }
 
     return (
         <Grid className="countries-container" style={{ backgroundColor: 'white', padding: '2% 2.5%' }}>
             <Grid container justifyContent='space-between'>
                 <Grid>
                     <H1>Countries</H1>
-                    {/* <H4 color={theme.colors.primary.teal} fontFamily={theme.fontFamily.nunitoSansRegular}>
-                        Showing 1-4 of 4 countries
-                    </H4> */}
                     <PaginationCount
                         heading={true}
-                        name="countries"
-                        start={countries?.data?.offset}
-                        end={countries?.data?.docs?.length}
-                        total={countries?.data?.totalDocs}
+                        name="Countries"
+                        total={monitor?.country?.data?.totalDocs}
+                        start={monitor?.country?.data?.offset}
+                        end={monitor?.country?.data?.docs?.length}
                     />
                 </Grid>
                 <Grid style={{ display: 'flex', justifyContent: 'center' }}>
@@ -79,41 +89,41 @@ export default function Countries() {
 
             <Grid>
                 <FilterComponent
-                    startDate={countries?.dates?.startDate}
-                    onChangeStartDate={(date) => dispatch({ type: actionTypes.SET_COUNTRIES_DATE, data: { ...countries.dates, startDate: date } })}
-                    endDate={countries?.dates?.endDate}
-                    onChangeEndDate={(date) => dispatch({ type: actionTypes.SET_COUNTRIES_DATE, data: { ...countries.dates, endDate: date } })}
-                    filterComponent={<CountriesFilterModal open={true} />}
+                    startDate={monitor?.dates?.startDate}
+                    onChangeStartDate={(date) => dispatch({ type: actionTypes.SET_MONITOR_DATES, data: { ...monitor?.dates, startDate: date } })}
+                    endDate={monitor?.dates?.endDate}
+                    onChangeEndDate={(date) => dispatch({ type: actionTypes.SET_MONITOR_DATES, data: { ...monitor?.dates, endDate: date } })}
+                    filterComponent={<MonitorFilter open={true} playsBy="COUNTRIES" actions={actions} />}
                     exportData={(value) => handleExport(value)}
                 />
             </Grid>
 
             <CommonDataLoadErrorSuccess
-                error={null}
-                loading={false}
-                onClickTryAgain={() => { dispatch(getCountriesAction()) }}
+                error={monitor?.track?.error}
+                loading={monitor?.track?.loading}
+                onClickTryAgain={() => { }}
             >
-                <CountriesTable />
+                <>
+                    <CountriesTable data={createStableCountryData} />
+                    <Grid container justifyContent="space-between" alignItems="center" style={{ marginTop: "30px" }}>
+                        <Grid item xs={12} sm={6} md={6}>
+                            <PaginationCount
+                                name="COUNTRIES"
+                                total={monitor?.country?.data?.totalDocs}
+                                start={monitor?.country?.data?.offset}
+                                end={monitor?.country?.data?.docs?.length}
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6} md={6}>
+                            <CustomPagination
+                                count={monitor?.country?.data?.totalPages}
+                                page={monitor?.country?.data?.page}
+                                onChange={handleCountriesPageChange}
+                            />
+                        </Grid>
+                    </Grid>
+                </>
             </CommonDataLoadErrorSuccess>
-
-            <Grid container justifyContent="space-between" alignItems="center" style={{ marginTop: "30px" }}>
-                <Grid item xs={12} sm={6} md={8}>
-                    <PaginationCount
-                        // heading={false}
-                        name="plays"
-                        start={countries?.data?.offset}
-                        end={countries?.data?.docs?.length}
-                        total={countries?.data?.totalDocs}
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6} md={4}>
-                    <CustomPagination
-                        count={2}
-                        page={20}
-                        onChange={() => { }}
-                    />
-                </Grid>
-            </Grid>
         </Grid>
     );
 }

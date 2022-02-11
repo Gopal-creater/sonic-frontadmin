@@ -13,7 +13,6 @@ import topRadiostationReducer from './topRadioStation';
 import dashboardReducer from './dashboard.reducers';
 import playsListsReducer from './playsListsRed';
 import streamReaderReducer from './streamReader.reducer';
-import countriesReducer from './countries.reducers';
 import monitorReducer from './monitor/monitorReducer';
 
 const appReducer = combineReducers({
@@ -30,7 +29,6 @@ const appReducer = combineReducers({
   dashboard: dashboardReducer,
   playsList: playsListsReducer,
   streamReader: streamReaderReducer,
-  country: countriesReducer,
   monitor: monitorReducer
 });
 

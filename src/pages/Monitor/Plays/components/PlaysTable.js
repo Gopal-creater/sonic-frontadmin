@@ -122,7 +122,6 @@ export default function PlaysTable({ data }) {
                                         ref={ref}
                                         onClick={() => sorting(orderBy)}
                                         style={{
-                                            width: index === 0 || index === 1 ? "90px" : "",
                                             position: index === 0 || index === 1 ? "sticky" : "",
                                             left: index === 0 ? 0 : index === 1 ? "90px" : "",
                                             background: index === 0 || index === 1 ? "white" : "",
@@ -130,7 +129,7 @@ export default function PlaysTable({ data }) {
                                         }}
                                     >
                                         {text}
-                                        <img src={Dropdown} height={15} alt="dropdown" />
+                                        <i className="fa fa-sort" style={{ marginLeft: "5px" }}></i>
                                         {
                                             index === 0 || index === 1 ?
                                                 "" :
@@ -153,7 +152,6 @@ export default function PlaysTable({ data }) {
                                                     fontSize: theme.fontSize.h4,
                                                     fontFamily: theme.fontFamily.nunitoSansMediumBold,
                                                     position: "sticky",
-                                                    width: "90px",
                                                     left: 0,
                                                     background: theme.colors.secondary.tableColor
                                                 }}
@@ -168,7 +166,6 @@ export default function PlaysTable({ data }) {
                                                     fontSize: theme.fontSize.h4,
                                                     fontFamily: theme.fontFamily.nunitoSansMediumBold,
                                                     position: "sticky",
-                                                    width: "90px",
                                                     left: "90px",
                                                     background: theme.colors.secondary.tableColor
                                                 }}

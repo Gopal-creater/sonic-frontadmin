@@ -1,7 +1,7 @@
 import { Grid, Table, TableBody, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import React from 'react';
 import { useTheme } from 'styled-components';
-import { artistTableHeads, radioStationTableHeads } from '../../../../constants/constants';
+import { radioStationTableHeads } from '../../../../constants/constants';
 import { AlternateStyledTableData, StyledTableData, StyledTableHead } from '../../../../StyledComponents/StyledTable/StyledTable';
 import dropdown from "../../../../assets/icons/dropdown.png"
 
@@ -55,7 +55,7 @@ export default function RadioStationTable({ data }) {
                                             key={index}
                                             onClick={() => sorting(data?.orderBy)}
                                         >
-                                            {data?.title} <img src={dropdown} alt="dropdown" height={15} />
+                                            {data?.title} <i className="fa fa-sort" style={{ marginLeft: "5px" }}></i>
                                         </StyledTableHead>
                                     )
                                 })
@@ -83,7 +83,7 @@ export default function RadioStationTable({ data }) {
                                                 >
                                                     {row?.radioStation || "---"}
                                                 </AlternateStyledTableData>
-                                                <AlternateStyledTableData >{`${row?.countriesCount}` || "---"}</AlternateStyledTableData>
+                                                <AlternateStyledTableData >{`${row?.country}` || "---"}</AlternateStyledTableData>
                                                 <AlternateStyledTableData >{`${row?.playsCount}` || "---"}</AlternateStyledTableData>
                                                 <AlternateStyledTableData >{`${row?.uniquePlays}` || "---"}</AlternateStyledTableData>
                                                 <AlternateStyledTableData >{`${row?.artistsCount}` || "---"}</AlternateStyledTableData>
@@ -101,7 +101,7 @@ export default function RadioStationTable({ data }) {
                                             >
                                                 {row?.radioStation || "---"}
                                             </StyledTableData>
-                                            <StyledTableData >{`${row?.countriesCount}` || "---"}</StyledTableData>
+                                            <StyledTableData >{`${row?.country}` || "---"}</StyledTableData>
                                             <StyledTableData >{`${row?.playsCount}` || "---"}</StyledTableData>
                                             <StyledTableData >{`${row?.uniquePlays}` || "---"}</StyledTableData>
                                             <StyledTableData >{`${row?.artistsCount}` || "---"}</StyledTableData>

@@ -22,7 +22,7 @@ export const FilterItems = styled(Grid)`
 `
 
 export const FilterForm = styled(FormControl)`
-    width: 220px;
+    width: 100%;
 `
 
 export const FilterButton = styled(Grid)`

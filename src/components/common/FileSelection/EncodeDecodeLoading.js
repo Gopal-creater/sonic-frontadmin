@@ -57,7 +57,7 @@ export default function EncodeDecodeLoading(prop) {
                 </DialogTitle>
                 <DialogContent >
                     <Typography gutterBottom style={{ fontFamily: "NunitoSans-Regular", fontSize: 18, fontWeight: 500 }}>
-                        Depending on your internet connection and a size of an audio file, {prop?.title} may take longer at times.
+                        Depending on your internet connection and the size of an audio file, {prop?.title?.toLowerCase()} may take longer at times.
                     </Typography>
                     <Grid container justifyContent="center" alignItems="center" className="mt-4 mb-4">
                         <img src={encodeKeyImg} alt="Sonic Key" style={{ width: 190, height: 85 }} />

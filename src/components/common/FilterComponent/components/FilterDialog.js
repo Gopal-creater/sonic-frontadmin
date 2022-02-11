@@ -33,7 +33,7 @@ export default function CustomDialog({
     };
 
     return (
-        <React.Fragment>
+        <>
             <FilterExport onClick={!disabled && handleClickOpen}>
                 <AppButton
                     variant="none"
@@ -44,9 +44,10 @@ export default function CustomDialog({
                 </AppButton>
             </FilterExport>
             <MUIDialog
+                fullWidth
                 className={classes.root}
                 open={isOpen}
-                maxWidth="md"
+                maxWidth="sm"
                 // onClose={handleClose}
                 aria-labelledby="alert-dialog-slide-title"
                 aria-describedby="alert-dialog-slide-description"
@@ -56,6 +57,6 @@ export default function CustomDialog({
                     ? children({ close: handleClose })
                     : children}
             </MUIDialog>
-        </React.Fragment>
+        </>
     );
 };

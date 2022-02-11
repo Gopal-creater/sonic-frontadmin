@@ -56,7 +56,7 @@ export default function CountriesTable({ data }) {
                                             key={index}
                                             onClick={() => sorting(data?.orderBy)}
                                         >
-                                            {data?.title} <img src={dropdown} alt="dropdown" height={15} />
+                                            {data?.title} <i className="fa fa-sort" style={{ marginLeft: "5px" }}></i>
                                         </StyledTableHead>
                                     )
                                 })

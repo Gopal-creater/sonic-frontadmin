@@ -7,7 +7,6 @@ import { useRef } from "react";
 import { log } from '../../../../../utils/app.debug';
 import { playsTableHeads } from '../../../../../constants/constants';
 import { useTheme } from 'styled-components';
-import Dropdown from "../../../../../assets/icons/dropdown.png"
 import moment from 'moment';
 import { CustomTooltip } from '../../../../../StyledComponents/StyledToolTip/CustomTooltip';
 import MetaDataDialog from '../../../../../components/common/MetaDataDialog';
@@ -133,7 +132,6 @@ export default function DashboardTable({ data }) {
                                             ref={ref}
                                             onClick={() => sorting(orderBy)}
                                             style={{
-                                                width: index === 0 || index === 1 ? "90px" : "",
                                                 position: index === 0 || index === 1 ? "sticky" : "",
                                                 left: index === 0 ? 0 : index === 1 ? "90px" : "",
                                                 background: index === 0 || index === 1 ? "white" : "",
@@ -141,7 +139,7 @@ export default function DashboardTable({ data }) {
                                             }}
                                         >
                                             {text}
-                                            <img src={Dropdown} height={15} alt="dropdown" />
+                                            <i className="fa fa-sort" style={{ marginLeft: "5px" }}></i>
                                             {
                                                 index === 0 || index === 1 ?
                                                     "" :
@@ -165,7 +163,6 @@ export default function DashboardTable({ data }) {
                                                         fontSize: theme.fontSize.h4,
                                                         fontFamily: theme.fontFamily.nunitoSansMediumBold,
                                                         position: "sticky",
-                                                        width: "90px",
                                                         left: 0,
                                                         background: theme.colors.secondary.tableColor
                                                     }}
@@ -180,7 +177,6 @@ export default function DashboardTable({ data }) {
                                                         fontSize: theme.fontSize.h4,
                                                         fontFamily: theme.fontFamily.nunitoSansMediumBold,
                                                         position: "sticky",
-                                                        width: "90px",
                                                         left: "90px",
                                                         background: theme.colors.secondary.tableColor
                                                     }}

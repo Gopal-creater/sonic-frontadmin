@@ -47,6 +47,7 @@ export const StyledTableHeadColumn = styled.th`
     font-size:11px;
     display: flex;
     justify-content:flex-start;
+    align-items: center;
     &:hover {
         color:${props => props.theme.colors.primary.navy};
     };

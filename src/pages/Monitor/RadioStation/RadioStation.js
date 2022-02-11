@@ -41,11 +41,10 @@ export default function RadioStations() {
             return (
                 {
                     radioStation: data?.radioStation?.name,
-                    countriesCount: data?.countriesCount,
+                    country: data?.radioStation?.country,
                     playsCount: data?.playsCount,
                     uniquePlays: data?.uniquePlaysCount,
                     artistsCount: data?.artistsCount,
-
                 }
             )
         })

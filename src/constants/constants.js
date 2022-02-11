@@ -1432,7 +1432,7 @@ export const trackTableHeads = [
 
 export const radioStationTableHeads = [
   { title: "RADIO STATION", orderBy: "radioStation" },
-  { title: "COUNTRY", orderBy: "countriesCount" },
+  { title: "COUNTRY", orderBy: "country" },
   { title: "PLAYS", orderBy: "playsCount" },
   { title: "TRACKS", orderBy: "uniquePlays" },
   { title: "ARTIST", orderBy: "artistsCount" },

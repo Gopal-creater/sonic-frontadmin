@@ -2,7 +2,7 @@ import { CircularProgress, Grid } from '@material-ui/core';
 import React from 'react';
 import { H1, H2, H3, Span } from "../../../../../StyledComponents/StyledHeadings"
 import { WelcomeBackContainer } from './StyledWelcomeBack';
-import radioIcon from "../../../../../assets/icons/icon-grey-radio.png"
+import radioIcon from "../../../../../assets/icons/icon-white-radio.png"
 import theme from '../../../../../theme';
 
 export default function WelcomeBack({ totalRadioStations, loading, error }) {

@@ -1,5 +1,5 @@
 import { Grid } from "@material-ui/core";
-import React from "react";
+import React, { useRef } from "react";
 import { log } from "../../../utils/app.debug";
 import { useDispatch, useSelector } from "react-redux";
 import * as actionTypes from "../../../stores/actions/actionTypes"
@@ -14,6 +14,8 @@ import { CardContainer, TableContainer } from "./DashboardStyles";
 import { getMonitorDashboardDataAction } from "../../../stores/actions/dashboardActions.js/dashboardActions";
 import MonitorFilter from "../Components/MonitorFilter/MonitorFilter";
 import { getMonitorExportAction } from "../../../stores/actions/monitorActions/monitorActions";
+import { useReactToPrint } from 'react-to-print';
+
 
 export function Dashboard() {
   const dispatch = useDispatch()
@@ -21,6 +23,11 @@ export function Dashboard() {
   const dashboard = useSelector(state => state.dashboard)
   const monitor = useSelector(state => state.monitor)
   const radioStation = useSelector(state => state.radioStations)
+  const dashboardTableRef = useRef();
+
+  const handlePrintToPdf = useReactToPrint({
+    content: () => dashboardTableRef.current,
+  });
 
   React.useEffect(() => {
     dispatch(getMonitorDashboardDataAction(monitor?.dates?.startDate, monitor?.dates?.endDate))
@@ -51,15 +58,22 @@ export function Dashboard() {
     return stableTableData
   }
 
+
+
   const handleDashboardExport = (format) => {
-    dispatch(getMonitorExportAction(monitor?.dates?.startDate, monitor?.dates?.endDate, format, 2000))
+    if (format === 'pdf') {
+      handlePrintToPdf();
+    } else {
+      dispatch(getMonitorExportAction(monitor?.dates?.startDate, monitor?.dates?.endDate, format, 2000))
+    }
   }
+
 
   log("Dashboard", dashboard)
   log("Radios", radioStation)
 
   return (
-    <Grid >
+    <Grid ref={dashboardTableRef}>
 
       <WelcomeBack
         error={radioStation?.error}
@@ -74,6 +88,7 @@ export function Dashboard() {
         onChangeEndDate={(date) => dispatch({ type: actionTypes.SET_MONITOR_DATES, data: { ...monitor.dates, endDate: date } })}
         filterComponent={<MonitorFilter open={true} actions={actions} dashboard={true} />}
         exportData={(value) => handleDashboardExport(value)}
+        pdf={true}
       />
 
       <CardContainer >
@@ -118,7 +133,7 @@ export function Dashboard() {
         />
       </CardContainer>
 
-      <TableContainer>
+      <TableContainer >
         <H3>10 Most Recent Plays</H3>
         <CommonDataLoadErrorSuccess
           error={dashboard?.error}

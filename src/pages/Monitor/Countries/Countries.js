@@ -1,5 +1,5 @@
 import { Grid } from '@material-ui/core';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { H1, H4, H2 } from '../../../StyledComponents/StyledHeadings';
 import Search from '../../SonicKeys/Components/Search';
 import viewFilter from '../../../assets/images/view.png'
@@ -16,27 +16,39 @@ import CustomPagination from '../../../components/common/Pagination/CustomPagina
 // import CountriesFilterModal from './Components/CountriesFilterModal';
 import { getMonitorExportAction, getMonitorListAction } from '../../../stores/actions/monitorActions/monitorActions';
 import MonitorFilter from '../Components/MonitorFilter/MonitorFilter';
+import { useReactToPrint } from 'react-to-print';
 
 export default function Countries() {
     const theme = useTheme();
+
     const dispatch = useDispatch();
     const monitor = useSelector(state => state.monitor);
+
+    const countriesTableRef = useRef();
+    const handlePrintToPdf = useReactToPrint({
+        content: () => countriesTableRef.current,
+    });
 
     const actions = {
         loading: actionTypes.SET_COUNTRIES_LOADING,
         success: actionTypes.SET_COUNTRIES_SUCCESS,
         error: actionTypes.SET_COUNTRIES_ERROR
     }
-
     log("countries state", monitor?.country);
-
 
     useEffect(() => {
         dispatch(getMonitorListAction(actions, monitor?.dates?.startDate, monitor?.dates?.endDate, monitor?.track?.data?.page, "10", "COUNTRIES"))
     }, [monitor?.dates?.startDate, monitor?.dates?.endDate])
 
+
+
     const handleExport = (format) => {
-        dispatch(getMonitorExportAction(monitor?.dates?.startDate, monitor?.dates?.endDate, format, 2000, "COUNTRIES"))
+        if (format === 'pdf') {
+            handlePrintToPdf();
+        } else {
+            dispatch(getMonitorExportAction(monitor?.dates?.startDate, monitor?.dates?.endDate, format, 2000, "COUNTRIES"))
+        }
+
     };
 
     const handleCountriesPageChange = (event, value) => {
@@ -44,15 +56,16 @@ export default function Countries() {
     }
 
 
+
     const createStableCountryData = () => {
         const trackData = monitor?.country?.data?.docs?.map((data) => {
             return (
                 {
-                    radioStationName: data?.radioStationName,
+                    country: data?.country,
                     plays: data?.playsCount,
-                    tracks: data?.tracksCount,
+                    tracks: data?.uniquePlaysCount,
                     artists: data?.artistsCount,
-                    radioStations: data?.radioStationsCount,
+                    radioStations: data?.radioStationCount,
                 }
             )
         })
@@ -60,7 +73,7 @@ export default function Countries() {
     }
 
     return (
-        <Grid className="countries-container" style={{ backgroundColor: 'white', padding: '2% 2.5%' }}>
+        <Grid className="countries-container" style={{ backgroundColor: 'white', padding: '2% 2.5%' }} ref={countriesTableRef}>
             <Grid container justifyContent='space-between'>
                 <Grid>
                     <H1>Countries</H1>
@@ -95,12 +108,13 @@ export default function Countries() {
                     onChangeEndDate={(date) => dispatch({ type: actionTypes.SET_MONITOR_DATES, data: { ...monitor?.dates, endDate: date } })}
                     filterComponent={<MonitorFilter open={true} playsBy="COUNTRIES" actions={actions} />}
                     exportData={(value) => handleExport(value)}
+                // pdf={true}
                 />
             </Grid>
 
             <CommonDataLoadErrorSuccess
-                error={monitor?.track?.error}
-                loading={monitor?.track?.loading}
+                error={monitor?.country?.error}
+                loading={monitor?.country?.loading}
                 onClickTryAgain={() => { dispatch(getMonitorListAction(actions, monitor?.dates?.startDate, monitor?.dates?.endDate, monitor?.track?.data?.page, "10", "COUNTRIES")) }}
             >
                 <>

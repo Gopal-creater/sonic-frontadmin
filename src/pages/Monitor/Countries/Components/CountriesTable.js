@@ -43,7 +43,7 @@ export default function CountriesTable({ data }) {
 
 
     return (
-        <Grid>
+        <Grid >
             <TableContainer >
                 <Table aria-label="customized table">
                     <TableHead>

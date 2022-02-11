@@ -1447,7 +1447,7 @@ export const artistTableHeads = [
 ]
 
 export const countryTableHeads = [
-  { title: "RADIO STATION", orderBy: "radioStationName" },
+  { title: "COUNTRY", orderBy: "country" },
   { title: "PLAYS", orderBy: "plays" },
   { title: "TRACKS", orderBy: "tracks" },
   { title: "ARTISTS", orderBy: "artists" },

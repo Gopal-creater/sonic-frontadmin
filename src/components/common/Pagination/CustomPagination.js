@@ -47,20 +47,22 @@ const useStyles = makeStyles(() => {
     })
 });
 
-export default function CustomPagination(props) {
+export default function CustomPagination({ count, page, ...props }) {
     const classes = useStyles();
 
-    return <div>
-        <Pagination
-            disableFocusRipple
-            disableRipple
-            classes={{
-                root: classes.root,
-            }}
-            count={props?.count}
-            page={props?.page}
-            shape="rounded"
-            onChange={props?.onChange}
-        />
-    </div>;
+    return (
+        <div>
+            <Pagination
+                classes={{
+                    root: classes.root,
+                }}
+                count={count}
+                page={page}
+                shape="rounded"
+                disableFocusRipple
+                disableRipple
+                {...props}
+            />
+        </div>
+    )
 }

@@ -165,7 +165,7 @@ export default function PlaysTable({ data }) {
                             )
                         }
                         return (
-                            <StyledTableRow key={row?._id}>
+                            <StyledTableRow key={index}>
                                 <TableDataColumn
                                     style={{
                                         color: theme.colors.primary.navy,

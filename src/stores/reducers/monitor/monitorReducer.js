@@ -24,6 +24,23 @@ const monitorInitialState = {
         data: {
 
         }
+    },
+    plays: {
+        error: null,
+        loading: false,
+        data: {}
+    },
+    radioStation: {
+        error: null,
+        loading: false,
+        data: {}
+    },
+    artist: {
+        error: null,
+        loading: false,
+        data: {
+
+        }
     }
 };
 
@@ -55,6 +72,58 @@ const monitorReducer = (state = monitorInitialState, action) =>
                 draft.track.loading = false
                 draft.track.error = action.data
                 break
+
+            //For plays
+            case actionTypes.SET_PLAYS_LOADING:
+                draft.plays.loading = true
+                draft.plays.error = null
+                break
+
+            case actionTypes.SET_PLAYS_SUCCESS:
+                draft.plays.loading = false
+                draft.plays.error = null
+                draft.plays.data = action.data
+                break
+
+            case actionTypes.SET_PLAYS_ERROR:
+                draft.plays.loading = false
+                draft.plays.error = action.data
+                break
+
+            //For radioStation
+            case actionTypes.SET_RADIOSTATION_LOADING:
+                draft.radioStation.loading = true
+                draft.radioStation.error = null
+                break
+
+            case actionTypes.SET_RADIOSTATION_SUCCESS:
+                draft.radioStation.loading = false
+                draft.radioStation.error = null
+                draft.radioStation.data = action.data
+                break
+
+            case actionTypes.SET_RADIOSTATION_ERROR:
+                draft.radioStation.loading = false
+                draft.radioStation.error = action.data
+                break
+
+            // For Artist
+            case actionTypes.SET_ARTIST_LOADING:
+                draft.artist.loading = true
+                draft.artist.error = null
+                break
+
+            case actionTypes.SET_ARTIST_SUCCESS:
+                draft.artist.loading = false
+                draft.artist.error = null
+                draft.artist.data = action.data
+                break
+
+            case actionTypes.SET_ARTIST_ERROR:
+                draft.artist.loading = false
+                draft.artist.error = action.data
+                break
+
 
             default:
                 break

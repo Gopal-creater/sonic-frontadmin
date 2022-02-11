@@ -1441,5 +1441,21 @@ export const trackTableHeads = [
   { title: "TRACK NAME", orderBy: "trackName" },
   { title: "PLAYS", orderBy: "plays" },
   { title: "RADIO STATION", orderBy: "radioStation" },
-  { title: "country", orderBy: "country" },
+  { title: "COUNTRY", orderBy: "country" },
+]
+
+export const radioStationTableHeads = [
+  { title: "RADIO STATION", orderBy: "radioStation" },
+  { title: "COUNTRY", orderBy: "country" },
+  { title: "PLAYS", orderBy: "plays" },
+  { title: "TRACKS", orderBy: "tracks" },
+  { title: "ARTIST", orderBy: "artist" },
+]
+
+export const artistTableHeads = [
+  { title: "ARTIST NAME", orderBy: "artistName" },
+  { title: "PLAYS", orderBy: "plays" },
+  { title: "UNIQUE PLAYS", orderBy: "uniquePlaysCount" },
+  { title: "RADIO STATION", orderBy: "radioStation" },
+  { title: "COUNTRY", orderBy: "country" },
 ]

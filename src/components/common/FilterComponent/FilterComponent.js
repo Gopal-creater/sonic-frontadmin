@@ -105,6 +105,11 @@ export default function FilterComponent(props) {
                     <CustomMenuItem value="xlsx" onClick={() => handleExportData('xlsx')}>
                         .xlsx file
                     </CustomMenuItem>
+                    {props.pdf &&
+                        <CustomMenuItem value="pdf" onClick={() => handleExportData('pdf')}>
+                            .pdf file
+                        </CustomMenuItem>
+                    }
                 </CustomPopup>
             </Grid>
         </Container>

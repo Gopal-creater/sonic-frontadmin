@@ -9,7 +9,7 @@ import { playsTableHeads } from '../../../../../constants/constants';
 import { useTheme } from 'styled-components';
 import Dropdown from "../../../../../assets/icons/dropdown.png"
 import moment from 'moment';
-import { Tooltip } from '@material-ui/core';
+import { CustomTooltip } from '../../../../../StyledComponents/StyledToolTip/CustomTooltip';
 
 const createHeaders = (headers) => {
     return headers.map((item) => ({
@@ -155,7 +155,7 @@ export default function DashboardTable({ data }) {
                                 if (index % 2 !== 0) {
                                     return (
                                         <StyledTableRow key={index}>
-                                            <Tooltip title={row?.artist || "---"}>
+                                            <CustomTooltip title={row?.artist || "---"}>
                                                 <AlternateDataColumn
                                                     style={{
                                                         color: theme.colors.primary.navy,
@@ -169,8 +169,8 @@ export default function DashboardTable({ data }) {
                                                 >
                                                     {row?.artist || "---"}
                                                 </AlternateDataColumn>
-                                            </Tooltip>
-                                            <Tooltip title={row?.title || "---"}>
+                                            </CustomTooltip>
+                                            <CustomTooltip title={row?.title || "---"}>
                                                 <AlternateDataColumn
                                                     style={{
                                                         color: theme.colors.primary.graphite,
@@ -184,7 +184,7 @@ export default function DashboardTable({ data }) {
                                                 >
                                                     {row?.title || "---"}
                                                 </AlternateDataColumn>
-                                            </Tooltip>
+                                            </CustomTooltip>
                                             <AlternateDataColumn>{row?.radioStation || "---"}</AlternateDataColumn>
                                             <AlternateDataColumn>{moment(row?.date).utc().format("DD/MM/YYYY") || "---"}</AlternateDataColumn>
                                             <AlternateDataColumn>{moment(row?.time).utc().format("HH:mm:SS") || "---"}</AlternateDataColumn>
@@ -215,7 +215,7 @@ export default function DashboardTable({ data }) {
                                 }
                                 return (
                                     <StyledTableRow key={index}>
-                                        <Tooltip title={row?.artist || "---"}>
+                                        <CustomTooltip title={row?.artist || "---"}>
                                             <TableDataColumn
                                                 style={{
                                                     color: theme.colors.primary.navy,
@@ -229,9 +229,9 @@ export default function DashboardTable({ data }) {
                                             >
                                                 {row?.artist || "---"}
                                             </TableDataColumn>
-                                        </Tooltip>
+                                        </CustomTooltip>
 
-                                        <Tooltip title={row?.title || "---"}>
+                                        <CustomTooltip title={row?.title || "---"}>
                                             <TableDataColumn
                                                 style={{
                                                     color: theme.colors.primary.graphite,
@@ -245,7 +245,7 @@ export default function DashboardTable({ data }) {
                                             >
                                                 {row?.title || "---"}
                                             </TableDataColumn>
-                                        </Tooltip>
+                                        </CustomTooltip>
                                         <TableDataColumn>{row?.radioStation || "---"}</TableDataColumn>
                                         <TableDataColumn>{moment(row?.date).utc().format("DD/MM/YYYY") || "---"}</TableDataColumn>
                                         <TableDataColumn>{moment(row?.time).utc().format("HH:mm:SS") || "---"}</TableDataColumn>

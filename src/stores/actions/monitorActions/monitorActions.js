@@ -118,9 +118,9 @@ export const getMonitorExportAction = (startDate, endDate, format, limit = 2000,
         getMonitorExport(format, params).then((data) => {
             log("Monitor graphs", data);
             if (format === "xlsx") {
-                fileDownload(data, `${playsBy} Export-xlsx-(${moment(startDate).format("YYYY_MM_DD")}-to-${moment(endDate).format("YYYY_MM_DD")})_${format}.xlsx`);
+                fileDownload(data, `${playsBy || "Dashboard-plays"} Export-xlsx-(${moment(startDate).format("YYYY_MM_DD")}-to-${moment(endDate).format("YYYY_MM_DD")})_${format}.xlsx`);
             } else {
-                fileDownload(data, `${playsBy} Export-csv-(${moment(startDate).format("YYYY_MM_DD")}-to-${moment(endDate).format("YYYY_MM_DD")})_${format}.zip`);
+                fileDownload(data, `${playsBy || "Dashboard-plays"} Export-csv-(${moment(startDate).format("YYYY_MM_DD")}-to-${moment(endDate).format("YYYY_MM_DD")})_${format}.csv`);
             }
         }).catch(error => {
             log("Monitor graphs error", error);

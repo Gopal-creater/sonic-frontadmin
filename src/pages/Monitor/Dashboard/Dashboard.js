@@ -60,7 +60,6 @@ export function Dashboard() {
   }
 
 
-
   const handleDashboardExport = (format) => {
     if (format === 'pdf') {
       handlePrintToPdf();
@@ -148,17 +147,6 @@ export function Dashboard() {
           />
         </CommonDataLoadErrorSuccess>
       </TableContainer>
-
-      {/* {values?.sonicKeyModal && (
-        <MetaDataDialog
-          sonicKey={values?.selectedSonicKey}
-          open={true}
-          setOpenTable={(flag) => setValues({ ...values, sonicKeyModal: flag })}
-          updateMetaData={(key) => {
-            dispatch({ type: actionTypes.UPDATE_EDITED_PLAYSLIST, data: key })
-          }}
-        />
-      )} */}
     </Grid >
   );
 }

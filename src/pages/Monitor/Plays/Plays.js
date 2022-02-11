@@ -54,7 +54,7 @@ export default function Plays() {
     }
 
     const handleExport = (format) => {
-        dispatch(getMonitorExportAction(monitor?.dates?.startDate, monitor?.dates?.endDate, format, 2000, "PLAYS"))
+        dispatch(getMonitorExportAction(monitor?.dates?.startDate, monitor?.dates?.endDate, format, 2000))
     };
 
     return (

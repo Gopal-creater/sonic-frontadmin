@@ -100,7 +100,7 @@ export default function TracksTable({ data }) {
                                             >
                                                 {row?.trackName || "---"}
                                             </StyledTableData>
-                                            <StyledTableData >{row?.plays} || "---"}</StyledTableData>
+                                            <StyledTableData >{row?.plays || "---"}</StyledTableData>
                                             <StyledTableData >{row?.radioStation || "---"}</StyledTableData>
                                             <StyledTableData >{row?.country || "---"}</StyledTableData>
                                         </TableRow>

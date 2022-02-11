@@ -38,6 +38,11 @@ const monitorInitialState = {
     artist: {
         error: null,
         loading: false,
+        data: {}
+    },
+    country: {
+        error: null,
+        loading: false,
         data: {
 
         }
@@ -125,6 +130,22 @@ const monitorReducer = (state = monitorInitialState, action) =>
                 break
 
 
+            //For country
+            case actionTypes.SET_COUNTRIES_LOADING:
+                draft.country.loading = true
+                draft.country.error = null
+                break
+
+            case actionTypes.SET_COUNTRIES_SUCCESS:
+                draft.country.loading = false
+                draft.country.error = null
+                draft.country.data = action.data
+                break
+
+            case actionTypes.SET_COUNTRIES_ERROR:
+                draft.country.loading = false
+                draft.country.error = action.data
+                break
             default:
                 break
         }

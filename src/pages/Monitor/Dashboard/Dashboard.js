@@ -35,17 +35,17 @@ export function Dashboard() {
   const createStableTableData = () => {
     let stableTableData = dashboard?.data?.mostRecentPlays?.map((data) => {
       return {
-        contentOwner: data?.sonicKey?.contentOwner,
-        contentFileName: data?.sonicKey?.contentFileName,
-        channel: data?.sonicKey?.channel,
-        createdAt: data?.sonicKey?.createdAt,
-        time: "33:44",
-        contentDuration: data?.sonicKey?.contentDuration,
-        country: data?.sonicKey?.country || "United Kingdom",
+        artist: data?.sonicKey?.contentOwner,
+        title: data?.sonicKey?.contentFileName,
+        radioStation: data?.radioStation?.name,
+        date: data?.sonicKey?.detectedAt,
+        time: data?.sonicKey?.detectedAt,
+        duration: data?.sonicKey?.contentDuration,
+        country: data?.radioStation?.country,
         sonicKey: data?.sonicKey?.sonicKey,
-        isrcCode: data?.sonicKey?.isrcCode || "1234fghj",
-        isrcCode: data?.sonicKey?.isrcCode || "1234fghj",
-        isrcCode: data?.sonicKey?.isrcCode || "1234fghj"
+        isrcCode: data?.sonicKey?.isrcCode,
+        label: data?.sonicKey?.label,
+        distributor: data?.sonicKey?.distributor
       }
     })
     return stableTableData
@@ -72,7 +72,7 @@ export function Dashboard() {
         onChangeStartDate={(date) => dispatch({ type: actionTypes.SET_MONITOR_DATES, data: { ...monitor.dates, startDate: date } })}
         endDate={monitor?.dates?.endDate}
         onChangeEndDate={(date) => dispatch({ type: actionTypes.SET_MONITOR_DATES, data: { ...monitor.dates, endDate: date } })}
-        filterComponent={<MonitorFilter open={true} actions={actions} />}
+        filterComponent={<MonitorFilter open={true} actions={actions} dashboard={true} />}
         exportData={(value) => handleDashboardExport(value)}
       />
 

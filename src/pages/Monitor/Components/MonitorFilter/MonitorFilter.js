@@ -13,8 +13,9 @@ import ChannelDropDown from '../../../../components/common/AppTextInput/ChannelD
 import { StyledTextField } from '../../../../StyledComponents/StyledAppTextInput/StyledAppTextInput';
 import CustomDropDown from '../../../../components/common/AppTextInput/CustomDropDown';
 import { getMonitorListAction } from '../../../../stores/actions/monitorActions/monitorActions';
+import { getMonitorDashboardDataAction } from '../../../../stores/actions/dashboardActions.js/dashboardActions';
 
-export default function MonitorFilter({ closeDialog, playsBy, actions }) {
+export default function MonitorFilter({ closeDialog, playsBy, actions, dashboard = false }) {
     const dispatch = useDispatch();
     const monitor = useSelector(state => state.monitor);
     const radioStations = useSelector(state => state.radioStations)
@@ -30,14 +31,19 @@ export default function MonitorFilter({ closeDialog, playsBy, actions }) {
 
     const handleFilter = (e) => {
         e.preventDefault();
-        dispatch(getMonitorListAction(
-            actions,
-            monitor?.dates?.startDate,
-            monitor?.dates?.endDate,
-            1,
-            10,
-            playsBy
-        ));
+        if (dashboard) {
+            dispatch(getMonitorDashboardDataAction(monitor?.dates?.startDate, monitor?.dates?.endDate))
+        }
+        else {
+            dispatch(getMonitorListAction(
+                actions,
+                monitor?.dates?.startDate,
+                monitor?.dates?.endDate,
+                1,
+                10,
+                playsBy
+            ));
+        }
         closeDialog?.();
     }
 

@@ -9,7 +9,6 @@ import awsconfig from "./config/aws-exports";
 import Authenticator from "./pages/Auth/Authenticator";
 import Communication from "./services/https/Communication";
 import cogoToast from "cogo-toast";
-import { getAllRadioListAction } from "./stores/actions/radioStationAction";
 
 Amplify.configure(awsconfig);
 function App() {
@@ -29,7 +28,6 @@ function App() {
         dispatch(setSession(foundUser));
       }
       setAuthenticating(false)
-      dispatch(getAllRadioListAction())
     }).catch((error) => {
       setAuthenticating(false)
       cogoToast.error(error?.message || "Error authorizing")

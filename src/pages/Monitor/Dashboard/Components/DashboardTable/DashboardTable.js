@@ -5,9 +5,10 @@ import {
 } from './TableStyle';
 import { useRef } from "react";
 import { log } from '../../../../../utils/app.debug';
-import { dashboardPlaysTableHeads } from '../../../../../constants/constants';
+import { playsTableHeads } from '../../../../../constants/constants';
 import { useTheme } from 'styled-components';
 import Dropdown from "../../../../../assets/icons/dropdown.png"
+import moment from 'moment';
 
 const createHeaders = (headers) => {
     return headers.map((item) => ({
@@ -31,7 +32,7 @@ export default function DashboardTable({ data }) {
     const [sortOrder, setSortOrder] = React.useState("ASC")
 
     const tableElement = useRef(null)
-    const columns = createHeaders(dashboardPlaysTableHeads)
+    const columns = createHeaders(playsTableHeads)
 
     const mouseMove = React.useCallback(
         (e) => {
@@ -110,104 +111,135 @@ export default function DashboardTable({ data }) {
 
     return (
         <TableWrapper>
-            <ResizableTable ref={tableElement}>
-                <StyledTableHead>
-                    <StyledTableRow>
-                        {columns.map(({ ref, text, orderBy }, index) => {
-                            return (
-                                <StyledTableHeadColumn
-                                    ref={ref}
-                                    onClick={() => sorting(orderBy)}
-                                >
-                                    {text}
-                                    <img src={Dropdown} height={15} alt="dropdown" />
-                                    <TableResizer onMouseDown={() => setState({ ...state, activeColumnIndex: index })} style={{ height: state.tableHeight }} />
-                                </StyledTableHeadColumn>
-                            )
-                        })}
-                    </StyledTableRow>
-                </StyledTableHead>
-                <StyledTableBody>
-                    {state.data?.map((row, index) => {
-                        if (index % 2 !== 0) {
-                            return (
-                                <StyledTableRow key={index}>
-                                    <AlternateDataColumn
-                                        style={{
-                                            color: theme.colors.primary.navy,
-                                            fontSize: theme.fontSize.h4,
-                                            fontFamily: theme.fontFamily.nunitoSansMediumBold
-                                        }}
-                                    >
-                                        {row?.contentOwner || "---"}
-                                    </AlternateDataColumn>
-                                    <AlternateDataColumn
-                                        style={{
-                                            color: theme.colors.primary.graphite,
-                                            fontSize: theme.fontSize.h4,
-                                            fontFamily: theme.fontFamily.nunitoSansMediumBold
-                                        }}
-                                    >
-                                        {row?.contentFileName || "---"}
-                                    </AlternateDataColumn>
-                                    <AlternateDataColumn>{row?.channel || "---"}</AlternateDataColumn>
-                                    <AlternateDataColumn>{row?.createdAt || "---"}</AlternateDataColumn>
-                                    <AlternateDataColumn>{row?.time}</AlternateDataColumn>
-                                    <AlternateDataColumn>{row?.contentDuration || "---"}</AlternateDataColumn>
-                                    <AlternateDataColumn>{row?.country}</AlternateDataColumn>
-                                    <AlternateDataColumn
-                                        style={{
-                                            color: theme.colors.primary.navy,
-                                            fontSize: theme.fontSize.h5,
-                                            fontFamily: theme.fontFamily.nunitoSansMediumBold
-                                        }}
-                                    >
-                                        {row?.sonicKey || "---"}
-                                    </AlternateDataColumn>
-                                    <AlternateDataColumn>{row?.isrcCode || "---"}</AlternateDataColumn>
-                                </StyledTableRow>
-                            )
-                        }
-                        return (
-                            <StyledTableRow key={index}>
-                                <TableDataColumn
-                                    style={{
-                                        color: theme.colors.primary.navy,
-                                        fontSize: theme.fontSize.h4,
-                                        fontFamily: theme.fontFamily.nunitoSansMediumBold
-                                    }}
-                                >
-                                    {row?.contentOwner || "---"}
-                                </TableDataColumn>
-                                <TableDataColumn
-                                    style={{
-                                        color: theme.colors.primary.graphite,
-                                        fontSize: theme.fontSize.h4,
-                                        fontFamily: theme.fontFamily.nunitoSansMediumBold
-                                    }}
-                                >
-                                    {row?.contentFileName || "---"}
-                                </TableDataColumn>
-                                <TableDataColumn>{row?.channel || "---"}</TableDataColumn>
-                                <TableDataColumn>{row?.createdAt || "---"}</TableDataColumn>
-                                <TableDataColumn>{row?.time}</TableDataColumn>
-                                <TableDataColumn>{row?.contentDuration || "---"}</TableDataColumn>
-                                <TableDataColumn>{row?.country}</TableDataColumn>
-                                <TableDataColumn
-                                    style={{
-                                        color: theme.colors.primary.navy,
-                                        fontSize: theme.fontSize.h5,
-                                        fontFamily: theme.fontFamily.nunitoSansMediumBold
-                                    }}
-                                >
-                                    {row?.sonicKey || "---"}
-                                </TableDataColumn>
-                                <TableDataColumn>{row?.isrcCode || "---"}</TableDataColumn>
+            {
+                state?.data?.length === 0 ?
+                    <ResizableTable
+                        ref={tableElement}
+                        style={{ display: "flex", justifyContent: "center" }}
+                    >
+                        No Data
+                    </ResizableTable>
+                    :
+                    <ResizableTable ref={tableElement}>
+                        <StyledTableHead>
+                            <StyledTableRow>
+                                {columns.map(({ ref, text, orderBy }, index) => {
+                                    return (
+                                        <StyledTableHeadColumn
+                                            ref={ref}
+                                            onClick={() => sorting(orderBy)}
+                                        >
+                                            {text}
+                                            <img src={Dropdown} height={15} alt="dropdown" />
+                                            <TableResizer onMouseDown={() => setState({ ...state, activeColumnIndex: index })} style={{ height: state.tableHeight }} />
+                                        </StyledTableHeadColumn>
+                                    )
+                                })}
                             </StyledTableRow>
-                        )
-                    })}
-                </StyledTableBody>
-            </ResizableTable>
+                        </StyledTableHead>
+
+                        <StyledTableBody>
+                            {state.data?.map((row, index) => {
+                                if (index % 2 !== 0) {
+                                    return (
+                                        <StyledTableRow key={index}>
+                                            <AlternateDataColumn
+                                                style={{
+                                                    color: theme.colors.primary.navy,
+                                                    fontSize: theme.fontSize.h4,
+                                                    fontFamily: theme.fontFamily.nunitoSansMediumBold
+                                                }}
+                                            >
+                                                {row?.artist || "---"}
+                                            </AlternateDataColumn>
+                                            <AlternateDataColumn
+                                                style={{
+                                                    color: theme.colors.primary.graphite,
+                                                    fontSize: theme.fontSize.h4,
+                                                    fontFamily: theme.fontFamily.nunitoSansMediumBold
+                                                }}
+                                            >
+                                                {row?.title || "---"}
+                                            </AlternateDataColumn>
+                                            <AlternateDataColumn>{row?.radioStation || "---"}</AlternateDataColumn>
+                                            <AlternateDataColumn>{moment(row?.date).utc().format("DD/MM/YYYY") || "---"}</AlternateDataColumn>
+                                            <AlternateDataColumn>{moment(row?.time).utc().format("HH:mm:SS") || "---"}</AlternateDataColumn>
+                                            <AlternateDataColumn>{moment.utc(row?.duration * 1000).format("mm:ss") || "---"}</AlternateDataColumn>
+                                            <AlternateDataColumn>{row?.country || "---"}</AlternateDataColumn>
+                                            <AlternateDataColumn
+                                                style={{
+                                                    color: theme.colors.primary.navy,
+                                                    fontSize: theme.fontSize.h5,
+                                                    fontFamily: theme.fontFamily.nunitoSansMediumBold
+                                                }}
+                                            >
+                                                {row?.sonicKey || "---"}
+                                            </AlternateDataColumn>
+                                            <AlternateDataColumn
+                                                style={{
+                                                    color: theme.colors.primary.graphite,
+                                                    fontSize: theme.fontSize.h5,
+                                                    fontFamily: theme.fontFamily.nunitoSansMediumBold
+                                                }}
+                                            >
+                                                {row?.isrcCode || "---"}
+                                            </AlternateDataColumn>
+                                            <AlternateDataColumn>{row?.label || "---"}</AlternateDataColumn>
+                                            <AlternateDataColumn>{row?.distributor || "---"}</AlternateDataColumn>
+                                        </StyledTableRow>
+                                    )
+                                }
+                                return (
+                                    <StyledTableRow key={index}>
+                                        <TableDataColumn
+                                            style={{
+                                                color: theme.colors.primary.navy,
+                                                fontSize: theme.fontSize.h4,
+                                                fontFamily: theme.fontFamily.nunitoSansMediumBold
+                                            }}
+                                        >
+                                            {row?.artist || "---"}
+                                        </TableDataColumn>
+                                        <TableDataColumn
+                                            style={{
+                                                color: theme.colors.primary.graphite,
+                                                fontSize: theme.fontSize.h4,
+                                                fontFamily: theme.fontFamily.nunitoSansMediumBold
+                                            }}
+                                        >
+                                            {row?.title || "---"}
+                                        </TableDataColumn>
+                                        <TableDataColumn>{row?.radioStation || "---"}</TableDataColumn>
+                                        <TableDataColumn>{moment(row?.date).utc().format("DD/MM/YYYY") || "---"}</TableDataColumn>
+                                        <TableDataColumn>{moment(row?.time).utc().format("HH:mm:SS") || "---"}</TableDataColumn>
+                                        <TableDataColumn>{moment.utc(row?.duration * 1000).format("mm:ss") || "---"}</TableDataColumn>
+                                        <TableDataColumn>{row?.country || "---"}</TableDataColumn>
+                                        <TableDataColumn
+                                            style={{
+                                                color: theme.colors.primary.navy,
+                                                fontSize: theme.fontSize.h5,
+                                                fontFamily: theme.fontFamily.nunitoSansMediumBold
+                                            }}
+                                        >
+                                            {row?.sonicKey || "---"}
+                                        </TableDataColumn>
+                                        <TableDataColumn
+                                            style={{
+                                                color: theme.colors.primary.graphite,
+                                                fontSize: theme.fontSize.h5,
+                                                fontFamily: theme.fontFamily.nunitoSansMediumBold
+                                            }}
+                                        >
+                                            {row?.isrcCode || "---"}
+                                        </TableDataColumn>
+                                        <TableDataColumn>{row?.label || "---"}</TableDataColumn>
+                                        <TableDataColumn>{row?.distributor || "---"}</TableDataColumn>
+                                    </StyledTableRow>
+                                )
+                            })}
+                        </StyledTableBody>
+                    </ResizableTable>
+            }
         </TableWrapper>
     );
 }

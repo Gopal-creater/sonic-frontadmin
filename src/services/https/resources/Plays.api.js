@@ -8,7 +8,7 @@ export const getPlaysLists = (params) => {
 export const getAllRadioStations = () => {
     return AppWebRequest('/radiostations', 'get', {
         params: {
-            limit: 2000
+            limit: 2500
         }
     })
 }

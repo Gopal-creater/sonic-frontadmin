@@ -13,8 +13,14 @@ import Tracks from "../pages/Monitor/Tracks/Tracks";
 import Artists from "../pages/Monitor/Artists/Artists";
 import Countries from "../pages/Monitor/Countries/Countries";
 import RadioStations from "../pages/Monitor/RadioStation/RadioStation";
+import { getAllRadioListAction } from "../stores/actions/radioStationAction";
+import { useDispatch } from "react-redux";
 
 export default function Routes() {
+  const dispatch = useDispatch()
+  React.useEffect(() => {
+    dispatch(getAllRadioListAction())
+  }, [])
   return (
     <AppLayout>
       <div style={{ width: "100%" }}>

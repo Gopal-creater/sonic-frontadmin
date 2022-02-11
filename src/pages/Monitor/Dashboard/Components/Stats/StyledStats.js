@@ -5,7 +5,7 @@ import ReactTooltip from 'react-tooltip';
 
 export const Title = styled.h3(({ color, fontSize, fontFamily }) => ({
     "color": color || theme.colors.primary.graphite,
-    "font-size": fontSize || theme.fontSize.h3,
+    "font-size": fontSize || theme.fontSize.h4,
     "font-family": fontFamily || theme.fontFamily.nunitoSansBold
 }))
 
@@ -33,8 +33,7 @@ export const StatsContainer = styled(Grid)`
     background-color:${theme.colors.secondary.lightTeal};
     margin-top:5px;
     padding:15px;
-    min-height:140px;
-
+    min-height:120px;
     :hover{
         background-color:white;
         box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);

@@ -4,8 +4,8 @@ import styled from "styled-components";
 export const CardContainer = styled.div`
     margin-top:25px;
     display: grid;
-    grid-template-columns: auto auto auto auto;
-    grid-column-gap:30px;
+    grid-template-columns: auto auto auto auto auto;
+    grid-column-gap:25px;
 
     @media (max-width:${props => props.theme.devices.tablet}){
         grid-template-columns: auto !important;
@@ -21,5 +21,5 @@ export const CardContainer = styled.div`
 export const TableContainer = styled(Grid)`
     background-color:white;
     margin-top:30px;
-    padding: 45px;
+    padding: 35px;
 `

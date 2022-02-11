@@ -1,11 +1,11 @@
-import { Grid } from '@material-ui/core';
+import { CircularProgress, Grid } from '@material-ui/core';
 import React from 'react';
 import { H1, H2, H3, Span } from "../../../../../StyledComponents/StyledHeadings"
 import { WelcomeBackContainer } from './StyledWelcomeBack';
 import radioIcon from "../../../../../assets/icons/icon-grey-radio.png"
 import theme from '../../../../../theme';
 
-export default function WelcomeBack({ totalRadioStations }) {
+export default function WelcomeBack({ totalRadioStations, loading, error }) {
     return (
         <WelcomeBackContainer container alignItems='center'>
             <Grid xs={12} lg={8}>
@@ -18,7 +18,11 @@ export default function WelcomeBack({ totalRadioStations }) {
                         fontSize={"43px"}
                         style={{ lineHeight: "0.9", textAlign: "end" }}
                     >
-                        {totalRadioStations}
+                        {
+                            loading ?
+                                <CircularProgress size={25} style={{ color: "white" }} /> :
+                                <>{totalRadioStations || "--"}</>
+                        }
                     </H1>
                     <H3
                         color='white'

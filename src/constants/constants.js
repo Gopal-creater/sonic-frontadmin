@@ -1423,18 +1423,6 @@ export const streamReaderTableHeads = [
   "ID", "LOGO", "RADIO NAME", "RADIO URL", "ADDED DATE", "PLAYS", "STATUS", "ACTION",
 ];
 
-export const dashboardPlaysTableHeads = [
-  { title: "ARTIST", orderBy: "contentOwner" },
-  { title: "TITLE", orderBy: "contentFileName" },
-  { title: "RADIO STATION", orderBy: "channel" },
-  { title: "DATE", orderBy: "createdAt" },
-  { title: "TIME", orderBy: "time" },
-  { title: "DURATION", orderBy: "contentDuration" },
-  { title: "COUNTRY", orderBy: "country" },
-  { title: "SONICKEY", orderBy: "sonicKey" },
-  { title: "ISRC", orderBy: "isrcCode" }
-]
-
 export const trackTableHeads = [
   { title: "TRACK NAME", orderBy: "trackName" },
   { title: "PLAYS", orderBy: "plays" },

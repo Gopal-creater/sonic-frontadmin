@@ -24,3 +24,7 @@ export const exportDashboardData = (fileFormat, params) => {
 export const exportPlaysData = (sonicKey, format, params) => {
     return AppWebRequest(`/detections/owners/${getUserId()}/export/history-of-sonickey/${sonicKey}/${format}`, 'get', { params: params, responseType: "blob" });
 }
+
+export const getMonitorDashboardData = (params) => {
+    return AppWebRequest(`detections/owners/${getUserId()}/get-monitor-dashboard-data`, "get", { params: params })
+}

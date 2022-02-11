@@ -11,6 +11,8 @@ import { Auth } from "aws-amplify";
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import "./ResetPassword.scss"
+import { H1 } from '../../../StyledComponents/StyledHeadings';
+import AppButton from '../../../components/common/AppButton/AppButton';
 
 
 export default function ResetPassword() {
@@ -71,7 +73,7 @@ export default function ResetPassword() {
     if (!values?.receivedCode) {
         return (
             <Grid className="resetPassword-container">
-                <Typography className="resetPassword-heading">Reset password</Typography>
+                <H1>Reset password</H1>
 
                 <form key={1} onSubmit={handleSubmit(sendCode)}>
                     <Controller
@@ -98,42 +100,44 @@ export default function ResetPassword() {
                     />
 
                     <Grid container justifyContent="space-between" alignItems="center" className="mt-5">
-                        <Button
-                            type="button"
+                        <AppButton
+                            variant={"none"}
                             onClick={() => dispatch(forgotPasword(false))}
                             disabled={values?.sendCodeLoading ? true : false}
-                            className="backToSignIn-Btn"
+                            style={{ paddingLeft: "0px", paddingRight: "0px" }}
                         >
                             Back to SignIn
-                        </Button>
+                        </AppButton>
 
                         {values?.sendCodeLoading ? (
-                            <Button
+                            <AppButton
                                 type="submit"
-                                variant="contained"
-                                color="primary"
-                                size="lg"
-                                className="sendCode-Btn"
+                                variant="fill"
+                                style={{ paddingTop: "10px", paddingBottom: "10px", width: "135px", height: "45px" }}
                             >
                                 <Spinner animation="border" role="status" size="sm">
                                 </Spinner>
-                            </Button>
+                            </AppButton>
                         ) : (
-                            <Button type="submit" variant="contained" color="primary" className="sendCode-Btn">
+                            <AppButton
+                                type="submit"
+                                variant="fill"
+                                style={{ paddingTop: "10px", paddingBottom: "10px", width: "135px", height: "45px" }}
+                            >
                                 Send code
-                            </Button>
+                            </AppButton>
                         )}
                     </Grid>
 
                     <AuthFooter />
-                </form>
-            </Grid>
+                </form >
+            </Grid >
         )
     }
 
     return (
         <Grid className="resetPassword-container">
-            <Typography className="resetPassword-heading">Reset password</Typography>
+            <H1>Reset password</H1>
 
             <form key={2} onSubmit={handleReset(resetPassword)} >
                 <Controller
@@ -203,35 +207,37 @@ export default function ResetPassword() {
                 />
 
                 <Grid container justifyContent="space-between" alignItems="center" className="mt-5">
-                    <Button
-                        type="button"
+                    <AppButton
+                        variant={"none"}
                         onClick={() => dispatch(forgotPasword(false))}
                         disabled={values?.resetPasswordLoading ? true : false}
-                        className="backToSignIn-Btn"
+                        style={{ paddingLeft: "0px", paddingRight: "0px" }}
                     >
                         Back to SignIn
-                    </Button>
+                    </AppButton>
 
                     {values?.resetPasswordLoading ? (
-                        <Button
+                        <AppButton
                             type="submit"
-                            variant="contained"
-                            color="primary"
-                            size="lg"
-                            className="sendCode-Btn"
+                            variant="fill"
+                            style={{ paddingTop: "10px", paddingBottom: "10px", width: "135px", height: "45px" }}
                         >
                             <Spinner animation="border" role="status" size="sm">
                             </Spinner>
-                        </Button>
+                        </AppButton>
                     ) : (
-                        <Button type="submit" variant="contained" color="primary" className="sendCode-Btn">
+                        <AppButton
+                            type="submit"
+                            variant="fill"
+                            style={{ paddingTop: "10px", paddingBottom: "10px", width: "135px", height: "45px" }}
+                        >
                             Reset
-                        </Button>
+                        </AppButton>
                     )}
                 </Grid>
 
                 <AuthFooter />
-            </form>
-        </Grid>
+            </form >
+        </Grid >
     )
 }

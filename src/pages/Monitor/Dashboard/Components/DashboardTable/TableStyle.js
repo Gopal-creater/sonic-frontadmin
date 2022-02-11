@@ -8,19 +8,23 @@ export const TableWrapper = styled.div`
 
 export const ResizableTable = styled.table`
     width: 100%;
+    color: ${props => props.theme.colors.secondary.grey};
+    font-family:${props => props.theme.fontFamily.nunitoSansBold};
     display: grid;
     overflow: auto;
     overflow-y: hidden;
     grid-template-columns: 
-    minmax(50px, 1fr)
-    minmax(50px, 1fr)
-    minmax(50px, 1fr)
-    minmax(50px, 1fr)
-    minmax(50px, 1fr)
-    minmax(50px, 1fr)
-    minmax(50px, 1fr)
-    minmax(50px, 1fr)
-    minmax(50px, 1fr);
+    minmax(90px, 1fr)
+    minmax(90px, 1fr)
+    minmax(90px, 1fr)
+    minmax(90px, 1fr)
+    minmax(90px, 1fr)
+    minmax(90px, 1fr)
+    minmax(90px, 1fr)
+    minmax(90px, 1fr)
+    minmax(90px, 1fr)
+    minmax(90px, 1fr)
+    minmax(90px, 1fr);
 `
 
 export const StyledTableHead = styled.thead`

@@ -83,9 +83,9 @@ export default function TracksTable({ data }) {
                                                 >
                                                     {row?.trackName || "---"}
                                                 </AlternateStyledTableData>
-                                                <AlternateStyledTableData >{`${row?.plays}` || "---"}</AlternateStyledTableData>
-                                                <AlternateStyledTableData >{`${row?.radioStation}` || "---"}</AlternateStyledTableData>
-                                                <AlternateStyledTableData >{`${row?.country}` || "---"}</AlternateStyledTableData>
+                                                <AlternateStyledTableData >{row?.plays || "---"}</AlternateStyledTableData>
+                                                <AlternateStyledTableData >{row?.radioStation || "---"}</AlternateStyledTableData>
+                                                <AlternateStyledTableData >{row?.country || "---"}</AlternateStyledTableData>
                                             </TableRow>
                                         )
                                     }
@@ -100,9 +100,9 @@ export default function TracksTable({ data }) {
                                             >
                                                 {row?.trackName || "---"}
                                             </StyledTableData>
-                                            <StyledTableData >{`${row?.plays}` || "---"}</StyledTableData>
-                                            <StyledTableData >{`${row?.radioStation}` || "---"}</StyledTableData>
-                                            <StyledTableData >{`${row?.country}` || "---"}</StyledTableData>
+                                            <StyledTableData >{row?.plays} || "---"}</StyledTableData>
+                                            <StyledTableData >{row?.radioStation || "---"}</StyledTableData>
+                                            <StyledTableData >{row?.country || "---"}</StyledTableData>
                                         </TableRow>
                                     )
                                 })}

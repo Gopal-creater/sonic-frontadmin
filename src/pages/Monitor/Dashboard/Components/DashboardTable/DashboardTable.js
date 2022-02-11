@@ -10,6 +10,7 @@ import { useTheme } from 'styled-components';
 import Dropdown from "../../../../../assets/icons/dropdown.png"
 import moment from 'moment';
 import { CustomTooltip } from '../../../../../StyledComponents/StyledToolTip/CustomTooltip';
+import MetaDataDialog from '../../../../../components/common/MetaDataDialog';
 
 const createHeaders = (headers) => {
     return headers.map((item) => ({
@@ -28,6 +29,8 @@ export default function DashboardTable({ data }) {
         tableHeight: "auto",
         activeColumnIndex: null,
         data: data || [],
+        sonicKeyModal: false,
+        selectedSonicKey: {},
     })
 
     const [sortOrder, setSortOrder] = React.useState("ASC")
@@ -194,8 +197,10 @@ export default function DashboardTable({ data }) {
                                                 style={{
                                                     color: theme.colors.primary.navy,
                                                     fontSize: theme.fontSize.h5,
-                                                    fontFamily: theme.fontFamily.nunitoSansMediumBold
+                                                    fontFamily: theme.fontFamily.nunitoSansMediumBold,
+                                                    cursor: 'pointer'
                                                 }}
+                                                onClick={() => setState({ ...state, sonicKeyModal: true, selectedSonicKey: row?.modal })}
                                             >
                                                 {row?.sonicKey || "---"}
                                             </AlternateDataColumn>
@@ -255,8 +260,10 @@ export default function DashboardTable({ data }) {
                                             style={{
                                                 color: theme.colors.primary.navy,
                                                 fontSize: theme.fontSize.h5,
-                                                fontFamily: theme.fontFamily.nunitoSansMediumBold
+                                                fontFamily: theme.fontFamily.nunitoSansMediumBold,
+                                                cursor: 'pointer'
                                             }}
+                                            onClick={() => setState({ ...state, sonicKeyModal: true, selectedSonicKey: row?.modal })}
                                         >
                                             {row?.sonicKey || "---"}
                                         </TableDataColumn>
@@ -275,6 +282,14 @@ export default function DashboardTable({ data }) {
                                 )
                             })}
                         </StyledTableBody>
+
+                        {state?.sonicKeyModal && (
+                            <MetaDataDialog
+                                sonicKey={state?.selectedSonicKey}
+                                open={true}
+                                setOpenTable={(flag) => setState({ ...state, sonicKeyModal: flag })}
+                            />
+                        )}
                     </ResizableTable>
             }
         </TableWrapper >

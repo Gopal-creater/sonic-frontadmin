@@ -1,7 +1,7 @@
 import produce from "immer";
 import * as actionTypes from "../../actions/actionTypes"
 
-const monitorInitialState = {
+export const monitorInitialState = {
     dates: {
         startDate: new Date().setMonth(new Date().getMonth() - 1),
         endDate: new Date(),

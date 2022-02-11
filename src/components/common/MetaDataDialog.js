@@ -14,15 +14,15 @@ import { useDispatch, useSelector } from "react-redux";
 import * as actionTypes from "../../stores/actions/actionTypes"
 import * as sessionActionTypes from "../../stores/actions/session/actionTypes"
 import { log } from "../../utils/app.debug";
-import { getPlaysListsAction } from "../../stores/actions";
 import EditIcon from '@material-ui/icons/Edit';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import cogoToast from "cogo-toast";
 import Communication from "../../services/https/Communication";
 import { getExportPlaysDataAction } from "../../stores/actions/dashboard.action";
-import { playsListInitialState } from "../../stores/reducers/playsListsRed";
 import AppButton from "./AppButton/AppButton";
 import theme from "../../theme";
+import { monitorInitialState } from "../../stores/reducers/monitor/monitorReducer";
+import { getMonitorListAction } from "../../stores/actions/monitorActions/monitorActions";
 
 const useStyles = makeStyles({
     dialogPaper: {
@@ -94,7 +94,7 @@ const MetaDataDailog = (props) => {
     }, [])
 
     const dispatch = useDispatch()
-    const plays = useSelector(state => state.playsList)
+    const monitor = useSelector(state => state.monitor)
     const history = useHistory()
     const classes = useStyles();
 
@@ -108,16 +108,22 @@ const MetaDataDailog = (props) => {
     // const viewPlays = () => {
     //     setValues({ ...values, openHitModal: true, hitModalData: { ...sonicKey } })
     // }
+    const actions = {
+        loading: actionTypes.SET_PLAYS_LOADING,
+        success: actionTypes.SET_PLAYS_SUCCESS,
+        error: actionTypes.SET_PLAYS_ERROR
+    }
 
     const viewPlaysWithSonicKey = () => {
-        dispatch({ type: actionTypes.SET_PLAYS_FILTER, data: { ...playsListInitialState?.filters, sonicKey: values?.sonicKey?.sonicKey } })
-        dispatch(getPlaysListsAction(
-            plays?.dates?.startDate,
-            plays?.dates?.endDate,
-            "ALL",
+        dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitorInitialState?.filters, sonicKey: values?.sonicKey?.sonicKey } })
+        dispatch(getMonitorListAction(
+            actions,
+            monitor?.dates?.startDate,
+            monitor?.dates?.endDate,
             1,
             10,
-        )); props.setOpenTable(false)
+        ));
+        props.setOpenTable(false)
         dispatch({ type: sessionActionTypes.SET_SIDEBAR, data: true });
         history.push("/plays")
     }

@@ -62,13 +62,13 @@ export default function Plays() {
             <Grid container justifyContent="space-between" className="plays-title-container">
                 <Grid>
                     <H1>My Plays</H1>
-                    {!monitor?.plays?.loading && <PaginationCount
+                    <PaginationCount
                         heading={true}
                         name="plays"
                         start={monitor?.plays?.data?.offset}
                         end={monitor?.plays?.data?.docs?.length}
                         total={monitor?.plays?.data?.totalDocs}
-                    />}
+                    />
                 </Grid>
             </Grid>
 

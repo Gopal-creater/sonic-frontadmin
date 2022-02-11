@@ -121,10 +121,24 @@ export default function PlaysTable({ data }) {
                         <StyledTableRow>
                             {columns.map(({ ref, text, orderBy }, index) => {
                                 return (
-                                    <StyledTableHeadColumn ref={ref} onClick={() => sorting(orderBy)}>
+                                    <StyledTableHeadColumn
+                                        ref={ref}
+                                        onClick={() => sorting(orderBy)}
+                                        style={{
+                                            width: index === 0 || index === 1 ? "90px" : "",
+                                            position: index === 0 || index === 1 ? "sticky" : "",
+                                            left: index === 0 ? 0 : index === 1 ? "90px" : "",
+                                            background: index === 0 || index === 1 ? "white" : "",
+                                            zIndex: index === 0 || index === 1 ? 1 : ""
+                                        }}
+                                    >
                                         {text}
                                         <img src={Dropdown} height={15} alt="dropdown" />
-                                        <TableResizer onMouseDown={() => setState({ ...state, activeColumnIndex: index })} style={{ height: state.tableHeight }} />
+                                        {
+                                            index === 0 || index === 1 ?
+                                                "" :
+                                                <TableResizer onMouseDown={() => setState({ ...state, activeColumnIndex: index })} style={{ height: state.tableHeight }} />
+                                        }
                                     </StyledTableHeadColumn>
                                 )
                             })}
@@ -135,26 +149,36 @@ export default function PlaysTable({ data }) {
                             if (index % 2 !== 0) {
                                 return (
                                     <StyledTableRow key={index}>
-                                        <CustomTooltip title={row?.artist}>
+                                        <CustomTooltip title={row?.artist || "---"}>
                                             <AlternateDataColumn
                                                 style={{
                                                     color: theme.colors.primary.navy,
                                                     fontSize: theme.fontSize.h4,
-                                                    fontFamily: theme.fontFamily.nunitoSansMediumBold
+                                                    fontFamily: theme.fontFamily.nunitoSansMediumBold,
+                                                    position: "sticky",
+                                                    width: "90px",
+                                                    left: 0,
+                                                    background: theme.colors.secondary.tableColor
                                                 }}
                                             >
                                                 {row?.artist || "---"}
                                             </AlternateDataColumn>
                                         </CustomTooltip>
-                                        <AlternateDataColumn
-                                            style={{
-                                                color: theme.colors.primary.graphite,
-                                                fontSize: theme.fontSize.h4,
-                                                fontFamily: theme.fontFamily.nunitoSansMediumBold
-                                            }}
-                                        >
-                                            {row?.title || "---"}
-                                        </AlternateDataColumn>
+                                        <CustomTooltip title={row?.title || "---"}>
+                                            <AlternateDataColumn
+                                                style={{
+                                                    color: theme.colors.primary.graphite,
+                                                    fontSize: theme.fontSize.h4,
+                                                    fontFamily: theme.fontFamily.nunitoSansMediumBold,
+                                                    position: "sticky",
+                                                    width: "90px",
+                                                    left: "90px",
+                                                    background: theme.colors.secondary.tableColor
+                                                }}
+                                            >
+                                                {row?.title || "---"}
+                                            </AlternateDataColumn>
+                                        </CustomTooltip>
                                         <AlternateDataColumn>{row?.radioStation || "---"}</AlternateDataColumn>
                                         <AlternateDataColumn>{moment(row?.date).utc().format("DD/MM/YYYY") || "---"}</AlternateDataColumn>
                                         <AlternateDataColumn>{moment(row?.time).utc().format("HH:mm:SS") || "---"}</AlternateDataColumn>
@@ -187,24 +211,37 @@ export default function PlaysTable({ data }) {
                             }
                             return (
                                 <StyledTableRow key={index}>
-                                    <TableDataColumn
-                                        style={{
-                                            color: theme.colors.primary.navy,
-                                            fontSize: theme.fontSize.h4,
-                                            fontFamily: theme.fontFamily.nunitoSansMediumBold
-                                        }}
-                                    >
-                                        {row?.artist || "---"}
-                                    </TableDataColumn>
-                                    <TableDataColumn
-                                        style={{
-                                            color: theme.colors.primary.graphite,
-                                            fontSize: theme.fontSize.h4,
-                                            fontFamily: theme.fontFamily.nunitoSansMediumBold
-                                        }}
-                                    >
-                                        {row?.title || "---"}
-                                    </TableDataColumn>
+                                    <CustomTooltip title={row?.artist || "---"}>
+                                        <TableDataColumn
+                                            style={{
+                                                color: theme.colors.primary.navy,
+                                                fontSize: theme.fontSize.h4,
+                                                fontFamily: theme.fontFamily.nunitoSansMediumBold,
+                                                position: "sticky",
+                                                width: "90px",
+                                                left: 0,
+                                                background: "white"
+                                            }}
+                                        >
+                                            {row?.artist || "---"}
+                                        </TableDataColumn>
+                                    </CustomTooltip>
+
+                                    <CustomTooltip title={row?.title || "---"}>
+                                        <TableDataColumn
+                                            style={{
+                                                color: theme.colors.primary.graphite,
+                                                fontSize: theme.fontSize.h4,
+                                                fontFamily: theme.fontFamily.nunitoSansMediumBold,
+                                                position: "sticky",
+                                                width: "90px",
+                                                left: "90px",
+                                                background: "white"
+                                            }}
+                                        >
+                                            {row?.title || "---"}
+                                        </TableDataColumn>
+                                    </CustomTooltip>
                                     <TableDataColumn>{row?.radioStation || "---"}</TableDataColumn>
                                     <TableDataColumn>{moment(row?.date).utc().format("DD/MM/YYYY") || "---"}</TableDataColumn>
                                     <TableDataColumn>{moment(row?.time).utc().format("HH:mm:SS") || "---"}</TableDataColumn>

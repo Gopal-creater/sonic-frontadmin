@@ -1,13 +1,11 @@
 import { Grid } from '@material-ui/core'
 import React from 'react'
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import { useForm, Controller } from "react-hook-form";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
-import Button from "@material-ui/core/Button";
 import Spinner from "react-bootstrap/Spinner";
 import { useDispatch } from "react-redux";
 import { forgotPasword, setSession } from '../../../stores/actions/session';
@@ -15,9 +13,9 @@ import { Auth } from "aws-amplify";
 import cogoToast from 'cogo-toast';
 import AuthFooter from '../AuthFooter';
 import { H1, H4 } from '../../../StyledComponents/StyledHeadings';
-import AppTextInput from '../../../components/common/AppTextInput/AppTextInput';
 import { StyledTextField } from '../../../StyledComponents/StyledAppTextInput/StyledAppTextInput';
-import theme from '../../../theme';
+import AppButton from '../../../components/common/AppButton/AppButton';
+import { useTheme } from 'styled-components';
 
 const useStyles = makeStyles(() => ({
     signInRoot: {
@@ -49,55 +47,10 @@ const useStyles = makeStyles(() => ({
 
 }));
 
-const SignInButton = withStyles({
-    root: {
-        backgroundColor: "#343F84",
-        textTransform: "none",
-        height: 45,
-        width: 105,
-        padding: "0px 20px",
-        fontSize: 15,
-        fontFamily: 'NunitoSans-Bold',
-        borderRadius: 8,
-    },
-})(Button);
-
-const SignUpButton = withStyles({
-    root: {
-        backgroundColor: "white",
-        textTransform: "none",
-        border: "1px solid #343F84",
-        color: "#7078A8",
-        "&:hover": {
-            color: "white",
-            backgroundColor: "#343F84",
-        },
-        height: 45,
-        width: 105,
-        padding: "0px 20px",
-        fontSize: 15,
-        fontFamily: 'NunitoSans-Bold',
-        borderRadius: 8,
-    },
-})(Button);
-
-const ForgetPasswordButton = withStyles({
-    root: {
-        color: "blue",
-        textTransform: "none",
-        padding: 0,
-        color: "#343F84",
-        fontWeight: "bold",
-        "&:hover": {
-            backgroundColor: "white",
-            textDecoration: "underline",
-        },
-        fontFamily: 'NunitoSans-Black',
-    },
-})(Button);
-
 export default function SignIn() {
     const classes = useStyles();
+    const theme = useTheme()
+
     const [values, setValues] = React.useState({
         showPassword: false,
         loginLoading: false,
@@ -147,7 +100,12 @@ export default function SignIn() {
                             error={!!error}
                             style={{ marginTop: "25px" }}
                             helperText={error?.message}
-                            inputProps={{ className: classes.textInput }}
+                            inputProps={{
+                                className: classes.textInput,
+                                form: {
+                                    autocomplete: 'off',
+                                },
+                            }}
                         />
                     )}
                     rules={{ required: "Username is required" }}
@@ -195,58 +153,70 @@ export default function SignIn() {
                                         </IconButton>
                                     </InputAdornment>
                                 ),
-                                className: classes.textInput
+                                className: classes.textInput,
+                                form: {
+                                    autocomplete: 'off',
+                                },
                             }}
                         />
                     )}
                     rules={{ required: "Password is required" }}
                 />
 
-                {/* <AppTextInput /> */}
-
                 <Grid container justifyContent={'space-between'} style={{ marginTop: "35px" }}>
-                    <ForgetPasswordButton
-                        type="button"
+                    <AppButton
+                        variant={"none"}
                         onClick={() => dispatch(forgotPasword(true))}
                         disabled={values.loginLoading}
+                        style={{ paddingLeft: "0px", paddingRight: "0px" }}
                     >
                         Forgot password?
-                    </ForgetPasswordButton>
+                    </AppButton>
 
                     {values.loginLoading ? (
-                        <SignInButton
+                        <AppButton
                             type="submit"
-                            variant="contained"
-                            color="primary"
-                            size="lg"
+                            variant="fill"
+                            style={{ paddingTop: "10px", paddingBottom: "10px", width: "110px", height: "45px" }}
                         >
                             <Spinner animation="border" role="status" size="sm">
                             </Spinner>
-                        </SignInButton>
+                        </AppButton>
                     ) : (
-                        <SignInButton type="submit" variant="contained" color="primary">
+                        <AppButton
+                            type="submit"
+                            variant="fill"
+                            style={{ paddingTop: "10px", paddingBottom: "10px", width: "110px", height: "45px" }}
+                        >
                             Sign In
-                        </SignInButton>
+                        </AppButton>
                     )}
                 </Grid>
 
                 <Grid container direction="column" alignItems="flex-end" style={{ marginTop: "35px" }}>
-                    <p style={{ color: "#757575", fontWeight: "bold", fontFamily: "NunitoSans-Regular", fontSize: 14 }}>Don't have an account?</p>
+                    <p
+                        style={{
+                            color: theme.colors.secondary.grey,
+                            fontFamily: theme.fontFamily.nunitoSansRegular,
+                            fontSize: "13px"
+                        }}
+                    >
+                        Don't have an account?
+                    </p>
 
-                    <SignUpButton
-                        type="button"
-                        variant="contained"
-                        color="primary"
+                    <AppButton
                         disabled={values.loginLoading}
                         onClick={() => {
                             dispatch({ type: "SIGN-UP", data: true });
                         }}
+                        variant={"outline"}
+                        style={{ padding: "8px 5px 8px 5px", width: "110px" }}
                     >
                         Sign Up
-                    </SignUpButton>
+                    </AppButton>
                 </Grid>
                 <AuthFooter />
-            </form>
-        </Grid>
+            </form >
+        </Grid >
     )
 }

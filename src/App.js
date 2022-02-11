@@ -29,7 +29,6 @@ function App() {
         dispatch(setSession(foundUser));
       }
       setAuthenticating(false)
-      dispatch(getAllRadioListAction())
     }).catch((error) => {
       setAuthenticating(false)
       cogoToast.error(error?.message || "Error authorizing")

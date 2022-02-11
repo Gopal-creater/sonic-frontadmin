@@ -110,107 +110,120 @@ export default function DashboardTable({ data }) {
 
     return (
         <TableWrapper>
-            <ResizableTable ref={tableElement}>
-                <StyledTableHead>
-                    <StyledTableRow>
-                        {columns.map(({ ref, text, orderBy }, index) => {
-                            return (
-                                <StyledTableHeadColumn
-                                    ref={ref}
-                                    onClick={() => sorting(orderBy)}
-                                >
-                                    {text}
-                                    <img src={Dropdown} height={15} alt="dropdown" />
-                                    <TableResizer onMouseDown={() => setState({ ...state, activeColumnIndex: index })} style={{ height: state.tableHeight }} />
-                                </StyledTableHeadColumn>
-                            )
-                        })}
-                    </StyledTableRow>
-                </StyledTableHead>
+            {
+                state?.data?.length === 0 ?
+                    <ResizableTable
+                        ref={tableElement}
+                        style={{ display: "flex", justifyContent: "center" }}
+                    >
+                        No Data
+                    </ResizableTable>
+                    :
+                    <ResizableTable ref={tableElement}>
+                        <StyledTableHead>
+                            <StyledTableRow>
+                                {columns.map(({ ref, text, orderBy }, index) => {
+                                    return (
+                                        <StyledTableHeadColumn
+                                            ref={ref}
+                                            onClick={() => sorting(orderBy)}
+                                        >
+                                            {text}
+                                            <img src={Dropdown} height={15} alt="dropdown" />
+                                            <TableResizer onMouseDown={() => setState({ ...state, activeColumnIndex: index })} style={{ height: state.tableHeight }} />
+                                        </StyledTableHeadColumn>
+                                    )
+                                })}
+                            </StyledTableRow>
+                        </StyledTableHead>
 
-
-                <StyledTableBody>
-                    {
-                        state.data?.map((row, index) => {
-                            if (index % 2 !== 0) {
-                                return (
-                                    <StyledTableRow key={index}>
-                                        <AlternateDataColumn
-                                            style={{
-                                                color: theme.colors.primary.navy,
-                                                fontSize: theme.fontSize.h4,
-                                                fontFamily: theme.fontFamily.nunitoSansMediumBold
-                                            }}
-                                        >
-                                            {row?.contentOwner || "---"}
-                                        </AlternateDataColumn>
-                                        <AlternateDataColumn
-                                            style={{
-                                                color: theme.colors.primary.graphite,
-                                                fontSize: theme.fontSize.h4,
-                                                fontFamily: theme.fontFamily.nunitoSansMediumBold
-                                            }}
-                                        >
-                                            {row?.contentFileName || "---"}
-                                        </AlternateDataColumn>
-                                        <AlternateDataColumn>{row?.channel || "---"}</AlternateDataColumn>
-                                        <AlternateDataColumn>{row?.createdAt || "---"}</AlternateDataColumn>
-                                        <AlternateDataColumn>{row?.time}</AlternateDataColumn>
-                                        <AlternateDataColumn>{row?.contentDuration || "---"}</AlternateDataColumn>
-                                        <AlternateDataColumn>{row?.country}</AlternateDataColumn>
-                                        <AlternateDataColumn
-                                            style={{
-                                                color: theme.colors.primary.navy,
-                                                fontSize: theme.fontSize.h5,
-                                                fontFamily: theme.fontFamily.nunitoSansMediumBold
-                                            }}
-                                        >
-                                            {row?.sonicKey || "---"}
-                                        </AlternateDataColumn>
-                                        <AlternateDataColumn>{row?.isrcCode || "---"}</AlternateDataColumn>
-                                    </StyledTableRow>
-                                )
-                            }
-                            return (
-                                <StyledTableRow key={index}>
-                                    <TableDataColumn
-                                        style={{
-                                            color: theme.colors.primary.navy,
-                                            fontSize: theme.fontSize.h4,
-                                            fontFamily: theme.fontFamily.nunitoSansMediumBold
-                                        }}
-                                    >
-                                        {row?.contentOwner || "---"}
-                                    </TableDataColumn>
-                                    <TableDataColumn
-                                        style={{
-                                            color: theme.colors.primary.graphite,
-                                            fontSize: theme.fontSize.h4,
-                                            fontFamily: theme.fontFamily.nunitoSansMediumBold
-                                        }}
-                                    >
-                                        {row?.contentFileName || "---"}
-                                    </TableDataColumn>
-                                    <TableDataColumn>{row?.channel || "---"}</TableDataColumn>
-                                    <TableDataColumn>{row?.createdAt || "---"}</TableDataColumn>
-                                    <TableDataColumn>{row?.time}</TableDataColumn>
-                                    <TableDataColumn>{row?.contentDuration || "---"}</TableDataColumn>
-                                    <TableDataColumn>{row?.country}</TableDataColumn>
-                                    <TableDataColumn
-                                        style={{
-                                            color: theme.colors.primary.navy,
-                                            fontSize: theme.fontSize.h5,
-                                            fontFamily: theme.fontFamily.nunitoSansMediumBold
-                                        }}
-                                    >
-                                        {row?.sonicKey || "---"}
-                                    </TableDataColumn>
-                                    <TableDataColumn>{row?.isrcCode || "---"}</TableDataColumn>
-                                </StyledTableRow>
-                            )
-                        })}
-                </StyledTableBody>
-            </ResizableTable>
+                        <StyledTableBody>
+                            {
+                                state.data?.map((row, index) => {
+                                    if (index % 2 !== 0) {
+                                        return (
+                                            <StyledTableRow key={index}>
+                                                <AlternateDataColumn
+                                                    style={{
+                                                        color: theme.colors.primary.navy,
+                                                        fontSize: theme.fontSize.h4,
+                                                        fontFamily: theme.fontFamily.nunitoSansMediumBold
+                                                    }}
+                                                >
+                                                    {row?.contentOwner || "---"}
+                                                </AlternateDataColumn>
+                                                <AlternateDataColumn
+                                                    style={{
+                                                        color: theme.colors.primary.graphite,
+                                                        fontSize: theme.fontSize.h4,
+                                                        fontFamily: theme.fontFamily.nunitoSansMediumBold
+                                                    }}
+                                                >
+                                                    {row?.contentFileName || "---"}
+                                                </AlternateDataColumn>
+                                                <AlternateDataColumn>{row?.channel || "---"}</AlternateDataColumn>
+                                                <AlternateDataColumn>{row?.createdAt || "---"}</AlternateDataColumn>
+                                                <AlternateDataColumn>{row?.time}</AlternateDataColumn>
+                                                <AlternateDataColumn>{row?.contentDuration || "---"}</AlternateDataColumn>
+                                                <AlternateDataColumn>{row?.country}</AlternateDataColumn>
+                                                <AlternateDataColumn
+                                                    style={{
+                                                        color: theme.colors.primary.navy,
+                                                        fontSize: theme.fontSize.h5,
+                                                        fontFamily: theme.fontFamily.nunitoSansMediumBold
+                                                    }}
+                                                >
+                                                    {row?.sonicKey || "---"}
+                                                </AlternateDataColumn>
+                                                <AlternateDataColumn>{row?.isrcCode || "---"}</AlternateDataColumn>
+                                                <AlternateDataColumn>{row?.isrcCode || "---"}</AlternateDataColumn>
+                                                <AlternateDataColumn>{row?.isrcCode || "---"}</AlternateDataColumn>
+                                            </StyledTableRow>
+                                        )
+                                    }
+                                    return (
+                                        <StyledTableRow key={index}>
+                                            <TableDataColumn
+                                                style={{
+                                                    color: theme.colors.primary.navy,
+                                                    fontSize: theme.fontSize.h4,
+                                                    fontFamily: theme.fontFamily.nunitoSansMediumBold
+                                                }}
+                                            >
+                                                {row?.contentOwner || "---"}
+                                            </TableDataColumn>
+                                            <TableDataColumn
+                                                style={{
+                                                    color: theme.colors.primary.graphite,
+                                                    fontSize: theme.fontSize.h4,
+                                                    fontFamily: theme.fontFamily.nunitoSansMediumBold
+                                                }}
+                                            >
+                                                {row?.contentFileName || "---"}
+                                            </TableDataColumn>
+                                            <TableDataColumn>{row?.channel || "---"}</TableDataColumn>
+                                            <TableDataColumn>{row?.createdAt || "---"}</TableDataColumn>
+                                            <TableDataColumn>{row?.time}</TableDataColumn>
+                                            <TableDataColumn>{row?.contentDuration || "---"}</TableDataColumn>
+                                            <TableDataColumn>{row?.country}</TableDataColumn>
+                                            <TableDataColumn
+                                                style={{
+                                                    color: theme.colors.primary.navy,
+                                                    fontSize: theme.fontSize.h5,
+                                                    fontFamily: theme.fontFamily.nunitoSansMediumBold
+                                                }}
+                                            >
+                                                {row?.sonicKey || "---"}
+                                            </TableDataColumn>
+                                            <TableDataColumn>{row?.isrcCode || "---"}</TableDataColumn>
+                                            <TableDataColumn>{row?.isrcCode || "---"}</TableDataColumn>
+                                            <TableDataColumn>{row?.isrcCode || "---"}</TableDataColumn>
+                                        </StyledTableRow>
+                                    )
+                                })}
+                        </StyledTableBody>
+                    </ResizableTable>
+            }
         </TableWrapper>
     );
 }

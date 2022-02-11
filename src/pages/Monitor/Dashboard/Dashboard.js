@@ -43,6 +43,8 @@ export function Dashboard() {
         contentDuration: data?.sonicKey?.contentDuration,
         country: data?.sonicKey?.country || "United Kingdom",
         sonicKey: data?.sonicKey?.sonicKey,
+        isrcCode: data?.sonicKey?.isrcCode || "1234fghj",
+        isrcCode: data?.sonicKey?.isrcCode || "1234fghj",
         isrcCode: data?.sonicKey?.isrcCode || "1234fghj"
       }
     })
@@ -59,7 +61,11 @@ export function Dashboard() {
   return (
     <Grid >
 
-      <WelcomeBack totalRadioStations={radioStation?.data?.length || "--"} />
+      <WelcomeBack
+        error={radioStation?.error}
+        loading={radioStation?.loading}
+        totalRadioStations={radioStation?.data?.length}
+      />
 
       <FilterComponent
         startDate={monitor?.dates?.startDate}
@@ -75,7 +81,7 @@ export function Dashboard() {
           imgSrc={radio}
           title={"My Plays"}
           loading={dashboard?.loading}
-          data={`${dashboard?.data?.myPlaysCount}` || "--"}
+          data={dashboard?.data?.myPlaysCount || "0"}
           error={dashboard?.error}
         />
         <Stats
@@ -83,7 +89,7 @@ export function Dashboard() {
           title={"My Tracks"}
           ownerShipTitle="from"
           loading={dashboard?.loading}
-          data={`${dashboard?.data?.myTracksCount}` || "--"}
+          data={dashboard?.data?.myTracksCount || "0"}
           error={dashboard?.error}
         />
         <Stats
@@ -91,7 +97,7 @@ export function Dashboard() {
           title={"Artists"}
           ownerShipTitle="by"
           loading={dashboard?.loading}
-          data={`${dashboard?.data?.myArtistsCount}` || "--"}
+          data={dashboard?.data?.myArtistsCount || "0"}
           error={dashboard?.error}
         />
         <Stats
@@ -99,7 +105,7 @@ export function Dashboard() {
           title={"Radio Stations"}
           ownerShipTitle="At"
           loading={dashboard?.loading}
-          data={`${dashboard?.data?.myRadioStationCount}` || "--"}
+          data={dashboard?.data?.myRadioStationCount || "0"}
           error={dashboard?.error}
         />
         <Stats
@@ -107,7 +113,7 @@ export function Dashboard() {
           title={"Countries"}
           ownerShipTitle="In"
           loading={dashboard?.loading}
-          data={`${dashboard?.data?.myCountriesCount}` || "--"}
+          data={dashboard?.data?.myCountriesCount || "0"}
           error={dashboard?.error}
         />
       </CardContainer>

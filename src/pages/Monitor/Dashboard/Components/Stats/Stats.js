@@ -20,9 +20,13 @@ export default function Stats(
                 <Grid item container justifyContent='flex-end'>
                     <OwnershipTitleContainer>{ownerShipTitle || ""}</OwnershipTitleContainer>
                     {
-                        loading ? <><CircularProgress size={25} /><br /></> : <DataContainer>{data || "---"}</DataContainer>
-                    }<br />
-                    <Title style={{ textAlign: "end" }}>{title || "---"}</Title>
+                        loading ?
+                            <CircularProgress size={25} />
+                            : <DataContainer>{data || "---"}</DataContainer>
+                    }
+                    <Grid item container justifyContent='flex-end' >
+                        <Title style={{ textAlign: "end" }}>{title || "---"}</Title>
+                    </Grid>
                 </Grid>
                 <IconContainer item>
                     <HelpOutlineIcon fontSize='small' style={{ color: theme.colors.secondary.lightNavy }}

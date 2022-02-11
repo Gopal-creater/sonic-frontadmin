@@ -13,7 +13,7 @@ const CustomButton = styled(Button)(({ variant, fontSize, color, fontFamily, dis
             fontFamily: fontFamily || theme.fontFamily.nunitoSansBold,
             borderRadius: "5px",
             fontSize: fontSize || theme.fontSize.h5,
-            padding: "7px 30px 7px 30px !important",
+            padding: "7px 30px 7px 30px",
             "&:hover": {
                 backgroundColor: theme.colors.secondary.lightNavy
             },
@@ -30,7 +30,7 @@ const CustomButton = styled(Button)(({ variant, fontSize, color, fontFamily, dis
             borderRadius: "7px",
             border: `2px solid ${disabled ? theme.colors.secondary.disabled : theme.colors.primary.navy}`,
             backgroundColor: "transparent",
-            padding: "7px 30px 7px 30px !important",
+            padding: "7px 30px 7px 30px",
             fontSize: fontSize || theme.fontSize.h5,
             "&:hover": {
                 color: `${theme.colors.secondary.lightNavy} !important`,
@@ -49,7 +49,7 @@ const CustomButton = styled(Button)(({ variant, fontSize, color, fontFamily, dis
             color: `${disabled ? theme.colors.secondary.lightNavy : color || theme.colors.primary.navy}`,
             fontSize: fontSize || theme.fontSize.h5,
             fontFamily: fontFamily || theme.fontFamily.nunitoSansBold,
-            padding: "7px 30px 7px 30px !important",
+            padding: "7px 30px 7px 30px",
             backgroundColor: "transparent",
             "&:hover": {
                 color: `${theme.colors.secondary.lightNavy} !important`,
@@ -64,7 +64,7 @@ const CustomButton = styled(Button)(({ variant, fontSize, color, fontFamily, dis
         return ({
             textTransform: "none",
             fontSize: fontSize || theme.fontSize.h5,
-            padding: "7px 30px 7px 30px !important",
+            padding: "7px 30px 7px 30px",
             color: `${color || theme.colors.primary.navy} !important`,
             fontFamily: fontFamily || theme.fontFamily.nunitoSansBold,
         })

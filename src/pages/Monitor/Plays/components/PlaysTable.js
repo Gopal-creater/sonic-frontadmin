@@ -9,6 +9,7 @@ import MetaDataDialog from "../../../../components/common/MetaDataDialog";
 import { Grid } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { log } from '../../../../utils/app.debug';
+import { CustomTooltip } from '../../../../StyledComponents/StyledToolTip/CustomTooltip';
 
 const createHeaders = (headers) => {
     return headers.map((item) => ({
@@ -134,15 +135,17 @@ export default function PlaysTable({ data }) {
                             if (index % 2 !== 0) {
                                 return (
                                     <StyledTableRow key={index}>
-                                        <AlternateDataColumn
-                                            style={{
-                                                color: theme.colors.primary.navy,
-                                                fontSize: theme.fontSize.h4,
-                                                fontFamily: theme.fontFamily.nunitoSansMediumBold
-                                            }}
-                                        >
-                                            {row?.artist || "---"}
-                                        </AlternateDataColumn>
+                                        <CustomTooltip title={row?.artist}>
+                                            <AlternateDataColumn
+                                                style={{
+                                                    color: theme.colors.primary.navy,
+                                                    fontSize: theme.fontSize.h4,
+                                                    fontFamily: theme.fontFamily.nunitoSansMediumBold
+                                                }}
+                                            >
+                                                {row?.artist || "---"}
+                                            </AlternateDataColumn>
+                                        </CustomTooltip>
                                         <AlternateDataColumn
                                             style={{
                                                 color: theme.colors.primary.graphite,

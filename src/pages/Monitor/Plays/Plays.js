@@ -14,16 +14,8 @@ import { getMonitorExportAction, getMonitorListAction } from '../../../stores/ac
 import MonitorFilter from '../Components/MonitorFilter/MonitorFilter';
 
 export default function Plays() {
-    // const [values, setValues] = React.useState({
-    //     sonicKeyModal: false,
-    //     selectedSonicKey: {},
-    //     format: "",
-    // })
     const dispatch = useDispatch();
-    const playsList = useSelector(state => state.playsList);
     const monitor = useSelector(state => state.monitor);
-
-    log("PLAYS TABLE", monitor)
 
     React.useEffect(() => {
         dispatch(getMonitorListAction(
@@ -54,14 +46,15 @@ export default function Plays() {
                 sonicKey: data?.sonicKey?.sonicKey,
                 isrcCode: data?.sonicKey?.isrcCode,
                 label: data?.sonicKey?.label,
-                distributor: data?.sonicKey?.distributor
+                distributor: data?.sonicKey?.distributor,
+                modal: data?.sonicKey,
             }
         })
         return stableTableData
     }
 
     const handleExport = (format) => {
-        dispatch(getMonitorExportAction(actions, monitor?.dates?.startDate, monitor?.dates?.endDate, format, 2000))
+        dispatch(getMonitorExportAction(monitor?.dates?.startDate, monitor?.dates?.endDate, format, 2000, "PLAYS"))
     };
 
     return (
@@ -120,19 +113,6 @@ export default function Plays() {
                     </Grid>
                 </Grid>
             </CommonDataLoadErrorSuccess>
-
-            {/*
-                {values?.sonicKeyModal && (
-                    <MetaDataDialog
-                        sonicKey={values?.selectedSonicKey}
-                        open={true}
-                        setOpenTable={(flag) => setValues({ ...values, sonicKeyModal: flag })}
-                        updateMetaData={(key) => {
-                            setValues({ ...values, selectedSonicKey: key })
-                            dispatch({ type: actionTypes.UPDATE_EDITED_PLAYSLIST, data: key })
-                        }}
-                    />
-                )} */}
         </Grid>
     )
 }

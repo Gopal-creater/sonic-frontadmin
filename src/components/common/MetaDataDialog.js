@@ -1,5 +1,5 @@
 import React from "react";
-import { IconButton, Grid, Dialog, DialogTitle, TableContainer, TableRow, TableCell, useTheme, TableBody, TextField, CircularProgress, FormControl, Box, Tooltip, Menu, MenuItem } from "@material-ui/core";
+import { IconButton, Grid, Dialog, DialogTitle, TableContainer, TableRow, TableCell, TableBody, TextField, CircularProgress } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import Table from "react-bootstrap/Table";
 import CloseIcon from '@material-ui/icons/Close';
@@ -21,6 +21,8 @@ import cogoToast from "cogo-toast";
 import Communication from "../../services/https/Communication";
 import { getExportPlaysDataAction } from "../../stores/actions/dashboard.action";
 import { playsListInitialState } from "../../stores/reducers/playsListsRed";
+import AppButton from "./AppButton/AppButton";
+import theme from "../../theme";
 
 const useStyles = makeStyles({
     dialogPaper: {
@@ -30,23 +32,20 @@ const useStyles = makeStyles({
     },
     tableCellOne: {
         padding: '5px',
-        fontFamily: 'NunitoSans-Bold',
-        fontWeight: 'bold',
-        fontSize: '12px',
-        color: '#ACACAC',
+        fontFamily: `${theme.fontFamily.nunitoSansBold}`,
+        fontSize: `12px`,
+        color: `${theme.colors.secondary.mediumGrey}`,
     },
     tableCellTwo: {
         padding: '5px',
-        fontFamily: 'NunitoSans-Bold',
-        fontWeight: '700',
-        fontSize: '14px',
-        color: '#757575',
+        fontFamily: `${theme.fontFamily.nunitoSansBold}`,
+        fontSize: `${theme.fontSize.h5}`,
+        color: `${theme.colors.secondary.grey}`,
     },
     textInput: {
-        fontFamily: 'NunitoSans-Bold',
-        fontWeight: '700',
-        fontSize: '14px',
-        color: '#757575',
+        fontFamily: `${theme.fontFamily.nunitoSansBold}`,
+        fontSize: `${theme.fontSize.h5}`,
+        color: `${theme.colors.secondary.grey}`,
     }
 });
 
@@ -97,8 +96,6 @@ const MetaDataDailog = (props) => {
     const dispatch = useDispatch()
     const plays = useSelector(state => state.playsList)
     const history = useHistory()
-
-    const theme = useTheme()
     const classes = useStyles();
 
     const handleCloseTable = () => {
@@ -168,7 +165,6 @@ const MetaDataDailog = (props) => {
         dispatch(getExportPlaysDataAction(props?.sonicKey?.playsStartDate, props?.sonicKey?.playsEndDate, 2000, values?.sonicKey?.sonicKey, value))
         setAnchorEl(null);
     };
-
     return (
         <>
             <Dialog open={true} fullWidth={true} className={classes.dialogPaper}>
@@ -193,7 +189,9 @@ const MetaDataDailog = (props) => {
                         <div style={{ display: 'flex', alignItems: 'center' }}>
                             <img style={{ width: '30px' }} src={DialogLogo} alt="" />
                             <div style={{
-                                fontFamily: 'NunitoSans-Bold', color: '#343F84', fontSize: '18px'
+                                fontFamily: theme.fontFamily.nunitoSansBold,
+                                fontSize: theme.fontSize.h4,
+                                color: theme.colors.primary.graphite
                             }}>&nbsp; &nbsp;SonicKey: {values?.sonicKey?.sonicKey || "---"}</div>
                         </div>
                     </DialogTitle>
@@ -201,8 +199,8 @@ const MetaDataDailog = (props) => {
                     <IconButton
                         aria-label="close"
                         style={{
-                            right: theme.spacing(1),
-                            color: '#343F84',
+                            marginRight: 5,
+                            color: theme.colors.primary.graphite
                         }}
                         onClick={handleCloseTable}
                         data-toggle="tooltip"
@@ -431,37 +429,33 @@ const MetaDataDailog = (props) => {
                 </TableContainer>
 
                 <DialogActions border="none" style={{ margin: '20px', border: 'none' }}>
-
-                    <Button onClick={handleCloseTable} variant="outlined" style={{
-                        marginRight: "15px",
-                        fontFamily: 'NunitoSans-Bold', color: '#343F84', borderColor: '#343F84', borderWidth: '2px', borderRadius: '8px', textTransform: 'none', padding: '10px 20px', minWidth: "110px"
-                    }}>
+                    <AppButton
+                        variant="outline"
+                        onClick={handleCloseTable}
+                        style={{ padding: '10px 20px', minWidth: "115px" }}
+                    >
                         Cancel
-                    </Button>
+                    </AppButton>
 
                     {
                         values?.switchEdit && props?.enableEditMode ?
-                            <Button
-                                variant="contained"
-                                style={{
-                                    fontFamily: 'NunitoSans-Bold', color: 'white', backgroundColor: '#343F84', textTransform: 'none', borderRadius: '8px', padding: '12px 20px', minWidth: "115px"
-                                }}
+                            <AppButton
+                                variant="fill"
                                 onClick={updateSonicKey}
+                                style={{ padding: '12px 20px', minWidth: "115px" }}
                             >
                                 {
                                     values?.updateSonicKeyLoading ? <CircularProgress style={{ color: "white" }} size={24} /> : " Update"
                                 }
-                            </Button>
+                            </AppButton>
                             :
-                            <Button
-                                variant="contained"
-                                style={{
-                                    fontFamily: 'NunitoSans-Bold', color: 'white', backgroundColor: '#343F84', textTransform: 'none', borderRadius: '8px', padding: '12px 20px'
-                                }}
+                            <AppButton
+                                variant="fill"
                                 onClick={viewPlaysWithSonicKey}
+                                style={{ padding: '12px 20px', minWidth: "115px" }}
                             >
                                 View Plays
-                            </Button>
+                            </AppButton>
                     }
                 </DialogActions>
             </Dialog>

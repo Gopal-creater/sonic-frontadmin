@@ -3,10 +3,15 @@ import React from 'react';
 import { useTheme } from 'styled-components';
 import { artistTableHeads } from '../../../../constants/constants';
 import { AlternateStyledTableData, StyledTableData, StyledTableHead } from '../../../../StyledComponents/StyledTable/StyledTable';
-import dropdown from "../../../../assets/icons/dropdown.png"
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import * as actionTypes from "../../../../stores/actions/actionTypes"
 
 export default function ArtistTable({ data }) {
     const theme = useTheme()
+    const dispatch = useDispatch()
+    const history = useHistory()
+    const monitor = useSelector(state => state.monitor)
 
     const [state, setState] = React.useState({
         data: data || [],
@@ -40,6 +45,11 @@ export default function ArtistTable({ data }) {
             setState({ ...state, data: sorted })
             setSortOrder("ASC")
         }
+    }
+
+    const onPlaysClick = (artistName) => {
+        dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, artist: artistName } })
+        history.push("/plays")
     }
 
     return (
@@ -83,10 +93,20 @@ export default function ArtistTable({ data }) {
                                                 >
                                                     {row?.artistName || "---"}
                                                 </AlternateStyledTableData>
-                                                <AlternateStyledTableData >{`${row?.plays}` || "---"}</AlternateStyledTableData>
-                                                <AlternateStyledTableData >{`${row?.uniquePlaysCount}` || "---"}</AlternateStyledTableData>
-                                                <AlternateStyledTableData >{`${row?.radioStation}` || "---"}</AlternateStyledTableData>
-                                                <AlternateStyledTableData >{`${row?.country}` || "---"}</AlternateStyledTableData>
+                                                <AlternateStyledTableData
+                                                    onClick={() => onPlaysClick(row?.artistName)}
+                                                    style={{ cursor: "pointer" }}
+                                                >
+                                                    {row?.plays || "---"}
+                                                </AlternateStyledTableData>
+                                                <AlternateStyledTableData
+                                                    onClick={() => onPlaysClick(row?.artistName)}
+                                                    style={{ cursor: "pointer" }}
+                                                >
+                                                    {row?.uniquePlaysCount || "---"}
+                                                </AlternateStyledTableData>
+                                                <AlternateStyledTableData >{row?.radioStation || "---"}</AlternateStyledTableData>
+                                                <AlternateStyledTableData >{row?.country || "---"}</AlternateStyledTableData>
                                             </TableRow>
                                         )
                                     }
@@ -101,10 +121,20 @@ export default function ArtistTable({ data }) {
                                             >
                                                 {row?.artistName || "---"}
                                             </StyledTableData>
-                                            <StyledTableData >{`${row?.plays}` || "---"}</StyledTableData>
-                                            <StyledTableData >{`${row?.uniquePlaysCount}` || "---"}</StyledTableData>
-                                            <StyledTableData >{`${row?.radioStation}` || "---"}</StyledTableData>
-                                            <StyledTableData >{`${row?.country}` || "---"}</StyledTableData>
+                                            <StyledTableData
+                                                onClick={() => onPlaysClick(row?.artistName)}
+                                                style={{ cursor: "pointer" }}
+                                            >
+                                                {row?.plays || "---"}
+                                            </StyledTableData>
+                                            <StyledTableData
+                                                onClick={() => onPlaysClick(row?.artistName)}
+                                                style={{ cursor: "pointer" }}
+                                            >
+                                                {row?.uniquePlaysCount || "---"}
+                                            </StyledTableData>
+                                            <StyledTableData >{row?.radioStation || "---"}</StyledTableData>
+                                            <StyledTableData >{row?.country || "---"}</StyledTableData>
                                         </TableRow>
                                     )
                                 })}

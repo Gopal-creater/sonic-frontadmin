@@ -98,6 +98,7 @@ export function Dashboard() {
           loading={dashboard?.loading}
           data={dashboard?.data?.myPlaysCount || "0"}
           error={dashboard?.error}
+          pageLink="/plays"
         />
         <Stats
           imgSrc={radio}
@@ -106,6 +107,7 @@ export function Dashboard() {
           loading={dashboard?.loading}
           data={dashboard?.data?.myTracksCount || "0"}
           error={dashboard?.error}
+          pageLink="/tracks"
         />
         <Stats
           imgSrc={radio}
@@ -114,6 +116,7 @@ export function Dashboard() {
           loading={dashboard?.loading}
           data={dashboard?.data?.myArtistsCount || "0"}
           error={dashboard?.error}
+          pageLink="/artists"
         />
         <Stats
           imgSrc={radio}
@@ -122,6 +125,7 @@ export function Dashboard() {
           loading={dashboard?.loading}
           data={dashboard?.data?.myRadioStationCount || "0"}
           error={dashboard?.error}
+          pageLink="/radio-stations"
         />
         <Stats
           imgSrc={radio}
@@ -130,6 +134,7 @@ export function Dashboard() {
           loading={dashboard?.loading}
           data={dashboard?.data?.myCountriesCount || "0"}
           error={dashboard?.error}
+          pageLink="/countries"
         />
       </CardContainer>
 

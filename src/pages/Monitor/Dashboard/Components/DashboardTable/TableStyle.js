@@ -14,17 +14,17 @@ export const ResizableTable = styled.table`
     overflow: auto;
     overflow-y: hidden;
     grid-template-columns: 
-    minmax(90px, 1fr)
-    minmax(90px, 1fr)
-    minmax(90px, 1fr)
-    minmax(90px, 1fr)
-    minmax(90px, 1fr)
-    minmax(90px, 1fr)
-    minmax(90px, 1fr)
-    minmax(90px, 1fr)
-    minmax(90px, 1fr)
-    minmax(90px, 1fr)
-    minmax(90px, 1fr);
+    auto
+    auto
+    auto
+    auto
+    auto
+    auto
+    auto
+    auto
+    auto
+    auto
+    auto;
 `
 
 export const StyledTableHead = styled.thead`
@@ -41,7 +41,7 @@ export const StyledTableRow = styled.tr`
 
 export const StyledTableHeadColumn = styled.th`
     position: relative;
-    padding: 16px 5px 16px 5px;
+    padding: 16px 22px 16px 5px;
     color: ${props => props.theme.colors.secondary.mediumGrey};
     font-family:${props => props.theme.fontFamily.nunitoSansRegular};
     font-size:11px;
@@ -58,7 +58,6 @@ export const StyledTableHeadColumn = styled.th`
 `
 
 export const TableResizer = styled.div`
-    /* display: block; */
     position: absolute;
     cursor: col-resize;
     right: 10px !important;
@@ -75,7 +74,7 @@ export const TableResizer = styled.div`
 `
 
 export const TableDataColumn = styled.td`
-    padding: 16px 20px 16px 5px;
+    padding: 16px 25px 16px 5px;
     color: ${props => props.theme.colors.secondary.grey};
     font-family:${props => props.theme.fontFamily.nunitoSansBold};
     white-space: nowrap;

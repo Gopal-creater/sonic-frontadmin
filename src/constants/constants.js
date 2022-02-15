@@ -1406,7 +1406,7 @@ export const countries = [
 ];
 
 export const playsTableHeads = [
-  { title: "ARTIST", orderBy: "artist" },
+  { title: "ARTIST", orderBy: "artist", sortBy: "", isAscending: null },
   { title: "TITLE", orderBy: "title" },
   { title: "RADIO STATION", orderBy: "radioStation" },
   { title: "DATE", orderBy: "date" },

@@ -35,7 +35,7 @@ export const getMonitorListAction = (actions, startDate, endDate, page, limit, p
         params.append("relation_radioStation.name", monitorFilters?.radioStation);
     }
     if (monitorFilters?.song) {
-        params.append("relation_sonicKey.originalFileName", monitorFilters?.song);
+        params.append("relation_sonicKey.contentName", monitorFilters?.song);
     }
     if (monitorFilters?.label) {
         params.append("relation_sonicKey.label", monitorFilters?.label);

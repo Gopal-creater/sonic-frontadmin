@@ -1,12 +1,17 @@
 import { Grid, Table, TableBody, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { useTheme } from 'styled-components';
 import { trackTableHeads } from '../../../../constants/constants';
 import { AlternateStyledTableData, StyledTableData, StyledTableHead } from '../../../../StyledComponents/StyledTable/StyledTable';
-import dropdown from "../../../../assets/icons/dropdown.png"
+import * as actionTypes from "../../../../stores/actions/actionTypes"
 
 export default function TracksTable({ data }) {
     const theme = useTheme()
+    const history = useHistory()
+    const dispatch = useDispatch()
+    const monitor = useSelector(state => state.monitor)
 
     const [state, setState] = React.useState({
         data: data || [],
@@ -40,6 +45,11 @@ export default function TracksTable({ data }) {
             setState({ ...state, data: sorted })
             setSortOrder("ASC")
         }
+    }
+
+    const onPlaysClick = (trackName) => {
+        dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, song: trackName } })
+        history.push("/plays")
     }
 
     return (
@@ -83,7 +93,12 @@ export default function TracksTable({ data }) {
                                                 >
                                                     {row?.trackName || "---"}
                                                 </AlternateStyledTableData>
-                                                <AlternateStyledTableData >{row?.plays || "---"}</AlternateStyledTableData>
+                                                <AlternateStyledTableData
+                                                    style={{ cursor: "pointer" }}
+                                                    onClick={() => onPlaysClick(row?.trackName)}
+                                                >
+                                                    {row?.plays || "---"}
+                                                </AlternateStyledTableData>
                                                 <AlternateStyledTableData >{row?.radioStation || "---"}</AlternateStyledTableData>
                                                 <AlternateStyledTableData >{row?.country || "---"}</AlternateStyledTableData>
                                             </TableRow>
@@ -100,7 +115,12 @@ export default function TracksTable({ data }) {
                                             >
                                                 {row?.trackName || "---"}
                                             </StyledTableData>
-                                            <StyledTableData >{row?.plays || "---"}</StyledTableData>
+                                            <StyledTableData
+                                                style={{ cursor: "pointer" }}
+                                                onClick={() => onPlaysClick(row?.trackName)}
+                                            >
+                                                {row?.plays || "---"}
+                                            </StyledTableData>
                                             <StyledTableData >{row?.radioStation || "---"}</StyledTableData>
                                             <StyledTableData >{row?.country || "---"}</StyledTableData>
                                         </TableRow>

@@ -17,6 +17,7 @@ export const monitorInitialState = {
         distributor: "",
         encodedStartDate: "",
         encodedEndDate: "",
+        timezone: "GMT",
     },
     track: {
         error: null,

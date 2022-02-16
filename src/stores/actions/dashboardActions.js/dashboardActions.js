@@ -14,25 +14,25 @@ export const getMonitorDashboardDataAction = (startDate, endDate, limit = 10) =>
     params.append("limit", limit);
 
     if (monitorFilters?.sonicKey) {
-        params.append("relation_sonicKey.sonicKey", monitorFilters?.sonicKey);
+        params.append("relation_sonicKey.sonicKey", `/${monitorFilters?.sonicKey}/i`);
     }
     if (monitorFilters?.country) {
         params.append("relation_radioStation.country", monitorFilters?.country);
     }
     if (monitorFilters?.artist) {
-        params.append("relation_sonicKey.contentOwner", monitorFilters?.artist);
+        params.append("relation_sonicKey.contentOwner", `/${monitorFilters?.artist}/i`);
     }
     if (monitorFilters?.radioStation) {
         params.append("relation_radioStation.name", monitorFilters?.radioStation);
     }
     if (monitorFilters?.song) {
-        params.append("relation_sonicKey.originalFileName", monitorFilters?.song);
+        params.append("relation_sonicKey.originalFileName", `/${monitorFilters?.song}/i`);
     }
     if (monitorFilters?.label) {
-        params.append("relation_sonicKey.label", monitorFilters?.label);
+        params.append("relation_sonicKey.label", `/${monitorFilters?.label}/i`);
     }
     if (monitorFilters?.distributor) {
-        params.append("relation_sonicKey.distributor", monitorFilters?.distributor);
+        params.append("relation_sonicKey.distributor", `/${monitorFilters?.distributor}/i`);
     }
     if (monitorFilters?.encodedStartDate) {
         let startOfEncodedDate = moment(monitorFilters?.encodedStartDate).startOf("days").toISOString()

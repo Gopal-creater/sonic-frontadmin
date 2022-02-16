@@ -17,3 +17,13 @@ export const StyledSelect = styled(Select)`
         background: transparent;
     }
 `
+
+export const TimezoneSelect = styled(Select)`
+    color: ${theme.colors.secondary.grey};
+    font-size: ${theme.fontSize.h4};
+    font-family: ${theme.fontFamily.nunitoSansRegular};
+
+    .MuiSelect-root {
+        background: transparent;
+    }
+`

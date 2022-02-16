@@ -6,6 +6,11 @@ import { makeStyles } from "@material-ui/styles";
 import theme from "../../../theme";
 
 const useStyles = makeStyles({
+    root: {
+        "&:hover .MuiInput-input": {
+            color: `${theme.colors.primary.navy}`
+        },
+    },
     select: {
         borderRadius: 0,
         boxShadow: 'none',
@@ -52,6 +57,7 @@ export default function CustomDropDown({
             ) : null}
             <StyledSelect style={{ boxShadow: "none" }}
                 id={id}
+                className={classes.root}
                 {...inputProps}
                 MenuProps={{
                     getContentAnchorEl: null,

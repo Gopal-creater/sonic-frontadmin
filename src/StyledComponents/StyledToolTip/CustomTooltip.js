@@ -3,7 +3,7 @@ import styled from "styled-components";
 import theme from "../../theme";
 
 const StyledTooltip = ({ className, ...props }) => (
-    <Tooltip {...props} classes={{ tooltip: className }} placement="center" />
+    <Tooltip {...props} classes={{ tooltip: className }} placement="left" />
 );
 
 export const CustomTooltip = styled(StyledTooltip)(() => ({

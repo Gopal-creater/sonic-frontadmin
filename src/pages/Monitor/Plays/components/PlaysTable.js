@@ -3,10 +3,10 @@ import React from 'react';
 import styled, { useTheme } from 'styled-components';
 import { playsTableHeads } from '../../../../constants/constants';
 import { AlternateDataColumn, ResizableTable, StyledTableBody, StyledTableHead, StyledTableHeadColumn, StyledTableRow, TableDataColumn, TableResizer, TableWrapper } from '../../Dashboard/Components/DashboardTable/TableStyle';
-import Dropdown from "../../../../assets/icons/dropdown.png";
 import MetaDataDialog from "../../../../components/common/MetaDataDialog";
-import { useDispatch } from 'react-redux';
 import { CustomTooltip } from '../../../../StyledComponents/StyledToolTip/CustomTooltip';
+import { useSelector } from 'react-redux';
+// import moment from 'moment-timezone';
 
 const createHeaders = (headers) => {
     return headers.map((item) => ({
@@ -25,10 +25,10 @@ export default function PlaysTable({ data }) {
         sonicKeyModal: false,
         selectedSonicKey: {},
     })
-    const dispatch = useDispatch();
     const [sortOrder, setSortOrder] = React.useState("ASC");
     const tableElement = React.useRef(null)
     const columns = createHeaders(playsTableHeads)
+    const monitor = useSelector(state => state.monitor)
 
     const mouseMove = React.useCallback(
         (e) => {
@@ -57,7 +57,6 @@ export default function PlaysTable({ data }) {
         setState({ ...state, activeColumnIndex: null })
         removeListeners();
     }, [state.activeColumnIndex, removeListeners]);
-
 
     React.useEffect(() => {
         setState({ ...state, tableHeight: tableElement.current.offsetHeight })
@@ -119,6 +118,7 @@ export default function PlaysTable({ data }) {
                             {columns.map(({ ref, text, orderBy }, index) => {
                                 return (
                                     <StyledTableHeadColumn
+                                        key={index}
                                         ref={ref}
                                         onClick={() => sorting(orderBy)}
                                         style={{
@@ -175,7 +175,9 @@ export default function PlaysTable({ data }) {
                                         </CustomTooltip>
                                         <AlternateDataColumn>{row?.radioStation || "---"}</AlternateDataColumn>
                                         <AlternateDataColumn>{moment(row?.date).utc().format("DD/MM/YYYY") || "---"}</AlternateDataColumn>
-                                        <AlternateDataColumn>{moment(row?.time).utc().format("HH:mm:SS") || "---"}</AlternateDataColumn>
+                                        <AlternateDataColumn>
+                                            {monitor?.filters?.timezone === "GMT" ? moment(row?.time).utc().format("HH:mm:ss") : moment(row?.time).format("HH:mm:ss") || "---"}
+                                        </AlternateDataColumn>
                                         <AlternateDataColumn>{moment.utc(row?.duration * 1000).format("mm:ss") || "---"}</AlternateDataColumn>
                                         <AlternateDataColumn>{row?.country || "---"}</AlternateDataColumn>
                                         <AlternateDataColumn
@@ -238,7 +240,9 @@ export default function PlaysTable({ data }) {
                                     </CustomTooltip>
                                     <TableDataColumn>{row?.radioStation || "---"}</TableDataColumn>
                                     <TableDataColumn>{moment(row?.date).utc().format("DD/MM/YYYY") || "---"}</TableDataColumn>
-                                    <TableDataColumn>{moment(row?.time).utc().format("HH:mm:SS") || "---"}</TableDataColumn>
+                                    <TableDataColumn>
+                                        {monitor?.filters?.timezone === "GMT" ? moment(row?.time).utc().format("HH:mm:ss") : moment(row?.time).format("HH:mm:ss") || "---"}
+                                    </TableDataColumn>
                                     <TableDataColumn>{moment.utc(row?.duration * 1000).format("mm:ss") || "---"}</TableDataColumn>
                                     <TableDataColumn>{row?.country || "---"}</TableDataColumn>
                                     <TableDataColumn

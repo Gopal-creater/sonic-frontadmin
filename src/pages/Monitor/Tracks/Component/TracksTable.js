@@ -3,7 +3,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useTheme } from 'styled-components';
-import { AlternateStyledTableData, StyledTableData, StyledTableHead } from '../../../../StyledComponents/StyledTable/StyledTable';
+import { AlternateStyledTableData, StyledTableData, StyledTableHead, StyledTableRow, StyledAlternateTableRow } from '../../../../StyledComponents/StyledTable/StyledTable';
 import * as actionTypes from "../../../../stores/actions/actionTypes"
 
 export default function TracksTable({ data, trackTableHeads, onTrackSorting }) {
@@ -43,7 +43,7 @@ export default function TracksTable({ data, trackTableHeads, onTrackSorting }) {
 
     return (
         <Grid>
-            <TableContainer >
+            <TableContainer style={{ padding: '0rem 1rem 1rem 1rem' }}>
                 <Table aria-label="customized table">
                     <TableHead>
                         <TableRow>
@@ -72,7 +72,7 @@ export default function TracksTable({ data, trackTableHeads, onTrackSorting }) {
                                 data?.map((row, index) => {
                                     if (index % 2 !== 0) {
                                         return (
-                                            <TableRow
+                                            <StyledAlternateTableRow
                                                 key={index}
                                                 style={{ cursor: "pointer" }}
                                                 onClick={() => onPlaysClick(row?.trackName)}
@@ -91,11 +91,11 @@ export default function TracksTable({ data, trackTableHeads, onTrackSorting }) {
                                                 </AlternateStyledTableData>
                                                 <AlternateStyledTableData >{row?.radioStation || "---"}</AlternateStyledTableData>
                                                 <AlternateStyledTableData >{row?.country || "---"}</AlternateStyledTableData>
-                                            </TableRow>
+                                            </StyledAlternateTableRow>
                                         )
                                     }
                                     return (
-                                        <TableRow
+                                        <StyledTableRow
                                             key={index}
                                             style={{ cursor: "pointer" }}
                                             onClick={() => onPlaysClick(row?.trackName)}
@@ -114,7 +114,7 @@ export default function TracksTable({ data, trackTableHeads, onTrackSorting }) {
                                             </StyledTableData>
                                             <StyledTableData >{row?.radioStation || "---"}</StyledTableData>
                                             <StyledTableData >{row?.country || "---"}</StyledTableData>
-                                        </TableRow>
+                                        </StyledTableRow>
                                     )
                                 })}
                     </TableBody>

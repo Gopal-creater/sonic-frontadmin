@@ -1,7 +1,7 @@
 import { Grid, Table, TableBody, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import React from 'react';
 import { useTheme } from 'styled-components';
-import { AlternateStyledTableData, StyledTableData, StyledTableHead } from '../../../../StyledComponents/StyledTable/StyledTable';
+import { AlternateStyledTableData, StyledTableData, StyledTableHead, StyledAlternateTableRow, StyledTableRow } from '../../../../StyledComponents/StyledTable/StyledTable';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import * as actionTypes from "../../../../stores/actions/actionTypes"
@@ -43,7 +43,7 @@ export default function ArtistTable({ data, artistTableHeads, onArtistSorting })
 
     return (
         <Grid>
-            <TableContainer >
+            <TableContainer style={{ padding: '0rem 1rem 1rem 1rem' }}>
                 <Table aria-label="customized table">
                     <TableHead>
                         <TableRow>
@@ -72,7 +72,7 @@ export default function ArtistTable({ data, artistTableHeads, onArtistSorting })
                                 data?.map((row, index) => {
                                     if (index % 2 !== 0) {
                                         return (
-                                            <TableRow key={index}
+                                            <StyledAlternateTableRow key={index}
                                                 onClick={() => onPlaysClick(row?.artistName)}
                                                 style={{ cursor: "pointer" }}
                                             >
@@ -93,11 +93,11 @@ export default function ArtistTable({ data, artistTableHeads, onArtistSorting })
                                                 </AlternateStyledTableData>
                                                 <AlternateStyledTableData >{row?.radioStation || "---"}</AlternateStyledTableData>
                                                 <AlternateStyledTableData >{row?.country || "---"}</AlternateStyledTableData>
-                                            </TableRow>
+                                            </StyledAlternateTableRow>
                                         )
                                     }
                                     return (
-                                        <TableRow key={index}
+                                        <StyledTableRow key={index}
                                             onClick={() => onPlaysClick(row?.artistName)}
                                             style={{ cursor: "pointer" }}
                                         >
@@ -118,7 +118,7 @@ export default function ArtistTable({ data, artistTableHeads, onArtistSorting })
                                             </StyledTableData>
                                             <StyledTableData >{row?.radioStation || "---"}</StyledTableData>
                                             <StyledTableData >{row?.country || "---"}</StyledTableData>
-                                        </TableRow>
+                                        </StyledTableRow>
                                     )
                                 })}
                     </TableBody>

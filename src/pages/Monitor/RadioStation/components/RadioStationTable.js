@@ -1,7 +1,7 @@
 import { Grid, Table, TableBody, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import React from 'react';
 import { useTheme } from 'styled-components';
-import { AlternateStyledTableData, StyledTableData, StyledTableHead } from '../../../../StyledComponents/StyledTable/StyledTable';
+import { AlternateStyledTableData, StyledTableData, StyledTableHead, StyledTableRow, StyledAlternateTableRow } from '../../../../StyledComponents/StyledTable/StyledTable';
 
 export default function RadioStationTable({ data, radioStationTableHeads, onRadioStationSorting }) {
     const theme = useTheme()
@@ -32,7 +32,7 @@ export default function RadioStationTable({ data, radioStationTableHeads, onRadi
 
     return (
         <Grid>
-            <TableContainer >
+            <TableContainer style={{ padding: '0rem 1rem 1rem 1rem' }}>
                 <Table aria-label="customized table">
                     <TableHead>
                         <TableRow>
@@ -61,7 +61,7 @@ export default function RadioStationTable({ data, radioStationTableHeads, onRadi
                                 data?.map((row, index) => {
                                     if (index % 2 !== 0) {
                                         return (
-                                            <TableRow key={index} >
+                                            <StyledAlternateTableRow key={index} >
                                                 <AlternateStyledTableData
                                                     style={{
                                                         color: theme.colors.primary.navy,
@@ -75,11 +75,11 @@ export default function RadioStationTable({ data, radioStationTableHeads, onRadi
                                                 <AlternateStyledTableData >{`${row?.playsCount}` || "---"}</AlternateStyledTableData>
                                                 <AlternateStyledTableData >{`${row?.uniquePlays}` || "---"}</AlternateStyledTableData>
                                                 <AlternateStyledTableData >{`${row?.artistsCount}` || "---"}</AlternateStyledTableData>
-                                            </TableRow>
+                                            </StyledAlternateTableRow>
                                         )
                                     }
                                     return (
-                                        <TableRow key={index}>
+                                        <StyledTableRow key={index}>
                                             <StyledTableData
                                                 style={{
                                                     color: theme.colors.primary.navy,
@@ -93,7 +93,7 @@ export default function RadioStationTable({ data, radioStationTableHeads, onRadi
                                             <StyledTableData >{`${row?.playsCount}` || "---"}</StyledTableData>
                                             <StyledTableData >{`${row?.uniquePlays}` || "---"}</StyledTableData>
                                             <StyledTableData >{`${row?.artistsCount}` || "---"}</StyledTableData>
-                                        </TableRow>
+                                        </StyledTableRow>
                                     )
                                 })}
                     </TableBody>

@@ -1,7 +1,7 @@
 import { Grid, Table, TableBody, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import React from 'react';
 import { useTheme } from 'styled-components';
-import { AlternateStyledTableData, StyledTableData, StyledTableHead } from '../../../../StyledComponents/StyledTable/StyledTable';
+import { AlternateStyledTableData, StyledTableData, StyledTableHead, StyledAlternateTableRow, StyledTableRow } from '../../../../StyledComponents/StyledTable/StyledTable';
 
 export default function CountriesTable({ data, countriesTableHeads, onCountriesSorting }) {
     const theme = useTheme()
@@ -32,7 +32,7 @@ export default function CountriesTable({ data, countriesTableHeads, onCountriesS
 
     return (
         <Grid >
-            <TableContainer >
+            <TableContainer style={{ padding: '0rem 1rem 1rem 1rem' }}>
                 <Table aria-label="customized table">
                     <TableHead>
                         <TableRow>
@@ -63,7 +63,7 @@ export default function CountriesTable({ data, countriesTableHeads, onCountriesS
                                 data?.map((row, index) => {
                                     if (index % 2 !== 0) {
                                         return (
-                                            <TableRow key={row.name}>
+                                            <StyledAlternateTableRow key={row.name}>
                                                 <AlternateStyledTableData
                                                     style={{
                                                         color: theme.colors.primary.navy,
@@ -79,11 +79,11 @@ export default function CountriesTable({ data, countriesTableHeads, onCountriesS
                                                 <AlternateStyledTableData align="center">{row.artists}</AlternateStyledTableData>
                                                 <AlternateStyledTableData align="center">{row.radioStations}</AlternateStyledTableData>
 
-                                            </TableRow>
+                                            </StyledAlternateTableRow>
                                         )
                                     }
                                     return (
-                                        <TableRow key={row.name}>
+                                        <StyledTableRow key={row.name}>
                                             <StyledTableData
                                                 style={{
                                                     color: theme.colors.primary.navy,
@@ -99,7 +99,7 @@ export default function CountriesTable({ data, countriesTableHeads, onCountriesS
                                             <StyledTableData align="center">{row.artists}</StyledTableData>
                                             <StyledTableData align="center">{row.radioStations}</StyledTableData>
 
-                                        </TableRow>
+                                        </StyledTableRow>
                                     )
                                 })}
                     </TableBody>

@@ -1406,20 +1406,20 @@ export const countries = [
 ];
 
 export const playsTableHeads = [
-  { title: "ARTIST", orderBy: "artist", sortBy: "", isAscending: null },
-  { title: "TITLE", orderBy: "title" },
-  { title: "RADIO STATION", orderBy: "radioStation" },
-  { title: "DATE", orderBy: "date" },
-  { title: "TIME", orderBy: "time" },
-  { title: "DURATION", orderBy: "duration" },
-  { title: "COUNTRY", orderBy: "country" },
-  { title: "SONICKEY", orderBy: "sonicKey" },
-  { title: "ISRC", orderBy: "isrcCode" },
-  { title: "VERSION", orderBy: "version" },
-  { title: "DISTRIBUTOR", orderBy: "distributor" },
-  { title: "LABEL", orderBy: "label" },
-  { title: "ISWC", orderBy: "iswc" },
-  { title: "TUNE CODE", orderBy: "tuneCode" },
+  { title: "ARTIST", sortBy: "sonicKey.contentOwner", isAscending: null, isActive: false },
+  { title: "TITLE", sortBy: "sonicKey.contentName", isAscending: null, isActive: false },
+  { title: "RADIO STATION", sortBy: "radioStation.name", isAscending: null, isActive: false },
+  { title: "DATE", sortBy: "detectedAt", isAscending: null, isActive: false },
+  { title: "TIME", sortBy: "detectedAt", isAscending: null, isActive: false },
+  { title: "DURATION", sortBy: "sonicKey.contentDuration", isAscending: null, isActive: false },
+  { title: "COUNTRY", sortBy: "radioStation.country", isAscending: null, isActive: false },
+  { title: "SONICKEY", sortBy: "sonicKey.sonicKey", isAscending: null, isActive: false },
+  { title: "ISRC", sortBy: "sonicKey.isrcCode", isAscending: null, isActive: false },
+  { title: "VERSION", sortBy: "sonicKey.version", isAscending: null, isActive: false },
+  { title: "DISTRIBUTOR", sortBy: "sonicKey.distributor", isAscending: null, isActive: false },
+  { title: "LABEL", sortBy: "sonicKey.label", isAscending: null, isActive: false },
+  { title: "ISWC", sortBy: "sonicKey.iswcCode", isAscending: null, isActive: false },
+  { title: "TUNE CODE", sortBy: "sonicKey.tuneCode", isAscending: null, isActive: false },
 ]
 
 export const streamReaderTableHeads = [

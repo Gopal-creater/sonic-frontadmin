@@ -28,7 +28,7 @@ export default function FilterComponent(props) {
     }
 
     return (
-        <Container container spacing={1}>
+        <Container container >
             <ContainerItem item xs={12} md={4} style={{ zIndex: 99 }}>
                 <Grid>
                     <CustomDatePicker

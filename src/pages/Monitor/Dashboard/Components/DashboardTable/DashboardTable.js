@@ -16,11 +16,13 @@ const createHeaders = (headers) => {
     return headers.map((item) => ({
         text: item.title,
         ref: useRef(),
-        orderBy: item.orderBy
+        sortBy: item.sortBy,
+        isAscending: item.isAscending,
+        isActive: item.isActive
     }));
 };
 
-export default function DashboardTable({ data }) {
+export default function DashboardTable({ data, playsTableHeads, onTrackSorting }) {
     log("Dashboard Table Data", data)
 
     const theme = useTheme()
@@ -28,12 +30,9 @@ export default function DashboardTable({ data }) {
     const [state, setState] = React.useState({
         tableHeight: "auto",
         activeColumnIndex: null,
-        data: data || [],
         sonicKeyModal: false,
         selectedSonicKey: {},
     })
-
-    const [sortOrder, setSortOrder] = React.useState("ASC")
 
     const monitor = useSelector(state => state.monitor)
     const tableElement = useRef(null)
@@ -85,39 +84,34 @@ export default function DashboardTable({ data }) {
         };
     }, [state.activeColumnIndex, mouseMove, mouseUp, removeListeners]);
 
-    const sorting = (col) => {
-        if (sortOrder === "ASC") {
-            let sorted = state.data.sort((a, b) => {
-                if (a[col] > b[col]) {
-                    return 1
-                }
-                if (a[col] < b[col]) {
-                    return -1
-                }
-                return 0
-            })
-            setState({ ...state, data: sorted })
-            setSortOrder("DSC")
-        }
-        if (sortOrder === "DSC") {
-            let sorted = state.data.sort((a, b) => {
-                if (a[col] < b[col]) {
-                    return 1
-                }
-                if (a[col] > b[col]) {
-                    return -1
-                }
-                return 0
-            })
-            setState({ ...state, data: sorted })
-            setSortOrder("ASC")
+    const sorting = (sortBy, isAscending, isActive) => {
+        if (isActive) {
+            if (isAscending === true) {
+                onTrackSorting(sortBy, false, false)
+            }
+            else if (isAscending === false) {
+                onTrackSorting(sortBy, true, false)
+            }
+            else if (isAscending === null) {
+                onTrackSorting(sortBy, true, false)
+            }
+        } else {
+            if (isAscending === true) {
+                onTrackSorting(sortBy, false, true)
+            }
+            else if (isAscending === false) {
+                onTrackSorting(sortBy, true, true)
+            }
+            else if (isAscending === null) {
+                onTrackSorting(sortBy, true, true)
+            }
         }
     }
 
     return (
         <TableWrapper>
             {
-                state?.data?.length === 0 ?
+                data?.length === 0 ?
                     <ResizableTable
                         ref={tableElement}
                         style={{ display: "flex", justifyContent: "center" }}
@@ -128,11 +122,11 @@ export default function DashboardTable({ data }) {
                     <ResizableTable ref={tableElement}>
                         <StyledTableHead>
                             <StyledTableRow>
-                                {columns.map(({ ref, text, orderBy }, index) => {
+                                {columns.map(({ ref, text, sortBy, isAscending, isActive }, index) => {
                                     return (
                                         <StyledTableHeadColumn
                                             ref={ref}
-                                            onClick={() => sorting(orderBy)}
+                                            onClick={() => sorting(sortBy, isAscending, isActive)}
                                             style={{
                                                 position: index === 0 || index === 1 ? "sticky" : "",
                                                 left: index === 0 ? 0 : index === 1 ? "130px" : "",
@@ -154,7 +148,7 @@ export default function DashboardTable({ data }) {
                         </StyledTableHead>
 
                         <StyledTableBody>
-                            {state.data?.map((row, index) => {
+                            {data?.map((row, index) => {
                                 if (index % 2 !== 0) {
                                     return (
                                         <StyledTableRow key={index}>
@@ -287,7 +281,6 @@ export default function DashboardTable({ data }) {
                                         <TableDataColumn>{row?.label || "---"}</TableDataColumn>
                                         <TableDataColumn>{row?.iswc || "---"}</TableDataColumn>
                                         <TableDataColumn>{row?.tuneCode || "---"}</TableDataColumn>
-
                                     </StyledTableRow>
                                 )
                             })}

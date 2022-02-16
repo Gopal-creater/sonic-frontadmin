@@ -5,13 +5,16 @@ import { getMonitorDashboardData } from "../../../services/https/resources/Dashb
 import { log } from "../../../utils/app.debug"
 import * as actionTypes from "../actionTypes"
 
-export const getMonitorDashboardDataAction = (startDate, endDate, limit = 10) => {
+export const getMonitorDashboardDataAction = (startDate, endDate, limit = 10, sortBy, isAscending) => {
     let monitorFilters = store.getState()?.monitor?.filters
 
     let newEndDate = moment(endDate).endOf("days").toISOString()
     let params = new URLSearchParams(`detectedAt>=${moment(startDate).format("YYYY-MM-DD")}&detectedAt<=date(${newEndDate})`)
 
     params.append("limit", limit);
+    if (sortBy) {
+        isAscending ? params.append("sort", sortBy) : params.append("sort", `-${sortBy}`)
+    }
 
     if (monitorFilters?.sonicKey) {
         params.append("relation_sonicKey.sonicKey", `/${monitorFilters?.sonicKey}/i`);

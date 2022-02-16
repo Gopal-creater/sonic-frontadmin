@@ -1,46 +1,34 @@
 import { Grid, Table, TableBody, TableContainer, TableHead, TableRow } from '@material-ui/core';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useTheme } from 'styled-components';
 import { AlternateStyledTableData, StyledTableData, StyledTableHead } from '../../../../StyledComponents/StyledTable/StyledTable';
-import { countryTableHeads } from '../../../../constants/constants';
-import dropdown from "../../../../assets/icons/dropdown.png"
 
-export default function CountriesTable({ data }) {
+export default function CountriesTable({ data, countriesTableHeads, onCountriesSorting }) {
     const theme = useTheme()
-    const [state, setState] = React.useState({
-        data: data || [],
-    })
-    const [sortOrder, setSortOrder] = React.useState("ASC");
 
-    const sorting = (col) => {
-        if (sortOrder === "ASC") {
-            let sorted = state.data.sort((a, b) => {
-                if (a[col] > b[col]) {
-                    return 1
-                }
-                if (a[col] < b[col]) {
-                    return -1
-                }
-                return 0
-            })
-            setState({ ...state, data: sorted })
-            setSortOrder("DSC")
-        }
-        if (sortOrder === "DSC") {
-            let sorted = state.data.sort((a, b) => {
-                if (a[col] < b[col]) {
-                    return 1
-                }
-                if (a[col] > b[col]) {
-                    return -1
-                }
-                return 0
-            })
-            setState({ ...state, data: sorted })
-            setSortOrder("ASC")
+    const sorting = (sortBy, isAscending, isActive) => {
+        if (isActive) {
+            if (isAscending === true) {
+                onCountriesSorting(sortBy, false, false)
+            }
+            else if (isAscending === false) {
+                onCountriesSorting(sortBy, true, false)
+            }
+            else if (isAscending === null) {
+                onCountriesSorting(sortBy, true, false)
+            }
+        } else {
+            if (isAscending === true) {
+                onCountriesSorting(sortBy, false, true)
+            }
+            else if (isAscending === false) {
+                onCountriesSorting(sortBy, true, true)
+            }
+            else if (isAscending === null) {
+                onCountriesSorting(sortBy, true, true)
+            }
         }
     }
-
 
     return (
         <Grid >
@@ -49,12 +37,12 @@ export default function CountriesTable({ data }) {
                     <TableHead>
                         <TableRow>
                             {
-                                countryTableHeads?.map((data, index) => {
+                                countriesTableHeads?.map((data, index) => {
                                     return (
                                         <StyledTableHead
                                             align={index == 0 ? 'left' : 'center'}
                                             key={index}
-                                            onClick={() => sorting(data?.orderBy)}
+                                            onClick={() => sorting(data?.sortBy, data?.isAscending, data?.isActive)}
                                         >
                                             {data?.title} <i className="fa fa-sort" style={{ marginLeft: "5px" }}></i>
                                         </StyledTableHead>
@@ -65,14 +53,14 @@ export default function CountriesTable({ data }) {
                     </TableHead>
                     <TableBody>
                         {
-                            state?.data?.length === 0 ?
+                            data?.length === 0 ?
                                 <TableRow key={0}>
                                     <StyledTableData colSpan={5} style={{ textAlign: "center" }}>
                                         No Data
                                     </StyledTableData>
                                 </TableRow> :
 
-                                state?.data?.map((row, index) => {
+                                data?.map((row, index) => {
                                     if (index % 2 !== 0) {
                                         return (
                                             <TableRow key={row.name}>

@@ -11,6 +11,9 @@ export const Container = styled(Grid)`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    @media (max-width: 1240px) {
+        flex-direction: column;
+    }
 `;
 
 export const ContainerItem = styled(Grid)`

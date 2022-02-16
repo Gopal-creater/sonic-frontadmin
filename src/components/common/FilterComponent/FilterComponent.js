@@ -28,7 +28,7 @@ export default function FilterComponent(props) {
     }
 
     return (
-        <Container container spacing={1}>
+        <Container container>
             <ContainerItem item xs={12} md={4} style={{ zIndex: 99 }}>
                 <Grid>
                     <CustomDatePicker
@@ -74,7 +74,7 @@ export default function FilterComponent(props) {
                 />
             </Grid>
 
-            <Grid style={{ display: 'flex', justifyContent: 'flex-end' }} item xs={12} md={4}>
+            <Grid style={{ display: 'flex', justifyContent: 'flex-end' }} item xs={12} md={3}>
                 <Grid>
                     {filterComponent && openFilter ? (
                         <FilterDialog>

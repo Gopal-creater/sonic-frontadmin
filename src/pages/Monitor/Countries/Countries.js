@@ -17,12 +17,19 @@ import CustomPagination from '../../../components/common/Pagination/CustomPagina
 import { getMonitorExportAction, getMonitorListAction } from '../../../stores/actions/monitorActions/monitorActions';
 import MonitorFilter from '../Components/MonitorFilter/MonitorFilter';
 import { useReactToPrint } from 'react-to-print';
+import { countryTableHeads } from '../../../constants/constants';
 
 export default function Countries() {
     const theme = useTheme();
 
     const dispatch = useDispatch();
     const monitor = useSelector(state => state.monitor);
+
+    const [state, setState] = React.useState({
+        countriesTableHeads: countryTableHeads,
+        currentSortBy: "",
+        currentIsAscending: ""
+    })
 
     const countriesTableRef = useRef();
     const handlePrintToPdf = useReactToPrint({
@@ -40,22 +47,26 @@ export default function Countries() {
         dispatch(getMonitorListAction(actions, monitor?.dates?.startDate, monitor?.dates?.endDate, monitor?.track?.data?.page, "10", "COUNTRIES"))
     }, [monitor?.dates?.startDate, monitor?.dates?.endDate])
 
-
-
     const handleExport = (format) => {
         if (format === 'pdf') {
             handlePrintToPdf();
         } else {
             dispatch(getMonitorExportAction(monitor?.dates?.startDate, monitor?.dates?.endDate, format, 2000, "COUNTRIES"))
         }
-
     };
 
     const handleCountriesPageChange = (event, value) => {
-        dispatch(getMonitorListAction(actions, monitor?.dates?.startDate, monitor?.dates?.endDate, value, "10", "COUNTRIES"))
+        dispatch(getMonitorListAction(
+            actions,
+            monitor?.dates?.startDate,
+            monitor?.dates?.endDate,
+            value,
+            "10",
+            "COUNTRIES",
+            state?.currentSortBy,
+            state?.currentIsAscending
+        ))
     }
-
-
 
     const createStableCountryData = () => {
         const trackData = monitor?.country?.data?.docs?.map((data) => {
@@ -70,6 +81,32 @@ export default function Countries() {
             )
         })
         return trackData
+    }
+
+    const countriesSorting = (sortBy, isAscending, isActive) => {
+        // log("sortBy, isAscending, isActive", sortBy, isAscending, isActive)
+        var newCountriesTableHeads = state.countriesTableHeads.map((data, i) => {
+            if (data.sortBy === sortBy) {
+                data.isActive = isActive
+                data.isAscending = isAscending
+                dispatch(getMonitorListAction(
+                    actions,
+                    monitor?.dates?.startDate,
+                    monitor?.dates?.endDate,
+                    monitor?.country?.data?.page,
+                    "10",
+                    "COUNTRIES",
+                    sortBy,
+                    isAscending
+                ))
+                return data
+            }
+            data.isActive = false
+            data.isAscending = null
+            return data
+        })
+
+        return setState({ ...state, countriesTableHeads: newCountriesTableHeads, currentSortBy: sortBy, currentIsAscending: isAscending })
     }
 
     return (
@@ -118,7 +155,11 @@ export default function Countries() {
                 onClickTryAgain={() => { dispatch(getMonitorListAction(actions, monitor?.dates?.startDate, monitor?.dates?.endDate, monitor?.track?.data?.page, "10", "COUNTRIES")) }}
             >
                 <>
-                    <CountriesTable data={createStableCountryData} />
+                    <CountriesTable
+                        data={createStableCountryData}
+                        countriesTableHeads={state.countriesTableHeads}
+                        onCountriesSorting={(sortBy, isAscending, isActive) => countriesSorting(sortBy, isAscending, isActive)}
+                    />
                     <Grid container justifyContent="space-between" alignItems="center" style={{ marginTop: "30px" }}>
                         <Grid item xs={12} sm={6} md={6}>
                             <PaginationCount

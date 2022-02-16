@@ -13,11 +13,18 @@ import * as actionTypes from "../../../stores/actions/actionTypes"
 import { log } from '../../../utils/app.debug';
 import { getMonitorExportAction, getMonitorListAction } from '../../../stores/actions/monitorActions/monitorActions';
 import MonitorFilter from '../Components/MonitorFilter/MonitorFilter';
+import { artistTableHeads } from '../../../constants/constants';
 
 export default function Artists() {
     const theme = useTheme()
     const monitor = useSelector(state => state.monitor)
     const dispatch = useDispatch()
+
+    const [state, setState] = React.useState({
+        artistTableHeads: artistTableHeads,
+        currentSortBy: "",
+        currentIsAscending: ""
+    })
 
     React.useEffect(() => {
         dispatch(getMonitorListAction(actions, monitor?.dates?.startDate, monitor?.dates?.endDate, monitor?.artist?.data?.page, "10", "ARTISTS"))
@@ -49,7 +56,42 @@ export default function Artists() {
     }
 
     const handleArtistPageChange = (event, value) => {
-        dispatch(getMonitorListAction(actions, monitor?.dates?.startDate, monitor?.dates?.endDate, value, "10", "ARTISTS"))
+        dispatch(getMonitorListAction(
+            actions,
+            monitor?.dates?.startDate,
+            monitor?.dates?.endDate,
+            value,
+            "10",
+            "ARTISTS",
+            state?.currentSortBy,
+            state?.currentIsAscending
+        ))
+    }
+
+    const artistSorting = (sortBy, isAscending, isActive) => {
+        // log("sortBy, isAscending, isActive", sortBy, isAscending, isActive)
+        var newArtistTableHeads = state.artistTableHeads.map((data, i) => {
+            if (data.sortBy === sortBy) {
+                data.isActive = isActive
+                data.isAscending = isAscending
+                dispatch(getMonitorListAction(
+                    actions,
+                    monitor?.dates?.startDate,
+                    monitor?.dates?.endDate,
+                    monitor?.artist?.data?.page,
+                    "10",
+                    "ARTISTS",
+                    sortBy,
+                    isAscending
+                ))
+                return data
+            }
+            data.isActive = false
+            data.isAscending = null
+            return data
+        })
+
+        return setState({ ...state, artistTableHeads: newArtistTableHeads, currentSortBy: sortBy, currentIsAscending: isAscending })
     }
 
     log("Monitor Artist:", monitor)
@@ -80,7 +122,11 @@ export default function Artists() {
                 loading={monitor?.artist?.loading}
                 onClickTryAgain={() => dispatch(getMonitorListAction(actions, monitor?.dates?.startDate, monitor?.dates?.endDate, monitor?.artist?.data?.page, "10", "ARTISTS"))}
             >
-                <ArtistTable data={createStableArtistData()} />
+                <ArtistTable
+                    data={createStableArtistData()}
+                    artistTableHeads={state.artistTableHeads}
+                    onArtistSorting={(sortBy, isAscending, isActive) => artistSorting(sortBy, isAscending, isActive)}
+                />
                 <Grid container justifyContent="space-between" alignItems="center" style={{ marginTop: "30px" }}>
                     <Grid item xs={12} sm={4} md={6}>
                         <PaginationCount

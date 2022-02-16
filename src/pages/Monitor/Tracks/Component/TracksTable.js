@@ -72,7 +72,11 @@ export default function TracksTable({ data, trackTableHeads, onTrackSorting }) {
                                 data?.map((row, index) => {
                                     if (index % 2 !== 0) {
                                         return (
-                                            <TableRow key={index} >
+                                            <TableRow
+                                                key={index}
+                                                style={{ cursor: "pointer" }}
+                                                onClick={() => onPlaysClick(row?.trackName)}
+                                            >
                                                 <AlternateStyledTableData
                                                     style={{
                                                         color: theme.colors.primary.navy,
@@ -82,10 +86,7 @@ export default function TracksTable({ data, trackTableHeads, onTrackSorting }) {
                                                 >
                                                     {row?.trackName || "---"}
                                                 </AlternateStyledTableData>
-                                                <AlternateStyledTableData
-                                                    style={{ cursor: "pointer" }}
-                                                    onClick={() => onPlaysClick(row?.trackName)}
-                                                >
+                                                <AlternateStyledTableData >
                                                     {row?.plays || "---"}
                                                 </AlternateStyledTableData>
                                                 <AlternateStyledTableData >{row?.radioStation || "---"}</AlternateStyledTableData>
@@ -94,7 +95,11 @@ export default function TracksTable({ data, trackTableHeads, onTrackSorting }) {
                                         )
                                     }
                                     return (
-                                        <TableRow key={index}>
+                                        <TableRow
+                                            key={index}
+                                            style={{ cursor: "pointer" }}
+                                            onClick={() => onPlaysClick(row?.trackName)}
+                                        >
                                             <StyledTableData
                                                 style={{
                                                     color: theme.colors.primary.navy,
@@ -104,10 +109,7 @@ export default function TracksTable({ data, trackTableHeads, onTrackSorting }) {
                                             >
                                                 {row?.trackName || "---"}
                                             </StyledTableData>
-                                            <StyledTableData
-                                                style={{ cursor: "pointer" }}
-                                                onClick={() => onPlaysClick(row?.trackName)}
-                                            >
+                                            <StyledTableData >
                                                 {row?.plays || "---"}
                                             </StyledTableData>
                                             <StyledTableData >{row?.radioStation || "---"}</StyledTableData>

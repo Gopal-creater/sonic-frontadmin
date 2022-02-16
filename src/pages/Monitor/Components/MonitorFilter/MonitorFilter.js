@@ -236,7 +236,8 @@ export default function MonitorFilter({ closeDialog, playsBy, actions, dashboard
                                 label: "",
                                 distributor: "",
                                 encodedStartDate: "",
-                                encodedEndDate: ""
+                                encodedEndDate: "",
+                                timezone: "GMT",
                             }
                         })}
                     >

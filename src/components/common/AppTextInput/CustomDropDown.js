@@ -16,6 +16,7 @@ const useStyles = makeStyles({
         boxShadow: 'none',
         border: `2px solid ${theme.colors.secondary.lightNavy}`,
         backgroundColor: '#fff',
+        marginTop: -2,
 
         "& li": {
             fontSize: '14px',

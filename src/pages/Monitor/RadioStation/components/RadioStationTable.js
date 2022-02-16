@@ -3,8 +3,8 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useTheme } from 'styled-components';
-import { AlternateStyledTableData, StyledTableData, StyledTableHead, StyledTableRow } from '../../../../StyledComponents/StyledTable/StyledTable';
 import * as actionTypes from "../../../../stores/actions/actionTypes"
+import { AlternateStyledTableData, StyledTableData, StyledTableHead, StyledTableRow, StyledAlternateTableRow } from '../../../../StyledComponents/StyledTable/StyledTable';
 
 export default function RadioStationTable({ data, radioStationTableHeads, onRadioStationSorting }) {
     const theme = useTheme()
@@ -43,7 +43,7 @@ export default function RadioStationTable({ data, radioStationTableHeads, onRadi
 
     return (
         <Grid>
-            <TableContainer >
+            <TableContainer style={{ padding: '0rem 1rem 1rem 1rem' }}>
                 <Table aria-label="customized table">
                     <TableHead>
                         <TableRow>
@@ -72,7 +72,7 @@ export default function RadioStationTable({ data, radioStationTableHeads, onRadi
                                 data?.map((row, index) => {
                                     if (index % 2 !== 0) {
                                         return (
-                                            <StyledTableRow
+                                            <StyledAlternateTableRow
                                                 key={index}
                                                 style={{ cursor: "pointer" }}
                                                 onClick={() => onPlaysClick(row?.radioStation)}
@@ -90,7 +90,7 @@ export default function RadioStationTable({ data, radioStationTableHeads, onRadi
                                                 <AlternateStyledTableData >{`${row?.playsCount}` || "---"}</AlternateStyledTableData>
                                                 <AlternateStyledTableData >{`${row?.uniquePlays}` || "---"}</AlternateStyledTableData>
                                                 <AlternateStyledTableData >{`${row?.artistsCount}` || "---"}</AlternateStyledTableData>
-                                            </StyledTableRow>
+                                            </StyledAlternateTableRow >
                                         )
                                     }
                                     return (
@@ -115,9 +115,9 @@ export default function RadioStationTable({ data, radioStationTableHeads, onRadi
                                         </StyledTableRow>
                                     )
                                 })}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </Grid>
+                    </TableBody >
+                </Table >
+            </TableContainer >
+        </Grid >
     );
 }

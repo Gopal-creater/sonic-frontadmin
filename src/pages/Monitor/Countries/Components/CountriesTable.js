@@ -2,9 +2,9 @@ import { Grid, Table, TableBody, TableContainer, TableHead, TableRow } from '@ma
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
-import { AlternateStyledTableData, StyledTableData, StyledTableHead } from '../../../../StyledComponents/StyledTable/StyledTable';
 import *as actionTypes from "../../../../stores/actions/actionTypes"
 import { useHistory } from 'react-router-dom';
+import { AlternateStyledTableData, StyledTableData, StyledTableHead, StyledAlternateTableRow, StyledTableRow } from '../../../../StyledComponents/StyledTable/StyledTable';
 
 export default function CountriesTable({ data, countriesTableHeads, onCountriesSorting }) {
     const theme = useTheme()
@@ -43,7 +43,7 @@ export default function CountriesTable({ data, countriesTableHeads, onCountriesS
 
     return (
         <Grid >
-            <TableContainer >
+            <TableContainer style={{ padding: '0rem 1rem 1rem 1rem' }}>
                 <Table aria-label="customized table">
                     <TableHead>
                         <TableRow>
@@ -74,7 +74,7 @@ export default function CountriesTable({ data, countriesTableHeads, onCountriesS
                                 data?.map((row, index) => {
                                     if (index % 2 !== 0) {
                                         return (
-                                            <TableRow
+                                            <StyledAlternateTableRow
                                                 key={row.name}
                                                 style={{ cursor: "pointer" }}
                                                 onClick={() => onPlaysClick(row.country)}
@@ -94,11 +94,11 @@ export default function CountriesTable({ data, countriesTableHeads, onCountriesS
                                                 <AlternateStyledTableData align="center">{row.artists}</AlternateStyledTableData>
                                                 <AlternateStyledTableData align="center">{row.radioStations}</AlternateStyledTableData>
 
-                                            </TableRow>
+                                            </StyledAlternateTableRow>
                                         )
                                     }
                                     return (
-                                        <TableRow
+                                        <StyledTableRow
                                             key={row.name}
                                             style={{ cursor: "pointer" }}
                                             onClick={() => onPlaysClick(row.country)}
@@ -118,12 +118,12 @@ export default function CountriesTable({ data, countriesTableHeads, onCountriesS
                                             <StyledTableData align="center">{row.artists}</StyledTableData>
                                             <StyledTableData align="center">{row.radioStations}</StyledTableData>
 
-                                        </TableRow>
+                                        </StyledTableRow>
                                     )
                                 })}
                     </TableBody>
-                </Table>
-            </TableContainer>
-        </Grid>
+                </Table >
+            </TableContainer >
+        </Grid >
     );
 }

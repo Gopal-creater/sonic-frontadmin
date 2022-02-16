@@ -37,7 +37,15 @@ export default function Tracks() {
     }
 
     const handleExport = (format) => {
-        dispatch(getMonitorExportAction(monitor?.dates?.startDate, monitor?.dates?.endDate, format, 2000, "TRACKS"))
+        dispatch(getMonitorExportAction(
+            monitor?.dates?.startDate,
+            monitor?.dates?.endDate,
+            format,
+            2000,
+            "TRACKS",
+            state?.currentSortBy,
+            state?.currentIsAscending
+        ))
     }
 
     const createStableTrackData = () => {
@@ -63,8 +71,8 @@ export default function Tracks() {
             "10",
             "TRACKS",
             state?.currentSortBy,
-            state.currentIsAscending)
-        )
+            state.currentIsAscending
+        ))
     }
 
     const trackSorting = (sortBy, isAscending, isActive) => {

@@ -52,7 +52,15 @@ export default function Artists() {
     }
 
     const handleExport = (format) => {
-        dispatch(getMonitorExportAction(monitor?.dates?.startDate, monitor?.dates?.endDate, format, 2000, "ARTISTS"))
+        dispatch(getMonitorExportAction(
+            monitor?.dates?.startDate,
+            monitor?.dates?.endDate,
+            format,
+            2000,
+            "ARTISTS",
+            state?.currentSortBy,
+            state?.currentIsAscending
+        ))
     }
 
     const handleArtistPageChange = (event, value) => {

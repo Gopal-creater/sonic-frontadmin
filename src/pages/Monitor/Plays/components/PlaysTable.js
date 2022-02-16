@@ -5,7 +5,6 @@ import { AlternateDataColumn, ResizableTable, StyledTableBody, StyledTableHead, 
 import MetaDataDialog from "../../../../components/common/MetaDataDialog";
 import { CustomTooltip } from '../../../../StyledComponents/StyledToolTip/CustomTooltip';
 import { useSelector } from 'react-redux';
-// import moment from 'moment-timezone';
 
 const createHeaders = (headers) => {
     return headers.map((item) => ({

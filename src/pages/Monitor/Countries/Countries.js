@@ -51,7 +51,15 @@ export default function Countries() {
         if (format === 'pdf') {
             handlePrintToPdf();
         } else {
-            dispatch(getMonitorExportAction(monitor?.dates?.startDate, monitor?.dates?.endDate, format, 2000, "COUNTRIES"))
+            dispatch(getMonitorExportAction(
+                monitor?.dates?.startDate,
+                monitor?.dates?.endDate,
+                format,
+                2000,
+                "COUNTRIES",
+                state?.currentSortBy,
+                state?.currentIsAscending
+            ))
         }
     };
 

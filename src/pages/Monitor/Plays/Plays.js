@@ -63,7 +63,15 @@ export default function Plays() {
     }
 
     const handleExport = (format) => {
-        dispatch(getMonitorExportAction(monitor?.dates?.startDate, monitor?.dates?.endDate, format, 2000))
+        dispatch(getMonitorExportAction(
+            monitor?.dates?.startDate,
+            monitor?.dates?.endDate,
+            format,
+            2000,
+            "",
+            state?.currentSortBy,
+            state?.currentIsAscending
+        ))
     };
 
     const handlePlaysPageChange = (event, value) => {

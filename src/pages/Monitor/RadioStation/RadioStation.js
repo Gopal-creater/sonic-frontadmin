@@ -59,7 +59,15 @@ export default function RadioStations() {
     }
 
     const handleExport = (format) => {
-        dispatch(getMonitorExportAction(monitor?.dates?.startDate, monitor?.dates?.endDate, format, 2000, "RADIOSTATIONS"))
+        dispatch(getMonitorExportAction(
+            monitor?.dates?.startDate,
+            monitor?.dates?.endDate,
+            format,
+            2000,
+            "RADIOSTATIONS",
+            state?.currentSortBy,
+            state?.currentIsAscending
+        ))
     }
 
     const handleRadioStationPageChange = (event, value) => {

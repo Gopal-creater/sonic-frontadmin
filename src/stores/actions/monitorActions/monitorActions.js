@@ -71,7 +71,7 @@ export const getMonitorListAction = (actions, startDate, endDate, page, limit, p
     }
 }
 
-export const getMonitorExportAction = (startDate, endDate, format, limit = 2000, playsBy) => {
+export const getMonitorExportAction = (startDate, endDate, format, limit = 2000, playsBy, sortBy, isAscending) => {
     let monitorFilters = store.getState()?.monitor?.filters
 
     let newEndDate = moment(endDate).endOf("days").toISOString()
@@ -83,6 +83,10 @@ export const getMonitorExportAction = (startDate, endDate, format, limit = 2000,
 
     if (playsBy) {
         params.append("playsBy", playsBy)
+    }
+
+    if (sortBy) {
+        isAscending ? params.append("sort", sortBy) : params.append("sort", `-${sortBy}`)
     }
 
     if (monitorFilters?.sonicKey) {

@@ -1,8 +1,8 @@
 import React from "react";
 import { FormControl, MenuItem } from "@material-ui/core";
-import { StyledSelect, StyledSelectInput } from "../../../StyledComponents/StyledAppTextInput/StyledAppSelectInput";
+import { StyledSelectInput, TimezoneSelect } from "../../../../StyledComponents/StyledAppTextInput/StyledAppSelectInput";
 import { makeStyles } from "@material-ui/styles";
-import theme from "../../../theme";
+import theme from "../../../../theme";
 
 const useStyles = makeStyles({
     root: {
@@ -33,7 +33,7 @@ const useStyles = makeStyles({
     },
 });
 
-export default function ChannelDropDown({
+export default function Timezone({
     formControlProps,
     labelText,
     id,
@@ -52,7 +52,7 @@ export default function ChannelDropDown({
                     {labelText}
                 </StyledSelectInput>
             ) : null}
-            <StyledSelect style={{ boxShadow: "none" }}
+            <TimezoneSelect style={{ boxShadow: "none" }}
                 id={id}
                 className={classes.root}
                 {...inputProps}
@@ -65,11 +65,9 @@ export default function ChannelDropDown({
                     classes: { paper: classes.select }
                 }}
             >
-                <MenuItem style={{ cursor: "pointer" }} value="ALL">ALL</MenuItem>
-                <MenuItem style={{ cursor: "pointer" }} value="STREAMREADER">STREAMREADER</MenuItem>
-                <MenuItem style={{ cursor: "pointer" }} value="PORTAL">PORTAL</MenuItem>
-                <MenuItem style={{ cursor: "pointer" }} value="MOBILE">MOBILE</MenuItem>
-            </StyledSelect>
+                <MenuItem style={{ cursor: "pointer" }} value="GMT">GMT, Time Zone</MenuItem>
+                <MenuItem style={{ cursor: "pointer" }} value="LOCALE">Browser Local Time Zone</MenuItem>
+            </TimezoneSelect>
         </FormControl>
     );
 }

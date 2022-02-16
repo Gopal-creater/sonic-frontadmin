@@ -4,19 +4,22 @@ import { H5 } from '../../../StyledComponents/StyledHeadings';
 import theme from '../../../theme';
 import FilterDialog from './components/FilterDialog';
 import { Container, ContainerItem, CustomMenuItem, CustomPopup, FilterExport } from './Filter.styled';
-import TimezoneSelect from "react-timezone-select";
 import { log } from '../../../utils/app.debug';
 import CustomDatePicker from './components/CustomDatePicker';
 import AppButton from '../AppButton/AppButton';
 import { ArrowDownward } from '@material-ui/icons';
+import Timezone from './components/Timezone';
+import { useDispatch, useSelector } from 'react-redux';
+import * as actionTypes from '../../../stores/actions/actionTypes';
 
 export default function FilterComponent(props) {
     const { filterComponent, openFilter = true, exportData } = props;
+    const monitor = useSelector(state => state.monitor);
+    const dispatch = useDispatch();
     const [state, setState] = React.useState({
         exportAnchorEl: null,
     })
     const openExport = Boolean(state.exportAnchorEl);
-    const [selectedTimezone, setSelectedTimezone] = React.useState({})
 
     const handleExportData = (value) => {
         log("Export File", value)
@@ -25,8 +28,8 @@ export default function FilterComponent(props) {
     }
 
     return (
-        <Container container>
-            <ContainerItem item>
+        <Container container spacing={1}>
+            <ContainerItem item xs={12} md={4} style={{ zIndex: 99 }}>
                 <Grid>
                     <CustomDatePicker
                         selected={props?.startDate}
@@ -57,14 +60,21 @@ export default function FilterComponent(props) {
                 </Grid>
             </ContainerItem>
 
-            <Grid className="select-wrapper">
-                {/* <TimezoneSelect
-                    value={selectedTimezone}
-                    onChange={setSelectedTimezone}
-                /> */}
+            <Grid item xs={12} md={3}>
+                <Timezone
+                    id="timezone"
+                    labelText="Timezone"
+                    formControlProps={{
+                        fullWidth: true
+                    }}
+                    inputProps={{
+                        value: monitor?.filters?.timezone,
+                        onChange: (e) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, timezone: e.target.value } })
+                    }}
+                />
             </Grid>
 
-            <Grid style={{ display: 'flex', justifyContent: 'flex-end' }} item>
+            <Grid style={{ display: 'flex', justifyContent: 'flex-end' }} item xs={12} md={4}>
                 <Grid>
                     {filterComponent && openFilter ? (
                         <FilterDialog>

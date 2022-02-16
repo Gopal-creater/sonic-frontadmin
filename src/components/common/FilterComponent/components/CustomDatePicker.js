@@ -34,8 +34,8 @@ const CustomDate = React.forwardRef((props, ref) => (
                     outline: 'none',
                     border: 'none',
                     borderBottom: `1px solid ${theme.colors.secondary.mediumGrey}`,
-                    color: props?.dateRange ? theme.colors.secondary.mediumGrey : theme.colors.secondary.lightNavy,
-                    fontFamily: props?.dateRange ? theme.fontFamily.nunitoSansBold : theme.fontFamily.nunitoSansRegular,
+                    color: props?.dateRange ? theme.colors.secondary.grey : theme.colors.secondary.lightNavy,
+                    fontFamily: theme.fontFamily.nunitoSansRegular,
                     fontSize: theme.fontSize.h4,
                     width: '100%',
                 }}

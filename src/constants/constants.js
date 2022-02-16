@@ -1413,7 +1413,7 @@ export const playsTableHeads = [
   { title: "TIME", orderBy: "time" },
   { title: "DURATION", orderBy: "duration" },
   { title: "COUNTRY", orderBy: "country" },
-  { title: "SONICKEY", orderBy: "sonickey" },
+  { title: "SONICKEY", orderBy: "sonicKey" },
   { title: "ISRC", orderBy: "isrcCode" },
   { title: "VERSION", orderBy: "version" },
   { title: "DISTRIBUTOR", orderBy: "distributor" },

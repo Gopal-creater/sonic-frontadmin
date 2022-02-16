@@ -48,8 +48,8 @@ export default function Plays() {
                 version: data?.sonicKey?.version,
                 distributor: data?.sonicKey?.distributor,
                 label: data?.sonicKey?.label,
-                iswc: data?.sonicKey?.label,
-                tuneCode: data?.sonicKey?.label,
+                iswc: data?.sonicKey?.iswcCode,
+                tuneCode: data?.sonicKey?.tuneCode,
                 modal: data?.sonicKey
             }
         })

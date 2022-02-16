@@ -135,7 +135,7 @@ export default function DashboardTable({ data }) {
                                             onClick={() => sorting(orderBy)}
                                             style={{
                                                 position: index === 0 || index === 1 ? "sticky" : "",
-                                                left: index === 0 ? 0 : index === 1 ? "100px" : "",
+                                                left: index === 0 ? 0 : index === 1 ? "130px" : "",
                                                 background: index === 0 || index === 1 ? "white" : "",
                                                 zIndex: index === 0 || index === 1 ? 1 : ""
                                             }}
@@ -179,7 +179,7 @@ export default function DashboardTable({ data }) {
                                                         fontSize: theme.fontSize.h4,
                                                         fontFamily: theme.fontFamily.nunitoSansMediumBold,
                                                         position: "sticky",
-                                                        left: "100px",
+                                                        left: "130px",
                                                         background: theme.colors.secondary.tableColor
                                                     }}
                                                 >
@@ -231,7 +231,7 @@ export default function DashboardTable({ data }) {
                                                     fontSize: theme.fontSize.h4,
                                                     fontFamily: theme.fontFamily.nunitoSansMediumBold,
                                                     position: "sticky",
-                                                    width: "100px",
+                                                    width: "130px",
                                                     left: 0,
                                                     background: "white"
                                                 }}
@@ -247,8 +247,8 @@ export default function DashboardTable({ data }) {
                                                     fontSize: theme.fontSize.h4,
                                                     fontFamily: theme.fontFamily.nunitoSansMediumBold,
                                                     position: "sticky",
-                                                    width: "100px",
-                                                    left: "100px",
+                                                    width: "130px",
+                                                    left: "130px",
                                                     background: "white"
                                                 }}
                                             >

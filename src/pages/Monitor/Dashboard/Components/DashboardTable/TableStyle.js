@@ -14,20 +14,20 @@ export const ResizableTable = styled.table`
     overflow: auto;
     overflow-y: hidden;
     grid-template-columns: 
-    minmax(100px, 1fr)
-    minmax(100px, 1fr)
-    minmax(100px, 1fr)
-    minmax(100px, 1fr)
-    minmax(100px, 1fr)
-    minmax(100px, 1fr)
-    minmax(100px, 1fr)
-    minmax(100px, 1fr)
-    minmax(100px, 1fr)
-    minmax(100px, 1fr)
-    minmax(100px, 1fr)
-    minmax(100px, 1fr)
-    minmax(100px, 1fr)
-    minmax(100px, 1fr);
+    minmax(130px, 1fr)
+    minmax(130px, 1fr)
+    minmax(130px, 1fr)
+    minmax(130px, 1fr)
+    minmax(130px, 1fr)
+    minmax(130px, 1fr)
+    minmax(130px, 1fr)
+    minmax(130px, 1fr)
+    minmax(130px, 1fr)
+    minmax(130px, 1fr)
+    minmax(130px, 1fr)
+    minmax(130px, 1fr)
+    minmax(130px, 1fr)
+    minmax(130px, 1fr);
 `
 
 export const StyledTableHead = styled.thead`

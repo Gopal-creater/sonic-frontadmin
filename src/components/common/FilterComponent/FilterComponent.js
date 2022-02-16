@@ -74,7 +74,7 @@ export default function FilterComponent(props) {
                 />
             </Grid>
 
-            <Grid style={{ display: 'flex', justifyContent: 'flex-end' }} item xs={12} md={4}>
+            <Grid style={{ display: 'flex', justifyContent: 'flex-end' }} item xs={12} md={3}>
                 <Grid>
                     {filterComponent && openFilter ? (
                         <FilterDialog>

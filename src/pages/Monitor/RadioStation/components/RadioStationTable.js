@@ -1,44 +1,32 @@
 import { Grid, Table, TableBody, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import React from 'react';
 import { useTheme } from 'styled-components';
-import { radioStationTableHeads } from '../../../../constants/constants';
 import { AlternateStyledTableData, StyledTableData, StyledTableHead } from '../../../../StyledComponents/StyledTable/StyledTable';
-import dropdown from "../../../../assets/icons/dropdown.png"
 
-export default function RadioStationTable({ data }) {
+export default function RadioStationTable({ data, radioStationTableHeads, onRadioStationSorting }) {
     const theme = useTheme()
 
-    const [state, setState] = React.useState({
-        data: data || [],
-    })
-    const [sortOrder, setSortOrder] = React.useState("ASC")
-
-    const sorting = (col) => {
-        if (sortOrder === "ASC") {
-            let sorted = state.data.sort((a, b) => {
-                if (a[col] > b[col]) {
-                    return 1
-                }
-                if (a[col] < b[col]) {
-                    return -1
-                }
-                return 0
-            })
-            setState({ ...state, data: sorted })
-            setSortOrder("DSC")
-        }
-        if (sortOrder === "DSC") {
-            let sorted = state.data.sort((a, b) => {
-                if (a[col] < b[col]) {
-                    return 1
-                }
-                if (a[col] > b[col]) {
-                    return -1
-                }
-                return 0
-            })
-            setState({ ...state, data: sorted })
-            setSortOrder("ASC")
+    const sorting = (sortBy, isAscending, isActive) => {
+        if (isActive) {
+            if (isAscending === true) {
+                onRadioStationSorting(sortBy, false, false)
+            }
+            else if (isAscending === false) {
+                onRadioStationSorting(sortBy, true, false)
+            }
+            else if (isAscending === null) {
+                onRadioStationSorting(sortBy, true, false)
+            }
+        } else {
+            if (isAscending === true) {
+                onRadioStationSorting(sortBy, false, true)
+            }
+            else if (isAscending === false) {
+                onRadioStationSorting(sortBy, true, true)
+            }
+            else if (isAscending === null) {
+                onRadioStationSorting(sortBy, true, true)
+            }
         }
     }
 
@@ -64,13 +52,13 @@ export default function RadioStationTable({ data }) {
                     </TableHead>
                     <TableBody>
                         {
-                            state?.data?.length === 0 ?
+                            data?.length === 0 ?
                                 <TableRow key={0}>
                                     <StyledTableData colSpan={5} style={{ textAlign: "center" }}>
                                         No Data
                                     </StyledTableData>
                                 </TableRow> :
-                                state?.data?.map((row, index) => {
+                                data?.map((row, index) => {
                                     if (index % 2 !== 0) {
                                         return (
                                             <TableRow key={index} >

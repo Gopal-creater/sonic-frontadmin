@@ -1434,26 +1434,26 @@ export const trackTableHeads = [
 ]
 
 export const radioStationTableHeads = [
-  { title: "RADIO STATION", orderBy: "radioStation" },
-  { title: "COUNTRY", orderBy: "country" },
-  { title: "PLAYS", orderBy: "playsCount" },
-  { title: "TRACKS", orderBy: "uniquePlays" },
-  { title: "ARTIST", orderBy: "artistsCount" },
+  { title: "RADIO STATION", sortBy: "radioStation.name", isAscending: null, isActive: false },
+  { title: "COUNTRY", sortBy: "radioStation.country", isAscending: null, isActive: false },
+  { title: "PLAYS", sortBy: "playsCount", isAscending: null, isActive: false },
+  { title: "TRACKS", sortBy: "uniquePlaysCount", isAscending: null, isActive: false },
+  { title: "ARTIST", sortBy: "artistsCount", isAscending: null, isActive: false },
 ]
 
 export const artistTableHeads = [
-  { title: "ARTIST NAME", orderBy: "artistName" },
-  { title: "PLAYS", orderBy: "plays" },
-  { title: "TRACKS", orderBy: "uniquePlaysCount" },
-  { title: "RADIO STATION", orderBy: "radioStation" },
-  { title: "COUNTRY", orderBy: "country" },
+  { title: "ARTIST NAME", sortBy: "artist", isAscending: null, isActive: false },
+  { title: "PLAYS", sortBy: "playsCount", isAscending: null, isActive: false },
+  { title: "TRACKS", sortBy: "uniquePlaysCount", isAscending: null, isActive: false },
+  { title: "RADIO STATION", sortBy: "radioStationCount", isAscending: null, isActive: false },
+  { title: "COUNTRY", sortBy: "countriesCount", isAscending: null, isActive: false },
 ]
 
 export const countryTableHeads = [
-  { title: "COUNTRY", orderBy: "country" },
-  { title: "PLAYS", orderBy: "plays" },
-  { title: "TRACKS", orderBy: "tracks" },
-  { title: "ARTISTS", orderBy: "artists" },
-  { title: "RADIO STATIONS", orderBy: "radioStations" },
+  { title: "COUNTRY", sortBy: "country", isAscending: null, isActive: false },
+  { title: "PLAYS", sortBy: "playsCount", isAscending: null, isActive: false },
+  { title: "TRACKS", sortBy: "uniquePlaysCount", isAscending: null, isActive: false },
+  { title: "ARTISTS", sortBy: "artistsCount", isAscending: null, isActive: false },
+  { title: "RADIO STATIONS", sortBy: "radioStationCount", isAscending: null, isActive: false },
 ]
 

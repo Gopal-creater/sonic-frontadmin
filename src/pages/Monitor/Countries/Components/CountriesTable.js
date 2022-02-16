@@ -1,10 +1,16 @@
 import { Grid, Table, TableBody, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
 import { AlternateStyledTableData, StyledTableData, StyledTableHead } from '../../../../StyledComponents/StyledTable/StyledTable';
+import *as actionTypes from "../../../../stores/actions/actionTypes"
+import { useHistory } from 'react-router-dom';
 
 export default function CountriesTable({ data, countriesTableHeads, onCountriesSorting }) {
     const theme = useTheme()
+    const dispatch = useDispatch()
+    const monitor = useSelector(state => state.monitor)
+    const history = useHistory()
 
     const sorting = (sortBy, isAscending, isActive) => {
         if (isActive) {
@@ -28,6 +34,11 @@ export default function CountriesTable({ data, countriesTableHeads, onCountriesS
                 onCountriesSorting(sortBy, true, true)
             }
         }
+    }
+
+    const onPlaysClick = (countryName) => {
+        dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, country: countryName } })
+        history.push("/plays")
     }
 
     return (
@@ -63,7 +74,11 @@ export default function CountriesTable({ data, countriesTableHeads, onCountriesS
                                 data?.map((row, index) => {
                                     if (index % 2 !== 0) {
                                         return (
-                                            <TableRow key={row.name}>
+                                            <TableRow
+                                                key={row.name}
+                                                style={{ cursor: "pointer" }}
+                                                onClick={() => onPlaysClick(row.country)}
+                                            >
                                                 <AlternateStyledTableData
                                                     style={{
                                                         color: theme.colors.primary.navy,
@@ -72,7 +87,7 @@ export default function CountriesTable({ data, countriesTableHeads, onCountriesS
                                                     }}
                                                     align="left"
                                                 >
-                                                    {row.radioStationName}
+                                                    {row.country}
                                                 </AlternateStyledTableData>
                                                 <AlternateStyledTableData align="center">{row.plays}</AlternateStyledTableData>
                                                 <AlternateStyledTableData align="center">{row.tracks}</AlternateStyledTableData>
@@ -83,7 +98,11 @@ export default function CountriesTable({ data, countriesTableHeads, onCountriesS
                                         )
                                     }
                                     return (
-                                        <TableRow key={row.name}>
+                                        <TableRow
+                                            key={row.name}
+                                            style={{ cursor: "pointer" }}
+                                            onClick={() => onPlaysClick(row.country)}
+                                        >
                                             <StyledTableData
                                                 style={{
                                                     color: theme.colors.primary.navy,
@@ -92,7 +111,7 @@ export default function CountriesTable({ data, countriesTableHeads, onCountriesS
                                                 }}
                                                 align='left'
                                             >
-                                                {row.radioStationName}
+                                                {row.country}
                                             </StyledTableData>
                                             <StyledTableData align="center">{row.plays}</StyledTableData>
                                             <StyledTableData align="center">{row.tracks}</StyledTableData>

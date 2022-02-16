@@ -1,10 +1,16 @@
 import { Grid, Table, TableBody, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { useTheme } from 'styled-components';
-import { AlternateStyledTableData, StyledTableData, StyledTableHead } from '../../../../StyledComponents/StyledTable/StyledTable';
+import { AlternateStyledTableData, StyledTableData, StyledTableHead, StyledTableRow } from '../../../../StyledComponents/StyledTable/StyledTable';
+import * as actionTypes from "../../../../stores/actions/actionTypes"
 
 export default function RadioStationTable({ data, radioStationTableHeads, onRadioStationSorting }) {
     const theme = useTheme()
+    const dispatch = useDispatch()
+    const monitor = useSelector(state => state.monitor)
+    const history = useHistory()
 
     const sorting = (sortBy, isAscending, isActive) => {
         if (isActive) {
@@ -28,6 +34,11 @@ export default function RadioStationTable({ data, radioStationTableHeads, onRadi
                 onRadioStationSorting(sortBy, true, true)
             }
         }
+    }
+
+    const onPlaysClick = (radioStationName) => {
+        dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, radioStation: radioStationName } })
+        history.push("/plays")
     }
 
     return (
@@ -61,7 +72,11 @@ export default function RadioStationTable({ data, radioStationTableHeads, onRadi
                                 data?.map((row, index) => {
                                     if (index % 2 !== 0) {
                                         return (
-                                            <TableRow key={index} >
+                                            <StyledTableRow
+                                                key={index}
+                                                style={{ cursor: "pointer" }}
+                                                onClick={() => onPlaysClick(row?.radioStation)}
+                                            >
                                                 <AlternateStyledTableData
                                                     style={{
                                                         color: theme.colors.primary.navy,
@@ -75,11 +90,15 @@ export default function RadioStationTable({ data, radioStationTableHeads, onRadi
                                                 <AlternateStyledTableData >{`${row?.playsCount}` || "---"}</AlternateStyledTableData>
                                                 <AlternateStyledTableData >{`${row?.uniquePlays}` || "---"}</AlternateStyledTableData>
                                                 <AlternateStyledTableData >{`${row?.artistsCount}` || "---"}</AlternateStyledTableData>
-                                            </TableRow>
+                                            </StyledTableRow>
                                         )
                                     }
                                     return (
-                                        <TableRow key={index}>
+                                        <StyledTableRow
+                                            key={index}
+                                            style={{ cursor: "pointer" }}
+                                            onClick={() => onPlaysClick(row?.radioStation)}
+                                        >
                                             <StyledTableData
                                                 style={{
                                                     color: theme.colors.primary.navy,
@@ -93,7 +112,7 @@ export default function RadioStationTable({ data, radioStationTableHeads, onRadi
                                             <StyledTableData >{`${row?.playsCount}` || "---"}</StyledTableData>
                                             <StyledTableData >{`${row?.uniquePlays}` || "---"}</StyledTableData>
                                             <StyledTableData >{`${row?.artistsCount}` || "---"}</StyledTableData>
-                                        </TableRow>
+                                        </StyledTableRow>
                                     )
                                 })}
                     </TableBody>

@@ -198,8 +198,11 @@ export default function PlaysTable({ data }) {
                                         >
                                             {row?.isrcCode || "---"}
                                         </AlternateDataColumn>
-                                        <AlternateDataColumn>{row?.label || "---"}</AlternateDataColumn>
+                                        <AlternateDataColumn>{row?.version || "---"}</AlternateDataColumn>
                                         <AlternateDataColumn>{row?.distributor || "---"}</AlternateDataColumn>
+                                        <AlternateDataColumn>{row?.label || "---"}</AlternateDataColumn>
+                                        <AlternateDataColumn>{row?.iswc || "---"}</AlternateDataColumn>
+                                        <AlternateDataColumn>{row?.tuneCode || "---"}</AlternateDataColumn>
                                     </StyledTableRow>
                                 )
                             }
@@ -261,8 +264,11 @@ export default function PlaysTable({ data }) {
                                     >
                                         {row?.isrcCode || "---"}
                                     </TableDataColumn>
-                                    <TableDataColumn>{row?.label || "---"}</TableDataColumn>
+                                    <TableDataColumn>{row?.version || "---"}</TableDataColumn>
                                     <TableDataColumn>{row?.distributor || "---"}</TableDataColumn>
+                                    <TableDataColumn>{row?.label || "---"}</TableDataColumn>
+                                    <TableDataColumn>{row?.iswc || "---"}</TableDataColumn>
+                                    <TableDataColumn>{row?.tuneCode || "---"}</TableDataColumn>
                                 </StyledTableRow>
                             )
                         })}

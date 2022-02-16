@@ -14,17 +14,20 @@ export const ResizableTable = styled.table`
     overflow: auto;
     overflow-y: hidden;
     grid-template-columns: 
-    auto
-    auto
-    auto
-    auto
-    auto
-    auto
-    auto
-    auto
-    auto
-    auto
-    auto;
+    minmax(100px, 1fr)
+    minmax(100px, 1fr)
+    minmax(100px, 1fr)
+    minmax(100px, 1fr)
+    minmax(100px, 1fr)
+    minmax(100px, 1fr)
+    minmax(100px, 1fr)
+    minmax(100px, 1fr)
+    minmax(100px, 1fr)
+    minmax(100px, 1fr)
+    minmax(100px, 1fr)
+    minmax(100px, 1fr)
+    minmax(100px, 1fr)
+    minmax(100px, 1fr);
 `
 
 export const StyledTableHead = styled.thead`

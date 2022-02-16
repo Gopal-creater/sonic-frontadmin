@@ -1415,8 +1415,11 @@ export const playsTableHeads = [
   { title: "COUNTRY", orderBy: "country" },
   { title: "SONICKEY", orderBy: "sonickey" },
   { title: "ISRC", orderBy: "isrcCode" },
+  { title: "VERSION", orderBy: "version" },
+  { title: "DISTRIBUTOR", orderBy: "distributor" },
   { title: "LABEL", orderBy: "label" },
-  { title: "DISTRIBUTOR", orderBy: "distributor" }
+  { title: "ISWC", orderBy: "iswc" },
+  { title: "TUNE CODE", orderBy: "tuneCode" },
 ]
 
 export const streamReaderTableHeads = [

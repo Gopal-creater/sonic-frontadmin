@@ -5,7 +5,7 @@ import store from "../..";
 import { getMonitorExport, getMonitorList } from "../../../services/https/resources/Monitor/Monitor.api";
 import { log } from "../../../utils/app.debug";
 
-export const getMonitorListAction = (actions, startDate, endDate, page, limit, playsBy) => {
+export const getMonitorListAction = (actions, startDate, endDate, page, limit, playsBy, sortBy, isAscending) => {
     let newEndDate = moment(endDate).endOf("days").toISOString()
     let params = new URLSearchParams(`detectedAt>=${moment(startDate).format("YYYY-MM-DD")}&detectedAt<=date(${newEndDate})`)
 
@@ -17,6 +17,10 @@ export const getMonitorListAction = (actions, startDate, endDate, page, limit, p
 
     if (playsBy) {
         params.append("playsBy", playsBy)
+    }
+
+    if (sortBy) {
+        isAscending ? params.append("sort", sortBy) : params.append("sort", `-${sortBy}`)
     }
 
     if (monitorFilters?.channel !== "ALL") {

@@ -13,11 +13,18 @@ import { log } from '../../../utils/app.debug';
 import * as actionTypes from "../../../stores/actions/actionTypes"
 import { getMonitorExportAction, getMonitorListAction } from '../../../stores/actions/monitorActions/monitorActions';
 import MonitorFilter from '../Components/MonitorFilter/MonitorFilter';
+import { trackTableHeads } from '../../../constants/constants';
 
 export default function Tracks() {
     const theme = useTheme()
     const monitor = useSelector(state => state.monitor)
     const dispatch = useDispatch()
+
+    const [state, setState] = React.useState({
+        trackTableHeads: trackTableHeads,
+        currentSortBy: "",
+        currentIsAscending: ""
+    })
 
     React.useEffect(() => {
         dispatch(getMonitorListAction(actions, monitor?.dates?.startDate, monitor?.dates?.endDate, monitor?.track?.data?.page, "10", "TRACKS"))
@@ -48,10 +55,45 @@ export default function Tracks() {
     }
 
     const handleTrackPageChange = (event, value) => {
-        dispatch(getMonitorListAction(actions, monitor?.dates?.startDate, monitor?.dates?.endDate, value, "10", "TRACKS"))
+        dispatch(getMonitorListAction(
+            actions,
+            monitor?.dates?.startDate,
+            monitor?.dates?.endDate,
+            value,
+            "10",
+            "TRACKS",
+            state?.currentSortBy,
+            state.currentIsAscending)
+        )
     }
 
-    log("Track Data", monitor)
+    const trackSorting = (sortBy, isAscending, isActive) => {
+        // log("sortBy, isAscending, isActive", sortBy, isAscending, isActive)
+        var newTrackTableHeads = state.trackTableHeads.map((data, i) => {
+            if (data.sortBy === sortBy) {
+                data.isActive = isActive
+                data.isAscending = isAscending
+                dispatch(getMonitorListAction(
+                    actions,
+                    monitor?.dates?.startDate,
+                    monitor?.dates?.endDate,
+                    monitor?.track?.data?.page,
+                    "10",
+                    "TRACKS",
+                    sortBy,
+                    isAscending
+                ))
+                return data
+            }
+            data.isActive = false
+            data.isAscending = null
+            return data
+        })
+
+        return setState({ ...state, trackTableHeads: newTrackTableHeads, currentSortBy: sortBy, currentIsAscending: isAscending })
+    }
+
+    // log("Track Table Heads", state.trackTableHeads)
 
     return (
         <TrackContainer>
@@ -86,7 +128,11 @@ export default function Tracks() {
                 onClickTryAgain={() => { dispatch(getMonitorListAction(actions, monitor?.dates?.startDate, monitor?.dates?.endDate, monitor?.track?.data?.page, "10", "TRACKS")) }}
             >
                 <>
-                    <TracksTable data={createStableTrackData()} />
+                    <TracksTable
+                        data={createStableTrackData()}
+                        trackTableHeads={state.trackTableHeads}
+                        onTrackSorting={(sortBy, isAscending, isActive) => trackSorting(sortBy, isAscending, isActive)}
+                    />
                     <Grid container justifyContent="space-between" alignItems="center" style={{ marginTop: "30px" }}>
                         <Grid item xs={12} sm={6} md={6}>
                             <PaginationCount

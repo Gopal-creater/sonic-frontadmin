@@ -3,47 +3,36 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useTheme } from 'styled-components';
-import { trackTableHeads } from '../../../../constants/constants';
 import { AlternateStyledTableData, StyledTableData, StyledTableHead } from '../../../../StyledComponents/StyledTable/StyledTable';
 import * as actionTypes from "../../../../stores/actions/actionTypes"
 
-export default function TracksTable({ data }) {
+export default function TracksTable({ data, trackTableHeads, onTrackSorting }) {
     const theme = useTheme()
     const history = useHistory()
     const dispatch = useDispatch()
     const monitor = useSelector(state => state.monitor)
 
-    const [state, setState] = React.useState({
-        data: data || [],
-    })
-    const [sortOrder, setSortOrder] = React.useState("ASC")
-
-    const sorting = (col) => {
-        if (sortOrder === "ASC") {
-            let sorted = state.data.sort((a, b) => {
-                if (a[col] > b[col]) {
-                    return 1
-                }
-                if (a[col] < b[col]) {
-                    return -1
-                }
-                return 0
-            })
-            setState({ ...state, data: sorted })
-            setSortOrder("DSC")
-        }
-        if (sortOrder === "DSC") {
-            let sorted = state.data.sort((a, b) => {
-                if (a[col] < b[col]) {
-                    return 1
-                }
-                if (a[col] > b[col]) {
-                    return -1
-                }
-                return 0
-            })
-            setState({ ...state, data: sorted })
-            setSortOrder("ASC")
+    const sorting = (sortBy, isAscending, isActive) => {
+        if (isActive) {
+            if (isAscending === true) {
+                onTrackSorting(sortBy, false, false)
+            }
+            else if (isAscending === false) {
+                onTrackSorting(sortBy, true, false)
+            }
+            else if (isAscending === null) {
+                onTrackSorting(sortBy, true, false)
+            }
+        } else {
+            if (isAscending === true) {
+                onTrackSorting(sortBy, false, true)
+            }
+            else if (isAscending === false) {
+                onTrackSorting(sortBy, true, true)
+            }
+            else if (isAscending === null) {
+                onTrackSorting(sortBy, true, true)
+            }
         }
     }
 
@@ -63,7 +52,7 @@ export default function TracksTable({ data }) {
                                     return (
                                         <StyledTableHead
                                             key={index}
-                                            onClick={() => sorting(data?.orderBy)}
+                                            onClick={() => sorting(data?.sortBy, data?.isAscending, data?.isActive)}
                                         >
                                             {data?.title} <i className="fa fa-sort" style={{ marginLeft: "5px" }}></i>
                                         </StyledTableHead>
@@ -74,13 +63,13 @@ export default function TracksTable({ data }) {
                     </TableHead>
                     <TableBody>
                         {
-                            state?.data?.length === 0 ?
+                            data?.length === 0 ?
                                 <TableRow key={0}>
                                     <StyledTableData colSpan={4} style={{ textAlign: "center" }}>
                                         No Data
                                     </StyledTableData>
                                 </TableRow> :
-                                state?.data?.map((row, index) => {
+                                data?.map((row, index) => {
                                     if (index % 2 !== 0) {
                                         return (
                                             <TableRow key={index} >

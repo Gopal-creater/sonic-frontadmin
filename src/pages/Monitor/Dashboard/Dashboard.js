@@ -51,8 +51,11 @@ export function Dashboard() {
         country: data?.radioStation?.country,
         sonicKey: data?.sonicKey?.sonicKey,
         isrcCode: data?.sonicKey?.isrcCode,
-        label: data?.sonicKey?.label,
+        version: data?.sonicKey?.version,
         distributor: data?.sonicKey?.distributor,
+        label: data?.sonicKey?.label,
+        iswc: data?.sonicKey?.label,
+        tuneCode: data?.sonicKey?.label,
         modal: data?.sonicKey
       }
     })
@@ -88,7 +91,7 @@ export function Dashboard() {
         onChangeEndDate={(date) => dispatch({ type: actionTypes.SET_MONITOR_DATES, data: { ...monitor.dates, endDate: date } })}
         filterComponent={<MonitorFilter open={true} actions={actions} dashboard={true} />}
         exportData={(value) => handleDashboardExport(value)}
-        pdf={true}
+        pdf={false}
       />
 
       <CardContainer >

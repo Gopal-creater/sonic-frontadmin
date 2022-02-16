@@ -45,9 +45,12 @@ export default function Plays() {
                 country: data?.radioStation?.country,
                 sonicKey: data?.sonicKey?.sonicKey,
                 isrcCode: data?.sonicKey?.isrcCode,
-                label: data?.sonicKey?.label,
+                version: data?.sonicKey?.version,
                 distributor: data?.sonicKey?.distributor,
-                modal: data?.sonicKey,
+                label: data?.sonicKey?.label,
+                iswc: data?.sonicKey?.label,
+                tuneCode: data?.sonicKey?.label,
+                modal: data?.sonicKey
             }
         })
         return stableTableData

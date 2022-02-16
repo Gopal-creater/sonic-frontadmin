@@ -1,7 +1,6 @@
 import moment from 'moment';
 import React from 'react';
 import styled, { useTheme } from 'styled-components';
-import { playsTableHeads } from '../../../../constants/constants';
 import { AlternateDataColumn, ResizableTable, StyledTableBody, StyledTableHead, StyledTableHeadColumn, StyledTableRow, TableDataColumn, TableResizer, TableWrapper } from '../../Dashboard/Components/DashboardTable/TableStyle';
 import MetaDataDialog from "../../../../components/common/MetaDataDialog";
 import { CustomTooltip } from '../../../../StyledComponents/StyledToolTip/CustomTooltip';
@@ -12,20 +11,20 @@ const createHeaders = (headers) => {
     return headers.map((item) => ({
         text: item.title,
         ref: React.useRef(),
-        orderBy: item.orderBy
+        sortBy: item.sortBy,
+        isAscending: item.isAscending,
+        isActive: item.isActive
     }));
 };
 
-export default function PlaysTable({ data }) {
+export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
     const theme = useTheme()
     const [state, setState] = React.useState({
         tableHeight: "auto",
         activeColumnIndex: null,
-        data: data || [],
         sonicKeyModal: false,
         selectedSonicKey: {},
     })
-    const [sortOrder, setSortOrder] = React.useState("ASC");
     const tableElement = React.useRef(null)
     const columns = createHeaders(playsTableHeads)
     const monitor = useSelector(state => state.monitor)
@@ -73,38 +72,33 @@ export default function PlaysTable({ data }) {
         };
     }, [state.activeColumnIndex, mouseMove, mouseUp, removeListeners]);
 
-    const sorting = (col) => {
-        if (sortOrder === "ASC") {
-            let sorted = state.data.sort((a, b) => {
-                if (a[col] > b[col]) {
-                    return 1
-                }
-                if (a[col] < b[col]) {
-                    return -1
-                }
-                return 0
-            })
-            setState({ ...state, data: sorted })
-            setSortOrder("DSC")
-        }
-        if (sortOrder === "DSC") {
-            let sorted = state.data.sort((a, b) => {
-                if (a[col] < b[col]) {
-                    return 1
-                }
-                if (a[col] > b[col]) {
-                    return -1
-                }
-                return 0
-            })
-            setState({ ...state, data: sorted })
-            setSortOrder("ASC")
+    const sorting = (sortBy, isAscending, isActive) => {
+        if (isActive) {
+            if (isAscending === true) {
+                onPlaysSorting(sortBy, false, false)
+            }
+            else if (isAscending === false) {
+                onPlaysSorting(sortBy, true, false)
+            }
+            else if (isAscending === null) {
+                onPlaysSorting(sortBy, true, false)
+            }
+        } else {
+            if (isAscending === true) {
+                onPlaysSorting(sortBy, false, true)
+            }
+            else if (isAscending === false) {
+                onPlaysSorting(sortBy, true, true)
+            }
+            else if (isAscending === null) {
+                onPlaysSorting(sortBy, true, true)
+            }
         }
     }
 
     return (
         <TableWrapper>
-            {state?.data?.length === 0 ?
+            {data?.length === 0 ?
                 <ResizableTable
                     ref={tableElement}
                     style={{ display: "flex", justifyContent: "center" }}
@@ -115,12 +109,12 @@ export default function PlaysTable({ data }) {
                 <ResizableTable ref={tableElement}>
                     <StyledTableHead>
                         <StyledTableRow>
-                            {columns.map(({ ref, text, orderBy }, index) => {
+                            {columns.map(({ ref, text, sortBy, isAscending, isActive }, index) => {
                                 return (
                                     <StyledTableHeadColumn
                                         key={index}
                                         ref={ref}
-                                        onClick={() => sorting(orderBy)}
+                                        onClick={() => sorting(sortBy, isAscending, isActive)}
                                         style={{
                                             position: index === 0 || index === 1 ? "sticky" : "",
                                             left: index === 0 ? 0 : index === 1 ? "130px" : "",
@@ -141,7 +135,7 @@ export default function PlaysTable({ data }) {
                         </StyledTableRow>
                     </StyledTableHead>
                     <StyledTableBody>
-                        {state.data?.map((row, index) => {
+                        {data?.map((row, index) => {
                             if (index % 2 !== 0) {
                                 return (
                                     <StyledTableRow key={index}>

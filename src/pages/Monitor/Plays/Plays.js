@@ -12,10 +12,16 @@ import CustomPagination from '../../../components/common/Pagination/CustomPagina
 import { log } from '../../../utils/app.debug';
 import { getMonitorExportAction, getMonitorListAction } from '../../../stores/actions/monitorActions/monitorActions';
 import MonitorFilter from '../Components/MonitorFilter/MonitorFilter';
+import { playsTableHeads } from '../../../constants/constants';
 
 export default function Plays() {
     const dispatch = useDispatch();
     const monitor = useSelector(state => state.monitor);
+    const [state, setState] = React.useState({
+        playsTableHeads: playsTableHeads,
+        currentSortBy: "",
+        currentIsAscending: ""
+    })
 
     React.useEffect(() => {
         dispatch(getMonitorListAction(
@@ -60,6 +66,45 @@ export default function Plays() {
         dispatch(getMonitorExportAction(monitor?.dates?.startDate, monitor?.dates?.endDate, format, 2000))
     };
 
+    const handlePlaysPageChange = (event, value) => {
+        dispatch(getMonitorListAction(
+            actions,
+            monitor?.dates?.startDate,
+            monitor?.dates?.endDate,
+            value,
+            "10",
+            "",
+            state?.currentSortBy,
+            state.currentIsAscending)
+        )
+    }
+
+    const playsSorting = (sortBy, isAscending, isActive) => {
+        // log("sortBy, isAscending, isActive", sortBy, isAscending, isActive)
+        var newPlaysTableHeads = state.playsTableHeads.map((data, i) => {
+            if (data.sortBy === sortBy) {
+                data.isActive = isActive
+                data.isAscending = isAscending
+                dispatch(getMonitorListAction(
+                    actions,
+                    monitor?.dates?.startDate,
+                    monitor?.dates?.endDate,
+                    monitor?.plays?.data?.page,
+                    "10",
+                    "",
+                    sortBy,
+                    isAscending
+                ))
+                return data
+            }
+            data.isActive = false
+            data.isAscending = null
+            return data
+        })
+
+        return setState({ ...state, playsTableHeads: newPlaysTableHeads, currentSortBy: sortBy, currentIsAscending: isAscending })
+    }
+
     return (
         <Grid className="plays-container">
             <Grid container justifyContent="space-between" className="plays-title-container">
@@ -91,7 +136,11 @@ export default function Plays() {
                 loading={monitor?.plays?.loading}
                 onClickTryAgain={() => dispatch(getMonitorListAction(actions, monitor?.dates?.startDate, monitor?.dates?.endDate, monitor?.plays?.data?.page, 10))}
             >
-                <PlaysTable data={createStableTableData()} />
+                <PlaysTable
+                    data={createStableTableData()}
+                    playsTableHeads={state.playsTableHeads}
+                    onPlaysSorting={(sortBy, isAscending, isActive) => playsSorting(sortBy, isAscending, isActive)}
+                />
                 <Grid container justifyContent="space-between" alignItems="center" style={{ marginTop: "30px" }}>
                     <Grid item xs={12} sm={4} md={6}>
                         <PaginationCount
@@ -105,13 +154,7 @@ export default function Plays() {
                         <CustomPagination
                             count={monitor?.plays?.data?.totalPages}
                             page={monitor?.plays?.data?.page}
-                            onChange={(event, value) => dispatch(getMonitorListAction(
-                                actions,
-                                monitor?.dates?.startDate,
-                                monitor?.dates?.endDate,
-                                value,
-                                10
-                            ))}
+                            onChange={handlePlaysPageChange}
                         />
                     </Grid>
                 </Grid>

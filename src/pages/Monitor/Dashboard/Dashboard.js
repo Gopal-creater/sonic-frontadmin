@@ -1,5 +1,6 @@
 import { Grid } from "@material-ui/core";
 import React, { useRef } from "react";
+import { log } from "../../../utils/app.debug";
 import { useDispatch, useSelector } from "react-redux";
 import * as actionTypes from "../../../stores/actions/actionTypes"
 import WelcomeBack from "./Components/WelcomeBack/WelcomeBack";
@@ -14,7 +15,7 @@ import { getMonitorDashboardDataAction } from "../../../stores/actions/dashboard
 import MonitorFilter from "../Components/MonitorFilter/MonitorFilter";
 import { getMonitorExportAction } from "../../../stores/actions/monitorActions/monitorActions";
 import { useReactToPrint } from 'react-to-print';
-import { playsTableHeads } from "../../../constants/constants";
+
 
 export function Dashboard() {
   const dispatch = useDispatch()
@@ -23,10 +24,6 @@ export function Dashboard() {
   const monitor = useSelector(state => state.monitor)
   const radioStation = useSelector(state => state.radioStations)
   const dashboardTableRef = useRef();
-
-  const [state, setState] = React.useState({
-    playsTableHeads: playsTableHeads,
-  })
 
   const handlePrintToPdf = useReactToPrint({
     content: () => dashboardTableRef.current,
@@ -65,6 +62,7 @@ export function Dashboard() {
     return stableTableData
   }
 
+
   const handleDashboardExport = (format) => {
     if (format === 'pdf') {
       handlePrintToPdf();
@@ -73,28 +71,9 @@ export function Dashboard() {
     }
   }
 
-  const trackSorting = (sortBy, isAscending, isActive) => {
-    // log("sortBy, isAscending, isActive", sortBy, isAscending, isActive)
-    var newPlaysTableHeads = state.playsTableHeads.map((data, i) => {
-      if (data.sortBy === sortBy) {
-        data.isActive = isActive
-        data.isAscending = isAscending
-        dispatch(getMonitorDashboardDataAction(
-          monitor?.dates?.startDate,
-          monitor?.dates?.endDate,
-          "10",
-          sortBy,
-          isAscending
-        ))
-        return data
-      }
-      data.isActive = false
-      data.isAscending = null
-      return data
-    })
 
-    return setState({ ...state, playsTableHeads: newPlaysTableHeads, currentSortBy: sortBy, currentIsAscending: isAscending })
-  }
+  log("Dashboard", dashboard)
+  log("Radios", radioStation)
 
   return (
     <Grid ref={dashboardTableRef}>
@@ -173,8 +152,6 @@ export function Dashboard() {
         >
           <DashboardTable
             data={createStableTableData()}
-            playsTableHeads={state.playsTableHeads}
-            onTrackSorting={(sortBy, isAscending, isActive) => trackSorting(sortBy, isAscending, isActive)}
           />
         </CommonDataLoadErrorSuccess>
       </TableContainer>

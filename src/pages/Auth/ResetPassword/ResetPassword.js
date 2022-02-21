@@ -1,7 +1,6 @@
-import { Grid, IconButton, InputAdornment, TextField, Typography } from '@material-ui/core'
+import { Grid, IconButton, InputAdornment, makeStyles, TextField, Typography } from '@material-ui/core'
 import React from 'react'
 import { useForm, Controller } from "react-hook-form";
-import Button from "@material-ui/core/Button";
 import AuthFooter from "../AuthFooter"
 import { useDispatch } from "react-redux";
 import { forgotPasword } from '../../../stores/actions/session';
@@ -13,11 +12,10 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import "./ResetPassword.scss"
 import { H1 } from '../../../StyledComponents/StyledHeadings';
 import AppButton from '../../../components/common/AppButton/AppButton';
-
+import { StyledTextField } from '../../../StyledComponents/StyledAppTextInput/StyledAppTextInput';
 
 export default function ResetPassword() {
     const { handleSubmit, control } = useForm();
-
     const { handleSubmit: handleReset, control: controlReset } = useForm();
 
 
@@ -84,7 +82,7 @@ export default function ResetPassword() {
                             field: { onChange, value },
                             fieldState: { error },
                         }) => (
-                            <TextField
+                            <StyledTextField
                                 label="Username *"
                                 fullWidth
                                 value={value}
@@ -92,8 +90,6 @@ export default function ResetPassword() {
                                 error={!!error}
                                 className="mt-2"
                                 helperText={error?.message}
-                                inputProps={{ className: "textInput" }}
-                                InputLabelProps={{ className: "textInputLable" }}
                             />
                         )}
                         rules={{ required: "Username is required" }}
@@ -145,7 +141,7 @@ export default function ResetPassword() {
                     control={controlReset}
                     defaultValue=""
                     render={({ field: { onChange, value }, fieldState: { error } }) => (
-                        <TextField
+                        <StyledTextField
                             label="Validation Code *"
                             fullWidth
                             value={value}
@@ -154,12 +150,10 @@ export default function ResetPassword() {
                             className="mt-2"
                             helperText={error?.message}
                             inputProps={{
-                                className: "textInput",
                                 form: {
                                     autocomplete: 'off',
-                                }
+                                },
                             }}
-                            InputLabelProps={{ className: "textInputLable" }}
                         />
                     )}
                     rules={{ required: "Validation code is required" }}
@@ -170,7 +164,7 @@ export default function ResetPassword() {
                     control={controlReset}
                     defaultValue=""
                     render={({ field: { onChange, value }, fieldState: { error } }) => (
-                        <TextField
+                        <StyledTextField
                             label="New password *"
                             fullWidth
                             type={values.showPassword ? "text" : "password"}
@@ -180,7 +174,6 @@ export default function ResetPassword() {
                             className="mt-2"
                             helperText={error?.message}
                             InputProps={{
-                                className: "textInput",
                                 endAdornment: (
                                     <InputAdornment position="end">
                                         <IconButton
@@ -200,7 +193,6 @@ export default function ResetPassword() {
                                     </InputAdornment>
                                 ),
                             }}
-                            InputLabelProps={{ className: "textInputLable" }}
                         />
                     )}
                     rules={{ required: "New password is required" }}

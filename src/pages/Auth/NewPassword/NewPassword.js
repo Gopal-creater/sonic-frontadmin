@@ -13,6 +13,11 @@ import Button from "@material-ui/core/Button";
 import Spinner from "react-bootstrap/Spinner";
 import { setSession } from "../../../stores/actions/session";
 import AuthFooter from "../AuthFooter";
+import { StyledTextField } from "../../../StyledComponents/StyledAppTextInput/StyledAppTextInput";
+import AppButton from "../../../components/common/AppButton/AppButton";
+import { H2 } from "../../../StyledComponents/StyledHeadings";
+
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -21,42 +26,13 @@ const useStyles = makeStyles((theme) => ({
             fontFamily: '"Nunito Sans",sans-serif',
             color: "#343F84",
         },
+
     },
     textInput: {
-        fontFamily: "NunitoSans-Regular",
-        fontSize: 18,
-        color: "#757575"
+        WebkitBoxShadow: "0 0 0px 1000px white inset",
+        // WebkitTextFillColor: theme.colors.secondary.lightNavy,
     },
-    textInputLable: {
-        fontFamily: "NunitoSans-Regular",
-        fontSize: 18,
-        color: "#757575"
-    }
 }));
-
-const ChangeButton = withStyles({
-    root: {
-        backgroundColor: "#343F84",
-        textTransform: "none",
-        width: "80px",
-        height: "40px",
-        fontFamily: 'NunitoSans-Regular',
-    },
-})(Button);
-
-const BackButton = withStyles({
-    root: {
-        color: "blue",
-        textTransform: "none",
-        padding: 0,
-        fontWeight: "bold",
-        "&:hover": {
-            backgroundColor: "white",
-            textDecoration: "underline",
-        },
-        fontFamily: 'NunitoSans-Black',
-    },
-})(Button);
 
 export default function NewPassword() {
     const [values, setValues] = React.useState({
@@ -107,9 +83,8 @@ export default function NewPassword() {
     return (
         <div>
             <form onSubmit={handleSubmit(getPassword)} className={classes.root}>
-                <h2 style={{ fontFamily: "NunitoSans-Bold" }}>
-                    <b>Change Password</b>
-                </h2>
+                <H2> Change Password </H2>
+
 
                 {session?.user?.challengeParam?.requiredAttributes?.length >
                     0 ? (
@@ -121,7 +96,7 @@ export default function NewPassword() {
                             field: { onChange, value },
                             fieldState: { error },
                         }) => (
-                            <TextField
+                            <StyledTextField
                                 label="Email *"
                                 fullWidth
                                 value={
@@ -132,8 +107,7 @@ export default function NewPassword() {
                                 onChange={onChange}
                                 error={!!error}
                                 helperText={error?.message}
-                                InputLabelProps={{ className: classes.textInputLable }}
-                                InputProps={{ className: classes.textInput }}
+                                inputProps={{ className: classes.textInput }}
                             />
                         )}
                         rules={{ required: "Email is required" }}
@@ -147,7 +121,7 @@ export default function NewPassword() {
                     control={control}
                     defaultValue=""
                     render={({ field: { onChange, value }, fieldState: { error } }) => (
-                        <TextField
+                        <StyledTextField
                             label="Password *"
                             fullWidth
                             type={values.showPassword ? "text" : "password"}
@@ -155,7 +129,7 @@ export default function NewPassword() {
                             onChange={onChange}
                             error={!!error}
                             helperText={error?.message}
-                            InputLabelProps={{ className: classes.textInputLable }}
+                            inputProps={{ className: classes.textInput }}
                             InputProps={{
                                 endAdornment: (
                                     <InputAdornment position="end">
@@ -178,8 +152,11 @@ export default function NewPassword() {
                                             )}
                                         </IconButton>
                                     </InputAdornment>
+
                                 ),
-                                className: classes.textInput
+                                form: {
+                                    autocomplete: 'off',
+                                }
                             }}
                         />
                     )}
@@ -190,30 +167,31 @@ export default function NewPassword() {
                     className="mt-4 d-flex justify-content-between align-items-center"
                     style={{ width: "100%" }}
                 >
-                    <BackButton
-                        type="button"
+                    <AppButton
+                        variant={"none"}
+                        style={{ paddingLeft: "0px", paddingRight: "0px" }}
                         disabled={values.changeLoading}
                         onClick={() => {
                             dispatch({ type: "LOGOUT" });
                         }}
                     >
                         Back to signIn.
-                    </BackButton>
+                    </AppButton>
 
                     {values.changeLoading ? (
-                        <ChangeButton
+                        <AppButton
                             type="submit"
-                            variant="contained"
+                            variant="fill"
                             color="primary"
                             size="lg"
                         >
                             <Spinner animation="border" role="status" size="sm">
                             </Spinner>
-                        </ChangeButton>
+                        </AppButton>
                     ) : (
-                        <ChangeButton type="submit" variant="contained" color="primary">
+                        <AppButton type="submit" variant="fill">
                             Change
-                        </ChangeButton>
+                        </AppButton>
                     )}
                 </div>
             </form>

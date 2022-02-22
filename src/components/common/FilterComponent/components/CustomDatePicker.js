@@ -12,6 +12,23 @@ const DateInput = styled.div`
     align-items: center;
 `;
 
+const CustomInput = styled.input`
+    display: block;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid ${theme.colors.secondary.mediumGrey};
+    color: ${theme.colors.secondary.grey};
+    font-family: ${theme.fontFamily.nunitoSansRegular};
+    font-size: ${theme.fontSize.h4};
+    width: 100%;
+    cursor: pointer;
+
+    :hover {
+        border-bottom: 1px solid ${theme.colors.primary.teal};
+        color: ${theme.colors.secondary.mediumNavy};
+    }
+`
+
 const CustomDate = React.forwardRef((props, ref) => (
     <DateInput>
         {props?.calender ?
@@ -27,18 +44,8 @@ const CustomDate = React.forwardRef((props, ref) => (
             >
                 {props?.title || "Date"}
             </span>
-            <input
+            <CustomInput
                 {...props}
-                style={{
-                    display: 'block',
-                    outline: 'none',
-                    border: 'none',
-                    borderBottom: `1px solid ${theme.colors.secondary.mediumGrey}`,
-                    color: props?.dateRange ? theme.colors.secondary.grey : theme.colors.secondary.lightNavy,
-                    fontFamily: theme.fontFamily.nunitoSansRegular,
-                    fontSize: theme.fontSize.h4,
-                    width: '100%',
-                }}
             />
         </Grid>
     </DateInput>

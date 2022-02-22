@@ -1,17 +1,14 @@
 import React from "react";
 import { FormControl, MenuItem } from "@material-ui/core";
 import { StyledSelect, StyledSelectInput } from "../../../StyledComponents/StyledAppTextInput/StyledAppSelectInput";
-import { useSelector } from "react-redux";
 
-export default function CustomDropDown({
+export default function EncodeType({
     formControlProps,
     labelText,
     id,
     labelProps,
     inputProps,
-    data,
 }) {
-    const plays = useSelector(state => state.playsList);
 
     return (
         <FormControl {...formControlProps}>
@@ -27,17 +24,10 @@ export default function CustomDropDown({
                 id={id}
                 {...inputProps}
             >
-                {data?.map((item, index) => {
-                    return (
-                        <MenuItem value={item?.name} key={index}>{item?.name}</MenuItem>
-                    );
-                })}
+                <MenuItem style={{ cursor: "pointer" }} value="Music">Music</MenuItem>
+                <MenuItem style={{ cursor: "pointer" }} value="Video">Video</MenuItem>
+                <MenuItem style={{ cursor: "pointer" }} value="Audio">Audio</MenuItem>
             </StyledSelect>
-            {data?.length === 0 ?
-                <span style={{ color: "red", fontSize: 12 }}>
-                    No radio station for {plays?.filters?.country}
-                </span> : ""
-            }
         </FormControl>
     );
 }

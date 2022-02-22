@@ -12,7 +12,6 @@ import moment from "moment";
 import { useHistory } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux";
 import * as actionTypes from "../../stores/actions/actionTypes"
-import * as sessionActionTypes from "../../stores/actions/session/actionTypes"
 import { log } from "../../utils/app.debug";
 import EditIcon from '@material-ui/icons/Edit';
 import VisibilityIcon from '@material-ui/icons/Visibility';
@@ -124,7 +123,6 @@ const MetaDataDailog = (props) => {
             10,
         ));
         props.setOpenTable(false)
-        dispatch({ type: sessionActionTypes.SET_SIDEBAR, data: true });
         history.push("/plays")
     }
 

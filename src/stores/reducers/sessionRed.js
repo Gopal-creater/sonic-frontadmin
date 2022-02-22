@@ -5,7 +5,6 @@ const initialState = {
   user: null,
   loading: true,
   resetPassword: false,
-  sidebar: false,
 };
 const sessionRed = (state = initialState, action) =>
   produce(state, (draft) => {
@@ -19,10 +18,6 @@ const sessionRed = (state = initialState, action) =>
       case actionTypes.SET_RESET_PASSWORD:
         draft.resetPassword = action.resetPassword
         break;
-
-      case actionTypes.SET_SIDEBAR:
-        draft.sidebar = action.data
-        break
 
       default:
         break;

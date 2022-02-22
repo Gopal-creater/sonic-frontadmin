@@ -7,8 +7,6 @@ import sonickeyTeal from "../../assets/images/sonickey-teal.png";
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 import { NavLink } from "react-router-dom"
-import { useDispatch, useSelector } from "react-redux";
-import * as actionTypes from "../../stores/actions/session/actionTypes"
 import { useLocation } from 'react-router-dom'
 import { useTheme } from "styled-components";
 import MenuOpenIcon from '@material-ui/icons/MenuOpen';
@@ -82,15 +80,14 @@ const useStyles = makeStyles(() => {
 export default function Sidebar({ showMenu, toggleMenu }) {
   const location = useLocation()
 
-  const session = useSelector(state => state.session)
-  const dispatch = useDispatch()
-
   const classes = useStyles();
+  const theme = useTheme()
   const [newActiveLink, setNewActiveLink] = React.useState(null);
+  const [arrowDropDown, setArrowDropDown] = React.useState(true);
 
   React.useEffect(() => {
     if (getChildItemInArray()?.includes(location?.pathname)) {
-      dispatch({ type: actionTypes.SET_SIDEBAR, data: true });
+      setArrowDropDown(false)
     }
   }, [])
 
@@ -130,9 +127,9 @@ export default function Sidebar({ showMenu, toggleMenu }) {
                   <div key={index} >
                     <NavLink
                       className={classes.listItemContainer}
-                      to={data?.children?.[0]?.link}
+                      to={location?.pathname}
                       onClick={() => {
-                        dispatch({ type: actionTypes.SET_SIDEBAR, data: !session?.sidebar });
+                        setArrowDropDown(!arrowDropDown)
                         checkIsActive(true, "", index)
                       }}
                       style={{ justifyContent: "flex-start", paddingBottom: 5 }}
@@ -142,16 +139,16 @@ export default function Sidebar({ showMenu, toggleMenu }) {
                         <ListItemText primary={data?.linkText} classes={{ primary: newActiveLink === index ? classes?.activelistItemContainer : classes.listItemText }} />
 
                         {
-                          session?.sidebar ?
-                            <ArrowDropUpIcon style={{ color: newActiveLink === index ? "#00A19A" : "#757575" }} /> :
-                            <ArrowDropDownIcon style={{ color: newActiveLink === index ? "#00A19A" : "#757575" }} />
+                          !arrowDropDown ?
+                            <ArrowDropUpIcon style={{ color: newActiveLink === index ? "#00A19A" : theme.colors.secondary.mediumGrey }} /> :
+                            <ArrowDropDownIcon style={{ color: newActiveLink === index ? "#00A19A" : theme.colors.secondary.mediumGrey }} />
                         }
                       </div>
                     </NavLink>
 
                     <div style={{ paddingBottom: 10 }}>
                       {
-                        session?.sidebar && data?.children?.map((childData) => {
+                        !arrowDropDown && data?.children?.map((childData) => {
                           return (
                             <NavLink
                               className={classes.childListItemContainer}

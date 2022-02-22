@@ -16,6 +16,7 @@ import { H1, H4 } from '../../../StyledComponents/StyledHeadings';
 import { StyledTextField } from '../../../StyledComponents/StyledAppTextInput/StyledAppTextInput';
 import AppButton from '../../../components/common/AppButton/AppButton';
 import { useTheme } from 'styled-components';
+import theme from '../../../theme';
 
 const useStyles = makeStyles(() => ({
     signInRoot: {
@@ -41,8 +42,11 @@ const useStyles = makeStyles(() => ({
         fontFamily: 'NunitoSans-ExtraBold',
     },
     textInput: {
-        WebkitBoxShadow: "0 0 0px 1000px white inset",
-        // WebkitTextFillColor: theme.colors.secondary.lightNavy,
+        WebkitBoxShadow: "0 0 0 1000px white inset",
+        WebkitTextFillColor: theme.colors.secondary.lightNavy,
+        // "&:-webkit-autofill::first-line": {
+        //     fontSize: '28px'
+        // }
     },
 
 }));
@@ -102,9 +106,9 @@ export default function SignIn() {
                             helperText={error?.message}
                             inputProps={{
                                 className: classes.textInput,
-                                form: {
-                                    autocomplete: 'off',
-                                },
+                                // form: {
+                                //     autocomplete: 'off'
+                                // },
                             }}
                         />
                     )}
@@ -154,9 +158,9 @@ export default function SignIn() {
                                     </InputAdornment>
                                 ),
                                 className: classes.textInput,
-                                form: {
-                                    autocomplete: 'off',
-                                },
+                                // form: {
+                                //     autocomplete: 'off'
+                                // },
                             }}
                         />
                     )}

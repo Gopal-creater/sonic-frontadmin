@@ -1,13 +1,18 @@
 import React from 'react';
 import { Pagination } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/styles';
-import { useTheme } from 'styled-components';
+import theme from '../../../theme';
 
 const useStyles = makeStyles(() => {
-    const theme = useTheme()
-
     return ({
         root: {
+            '& ul > li:not(:first-child):not(:last-child) > button:not(.Mui-selected)': {
+                backgroundColor: 'transparent',
+                color: theme.colors.secondary.mediumNavy,
+                "&:hover": {
+                    color: theme.colors.secondary.lightNavy,
+                }
+            },
             ".MuiPaginationItem-root": {
                 backgroundColor: '#fff',
             },
@@ -41,7 +46,6 @@ const useStyles = makeStyles(() => {
             },
             "&:hover .MuiPaginationItem-icon": {
                 border: `1px solid ${theme.colors.primary.navy}`,
-                // backgroundColor: "green"
             }
         },
     })

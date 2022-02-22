@@ -26,6 +26,10 @@ width:${props => props.width || "100%"};
     font-family:${theme.fontFamily.nunitoSansRegular};
     font-size:${theme.fontSize.h4};
 
+    /* & :-webkit-autofill::first-line {
+        font-size: 28px;
+    } */
+
     :hover {
         font-family:${theme.fontFamily.nunitoSansRegular};
         color:${theme.colors.primary.navy};

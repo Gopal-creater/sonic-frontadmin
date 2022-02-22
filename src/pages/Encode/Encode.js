@@ -18,6 +18,11 @@ import moment from 'moment';
 import EncodeDecodeLoading from '../../components/common/FileSelection/EncodeDecodeLoading';
 import FailedFileSelection from '../../components/common/FileSelection/FailedFileSelection';
 import FileSelection from '../../components/common/FileSelection/FileSelection';
+import { StyledTextField } from '../../StyledComponents/StyledAppTextInput/StyledAppTextInput';
+import EncodeType from './Components/EncodeType';
+import { H3 } from '../../StyledComponents/StyledHeadings';
+import AppButton from '../../components/common/AppButton/AppButton';
+import theme from '../../theme';
 
 const countryCodes = require("country-codes-list");
 const myCountryCodesObject = countryCodes.customList(
@@ -164,7 +169,7 @@ export default function Encode() {
             <FileSelection
                 prop={{
                     title: "Encode",
-                    subTitle: "Upload a file to start",
+                    subTitle: "Upload a file to start.",
                     getAudioData: (audioData) => {
                         setValues({
                             ...values,
@@ -182,11 +187,11 @@ export default function Encode() {
 
             {values?.isDataPresent && values?.encodeSuccess === null && values?.encodeError === null &&
                 <Grid className={classes.encodeDataContainer} id="encodeDataContainer">
-                    <Typography className={classes.heading} id="encodeDataTitle">MetaData of Uploaded file "{values?.name}"</Typography>
-
+                    {/* <Typography className={classes.heading} id="encodeDataTitle">MetaData of Uploaded file "{values?.name}"</Typography> */}
+                    <H3>MetaData of Uploaded file "{values?.name}"</H3>
                     <form className={classes.encodeForm}>
                         <Grid item id="audioName">
-                            <TextField
+                            <StyledTextField
                                 fullWidth
                                 id="standard-basic"
                                 label="Title"
@@ -204,34 +209,29 @@ export default function Encode() {
 
                         <Grid item id="audioType">
                             <FormControl className={classes.formControl} fullWidth>
-                                <InputLabel id="demo-simple-select-label" style={{
-                                    color: "#757575", fontWeight: "bold", fontFamily: 'NunitoSans-Regular',
-                                }}>Type</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
+                                <EncodeType
                                     id="demo-simple-select"
-                                    style={{
-                                        color: "#757575", fontWeight: "bold", fontFamily: 'NunitoSans-Regular',
+                                    labelText="Type"
+                                    formControlProps={{
+                                        fullWidth: true
                                     }}
-                                    value={values?.data?.contentType}
-                                    fullWidth
-                                    onChange={(e) => {
-                                        e.target.value === "Music" ?
-                                            setValues({ ...values, data: { ...values?.data, contentType: e.target.value } }) :
-                                            setValues({ ...values, data: { ...values?.data, contentType: e.target.value, isrcCode: "", iswcCode: "", tuneCode: "" } })
-                                    }}
-                                >
-                                    <MenuItem value={"Music"} style={{ color: "#757575", fontWeight: "bold" }}>Music</MenuItem>
-                                    <MenuItem value={"Video"} style={{ color: "#757575", fontWeight: "bold" }}>Video</MenuItem>
-                                    <MenuItem value={"Audio"} style={{ color: "#757575", fontWeight: "bold" }}>Audio</MenuItem>
-                                </Select>
+                                    inputProps={{
+                                        value: values?.data?.contentType,
+                                        onChange: (e) => {
+                                            e.target.value === "Music" ?
+                                                setValues({ ...values, data: { ...values?.data, contentType: e.target.value } }) :
+                                                setValues({ ...values, data: { ...values?.data, contentType: e.target.value, isrcCode: "", iswcCode: "", tuneCode: "" } })
+                                        }
+                                    }
+                                    }
+                                />
                             </FormControl>
                         </Grid>
 
                         {values?.data?.contentType === "Music" &&
                             <Grid item id="isrc">
                                 <p style={{ fontWeight: "bold", color: "#757575", fontFamily: "NunitoSans-Regular", margin: "15px 0px -10px 9px" }}>Industry codes</p>
-                                <TextField
+                                <StyledTextField
                                     fullWidth
                                     id="standard-basic"
                                     label="ISRC"
@@ -247,7 +247,7 @@ export default function Encode() {
 
                         {values?.data?.contentType === "Music" &&
                             <Grid item id="iswc">
-                                <TextField
+                                <StyledTextField
                                     fullWidth
                                     id="standard-basic"
                                     label="ISWC"
@@ -263,7 +263,7 @@ export default function Encode() {
 
                         {values?.data?.contentType === "Music" &&
                             <Grid item id="tunecode">
-                                <TextField
+                                <StyledTextField
                                     fullWidth
                                     id="standard-basic"
                                     label="Tune Code"
@@ -278,7 +278,7 @@ export default function Encode() {
                         }
 
                         <Grid item id="contentFileType">
-                            <TextField
+                            <StyledTextField
                                 fullWidth
                                 id="standard-basic"
                                 label="File type"
@@ -289,7 +289,7 @@ export default function Encode() {
                         </Grid>
 
                         <Grid item id="artist">
-                            <TextField
+                            <StyledTextField
                                 fullWidth
                                 id="standard-basic"
                                 label="Artist"
@@ -300,7 +300,7 @@ export default function Encode() {
                         </Grid>
 
                         <Grid item id="audioLength">
-                            <TextField
+                            <StyledTextField
                                 fullWidth
                                 id="standard-basic"
                                 label="Audio length"
@@ -311,7 +311,7 @@ export default function Encode() {
                         </Grid>
 
                         <Grid item id="audioSize">
-                            <TextField
+                            <StyledTextField
                                 fullWidth
                                 id="standard-basic"
                                 label="Audio Size (In MB)"
@@ -322,7 +322,7 @@ export default function Encode() {
                         </Grid>
 
                         <Grid item id="underlyingEncoding">
-                            <TextField
+                            <StyledTextField
                                 fullWidth
                                 id="standard-basic"
                                 label="Underlying encoding of file"
@@ -333,7 +333,7 @@ export default function Encode() {
                         </Grid>
 
                         <Grid item id="samplingFrequency">
-                            <TextField
+                            <StyledTextField
                                 fullWidth
                                 id="standard-basic"
                                 label="Sampling Frequency"
@@ -344,7 +344,7 @@ export default function Encode() {
                         </Grid>
 
                         <Grid item id="qualityGrade">
-                            <TextField
+                            <StyledTextField
                                 fullWidth
                                 id="standard-basic"
                                 label="Quality Grade"
@@ -355,7 +355,7 @@ export default function Encode() {
                         </Grid>
 
                         <Grid item id="description">
-                            <TextField
+                            <StyledTextField
                                 fullWidth
                                 id="standard-basic"
                                 label="Description"
@@ -368,7 +368,7 @@ export default function Encode() {
                         </Grid>
 
                         <Grid item id="distributor">
-                            <TextField
+                            <StyledTextField
                                 fullWidth
                                 id="standard-basic"
                                 label="Distributor"
@@ -379,7 +379,7 @@ export default function Encode() {
                         </Grid>
 
                         <Grid item id="version">
-                            <TextField
+                            <StyledTextField
                                 fullWidth
                                 id="standard-basic"
                                 label="Version"
@@ -390,7 +390,7 @@ export default function Encode() {
                         </Grid>
 
                         <Grid item id="label">
-                            <TextField
+                            <StyledTextField
                                 fullWidth
                                 id="standard-basic"
                                 label="Label"
@@ -401,7 +401,7 @@ export default function Encode() {
                         </Grid>
 
                         <Grid item id="additionalMetadata">
-                            <TextField
+                            <StyledTextField
                                 fullWidth
                                 id="standard-basic"
                                 label="Additional Metada"
@@ -481,21 +481,20 @@ export default function Encode() {
                         }
 
                         <Grid container justifyContent="center" className="pt-4">
-                            <Button
+                            <AppButton
                                 style={{
                                     backgroundColor: values?.isAuthorizedForEncode === false && values?.isRightsHolderForEncode === false ? "#DC004E" : values?.isAuthorizedForEncode === null || values?.isRightsHolderForEncode === null ? "" : "#393F5B",
                                     color: "white"
                                 }}
-                                variant={"contained"}
+                                variant="fill"
                                 component="span"
-                                color="primary"
+                                fontFamily={theme.fontFamily.nunitoSansBold}
                                 disabled={values?.isAuthorizedForEncode === false && values?.isRightsHolderForEncode === false ? true : values?.isAuthorizedForEncode || values?.isRightsHolderForEncode || values?.isAuthorizedForEncode !== null && values?.isRightsHolderForEncode !== null ? false : true}
-                                className={classes.encodeBtn}
                                 onClick={handleEncode}
                                 type="submit"
                             >
                                 Encode
-                            </Button>
+                            </AppButton>
                         </Grid>
 
                         {values?.isAuthorizedForEncode === false && values?.isRightsHolderForEncode === false ?

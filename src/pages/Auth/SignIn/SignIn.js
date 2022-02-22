@@ -44,9 +44,9 @@ const useStyles = makeStyles(() => ({
     textInput: {
         WebkitBoxShadow: "0 0 0 1000px white inset",
         WebkitTextFillColor: theme.colors.secondary.lightNavy,
-        // "&:-webkit-autofill::first-line": {
-        //     fontSize: '28px'
-        // }
+        "&:-webkit-autofill::first-line": {
+            // fontSize: '28px !important',
+        }
     },
 
 }));

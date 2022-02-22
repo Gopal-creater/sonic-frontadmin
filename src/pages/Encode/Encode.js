@@ -1,10 +1,6 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import { Button, Grid, Typography } from '@material-ui/core'
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
+import { Grid, Typography } from '@material-ui/core'
 import FormControl from '@material-ui/core/FormControl';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -23,13 +19,6 @@ import EncodeType from './Components/EncodeType';
 import { H3 } from '../../StyledComponents/StyledHeadings';
 import AppButton from '../../components/common/AppButton/AppButton';
 import theme from '../../theme';
-
-const countryCodes = require("country-codes-list");
-const myCountryCodesObject = countryCodes.customList(
-    "countryCode",
-    "[{countryCode}]"
-);
-
 
 const useStyles = makeStyles((theme) => ({
     encodeDataContainer: {
@@ -195,10 +184,6 @@ export default function Encode() {
                                 fullWidth
                                 id="standard-basic"
                                 label="Title"
-                                inputProps={{
-                                    className: classes.textInput,
-                                }}
-                                InputLabelProps={{ className: classes.textInputLabel }}
                                 value={values?.data?.contentName}
                                 onChange={(e) => { setValues({ ...values, data: { ...values?.data, contentName: e.target.value } }) }}
                                 // helperText="Song,Video or Audio track title"
@@ -235,8 +220,6 @@ export default function Encode() {
                                     fullWidth
                                     id="standard-basic"
                                     label="ISRC"
-                                    inputProps={{ className: classes.textInput }}
-                                    InputLabelProps={{ className: classes.textInputLabel }}
                                     value={values?.data?.isrcCode}
                                     onChange={(e) => { setValues({ ...values, data: { ...values?.data, isrcCode: e.target.value } }) }}
                                     FormHelperTextProps={{ className: classes.textInputLabel }}
@@ -251,8 +234,6 @@ export default function Encode() {
                                     fullWidth
                                     id="standard-basic"
                                     label="ISWC"
-                                    inputProps={{ className: classes.textInput }}
-                                    InputLabelProps={{ className: classes.textInputLabel }}
                                     value={values?.data?.iswcCode}
                                     onChange={(e) => { setValues({ ...values, data: { ...values?.data, iswcCode: e.target.value } }) }}
                                     FormHelperTextProps={{ className: classes.textInputLabel }}
@@ -267,8 +248,6 @@ export default function Encode() {
                                     fullWidth
                                     id="standard-basic"
                                     label="Tune Code"
-                                    inputProps={{ className: classes.textInput }}
-                                    InputLabelProps={{ className: classes.textInputLabel }}
                                     value={values?.data?.tuneCode}
                                     onChange={(e) => { setValues({ ...values, data: { ...values?.data, tuneCode: e.target.value } }) }}
                                     FormHelperTextProps={{ className: classes.textInputLabel }}
@@ -282,8 +261,7 @@ export default function Encode() {
                                 fullWidth
                                 id="standard-basic"
                                 label="File type"
-                                inputProps={{ className: classes.textInput, readOnly: true }}
-                                InputLabelProps={{ className: classes.textInputLabel }}
+                                inputProps={{ readOnly: true }}
                                 value={values?.data?.contentFileType}
                                 onChange={(e) => { setValues({ ...values, data: { ...values?.data, contentFileType: e.target.value } }) }} />
                         </Grid>
@@ -293,8 +271,6 @@ export default function Encode() {
                                 fullWidth
                                 id="standard-basic"
                                 label="Artist"
-                                inputProps={{ className: classes.textInput }}
-                                InputLabelProps={{ className: classes.textInputLabel }}
                                 value={values?.data?.contentOwner}
                                 onChange={(e) => { setValues({ ...values, data: { ...values?.data, contentOwner: e.target.value } }) }} />
                         </Grid>
@@ -304,8 +280,7 @@ export default function Encode() {
                                 fullWidth
                                 id="standard-basic"
                                 label="Audio length"
-                                inputProps={{ className: classes.textInput, readOnly: true }}
-                                InputLabelProps={{ className: classes.textInputLabel }}
+                                inputProps={{ readOnly: true }}
                                 value={moment.utc(values?.data?.contentDuration * 1000).format("HH:mm:ss:SSS")}
                             />
                         </Grid>
@@ -315,8 +290,7 @@ export default function Encode() {
                                 fullWidth
                                 id="standard-basic"
                                 label="Audio Size (In MB)"
-                                inputProps={{ className: classes.textInput, readOnly: true }}
-                                InputLabelProps={{ className: classes.textInputLabel }}
+                                inputProps={{ readOnly: true }}
                                 value={(values?.data?.contentSize / 1024).toFixed(3)}
                             />
                         </Grid>
@@ -326,8 +300,7 @@ export default function Encode() {
                                 fullWidth
                                 id="standard-basic"
                                 label="Underlying encoding of file"
-                                inputProps={{ className: classes.textInput, readOnly: true }}
-                                InputLabelProps={{ className: classes.textInputLabel }}
+                                inputProps={{ readOnly: true }}
                                 value={values?.data?.contentEncoding}
                                 onChange={(e) => { setValues({ ...values, data: { ...values?.data, contentEncoding: e.target.value } }) }} />
                         </Grid>
@@ -337,8 +310,7 @@ export default function Encode() {
                                 fullWidth
                                 id="standard-basic"
                                 label="Sampling Frequency"
-                                inputProps={{ className: classes.textInput, readOnly: true }}
-                                InputLabelProps={{ className: classes.textInputLabel }}
+                                inputProps={{ readOnly: true }}
                                 value={values?.data?.contentSamplingFrequency}
                                 onChange={(e) => { setValues({ ...values, data: { ...values?.data, contentSamplingFrequency: e.target.value } }) }} />
                         </Grid>
@@ -348,8 +320,6 @@ export default function Encode() {
                                 fullWidth
                                 id="standard-basic"
                                 label="Quality Grade"
-                                inputProps={{ className: classes.textInput }}
-                                InputLabelProps={{ className: classes.textInputLabel }}
                                 value={values?.data?.contentQuality}
                                 onChange={(e) => { setValues({ ...values, data: { ...values?.data, contentQuality: e.target.value } }) }} />
                         </Grid>
@@ -359,8 +329,6 @@ export default function Encode() {
                                 fullWidth
                                 id="standard-basic"
                                 label="Description"
-                                inputProps={{ className: classes.textInput }}
-                                InputLabelProps={{ className: classes.textInputLabel }}
                                 multiline
                                 rows={4}
                                 value={values?.data?.contentDescription}
@@ -372,8 +340,6 @@ export default function Encode() {
                                 fullWidth
                                 id="standard-basic"
                                 label="Distributor"
-                                inputProps={{ className: classes.textInput }}
-                                InputLabelProps={{ className: classes.textInputLabel }}
                                 value={values?.data?.distributor}
                                 onChange={(e) => { setValues({ ...values, data: { ...values?.data, distributor: e.target.value } }) }} />
                         </Grid>
@@ -383,8 +349,6 @@ export default function Encode() {
                                 fullWidth
                                 id="standard-basic"
                                 label="Version"
-                                inputProps={{ className: classes.textInput }}
-                                InputLabelProps={{ className: classes.textInputLabel }}
                                 value={values?.data?.version}
                                 onChange={(e) => { setValues({ ...values, data: { ...values?.data, version: e.target.value } }) }} />
                         </Grid>
@@ -394,8 +358,6 @@ export default function Encode() {
                                 fullWidth
                                 id="standard-basic"
                                 label="Label"
-                                inputProps={{ className: classes.textInput }}
-                                InputLabelProps={{ className: classes.textInputLabel }}
                                 value={values?.data?.label}
                                 onChange={(e) => { setValues({ ...values, data: { ...values?.data, label: e.target.value } }) }} />
                         </Grid>
@@ -405,18 +367,20 @@ export default function Encode() {
                                 fullWidth
                                 id="standard-basic"
                                 label="Additional Metada"
-                                inputProps={{ className: classes.textInput }}
-                                InputLabelProps={{ className: classes.textInputLabel }}
                                 value={values?.data?.additionalMetadata?.message}
                                 onChange={(e) => { setValues({ ...values, data: { ...values?.data, additionalMetadata: { message: e.target.value } } }) }} />
                         </Grid>
 
                         <Grid item id="contentValidation" className="mt-3">
                             <FormControl component="fieldset" className={classes.formControl} >
-                                <FormLabel component="legend" style={{
-                                    color: "#757575", fontWeight: "bold", fontFamily: 'NunitoSans-Regular',
-                                }}
-                                >Are you the Rights Holder for the audio file you wish to encode with a SonicKey?</FormLabel>
+                                <FormLabel
+                                    component="legend"
+                                    style={{
+                                        color: "#757575", fontWeight: "bold", fontFamily: 'NunitoSans-Regular',
+                                    }}
+                                >
+                                    Are you the Rights Holder for the audio file you wish to encode with a SonicKey?
+                                </FormLabel>
                                 <RadioGroup
                                     color="primary"
                                     row aria-label="gender"

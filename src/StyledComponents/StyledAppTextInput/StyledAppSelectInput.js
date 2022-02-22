@@ -15,11 +15,12 @@ const useStyles = makeStyles({
             fontSize: `${theme.fontSize.h5}`,
             color: `${theme.colors.secondary.grey}`,
             borderBottom: `1px solid ${theme.colors.secondary.lightGrey}`,
+            fontFamily: `${theme.fontFamily.nunitoSansBold}`
         },
 
         "& li:hover": {
             backgroundColor: '#fff',
-            color: `${theme.colors.secondary.mediumNavy}`,
+            color: `${theme.colors.secondary.lightNavy}`,
         },
 
         "& .Mui-selected, .Mui-selected:hover": {
@@ -46,9 +47,9 @@ const CustomStyledSelect = ({ ...props }) => {
 };
 
 export const StyledSelectInput = styled(InputLabel)`
-    color: ${theme.colors.secondary.mediumGrey};
+    color:${theme.colors.secondary.lightNavy};
     font-size: ${theme.fontSize.h4};
-    font-family: ${theme.fontFamily.nunitoSansBold};
+    font-family: ${theme.fontFamily.nunitoSansRegular};
 `
 
 export const StyledSelect = styled(CustomStyledSelect)(() => ({

@@ -14,9 +14,11 @@ width:${props => props.width || "100%"};
     font-family:${theme.fontFamily.nunitoSansRegular};
     font-size:${theme.fontSize.h4};
     z-index:1;
+    line-height: 30px;
 };
 
 & label.Mui-focused {
+    font-family:${theme.fontFamily.nunitoSansRegular};
     color: ${theme.colors.primary.navy};
 };
 

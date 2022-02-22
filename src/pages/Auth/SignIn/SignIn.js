@@ -27,19 +27,6 @@ const useStyles = makeStyles(() => ({
         "&::-webkit-scrollbar": { display: "none" },
         "&::-ms-overflow-style": "none",  /* IE and Edge */
         "&::-scrollbar-width": "none",/* Firefox */
-    }
-    ,
-    signInHeading: {
-        color: "#393F5B",
-        fontSize: 30,
-        fontWeight: "bold",
-        fontFamily: 'NunitoSans-Bold',
-    },
-    signInSubHeading: {
-        color: "#393F5B",
-        fontSize: 17,
-        fontWeight: "bold",
-        fontFamily: 'NunitoSans-ExtraBold',
     },
     textInput: {
         WebkitBoxShadow: "0 0 0 1000px white inset",

@@ -15,7 +15,7 @@ import { getMonitorDashboardDataAction } from "../../../stores/actions/dashboard
 import MonitorFilter from "../Components/MonitorFilter/MonitorFilter";
 import { getMonitorExportAction } from "../../../stores/actions/monitorActions/monitorActions";
 import { useReactToPrint } from 'react-to-print';
-
+import { helpText } from "./Constants";
 
 export function Dashboard() {
   const dispatch = useDispatch()
@@ -102,6 +102,7 @@ export function Dashboard() {
           data={dashboard?.data?.myPlaysCount || "0"}
           error={dashboard?.error}
           pageLink="/plays"
+          helpText={helpText.plays}
         />
         <Stats
           imgSrc={radio}
@@ -111,6 +112,7 @@ export function Dashboard() {
           data={dashboard?.data?.myTracksCount || "0"}
           error={dashboard?.error}
           pageLink="/tracks"
+          helpText={helpText.tracks}
         />
         <Stats
           imgSrc={radio}
@@ -120,6 +122,7 @@ export function Dashboard() {
           data={dashboard?.data?.myArtistsCount || "0"}
           error={dashboard?.error}
           pageLink="/artists"
+          helpText={helpText.artists}
         />
         <Stats
           imgSrc={radio}
@@ -129,6 +132,7 @@ export function Dashboard() {
           data={dashboard?.data?.myRadioStationCount || "0"}
           error={dashboard?.error}
           pageLink="/radio-stations"
+          helpText={helpText.radioStation}
         />
         <Stats
           imgSrc={radio}
@@ -138,6 +142,7 @@ export function Dashboard() {
           data={dashboard?.data?.myCountriesCount || "0"}
           error={dashboard?.error}
           pageLink="/countries"
+          helpText={helpText.countries}
         />
       </CardContainer>
 

@@ -7,10 +7,9 @@ import CustomToolTip from '../../../../../components/common/CustomToolTip';
 import { useHistory } from "react-router-dom";
 
 export default function Stats(
-    { loading, data, error, title, imgSrc, ownerShipTitle, pageLink }
+    { loading, data, error, title, imgSrc, ownerShipTitle, pageLink, helpText }
 ) {
     const history = useHistory()
-    const helpText = "Brief explanation lorem impsum dolor text example";
 
     const changePage = () => {
         history.push(pageLink)
@@ -36,9 +35,9 @@ export default function Stats(
                 </Grid>
                 <IconContainer item>
                     <HelpOutlineIcon fontSize='small' style={{ color: theme.colors.secondary.lightNavy }}
-                        data-for='helper-Text' data-tip />
+                        data-for={title} data-tip />
                     <CustomToolTip
-                        id='helper-Text'
+                        id={title}
                         placement="bottom"
                         toolTipText={helpText}
                         textColor={`${theme.colors.primary.teal}`}

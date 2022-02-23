@@ -12,9 +12,8 @@ width:${props => props.width || "100%"};
 & label {
     color:${theme.colors.secondary.lightNavy};
     font-family:${theme.fontFamily.nunitoSansRegular};
-    font-size:${theme.fontSize.h4};
+    font-size:17px;
     z-index:1;
-    line-height: 30px;
 };
 
 & label.Mui-focused {

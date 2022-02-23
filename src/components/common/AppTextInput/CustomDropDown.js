@@ -11,7 +11,7 @@ export default function CustomDropDown({
     inputProps,
     data,
 }) {
-    const plays = useSelector(state => state.playsList);
+    const plays = useSelector(state => state.monitor);
 
     return (
         <FormControl {...formControlProps}>

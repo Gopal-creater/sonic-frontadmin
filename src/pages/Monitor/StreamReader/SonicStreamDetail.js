@@ -13,15 +13,14 @@ import {
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
-import { tableStyle } from "../../globalStyle";
+import { tableStyle } from "../../../globalStyle";
 import UnfoldMoreSharpIcon from "@material-ui/icons/UnfoldMoreSharp";
-import { log } from "../../utils/app.debug";
+import { log } from "../../../utils/app.debug";
 import queryString from "query-string";
-import Communication from "../../services/https/Communication";
-import LoadingSpinner from "./Components/LoadingSpinner";
-import ErrorModal from "./Components/ErrorModal";
-import * as actionCreators from "../../stores/actions/index";
-import Search from "../SonicKeys/Components/Search";
+import Communication from "../../../services/https/Communication";
+import * as actionCreators from "../../../stores/actions/index";
+import Search from "../../SonicKeys/Components/Search";
+import SonicSpinner from "../../../components/common/SonicSpinner";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -241,17 +240,9 @@ export const SonicStreamDetail = (props) => {
             </TableBody>
           </Table>
         </TableContainer>
-      ) : loading ? (
-        <LoadingSpinner
-          multipleGrow={true}
-          containerStyle={{ height: window.innerHeight / 2 }}
-        />
-      ) : (
-        <ErrorModal
-          errorData={error}
-          additionalStyle={{ height: window.innerHeight / 2 }}
-        />
-      )}
+      ) : loading &&
+      <SonicSpinner />
+      }
     </Grid>
   );
 };
@@ -262,13 +253,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchTotalListeningCount: () =>
-      dispatch(actionCreators.fetchTotalListeningCount()),
-    fetchTotalNotListeningCount: () =>
-      dispatch(actionCreators.fetchTotalNotListeningCount()),
-    fetchTotalErrorCount: () => dispatch(actionCreators.fetchTotalErrorCount()),
-    fetchTotalRadiostationCount: () =>
-      dispatch(actionCreators.fetchTotalRadiostationCount()),
+
   };
 };
 

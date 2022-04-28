@@ -7,7 +7,6 @@ import Button from '@material-ui/core/Button';
 import DialogActions from '@material-ui/core/DialogActions';
 import { makeStyles } from "@material-ui/core/styles";
 import DialogLogo from "../../../src/assets/images/key-logo.png";
-import HitModal from "./HitModal"
 import moment from "moment";
 import { useHistory } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux";
@@ -17,7 +16,6 @@ import EditIcon from '@material-ui/icons/Edit';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import cogoToast from "cogo-toast";
 import Communication from "../../services/https/Communication";
-import { getExportPlaysDataAction } from "../../stores/actions/dashboard.action";
 import AppButton from "./AppButton/AppButton";
 import theme from "../../theme";
 import { monitorInitialState } from "../../stores/reducers/monitor/monitorReducer";
@@ -51,8 +49,6 @@ const useStyles = makeStyles({
 
 const MetaDataDailog = (props) => {
     const [values, setValues] = React.useState({
-        openHitModal: false,
-        hitModalData: {},
         channelName: props?.sonicKey?.channel,
         startDate: new Date().setMonth(new Date().getMonth() - 1),
         endDate: new Date(),
@@ -158,17 +154,7 @@ const MetaDataDailog = (props) => {
 
     log("values", values)
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
 
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget)
-    };
-
-    const handleClose = (value) => {
-        dispatch(getExportPlaysDataAction(props?.sonicKey?.playsStartDate, props?.sonicKey?.playsEndDate, 2000, values?.sonicKey?.sonicKey, value))
-        setAnchorEl(null);
-    };
     return (
         <>
             <Dialog open={true} fullWidth={true} className={classes.dialogPaper}>
@@ -463,18 +449,6 @@ const MetaDataDailog = (props) => {
                     }
                 </DialogActions>
             </Dialog>
-
-            {
-                values?.openHitModal && (
-                    <HitModal
-                        closeHitModal={(flag) => setValues({ ...values, openHitModal: flag })}
-                        startDate={values?.startDate}
-                        endDate={values?.endDate}
-                        channel={values?.channelName}
-                        sonicKeyData={values?.hitModalData}
-                    />
-                )
-            }
         </>
     )
 }

@@ -4,7 +4,6 @@ import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { Badge } from "react-bootstrap";
 import Grid from "@material-ui/core/Grid";
-import Hits from "../Components/Hits";
 import { FormControl, InputLabel, ListItemText, MenuItem, Button, Popover, Select, Typography, Tooltip, Table, TableBody, TableContainer, TableCell, TableHead, TableRow } from "@material-ui/core";
 import Pagination from "@material-ui/lab/Pagination";
 import { tableStyle } from "../../../globalStyle";
@@ -63,8 +62,6 @@ export default function SonicStreamReader(props) {
     })
 
     React.useEffect(() => {
-        dispatch(getAllRadioStationsAction());
-        dispatch(getSubscribedStationCountActions());
         dispatch(fetchRadioStationsActions(5, radioStation?.stations?.data?.page, "", ""));
     }, [])
 
@@ -224,7 +221,7 @@ export default function SonicStreamReader(props) {
                                                     {moment(new Date(file?.createdAt)).format("DD-MM-YYYY") || "---"}
                                                 </TableCell>
                                                 <TableCell style={{ ...tableStyle.body }}>
-                                                    <Hits radioId={file?._id} key={file?._id} />
+                                                    {/* <Hits radioId={file?._id} key={file?._id} /> */}
                                                 </TableCell>
                                                 <TableCell>
                                                     {file?.isStreamStarted === true && (

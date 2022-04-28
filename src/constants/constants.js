@@ -1405,6 +1405,13 @@ export const countries = [
   },
 ];
 
+export const channel = [
+  { id: 1, name: "ALL" },
+  { id: 2, name: "STREAMREADER" },
+  { id: 3, name: "PORTAL" },
+  { id: 4, name: "MOBILE" },
+]
+
 export const playsTableHeads = [
   { title: "ARTIST", orderBy: "artist", sortBy: "sonicKey.contentOwner", isAscending: null, isActive: false },
   { title: "TITLE", orderBy: "title", sortBy: "sonicKey.contentName", isAscending: null, isActive: false },
@@ -1427,10 +1434,10 @@ export const streamReaderTableHeads = [
 ];
 
 export const trackTableHeads = [
-  { title: "TRACK NAME", sortBy: "trackName", isAscending: null, isActive: false },
-  { title: "PLAYS", sortBy: "playsCount", isAscending: null, isActive: false },
-  { title: "RADIO STATION", sortBy: "radioStationCount", isAscending: null, isActive: false },
-  { title: "COUNTRY", sortBy: "countriesCount", isAscending: null, isActive: false },
+  { title: "TRACK NAME", sortBy: "trackName", isAscending: null, isActive: false, display: true },
+  { title: "PLAYS", sortBy: "playsCount", isAscending: null, isActive: false, display: true },
+  { title: "RADIO STATION", sortBy: "radioStationCount", isAscending: null, isActive: false, display: true },
+  { title: "COUNTRY", sortBy: "countriesCount", isAscending: null, isActive: false, display: true },
 ]
 
 export const radioStationTableHeads = [

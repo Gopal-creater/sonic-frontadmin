@@ -14,6 +14,7 @@ import * as actionTypes from "../../../stores/actions/actionTypes"
 import { getMonitorExportAction, getMonitorListAction } from '../../../stores/actions/monitorActions/monitorActions';
 import MonitorFilter from '../Components/MonitorFilter/MonitorFilter';
 import { trackTableHeads } from '../../../constants/constants';
+import Columns from '../Components/Columns/Columns';
 
 export default function Tracks() {
     const theme = useTheme()
@@ -105,19 +106,26 @@ export default function Tracks() {
 
     return (
         <TrackContainer>
-            <H1 fontFamily={theme.fontFamily.nunitoSansBold}>My Tracks</H1>
-            <H4
-                color={theme.colors.primary.teal}
-                fontFamily={theme.fontFamily.nunitoSansRegular}
-            >
-                <PaginationCount
-                    heading={true}
-                    name="Tracks"
-                    total={monitor?.track?.data?.totalDocs}
-                    start={monitor?.track?.data?.offset}
-                    end={monitor?.track?.data?.docs?.length}
-                />
-            </H4>
+            <Grid container justifyContent='space-between' alignItems='center'>
+                <Grid item>
+                    <H1 fontFamily={theme.fontFamily.nunitoSansBold}>My Tracks</H1>
+                    <H4
+                        color={theme.colors.primary.teal}
+                        fontFamily={theme.fontFamily.nunitoSansRegular}
+                    >
+                        <PaginationCount
+                            heading={true}
+                            name="Tracks"
+                            total={monitor?.track?.data?.totalDocs}
+                            start={monitor?.track?.data?.offset}
+                            end={monitor?.track?.data?.docs?.length}
+                        />
+                    </H4>
+                </Grid>
+                <Grid item>
+                    <Columns columns={state.trackTableHeads} />
+                </Grid>
+            </Grid>
 
             <Grid style={{ marginTop: "40px" }}>
                 <FilterComponent

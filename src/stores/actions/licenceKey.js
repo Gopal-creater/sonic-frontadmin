@@ -2,7 +2,6 @@ import * as actionType from './actionTypes';
 import Communication from "../../services/https/Communication";
 import { log } from '../../utils/app.debug';
 
-
 //LicenceKeys
 export const fetchLicenceKeys = () => {
     return dispatch => {

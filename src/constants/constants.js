@@ -1464,6 +1464,16 @@ export const countryTableHeads = [
   { title: "RADIO STATIONS", sortBy: "radioStationCount", isAscending: null, isActive: false },
 ]
 
+export const licenseTableHeads = [
+  { title: "ID" },
+  { title: "LICENCE KEY" },
+  { title: "USAGE COUNT" },
+  { title: "MAX COUNT" },
+  { title: "NO OF RADIO STATIONS" },
+  { title: "EXPIRY DATE" },
+  { title: "SUSPENDED" },
+]
+
 export const userRoles = [
   "company",
   "partner",

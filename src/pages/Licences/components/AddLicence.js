@@ -13,6 +13,8 @@ import CloseIcon from "@material-ui/icons/Close";
 import cogoToast from "cogo-toast";
 import Communication from "../../../services/https/Communication";
 import AppButton from "../../../components/common/AppButton/AppButton";
+import { useDispatch } from "react-redux";
+import { fetchLicenceKeys } from "../../../stores/actions/licenceKey";
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -52,10 +54,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AddLicence({ open, setOpen, fetchLicence }) {
+export default function AddLicence({ open, setOpen }) {
   const classes = useStyles();
   const [newinputkey, setNewinputkey] = useState("");
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch()
 
   const onSubmitNewKey = () => {
     setLoading(true);
@@ -63,7 +66,7 @@ export default function AddLicence({ open, setOpen, fetchLicence }) {
       .then(function (response) {
         setLoading(false);
         cogoToast.success("Licence Key added successfully.");
-        fetchLicence();
+        dispatch(fetchLicenceKeys())
       })
       .catch((err) => {
         setLoading(false);
@@ -114,7 +117,6 @@ export default function AddLicence({ open, setOpen, fetchLicence }) {
           style={{
             height: 45,
             padding: "0px 30px",
-            borderWidth: 3
           }}
         >
           Cancel

@@ -112,6 +112,15 @@ function SecondaryMenu(props) {
                     >
                       Companies
                     </MenuItem>
+                    <MenuItem
+                      onClick={(event) => {
+                        handleClose(event)
+                        navigate("/licences")
+                      }}
+                      className={classes.menuItem}
+                    >
+                      Licenses
+                    </MenuItem>
                     <MenuItem onClick={onPressLogout} className={classes.menuItem}>Logout</MenuItem>
                   </div>
                 </MenuList>

@@ -4,17 +4,17 @@ import theme from '../../../theme';
 
 const useStyles = makeStyles({
     root: {
-        color: theme.colors.grey1,
+        color: theme.colors.primary.navy,
         zIndex: "100",
         outline: '10px',
         '&:hover': {
-            backgroundColor: theme.colors.greenTeaBg,
+            backgroundColor: theme.colors.secondary.lightTeal,
         },
         '&.Mui-checked': {
-            color: theme.colors.aubergine,
+            color: theme.colors.primary.navy,
             "&:hover": {
-                color: theme.colors.greenTea,
-                backgroundColor: theme.colors.greenTeaBg,
+                color: theme.colors.grey3,
+                backgroundColor: theme.colors.secondary.lightTeal,
             },
         },
         "&.Mui-disabled": {

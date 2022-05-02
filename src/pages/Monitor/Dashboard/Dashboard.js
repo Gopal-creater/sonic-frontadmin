@@ -16,6 +16,8 @@ import MonitorFilter from "../Components/MonitorFilter/MonitorFilter";
 import { getMonitorExportAction } from "../../../stores/actions/monitorActions/monitorActions";
 import { useReactToPrint } from 'react-to-print';
 import { helpText } from "./Constants";
+import AppCheckBox from "../../../components/common/AppCheckBox";
+import { CustomRadioButton } from "../../../components/common/AppRadioButton/AppRadioButton";
 
 export function Dashboard() {
   const dispatch = useDispatch()
@@ -158,6 +160,9 @@ export function Dashboard() {
           <DashboardTable
             data={createStableTableData()}
           />
+          <p>hello</p>
+          <AppCheckBox />
+          <CustomRadioButton />
         </CommonDataLoadErrorSuccess>
       </TableContainer>
     </Grid >

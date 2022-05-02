@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
 import { AlternateStyledTableData, StyledTableData, StyledTableHead, StyledTableRow, StyledAlternateTableRow } from '../../../../StyledComponents/StyledTable/StyledTable';
 import * as actionTypes from "../../../../stores/actions/actionTypes"
+import { log } from '../../../../utils/app.debug';
+import { SelectedColumn } from '../../Components/Columns/component/SelectedColumn';
 import { useNavigate } from 'react-router-dom';
 
 export default function TracksTable({ data, trackTableHeads, onTrackSorting }) {
@@ -49,12 +51,15 @@ export default function TracksTable({ data, trackTableHeads, onTrackSorting }) {
                         <TableRow>
                             {
                                 trackTableHeads?.map((data, index) => {
+                                    const isChecked = SelectedColumn(data?.title);
                                     return (
                                         <StyledTableHead
                                             key={index}
                                             onClick={() => sorting(data?.sortBy, data?.isAscending, data?.isActive)}
                                         >
-                                            {data?.title} <i className="fa fa-sort" style={{ marginLeft: "5px" }}></i>
+                                            {isChecked && <>
+                                                {data?.title} <i className="fa fa-sort" style={{ marginLeft: "5px" }}></i>
+                                            </>}
                                         </StyledTableHead>
                                     )
                                 })
@@ -84,13 +89,13 @@ export default function TracksTable({ data, trackTableHeads, onTrackSorting }) {
                                                         fontFamily: theme.fontFamily.nunitoSansBold
                                                     }}
                                                 >
-                                                    {row?.trackName || "---"}
+                                                    {SelectedColumn("TRACK NAME") && (row?.trackName || "---")}
                                                 </AlternateStyledTableData>
                                                 <AlternateStyledTableData >
-                                                    {row?.plays || "---"}
+                                                    {SelectedColumn("PLAYS") && (row?.plays || "---")}
                                                 </AlternateStyledTableData>
-                                                <AlternateStyledTableData >{row?.radioStation || "---"}</AlternateStyledTableData>
-                                                <AlternateStyledTableData >{row?.country || "---"}</AlternateStyledTableData>
+                                                <AlternateStyledTableData >{SelectedColumn("RADIO STATION") && (row?.radioStation || "---")}</AlternateStyledTableData>
+                                                <AlternateStyledTableData >{SelectedColumn("COUNTRY") && (row?.country || "---")}</AlternateStyledTableData>
                                             </StyledAlternateTableRow>
                                         )
                                     }
@@ -107,13 +112,13 @@ export default function TracksTable({ data, trackTableHeads, onTrackSorting }) {
                                                     fontFamily: theme.fontFamily.nunitoSansBold
                                                 }}
                                             >
-                                                {row?.trackName || "---"}
+                                                {SelectedColumn("TRACK NAME") && (row?.trackName || "---")}
                                             </StyledTableData>
                                             <StyledTableData >
-                                                {row?.plays || "---"}
+                                                {SelectedColumn("PLAYS") && (row?.plays || "---")}
                                             </StyledTableData>
-                                            <StyledTableData >{row?.radioStation || "---"}</StyledTableData>
-                                            <StyledTableData >{row?.country || "---"}</StyledTableData>
+                                            <StyledTableData >{SelectedColumn("RADIO STATION") && (row?.radioStation || "---")}</StyledTableData>
+                                            <StyledTableData >{SelectedColumn("COUNTRY") && (row?.country || "---")}</StyledTableData>
                                         </StyledTableRow>
                                     )
                                 })}

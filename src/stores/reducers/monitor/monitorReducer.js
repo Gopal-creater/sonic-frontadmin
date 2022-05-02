@@ -47,12 +47,24 @@ export const monitorInitialState = {
         data: {
 
         }
-    }
+    },
+    columns: []
 };
 
 const monitorReducer = (state = monitorInitialState, action) =>
     produce(state, (draft) => {
         switch (action.type) {
+            //For Column hiding
+            case actionTypes.CHECKED_TABLE_COLUMN:
+                draft.columns = action.data
+                break;
+
+            case actionTypes.UNCHECKED_TABLE_COLUMN:
+                draft.columns = draft.columns.filter((data) => {
+                    return data !== action.data
+                })
+                break;
+
             //For Dates
             case actionTypes.SET_MONITOR_DATES:
                 draft.dates = action.data

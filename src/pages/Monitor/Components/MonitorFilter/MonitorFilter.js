@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormControl, Grid } from '@material-ui/core'
-import { countries } from '../../../../constants/constants';
+import { channel, countries } from '../../../../constants/constants';
 import { useDispatch, useSelector } from 'react-redux';
 import * as actionTypes from '../../../../stores/actions/actionTypes';
 import { CloseOutlined } from '@material-ui/icons';
@@ -9,7 +9,6 @@ import { H3, H5 } from '../../../../StyledComponents/StyledHeadings';
 import AppButton from '../../../../components/common/AppButton/AppButton';
 import theme from '../../../../theme';
 import CustomDatePicker from '../../../../components/common/FilterComponent/components/CustomDatePicker';
-import ChannelDropDown from '../../../../components/common/AppTextInput/ChannelDropdown';
 import { StyledTextField } from '../../../../StyledComponents/StyledAppTextInput/StyledAppTextInput';
 import CustomDropDown from '../../../../components/common/AppTextInput/CustomDropDown';
 import { getMonitorListAction } from '../../../../stores/actions/monitorActions/monitorActions';
@@ -60,7 +59,7 @@ export default function MonitorFilter({ closeDialog, playsBy, actions, dashboard
             <form onSubmit={handleFilter}>
                 <FilterItems container>
                     <FilterForm>
-                        <ChannelDropDown
+                        <CustomDropDown
                             id="channel-dropdown"
                             labelText="Channel"
                             formControlProps={{
@@ -70,6 +69,7 @@ export default function MonitorFilter({ closeDialog, playsBy, actions, dashboard
                                 value: monitor?.filters?.channel,
                                 onChange: (e) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, channel: e.target.value } })
                             }}
+                            data={channel || []}
                         />
                     </FilterForm>
 

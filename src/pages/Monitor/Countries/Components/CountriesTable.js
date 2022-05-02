@@ -1,16 +1,16 @@
 import { Grid, Table, TableBody, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { useTheme } from 'styled-components';
 import *as actionTypes from "../../../../stores/actions/actionTypes"
-import { useHistory } from 'react-router-dom';
 import { AlternateStyledTableData, StyledTableData, StyledTableHead, StyledAlternateTableRow, StyledTableRow } from '../../../../StyledComponents/StyledTable/StyledTable';
 
 export default function CountriesTable({ data, countriesTableHeads, onCountriesSorting }) {
     const theme = useTheme()
     const dispatch = useDispatch()
     const monitor = useSelector(state => state.monitor)
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const sorting = (sortBy, isAscending, isActive) => {
         if (isActive) {
@@ -38,7 +38,7 @@ export default function CountriesTable({ data, countriesTableHeads, onCountriesS
 
     const onPlaysClick = (countryName) => {
         dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, country: countryName } })
-        history.push("/plays")
+        navigate("/plays")
     }
 
     return (

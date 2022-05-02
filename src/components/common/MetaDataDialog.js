@@ -8,7 +8,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import { makeStyles } from "@material-ui/core/styles";
 import DialogLogo from "../../../src/assets/images/key-logo.png";
 import moment from "moment";
-import { useHistory } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux";
 import * as actionTypes from "../../stores/actions/actionTypes"
 import { log } from "../../utils/app.debug";
@@ -20,6 +19,7 @@ import AppButton from "./AppButton/AppButton";
 import theme from "../../theme";
 import { monitorInitialState } from "../../stores/reducers/monitor/monitorReducer";
 import { getMonitorListAction } from "../../stores/actions/monitorActions/monitorActions";
+import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles({
     dialogPaper: {
@@ -90,7 +90,7 @@ const MetaDataDailog = (props) => {
 
     const dispatch = useDispatch()
     const monitor = useSelector(state => state.monitor)
-    const history = useHistory()
+    const navigate = useNavigate()
     const classes = useStyles();
 
     const handleCloseTable = () => {
@@ -100,9 +100,6 @@ const MetaDataDailog = (props) => {
         props.setOpenTable(false)
     };
 
-    // const viewPlays = () => {
-    //     setValues({ ...values, openHitModal: true, hitModalData: { ...sonicKey } })
-    // }
     const actions = {
         loading: actionTypes.SET_PLAYS_LOADING,
         success: actionTypes.SET_PLAYS_SUCCESS,
@@ -119,7 +116,7 @@ const MetaDataDailog = (props) => {
             10,
         ));
         props.setOpenTable(false)
-        history.push("/plays")
+        navigate("/plays")
     }
 
     const updateSonicKey = () => {

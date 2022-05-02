@@ -4,15 +4,14 @@ import { DataContainer, IconContainer, OwnershipTitleContainer, StatsContainer, 
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import theme from '../../../../../theme';
 import CustomToolTip from '../../../../../components/common/CustomToolTip';
-import { useHistory } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 export default function Stats(
     { loading, data, error, title, imgSrc, ownerShipTitle, pageLink, helpText }
 ) {
-    const history = useHistory()
-
+    const navigate = useNavigate()
     const changePage = () => {
-        history.push(pageLink)
+        navigate(pageLink)
     }
 
     return (

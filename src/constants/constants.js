@@ -1464,3 +1464,8 @@ export const countryTableHeads = [
   { title: "RADIO STATIONS", sortBy: "radioStationCount", isAscending: null, isActive: false },
 ]
 
+export const userRoles = [
+  "company",
+  "partner",
+  "individual"
+]

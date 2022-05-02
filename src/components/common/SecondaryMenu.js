@@ -1,5 +1,4 @@
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import ArrowDropUpOutlinedIcon from '@material-ui/icons/ArrowDropUpOutlined';
 import React from "react";
 import Button from "@material-ui/core/Button";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
@@ -8,53 +7,18 @@ import Paper from "@material-ui/core/Paper";
 import Popper from "@material-ui/core/Popper";
 import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { logout } from "../../stores/actions/session";
 import cogoToast from "cogo-toast";
 import { useDispatch, useSelector } from "react-redux";
-import { log } from "../../utils/app.debug";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-  },
-  paper: {
-    marginRight: theme.spacing(2),
-  },
-  secondaryButton: {
-    textTransform: "none",
-    fontFamily: "NunitoSans-Black",
-    margin: "0px",
-    padding: "0px",
-    color: "#757575 !important",
-    "&:focus": {
-      outline: "none",
-    },
-    "&:hover": {
-      backgroundColor: "white",
-      color: "#7078A8 !important"
-    }
-  },
-  menuItem: {
-    color: "#757575",
-    fontFamily: "NunitoSans-Regular",
-    margin: "0px",
-    padding: "0px",
-    paddingRight: "30px",
-    borderBottom: "1px solid #F4F4F4",
-    "&:hover": {
-      color: "#7078A8",
-      backgroundColor: "white",
-    }
-  }
-}));
+import { useNavigate } from "react-router-dom";
 
 function SecondaryMenu(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [arrowIcon, setArrowIcon] = React.useState(false)
   const anchorRef = React.useRef(null);
   const dispatch = useDispatch();
+  const navigate = useNavigate()
 
   const { session } = useSelector((state) => ({
     session: state.session,
@@ -139,6 +103,15 @@ function SecondaryMenu(props) {
                 >
                   <div style={{ margin: "10px 15px 10px 20px" }}>
                     <MenuItem onClick={handleClose} className={classes.menuItem}>Profile</MenuItem>
+                    <MenuItem
+                      onClick={(event) => {
+                        handleClose(event)
+                        navigate("/companies")
+                      }}
+                      className={classes.menuItem}
+                    >
+                      Companies
+                    </MenuItem>
                     <MenuItem onClick={onPressLogout} className={classes.menuItem}>Logout</MenuItem>
                   </div>
                 </MenuList>
@@ -152,3 +125,38 @@ function SecondaryMenu(props) {
 }
 
 export default SecondaryMenu;
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+  },
+  paper: {
+    marginRight: theme.spacing(2),
+  },
+  secondaryButton: {
+    textTransform: "none",
+    fontFamily: "NunitoSans-Black",
+    margin: "0px",
+    padding: "0px",
+    color: "#757575 !important",
+    "&:focus": {
+      outline: "none",
+    },
+    "&:hover": {
+      backgroundColor: "white",
+      color: "#7078A8 !important"
+    }
+  },
+  menuItem: {
+    color: "#757575",
+    fontFamily: "NunitoSans-Regular",
+    margin: "0px",
+    padding: "0px",
+    paddingRight: "30px",
+    borderBottom: "1px solid #F4F4F4",
+    "&:hover": {
+      color: "#7078A8",
+      backgroundColor: "white",
+    }
+  }
+}));

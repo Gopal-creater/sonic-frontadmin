@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
-import { BrowserRouter } from "react-router-dom";
 import SonicSpinner from "./components/common/SonicSpinner";
 import { useDispatch, useSelector } from "react-redux";
 import { setSession } from "./stores/actions/session";
-import Routes from "./routes/Routes";
+import AppRoutes from "./routes/AppRoutes";
 import Amplify from "aws-amplify";
 import awsconfig from "./config/aws-exports";
 import Authenticator from "./pages/Auth/Authenticator";
@@ -45,9 +44,7 @@ function App() {
     session?.user?.signInUserSession !== null
   ) {
     return (
-      <BrowserRouter>
-        <Routes />
-      </BrowserRouter>
+      <AppRoutes />
     );
   }
 

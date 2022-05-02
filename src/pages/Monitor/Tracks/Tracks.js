@@ -56,7 +56,7 @@ export default function Tracks() {
                     trackName: data?.trackName,
                     plays: data?.playsCount,
                     radioStation: data?.radioStationCount,
-                    country: data?.countriesCount
+                    country: data?.countriesCount,
                 }
             )
         })
@@ -94,6 +94,7 @@ export default function Tracks() {
                 ))
                 return data
             }
+
             data.isActive = false
             data.isAscending = null
             return data
@@ -123,7 +124,9 @@ export default function Tracks() {
                     </H4>
                 </Grid>
                 <Grid item>
-                    <Columns columns={state.trackTableHeads} />
+                    <Columns
+                        columns={state.trackTableHeads}
+                    />
                 </Grid>
             </Grid>
 

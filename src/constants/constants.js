@@ -1434,10 +1434,10 @@ export const streamReaderTableHeads = [
 ];
 
 export const trackTableHeads = [
-  { title: "TRACK NAME", sortBy: "trackName", isAscending: null, isActive: false, display: true },
-  { title: "PLAYS", sortBy: "playsCount", isAscending: null, isActive: false, display: true },
-  { title: "RADIO STATION", sortBy: "radioStationCount", isAscending: null, isActive: false, display: true },
-  { title: "COUNTRY", sortBy: "countriesCount", isAscending: null, isActive: false, display: true },
+  { title: "TRACK NAME", sortBy: "trackName", isAscending: null, isActive: false },
+  { title: "PLAYS", sortBy: "playsCount", isAscending: null, isActive: false },
+  { title: "RADIO STATION", sortBy: "radioStationCount", isAscending: null, isActive: false },
+  { title: "COUNTRY", sortBy: "countriesCount", isAscending: null, isActive: false },
 ]
 
 export const radioStationTableHeads = [

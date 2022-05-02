@@ -30,7 +30,7 @@ export default function AppCheckBox({ error, onChange, value, ...props }) {
         <Checkbox
             {...props}
             className={classes.root}
-            error={!!error}
+            error={!!error || undefined}
             onChange={onChange}
             checked={value}
             inputProps={{ 'aria-label': 'decorative checkbox' }}

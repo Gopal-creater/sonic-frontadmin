@@ -3,14 +3,14 @@ import React from 'react';
 import { useTheme } from 'styled-components';
 import { AlternateStyledTableData, StyledTableData, StyledTableHead, StyledAlternateTableRow, StyledTableRow } from '../../../../StyledComponents/StyledTable/StyledTable';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import * as actionTypes from "../../../../stores/actions/actionTypes"
+import { useNavigate } from 'react-router-dom';
 
 export default function ArtistTable({ data, artistTableHeads, onArtistSorting }) {
     const theme = useTheme()
     const dispatch = useDispatch()
-    const history = useHistory()
     const monitor = useSelector(state => state.monitor)
+    const navigate = useNavigate()
 
     const sorting = (sortBy, isAscending, isActive) => {
         if (isActive) {
@@ -38,7 +38,7 @@ export default function ArtistTable({ data, artistTableHeads, onArtistSorting })
 
     const onPlaysClick = (artistName) => {
         dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, artist: artistName } })
-        history.push("/plays")
+        navigate("/plays")
     }
 
     return (

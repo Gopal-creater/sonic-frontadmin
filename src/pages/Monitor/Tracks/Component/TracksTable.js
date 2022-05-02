@@ -1,16 +1,16 @@
 import { Grid, Table, TableBody, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import { useTheme } from 'styled-components';
 import { AlternateStyledTableData, StyledTableData, StyledTableHead, StyledTableRow, StyledAlternateTableRow } from '../../../../StyledComponents/StyledTable/StyledTable';
 import * as actionTypes from "../../../../stores/actions/actionTypes"
+import { useNavigate } from 'react-router-dom';
 
 export default function TracksTable({ data, trackTableHeads, onTrackSorting }) {
     const theme = useTheme()
-    const history = useHistory()
     const dispatch = useDispatch()
     const monitor = useSelector(state => state.monitor)
+    const navigate = useNavigate()
 
     const sorting = (sortBy, isAscending, isActive) => {
         if (isActive) {
@@ -38,7 +38,7 @@ export default function TracksTable({ data, trackTableHeads, onTrackSorting }) {
 
     const onPlaysClick = (trackName) => {
         dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, song: trackName } })
-        history.push("/plays")
+        navigate("/plays")
     }
 
     return (

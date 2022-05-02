@@ -13,11 +13,14 @@ import "./assets/fonts/NunitoSans-Regular.ttf"
 import "./assets/fonts/NunitoSans-ExtraBold.ttf"
 import { ThemeProvider } from "styled-components";
 import theme from "./theme";
+import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <Provider store={store}>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </Provider>
   </ThemeProvider>,
   document.getElementById("root")

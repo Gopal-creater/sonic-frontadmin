@@ -1,7 +1,7 @@
 import { Grid, Table, TableBody, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTheme } from 'styled-components';
 import * as actionTypes from "../../../../stores/actions/actionTypes"
 import { AlternateStyledTableData, StyledTableData, StyledTableHead, StyledTableRow, StyledAlternateTableRow } from '../../../../StyledComponents/StyledTable/StyledTable';
@@ -10,7 +10,7 @@ export default function RadioStationTable({ data, radioStationTableHeads, onRadi
     const theme = useTheme()
     const dispatch = useDispatch()
     const monitor = useSelector(state => state.monitor)
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const sorting = (sortBy, isAscending, isActive) => {
         if (isActive) {
@@ -38,7 +38,7 @@ export default function RadioStationTable({ data, radioStationTableHeads, onRadi
 
     const onPlaysClick = (radioStationName) => {
         dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, radioStation: radioStationName } })
-        history.push("/plays")
+        navigate("/plays")
     }
 
     return (

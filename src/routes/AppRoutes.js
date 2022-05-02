@@ -45,7 +45,7 @@ export default function AppRoutes() {
           <Route path="/countries" element={<Countries />} />
 
           {/* Routes accessible by partner */}
-          <Route element={<RoleAuth allowedRoles={["partner"]} />}>
+          <Route element={<RoleAuth allowedRoles={["partn"]} />}>
             <Route path="/companies" element={<Companies />} />
           </Route>
         </Routes>

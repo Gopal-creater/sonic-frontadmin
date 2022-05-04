@@ -7,6 +7,7 @@ import radiostationsReducer from './radioStationReducer';
 import streamReaderReducer from './streamReader.reducer';
 import monitorReducer from './monitor/monitorReducer';
 import dashboardReducer from './dashboard.reducers';
+import encodeRed from './EncodeReducer';
 
 const appReducer = combineReducers({
   session: sessionRed,
@@ -15,7 +16,8 @@ const appReducer = combineReducers({
   radioStations: radiostationsReducer,
   streamReader: streamReaderReducer,
   monitor: monitorReducer,
-  dashboard: dashboardReducer
+  dashboard: dashboardReducer,
+  encode: encodeRed
 });
 
 const rootReducer = (state, action) => {

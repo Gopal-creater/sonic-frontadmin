@@ -1,11 +1,7 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@material-ui/core";
-import AddLicence from "./components/AddLicence";
+import { Grid } from "@material-ui/core";
 import { fetchLicenceKeys } from "../../stores/actions/licenceKey";
 import { useDispatch, useSelector } from "react-redux";
-import { format } from "date-fns";
-import SonicSpinner from "../../components/common/SonicSpinner";
 import AppButton from "../../components/common/AppButton/AppButton";
 import { H1, H4 } from "../../StyledComponents/StyledHeadings";
 import { LicenseContainer, LicenseBox } from "./LicenseStyled";
@@ -16,43 +12,13 @@ import { log } from "../../utils/app.debug";
 import { TuneOutlined } from "@material-ui/icons";
 import CommonDataLoadErrorSuccess from "../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess";
 import LicenceTable from "./components/LicenceTable";
+import LicenseFilter from "./components/LicenseFilter";
 
-const useStyles = makeStyles((theme) => ({
-  //TABLE
-  table: {
-    minWidth: 700,
-    marginTop: 30,
-    width: "100%",
-  },
-  tableHead: {
-    color: "#ACACAC",
-    fontSize: 12,
-    fontFamily: "NunitoSans-Bold",
-  },
-  key: {
-    color: "#343F84",
-    fontSize: 18,
-    fontFamily: "NunitoSans-Bold",
-    paddingTop: 25,
-    paddingBottom: 25,
-  },
-  tableCellColor: {
-    color: "#343F84",
-    fontSize: 14,
-    fontFamily: "NunitoSans-Bold",
-  },
-  tableCellNormalText: {
-    fontSize: 14,
-    fontFamily: "NunitoSans-Regular",
-    color: "#757575",
-  },
-}));
-
-function Licences(props) {
-  const classes = useStyles();
+function Licences() {
   const [state, setState] = React.useState({
     tableHead: licenseTableHeads,
     open: false,
+    openFilter: false,
   })
 
   const license = useSelector(state => state.licenceKey)
@@ -63,23 +29,31 @@ function Licences(props) {
     dispatch(fetchLicenceKeys())
   }, []);
 
-  // const createStableLicenseData = () => {
-  //   const licenseKey = license?.data?.docs?.map((data) => {
-  //     return (
-  //       {
-  //         id: data?._id,
-  //         key: data?.key,
-  //         encodeUses: data?.encodeUses,
-  //         maxEncodeUses: data?.maxEncodeUses,
-  //         isUnlimitedMonitor: data?.isUnlimitedMonitor,
-  //         monitoringUses: data?.monitoringUses,
-  //         validity: data?.validity,
-  //         suspended: data?.suspended
-  //       }
-  //     )
-  //   })
-  //   return licenseKey
-  // }
+  const createStableLicenseData = () => {
+    const licenseKey = license?.data?.docs?.map((data) => {
+      return (
+        {
+          maxUsesEncode: data?.isUnlimitedEncode === true ? "Unlimited" : data?.encodeUses,
+          maxUsesMonitor: data?.isUnlimitedMonitor === true ? "Unlimited" : data?.monitoringUses,
+          accountType: data?.type,
+          renewalDate: data?.validity,
+          licenseName: data?.name,
+          licenseKey: data?.key,
+          status: data?.suspended ? "SUSPENDED" : "ACTIVE",
+        }
+      )
+    })
+    var arr = [{ key: "11", value: "1100" }, { key: "22", value: "2200" }];
+    var object = licenseKey.reduce(
+      (obj, item) => Object.assign(obj, { [item]: item }), {});
+
+    // console.log("Object-Array", object);
+    // const customBody = [...licenseKey.keys()]
+    // log("TABLE", customBody);
+    return licenseKey
+  }
+
+  log("TABLE COMPONENT", createStableLicenseData());
 
   return (
     <LicenseContainer>
@@ -99,6 +73,7 @@ function Licences(props) {
           variant={"none"}
           fontSize={18}
           startIcon={<TuneOutlined />}
+          onClick={() => setState({ ...state, openFilter: true })}
         >
           Filter
         </AppButton>
@@ -120,7 +95,7 @@ function Licences(props) {
         <LicenceTable data={license.data?.docs} licenseTableHead={state.tableHead} />
       </CommonDataLoadErrorSuccess>
 
-      <AddLicence open={state?.open} setOpen={(flag) => setState({ ...state, open: flag })} />
+      <LicenseFilter open={state?.openFilter} setOpen={(flag) => setState({ ...state, openFilter: flag })} />
     </LicenseContainer>
   );
 }

@@ -4,8 +4,18 @@ import produce from 'immer';
 const initialState = {
        loading: true,
        data: [],
-       error: null
+       error: null,
+
+       filters: {
+              name: "",
+              key: "",
+              type: "",
+              status: "",
+              renewalStartDate: "",
+              renewalEndDate: "",
+       },
 };
+
 const licenceKeyRed = (state = initialState, action) =>
        produce(state, (draft) => {
               switch (action.type) {
@@ -22,6 +32,11 @@ const licenceKeyRed = (state = initialState, action) =>
                      case actionTypes.LIC_KEY_LOADING:
                             draft.loading = true;
                             draft.error = null;
+                            break;
+                     case actionTypes.LIC_KEY_FILTER:
+                            draft.filters = action.data;
+                            break;
+                     default:
                             break;
               }
        });

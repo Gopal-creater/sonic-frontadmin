@@ -1,4 +1,4 @@
-import { FormControlLabel, Grid, InputAdornment } from '@material-ui/core'
+import { CircularProgress, FormControlLabel, Grid, InputAdornment } from '@material-ui/core'
 import { ArrowDropDown, Search } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/styles'
 import React from 'react'
@@ -10,6 +10,7 @@ import * as actionTypes from "../../../stores/actions/actionTypes"
 import { SelectedColumn } from './component/SelectedColumn'
 import { StyledTextField } from '../../../StyledComponents/StyledAppTextInput/StyledAppTextInput'
 import theme from '../../../theme'
+import { H4 } from "../../../StyledComponents/StyledHeadings"
 
 const useStyles = makeStyles(() => ({
     menu: {
@@ -28,7 +29,8 @@ export default function Columns({ columns }) {
         showColumns: null,
         filterColumn: columns.map(col => col.title),
         input: "",
-        searchedColumns: columns
+        searchedColumns: columns,
+        loading: false,
     })
     const displayColumns = Boolean(state.showColumns);
     const checkedColumns = useSelector(state => state.monitor)
@@ -48,12 +50,13 @@ export default function Columns({ columns }) {
 
     React.useEffect(() => {
         if (state.input.length > 0) {
+            setState({ ...state, loading: true })
             const searched = columns.filter((col) => {
                 return col?.title?.match(state.input)
             })
-            // console.log("SEARCHD INSIDE", searched);
-            // setState({ ...state, searchedColumns: [...state.searchedColumns, searched] })
+            setState({ ...state, searchedColumns: searched })
         }
+        setState({ ...state, loading: false })
     }, [state.input])
 
     return (
@@ -100,22 +103,32 @@ export default function Columns({ columns }) {
                         />
                     </SearchColumn>
 
-                    {state.searchedColumns?.map((col, index) => {
-                        const isChecked = SelectedColumn(col?.title);
-                        return (
-                            <ColumnMenuItem key={index}>
-                                <FormControlLabel
-                                    control={
-                                        <AppCheckBox
-                                            value={isChecked}
-                                            onChange={(e) => handleColumns(e, col?.title)}
+                    {state.loading ?
+                        <div style={{ textAlign: 'center', padding: 20 }}>
+                            <CircularProgress size={22} />
+                        </div>
+                        :
+                        state.searchedColumns?.length > 0 ?
+                            state.searchedColumns?.map((col, index) => {
+                                const isChecked = SelectedColumn(col?.title);
+                                return (
+                                    <ColumnMenuItem key={index}>
+                                        <FormControlLabel
+                                            control={
+                                                <AppCheckBox
+                                                    value={isChecked}
+                                                    onChange={(e) => handleColumns(e, col?.title)}
+                                                />
+                                            }
+                                            label={col?.title}
                                         />
-                                    }
-                                    label={col?.title}
-                                />
-                            </ColumnMenuItem>
-                        )
-                    })}
+                                    </ColumnMenuItem>
+                                )
+                            }) :
+                            <div style={{ textAlign: 'center', padding: 20 }}>
+                                <H4>Not Found</H4>
+                            </div>
+                    }
                 </>
             </ColumnPopup>
         </Grid>

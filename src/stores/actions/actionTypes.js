@@ -18,6 +18,7 @@ export const SORTING = "SORTING"
 export const LIC_KEY_SUCCESS = "LIC_KEY_SUCCESS"
 export const LIC_KEY_FAIL = "LIC_KEY_FAIL"
 export const LIC_KEY_LOADING = "LIC_KEY_LOADING"
+export const LIC_KEY_FILTER = "LIC_KEY_FILTER"
 
 //thirdPartySonicKeys
 export const THIRDPARTY_SONIC_KEY_SUCCESS = "THIRDPARTY_SONIC_KEY_SUCCESS"

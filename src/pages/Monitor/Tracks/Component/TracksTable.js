@@ -5,8 +5,8 @@ import { useTheme } from 'styled-components';
 import { AlternateStyledTableData, StyledTableData, StyledTableHead, StyledTableRow, StyledAlternateTableRow } from '../../../../StyledComponents/StyledTable/StyledTable';
 import * as actionTypes from "../../../../stores/actions/actionTypes"
 import { log } from '../../../../utils/app.debug';
-import { SelectedColumn } from '../../Components/Columns/component/SelectedColumn';
 import { useNavigate } from 'react-router-dom';
+import { SelectedColumn } from '../../../../components/common/Columns/component/SelectedColumn';
 
 export default function TracksTable({ data, trackTableHeads, onTrackSorting }) {
     const theme = useTheme()

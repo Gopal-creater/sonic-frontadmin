@@ -2,7 +2,7 @@ import { Grid } from "@material-ui/core";
 import styled from "styled-components";
 import theme from "../../theme";
 
-export const EncodeContainer = styled(Grid)`
+export const FileContainer = styled(Grid)`
     background-color:white ;
     padding:15px;
     /* box-shadow:18px 8px 8px ${theme.colors.secondary.grey} ; */

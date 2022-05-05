@@ -1,17 +1,17 @@
 import React from 'react'
 import {
-    EncodeContainer, FileSelectionContainer, NewFileSelectionContainer,
+    FileContainer, FileSelectionContainer, NewFileSelectionContainer,
     ExistingFileSelectionContainer
 } from './EncodeStyle';
 import theme from '../../theme';
 import { H2, H5, H4 } from '../../StyledComponents/StyledHeadings';
 import { Grid } from '@material-ui/core';
 import DragDropFile from '../../components/common/DragDropFile.js';
-import { log } from '../../utils/app.debug.js';
 import LinearProgress from "../../components/common/LinearProgress"
 import { useDispatch, useSelector } from 'react-redux';
 import * as actionTypes from "../../stores/actions/actionTypes"
-import MetaData from './Components/MetaDataDetails';
+import EncodeData from './Components/MetaDataDetails';
+import { log } from '../../utils/app.debug.js';
 
 export default function Encode() {
     const [state, setState] = React.useState({
@@ -26,8 +26,8 @@ export default function Encode() {
         <>
             {
                 encode.selectedFile
-                    ? <MetaData /> :
-                    <EncodeContainer>
+                    ? <EncodeData /> :
+                    <FileContainer>
                         <FileSelectionContainer container>
                             <NewFileSelectionContainer item xs={12} lg={5} >
                                 <H2 fontFamily={theme.fontFamily.nunitoSansMediumBold}>Encode new file with sonickey</H2>
@@ -74,7 +74,7 @@ export default function Encode() {
                                 </Grid>
                             </ExistingFileSelectionContainer>
                         </FileSelectionContainer>
-                    </EncodeContainer>
+                    </FileContainer>
             }
         </>
     )

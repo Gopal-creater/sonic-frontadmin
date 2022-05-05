@@ -16,9 +16,14 @@ import MonitorFilter from "../Components/MonitorFilter/MonitorFilter";
 import { getMonitorExportAction } from "../../../stores/actions/monitorActions/monitorActions";
 import { useReactToPrint } from 'react-to-print';
 import { helpText } from "./Constants";
+import AppCheckBox from "../../../components/common/AppCheckBox";
+import { CustomRadioButton } from "../../../components/common/AppRadioButton/AppRadioButton";
+import AppAutoComplete from "../../../components/common/AutoComplete/AppAutoComplete";
+import { findTitleAction } from "../../../stores/actions/picker/titlePicker.action";
 
 export function Dashboard() {
   const dispatch = useDispatch()
+  const picker = useSelector(state => state.picker);
 
   const dashboard = useSelector(state => state.dashboard)
   const monitor = useSelector(state => state.monitor)
@@ -71,9 +76,9 @@ export function Dashboard() {
     }
   }
 
-
   log("Dashboard", dashboard)
   log("Radios", radioStation)
+  log(" monitor filter data titltle", monitor.filters)
 
   return (
     <Grid ref={dashboardTableRef}>
@@ -158,8 +163,22 @@ export function Dashboard() {
           <DashboardTable
             data={createStableTableData()}
           />
+          <p>hello</p>
+          <AppCheckBox />
+          <CustomRadioButton />
+
         </CommonDataLoadErrorSuccess>
       </TableContainer>
+
+
+      <AppAutoComplete
+        loading={picker.title.loading}
+        error={picker.title.error}
+        data={picker.title.data?.docs}
+        onInputChange={(title) => dispatch(findTitleAction(title))}
+        onChange={(artist) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, artist: artist?.sonicKey?.contentFileName } })}
+        optionLabel={(option) => option?.sonicKey?.contentFileName || ""}
+      />
     </Grid >
   );
 }

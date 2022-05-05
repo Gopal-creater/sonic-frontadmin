@@ -166,19 +166,11 @@ const SonicKeys = (props) => {
         firstFetchSonicKey(value, limit)
     };
 
-    const columns = [
-        "ID",
-        "SONICKEY",
-        "ORIGINAL FILENAME",
-        "ARTIST",
-        "ENCODED DATE",
-        "DESCRIPTION",
-        "ACTION",
-    ];
+    const columns = ["ID", "SONICKEY", "ORIGINAL FILENAME", "ARTIST", "ENCODED DATE", "DESCRIPTION", "ACTION"];
 
     const checkBox = (event, _id) => {
         if (event.target.checked) {
-            console.log("column1:", event, _id);
+            log("column1:", event, _id);
             setFilterColumn([...filterColumn, _id]);
         } else {
             const index = filterColumn.indexOf(_id);

@@ -8,6 +8,7 @@ import streamReaderReducer from './streamReader.reducer';
 import monitorReducer from './monitor/monitorReducer';
 import dashboardReducer from './dashboard.reducers';
 import encodeRed from './EncodeReducer';
+import pickersReducer from './picker/pickersReducer';
 
 const appReducer = combineReducers({
   session: sessionRed,
@@ -17,7 +18,8 @@ const appReducer = combineReducers({
   streamReader: streamReaderReducer,
   monitor: monitorReducer,
   dashboard: dashboardReducer,
-  encode: encodeRed
+  encode: encodeRed,
+  picker: pickersReducer,
 });
 
 const rootReducer = (state, action) => {

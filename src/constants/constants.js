@@ -1405,6 +1405,13 @@ export const countries = [
   },
 ];
 
+export const channel = [
+  { id: 1, name: "ALL" },
+  { id: 2, name: "STREAMREADER" },
+  { id: 3, name: "PORTAL" },
+  { id: 4, name: "MOBILE" },
+]
+
 export const playsTableHeads = [
   { title: "ARTIST", orderBy: "artist", sortBy: "sonicKey.contentOwner", isAscending: null, isActive: false },
   { title: "TITLE", orderBy: "title", sortBy: "sonicKey.contentName", isAscending: null, isActive: false },

@@ -42,7 +42,7 @@ export default function Encode() {
                                                 if (state.fileUploadProgress > 100) {
                                                     clearInterval(interval)
                                                     dispatch(({ type: actionTypes.SET_SELECTED_FILE, data: files }))
-                                                    return ({ ...state, openFileUploadProgress: false })
+                                                    return ({ ...state, openFileUploadProgress: false, fileUploadProgress: 0 })
                                                 }
                                                 return ({ ...state, openFileUploadProgress: true, fileUploadProgress: state.fileUploadProgress + 1 })
                                             })

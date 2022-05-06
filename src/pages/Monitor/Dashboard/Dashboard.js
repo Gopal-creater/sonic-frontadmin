@@ -20,6 +20,7 @@ import AppCheckBox from "../../../components/common/AppCheckBox";
 import { CustomRadioButton } from "../../../components/common/AppRadioButton/AppRadioButton";
 import AppAutoComplete from "../../../components/common/AutoComplete/AppAutoComplete";
 import { findTitleAction } from "../../../stores/actions/picker/titlePicker.action";
+import AppToggleSwitch from "../../../components/common/AppToggleSwitch/AppToggleSwitch";
 
 export function Dashboard() {
   const dispatch = useDispatch()
@@ -163,14 +164,13 @@ export function Dashboard() {
           <DashboardTable
             data={createStableTableData()}
           />
-          <p>hello</p>
           <AppCheckBox />
           <CustomRadioButton />
 
         </CommonDataLoadErrorSuccess>
       </TableContainer>
 
-
+      {/* import ControlPointIcon from '@material-ui/icons/ControlPoint'; */}
       <AppAutoComplete
         loading={picker.title.loading}
         error={picker.title.error}
@@ -179,6 +179,7 @@ export function Dashboard() {
         onChange={(artist) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, artist: artist?.sonicKey?.contentFileName } })}
         optionLabel={(option) => option?.sonicKey?.contentFileName || ""}
       />
+      <AppToggleSwitch />
     </Grid >
   );
 }

@@ -4,6 +4,8 @@ import { Autocomplete } from '@material-ui/lab';
 import { InputAdornment, TextField } from '@material-ui/core';
 import FetchingError from '../FetchingError/FetchingError';
 import FetchLoading from '../FetchLoading/FetchLoading';
+import { AutocompleteTextfield, StyledAutocomplete } from './StyledPicker';
+import { Search } from '@material-ui/icons';
 
 export default function AppAutoComplete({
     labelText,
@@ -36,7 +38,7 @@ export default function AppAutoComplete({
     }
 
     return (
-        <Autocomplete
+        <StyledAutocomplete
             {...props}
             id="autoComplete"
             noOptionsText={error ? <FetchingError error={error} tryAgain={getOnInputChange} /> : <FetchLoading loading={loading} />}
@@ -47,14 +49,21 @@ export default function AppAutoComplete({
             onChange={getSelectedValue}
             renderInput={(params) => {
                 return (
-                    <TextField
+                    <AutocompleteTextfield
                         {...params}
                         fullWidth
                         placeholder={placeholder || ""}
                         label={labelText || ""}
+                    // InputProps={{
+                    //     startAdornment: (
+                    //         <InputAdornment position="start">
+                    //             <Search />
+                    //         </InputAdornment>
+                    //     ),
+                    // }}
 
-                    >
-                    </TextField>)
+                    />
+                )
             }
             }
             open={state.open ? true : false}

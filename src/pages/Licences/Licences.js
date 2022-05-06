@@ -13,6 +13,7 @@ import { TuneOutlined } from "@material-ui/icons";
 import CommonDataLoadErrorSuccess from "../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess";
 import LicenceTable from "./components/LicenceTable";
 import LicenseFilter from "./components/LicenseFilter";
+import { useNavigate } from "react-router-dom";
 
 function Licences() {
   const [state, setState] = React.useState({
@@ -23,6 +24,7 @@ function Licences() {
 
   const license = useSelector(state => state.licenceKey)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   log("LICENSE", license)
 
   React.useEffect(() => {
@@ -43,9 +45,9 @@ function Licences() {
         }
       )
     })
-    var arr = [{ key: "11", value: "1100" }, { key: "22", value: "2200" }];
-    var object = licenseKey.reduce(
-      (obj, item) => Object.assign(obj, { [item]: item }), {});
+    // var arr = [{ key: "11", value: "1100" }, { key: "22", value: "2200" }];
+    // var object = licenseKey.reduce(
+    //   (obj, item) => Object.assign(obj, { [item]: item }), {});
 
     // console.log("Object-Array", object);
     // const customBody = [...licenseKey.keys()]
@@ -80,7 +82,7 @@ function Licences() {
         <AppButton
           variant="fill"
           fontSize={15}
-          onClick={() => setState({ ...state, open: true })}
+          onClick={() => navigate('/add-licences')}
           style={{ height: 45, padding: "0px 30px" }}
         >
           Create new license

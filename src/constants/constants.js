@@ -1488,6 +1488,11 @@ export const licenseStatus = [
   { name: "Suspended" },
 ]
 
+export const maxUses = [
+  { name: "Limited" },
+  { name: "Unlimited" },
+]
+
 export const userRoles = [
   "company",
   "partner",

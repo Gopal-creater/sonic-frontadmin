@@ -25,7 +25,6 @@ const useStyles = makeStyles({
 export default function LicenseFilter({ open, setOpen }) {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const monitor = useSelector(state => state.monitor);
     const license = useSelector(state => state.licenceKey);
 
     const handleFilter = (e) => {

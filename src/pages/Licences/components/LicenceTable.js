@@ -68,7 +68,7 @@ export default function LicenceTable({ data, licenseTableHead }) {
                                             </AlternateStyledTableData>
                                             <AlternateStyledTableData>{SelectedColumn("ACCOUNT TYPE") && (data?.type || "---")}</AlternateStyledTableData>
                                             {/* <AlternateStyledTableData> {SelectedColumn("USERS") && (data?.type)}</AlternateStyledTableData> */}
-                                            <AlternateStyledTableData>{SelectedColumn("RENEWAL DATE") && (format(new Date(data?.validity), "dd.MM.yyyy"))}</AlternateStyledTableData>
+                                            <AlternateStyledTableData>{SelectedColumn("RENEWAL DATE") && (format(new Date(data?.validity), "dd/MM/yyyy"))}</AlternateStyledTableData>
                                             <AlternateStyledTableData>{SelectedColumn("LICENSE NAME") && (data?.name)}</AlternateStyledTableData>
                                             <AlternateStyledTableData>{SelectedColumn("KEY") && (data?.key)}</AlternateStyledTableData>
                                             <AlternateStyledTableData>
@@ -114,7 +114,7 @@ export default function LicenceTable({ data, licenseTableHead }) {
                                         </StyledTableData>
                                         <StyledTableData>{SelectedColumn("ACCOUNT TYPE") && (data?.type || "---")}</StyledTableData>
                                         {/* <AlternateStyledTableData> {SelectedColumn("USERS") && (data?.type)}</AlternateStyledTableData> */}
-                                        <StyledTableData>{SelectedColumn("RENEWAL DATE") && (format(new Date(data?.validity), "dd.MM.yyyy"))}</StyledTableData>
+                                        <StyledTableData>{SelectedColumn("RENEWAL DATE") && (format(new Date(data?.validity), "dd/MM/yyyy"))}</StyledTableData>
                                         <StyledTableData>{SelectedColumn("LICENSE NAME") && (data?.name)}</StyledTableData>
                                         <StyledTableData>{SelectedColumn("KEY") && (data?.key)}</StyledTableData>
                                         <StyledTableData>

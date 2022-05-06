@@ -7,7 +7,6 @@ import AppButton from '../AppButton/AppButton'
 import AppCheckBox from '../AppCheckBox'
 import { ColumnMenuItem, ColumnPopup, RestoreItem, SearchColumn } from './StyledColumns'
 import * as actionTypes from "../../../stores/actions/actionTypes"
-import { SelectedColumn } from './component/SelectedColumn'
 import { StyledTextField } from '../../../StyledComponents/StyledAppTextInput/StyledAppTextInput'
 import theme from '../../../theme'
 import { H4 } from "../../../StyledComponents/StyledHeadings"
@@ -29,20 +28,20 @@ export default function Columns({ columns }) {
         showColumns: null,
         filterColumn: columns.map(col => col.title),
         input: "",
-        searchedColumns: columns,
         loading: false,
     })
     const displayColumns = Boolean(state.showColumns);
-    const checkedColumns = useSelector(state => state.monitor)
+    const filterColumns = useSelector(state => state.monitor)
     const dispatch = useDispatch()
 
     React.useEffect(() => {
         dispatch({ type: actionTypes.CHECKED_TABLE_COLUMN, data: [...state.filterColumn] })
+        dispatch({ type: actionTypes.STORE_TABLE_COLUMN, data: [...columns] })
     }, [])
 
     const handleColumns = (event, column) => {
         if (event.target.checked) {
-            dispatch({ type: actionTypes.CHECKED_TABLE_COLUMN, data: [...checkedColumns.columns, column] })
+            dispatch({ type: actionTypes.CHECKED_TABLE_COLUMN, data: [...filterColumns.columns, column] })
         } else {
             dispatch({ type: actionTypes.UNCHECKED_TABLE_COLUMN, data: column })
         }
@@ -50,14 +49,15 @@ export default function Columns({ columns }) {
 
     React.useEffect(() => {
         if (state.input.length > 0) {
-            setState({ ...state, loading: true })
-            const searched = columns.filter((col) => {
-                return col?.title?.match(state.input)
-            })
-            setState({ ...state, searchedColumns: searched })
+            dispatch({ type: actionTypes.SEARCHED_TABLE_COLUMN, data: state.input })
+        } else {
+            dispatch({ type: actionTypes.STORE_TABLE_COLUMN, data: [...columns] })
         }
-        setState({ ...state, loading: false })
     }, [state.input])
+
+    const selectedColumn = (title) => {
+        return filterColumns.columns.includes(title)
+    }
 
     return (
         <Grid>
@@ -103,14 +103,14 @@ export default function Columns({ columns }) {
                         />
                     </SearchColumn>
 
-                    {state.loading ?
+                    {state?.loading ?
                         <div style={{ textAlign: 'center', padding: 20 }}>
                             <CircularProgress size={22} />
                         </div>
                         :
-                        state.searchedColumns?.length > 0 ?
-                            state.searchedColumns?.map((col, index) => {
-                                const isChecked = SelectedColumn(col?.title);
+                        filterColumns?.searchedColumn?.length > 0 ?
+                            filterColumns?.searchedColumn?.map((col, index) => {
+                                const isChecked = selectedColumn(col?.title);
                                 return (
                                     <ColumnMenuItem key={index}>
                                         <FormControlLabel

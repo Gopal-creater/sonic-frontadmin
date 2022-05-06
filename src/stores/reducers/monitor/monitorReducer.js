@@ -48,7 +48,8 @@ export const monitorInitialState = {
 
         }
     },
-    columns: []
+    columns: [],
+    searchedColumn: [],
 };
 
 const monitorReducer = (state = monitorInitialState, action) =>
@@ -62,6 +63,16 @@ const monitorReducer = (state = monitorInitialState, action) =>
             case actionTypes.UNCHECKED_TABLE_COLUMN:
                 draft.columns = draft.columns.filter((data) => {
                     return data !== action.data
+                })
+                break;
+
+            case actionTypes.STORE_TABLE_COLUMN:
+                draft.searchedColumn = action.data
+                break;
+
+            case actionTypes.SEARCHED_TABLE_COLUMN:
+                draft.searchedColumn = draft.searchedColumn.filter((data) => {
+                    return data?.title?.toLowerCase()?.match(action.data.toLowerCase())
                 })
                 break;
 

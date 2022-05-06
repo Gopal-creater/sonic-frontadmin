@@ -18,6 +18,9 @@ import { useDispatch } from "react-redux";
 import RoleAuth from "../components/hoc/RoleAuth";
 import Companies from "../pages/Companies.js/index.js";
 import UnAuthorized from "../components/hoc/UnAuthorized";
+import AddLicence from "../pages/Licences/components/AddLicence";
+import AdminProfile from "../pages/Profile/AdminProfile";
+import Users from "../pages/Users/Users";
 
 export default function AppRoutes() {
   const dispatch = useDispatch()
@@ -37,6 +40,7 @@ export default function AppRoutes() {
           <Route path="/streamreader" element={<StreamReader />} />
           <Route path="/sonic-keys" element={<Sonickeys />} />
           <Route path="/licences" element={<Licences />} />
+          <Route path="/add-licences" element={<AddLicence />} />
           <Route path="/sonicstreamdetail" element={<SonicStreamDetail />} />
           <Route path="/plays" element={<Plays />} />
           <Route path="/tracks" element={<Tracks />} />
@@ -45,9 +49,17 @@ export default function AppRoutes() {
           <Route path="/countries" element={<Countries />} />
 
           {/* Routes accessible by partner */}
-          <Route element={<RoleAuth allowedRoles={["partn"]} />}>
+          <Route element={<RoleAuth allowedRoles={["partner"]} />}>
+            <Route path="/admin-profile" element={<AdminProfile />} />
+            <Route path="/users" element={<Users />} />
             <Route path="/companies" element={<Companies />} />
           </Route>
+
+          {/* Routes accessible by company */}
+          {/* <Route element={<RoleAuth allowedRoles={["company"]} />}>
+            <Route path="/admin-profile" element={<AdminProfile />} />
+            <Route path="/users" element={<Users />} />
+          </Route> */}
         </Routes>
       </div>
     </AppLayout>

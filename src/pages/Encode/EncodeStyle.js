@@ -20,3 +20,9 @@ export const NewFileSelectionContainer = styled(Grid)`
 export const ExistingFileSelectionContainer = styled(Grid)`
     /* background-color:yellow ; */
 `
+
+export const AppAutoCompleteContainer = styled(Grid)`
+    flex:1 ;
+    background-color:white ;
+    margin-top:15px ;
+`

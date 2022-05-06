@@ -1,7 +1,7 @@
 import React from 'react'
 import {
     FileContainer, FileSelectionContainer, NewFileSelectionContainer,
-    ExistingFileSelectionContainer
+    ExistingFileSelectionContainer, AppAutoCompleteContainer
 } from './EncodeStyle';
 import theme from '../../theme';
 import { H2, H5, H4 } from '../../StyledComponents/StyledHeadings';
@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as actionTypes from "../../stores/actions/actionTypes"
 import EncodeData from './Components/MetaDataDetails';
 import { log } from '../../utils/app.debug.js';
+import AppAutoComplete from '../../components/common/AutoComplete/AppAutoComplete';
 
 export default function Encode() {
     const [state, setState] = React.useState({
@@ -69,9 +70,14 @@ export default function Encode() {
                                 <H5 fontFamily={theme.fontFamily.nunitoSansBold} color={theme.colors.secondary.lightNavy}>
                                     Encode a track multiple times to share with different distributors.
                                 </H5>
-                                <Grid style={{ backgroundColor: "white", marginTop: "15px", flex: 1 }}>
-                                    Searching by company track
-                                </Grid>
+                                <AppAutoCompleteContainer>
+                                    <AppAutoComplete
+                                        placeholder={"Search for a track by title"}
+                                        onInputChange={(title) => log("AppAutoComplete", title)}
+                                        onChange={(artist) => log("AppClicked", artist)}
+                                        optionLabel={(option) => option?.sonicKey?.contentFileName || ""}
+                                    />
+                                </AppAutoCompleteContainer>
                             </ExistingFileSelectionContainer>
                         </FileSelectionContainer>
                     </FileContainer>

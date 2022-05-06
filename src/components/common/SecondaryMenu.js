@@ -102,7 +102,24 @@ function SecondaryMenu(props) {
                   onKeyDown={handleListKeyDown}
                 >
                   <div style={{ margin: "10px 15px 10px 20px" }}>
-                    <MenuItem onClick={handleClose} className={classes.menuItem}>Profile</MenuItem>
+                    <MenuItem
+                      onClick={(event) => {
+                        handleClose(event)
+                        navigate("/admin-profile")
+                      }}
+                      className={classes.menuItem}
+                    >
+                      Admin Profile
+                    </MenuItem>
+                    <MenuItem
+                      onClick={(event) => {
+                        handleClose(event)
+                        navigate("/users")
+                      }}
+                      className={classes.menuItem}
+                    >
+                      Users
+                    </MenuItem>
                     <MenuItem
                       onClick={(event) => {
                         handleClose(event)
@@ -111,6 +128,15 @@ function SecondaryMenu(props) {
                       className={classes.menuItem}
                     >
                       Companies
+                    </MenuItem>
+                    <MenuItem
+                      onClick={(event) => {
+                        handleClose(event)
+                        navigate("/licences")
+                      }}
+                      className={classes.menuItem}
+                    >
+                      Licenses
                     </MenuItem>
                     <MenuItem onClick={onPressLogout} className={classes.menuItem}>Logout</MenuItem>
                   </div>

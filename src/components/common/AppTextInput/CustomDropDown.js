@@ -1,6 +1,6 @@
 import React from "react";
-import { FormControl, MenuItem } from "@material-ui/core";
-import { StyledSelect, StyledSelectInput } from "../../../StyledComponents/StyledAppTextInput/StyledAppSelectInput";
+import { MenuItem } from "@material-ui/core";
+import { SelectFormControl, StyledSelect, StyledSelectInput } from "../../../StyledComponents/StyledAppTextInput/StyledAppSelectInput";
 import { useSelector } from "react-redux";
 
 export default function CustomDropDown({
@@ -14,7 +14,7 @@ export default function CustomDropDown({
     const plays = useSelector(state => state.monitor);
 
     return (
-        <FormControl {...formControlProps}>
+        <SelectFormControl {...formControlProps}>
             {labelText !== undefined ? (
                 <StyledSelectInput
                     htmlFor={id}
@@ -38,6 +38,6 @@ export default function CustomDropDown({
                     No radio station for {plays?.filters?.country}
                 </span> : ""
             }
-        </FormControl>
+        </SelectFormControl>
     );
 }

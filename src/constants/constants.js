@@ -1405,13 +1405,6 @@ export const countries = [
   },
 ];
 
-export const channel = [
-  { id: 1, name: "ALL" },
-  { id: 2, name: "STREAMREADER" },
-  { id: 3, name: "PORTAL" },
-  { id: 4, name: "MOBILE" },
-]
-
 export const playsTableHeads = [
   { title: "ARTIST", orderBy: "artist", sortBy: "sonicKey.contentOwner", isAscending: null, isActive: false },
   { title: "TITLE", orderBy: "title", sortBy: "sonicKey.contentName", isAscending: null, isActive: false },
@@ -1462,6 +1455,42 @@ export const countryTableHeads = [
   { title: "TRACKS", sortBy: "uniquePlaysCount", isAscending: null, isActive: false },
   { title: "ARTISTS", sortBy: "artistsCount", isAscending: null, isActive: false },
   { title: "RADIO STATIONS", sortBy: "radioStationCount", isAscending: null, isActive: false },
+]
+
+export const licenseTableHeads = [
+  // { title: "ACCOUNT NAME" },
+  { title: "MAX USES ENCODE" },
+  { title: "MAX USES MONITOR" },
+  { title: "ACCOUNT TYPE" },
+  // { title: "USERS" },
+  { title: "RENEWAL DATE" },
+  { title: "LICENSE NAME" },
+  { title: "KEY" },
+  { title: "STATUS" },
+  // { title: "ACTION" },
+]
+
+//Dropdown values
+export const channel = [
+  { name: "ALL" },
+  { name: "STREAMREADER" },
+  { name: "PORTAL" },
+  { name: "MOBILE" },
+]
+
+export const accountType = [
+  { name: "Individual" },
+  { name: "Company" },
+]
+
+export const licenseStatus = [
+  { name: "Active" },
+  { name: "Suspended" },
+]
+
+export const maxUses = [
+  { name: "Limited" },
+  { name: "Unlimited" },
 ]
 
 export const userRoles = [

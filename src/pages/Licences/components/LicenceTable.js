@@ -2,104 +2,133 @@ import { Grid, Table, TableBody, TableContainer, TableHead, TableRow } from '@ma
 import { format } from 'date-fns';
 import React from 'react';
 import { useTheme } from 'styled-components';
-import { AlternateStyledTableData, StyledTableData, StyledTableHead } from '../../../StyledComponents/StyledTable/StyledTable';
+import { SelectedColumn } from '../../../components/common/Columns/component/SelectedColumn';
+import { ActiveBox, AlternateStyledTableData, StyledAlternateTableRow, StyledTableData, StyledTableHead, StyledTableRow, SuspendedBox } from '../../../StyledComponents/StyledTable/StyledTable';
 
-export default function LicenceTable({ data, ...props }) {
+export default function LicenceTable({ data, licenseTableHead }) {
     const theme = useTheme()
-    function createData(name, calories, fat, carbs, protein) {
-        return { name, calories, fat, carbs, protein };
-    }
 
-    // const rows = [
-    //     createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    //     createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    //     createData('Eclair', 262, 16.0, 24, 6.0),
-    //     createData('Cupcake', 305, 3.7, 67, 4.3),
-    //     createData('Gingerbread', 356, 16.0, 49, 3.9),
-    // ];
-
-    // const tableHead = [
-    //     "ID",
-    //     "LICENCE KEY",
-    //     "USAGE COUNT",
-    //     "MAX COUNT",
-    //     "NO OF RADIO STATIONS",
-    //     "EXPIRY DATE",
-    //     "SUSPENDED",
-    // ];
     return (
         <Grid>
-            <TableContainer >
+            <TableContainer style={{ padding: '0rem 1rem 1rem 1rem' }}>
                 <Table aria-label="customized table">
                     <TableHead>
                         <TableRow>
-                            <StyledTableHead align='left'>ID</StyledTableHead>
-                            <StyledTableHead align='center'>LICENCE KEY</StyledTableHead>
-                            <StyledTableHead align='center'>USAGE COUNT</StyledTableHead>
-                            <StyledTableHead align='center'>MAX COUNT</StyledTableHead>
-                            <StyledTableHead align='center'>NO OF RADIO STATIONSS</StyledTableHead>
-                            <StyledTableHead align='center'>EXPIRY DATE</StyledTableHead>
-                            <StyledTableHead align='center'>SUSPENDED</StyledTableHead>
+                            {
+                                licenseTableHead?.map((data, index) => {
+                                    const isChecked = SelectedColumn(data?.title);
+                                    return (
+                                        <StyledTableHead align='left' key={index}>
+                                            {isChecked && data?.title}
+                                        </StyledTableHead>
+                                    )
+                                })
+                            }
 
                         </TableRow>
                     </TableHead>
 
                     <TableBody>
-                        {data.map((data, index) => {
-                            if (index % 2 !== 0) {
+                        {data?.length === 0 ?
+                            <TableRow key={0}>
+                                <StyledTableData colSpan={7} style={{ textAlign: "center" }}>
+                                    No Data
+                                </StyledTableData>
+                            </TableRow> :
+                            data.map((data, index) => {
+                                if (index % 2 !== 0) {
+                                    return (
+                                        <StyledAlternateTableRow key={data?._id}>
+                                            {/* <AlternateStyledTableData
+                                                style={{
+                                                    color: theme.colors.primary.navy,
+                                                    fontSize: theme.fontSize.h4,
+                                                    fontFamily: theme.fontFamily.nunitoSansBold
+                                                }}
+                                            >
+                                                {SelectedColumn("ACCOUNT NAME") && (index + 1)}
+                                            </AlternateStyledTableData> */}
+                                            <AlternateStyledTableData>
+                                                {SelectedColumn("MAX USES ENCODE") &&
+                                                    (
+                                                        data?.isUnlimitedEncode === true
+                                                            ? "Unlimited"
+                                                            : data?.encodeUses
+                                                    )
+                                                }
+                                            </AlternateStyledTableData>
+                                            <AlternateStyledTableData>
+                                                {SelectedColumn("MAX USES MONITOR") &&
+                                                    (
+                                                        data?.isUnlimitedMonitor === true
+                                                            ? "Unlimited"
+                                                            : data?.monitoringUses
+                                                    )
+                                                }
+                                            </AlternateStyledTableData>
+                                            <AlternateStyledTableData>{SelectedColumn("ACCOUNT TYPE") && (data?.type || "---")}</AlternateStyledTableData>
+                                            {/* <AlternateStyledTableData> {SelectedColumn("USERS") && (data?.type)}</AlternateStyledTableData> */}
+                                            <AlternateStyledTableData>{SelectedColumn("RENEWAL DATE") && (format(new Date(data?.validity), "dd/MM/yyyy"))}</AlternateStyledTableData>
+                                            <AlternateStyledTableData>{SelectedColumn("LICENSE NAME") && (data?.name)}</AlternateStyledTableData>
+                                            <AlternateStyledTableData>{SelectedColumn("KEY") && (data?.key)}</AlternateStyledTableData>
+                                            <AlternateStyledTableData>
+                                                {SelectedColumn("STATUS") &&
+                                                    (data?.suspended === true
+                                                        ? <SuspendedBox>SUSPENDED</SuspendedBox>
+                                                        : <ActiveBox>ACTIVE</ActiveBox>
+                                                    )
+                                                }
+                                            </AlternateStyledTableData>
+                                            {/* <AlternateStyledTableData>{SelectedColumn("ACTION") && (data?.key)}</AlternateStyledTableData> */}
+                                        </StyledAlternateTableRow>
+                                    )
+                                }
                                 return (
-                                    <TableRow key={data._id}>
-                                        <AlternateStyledTableData
+                                    <StyledTableRow key={data?._id}>
+                                        {/* <StyledTableData
                                             style={{
                                                 color: theme.colors.primary.navy,
                                                 fontSize: theme.fontSize.h4,
                                                 fontFamily: theme.fontFamily.nunitoSansBold
                                             }}
-                                            align="left"
                                         >
-                                            {index + 1}
-                                        </AlternateStyledTableData>
-                                        <AlternateStyledTableData align="center">{data.key}</AlternateStyledTableData>
-                                        <AlternateStyledTableData align="center"> {data.encodeUses}</AlternateStyledTableData>
-                                        <AlternateStyledTableData align="center"> {data.maxEncodeUses}</AlternateStyledTableData>
-                                        <AlternateStyledTableData align="center">
-                                            {data.isUnlimitedMonitor === true
-                                                ? "Unlimited"
-                                                : data.monitoringUses
+                                            {SelectedColumn("ACCOUNT NAME") && (index + 1)}
+                                        </StyledTableData> */}
+                                        <StyledTableData>
+                                            {SelectedColumn("MAX USES ENCODE") &&
+                                                (
+                                                    data?.isUnlimitedEncode === true
+                                                        ? "Unlimited"
+                                                        : data?.encodeUses
+                                                )
                                             }
-                                        </AlternateStyledTableData>
-                                        <AlternateStyledTableData align="center"> {format(new Date(data.validity), "dd.MM.yyyy")}</AlternateStyledTableData>
-                                        <AlternateStyledTableData align="center"> {data.suspended === true ? "Yes" : "No"}</AlternateStyledTableData>
-
-                                    </TableRow>
+                                        </StyledTableData>
+                                        <StyledTableData>
+                                            {SelectedColumn("MAX USES MONITOR") &&
+                                                (
+                                                    data?.isUnlimitedMonitor === true
+                                                        ? "Unlimited"
+                                                        : data?.monitoringUses
+                                                )
+                                            }
+                                        </StyledTableData>
+                                        <StyledTableData>{SelectedColumn("ACCOUNT TYPE") && (data?.type || "---")}</StyledTableData>
+                                        {/* <AlternateStyledTableData> {SelectedColumn("USERS") && (data?.type)}</AlternateStyledTableData> */}
+                                        <StyledTableData>{SelectedColumn("RENEWAL DATE") && (format(new Date(data?.validity), "dd/MM/yyyy"))}</StyledTableData>
+                                        <StyledTableData>{SelectedColumn("LICENSE NAME") && (data?.name)}</StyledTableData>
+                                        <StyledTableData>{SelectedColumn("KEY") && (data?.key)}</StyledTableData>
+                                        <StyledTableData>
+                                            {SelectedColumn("STATUS") &&
+                                                (data?.suspended === true
+                                                    ? <SuspendedBox>SUSPENDED</SuspendedBox>
+                                                    : <ActiveBox>ACTIVE</ActiveBox>
+                                                )
+                                            }
+                                        </StyledTableData>
+                                        {/* <StyledTableData>{SelectedColumn("ACTION") && (data?.key)}</StyledTableData> */}
+                                    </StyledTableRow>
                                 )
-                            }
-                            return (
-                                <TableRow key={data._id}>
-                                    <StyledTableData
-                                        style={{
-                                            color: theme.colors.primary.navy,
-                                            fontSize: theme.fontSize.h4,
-                                            fontFamily: theme.fontFamily.nunitoSansBold
-                                        }}
-                                        align="left"
-                                    >
-                                        {index + 1}
-                                    </StyledTableData>
-                                    <StyledTableData align="center">{data.key}</StyledTableData>
-                                    <StyledTableData align="center"> {data.encodeUses}</StyledTableData>
-                                    <StyledTableData align="center"> {data.maxEncodeUses}</StyledTableData>
-                                    <StyledTableData align="center">
-                                        {data.isUnlimitedMonitor === true
-                                            ? "Unlimited"
-                                            : data.monitoringUses
-                                        }
-                                    </StyledTableData>
-                                    <StyledTableData align="center"> {format(new Date(data.validity), "dd.MM.yyyy")}</StyledTableData>
-                                    <StyledTableData align="center"> {data.suspended === true ? "Yes" : "No"}</StyledTableData>
-                                </TableRow>
-                            )
-                        })}
+                            })}
                     </TableBody>
                 </Table>
             </TableContainer>

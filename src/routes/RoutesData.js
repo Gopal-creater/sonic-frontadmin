@@ -15,5 +15,5 @@ export const routeList = [
         ]
     },
     { link: "/sonic-keys", linkText: "SonicKeys" },
-    { link: "/licences", linkText: "Licenses" }
+    // { link: "/licences", linkText: "Licenses" }
 ]

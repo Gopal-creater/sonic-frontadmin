@@ -1,5 +1,6 @@
-import { TableCell, TableRow } from "@material-ui/core"
+import { TableCell, TableRow, Grid } from "@material-ui/core"
 import styled from "styled-components"
+import theme from "../../theme"
 
 export const StyledTableRow = styled(TableRow)`
     &:hover {
@@ -33,10 +34,34 @@ export const StyledTableData = styled(TableCell)`
     color: ${props => props.theme.colors.secondary.grey};
     font-family:${props => props.theme.fontFamily.nunitoSansBold};
     border-bottom:none;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 120px;
 `
 
 export const AlternateStyledTableData = styled(TableCell)`
     color: ${props => props.theme.colors.secondary.grey};
     font-family:${props => props.theme.fontFamily.nunitoSansBold};
     border-bottom:none;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 120px;
+`
+
+export const ActiveBox = styled(Grid)`
+    background-color: ${theme.colors.secondary.extraLightTeal};
+    color: ${theme.colors.primary.teal};
+    border-radius: 5px;
+    text-align: center;
+    padding: 5px;
+`
+
+export const SuspendedBox = styled(Grid)`
+    background-color: ${theme.colors.secondary.lightError};
+    color: ${theme.colors.secondary.error};
+    border-radius: 5px;
+    text-align: center;
+    padding: 5px;
 `

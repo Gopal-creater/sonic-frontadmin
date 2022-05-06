@@ -14,7 +14,7 @@ import * as actionTypes from "../../../stores/actions/actionTypes"
 import { getMonitorExportAction, getMonitorListAction } from '../../../stores/actions/monitorActions/monitorActions';
 import MonitorFilter from '../Components/MonitorFilter/MonitorFilter';
 import { trackTableHeads } from '../../../constants/constants';
-import Columns from '../Components/Columns/Columns';
+import Columns from '../../../components/common/Columns/Columns';
 
 export default function Tracks() {
     const theme = useTheme()
@@ -124,9 +124,7 @@ export default function Tracks() {
                     </H4>
                 </Grid>
                 <Grid item>
-                    <Columns
-                        columns={state.trackTableHeads}
-                    />
+                    <Columns columns={state.trackTableHeads} />
                 </Grid>
             </Grid>
 

@@ -160,8 +160,9 @@ export default function Encode() {
                                     <H5 fontFamily={theme.fontFamily.nunitoSansBold} color={theme.colors.secondary.lightNavy}>
                                         Encode a track multiple times to share with different distributors.
                                     </H5>
-                                    <AppAutoCompleteContainer>
+                                    <AppAutoCompleteContainer container alignItems="center">
                                         <AppAutoComplete
+                                            style={{ width: "100%" }}
                                             placeholder={"Search for a track by title"}
                                             onInputChange={(title) => log("AppAutoComplete", title)}
                                             onChange={(artist) => log("AppClicked", artist)}

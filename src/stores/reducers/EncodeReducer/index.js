@@ -30,7 +30,8 @@ const initialState = {
     error: null,
     selectedFile: null,
     loadingPopUp: false,
-    successPopUp: false
+    successPopUp: false,
+    errorPopUp: false
 };
 const encodeRed = (state = initialState, action) =>
     produce(state, (draft) => {
@@ -64,10 +65,15 @@ const encodeRed = (state = initialState, action) =>
                 draft.error = action.data
                 draft.loadingPopUp = true
                 draft.loadingPopUp = false
+                draft.errorPopUp = true
                 break;
 
             case actionTypes.CLOSE_SUCCESS_POPUP:
                 draft.successPopUp = false
+                break;
+
+            case actionTypes.CLOSE_ERROR_POPUP:
+                draft.errorPopUp = false
                 break;
 
             case actionTypes.SET_METADATA:

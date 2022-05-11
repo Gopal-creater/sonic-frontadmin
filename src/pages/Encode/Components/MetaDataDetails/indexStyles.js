@@ -89,6 +89,15 @@ export const TitleContainer = styled(Grid)`
         width: 100%;
         height:65% ;
         top:35%;
-        background-color: ${theme.colors.secondary.lightTeal} !important;
+        background-color:${props => props?.backgroundColor || theme.colors.secondary.lightTeal}  !important;
+    }
+`
+
+export const Anchor = styled.a`
+    text-transform:underline ;
+    cursor: pointer;
+    color:${theme.colors.primary.graphite} ;
+    :hover{
+        color:${theme.colors.primary.navy} !important ;
     }
 `

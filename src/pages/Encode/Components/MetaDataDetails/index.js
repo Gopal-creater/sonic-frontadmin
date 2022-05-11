@@ -2,7 +2,7 @@ import React from 'react'
 import {
     EncodeContainer, MetaDataHeaderContainer, CheckBoxLabelContainer, IconContainer, ButtonContainer, SearchTrackContainer,
     MetaDataDetailsContainer, ProperAccessContainer, RightsHolderContainer, RadioLabel, TextContainer, PopUpContainer,
-    TitleContainer
+    TitleContainer, Anchor
 } from './indexStyles'
 import { H4, H1, H5, H6, H3 } from "../../../../StyledComponents/StyledHeadings"
 import theme from '../../../../theme'
@@ -25,6 +25,7 @@ import iconSuccess from "../../../../assets/images/icon-success-graphic.png"
 import CloseIcon from '@material-ui/icons/Close';
 import * as mm from "music-metadata-browser";
 import CustomDropDown from '../../../../components/common/AppTextInput/CustomDropDown'
+import errorEncodeIcon from "../../../../assets/images/icon-fail-graphic.png"
 
 export default function EncodeData() {
     const encodeReducer = useSelector(state => state.encode)
@@ -92,6 +93,7 @@ export default function EncodeData() {
     const encodeAnotherFile = () => {
         dispatch({ type: actionTypes.SET_SELECTED_FILE, data: null })
         dispatch({ type: actionTypes.CLOSE_SUCCESS_POPUP })
+        dispatch({ type: actionTypes.CLOSE_ERROR_POPUP })
         dispatch({ type: actionTypes.SET_METADATA, data: {} })
     }
 
@@ -226,6 +228,7 @@ export default function EncodeData() {
                             label="File type"
                             className="mt-3"
                             inputProps={{ readOnly: true }}
+                            InputLabelProps={{ shrink: true, }}
                             value={encodeReducer?.metaData?.contentFileType}
                             onChange={(e) => { dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, contentFileType: e.target.value } }) }} />
 
@@ -235,6 +238,7 @@ export default function EncodeData() {
                             label="Audio length"
                             className="mt-3"
                             inputProps={{ readOnly: true }}
+                            InputLabelProps={{ shrink: true, }}
                             value={moment.utc(encodeReducer?.metaData?.contentDuration * 1000).format("HH:mm:ss:SSS")}
                         />
                     </Grid >
@@ -253,6 +257,7 @@ export default function EncodeData() {
                             id="standard-basic"
                             label="Underlying encoding of file"
                             inputProps={{ readOnly: true }}
+                            InputLabelProps={{ shrink: true, }}
                             value={encodeReducer?.metaData?.contentEncoding}
                             className="mt-3"
                             onChange={(e) => { dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, contentEncoding: e.target.value } }) }} />
@@ -263,6 +268,7 @@ export default function EncodeData() {
                             label="Sampling Frequency"
                             className="mt-3"
                             inputProps={{ readOnly: true }}
+                            InputLabelProps={{ shrink: true, }}
                             value={encodeReducer?.metaData?.contentSamplingFrequency}
                             onChange={(e) => { dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, contentSamplingFrequency: e.target.value } }) }} />
 
@@ -323,8 +329,8 @@ export default function EncodeData() {
                         <RadioGroup
                             row
                             style={{ marginLeft: "20px" }}
-                            value={encodeReducer?.metaData?.isRightsHolderForEncode}
-                            onChange={(e) => dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, isRightsHolderForEncode: e.target.value } })}
+                            value={encodeReducer?.metaData?.isRightsHolderForEncode === null ? "" : encodeReducer?.metaData?.isRightsHolderForEncode ? "Yes" : "No"}
+                            onChange={(e) => dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, isRightsHolderForEncode: e.target.value === "Yes" ? true : false } })}
                         >
                             <FormControlLabel
                                 value={"Yes"}
@@ -348,8 +354,8 @@ export default function EncodeData() {
                         <RadioGroup
                             row
                             style={{ marginLeft: "20px" }}
-                            value={encodeReducer?.metaData?.isAuthorizedForEncode}
-                            onChange={(e) => dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, isAuthorizedForEncode: e.target.value } })}
+                            value={encodeReducer?.metaData?.isAuthorizedForEncode === null ? "" : encodeReducer?.metaData?.isAuthorizedForEncode ? "Yes" : "No"}
+                            onChange={(e) => dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, isAuthorizedForEncode: e.target.value === "Yes" ? true : false } })}
                         >
                             <FormControlLabel
                                 value={"Yes"}
@@ -373,13 +379,7 @@ export default function EncodeData() {
                         Cancel
                     </AppButton>
                     <AppButton
-                        disabled={
-                            encodeReducer?.metaData?.isAuthorizedForEncode === "No" &&
-                                encodeReducer?.metaData?.isRightsHolderForEncode === "No" ? true :
-                                encodeReducer?.metaData?.isAuthorizedForEncode ||
-                                    encodeReducer?.metaData?.isRightsHolderForEncode ||
-                                    encodeReducer?.metaData?.isAuthorizedForEncode !== null &&
-                                    encodeReducer?.metaData?.isRightsHolderForEncode !== null ? false : true}
+                        disabled={encodeReducer?.metaData?.isAuthorizedForEncode === false && encodeReducer?.metaData?.isRightsHolderForEncode === false ? true : encodeReducer?.metaData?.isAuthorizedForEncode || encodeReducer?.metaData?.isRightsHolderForEncode || encodeReducer?.metaData?.isAuthorizedForEncode !== null && encodeReducer?.metaData?.isRightsHolderForEncode !== null ? false : true}
                         variant={"fill"}
                         style={{ marginLeft: "15px", width: "175px" }}
                         onClick={encode}
@@ -423,7 +423,11 @@ export default function EncodeData() {
                 <PopUpContainer padding="20px 40px 25px 40px">
                     <Grid container justifyContent='flex-end'>
                         <CloseIcon
-                            onClick={() => dispatch({ type: actionTypes.CLOSE_SUCCESS_POPUP })}
+                            onClick={() => {
+                                dispatch({ type: actionTypes.SET_SELECTED_FILE, data: null })
+                                dispatch({ type: actionTypes.SET_METADATA, data: {} })
+                                dispatch({ type: actionTypes.CLOSE_SUCCESS_POPUP })
+                            }}
                             style={{ cursor: "pointer" }} />
                     </Grid>
                     <TitleContainer container direction='column' alignItems='center'>
@@ -438,13 +442,53 @@ export default function EncodeData() {
                     </TitleContainer>
                     <Grid container justifyContent='center' className='mt-1'>
                         <AppButton
-                            // disabled={true}
                             onClick={encodeAnotherFile}
                             fontSize={"15px"}
                             fontFamily={theme.fontFamily.nunitoSansBlack}
                         >
                             Encode another file
                         </AppButton>
+                    </Grid>
+                </PopUpContainer>
+            </PopUp>
+
+            <PopUp
+                id="errorPopUp"
+                open={encodeReducer?.errorPopUp}
+                maxWidth="sm"
+                fullWidth
+            >
+                <PopUpContainer padding="20px 40px 25px 40px">
+                    <Grid container justifyContent='flex-end'>
+                        <CloseIcon
+                            onClick={() => {
+                                dispatch({ type: actionTypes.SET_SELECTED_FILE, data: null })
+                                dispatch({ type: actionTypes.SET_METADATA, data: {} })
+                                dispatch({ type: actionTypes.CLOSE_ERROR_POPUP })
+                            }}
+                            style={{ cursor: "pointer" }} />
+                    </Grid>
+                    <TitleContainer container direction='column' alignItems='center' backgroundColor={theme.colors.secondary.lightGrey}>
+                        <img src={errorEncodeIcon} style={{ width: "140px", height: "140px", zIndex: 1 }} />
+                        <H3
+                            className='mt-4'
+                            fontFamily={theme.fontFamily.nunitoSansBlack}
+                            style={{ textAlign: "center", zIndex: 1 }}
+                        >
+                            Ooops! Encoding failed
+                        </H3>
+                    </TitleContainer>
+                    <Grid container justifyContent='center' className='mt-1'>
+                        <AppButton
+                            onClick={encodeAnotherFile}
+                            fontFamily={theme.fontFamily.nunitoSansBlack}
+                        >
+                            Try to encode again
+                        </AppButton>
+                    </Grid>
+                    <Grid className='mt-5'>
+                        <H5 fontFamily={theme.fontFamily.nunitoSansBlack}>Do you need help?</H5>
+                        <H4 fontFamily={theme.fontFamily.nunitoSansRegular}>Use <Anchor>HelpCenter</Anchor> or email our <Anchor>Support Team</Anchor></H4>
                     </Grid>
                 </PopUpContainer>
             </PopUp>

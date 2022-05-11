@@ -25,6 +25,8 @@ export const AppAutoCompleteContainer = styled(Grid)`
     flex:1 ;
     background-color:white ;
     margin-top:15px ;
+    padding:40px;
+    align-items:center ;
 `
 export const TrackContainer = styled(Grid)`
     margin-top:40px ;

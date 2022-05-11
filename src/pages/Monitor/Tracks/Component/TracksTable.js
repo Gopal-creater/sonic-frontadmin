@@ -43,6 +43,7 @@ export default function TracksTable({ data, trackTableHeads, onTrackSorting }) {
         navigate("/plays")
     }
 
+    log("Track heads", trackTableHeads)
     return (
         <Grid>
             <TableContainer style={{ padding: '0rem 1rem 1rem 1rem' }}>

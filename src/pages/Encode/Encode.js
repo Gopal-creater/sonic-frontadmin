@@ -15,15 +15,102 @@ import { log } from '../../utils/app.debug.js';
 import AppAutoComplete from '../../components/common/AutoComplete/AppAutoComplete';
 import PaginationCount from '../../components/common/Pagination/PaginationCount';
 import Columns from '../../components/common/Columns/Columns';
+import FilterComponent from '../../components/common/FilterComponent/FilterComponent';
+import MonitorFilter from '../Monitor/Components/MonitorFilter/MonitorFilter';
+import { getMonitorExportAction, getMonitorListAction } from '../../stores/actions/monitorActions/monitorActions';
+import CommonDataLoadErrorSuccess from '../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess';
+import TracksTable from '../Monitor/Tracks/Component/TracksTable';
+import CustomPagination from '../../components/common/Pagination/CustomPagination';
+import { trackTableHeads } from '../../constants/constants';
 
 export default function Encode() {
     const [state, setState] = React.useState({
         openFileUploadProgress: false,
-        fileUploadProgress: 0
+        fileUploadProgress: 0,
+        trackTableHeads: trackTableHeads,
+        currentSortBy: "",
+        currentIsAscending: ""
     })
 
     const encode = useSelector(state => state.encode)
+    const monitor = useSelector(state => state.monitor)
     const dispatch = useDispatch()
+
+    React.useEffect(() => {
+        dispatch(getMonitorListAction(actions, monitor?.dates?.startDate, monitor?.dates?.endDate, monitor?.track?.data?.page, "10", "TRACKS"))
+    }, [monitor?.dates?.startDate, monitor?.dates?.endDate])
+
+    const actions = {
+        loading: actionTypes.SET_TRACK_LOADING,
+        success: actionTypes.SET_TRACK_SUCCESS,
+        error: actionTypes.SET_TRACK_ERROR
+    }
+
+    const handleExport = (format) => {
+        dispatch(getMonitorExportAction(
+            monitor?.dates?.startDate,
+            monitor?.dates?.endDate,
+            format,
+            2000,
+            "TRACKS",
+            state?.currentSortBy,
+            state?.currentIsAscending
+        ))
+    }
+
+    const createStableTrackData = () => {
+        const trackData = monitor?.track?.data?.docs?.map((data) => {
+            return (
+                {
+                    trackName: data?.trackName,
+                    plays: data?.playsCount,
+                    radioStation: data?.radioStationCount,
+                    country: data?.countriesCount,
+                }
+            )
+        })
+        return trackData
+    }
+
+    const trackSorting = (sortBy, isAscending, isActive) => {
+        // log("sortBy, isAscending, isActive", sortBy, isAscending, isActive)
+        var newTrackTableHeads = state.trackTableHeads.map((data, i) => {
+            if (data.sortBy === sortBy) {
+                data.isActive = isActive
+                data.isAscending = isAscending
+                dispatch(getMonitorListAction(
+                    actions,
+                    monitor?.dates?.startDate,
+                    monitor?.dates?.endDate,
+                    monitor?.track?.data?.page,
+                    "10",
+                    "TRACKS",
+                    sortBy,
+                    isAscending
+                ))
+                return data
+            }
+
+            data.isActive = false
+            data.isAscending = null
+            return data
+        })
+
+        return setState({ ...state, trackTableHeads: newTrackTableHeads, currentSortBy: sortBy, currentIsAscending: isAscending })
+    }
+
+    const handleTrackPageChange = (event, value) => {
+        dispatch(getMonitorListAction(
+            actions,
+            monitor?.dates?.startDate,
+            monitor?.dates?.endDate,
+            value,
+            "10",
+            "TRACKS",
+            state?.currentSortBy,
+            state.currentIsAscending
+        ))
+    }
 
     return (
         <>
@@ -95,14 +182,53 @@ export default function Encode() {
                                     <H5><PaginationCount start={0} end={10} total={20} name={"tracks"} /></H5>
                                 </Grid>
                                 <Grid>
-                                    columns
+                                    <Columns columns={state.trackTableHeads} />
                                 </Grid>
                             </TrackTitleContainer>
+
                             <TrackFilterContainer>
-                                Filter
+                                <FilterComponent
+                                    startDate={monitor?.dates?.startDate}
+                                    onChangeStartDate={(date) => dispatch({ type: actionTypes.SET_MONITOR_DATES, data: { ...monitor.dates, startDate: date } })}
+                                    endDate={monitor?.dates?.endDate}
+                                    onChangeEndDate={(date) => dispatch({ type: actionTypes.SET_MONITOR_DATES, data: { ...monitor.dates, endDate: date } })}
+                                    filterComponent={<MonitorFilter open={true} actions={actions} dashboard={true} />}
+                                    exportData={(value) => handleExport(value)}
+                                    pdf={false}
+                                />
                             </TrackFilterContainer>
+
                             <TrackTableContainer>
-                                Table
+                                <CommonDataLoadErrorSuccess
+                                    error={monitor?.track?.error}
+                                    loading={monitor?.track?.loading}
+                                    onClickTryAgain={() => { dispatch(getMonitorListAction(actions, monitor?.dates?.startDate, monitor?.dates?.endDate, monitor?.track?.data?.page, "10", "TRACKS")) }}
+                                >
+                                    <>
+                                        <TracksTable
+                                            data={createStableTrackData()}
+                                            trackTableHeads={state.trackTableHeads}
+                                            onTrackSorting={(sortBy, isAscending, isActive) => trackSorting(sortBy, isAscending, isActive)}
+                                        />
+                                        <Grid container justifyContent="space-between" alignItems="center" style={{ marginTop: "30px" }}>
+                                            <Grid item xs={12} sm={6} md={6}>
+                                                <PaginationCount
+                                                    name="Tracks"
+                                                    total={monitor?.track?.data?.totalDocs}
+                                                    start={monitor?.track?.data?.offset}
+                                                    end={monitor?.track?.data?.docs?.length}
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12} sm={6} md={6}>
+                                                <CustomPagination
+                                                    count={monitor?.track?.data?.totalPages}
+                                                    page={monitor?.track?.data?.page}
+                                                    onChange={handleTrackPageChange}
+                                                />
+                                            </Grid>
+                                        </Grid>
+                                    </>
+                                </CommonDataLoadErrorSuccess>
                             </TrackTableContainer>
                         </TrackContainer>
                     </>

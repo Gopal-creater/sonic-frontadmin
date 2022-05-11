@@ -1,17 +1,18 @@
-import { Grid, IconButton, InputAdornment } from '@material-ui/core'
-import moment from 'moment'
-import React from 'react'
-import AppButton from '../../components/common/AppButton/AppButton'
-import { StyledTextField } from '../../StyledComponents/StyledAppTextInput/StyledAppTextInput'
-import { H2, H4 } from '../../StyledComponents/StyledHeadings'
-import theme from '../../theme'
-import { AdminProfileContainer, ButtonContainer, MetaDataDetailsContainer, ProperAccessContainer } from './AdminProfileStyles'
-import EmojiFlagsIcon from '@material-ui/icons/EmojiFlags';
+import { Grid, IconButton, InputAdornment } from "@material-ui/core"
+import { Visibility, VisibilityOff } from "@material-ui/icons"
+import AppButton from "../../../components/common/AppButton/AppButton"
+import AppToggleSwitch from "../../../components/common/AppToggleSwitch/AppToggleSwitch"
+import { StyledTextField } from "../../../StyledComponents/StyledAppTextInput/StyledAppTextInput"
+import { H2, H4 } from "../../../StyledComponents/StyledHeadings"
+import { ButtonContainer, MetaDataDetailsContainer, ProperAccessContainer, UserProfileContainer } from "./UserProfileStyle"
+import PersonIcon from '@material-ui/icons/Person';
 import LockIcon from '@material-ui/icons/Lock';
-import { Visibility, VisibilityOff } from '@material-ui/icons'
-import AppToggleSwitch from '../../components/common/AppToggleSwitch/AppToggleSwitch'
+import MusicNoteIcon from '@material-ui/icons/MusicNote';
+import React from "react"
+import theme from "../../../theme"
 
-export default function AdminProfile() {
+
+export default function UserProfile() {
     const [state, setState] = React.useState({
         copyMetaData: false,
         showPassword: false,
@@ -41,20 +42,20 @@ export default function AdminProfile() {
         }
     })
     return (
-        <AdminProfileContainer>
+        <UserProfileContainer>
             <MetaDataDetailsContainer>
-                <H2>Admin profile</H2>
+                <H2>User profile</H2>
                 <Grid className="mb-4">
-                    <H4 color={theme.colors.primary.teal}>Update Admin details</H4>
+                    <H4 color={theme.colors.primary.teal}>Update user details</H4>
                 </Grid>
                 <Grid container spacing={10}>
                     <Grid item lg={6}>
                         <Grid container >
                             <Grid style={{ padding: "5px", borderRadius: "50%", backgroundColor: theme.colors.secondary.lightTeal }}>
-                                <EmojiFlagsIcon style={{ color: theme.colors.primary.teal }} />
+                                <PersonIcon style={{ color: theme.colors.primary.teal }} />
                             </Grid>
                         </Grid>
-                        <H4 className='mt-2'>Partner admin details</H4>
+                        <H4 className='mt-2'>User details</H4>
                         <StyledTextField
                             fullWidth
                             id="standard-basic"
@@ -68,7 +69,7 @@ export default function AdminProfile() {
                         <StyledTextField
                             fullWidth
                             id="standard-basic"
-                            label="Type"
+                            label="Account type"
                             value={state?.metaData?.title}
                             className="mt-3"
                             onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, type: e.target.value } }) }}
@@ -79,7 +80,7 @@ export default function AdminProfile() {
                         <StyledTextField
                             fullWidth
                             id="standard-basic"
-                            label="Partner ID"
+                            label="User ID"
                             value={state?.metaData?.artist}
                             className="mt-3"
                             onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, artist: e.target.value } }) }}
@@ -103,6 +104,7 @@ export default function AdminProfile() {
                             onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, isrcCode: e.target.value } }) }}
                         // helperText="Hint: GB-H01-02-12345."
                         />
+
                         <Grid container>
                             <Grid className='mt-4'>
                                 <H4>Status</H4>
@@ -116,6 +118,44 @@ export default function AdminProfile() {
                     </Grid >
 
                     <Grid item lg={6}>
+                        <Grid container >
+                            <Grid style={{ padding: "5px", borderRadius: "50%", backgroundColor: theme.colors.secondary.lightTeal }}>
+                                <MusicNoteIcon style={{ color: theme.colors.primary.teal }} />
+                            </Grid>
+                        </Grid>
+                        <H4 className='mt-2'>Company details</H4>
+                        <StyledTextField
+                            fullWidth
+                            id="standard-basic"
+                            label="Company name"
+                            value={state?.metaData?.title}
+                            onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, title: e.target.value } }) }}
+                            // placeholder='Song,Video or Audio track title'
+                            autoComplete='off'
+                        />
+
+                        <StyledTextField
+                            fullWidth
+                            id="standard-basic"
+                            label="Company type"
+                            value={state?.metaData?.title}
+                            className="mt-3"
+                            onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, type: e.target.value } }) }}
+                            autoComplete='off'
+                        />
+
+
+                        <StyledTextField
+                            fullWidth
+                            id="standard-basic"
+                            label="Company URN / ID"
+                            value={state?.metaData?.artist}
+                            className="mt-3"
+                            onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, artist: e.target.value } }) }}
+                        />
+                        <Grid className="mt-5">
+
+                        </Grid>
                         <Grid container >
                             <Grid style={{ padding: "5px", borderRadius: "50%", backgroundColor: theme.colors.secondary.lightTeal }}>
                                 <LockIcon style={{ color: theme.colors.primary.teal }} />
@@ -204,41 +244,6 @@ export default function AdminProfile() {
                 </Grid>
 
                 <ProperAccessContainer>
-                    {/* <RightsHolderContainer>
-                        <H5
-                            color={theme.colors.secondary.grey}
-                        >
-                            Are you the Rights Holder for the audio file you wish to encode with a SonicKey?
-                        </H5>
-                        <RadioGroup row style={{ marginLeft: "20px" }}>
-                            <FormControlLabel
-                                control={<CustomRadioButton />}
-                                label={<RadioLabel>Yes</RadioLabel>}
-                            />
-                            <FormControlLabel
-                                control={<CustomRadioButton />}
-                                label={<RadioLabel>No</RadioLabel>}
-                            />
-                        </RadioGroup>
-                    </RightsHolderContainer>
-
-                    <RightsHolderContainer>
-                        <H5
-                            color={theme.colors.secondary.grey}
-                        >
-                            Are you Authorised by the Rights Holder to encode this audio file with a SonicKey?
-                        </H5>
-                        <RadioGroup row style={{ marginLeft: "20px" }}>
-                            <FormControlLabel
-                                control={<CustomRadioButton />}
-                                label={<RadioLabel>Yes</RadioLabel>}
-                            />
-                            <FormControlLabel
-                                control={<CustomRadioButton />}
-                                label={<RadioLabel>No</RadioLabel>}
-                            />
-                        </RadioGroup>
-                    </RightsHolderContainer> */}
                 </ProperAccessContainer>
 
                 <ButtonContainer>
@@ -251,6 +256,6 @@ export default function AdminProfile() {
                     <AppButton variant={"fill"} style={{ marginLeft: "15px" }}>Update details</AppButton>
                 </ButtonContainer>
             </MetaDataDetailsContainer>
-        </AdminProfileContainer >
+        </UserProfileContainer >
     )
 }

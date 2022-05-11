@@ -9,7 +9,7 @@ const IOSSwitch = withStyles((themeData) => ({
         width: 115,
         height: 28,
         padding: 0,
-        margin: themeData.spacing(1),
+        // margin: themeData.spacing(1),
     },
     switchBase: {
         paddingTop: 3,
@@ -131,7 +131,7 @@ export default function AppToggleSwitch() {
     };
 
     return (
-        <Grid style={{ marginLeft: "20px" }}>
+        <Grid>
             <IOSSwitch checked={state.checkedB} onChange={handleChange} name="checkedB" />
         </Grid>
     );

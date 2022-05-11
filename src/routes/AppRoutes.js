@@ -16,11 +16,15 @@ import RadioStations from "../pages/Monitor/RadioStation/RadioStation";
 import { getAllRadioListAction } from "../stores/actions/radioStationAction";
 import { useDispatch } from "react-redux";
 import RoleAuth from "../components/hoc/RoleAuth";
-import Companies from "../pages/Companies.js/index.js";
+import Companies from "../pages/Companies/index.js";
 import UnAuthorized from "../components/hoc/UnAuthorized";
 import AddLicence from "../pages/Licences/components/AddLicence";
 import AdminProfile from "../pages/Profile/AdminProfile";
 import Users from "../pages/Users/Users";
+import CompanyProfile from "../pages/Companies/CompanyProfile/CompanyProfile";
+import CreateNewCompany from "../pages/Companies/CompanyProfile/CreateNewCompany";
+import UserProfile from "../pages/Users/UserProfile/UserProfile";
+import CreeateUser from "../pages/Users/CreateUser/CreateUser";
 
 export default function AppRoutes() {
   const dispatch = useDispatch()
@@ -47,6 +51,13 @@ export default function AppRoutes() {
           <Route path="/artists" element={<Artists />} />
           <Route path="/radio-stations" element={<RadioStations />} />
           <Route path="/countries" element={<Countries />} />
+          <Route path="/company-profile" element={<CompanyProfile />} />
+          <Route path="/create-company" element={<CreateNewCompany />} />
+          <Route path="/user-profile" element={<UserProfile />} />
+          <Route path="/create-user" element={<CreeateUser />} />
+
+
+
 
           {/* Routes accessible by partner */}
           <Route element={<RoleAuth allowedRoles={["partner"]} />}>

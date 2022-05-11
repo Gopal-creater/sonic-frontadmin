@@ -21,6 +21,7 @@ import UnAuthorized from "../components/hoc/UnAuthorized";
 import AddLicence from "../pages/Licences/components/AddLicence";
 import AdminProfile from "../pages/Profile/AdminProfile";
 import Users from "../pages/Users/Users";
+import EditLicense from "../pages/Licences/components/EditLicense";
 
 export default function AppRoutes() {
   const dispatch = useDispatch()
@@ -41,6 +42,7 @@ export default function AppRoutes() {
           <Route path="/sonic-keys" element={<Sonickeys />} />
           <Route path="/licences" element={<Licences />} />
           <Route path="/add-licences" element={<AddLicence />} />
+          <Route path="/edit-licences" element={<EditLicense />} />
           <Route path="/sonicstreamdetail" element={<SonicStreamDetail />} />
           <Route path="/plays" element={<Plays />} />
           <Route path="/tracks" element={<Tracks />} />

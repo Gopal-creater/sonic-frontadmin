@@ -9,15 +9,6 @@ export const LicenseContainer = styled(Grid)`
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 `
 
-export const LicenseBox = styled(Grid)`
-    padding: 20px;
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-`
-
 export const AddLicenseContainer = styled(Grid)`
     margin-bottom: 40px;
     background-color: white;

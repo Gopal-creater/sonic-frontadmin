@@ -1467,7 +1467,19 @@ export const licenseTableHeads = [
   { title: "LICENSE NAME" },
   { title: "KEY" },
   { title: "STATUS" },
-  // { title: "ACTION" },
+  { title: "ACTION" },
+]
+
+export const usersTableHeads = [
+  { title: "USERNAME" },
+  { title: "ID" },
+  { title: "EMAIL" },
+  { title: "PHONE NUMBER" },
+  { title: "ACCOUNT TYPE" },
+  { title: "ACCOUNT NAME" },
+  { title: "USER TYPE" },
+  { title: "STATUS" },
+  { title: "ACTION" },
 ]
 
 //Dropdown values

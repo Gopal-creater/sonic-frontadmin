@@ -1516,6 +1516,17 @@ export const maxUses = [
   { name: "Unlimited" },
 ]
 
+export const userType = [
+  { name: "Company" },
+  { name: "Partner" },
+  { name: "Individual" },
+]
+
+export const companyType = [
+  { name: "Distributer" },
+  { name: "Partner" },
+]
+
 export const userRoles = [
   "company",
   "partner",

@@ -103,7 +103,7 @@ export default function CreateNewCompany() {
                             id="standard-basic"
                             label="Type"
                             value={state?.metaData?.title}
-                            className="mt-3"
+                            className=""
                             onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, type: e.target.value } }) }}
                             autoComplete='off'
                         />
@@ -112,6 +112,7 @@ export default function CreateNewCompany() {
                             fullWidth
                             id="standard-basic"
                             label="Username*"
+                            className="mt-3"
                             value={state?.metaData?.title}
                             onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, title: e.target.value } }) }}
                             // placeholder='Song,Video or Audio track title'

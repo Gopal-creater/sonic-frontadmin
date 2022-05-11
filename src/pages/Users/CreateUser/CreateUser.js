@@ -1,5 +1,5 @@
 import { FormControlLabel, Grid, IconButton, InputAdornment, RadioGroup } from "@material-ui/core"
-import { Visibility, VisibilityOff } from "@material-ui/icons"
+import { ControlPoint, Visibility, VisibilityOff } from "@material-ui/icons"
 import PersonIcon from '@material-ui/icons/Person';
 import LockIcon from '@material-ui/icons/Lock';
 import MusicNoteIcon from '@material-ui/icons/MusicNote';
@@ -12,11 +12,18 @@ import theme from "../../../theme";
 import AppCheckBox from "../../../components/common/AppCheckBox";
 import MuiPhoneNumber from 'material-ui-phone-number';
 import { useNavigate } from "react-router-dom";
+import { Controller, useForm } from "react-hook-form";
+import CustomDropDown from "../../../components/common/AppTextInput/CustomDropDown";
+import cogoToast from "cogo-toast";
+import { companyType, userType } from "../../../constants/constants";
+import { HelperText } from "../../Licences/LicenseStyled";
+import { log } from "../../../utils/app.debug";
 
 
 export default function CreateUser() {
-    // const [phone, setPhone] = useState("");
+    const { handleSubmit, control, reset } = useForm();
     const [state, setState] = React.useState({
+        show: false,
         phone: "",
         copyMetaData: false,
         showPassword: false,
@@ -24,6 +31,7 @@ export default function CreateUser() {
         showConfirmPassword: false,
         metaData: {
             title: "",
+            accountType: "",
             contentSize: "",
             contentEncoding: "",
             contentType: "",
@@ -51,195 +59,249 @@ export default function CreateUser() {
         setState(value);
     };
 
+    const handleOnCreateUser = () => {
+        cogoToast.success("user added");
+    }
+
+    log("state create user", state)
+
     return (
         <CreateUserContainer>
-            <MetaDataDetailsContainer>
-                <H2>Create user</H2>
-                <Grid className="mb-4">
-                    <H4 color={theme.colors.primary.teal}>Add new user</H4>
-                </Grid>
-                <Grid container spacing={10}>
-                    <Grid item lg={6}>
-                        <Grid container >
-                            <Grid style={{ padding: "5px", borderRadius: "50%", backgroundColor: theme.colors.secondary.lightTeal }}>
-                                <PersonIcon style={{ color: theme.colors.primary.teal }} />
+            <form onSubmit={handleSubmit(handleOnCreateUser)}>
+                <MetaDataDetailsContainer>
+                    <H2>Create user</H2>
+                    <Grid className="mb-4">
+                        <H4 color={theme.colors.primary.teal}>Add new user</H4>
+                    </Grid>
+                    <Grid container spacing={10}>
+                        <Grid item lg={6}>
+                            <Grid container >
+                                <Grid style={{ padding: "5px", borderRadius: "50%", backgroundColor: theme.colors.secondary.lightTeal }}>
+                                    <PersonIcon style={{ color: theme.colors.primary.teal }} />
+                                </Grid>
                             </Grid>
-                        </Grid>
-                        <H4 className='mt-2'>User details</H4>
-                        <StyledTextField
-                            fullWidth
-                            id="standard-basic"
-                            label="Username*"
-                            value={state?.metaData?.title}
-                            onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, title: e.target.value } }) }}
-                            // placeholder='Song,Video or Audio track title'
-                            autoComplete='off'
-                        />
+                            <H4 className='mt-2'>User details</H4>
+                            <StyledTextField
+                                fullWidth
+                                id="standard-basic"
+                                label="Username*"
+                                value={state?.metaData?.title}
+                                onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, title: e.target.value } }) }}
+                                // placeholder='Song,Video or Audio track title'
+                                autoComplete='off'
+                            />
 
-                        <StyledTextField
-                            fullWidth
-                            id="standard-basic"
-                            label="Account type"
-                            value={state?.metaData?.title}
-                            className="mt-3"
-                            onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, type: e.target.value } }) }}
-                            autoComplete='off'
-                        />
-
-                        <StyledTextField
-                            fullWidth
-                            id="standard-basic"
-                            label="Email*"
-                            className="mt-3"
-                            value={state?.metaData?.version}
-                            onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, version: e.target.value } }) }}
-                        />
-                        <FormControlLabel
-                            control={
-                                <AppCheckBox
-                                    checked={state.copyMetaData}
-                                // onChange={() => setState({ ...state, copyMetaData: !state.copyMetaData })}
-                                />
-                            }
-                            label={
-                                <CheckBoxLabelContainer>
-                                    <H5
-                                        color={theme.colors.secondary.lightNavy}
-                                    >
-                                        Mark email as verified*
-                                    </H5>
-                                    {/* <HelpOutlineOutlinedIcon style={{ color: theme.colors.secondary.lightNavy, fontSize: 17, marginLeft: "5px" }} /> */}
-                                </CheckBoxLabelContainer>
-                            }
-                        />
-
-                        {/* <StyledTextField
-                            fullWidth
-                            id="standard-basic"
-                            label="Phone number"
-                            className="mt-3"
-                            value={state?.metaData?.isrcCode}
-                            onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, isrcCode: e.target.value } }) }}
-                        // helperText="Hint: GB-H01-02-12345."
-                        /> */}
-                        <Grid>
-                            <Grid className="mt-4">
-                                <MuiPhoneNumber
-                                    style={{ width: "100%" }}
-                                    name="phone"
-                                    label="Phone number"
-                                    defaultCountry={'gb'}
-                                    onChange={handleOnChange}
-                                />
-                            </Grid>
-                        </Grid>
-                        <FormControlLabel
-                            control={
-                                <AppCheckBox
-                                    checked={state.copyMetaData}
-                                // onChange={() => setState({ ...state, copyMetaData: !state.copyMetaData })}
-                                />
-                            }
-                            label={
-                                <CheckBoxLabelContainer>
-                                    <H5
-                                        color={theme.colors.secondary.lightNavy}
-                                    >
-                                        Mark phone number as verified
-                                    </H5>
-                                    {/* <HelpOutlineOutlinedIcon style={{ color: theme.colors.secondary.lightNavy, fontSize: 17, marginLeft: "5px" }} /> */}
-                                </CheckBoxLabelContainer>
-                            }
-                        />
-                    </Grid >
-
-                    <Grid item lg={6}>
-                        <Grid container >
-                            <Grid style={{ padding: "5px", borderRadius: "50%", backgroundColor: theme.colors.secondary.lightTeal }}>
-                                <MusicNoteIcon style={{ color: theme.colors.primary.teal }} />
-                            </Grid>
-                        </Grid>
-                        <H4 className='mt-2'>Company details</H4>
-                        <StyledTextField
-                            fullWidth
-                            id="standard-basic"
-                            label="Company name"
-                            value={state?.metaData?.title}
-                            onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, title: e.target.value } }) }}
-                            // placeholder='Song,Video or Audio track title'
-                            autoComplete='off'
-                        />
-
-                        <StyledTextField
-                            fullWidth
-                            id="standard-basic"
-                            label="Company type"
-                            value={state?.metaData?.title}
-                            className="mt-3"
-                            onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, type: e.target.value } }) }}
-                            autoComplete='off'
-                        />
-
-
-                        <StyledTextField
-                            fullWidth
-                            id="standard-basic"
-                            label="Company URN / ID"
-                            value={state?.metaData?.artist}
-                            className="mt-3"
-                            onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, artist: e.target.value } }) }}
-                        />
-                        <Grid className="mt-5">
-
-                        </Grid>
-                        <Grid container >
-                            <Grid style={{ padding: "5px", borderRadius: "50%", backgroundColor: theme.colors.secondary.lightTeal }}>
-                                <LockIcon style={{ color: theme.colors.primary.teal }} />
-                            </Grid>
-                        </Grid>
-                        <H4 className='mt-2'>Password</H4>
-                        <StyledTextField
-                            fullWidth
-                            id="standard-basic"
-                            label="Temporary password"
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        <IconButton
-                                            aria-label="toggle password visibility"
-                                            // onClick={() => {
-                                            //     setState({
-                                            //         ...state,
-                                            //         showNewPassword: !state?.showNewPassword,
-                                            //     });
-                                            // }}
-                                            onMouseDown={(event) => {
-                                                event.preventDefault();
+                            <Controller
+                                name="accountType"
+                                control={control}
+                                defaultValue=""
+                                onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, accountType: e.target.value } }) }}
+                                render={({
+                                    field: { onChange, value },
+                                    fieldState: { error },
+                                }) => (
+                                    <>
+                                        <CustomDropDown
+                                            labelText="Account type"
+                                            formControlProps={{
+                                                fullWidth: true,
+                                                style: { marginTop: 15 }
                                             }}
+                                            inputProps={{
+                                                error: !!error,
+                                                value: value,
+                                                onChange: onChange,
+                                            }}
+                                            labelProps={{
+                                                style: { fontFamily: theme.fontFamily.nunitoSansRegular }
+                                            }}
+                                            data={userType || []}
+                                        />
+                                        {error?.message && <HelperText>{error?.message}</HelperText>}
+                                    </>
+                                )}
+                                rules={{ required: "Account type is required" }}
+                            />
+
+                            <StyledTextField
+                                fullWidth
+                                id="standard-basic"
+                                label="Email*"
+                                className="mt-3"
+                                value={state?.metaData?.version}
+                                onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, version: e.target.value } }) }}
+                            />
+                            <FormControlLabel
+                                control={
+                                    <AppCheckBox
+                                        checked={state.copyMetaData}
+                                    // onChange={() => setState({ ...state, copyMetaData: !state.copyMetaData })}
+                                    />
+                                }
+                                label={
+                                    <CheckBoxLabelContainer>
+                                        <H5
+                                            color={theme.colors.secondary.lightNavy}
                                         >
-                                            {state?.showNewPassword ? <Visibility /> : <VisibilityOff />}
-                                        </IconButton>
-                                    </InputAdornment>
-                                ),
-                            }}
-                        />
+                                            Mark email as verified*
+                                        </H5>
+                                        {/* <HelpOutlineOutlinedIcon style={{ color: theme.colors.secondary.lightNavy, fontSize: 17, marginLeft: "5px" }} /> */}
+                                    </CheckBoxLabelContainer>
+                                }
+                            />
+                            <Grid>
+                                <Grid className="mt-4">
+                                    <MuiPhoneNumber
+                                        style={{ width: "100%" }}
+                                        name="phone"
+                                        label="Phone number"
+                                        defaultCountry={'gb'}
+                                        onChange={handleOnChange}
+                                    />
+                                </Grid>
+                            </Grid>
+                            <FormControlLabel
+                                control={
+                                    <AppCheckBox
+                                        checked={state.copyMetaData}
+                                    // onChange={() => setState({ ...state, copyMetaData: !state.copyMetaData })}
+                                    />
+                                }
+                                label={
+                                    <CheckBoxLabelContainer>
+                                        <H5
+                                            color={theme.colors.secondary.lightNavy}
+                                        >
+                                            Mark phone number as verified
+                                        </H5>
+                                        {/* <HelpOutlineOutlinedIcon style={{ color: theme.colors.secondary.lightNavy, fontSize: 17, marginLeft: "5px" }} /> */}
+                                    </CheckBoxLabelContainer>
+                                }
+                            />
+                        </Grid >
 
-                    </Grid >
-                </Grid>
+                        <Grid item lg={6}>
+                            <Grid container >
+                                <Grid style={{ padding: "5px", borderRadius: "50%", backgroundColor: theme.colors.secondary.lightTeal }}>
+                                    <MusicNoteIcon style={{ color: theme.colors.primary.teal }} />
+                                </Grid>
+                            </Grid>
+                            <H4 className='mt-2'>Company details</H4>
 
-                <ProperAccessContainer>
-                </ProperAccessContainer>
+                            {!state?.show && <Grid>
+                                <AppButton
+                                    variant={"none"}
+                                    startIcon={<ControlPoint />}
+                                    style={{ paddingLeft: 0 }}
+                                    onClick={() => setState({ ...state, show: true })}
+                                >
+                                    Add associated new company
+                                </AppButton>
+                            </Grid>}
+                            {state?.show &&
+                                <>
+                                    <StyledTextField
+                                        fullWidth
+                                        id="standard-basic"
+                                        label="Company name"
+                                        value={state?.metaData?.title}
+                                        onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, title: e.target.value } }) }}
+                                        // placeholder='Song,Video or Audio track title'
+                                        autoComplete='off'
+                                    />
+                                    <Controller
+                                        name="CompanyType"
+                                        control={control}
+                                        defaultValue=""
+                                        render={({
+                                            field: { onChange, value },
+                                            fieldState: { error },
+                                        }) => (
+                                            <>
+                                                <CustomDropDown
+                                                    labelText="Company type"
+                                                    formControlProps={{
+                                                        fullWidth: true,
+                                                        style: { marginTop: 15 }
+                                                    }}
+                                                    inputProps={{
+                                                        error: !!error,
+                                                        value: value,
+                                                        onChange: onChange,
+                                                    }}
+                                                    labelProps={{
+                                                        style: { fontFamily: theme.fontFamily.nunitoSansRegular }
+                                                    }}
+                                                    data={companyType || []}
+                                                />
+                                                {error?.message && <HelperText>{error?.message}</HelperText>}
+                                            </>
+                                        )}
+                                        rules={{ required: "Company type is required" }}
+                                    />
 
-                <ButtonContainer>
-                    <AppButton
-                        variant={"outline"}
-                        onClick={() => navigate(-1)}
-                    >
-                        Cancel
-                    </AppButton>
-                    <AppButton variant={"fill"} style={{ marginLeft: "15px" }}>Create new user</AppButton>
-                </ButtonContainer>
-            </MetaDataDetailsContainer>
+                                    <StyledTextField
+                                        fullWidth
+                                        id="standard-basic"
+                                        label="Company URN / ID"
+                                        value={state?.metaData?.artist}
+                                        className="mt-3"
+                                        onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, artist: e.target.value } }) }}
+                                    />
+                                </>
+                            }
+                            <Grid className="mt-5">
+                            </Grid>
+
+                            <Grid container >
+                                <Grid style={{ padding: "5px", borderRadius: "50%", backgroundColor: theme.colors.secondary.lightTeal }}>
+                                    <LockIcon style={{ color: theme.colors.primary.teal }} />
+                                </Grid>
+                            </Grid>
+                            <H4 className='mt-2'>Password</H4>
+                            <StyledTextField
+                                fullWidth
+                                id="standard-basic"
+                                label="Temporary password"
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                aria-label="toggle password visibility"
+                                                // onClick={() => {
+                                                //     setState({
+                                                //         ...state,
+                                                //         showNewPassword: !state?.showNewPassword,
+                                                //     });
+                                                // }}
+                                                onMouseDown={(event) => {
+                                                    event.preventDefault();
+                                                }}
+                                            >
+                                                {state?.showNewPassword ? <Visibility /> : <VisibilityOff />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    ),
+                                }}
+                            />
+
+                        </Grid >
+                    </Grid>
+
+                    <ProperAccessContainer>
+                    </ProperAccessContainer>
+
+                    <ButtonContainer>
+                        <AppButton
+                            variant={"outline"}
+                            onClick={() => navigate(-1)}
+                        >
+                            Cancel
+                        </AppButton>
+                        <AppButton type="submit" variant={"fill"} style={{ marginLeft: "15px" }}>Create new user</AppButton>
+                    </ButtonContainer>
+                </MetaDataDetailsContainer>
+            </form>
         </CreateUserContainer >
     )
 }

@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import AppButton from "../../../components/common/AppButton/AppButton";
 import { CustomRadioButton } from "../../../components/common/AppRadioButton/AppRadioButton";
 import CustomDropDown from "../../../components/common/AppTextInput/CustomDropDown";
+import AppToggleSwitch from "../../../components/common/AppToggleSwitch/AppToggleSwitch";
 import CustomDatePicker from "../../../components/common/FilterComponent/components/CustomDatePicker";
 import { maxUses } from "../../../constants/constants";
 import { StyledTextField } from "../../../StyledComponents/StyledAppTextInput/StyledAppTextInput";
@@ -33,6 +34,9 @@ const initialState = {
   maxMonitor: "",
   validity: "",
   success: false,
+  checkedEncode: true,
+  checkedMonitor: true,
+  checkedActive: true,
   metaData: {}
 }
 
@@ -116,9 +120,9 @@ export default function AddLicence() {
                     value={value}
                     onChange={onChange}
                     style={{ marginTop: "15px" }}
-                    InputLabelProps={{
-                      shrink: true
-                    }}
+                    // InputLabelProps={{
+                    //   shrink: true
+                    // }}
                     inputProps={{
                       className: classes.textInput,
                     }}
@@ -147,9 +151,9 @@ export default function AddLicence() {
                     value={value}
                     onChange={onChange}
                     style={{ marginTop: "15px" }}
-                    InputLabelProps={{
-                      shrink: true
-                    }}
+                    // InputLabelProps={{
+                    //   shrink: true
+                    // }}
                     inputProps={{
                       className: classes.textInput,
                     }}
@@ -183,7 +187,7 @@ export default function AddLicence() {
                       onChange: onChange,
                     }}
                     labelProps={{
-                      shrink: true,
+                      // shrink: true,
                       style: { fontFamily: theme.fontFamily.nunitoSansRegular }
                     }}
                     data={maxUses || []}
@@ -216,7 +220,7 @@ export default function AddLicence() {
                       onChange: onChange,
                     }}
                     labelProps={{
-                      shrink: true,
+                      // shrink: true,
                       style: { fontFamily: theme.fontFamily.nunitoSansRegular }
                     }}
                     data={maxUses || []}
@@ -266,6 +270,39 @@ export default function AddLicence() {
         </Grid>
 
         <H4 className="mt-4">Status</H4>
+
+        <Grid container spacing={2} className="mt-1">
+          <Grid item>
+            <AppToggleSwitch
+              size={169}
+              checkedSize={102}
+              active={"\"UNLIMITED ENCODE\""}
+              inActive={"\"LIMITED ENCODE\""}
+              checked={state.checkedEncode}
+              onChange={(e) => setState({ ...state, checkedEncode: e.target.checked })}
+            />
+          </Grid>
+          <Grid item>
+            <AppToggleSwitch
+              size={175}
+              checkedSize={106}
+              active={"\"UNLIMITED MONITOR\""}
+              inActive={"\"LIMITED MONITOR\""}
+              checked={state.checkedMonitor}
+              onChange={(e) => setState({ ...state, checkedMonitor: e.target.checked })}
+            />
+          </Grid>
+          <Grid item>
+            <AppToggleSwitch
+              size={121}
+              checkedSize={70}
+              active={"\"ACTIVE\""}
+              inActive={"\"SUSPENDED\""}
+              checked={state.checkedActive}
+              onChange={(e) => setState({ ...state, checkedActive: e.target.checked })}
+            />
+          </Grid>
+        </Grid>
 
         <BorderBottom />
 

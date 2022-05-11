@@ -56,6 +56,7 @@ export const ActiveBox = styled(Grid)`
     border-radius: 5px;
     text-align: center;
     padding: 5px;
+    max-width: 100px;
 `
 
 export const SuspendedBox = styled(Grid)`
@@ -64,4 +65,5 @@ export const SuspendedBox = styled(Grid)`
     border-radius: 5px;
     text-align: center;
     padding: 5px;
+    max-width: 100px;
 `

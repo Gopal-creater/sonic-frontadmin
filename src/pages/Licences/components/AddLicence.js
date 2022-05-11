@@ -1,5 +1,5 @@
 import { FormControl, FormLabel, Grid, RadioGroup } from "@material-ui/core";
-import { ControlPoint, MusicNote } from "@material-ui/icons";
+import { MusicNote } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/styles";
 import cogoToast from "cogo-toast";
 import React from "react";
@@ -15,6 +15,7 @@ import { H1, H4 } from "../../../StyledComponents/StyledHeadings";
 import theme from "../../../theme";
 import { log } from "../../../utils/app.debug";
 import { AddLicenseContainer, BorderBottom, HelperText, RadioLabel, TuneBox } from "../LicenseStyled";
+import KeyValue from "./KeyValue";
 
 const useStyles = makeStyles(() => ({
   textInput: {
@@ -32,6 +33,7 @@ const initialState = {
   maxMonitor: "",
   validity: "",
   success: false,
+  metaData: {}
 }
 
 export default function AddLicence() {
@@ -254,13 +256,13 @@ export default function AddLicence() {
         </Grid>
 
         <Grid className="mt-3">
-          <AppButton
-            variant={"none"}
-            startIcon={<ControlPoint />}
-            style={{ padding: 0 }}
-          >
-            Add MetaData (Key/Value)
-          </AppButton>
+          <KeyValue
+            data={state.metaData}
+            onChangeData={(newData) => {
+              setState({ ...state, metaData: newData });
+            }}
+            containerStyle={{ marginTop: 5 }}
+          />
         </Grid>
 
         <H4 className="mt-4">Status</H4>

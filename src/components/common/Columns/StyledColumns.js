@@ -1,4 +1,4 @@
-import { MenuItem, Popover } from "@material-ui/core"
+import { Grid, MenuItem, Popover } from "@material-ui/core"
 import styled from "styled-components"
 import theme from "../../../theme"
 
@@ -22,11 +22,19 @@ export const ColumnMenuItem = styled(MenuItem)`
     }
 `
 
+export const FixedItem = styled(Grid)`
+    position: sticky;
+    background-color: white;
+    top: 0;
+    z-index: 2;
+`
+
 export const RestoreItem = styled(MenuItem)`
     font-family: ${theme.fontFamily.nunitoSansBold};
     font-size: 16px;
     color: ${theme.colors.primary.graphite};
     margin-top: 8px;
+    z-index: 1;
     :hover{
         background-color: white;
         color: ${theme.colors.secondary.lightNavy};
@@ -34,7 +42,8 @@ export const RestoreItem = styled(MenuItem)`
 `
 
 export const SearchColumn = styled(MenuItem)`
+    z-index: 1;
     :hover, :focus{
-        background-color: white;
+        background: transparent;
     }
 `

@@ -7,7 +7,7 @@ import TableMenu from '../../../components/common/Table/components/TableMenu';
 import { ActionMenuItem } from '../../../components/common/Table/TableStyled';
 import { ActiveBox, AlternateStyledTableData, StyledAlternateTableRow, StyledTableData, StyledTableHead, StyledTableRow, SuspendedBox } from '../../../StyledComponents/StyledTable/StyledTable';
 
-export default function LicenceTable({ data, licenseTableHead }) {
+export default function UsersTable({ data, usersTableHead }) {
     const navigate = useNavigate()
 
     return (
@@ -17,7 +17,7 @@ export default function LicenceTable({ data, licenseTableHead }) {
                     <TableHead>
                         <TableRow>
                             {
-                                licenseTableHead?.map((data, index) => {
+                                usersTableHead?.map((data, index) => {
                                     const isChecked = SelectedColumn(data?.title);
                                     if (isChecked)
                                         return (
@@ -38,20 +38,11 @@ export default function LicenceTable({ data, licenseTableHead }) {
                                     No Data
                                 </StyledTableData>
                             </TableRow> :
-                            data.map((data, index) => {
+                            data?.map((data, index) => {
                                 if (index % 2 !== 0) {
                                     return (
                                         <StyledAlternateTableRow key={data?._id}>
-                                            {/* <AlternateStyledTableData
-                                                style={{
-                                                    color: theme.colors.primary.navy,
-                                                    fontSize: theme.fontSize.h4,
-                                                    fontFamily: theme.fontFamily.nunitoSansBold
-                                                }}
-                                            >
-                                                {SelectedColumn("ACCOUNT NAME") && (index + 1)}
-                                            </AlternateStyledTableData> */}
-                                            {SelectedColumn("MAX USES ENCODE") &&
+                                            {SelectedColumn("USERNAME") &&
                                                 <AlternateStyledTableData>
                                                     {data?.isUnlimitedEncode === true
                                                         ? "Unlimited"
@@ -59,7 +50,7 @@ export default function LicenceTable({ data, licenseTableHead }) {
                                                     }
                                                 </AlternateStyledTableData>
                                             }
-                                            {SelectedColumn("MAX USES MONITOR") &&
+                                            {SelectedColumn("ID") &&
                                                 <AlternateStyledTableData>
                                                     {data?.isUnlimitedMonitor === true
                                                         ? "Unlimited"
@@ -67,18 +58,20 @@ export default function LicenceTable({ data, licenseTableHead }) {
                                                     }
                                                 </AlternateStyledTableData>
                                             }
+                                            {SelectedColumn("EMAIL") &&
+                                                <AlternateStyledTableData>{format(new Date(data?.validity), "dd/MM/yyyy")}</AlternateStyledTableData>
+                                            }
+                                            {SelectedColumn("PHONE NUMBER") &&
+                                                <AlternateStyledTableData>{data?.name}</AlternateStyledTableData>
+                                            }
                                             {SelectedColumn("ACCOUNT TYPE") &&
                                                 <AlternateStyledTableData>{data?.type || "---"}</AlternateStyledTableData>
                                             }
-                                            {/* <AlternateStyledTableData> {SelectedColumn("USERS") && (data?.type)}</AlternateStyledTableData> */}
-                                            {SelectedColumn("RENEWAL DATE") &&
-                                                <AlternateStyledTableData>{format(new Date(data?.validity), "dd/MM/yyyy")}</AlternateStyledTableData>
-                                            }
-                                            {SelectedColumn("LICENSE NAME") &&
-                                                <AlternateStyledTableData>{data?.name}</AlternateStyledTableData>
-                                            }
-                                            {SelectedColumn("KEY") &&
+                                            {SelectedColumn("ACCOUNT NAME") &&
                                                 <AlternateStyledTableData>{data?.key}</AlternateStyledTableData>
+                                            }
+                                            {SelectedColumn("USER TYPE") &&
+                                                <AlternateStyledTableData>{data?.type || "---"}</AlternateStyledTableData>
                                             }
                                             {SelectedColumn("STATUS") &&
                                                 <AlternateStyledTableData>
@@ -100,16 +93,7 @@ export default function LicenceTable({ data, licenseTableHead }) {
                                 }
                                 return (
                                     <StyledTableRow key={data?._id}>
-                                        {/* <StyledTableData
-                                            style={{
-                                                color: theme.colors.primary.navy,
-                                                fontSize: theme.fontSize.h4,
-                                                fontFamily: theme.fontFamily.nunitoSansBold
-                                            }}
-                                        >
-                                            {SelectedColumn("ACCOUNT NAME") && (index + 1)}
-                                        </StyledTableData> */}
-                                        {SelectedColumn("MAX USES ENCODE") &&
+                                        {SelectedColumn("USERNAME") &&
                                             <StyledTableData>
                                                 {data?.isUnlimitedEncode === true
                                                     ? "Unlimited"
@@ -117,7 +101,7 @@ export default function LicenceTable({ data, licenseTableHead }) {
                                                 }
                                             </StyledTableData>
                                         }
-                                        {SelectedColumn("MAX USES MONITOR") &&
+                                        {SelectedColumn("ID") &&
                                             <StyledTableData>
                                                 {data?.isUnlimitedMonitor === true
                                                     ? "Unlimited"
@@ -125,18 +109,20 @@ export default function LicenceTable({ data, licenseTableHead }) {
                                                 }
                                             </StyledTableData>
                                         }
+                                        {SelectedColumn("EMAIL") &&
+                                            <StyledTableData>{format(new Date(data?.validity), "dd/MM/yyyy")}</StyledTableData>
+                                        }
+                                        {SelectedColumn("PHONE NUMBER") &&
+                                            <StyledTableData>{data?.name}</StyledTableData>
+                                        }
                                         {SelectedColumn("ACCOUNT TYPE") &&
                                             <StyledTableData>{data?.type || "---"}</StyledTableData>
                                         }
-                                        {/* <AlternateStyledTableData> {SelectedColumn("USERS") && (data?.type)}</AlternateStyledTableData> */}
-                                        {SelectedColumn("RENEWAL DATE") &&
-                                            <StyledTableData>{format(new Date(data?.validity), "dd/MM/yyyy")}</StyledTableData>
-                                        }
-                                        {SelectedColumn("LICENSE NAME") &&
-                                            <StyledTableData>{data?.name}</StyledTableData>
-                                        }
-                                        {SelectedColumn("KEY") &&
+                                        {SelectedColumn("ACCOUNT NAME") &&
                                             <StyledTableData>{data?.key}</StyledTableData>
+                                        }
+                                        {SelectedColumn("USER TYPE") &&
+                                            <StyledTableData>{data?.type || "---"}</StyledTableData>
                                         }
                                         {SelectedColumn("STATUS") &&
                                             <StyledTableData>

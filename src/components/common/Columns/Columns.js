@@ -5,7 +5,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import AppButton from '../AppButton/AppButton'
 import AppCheckBox from '../AppCheckBox'
-import { ColumnMenuItem, ColumnPopup, RestoreItem, SearchColumn } from './StyledColumns'
+import { ColumnMenuItem, ColumnPopup, FixedItem, RestoreItem, SearchColumn } from './StyledColumns'
 import * as actionTypes from "../../../stores/actions/actionTypes"
 import { StyledTextField } from '../../../StyledComponents/StyledAppTextInput/StyledAppTextInput'
 import theme from '../../../theme'
@@ -77,31 +77,33 @@ export default function Columns({ columns }) {
                 transformOrigin={{ vertical: 'top', horizontal: 'right' }}
             >
                 <>
-                    <RestoreItem onClick={() => dispatch({ type: actionTypes.CHECKED_TABLE_COLUMN, data: [...state.filterColumn] })}>
-                        Restore defaults
-                    </RestoreItem>
-                    <SearchColumn>
-                        <StyledTextField
-                            fullWidth
-                            value={state.input}
-                            onChange={(e) => setState({ ...state, input: e.target.value })}
-                            InputLabelProps={{
-                                style: {
-                                    fontSize: theme.fontSize.h4,
-                                    color: theme.colors.secondary.mediumGrey,
-                                    fontFamily: theme.fontFamily.nunitoSansBold
-                                }
-                            }}
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <Search />
-                                    </InputAdornment>
-                                ),
-                            }}
-                            inputProps={{ style: { fontSize: theme.fontSize.h4 } }}
-                        />
-                    </SearchColumn>
+                    <FixedItem>
+                        <RestoreItem onClick={() => dispatch({ type: actionTypes.CHECKED_TABLE_COLUMN, data: [...state.filterColumn] })}>
+                            Restore defaults
+                        </RestoreItem>
+                        <SearchColumn>
+                            <StyledTextField
+                                // fullWidth
+                                value={state.input}
+                                onChange={(e) => setState({ ...state, input: e.target.value })}
+                                InputLabelProps={{
+                                    style: {
+                                        fontSize: theme.fontSize.h4,
+                                        color: theme.colors.secondary.mediumGrey,
+                                        fontFamily: theme.fontFamily.nunitoSansBold,
+                                    }
+                                }}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <Search />
+                                        </InputAdornment>
+                                    ),
+                                }}
+                                inputProps={{ style: { fontSize: theme.fontSize.h4 } }}
+                            />
+                        </SearchColumn>
+                    </FixedItem>
 
                     {state?.loading ?
                         <div style={{ textAlign: 'center', padding: 20 }}>
@@ -114,6 +116,7 @@ export default function Columns({ columns }) {
                                 return (
                                     <ColumnMenuItem key={index}>
                                         <FormControlLabel
+                                            style={{ zIndex: 1 }}
                                             control={
                                                 <AppCheckBox
                                                     value={isChecked}

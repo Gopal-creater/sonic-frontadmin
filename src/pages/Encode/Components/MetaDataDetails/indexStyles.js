@@ -74,3 +74,21 @@ export const SearchTrackContainer = styled(Grid)`
     width:100% ;
     background-color:white ;
 `
+
+export const PopUpContainer = styled(Grid)`
+    padding:${props => props.padding || "40px"};
+`
+
+export const TitleContainer = styled(Grid)`    
+    padding:0px 20px 20px 20px;
+    position:relative ;
+
+    ::before {
+        content:"";
+        position: absolute;
+        width: 100%;
+        height:65% ;
+        top:35%;
+        background-color: ${theme.colors.secondary.lightTeal} !important;
+    }
+`

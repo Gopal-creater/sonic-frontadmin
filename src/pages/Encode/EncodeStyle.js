@@ -26,3 +26,21 @@ export const AppAutoCompleteContainer = styled(Grid)`
     background-color:white ;
     margin-top:15px ;
 `
+export const TrackContainer = styled(Grid)`
+    margin-top:40px ;
+    padding:40px ;
+    background-color:white ;
+`
+
+export const TrackTitleContainer = styled(Grid)`
+    display:flex ;
+    justify-content:space-between ;
+`
+
+export const TrackFilterContainer = styled(Grid)`
+    margin-top:10px ;
+`
+
+export const TrackTableContainer = styled(Grid)`
+    margin-top:25px ;
+`

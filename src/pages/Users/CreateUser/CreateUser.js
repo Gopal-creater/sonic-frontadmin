@@ -11,6 +11,7 @@ import AppButton from "../../../components/common/AppButton/AppButton";
 import theme from "../../../theme";
 import AppCheckBox from "../../../components/common/AppCheckBox";
 import MuiPhoneNumber from 'material-ui-phone-number';
+import { useNavigate } from "react-router-dom";
 
 
 export default function CreateUser() {
@@ -44,6 +45,7 @@ export default function CreateUser() {
             isAuthorizedForEncode: null
         }
     })
+    const navigate = useNavigate()
 
     const handleOnChange = value => {
         setState(value);
@@ -231,7 +233,7 @@ export default function CreateUser() {
                 <ButtonContainer>
                     <AppButton
                         variant={"outline"}
-                    // onClick={() => dispatch({ type: actionTypes.CLEAR_SELECTED_FILE })}
+                        onClick={() => navigate(-1)}
                     >
                         Cancel
                     </AppButton>

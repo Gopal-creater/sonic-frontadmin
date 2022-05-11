@@ -5,16 +5,15 @@ import { useNavigate } from 'react-router-dom'
 import Columns from '../../components/common/Columns/Columns'
 import CommonDataLoadErrorSuccess from '../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess'
 import FilterCreate from '../../components/common/FilterComponent/FilterCreate'
-import { usersTableHeads } from '../../constants/constants'
+import { companiesTableHeads } from '../../constants/constants'
 import { fetchLicenceKeys } from '../../stores/actions/licenceKey'
 import { H1, H4 } from '../../StyledComponents/StyledHeadings'
 import theme from '../../theme'
-import UsersFilter from './components/UsersFilter'
-import UsersTable from './components/UsersTable'
-import { UsersContainer } from './UsersStyled'
+import { CompaniesContainer } from './CompaniesStyled'
+import CompanyTable from './components/CompanyTable'
 
-export default function Users() {
-    const users = useSelector(state => state.licenceKey)
+export default function Companies() {
+    const company = useSelector(state => state.licenceKey)
     const dispatch = useDispatch()
     const navigate = useNavigate()
     // log("USERS", users)
@@ -24,32 +23,32 @@ export default function Users() {
     }, []);
 
     return (
-        <UsersContainer>
+        <CompaniesContainer>
             <Grid container justifyContent="space-between" alignItems="center">
                 <Grid item>
-                    <H1>Users</H1>
+                    <H1>Companies</H1>
                     <H4 fontFamily={theme.fontFamily.nunitoSansRegular} color={theme.colors.primary.teal}>
-                        Manage all users
+                        Manage all companies
                     </H4>
                 </Grid>
                 <Grid item>
-                    <Columns columns={usersTableHeads} />
+                    <Columns columns={companiesTableHeads} />
                 </Grid>
             </Grid>
 
             <FilterCreate
-                filterComponent={<UsersFilter />}
-                createComponent={() => navigate("/create-user")}
-                btnTitle={"Create new user"}
+                // filterComponent={}
+                createComponent={() => navigate("/create-company")}
+                btnTitle={"Create new company"}
             />
 
             <CommonDataLoadErrorSuccess
-                error={users.error}
-                loading={users.loading}
+                error={company.error}
+                loading={company.loading}
                 onClickTryAgain={() => dispatch(fetchLicenceKeys())}
             >
-                <UsersTable data={users.data?.docs} usersTableHead={usersTableHeads} />
+                <CompanyTable data={company.data?.docs} companyTableHead={companiesTableHeads} />
             </CommonDataLoadErrorSuccess>
-        </UsersContainer>
+        </CompaniesContainer>
     )
 }

@@ -16,7 +16,7 @@ import RadioStations from "../pages/Monitor/RadioStation/RadioStation";
 import { getAllRadioListAction } from "../stores/actions/radioStationAction";
 import { useDispatch } from "react-redux";
 import RoleAuth from "../components/hoc/RoleAuth";
-import Companies from "../pages/Companies/index.js";
+import Companies from "../pages/Companies/Companies";
 import UnAuthorized from "../components/hoc/UnAuthorized";
 import AddLicence from "../pages/Licences/components/AddLicence";
 import AdminProfile from "../pages/Profile/AdminProfile";

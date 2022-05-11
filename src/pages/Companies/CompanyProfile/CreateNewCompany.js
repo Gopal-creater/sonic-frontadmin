@@ -9,6 +9,7 @@ import theme from "../../../theme";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import AppButton from "../../../components/common/AppButton/AppButton";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 
 export default function CreateNewCompany() {
@@ -40,6 +41,8 @@ export default function CreateNewCompany() {
             isAuthorizedForEncode: null
         }
     })
+    const navigate = useNavigate()
+
     return (
         <CompanyProfileContainer>
             <MetaDataDetailsContainer>
@@ -143,7 +146,7 @@ export default function CreateNewCompany() {
                 <ButtonContainer>
                     <AppButton
                         variant={"outline"}
-                    // onClick={() => dispatch({ type: actionTypes.CLEAR_SELECTED_FILE })}
+                        onClick={() => navigate(-1)}
                     >
                         Cancel
                     </AppButton>

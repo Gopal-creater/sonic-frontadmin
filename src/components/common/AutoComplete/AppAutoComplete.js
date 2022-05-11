@@ -37,6 +37,7 @@ export default function AppAutoComplete({
         setState({ ...state, open: false });
     }
 
+
     return (
         <StyledAutocomplete
             {...props}
@@ -48,6 +49,7 @@ export default function AppAutoComplete({
             onInputChange={getOnInputChange}
             onChange={getSelectedValue}
             renderInput={(params) => {
+                log("params", params)
                 return (
                     <AutocompleteTextfield
                         {...params}

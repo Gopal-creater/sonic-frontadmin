@@ -366,7 +366,7 @@ export default function Encode() {
                             <StyledTextField
                                 fullWidth
                                 id="standard-basic"
-                                label="Additional Metada"
+                                label="Additional MetaData"
                                 value={values?.data?.additionalMetadata?.message}
                                 onChange={(e) => { setValues({ ...values, data: { ...values?.data, additionalMetadata: { message: e.target.value } } }) }} />
                         </Grid>

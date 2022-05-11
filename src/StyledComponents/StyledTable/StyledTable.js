@@ -55,15 +55,15 @@ export const ActiveBox = styled(Grid)`
     color: ${theme.colors.primary.teal};
     border-radius: 5px;
     text-align: center;
-    padding: 5px;
-    max-width: 100px;
+    padding: 5px 0px;
+    width: 80px;
 `
 
 export const SuspendedBox = styled(Grid)`
-    background-color: ${theme.colors.secondary.lightError};
-    color: ${theme.colors.secondary.error};
+    background-color: ${theme.colors.secondary.mediumGrey};
+    color: ${theme.colors.secondary.tableColor};
     border-radius: 5px;
     text-align: center;
-    padding: 5px;
-    max-width: 100px;
+    padding: 5px 0px;
+    width: 80px;
 `

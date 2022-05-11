@@ -1482,6 +1482,17 @@ export const usersTableHeads = [
   { title: "ACTION" },
 ]
 
+export const companiesTableHeads = [
+  { title: "COMPANY" },
+  { title: "COMPANY TYPE" },
+  { title: "ID" },
+  { title: "EMAIL" },
+  { title: "PHONE NUMBER" },
+  { title: "ADMIN" },
+  { title: "STATUS" },
+  { title: "ACTION" },
+]
+
 //Dropdown values
 export const channel = [
   { name: "ALL" },

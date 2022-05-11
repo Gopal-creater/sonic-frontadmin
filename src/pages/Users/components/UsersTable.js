@@ -127,7 +127,7 @@ export default function UsersTable({ data, usersTableHead }) {
                                         {SelectedColumn("STATUS") &&
                                             <StyledTableData>
                                                 {data?.suspended === true
-                                                    ? <SuspendedBox>SUSPENDED</SuspendedBox>
+                                                    ? <SuspendedBox>INACTIVE</SuspendedBox>
                                                     : <ActiveBox>ACTIVE</ActiveBox>
                                                 }
                                             </StyledTableData>

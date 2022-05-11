@@ -43,7 +43,14 @@ export default function DragDropFile({ handleFiles }) {
             onDrop={handleDrop}
             onSubmit={(e) => e.preventDefault()}
         >
-            <FileInput ref={inputRef} id="input-file-upload" type="file" multiple={true} onChange={handleChange} />
+            <FileInput
+                ref={inputRef}
+                id="input-file-upload"
+                type="file"
+                multiple={true}
+                onChange={handleChange}
+                accept="audio/*"
+            />
 
             <DragDopLabel htmlFor='input-file-upload'>
                 <img src={iconAddSound} width={"50px"} />

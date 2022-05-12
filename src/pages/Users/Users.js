@@ -8,10 +8,10 @@ import FilterCreate from '../../components/common/FilterComponent/FilterCreate'
 import { usersTableHeads } from '../../constants/constants'
 import { fetchLicenceKeys } from '../../stores/actions/licenceKey'
 import { H1, H4 } from '../../StyledComponents/StyledHeadings'
+import { MainContainer } from '../../StyledComponents/StyledPageContainer'
 import theme from '../../theme'
 import UsersFilter from './components/UsersFilter'
 import UsersTable from './components/UsersTable'
-import { UsersContainer } from './UsersStyled'
 
 export default function Users() {
     const users = useSelector(state => state.licenceKey)
@@ -24,7 +24,7 @@ export default function Users() {
     }, []);
 
     return (
-        <UsersContainer>
+        <MainContainer>
             <Grid container justifyContent="space-between" alignItems="center">
                 <Grid item>
                     <H1>Users</H1>
@@ -50,6 +50,6 @@ export default function Users() {
             >
                 <UsersTable data={users.data?.docs} usersTableHead={usersTableHeads} />
             </CommonDataLoadErrorSuccess>
-        </UsersContainer>
+        </MainContainer>
     )
 }

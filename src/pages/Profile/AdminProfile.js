@@ -1,256 +1,374 @@
 import { Grid, IconButton, InputAdornment } from '@material-ui/core'
-import moment from 'moment'
 import React from 'react'
 import AppButton from '../../components/common/AppButton/AppButton'
 import { StyledTextField } from '../../StyledComponents/StyledAppTextInput/StyledAppTextInput'
-import { H2, H4 } from '../../StyledComponents/StyledHeadings'
+import { H1, H4 } from '../../StyledComponents/StyledHeadings'
 import theme from '../../theme'
-import { AdminProfileContainer, ButtonContainer, MetaDataDetailsContainer, ProperAccessContainer } from './AdminProfileStyles'
 import EmojiFlagsIcon from '@material-ui/icons/EmojiFlags';
 import LockIcon from '@material-ui/icons/Lock';
 import { Visibility, VisibilityOff } from '@material-ui/icons'
 import AppToggleSwitch from '../../components/common/AppToggleSwitch/AppToggleSwitch'
+import { useNavigate } from 'react-router-dom'
+import { MainContainer } from '../../StyledComponents/StyledPageContainer'
+import { Controller, useForm } from 'react-hook-form'
+import { BorderBottom } from './AdminProfileStyles'
+import { HelperText } from '../Licences/LicenseStyled'
+import { makeStyles } from '@material-ui/styles'
+
+const useStyles = makeStyles(() => ({
+    textInput: {
+        "&:-webkit-autofill": {
+            WebkitBoxShadow: "0 0 0 1000px white inset"
+        }
+    },
+}));
 
 export default function AdminProfile() {
+    const classes = useStyles();
     const [state, setState] = React.useState({
-        copyMetaData: false,
-        showPassword: false,
+        showCurrentPassword: false,
         showNewPassword: false,
         showConfirmPassword: false,
-        metaData: {
-            title: "",
-            contentSize: "",
-            contentEncoding: "",
-            contentType: "",
-            artist: "",
-            contentSamplingFrequency: "",
-            contentQuality: "",
-            isrcCode: "",
-            iswcCode: "",
-            tuneCode: "",
-            contentDescription: "",
-            distributor: "",
-            contentFileType: "",
-            label: "",
-            additionalMetadata: {
-
-            },
-            contentDuration: "",
-            isRightsHolderForEncode: null,
-            isAuthorizedForEncode: null
-        }
     })
+    const { handleSubmit, control, reset } = useForm();
+    const navigate = useNavigate()
+
+    const updateProfile = () => { }
+
     return (
-        <AdminProfileContainer>
-            <MetaDataDetailsContainer>
-                <H2>Admin profile</H2>
-                <Grid className="mb-4">
-                    <H4 color={theme.colors.primary.teal}>Update Admin details</H4>
-                </Grid>
-                <Grid container spacing={10}>
-                    <Grid item lg={6}>
-                        <Grid container >
+        <MainContainer>
+            <H1>Admin profile</H1>
+            <H4 fontFamily={theme.fontFamily.nunitoSansRegular} color={theme.colors.primary.teal}>
+                Update Admin details
+            </H4>
+
+            <form onSubmit={handleSubmit(updateProfile)}>
+                <Grid container spacing={6} className='mt-2'>
+                    <Grid item xs={12} md={6}>
+                        <Grid container>
                             <Grid style={{ padding: "5px", borderRadius: "50%", backgroundColor: theme.colors.secondary.lightTeal }}>
                                 <EmojiFlagsIcon style={{ color: theme.colors.primary.teal }} />
                             </Grid>
                         </Grid>
                         <H4 className='mt-2'>Partner admin details</H4>
-                        <StyledTextField
-                            fullWidth
-                            id="standard-basic"
-                            label="Username*"
-                            value={state?.metaData?.title}
-                            onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, title: e.target.value } }) }}
-                            // placeholder='Song,Video or Audio track title'
-                            autoComplete='off'
-                        />
 
-                        <StyledTextField
-                            fullWidth
-                            id="standard-basic"
-                            label="Type"
-                            value={state?.metaData?.title}
-                            className="mt-3"
-                            onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, type: e.target.value } }) }}
-                            autoComplete='off'
-                        />
-
-
-                        <StyledTextField
-                            fullWidth
-                            id="standard-basic"
-                            label="Partner ID"
-                            value={state?.metaData?.artist}
-                            className="mt-3"
-                            onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, artist: e.target.value } }) }}
-                        />
-
-                        <StyledTextField
-                            fullWidth
-                            id="standard-basic"
-                            label="Email*"
-                            className="mt-3"
-                            value={state?.metaData?.version}
-                            onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, version: e.target.value } }) }}
-                        />
-
-                        <StyledTextField
-                            fullWidth
-                            id="standard-basic"
-                            label="Phone number"
-                            className="mt-3"
-                            value={state?.metaData?.isrcCode}
-                            onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, isrcCode: e.target.value } }) }}
-                        // helperText="Hint: GB-H01-02-12345."
-                        />
-                        <Grid container>
-                            <Grid className='mt-4'>
-                                <H4>Status</H4>
-                            </Grid>
+                        <Grid style={{ marginTop: 15 }}>
+                            <Controller
+                                name="username"
+                                control={control}
+                                defaultValue=""
+                                render={({
+                                    field: { onChange, value },
+                                    fieldState: { error },
+                                }) => (
+                                    <>
+                                        <StyledTextField
+                                            fullWidth
+                                            label="Username*"
+                                            error={!!error}
+                                            value={value}
+                                            onChange={onChange}
+                                        />
+                                        {error?.message && <HelperText>{error?.message}</HelperText>}
+                                    </>
+                                )}
+                                rules={{ required: "Username is required" }}
+                            />
                         </Grid>
-                        <Grid container>
-                            <Grid>
-                                <AppToggleSwitch />
-                            </Grid>
-                        </Grid>
-                    </Grid >
 
-                    <Grid item lg={6}>
-                        <Grid container >
+                        <Grid style={{ marginTop: 15 }}>
+                            <Controller
+                                name="type"
+                                control={control}
+                                defaultValue=""
+                                render={({
+                                    field: { onChange, value },
+                                    fieldState: { error },
+                                }) => (
+                                    <>
+                                        <StyledTextField
+                                            fullWidth
+                                            label="Type"
+                                            error={!!error}
+                                            value={value}
+                                            onChange={onChange}
+                                        />
+                                        {error?.message && <HelperText>{error?.message}</HelperText>}
+                                    </>
+                                )}
+                            />
+                        </Grid>
+
+                        <Grid style={{ marginTop: 15 }}>
+                            <Controller
+                                name="partnerID"
+                                control={control}
+                                defaultValue=""
+                                render={({
+                                    field: { onChange, value },
+                                    fieldState: { error },
+                                }) => (
+                                    <>
+                                        <StyledTextField
+                                            fullWidth
+                                            label="Partner ID"
+                                            error={!!error}
+                                            value={value}
+                                            onChange={onChange}
+                                        />
+                                        {error?.message && <HelperText>{error?.message}</HelperText>}
+                                    </>
+                                )}
+                            />
+                        </Grid>
+
+                        <Grid style={{ marginTop: 15 }}>
+                            <Controller
+                                name="email"
+                                control={control}
+                                defaultValue=""
+                                render={({
+                                    field: { onChange, value },
+                                    fieldState: { error },
+                                }) => (
+                                    <>
+                                        <StyledTextField
+                                            fullWidth
+                                            label="Email*"
+                                            error={!!error}
+                                            value={value}
+                                            onChange={onChange}
+                                            inputProps={{
+                                                className: classes.textInput
+                                            }}
+                                        />
+                                        {error?.message && <HelperText>{error?.message}</HelperText>}
+                                    </>
+                                )}
+                                rules={{ required: "Email is required" }}
+                            />
+                        </Grid>
+
+                        <Grid style={{ marginTop: 15 }}>
+                            <Controller
+                                name="phone"
+                                control={control}
+                                defaultValue=""
+                                render={({
+                                    field: { onChange, value },
+                                    fieldState: { error },
+                                }) => (
+                                    <>
+                                        <StyledTextField
+                                            fullWidth
+                                            label="Phone number"
+                                            error={!!error}
+                                            value={value}
+                                            onChange={onChange}
+                                            inputProps={{
+                                                className: classes.textInput
+                                            }}
+                                        />
+                                        {error?.message && <HelperText>{error?.message}</HelperText>}
+                                    </>
+                                )}
+                            />
+                        </Grid>
+                    </Grid>
+
+                    <Grid item xs={12} md={6}>
+                        <Grid container>
                             <Grid style={{ padding: "5px", borderRadius: "50%", backgroundColor: theme.colors.secondary.lightTeal }}>
                                 <LockIcon style={{ color: theme.colors.primary.teal }} />
                             </Grid>
                         </Grid>
                         <H4 className='mt-2'>Password</H4>
-                        <StyledTextField
-                            fullWidth
-                            id="standard-basic"
-                            label="Current password"
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        <IconButton
-                                            aria-label="toggle password visibility"
-                                            // onClick={() => {
-                                            //     setState({
-                                            //         ...state,
-                                            //         showNewPassword: !state?.showNewPassword,
-                                            //     });
-                                            // }}
-                                            onMouseDown={(event) => {
-                                                event.preventDefault();
-                                            }}
-                                        >
-                                            {state?.showNewPassword ? <Visibility /> : <VisibilityOff />}
-                                        </IconButton>
-                                    </InputAdornment>
-                                ),
-                            }}
-                        />
 
-                        <StyledTextField
-                            fullWidth
-                            id="standard-basic"
-                            label="New password"
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        <IconButton
-                                            aria-label="toggle password visibility"
-                                            // onClick={() => {
-                                            //     setState({
-                                            //         ...state,
-                                            //         showNewPassword: !state?.showNewPassword,
-                                            //     });
-                                            // }}
-                                            onMouseDown={(event) => {
-                                                event.preventDefault();
+                        <Grid style={{ marginTop: 15 }}>
+                            <Controller
+                                name="currentPassword"
+                                control={control}
+                                defaultValue=""
+                                render={({
+                                    field: { onChange, value },
+                                    fieldState: { error },
+                                }) => (
+                                    <>
+                                        <StyledTextField
+                                            label="Current password"
+                                            fullWidth
+                                            type={state?.showCurrentPassword ? "text" : "password"}
+                                            value={value}
+                                            onChange={onChange}
+                                            error={!!error}
+                                            autoComplete="new-password"
+                                            InputProps={{
+                                                endAdornment: (
+                                                    <InputAdornment position="end">
+                                                        <IconButton
+                                                            aria-label="toggle password visibility"
+                                                            onClick={() => {
+                                                                setState({
+                                                                    ...state,
+                                                                    showCurrentPassword: !state?.showCurrentPassword,
+                                                                });
+                                                            }}
+                                                            onMouseDown={(event) => {
+                                                                event.preventDefault();
+                                                            }}
+                                                        >
+                                                            {state?.showCurrentPassword ? <Visibility /> : <VisibilityOff />}
+                                                        </IconButton>
+                                                    </InputAdornment>
+                                                ),
                                             }}
-                                        >
-                                            {state?.showNewPassword ? <Visibility /> : <VisibilityOff />}
-                                        </IconButton>
-                                    </InputAdornment>
-                                ),
-                            }}
-                        />
-
-                        <StyledTextField
-                            fullWidth
-                            id="standard-basic"
-                            label="Re-enter new password password"
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        <IconButton
-                                            aria-label="toggle password visibility"
-                                            // onClick={() => {
-                                            //     setState({
-                                            //         ...state,
-                                            //         showNewPassword: !state?.showNewPassword,
-                                            //     });
-                                            // }}
-                                            onMouseDown={(event) => {
-                                                event.preventDefault();
+                                            inputProps={{
+                                                className: classes.textInput,
                                             }}
-                                        >
-                                            {state?.showNewPassword ? <Visibility /> : <VisibilityOff />}
-                                        </IconButton>
-                                    </InputAdornment>
-                                ),
-                            }}
-                        />
+                                        />
+                                        {error?.message && <HelperText>{error?.message}</HelperText>}
+                                    </>
+                                )}
+                                rules={{ required: "Password is required" }}
+                            />
+                        </Grid>
 
+                        <Grid style={{ marginTop: 15 }}>
+                            <Controller
+                                name="newPassword"
+                                control={control}
+                                defaultValue=""
+                                render={({
+                                    field: { onChange, value },
+                                    fieldState: { error },
+                                }) => (
+                                    <>
+                                        <StyledTextField
+                                            label="New password"
+                                            fullWidth
+                                            type={state?.showNewPassword ? "text" : "password"}
+                                            value={value}
+                                            onChange={onChange}
+                                            error={!!error}
+                                            autoComplete="new-password"
+                                            InputProps={{
+                                                endAdornment: (
+                                                    <InputAdornment position="end">
+                                                        <IconButton
+                                                            aria-label="toggle password visibility"
+                                                            onClick={() => {
+                                                                setState({
+                                                                    ...state,
+                                                                    showNewPassword: !state?.showNewPassword,
+                                                                });
+                                                            }}
+                                                            onMouseDown={(event) => {
+                                                                event.preventDefault();
+                                                            }}
+                                                        >
+                                                            {state?.showNewPassword ? <Visibility /> : <VisibilityOff />}
+                                                        </IconButton>
+                                                    </InputAdornment>
+                                                ),
+                                            }}
+                                            inputProps={{
+                                                className: classes.textInput,
+                                            }}
+                                        />
+                                        {error?.message && <HelperText>{error?.message}</HelperText>}
+                                    </>
+                                )}
+                                rules={{ required: "Password is required" }}
+                            />
+                        </Grid>
+
+                        <Grid style={{ marginTop: 15 }}>
+                            <Controller
+                                name="confirmPassword"
+                                control={control}
+                                defaultValue=""
+                                render={({
+                                    field: { onChange, value },
+                                    fieldState: { error },
+                                }) => (
+                                    <>
+                                        <StyledTextField
+                                            label="Confirm password"
+                                            fullWidth
+                                            type={state?.showConfirmPassword ? "text" : "password"}
+                                            value={value}
+                                            onChange={onChange}
+                                            error={!!error}
+                                            autoComplete="new-password"
+                                            InputProps={{
+                                                endAdornment: (
+                                                    <InputAdornment position="end">
+                                                        <IconButton
+                                                            aria-label="toggle password visibility"
+                                                            onClick={() => {
+                                                                setState({
+                                                                    ...state,
+                                                                    showConfirmPassword: !state?.showConfirmPassword,
+                                                                });
+                                                            }}
+                                                            onMouseDown={(event) => {
+                                                                event.preventDefault();
+                                                            }}
+                                                        >
+                                                            {state?.showConfirmPassword ? <Visibility /> : <VisibilityOff />}
+                                                        </IconButton>
+                                                    </InputAdornment>
+                                                ),
+                                            }}
+                                            inputProps={{
+                                                className: classes.textInput,
+                                            }}
+                                        />
+                                        {error?.message && <HelperText>{error?.message}</HelperText>}
+                                    </>
+                                )}
+                                rules={{ required: "Password is required" }}
+                            />
+                        </Grid>
                     </Grid >
+                </Grid >
+
+                <H4 className="mt-5">Status</H4>
+
+                <Grid className="mt-1">
+                    <Controller
+                        name="status"
+                        control={control}
+                        defaultValue=""
+                        render={({
+                            field: { onChange, value },
+                            fieldState: { error },
+                        }) => (
+                            <>
+                                <AppToggleSwitch
+                                    size={121}
+                                    checkedSize={70}
+                                    active={"\"ACTIVE\""}
+                                    inActive={"\"SUSPENDED\""}
+                                    checked={value}
+                                    onChange={onChange}
+                                />
+                            </>
+                        )}
+                    />
                 </Grid>
 
-                <ProperAccessContainer>
-                    {/* <RightsHolderContainer>
-                        <H5
-                            color={theme.colors.secondary.grey}
-                        >
-                            Are you the Rights Holder for the audio file you wish to encode with a SonicKey?
-                        </H5>
-                        <RadioGroup row style={{ marginLeft: "20px" }}>
-                            <FormControlLabel
-                                control={<CustomRadioButton />}
-                                label={<RadioLabel>Yes</RadioLabel>}
-                            />
-                            <FormControlLabel
-                                control={<CustomRadioButton />}
-                                label={<RadioLabel>No</RadioLabel>}
-                            />
-                        </RadioGroup>
-                    </RightsHolderContainer>
+                <BorderBottom />
 
-                    <RightsHolderContainer>
-                        <H5
-                            color={theme.colors.secondary.grey}
-                        >
-                            Are you Authorised by the Rights Holder to encode this audio file with a SonicKey?
-                        </H5>
-                        <RadioGroup row style={{ marginLeft: "20px" }}>
-                            <FormControlLabel
-                                control={<CustomRadioButton />}
-                                label={<RadioLabel>Yes</RadioLabel>}
-                            />
-                            <FormControlLabel
-                                control={<CustomRadioButton />}
-                                label={<RadioLabel>No</RadioLabel>}
-                            />
-                        </RadioGroup>
-                    </RightsHolderContainer> */}
-                </ProperAccessContainer>
-
-                <ButtonContainer>
-                    <AppButton
-                        variant={"outline"}
-                    // onClick={() => dispatch({ type: actionTypes.CLEAR_SELECTED_FILE })}
-                    >
+                <Grid container className="mt-3 mb-2" justifyContent="flex-end">
+                    <AppButton variant={"outline"} className="mx-2" onClick={() => navigate(-1)}>
                         Cancel
                     </AppButton>
-                    <AppButton variant={"fill"} style={{ marginLeft: "15px" }}>Update details</AppButton>
-                </ButtonContainer>
-            </MetaDataDetailsContainer>
-        </AdminProfileContainer >
+                    <AppButton variant={"fill"} type="submit">
+                        Add new license
+                    </AppButton>
+                </Grid>
+            </form>
+        </MainContainer >
     )
 }

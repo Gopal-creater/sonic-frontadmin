@@ -8,8 +8,9 @@ import FilterCreate from '../../components/common/FilterComponent/FilterCreate'
 import { companiesTableHeads } from '../../constants/constants'
 import { fetchLicenceKeys } from '../../stores/actions/licenceKey'
 import { H1, H4 } from '../../StyledComponents/StyledHeadings'
+import { MainContainer } from '../../StyledComponents/StyledPageContainer'
 import theme from '../../theme'
-import { CompaniesContainer } from './CompaniesStyled'
+import CompanyFilter from './components/CompanyFilter'
 import CompanyTable from './components/CompanyTable'
 
 export default function Companies() {
@@ -23,7 +24,7 @@ export default function Companies() {
     }, []);
 
     return (
-        <CompaniesContainer>
+        <MainContainer>
             <Grid container justifyContent="space-between" alignItems="center">
                 <Grid item>
                     <H1>Companies</H1>
@@ -37,7 +38,7 @@ export default function Companies() {
             </Grid>
 
             <FilterCreate
-                // filterComponent={}
+                filterComponent={<CompanyFilter />}
                 createComponent={() => navigate("/create-company")}
                 btnTitle={"Create new company"}
             />
@@ -49,6 +50,6 @@ export default function Companies() {
             >
                 <CompanyTable data={company.data?.docs} companyTableHead={companiesTableHeads} />
             </CommonDataLoadErrorSuccess>
-        </CompaniesContainer>
+        </MainContainer>
     )
 }

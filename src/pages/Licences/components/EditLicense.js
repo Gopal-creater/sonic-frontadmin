@@ -12,9 +12,10 @@ import CustomDatePicker from "../../../components/common/FilterComponent/compone
 import { maxUses } from "../../../constants/constants";
 import { StyledTextField } from "../../../StyledComponents/StyledAppTextInput/StyledAppTextInput";
 import { H1, H4 } from "../../../StyledComponents/StyledHeadings";
+import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
 import theme from "../../../theme";
 import { log } from "../../../utils/app.debug";
-import { AddLicenseContainer, BorderBottom, HelperText, RadioLabel, TuneBox } from "../LicenseStyled";
+import { BorderBottom, HelperText, RadioLabel, TuneBox } from "../LicenseStyled";
 import AddNewUser from "./AddNewUser";
 import KeyValue from "./KeyValue";
 
@@ -54,7 +55,7 @@ export default function EditLicense() {
     }
 
     return (
-        <AddLicenseContainer>
+        <MainContainer>
             <H1>Edit license</H1>
             <H4 fontFamily={theme.fontFamily.nunitoSansRegular} color={theme.colors.primary.teal}>
                 Edit license
@@ -304,6 +305,6 @@ export default function EditLicense() {
                     </AppButton>
                 </Grid>
             </form>
-        </AddLicenseContainer>
+        </MainContainer>
     );
 }

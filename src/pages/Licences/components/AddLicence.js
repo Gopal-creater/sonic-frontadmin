@@ -13,9 +13,10 @@ import CustomDatePicker from "../../../components/common/FilterComponent/compone
 import { maxUses } from "../../../constants/constants";
 import { StyledTextField } from "../../../StyledComponents/StyledAppTextInput/StyledAppTextInput";
 import { H1, H4 } from "../../../StyledComponents/StyledHeadings";
+import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
 import theme from "../../../theme";
 import { log } from "../../../utils/app.debug";
-import { AddLicenseContainer, BorderBottom, HelperText, RadioLabel, TuneBox } from "../LicenseStyled";
+import { BorderBottom, HelperText, RadioLabel, TuneBox } from "../LicenseStyled";
 import KeyValue from "./KeyValue";
 
 const useStyles = makeStyles(() => ({
@@ -53,11 +54,11 @@ export default function AddLicence() {
   const handleAddLicense = (data) => {
     log("ADD LICENSE", data)
     cogoToast.success("License added successfully!")
-    setState({ ...state, success: true })
+    // setState({ ...state, success: true })
   }
 
   return (
-    <AddLicenseContainer>
+    <MainContainer>
       <H1>Add new license</H1>
       <H4 fontFamily={theme.fontFamily.nunitoSansRegular} color={theme.colors.primary.teal}>
         Add license
@@ -120,9 +121,6 @@ export default function AddLicence() {
                     value={value}
                     onChange={onChange}
                     style={{ marginTop: "15px" }}
-                    // InputLabelProps={{
-                    //   shrink: true
-                    // }}
                     inputProps={{
                       className: classes.textInput,
                     }}
@@ -151,9 +149,6 @@ export default function AddLicence() {
                     value={value}
                     onChange={onChange}
                     style={{ marginTop: "15px" }}
-                    // InputLabelProps={{
-                    //   shrink: true
-                    // }}
                     inputProps={{
                       className: classes.textInput,
                     }}
@@ -187,7 +182,6 @@ export default function AddLicence() {
                       onChange: onChange,
                     }}
                     labelProps={{
-                      // shrink: true,
                       style: { fontFamily: theme.fontFamily.nunitoSansRegular }
                     }}
                     data={maxUses || []}
@@ -220,7 +214,6 @@ export default function AddLicence() {
                       onChange: onChange,
                     }}
                     labelProps={{
-                      // shrink: true,
                       style: { fontFamily: theme.fontFamily.nunitoSansRegular }
                     }}
                     data={maxUses || []}
@@ -273,33 +266,71 @@ export default function AddLicence() {
 
         <Grid container spacing={2} className="mt-1">
           <Grid item>
-            <AppToggleSwitch
-              size={169}
-              checkedSize={102}
-              active={"\"UNLIMITED ENCODE\""}
-              inActive={"\"LIMITED ENCODE\""}
-              checked={state.checkedEncode}
-              onChange={(e) => setState({ ...state, checkedEncode: e.target.checked })}
+            <Controller
+              name="checkedEncode"
+              control={control}
+              defaultValue=""
+              render={({
+                field: { onChange, value },
+                fieldState: { error },
+              }) => (
+                <>
+                  <AppToggleSwitch
+                    size={169}
+                    checkedSize={102}
+                    active={"\"UNLIMITED ENCODE\""}
+                    inActive={"\"LIMITED ENCODE\""}
+                    checked={value}
+                    onChange={onChange}
+                  />
+                </>
+              )}
             />
           </Grid>
+
           <Grid item>
-            <AppToggleSwitch
-              size={175}
-              checkedSize={106}
-              active={"\"UNLIMITED MONITOR\""}
-              inActive={"\"LIMITED MONITOR\""}
-              checked={state.checkedMonitor}
-              onChange={(e) => setState({ ...state, checkedMonitor: e.target.checked })}
+            <Controller
+              name="checkedMonitor"
+              control={control}
+              defaultValue=""
+              render={({
+                field: { onChange, value },
+                fieldState: { error },
+              }) => (
+                <>
+                  <AppToggleSwitch
+                    size={175}
+                    checkedSize={106}
+                    active={"\"UNLIMITED MONITOR\""}
+                    inActive={"\"LIMITED MONITOR\""}
+                    checked={value}
+                    onChange={onChange}
+                  />
+                </>
+              )}
             />
           </Grid>
+
           <Grid item>
-            <AppToggleSwitch
-              size={121}
-              checkedSize={70}
-              active={"\"ACTIVE\""}
-              inActive={"\"SUSPENDED\""}
-              checked={state.checkedActive}
-              onChange={(e) => setState({ ...state, checkedActive: e.target.checked })}
+            <Controller
+              name="checkedActive"
+              control={control}
+              defaultValue=""
+              render={({
+                field: { onChange, value },
+                fieldState: { error },
+              }) => (
+                <>
+                  <AppToggleSwitch
+                    size={121}
+                    checkedSize={70}
+                    active={"\"ACTIVE\""}
+                    inActive={"\"SUSPENDED\""}
+                    checked={value}
+                    onChange={onChange}
+                  />
+                </>
+              )}
             />
           </Grid>
         </Grid>
@@ -307,21 +338,14 @@ export default function AddLicence() {
         <BorderBottom />
 
         <Grid container className="mt-3 mb-2" justifyContent="flex-end">
-          <AppButton
-            variant={"outline"}
-            className="mx-2"
-            onClick={() => navigate(-1)}
-          >
+          <AppButton variant={"outline"} className="mx-2" onClick={() => navigate(-1)}>
             Cancel
           </AppButton>
-          <AppButton
-            variant={"fill"}
-            type="submit"
-          >
+          <AppButton variant={"fill"} type="submit">
             Add new license
           </AppButton>
         </Grid>
       </form>
-    </AddLicenseContainer>
+    </MainContainer>
   );
 }

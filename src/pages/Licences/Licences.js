@@ -3,7 +3,6 @@ import { Grid } from "@material-ui/core";
 import { fetchLicenceKeys } from "../../stores/actions/licenceKey";
 import { useDispatch, useSelector } from "react-redux";
 import { H1, H4 } from "../../StyledComponents/StyledHeadings";
-import { LicenseContainer } from "./LicenseStyled";
 import theme from "../../theme";
 import Columns from "../../components/common/Columns/Columns";
 import { licenseTableHeads } from "../../constants/constants";
@@ -13,6 +12,7 @@ import LicenceTable from "./components/LicenceTable";
 import LicenseFilter from "./components/LicenseFilter";
 import { useNavigate } from "react-router-dom";
 import FilterCreate from "../../components/common/FilterComponent/FilterCreate";
+import { MainContainer } from "../../StyledComponents/StyledPageContainer";
 
 function Licences() {
   const license = useSelector(state => state.licenceKey)
@@ -25,7 +25,7 @@ function Licences() {
   }, []);
 
   return (
-    <LicenseContainer>
+    <MainContainer>
       <Grid container justifyContent="space-between" alignItems="center">
         <Grid item>
           <H1>Licenses</H1>
@@ -51,7 +51,7 @@ function Licences() {
       >
         <LicenceTable data={license.data?.docs} licenseTableHead={licenseTableHeads} />
       </CommonDataLoadErrorSuccess>
-    </LicenseContainer>
+    </MainContainer>
   );
 }
 

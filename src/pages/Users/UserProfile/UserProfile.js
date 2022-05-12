@@ -112,7 +112,14 @@ export default function UserProfile() {
                         </Grid>
                         <Grid container>
                             <Grid>
-                                <AppToggleSwitch />
+                                <AppToggleSwitch
+                                    size={121}
+                                    checkedSize={70}
+                                    active={"\"ACTIVE\""}
+                                    inActive={"\"SUSPENDED\""}
+                                    checked={state.checkedActive}
+                                    onChange={(e) => setState({ ...state, checkedActive: e.target.checked })}
+                                />
                             </Grid>
                         </Grid>
                     </Grid >

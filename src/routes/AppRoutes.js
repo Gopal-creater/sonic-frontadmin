@@ -59,6 +59,7 @@ export default function AppRoutes() {
           <Route path="/user-profile" element={<UserProfile />} />
           <Route path="/create-user" element={<CreeateUser />} />
 
+
           {/* Routes accessible by partner */}
           <Route element={<RoleAuth allowedRoles={["partner"]} />}>
             <Route path="/admin-profile" element={<AdminProfile />} />

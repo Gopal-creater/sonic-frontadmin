@@ -15,14 +15,16 @@ import { useNavigate } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 import CustomDropDown from "../../../components/common/AppTextInput/CustomDropDown";
 import cogoToast from "cogo-toast";
-import { companyType, userType } from "../../../constants/constants";
+import { companyType, countries, userType } from "../../../constants/constants";
 import { HelperText } from "../../Licences/LicenseStyled";
 import { log } from "../../../utils/app.debug";
+import CountryCode from "../../../components/common/AppTextInput/CountryCode";
 
 
 export default function CreateUser() {
     const { handleSubmit, control, reset } = useForm();
     const [state, setState] = React.useState({
+        countryCode: [],
         show: false,
         phone: "",
         copyMetaData: false,
@@ -63,7 +65,25 @@ export default function CreateUser() {
         cogoToast.success("user added");
     }
 
-    log("state create user", state)
+    // React.useEffect(() => {
+    //     getCountryCode()
+    // }, [])
+
+
+    // let getCountryCode = countries?.map?.((code) => {
+    //     return code.phoneCode;
+    // });
+
+
+    // const getCountryCode = () => {
+    //     let countryCodeList = countries?.map?.((code) => {
+    //         setState({ ...state, countryCode: [code?.phoneCode] })
+    //     })
+    //     return countryCodeList
+    // }
+
+    // log("state create user", getCountryCode)
+
 
     return (
         <CreateUserContainer>
@@ -151,6 +171,36 @@ export default function CreateUser() {
                             />
                             <Grid>
                                 <Grid className="mt-4">
+                                    <Controller
+                                        // name="accountType"
+                                        control={control}
+                                        defaultValue=""
+                                        // onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, accountType: e.target.value } }) }}
+                                        render={({
+                                            field: { onChange, value },
+                                            fieldState: { error },
+                                        }) => (
+                                            <>
+                                                <CountryCode
+                                                    labelText="Account type"
+                                                    formControlProps={{
+                                                        fullWidth: true,
+                                                        style: { marginTop: 15 }
+                                                    }}
+                                                    inputProps={{
+                                                        error: !!error,
+                                                        value: value,
+                                                        onChange: onChange,
+                                                    }}
+                                                    labelProps={{
+                                                        style: { fontFamily: theme.fontFamily.nunitoSansRegular }
+                                                    }}
+                                                />
+                                                {error?.message && <HelperText>{error?.message}</HelperText>}
+                                            </>
+                                        )}
+                                        rules={{ required: "Account type is required" }}
+                                    />
                                     <MuiPhoneNumber
                                         style={{ width: "100%" }}
                                         name="phone"

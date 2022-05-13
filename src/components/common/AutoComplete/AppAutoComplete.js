@@ -5,41 +5,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { log } from '../../../utils/app.debug';
 import { Search } from '@material-ui/icons';
 
-<<<<<<< HEAD
-export default function AppAutoComplete({
-    labelText,
-    placeholder,
-    loading,
-    error,
-    data,
-    onInputChange,
-    onChange,
-    optionLabel,
-    ...props
-}) {
-    const [state, setState] = React.useState({
-        open: false,
-        value: {}
-    })
-    const getOnInputChange = (event, value) => {
-        setState({ ...state, value: value })
-        if (value.length > 2) {
-            setState({ ...state, open: true })
-            onInputChange(value)
-        } else {
-            setState({ ...state, open: false });
-        }
-    };
-
-    const getSelectedValue = (event, value) => {
-        onChange(value)
-        setState({ ...state, open: false });
-    }
-
-
-=======
 export default function AppAutoComplete(props) {
->>>>>>> bfb45495d8a5b5de8cbf69bcb9b6b2d219645907
     return (
         <Autocomplete
             id="combo-box-demo"

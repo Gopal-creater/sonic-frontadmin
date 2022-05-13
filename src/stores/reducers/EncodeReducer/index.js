@@ -31,7 +31,13 @@ const initialState = {
     selectedFile: null,
     loadingPopUp: false,
     successPopUp: false,
-    errorPopUp: false
+    errorPopUp: false,
+    encodeSearchTrack: {
+        loading: false,
+        data: [],
+        error: null,
+        typedValue: ""
+    }
 };
 const encodeRed = (state = initialState, action) =>
     produce(state, (draft) => {
@@ -78,6 +84,28 @@ const encodeRed = (state = initialState, action) =>
 
             case actionTypes.SET_METADATA:
                 draft.metaData = action.data
+                break;
+
+            case actionTypes.SET_ENCODESEARCHTRACK_LOADING:
+                draft.encodeSearchTrack.loading = true;
+                draft.encodeSearchTrack.error = null;
+                draft.encodeSearchTrack.data = [];
+                break;
+
+            case actionTypes.SET_ENCODESEARCHTRACK_ERROR:
+                draft.encodeSearchTrack.loading = false;
+                draft.encodeSearchTrack.error = action.data;
+                draft.encodeSearchTrack.data = [];
+                break;
+
+            case actionTypes.SET_ENCODESEARCHTRACK_SUCCESS:
+                draft.encodeSearchTrack.loading = false;
+                draft.encodeSearchTrack.error = null;
+                draft.encodeSearchTrack.data = action.data;
+                break;
+
+            case actionTypes.SET_ENCODESEARCHTRACK_TYPEDVALUE:
+                draft.encodeSearchTrack.typedValue = action.data
                 break;
 
             default:

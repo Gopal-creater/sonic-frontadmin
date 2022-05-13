@@ -1,12 +1,11 @@
+/* eslint-disable no-use-before-define */
 import React from 'react';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import { log } from '../../../utils/app.debug';
-import { Autocomplete } from '@material-ui/lab';
-import { InputAdornment, TextField } from '@material-ui/core';
-import FetchingError from '../FetchingError/FetchingError';
-import FetchLoading from '../FetchLoading/FetchLoading';
-import { AutocompleteTextfield, StyledAutocomplete } from './StyledPicker';
 import { Search } from '@material-ui/icons';
 
+<<<<<<< HEAD
 export default function AppAutoComplete({
     labelText,
     placeholder,
@@ -38,37 +37,36 @@ export default function AppAutoComplete({
     }
 
 
+=======
+export default function AppAutoComplete(props) {
+>>>>>>> bfb45495d8a5b5de8cbf69bcb9b6b2d219645907
     return (
-        <StyledAutocomplete
-            {...props}
-            id="autoComplete"
-            noOptionsText={error ? <FetchingError error={error} tryAgain={getOnInputChange} /> : <FetchLoading loading={loading} />}
-            options={data || []}
-            getOptionSelected={(option, value) => option.id == value.id}
-            getOptionLabel={optionLabel}
-            onInputChange={getOnInputChange}
-            onChange={getSelectedValue}
+        <Autocomplete
+            id="combo-box-demo"
+            options={props.data}
+            noOptionsText={props.error ? props.error : props.loading ? "Loading" : "No Data"}
+            getOptionLabel={(option) => props?.setAutoCompleteOptions(option)}
+            onChange={(e, v) => props.getSelectedValue(e, v)}
+            style={{ width: "100%" }}
             renderInput={(params) => {
                 log("params", params)
                 return (
-                    <AutocompleteTextfield
+                    <TextField
                         {...params}
-                        fullWidth
-                        placeholder={placeholder || ""}
-                        label={labelText || ""}
-                    // InputProps={{
-                    //     startAdornment: (
-                    //         <InputAdornment position="start">
-                    //             <Search />
-                    //         </InputAdornment>
-                    //     ),
-                    // }}
-
+                        {...params.InputProps.startAdornment = props?.hideSearchIcon ? "" : <Search />}
+                        {...params.InputProps.endAdornment = ""}
+                        {...params.inputProps.onChange = (p) => {
+                            props?.setTextField(p.target.value)
+                            if (props.textFieldValue && props.textFieldValue?.length >= 2) {
+                                props?.setAutoComPleteAction()
+                            }
+                        }}
+                        {...params.inputProps.value = props.textFieldValue}
+                        helperText={props?.helperText || "Title"}
                     />
                 )
-            }
-            }
-            open={state.open ? true : false}
+            }}
         />
     );
 }
+

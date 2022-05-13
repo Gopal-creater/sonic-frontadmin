@@ -16,6 +16,7 @@ const pickersReducer = (state = initialPickers, action) =>
             //title
             case actionTypes.FETCH_TITLE_LOADING:
                 draft.title.loading = true;
+                draft.title.data = [];
                 draft.title.error = null;
                 break;
             case actionTypes.FETCH_TITLE_SUCCESS:
@@ -25,6 +26,7 @@ const pickersReducer = (state = initialPickers, action) =>
                 break;
             case actionTypes.FETCH_TITLE_ERROR:
                 draft.title.loading = false;
+                draft.title.data = [];
                 draft.title.error = action.data;
                 break;
             default:

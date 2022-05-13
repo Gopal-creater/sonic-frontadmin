@@ -19,7 +19,7 @@ import { helpText } from "./Constants";
 import AppCheckBox from "../../../components/common/AppCheckBox";
 import { CustomRadioButton } from "../../../components/common/AppRadioButton/AppRadioButton";
 import AppAutoComplete from "../../../components/common/AutoComplete/AppAutoComplete";
-import { findTitleAction } from "../../../stores/actions/picker/titlePicker.action";
+import { getTrackTitleAction } from "../../../stores/actions/picker/titlePicker.action";
 import AppToggleSwitch from "../../../components/common/AppToggleSwitch/AppToggleSwitch";
 
 export function Dashboard() {
@@ -175,7 +175,7 @@ export function Dashboard() {
         loading={picker.title.loading}
         error={picker.title.error}
         data={picker.title.data?.docs}
-        onInputChange={(title) => dispatch(findTitleAction(title))}
+        onInputChange={(title) => dispatch(getTrackTitleAction(title))}
         onChange={(artist) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, artist: artist?.sonicKey?.contentFileName } })}
         optionLabel={(option) => option?.sonicKey?.contentFileName || ""}
       />

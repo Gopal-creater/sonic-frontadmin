@@ -19,6 +19,7 @@ import { companyType, countries, userType } from "../../../constants/constants";
 import { HelperText } from "../../Licences/LicenseStyled";
 import { log } from "../../../utils/app.debug";
 import CountryCode from "../../../components/common/AppTextInput/CountryCode";
+import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
 
 
 export default function CreateUser() {
@@ -86,7 +87,7 @@ export default function CreateUser() {
 
 
     return (
-        <CreateUserContainer>
+        <MainContainer>
             <form onSubmit={handleSubmit(handleOnCreateUser)}>
                 <MetaDataDetailsContainer>
                     <H2>Create user</H2>
@@ -352,6 +353,6 @@ export default function CreateUser() {
                     </ButtonContainer>
                 </MetaDataDetailsContainer>
             </form>
-        </CreateUserContainer >
+        </MainContainer >
     )
 }

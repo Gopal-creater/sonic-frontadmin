@@ -293,7 +293,7 @@ export default function AdminProfile() {
                                 }) => (
                                     <>
                                         <StyledTextField
-                                            label="Confirm password"
+                                            label="Re-enter new password"
                                             fullWidth
                                             type={state?.showConfirmPassword ? "text" : "password"}
                                             value={value}
@@ -365,7 +365,7 @@ export default function AdminProfile() {
                         Cancel
                     </AppButton>
                     <AppButton variant={"fill"} type="submit">
-                        Add new license
+                        Update details
                     </AppButton>
                 </Grid>
             </form>

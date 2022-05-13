@@ -22,6 +22,7 @@ import CommonDataLoadErrorSuccess from '../../components/common/CommonDataLoadEr
 import TracksTable from '../Monitor/Tracks/Component/TracksTable';
 import CustomPagination from '../../components/common/Pagination/CustomPagination';
 import { trackTableHeads } from '../../constants/constants';
+import { getTrackTitleAction } from '../../stores/actions/picker/titlePicker.action';
 
 export default function Encode() {
     const [state, setState] = React.useState({
@@ -112,6 +113,14 @@ export default function Encode() {
         ))
     }
 
+    log("Encode Reducer", encode?.encodeSearchTrack?.typedValue)
+
+    const encodeSearchTrackActions = {
+        loading: actionTypes.SET_ENCODESEARCHTRACK_LOADING,
+        success: actionTypes.SET_ENCODESEARCHTRACK_SUCCESS,
+        error: actionTypes.SET_ENCODESEARCHTRACK_ERROR
+    }
+
     return (
         <>
             {
@@ -162,11 +171,19 @@ export default function Encode() {
                                     </H5>
                                     <AppAutoCompleteContainer container alignItems="center">
                                         <AppAutoComplete
-                                            style={{ width: "100%" }}
-                                            placeholder={"Search for a track by title"}
-                                            onInputChange={(title) => log("AppAutoComplete", title)}
-                                            onChange={(artist) => log("AppClicked", artist)}
-                                            optionLabel={(option) => option?.sonicKey?.contentFileName || ""}
+                                            setTextField={(typedValue) => dispatch({ type: actionTypes.SET_ENCODESEARCHTRACK_TYPEDVALUE, data: typedValue })}
+                                            textFieldValue={encode?.encodeSearchTrack?.typedValue}
+                                            setAutoComPleteAction={() => {
+                                                log("props.textFieldValue", encode?.encodeSearchTrack?.typedValue)
+                                                dispatch(getTrackTitleAction(encodeSearchTrackActions, encode?.encodeSearchTrack?.typedValue))
+                                            }
+                                            }
+                                            setAutoCompleteOptions={(option => option?.sonicKey?.contentFileName || "")}
+                                            loading={encode?.encodeSearchTrack?.loading}
+                                            data={encode?.encodeSearchTrack?.data?.docs || []}
+                                            error={encode?.encodeSearchTrack?.error}
+                                            getSelectedValue={(e, v) => log("AutoComplete selected Value", v)}
+                                            helperText="Search your company records"
                                         />
                                     </AppAutoCompleteContainer>
                                 </ExistingFileSelectionContainer>

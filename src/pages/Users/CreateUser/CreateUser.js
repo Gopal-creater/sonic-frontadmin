@@ -10,7 +10,6 @@ import { StyledTextField } from "../../../StyledComponents/StyledAppTextInput/St
 import AppButton from "../../../components/common/AppButton/AppButton";
 import theme from "../../../theme";
 import AppCheckBox from "../../../components/common/AppCheckBox";
-import MuiPhoneNumber from 'material-ui-phone-number';
 import { useNavigate } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 import CustomDropDown from "../../../components/common/AppTextInput/CustomDropDown";
@@ -201,13 +200,13 @@ export default function CreateUser() {
                                         )}
                                         rules={{ required: "Account type is required" }}
                                     />
-                                    <MuiPhoneNumber
+                                    {/* <MuiPhoneNumber
                                         style={{ width: "100%" }}
                                         name="phone"
                                         label="Phone number"
                                         defaultCountry={'gb'}
                                         onChange={handleOnChange}
-                                    />
+                                    /> */}
                                 </Grid>
                             </Grid>
                             <FormControlLabel

@@ -1,7 +1,7 @@
 import { Grid, IconButton, InputAdornment } from '@material-ui/core'
 import React from 'react'
 import AppButton from '../../components/common/AppButton/AppButton'
-import { StyledTextField } from '../../StyledComponents/StyledAppTextInput/StyledAppTextInput'
+import { DisabledTextField, StyledTextField } from '../../StyledComponents/StyledAppTextInput/StyledAppTextInput'
 import { H1, H4 } from '../../StyledComponents/StyledHeadings'
 import theme from '../../theme'
 import EmojiFlagsIcon from '@material-ui/icons/EmojiFlags';
@@ -53,72 +53,23 @@ export default function AdminProfile() {
                         <H4 className='mt-2'>Partner admin details</H4>
 
                         <Grid style={{ marginTop: 15 }}>
-                            <Controller
-                                name="username"
-                                control={control}
-                                defaultValue=""
-                                render={({
-                                    field: { onChange, value },
-                                    fieldState: { error },
-                                }) => (
-                                    <>
-                                        <StyledTextField
-                                            fullWidth
-                                            label="Username*"
-                                            error={!!error}
-                                            value={value}
-                                            onChange={onChange}
-                                        />
-                                        {error?.message && <HelperText>{error?.message}</HelperText>}
-                                    </>
-                                )}
-                                rules={{ required: "Username is required" }}
+                            <DisabledTextField
+                                label={"Username"}
+                                value={"sonicadmin"}
                             />
                         </Grid>
 
                         <Grid style={{ marginTop: 15 }}>
-                            <Controller
-                                name="type"
-                                control={control}
-                                defaultValue=""
-                                render={({
-                                    field: { onChange, value },
-                                    fieldState: { error },
-                                }) => (
-                                    <>
-                                        <StyledTextField
-                                            fullWidth
-                                            label="Type"
-                                            error={!!error}
-                                            value={value}
-                                            onChange={onChange}
-                                        />
-                                        {error?.message && <HelperText>{error?.message}</HelperText>}
-                                    </>
-                                )}
+                            <DisabledTextField
+                                label={"Type"}
+                                value={"Partner Admin"}
                             />
                         </Grid>
 
                         <Grid style={{ marginTop: 15 }}>
-                            <Controller
-                                name="partnerID"
-                                control={control}
-                                defaultValue=""
-                                render={({
-                                    field: { onChange, value },
-                                    fieldState: { error },
-                                }) => (
-                                    <>
-                                        <StyledTextField
-                                            fullWidth
-                                            label="Partner ID"
-                                            error={!!error}
-                                            value={value}
-                                            onChange={onChange}
-                                        />
-                                        {error?.message && <HelperText>{error?.message}</HelperText>}
-                                    </>
-                                )}
+                            <DisabledTextField
+                                label={"Partner ID"}
+                                value={"P61fe123gfge3hssdhh5"}
                             />
                         </Grid>
 
@@ -184,7 +135,7 @@ export default function AdminProfile() {
                         </Grid>
                         <H4 className='mt-2'>Password</H4>
 
-                        <Grid style={{ marginTop: 15 }}>
+                        <Grid style={{ marginTop: 23 }}>
                             <Controller
                                 name="currentPassword"
                                 control={control}
@@ -233,7 +184,7 @@ export default function AdminProfile() {
                             />
                         </Grid>
 
-                        <Grid style={{ marginTop: 15 }}>
+                        <Grid style={{ marginTop: 23 }}>
                             <Controller
                                 name="newPassword"
                                 control={control}
@@ -282,7 +233,7 @@ export default function AdminProfile() {
                             />
                         </Grid>
 
-                        <Grid style={{ marginTop: 15 }}>
+                        <Grid style={{ marginTop: 23 }}>
                             <Controller
                                 name="confirmPassword"
                                 control={control}

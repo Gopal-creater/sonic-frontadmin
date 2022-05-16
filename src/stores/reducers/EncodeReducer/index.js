@@ -36,7 +36,6 @@ const initialState = {
         loading: false,
         data: [],
         error: null,
-        typedValue: ""
     }
 };
 const encodeRed = (state = initialState, action) =>
@@ -102,10 +101,6 @@ const encodeRed = (state = initialState, action) =>
                 draft.encodeSearchTrack.loading = false;
                 draft.encodeSearchTrack.error = null;
                 draft.encodeSearchTrack.data = action.data;
-                break;
-
-            case actionTypes.SET_ENCODESEARCHTRACK_TYPEDVALUE:
-                draft.encodeSearchTrack.typedValue = action.data
                 break;
 
             default:

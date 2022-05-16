@@ -161,7 +161,7 @@ export default function CreateUser() {
                                             field: { onChange, value },
                                             fieldState: { error },
                                         }) => (
-                                            <Grid>
+                                            <Grid style={{ backgroundColor: "", }}>
 
                                                 <Grid container justifyContent="center" alignItems="center">
                                                     <Grid style={{ width: "15%" }}>
@@ -178,7 +178,7 @@ export default function CreateUser() {
                                                                         labelText=""
                                                                         formControlProps={{
                                                                             fullWidth: true,
-                                                                            style: { marginTop: 15 }
+                                                                            style: {}
                                                                         }}
                                                                         inputProps={{
                                                                             error: !!error,

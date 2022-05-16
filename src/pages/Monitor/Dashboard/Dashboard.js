@@ -16,15 +16,15 @@ import MonitorFilter from "../Components/MonitorFilter/MonitorFilter";
 import { getMonitorExportAction } from "../../../stores/actions/monitorActions/monitorActions";
 import { useReactToPrint } from 'react-to-print';
 import { helpText } from "./Constants";
-import AppCheckBox from "../../../components/common/AppCheckBox";
-import { CustomRadioButton } from "../../../components/common/AppRadioButton/AppRadioButton";
-import AppAutoComplete from "../../../components/common/AutoComplete/AppAutoComplete";
-import { getTrackTitleAction } from "../../../stores/actions/picker/titlePicker.action";
-import AppToggleSwitch from "../../../components/common/AppToggleSwitch/AppToggleSwitch";
+// import AppCheckBox from "../../../components/common/AppCheckBox";
+// import { CustomRadioButton } from "../../../components/common/AppRadioButton/AppRadioButton";
+// import AppAutoComplete from "../../../components/common/AutoComplete/AppAutoComplete";
+// import { getTrackTitleAction } from "../../../stores/actions/picker/titlePicker.action";
+// import AppToggleSwitch from "../../../components/common/AppToggleSwitch/AppToggleSwitch";
 
 export function Dashboard() {
   const dispatch = useDispatch()
-  const picker = useSelector(state => state.picker);
+  // const picker = useSelector(state => state.picker);
 
   const dashboard = useSelector(state => state.dashboard)
   const monitor = useSelector(state => state.monitor)
@@ -164,14 +164,14 @@ export function Dashboard() {
           <DashboardTable
             data={createStableTableData()}
           />
-          <AppCheckBox />
-          <CustomRadioButton />
+          {/* <AppCheckBox />
+          <CustomRadioButton /> */}
 
         </CommonDataLoadErrorSuccess>
       </TableContainer>
 
       {/* import ControlPointIcon from '@material-ui/icons/ControlPoint'; */}
-      <AppAutoComplete
+      {/* <AppAutoComplete
         loading={picker.title.loading}
         error={picker.title.error}
         data={picker.title.data?.docs}
@@ -179,7 +179,7 @@ export function Dashboard() {
         onChange={(artist) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, artist: artist?.sonicKey?.contentFileName } })}
         optionLabel={(option) => option?.sonicKey?.contentFileName || ""}
       />
-      <AppToggleSwitch />
+      <AppToggleSwitch /> */}
     </Grid >
   );
 }

@@ -115,12 +115,6 @@ export default function Encode() {
 
     log("Encode Reducer", encode?.encodeSearchTrack?.typedValue)
 
-    const encodeSearchTrackActions = {
-        loading: actionTypes.SET_ENCODESEARCHTRACK_LOADING,
-        success: actionTypes.SET_ENCODESEARCHTRACK_SUCCESS,
-        error: actionTypes.SET_ENCODESEARCHTRACK_ERROR
-    }
-
     return (
         <>
             {
@@ -175,7 +169,7 @@ export default function Encode() {
                                             textFieldValue={encode?.encodeSearchTrack?.typedValue}
                                             setAutoComPleteAction={() => {
                                                 log("props.textFieldValue", encode?.encodeSearchTrack?.typedValue)
-                                                dispatch(getTrackTitleAction(encodeSearchTrackActions, encode?.encodeSearchTrack?.typedValue))
+                                                dispatch(getTrackTitleAction())
                                             }
                                             }
                                             setAutoCompleteOptions={(option => option?.sonicKey?.contentFileName || "")}

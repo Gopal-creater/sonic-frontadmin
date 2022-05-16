@@ -172,6 +172,7 @@ export default function Encode() {
                                             data={encode?.encodeSearchTrack?.data?.docs || []}
                                             error={encode?.encodeSearchTrack?.error}
                                             getSelectedValue={(e, v) => log("AutoComplete selected Value", v)}
+                                            placeholder={"Search for a track by title"}
                                             helperText="Search your company records"
                                         />
                                     </AppAutoCompleteContainer>

@@ -27,6 +27,7 @@ export default function AppAutoComplete(props) {
                         }}
                         {...params.inputProps.value = props.textFieldValue}
                         helperText={props?.helperText || "Title"}
+                        placeholder={props?.placeholder || ""}
                     />
                 )
             }}

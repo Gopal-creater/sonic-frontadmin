@@ -114,8 +114,6 @@ export default function Encode() {
         ))
     }
 
-    log("Encode Reducer", encode?.encodeSearchTrack?.typedValue)
-
     return (
         <>
             {

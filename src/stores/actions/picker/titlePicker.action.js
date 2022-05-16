@@ -5,18 +5,13 @@ import * as actionTypes from "../actionTypes"
 
 export const getTrackTitleAction = (autoCompleteValue) => {
     return (dispatch) => {
-        if (autoCompleteValue) {
-            dispatch({ type: actionTypes.SET_ENCODESEARCHTRACK_LOADING });
-            findTitle(autoCompleteValue).then((response) => {
-                log("TrackTitleAction Found", response)
-                dispatch({ type: actionTypes.SET_ENCODESEARCHTRACK_SUCCESS, data: response })
-            }).catch((error) => {
-                log("TrackTitleAction Error", error)
-                dispatch({ type: actionTypes.SET_ENCODESEARCHTRACK_ERROR, data: error?.message })
-            })
-        }
-        else {
-            dispatch({ type: actionTypes.SET_ENCODESEARCHTRACK_SUCCESS, data: [] })
-        }
+        dispatch({ type: actionTypes.SET_ENCODESEARCHTRACK_LOADING });
+        findTitle(autoCompleteValue).then((response) => {
+            log("TrackTitleAction Found", response)
+            dispatch({ type: actionTypes.SET_ENCODESEARCHTRACK_SUCCESS, data: response })
+        }).catch((error) => {
+            log("TrackTitleAction Error", error)
+            dispatch({ type: actionTypes.SET_ENCODESEARCHTRACK_ERROR, data: error?.message })
+        })
     }
 }

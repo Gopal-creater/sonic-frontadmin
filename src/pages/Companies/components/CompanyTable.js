@@ -7,7 +7,7 @@ import TableMenu from '../../../components/common/Table/components/TableMenu';
 import { ActionMenuItem } from '../../../components/common/Table/TableStyled';
 import { ActiveBox, AlternateStyledTableData, StyledAlternateTableRow, StyledTableData, StyledTableHead, StyledTableRow, SuspendedBox } from '../../../StyledComponents/StyledTable/StyledTable';
 
-export default function UsersTable({ data, usersTableHead }) {
+export default function CompanyTable({ data, companyTableHead }) {
     const navigate = useNavigate()
 
     return (
@@ -17,7 +17,7 @@ export default function UsersTable({ data, usersTableHead }) {
                     <TableHead>
                         <TableRow>
                             {
-                                usersTableHead?.map((data, index) => {
+                                companyTableHead?.map((data, index) => {
                                     const isChecked = SelectedColumn(data?.title);
                                     if (isChecked)
                                         return (
@@ -34,7 +34,7 @@ export default function UsersTable({ data, usersTableHead }) {
                     <TableBody>
                         {data?.length === 0 ?
                             <TableRow key={0}>
-                                <StyledTableData colSpan={9} style={{ textAlign: "center" }}>
+                                <StyledTableData colSpan={8} style={{ textAlign: "center" }}>
                                     No Data
                                 </StyledTableData>
                             </TableRow> :
@@ -42,7 +42,15 @@ export default function UsersTable({ data, usersTableHead }) {
                                 if (index % 2 !== 0) {
                                     return (
                                         <StyledAlternateTableRow key={data?._id}>
-                                            {SelectedColumn("USERNAME") &&
+                                            {SelectedColumn("COMPANY") &&
+                                                <AlternateStyledTableData>
+                                                    {data?.isUnlimitedEncode === true
+                                                        ? "Unlimited"
+                                                        : data?.encodeUses
+                                                    }
+                                                </AlternateStyledTableData>
+                                            }
+                                            {SelectedColumn("COMPANY TYPE") &&
                                                 <AlternateStyledTableData>
                                                     {data?.isUnlimitedEncode === true
                                                         ? "Unlimited"
@@ -64,13 +72,7 @@ export default function UsersTable({ data, usersTableHead }) {
                                             {SelectedColumn("PHONE NUMBER") &&
                                                 <AlternateStyledTableData>{data?.name}</AlternateStyledTableData>
                                             }
-                                            {SelectedColumn("ACCOUNT TYPE") &&
-                                                <AlternateStyledTableData>{data?.type || "---"}</AlternateStyledTableData>
-                                            }
-                                            {SelectedColumn("ACCOUNT NAME") &&
-                                                <AlternateStyledTableData>{data?.key}</AlternateStyledTableData>
-                                            }
-                                            {SelectedColumn("USER TYPE") &&
+                                            {SelectedColumn("ADMIN") &&
                                                 <AlternateStyledTableData>{data?.type || "---"}</AlternateStyledTableData>
                                             }
                                             {SelectedColumn("STATUS") &&
@@ -93,7 +95,15 @@ export default function UsersTable({ data, usersTableHead }) {
                                 }
                                 return (
                                     <StyledTableRow key={data?._id}>
-                                        {SelectedColumn("USERNAME") &&
+                                        {SelectedColumn("COMPANY") &&
+                                            <StyledTableData>
+                                                {data?.isUnlimitedEncode === true
+                                                    ? "Unlimited"
+                                                    : data?.encodeUses
+                                                }
+                                            </StyledTableData>
+                                        }
+                                        {SelectedColumn("COMPANY TYPE") &&
                                             <StyledTableData>
                                                 {data?.isUnlimitedEncode === true
                                                     ? "Unlimited"
@@ -115,13 +125,7 @@ export default function UsersTable({ data, usersTableHead }) {
                                         {SelectedColumn("PHONE NUMBER") &&
                                             <StyledTableData>{data?.name}</StyledTableData>
                                         }
-                                        {SelectedColumn("ACCOUNT TYPE") &&
-                                            <StyledTableData>{data?.type || "---"}</StyledTableData>
-                                        }
-                                        {SelectedColumn("ACCOUNT NAME") &&
-                                            <StyledTableData>{data?.key}</StyledTableData>
-                                        }
-                                        {SelectedColumn("USER TYPE") &&
+                                        {SelectedColumn("ADMIN") &&
                                             <StyledTableData>{data?.type || "---"}</StyledTableData>
                                         }
                                         {SelectedColumn("STATUS") &&

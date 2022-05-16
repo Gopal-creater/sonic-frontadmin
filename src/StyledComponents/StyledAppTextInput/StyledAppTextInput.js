@@ -1,4 +1,4 @@
-import { FormControl, TextField } from "@material-ui/core";
+import { FormControl, Grid, TextField } from "@material-ui/core";
 import styled from "styled-components";
 import theme from "../../theme";
 
@@ -69,6 +69,20 @@ const CustomTextField = styled(TextField)`
     };
 `
 
+const DisabledLabel = styled.span`
+    color: ${theme.colors.secondary.grey};
+    font-family: ${theme.fontFamily.nunitoSansRegular};
+    font-size: 12px;
+`
+
+const DisabledField = styled(Grid)`
+    background-color: ${theme.colors.secondary.lightGrey};
+    padding: 8px 5px;
+    color: ${theme.colors.secondary.grey};
+    font-family: ${theme.fontFamily.nunitoSansRegular};
+    font-size:${theme.fontSize.h4};
+`
+
 export function StyledTextField({ ...props }) {
     return (
         <TextfieldFormControl>
@@ -76,3 +90,12 @@ export function StyledTextField({ ...props }) {
         </TextfieldFormControl>
     )
 }
+
+export function DisabledTextField({ label, value, ...props }) {
+    return (
+        <TextfieldFormControl>
+            <DisabledLabel>{label}</DisabledLabel>
+            <DisabledField {...props}>{value}</DisabledField>
+        </TextfieldFormControl>
+    )
+} 

@@ -31,6 +31,7 @@ export function KeyValueRowItem({
                             <StyledTextField
                                 id={`key-${index}`}
                                 labelText="Key"
+                                placeholder="Key"
                                 inputProps={{
                                     value: keyText,
                                     onChange: onChangeKey,
@@ -41,6 +42,7 @@ export function KeyValueRowItem({
                             <StyledTextField
                                 id={`value-${index}`}
                                 labelText="Value"
+                                placeholder="Value"
                                 inputProps={{
                                     value: valueText,
                                     onChange: onChangeValue,

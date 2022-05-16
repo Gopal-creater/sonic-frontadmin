@@ -1482,6 +1482,17 @@ export const usersTableHeads = [
   { title: "ACTION" },
 ]
 
+export const companiesTableHeads = [
+  { title: "COMPANY" },
+  { title: "COMPANY TYPE" },
+  { title: "ID" },
+  { title: "EMAIL" },
+  { title: "PHONE NUMBER" },
+  { title: "ADMIN" },
+  { title: "STATUS" },
+  { title: "ACTION" },
+]
+
 //Dropdown values
 export const channel = [
   { name: "ALL" },
@@ -1503,6 +1514,17 @@ export const licenseStatus = [
 export const maxUses = [
   { name: "Limited" },
   { name: "Unlimited" },
+]
+
+export const userType = [
+  { name: "Company" },
+  { name: "Partner" },
+  { name: "Individual" },
+]
+
+export const companyType = [
+  { name: "Distributer" },
+  { name: "Partner" },
 ]
 
 export const userRoles = [

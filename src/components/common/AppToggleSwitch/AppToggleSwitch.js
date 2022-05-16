@@ -3,94 +3,59 @@ import { withStyles } from '@material-ui/core/styles';
 import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
 import theme from '../../../theme';
+import { DoneSharp } from '@material-ui/icons';
 
-const IOSSwitch = withStyles((themeData) => ({
+const IOSSwitch = withStyles(() => ({
     root: {
-        width: 115,
-        height: 28,
+        width: props => props?.size || 120,
+        height: 32,
         padding: 0,
-        margin: themeData.spacing(1),
     },
     switchBase: {
-        paddingTop: 3,
         padding: 1,
         '&$checked': {
-            transform: 'translateX(90px)',
-            color: themeData.palette.common.white,
+            transform: 'translateX(100%)',
+            color: theme.colors.secondary.white,
             '& + $track': {
                 backgroundColor: theme.colors.primary.navy,
                 opacity: 1,
                 border: 'none',
-                // '&:after': {
-                //     paddingTop: 3,
-                //     content: '"Active"',
-                //     marginLeft: 14,
-                //     top: "10px",
-                //     color: "#ffff",
-                //     fontSize: theme.fontSize.h6,
-                //     fontFamily: theme.fontFamily.nunitoSansRegular,
-                //     opacity: 1,
-                // },
             },
-            '& $thumb': {
-                backgroundColor: '#fff',
-                backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path fill="${encodeURIComponent(
-                    theme.colors.primary.navy
-                )}" d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>')`,
-
-            },
-        },
-        '&$focusVisible $thumb': {
-            color: '#52d869',
-            border: '6px solid #fff',
         },
     },
     thumb: {
-        width: 22,
-        height: 22,
-        // boxShadow: 'none',
-        // backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path fill="${encodeURIComponent(
-        //     theme.colors.primary.navy
-        // )}" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/><path d="M0 0h24v24H0z" fill="none"/></svg>')`,
-        // backgroundRepeat: 'no-repeat',
-        // backgroundPosition: 'center',
+        width: 30,
+        height: 30,
     },
     track: {
-        borderRadius: 28 / 2,
-        border: `1px solid ${themeData.palette.grey[400]}`,
+        borderRadius: props => props?.size / 2,
         backgroundColor: theme.colors.secondary.mediumGrey,
         opacity: 1,
-        transition: themeData.transitions.create(['background-color', 'border']),
-        position: 'relative',
-        '&:before, &:after': {
-            display: 'inline-block',
-            position: 'absolute',
-            top: '50%',
-            width: '50%',
-            transform: 'translateY(-50%)',
-            color: '#fff',
-            textAlign: 'center',
+        "&:after, &:before": {
+            color: theme.colors.secondary.white,
+            fontSize: theme.fontSize.h6,
+            fontFamily: theme.fontFamily.nunitoSansBold,
+            position: "absolute",
+            top: "9px"
         },
-        '&:before': {
-            content: '"ACTIVE"',
-            left: 6,
+        "&:before": {
+            content: props => props?.active || "''",
+            left: "10%",
             opacity: 0,
         },
-        '&:after': {
-            content: '"SUSPENDED"',
-            right: 32,
-        },
+        "&:after": {
+            content: props => props?.inActive || "''",
+            right: "10%"
+        }
     },
     checked: {
+        width: props => props?.checkedSize || 69,
         '&$switchBase': {
-            color: '#185a9d',
-            transform: 'translateX(90px)',
-            '&:hover': {
-                backgroundColor: 'rgba(24,90,257,0.08)',
-            },
+            color: theme.colors.secondary.white,
+            transform: 'translateX(100%)'
         },
         '& $thumb': {
-            backgroundColor: '#fff',
+            backgroundColor: theme.colors.secondary.white,
         },
         '& + $track': {
             background: theme.colors.primary.navy,
@@ -108,6 +73,11 @@ const IOSSwitch = withStyles((themeData) => ({
         <Switch
             focusVisibleClassName={classes.focusVisible}
             disableRipple
+            checkedIcon={
+                <div style={{ width: 30, height: 30, backgroundColor: theme.colors.secondary.lightGrey, borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <DoneSharp style={{ color: theme.colors.primary.navy }} fontSize='small' />
+                </div>
+            }
             classes={{
                 root: classes.root,
                 switchBase: classes.switchBase,
@@ -121,18 +91,18 @@ const IOSSwitch = withStyles((themeData) => ({
 });
 
 
-export default function AppToggleSwitch() {
-    const [state, setState] = React.useState({
-        checkedB: true,
-    });
-
-    const handleChange = (event) => {
-        setState({ ...state, [event.target.name]: event.target.checked });
-    };
-
+export default function AppToggleSwitch({ checked, onChange, size, checkedSize, active, inActive }) {
     return (
-        <Grid style={{ marginLeft: "20px" }}>
-            <IOSSwitch checked={state.checkedB} onChange={handleChange} name="checkedB" />
+        <Grid>
+            <IOSSwitch
+                checked={checked}
+                onChange={onChange}
+                name="checked"
+                size={size}
+                checkedSize={checkedSize}
+                active={active}
+                inActive={inActive}
+            />
         </Grid>
     );
 }

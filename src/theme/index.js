@@ -16,7 +16,8 @@ const theme = {
       lightGrey: "#F4F4F4",
       error: "#DF165D",
       lightError: "#FFF0F5",
-      tableColor: "#FBFBFB"
+      tableColor: "#FBFBFB",
+      white: "#FFFFFF"
     }
   },
   fontSize: {

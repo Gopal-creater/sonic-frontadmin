@@ -17,13 +17,13 @@ import cogoToast from "cogo-toast";
 import { companyType, countries, userType } from "../../../constants/constants";
 import { HelperText } from "../../Licences/LicenseStyled";
 import { log } from "../../../utils/app.debug";
-import CountryCode from "../../../components/common/AppTextInput/CountryCode";
+import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
 
 
 export default function CreateUser() {
     const { handleSubmit, control, reset } = useForm();
     const [state, setState] = React.useState({
-        countryCode: [],
+        defaultCountryCode: "+44",
         show: false,
         phone: "",
         copyMetaData: false,
@@ -64,28 +64,8 @@ export default function CreateUser() {
         cogoToast.success("user added");
     }
 
-    // React.useEffect(() => {
-    //     getCountryCode()
-    // }, [])
-
-
-    // let getCountryCode = countries?.map?.((code) => {
-    //     return code.phoneCode;
-    // });
-
-
-    // const getCountryCode = () => {
-    //     let countryCodeList = countries?.map?.((code) => {
-    //         setState({ ...state, countryCode: [code?.phoneCode] })
-    //     })
-    //     return countryCodeList
-    // }
-
-    // log("state create user", getCountryCode)
-
-
     return (
-        <CreateUserContainer>
+        <MainContainer>
             <form onSubmit={handleSubmit(handleOnCreateUser)}>
                 <MetaDataDetailsContainer>
                     <H2>Create user</H2>
@@ -171,6 +151,7 @@ export default function CreateUser() {
                             <Grid>
                                 <Grid className="mt-4">
                                     <Controller
+
                                         // name="accountType"
                                         control={control}
                                         defaultValue=""
@@ -179,34 +160,58 @@ export default function CreateUser() {
                                             field: { onChange, value },
                                             fieldState: { error },
                                         }) => (
-                                            <>
-                                                <CountryCode
-                                                    labelText="Account type"
-                                                    formControlProps={{
-                                                        fullWidth: true,
-                                                        style: { marginTop: 15 }
-                                                    }}
-                                                    inputProps={{
-                                                        error: !!error,
-                                                        value: value,
-                                                        onChange: onChange,
-                                                    }}
-                                                    labelProps={{
-                                                        style: { fontFamily: theme.fontFamily.nunitoSansRegular }
-                                                    }}
-                                                />
-                                                {error?.message && <HelperText>{error?.message}</HelperText>}
-                                            </>
+                                            <Grid style={{ backgroundColor: "", }}>
+
+                                                <Grid container justifyContent="center" alignItems="center">
+                                                    <Grid style={{ width: "15%" }}>
+                                                        <Controller
+                                                            name="countryCode"
+                                                            control={control}
+                                                            defaultValue=""
+                                                            render={({
+                                                                field: { onChange, value },
+                                                                fieldState: { error },
+                                                            }) => (
+                                                                <>
+                                                                    <CustomDropDown
+                                                                        labelText=""
+                                                                        formControlProps={{
+                                                                            fullWidth: true,
+                                                                            style: {}
+                                                                        }}
+                                                                        inputProps={{
+                                                                            error: !!error,
+                                                                            value: state?.defaultCountryCode,
+                                                                            onChange: onChange,
+                                                                        }}
+                                                                        labelProps={{
+                                                                            style: { fontFamily: theme.fontFamily.nunitoSansRegular }
+                                                                        }}
+                                                                        data={countries || []}
+                                                                    />
+                                                                    {error?.message && <HelperText>{error?.message}</HelperText>}
+                                                                </>
+                                                            )}
+                                                            rules={{ required: "Company type is required" }}
+                                                        />
+                                                    </Grid>
+                                                    <Grid style={{ width: "85%" }}>
+                                                        <StyledTextField
+                                                            fullWidth
+                                                            id="standard-basic"
+                                                            label=""
+                                                            className="mt-3"
+                                                            value={state?.metaData?.version}
+                                                            onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, version: e.target.value } }) }}
+                                                        />
+                                                    </Grid>
+
+                                                    {error?.message && <HelperText>{error?.message}</HelperText>}
+                                                </Grid>
+                                            </Grid>
                                         )}
                                         rules={{ required: "Account type is required" }}
                                     />
-                                    {/* <MuiPhoneNumber
-                                        style={{ width: "100%" }}
-                                        name="phone"
-                                        label="Phone number"
-                                        defaultCountry={'gb'}
-                                        onChange={handleOnChange}
-                                    /> */}
                                 </Grid>
                             </Grid>
                             <FormControlLabel
@@ -351,6 +356,6 @@ export default function CreateUser() {
                     </ButtonContainer>
                 </MetaDataDetailsContainer>
             </form>
-        </CreateUserContainer >
+        </MainContainer >
     )
 }

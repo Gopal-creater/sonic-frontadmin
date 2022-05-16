@@ -170,7 +170,7 @@ export default function EncodeData() {
                                     value: encodeReducer?.metaData?.contentType,
                                     onChange: (e) => dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, contentType: e.target.value } })
                                 }}
-                                data={[{ name: "Music" }, { name: "Video" }, { name: "Audio" }] || []}
+                                data={[{ value: "Music" }, { value: "Video" }, { value: "Audio" }] || []}
                             />
                         </Grid>
 

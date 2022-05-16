@@ -29,7 +29,7 @@ export default function CustomDropDown({
             >
                 {data?.map((item, index) => {
                     return (
-                        <MenuItem value={item?.name} key={index}>{item?.name}</MenuItem>
+                        <MenuItem value={item?.value} key={index}>{item?.value}</MenuItem>
                     );
                 })}
             </StyledSelect>

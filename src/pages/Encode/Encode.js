@@ -5,14 +5,13 @@ import {
 } from './EncodeStyle';
 import theme from '../../theme';
 import { H1, H2, H3, H4, H5 } from '../../StyledComponents/StyledHeadings';
-import { Grid } from '@material-ui/core';
+import { Grid, TextField } from '@material-ui/core';
 import DragDropFile from '../../components/common/DragDropFile.js';
 import LinearProgress from "../../components/common/LinearProgress"
 import { useDispatch, useSelector } from 'react-redux';
 import * as actionTypes from "../../stores/actions/actionTypes"
 import EncodeData from './Components/MetaDataDetails';
 import { log } from '../../utils/app.debug.js';
-import AppAutoComplete from '../../components/common/AutoComplete/AppAutoComplete';
 import PaginationCount from '../../components/common/Pagination/PaginationCount';
 import Columns from '../../components/common/Columns/Columns';
 import FilterComponent from '../../components/common/FilterComponent/FilterComponent';
@@ -23,6 +22,7 @@ import TracksTable from '../Monitor/Tracks/Component/TracksTable';
 import CustomPagination from '../../components/common/Pagination/CustomPagination';
 import { trackTableHeads } from '../../constants/constants';
 import { getTrackTitleAction } from '../../stores/actions/picker/titlePicker.action';
+import AppAutoComplete from "../../components/common/AutoComplete/AppAutoComplete"
 
 export default function Encode() {
     const [state, setState] = React.useState({
@@ -30,7 +30,8 @@ export default function Encode() {
         fileUploadProgress: 0,
         trackTableHeads: trackTableHeads,
         currentSortBy: "",
-        currentIsAscending: ""
+        currentIsAscending: "",
+        autoCompleteValue: ""
     })
 
     const encode = useSelector(state => state.encode)
@@ -165,13 +166,9 @@ export default function Encode() {
                                     </H5>
                                     <AppAutoCompleteContainer container alignItems="center">
                                         <AppAutoComplete
-                                            setTextField={(typedValue) => dispatch({ type: actionTypes.SET_ENCODESEARCHTRACK_TYPEDVALUE, data: typedValue })}
-                                            textFieldValue={encode?.encodeSearchTrack?.typedValue}
-                                            setAutoComPleteAction={() => {
-                                                log("props.textFieldValue", encode?.encodeSearchTrack?.typedValue)
-                                                dispatch(getTrackTitleAction())
-                                            }
-                                            }
+                                            setTextFieldValue={typedValue => setState({ ...state, autoCompleteValue: typedValue })}
+                                            textFieldValue={state.autoCompleteValue}
+                                            setAutoComPleteAction={(value) => dispatch(getTrackTitleAction(value))}
                                             setAutoCompleteOptions={(option => option?.sonicKey?.contentFileName || "")}
                                             loading={encode?.encodeSearchTrack?.loading}
                                             data={encode?.encodeSearchTrack?.data?.docs || []}

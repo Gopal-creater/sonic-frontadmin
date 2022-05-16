@@ -22,10 +22,8 @@ export default function AppAutoComplete(props) {
                         {...params.InputProps.startAdornment = props?.hideSearchIcon ? "" : <Search />}
                         {...params.InputProps.endAdornment = ""}
                         {...params.inputProps.onChange = (p) => {
-                            props?.setTextField(p.target.value)
-                            if (props.textFieldValue && props.textFieldValue?.length >= 2) {
-                                props?.setAutoComPleteAction()
-                            }
+                            props?.setTextFieldValue(p.target.value)
+                            props?.setAutoComPleteAction(p.target.value)
                         }}
                         {...params.inputProps.value = props.textFieldValue}
                         helperText={props?.helperText || "Title"}

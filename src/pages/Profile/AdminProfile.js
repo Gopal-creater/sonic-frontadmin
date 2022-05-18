@@ -4,14 +4,12 @@ import AppButton from '../../components/common/AppButton/AppButton'
 import { DisabledTextField, StyledTextField } from '../../StyledComponents/StyledAppTextInput/StyledAppTextInput'
 import { H1, H4 } from '../../StyledComponents/StyledHeadings'
 import theme from '../../theme'
-import EmojiFlagsIcon from '@material-ui/icons/EmojiFlags';
-import LockIcon from '@material-ui/icons/Lock';
-import { Visibility, VisibilityOff } from '@material-ui/icons'
+import { FlagOutlined, LockOutlined, Visibility, VisibilityOff } from '@material-ui/icons'
 import AppToggleSwitch from '../../components/common/AppToggleSwitch/AppToggleSwitch'
 import { useNavigate } from 'react-router-dom'
 import { MainContainer } from '../../StyledComponents/StyledPageContainer'
 import { Controller, useForm } from 'react-hook-form'
-import { BorderBottom } from './AdminProfileStyles'
+import { BorderBottom, IconBox } from './AdminProfileStyles'
 import { HelperText } from '../Licences/LicenseStyled'
 import { makeStyles } from '@material-ui/styles'
 
@@ -46,11 +44,11 @@ export default function AdminProfile() {
                 <Grid container spacing={6} className='mt-2'>
                     <Grid item xs={12} md={6}>
                         <Grid container>
-                            <Grid style={{ padding: "5px", borderRadius: "50%", backgroundColor: theme.colors.secondary.lightTeal }}>
-                                <EmojiFlagsIcon style={{ color: theme.colors.primary.teal }} />
-                            </Grid>
+                            <IconBox>
+                                <FlagOutlined style={{ color: `${theme.colors.primary.teal}` }} />
+                            </IconBox>
                         </Grid>
-                        <H4 className='mt-2'>Partner admin details</H4>
+                        <H4>Partner admin details</H4>
 
                         <Grid style={{ marginTop: 15 }}>
                             <DisabledTextField
@@ -129,11 +127,11 @@ export default function AdminProfile() {
 
                     <Grid item xs={12} md={6}>
                         <Grid container>
-                            <Grid style={{ padding: "5px", borderRadius: "50%", backgroundColor: theme.colors.secondary.lightTeal }}>
-                                <LockIcon style={{ color: theme.colors.primary.teal }} />
-                            </Grid>
+                            <IconBox>
+                                <LockOutlined style={{ color: `${theme.colors.primary.teal}` }} />
+                            </IconBox>
                         </Grid>
-                        <H4 className='mt-2'>Password</H4>
+                        <H4>Password</H4>
 
                         <Grid style={{ marginTop: 23 }}>
                             <Controller

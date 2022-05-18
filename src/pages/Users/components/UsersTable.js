@@ -84,7 +84,7 @@ export default function UsersTable({ data, usersTableHead }) {
                                             {SelectedColumn("ACTION") &&
                                                 <AlternateStyledTableData>
                                                     <TableMenu>
-                                                        <ActionMenuItem onClick={() => navigate('/edit-licences')}>Edit License</ActionMenuItem>
+                                                        <ActionMenuItem onClick={() => navigate('/user-profile')}>Edit User</ActionMenuItem>
                                                     </TableMenu>
                                                 </AlternateStyledTableData>
                                             }
@@ -135,7 +135,7 @@ export default function UsersTable({ data, usersTableHead }) {
                                         {SelectedColumn("ACTION") &&
                                             <StyledTableData>
                                                 <TableMenu>
-                                                    <ActionMenuItem onClick={() => navigate('/edit-licences')}>Edit License</ActionMenuItem>
+                                                    <ActionMenuItem onClick={() => navigate('/user-profile')}>Edit User</ActionMenuItem>
                                                 </TableMenu>
                                             </StyledTableData>
                                         }

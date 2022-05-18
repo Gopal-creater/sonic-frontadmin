@@ -9,8 +9,8 @@ export default function FilterCreate({ filterComponent, openFilter = true, creat
     return (
         <Container container>
             <Grid item></Grid>
-            <Grid style={{ display: 'flex', justifyContent: 'flex-end' }} item xs={12} md={6}>
-                <Grid>
+            <Grid item container justifyContent='flex-end' xs={12} sm={6} md={6}>
+                <Grid item>
                     {filterComponent && openFilter ? (
                         <FilterDialog>
                             {({ close }) => {
@@ -28,7 +28,7 @@ export default function FilterCreate({ filterComponent, openFilter = true, creat
                     ) : null}
                 </Grid>
                 {createComponent ?
-                    <Grid>
+                    <Grid item>
                         <AppButton
                             variant="fill"
                             fontSize={15}

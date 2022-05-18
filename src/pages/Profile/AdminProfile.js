@@ -4,7 +4,7 @@ import AppButton from '../../components/common/AppButton/AppButton'
 import { DisabledTextField, StyledTextField } from '../../StyledComponents/StyledAppTextInput/StyledAppTextInput'
 import { H1, H4 } from '../../StyledComponents/StyledHeadings'
 import theme from '../../theme'
-import { EmojiFlags, Lock, Visibility, VisibilityOff } from '@material-ui/icons'
+import { FlagOutlined, LockOutlined, Visibility, VisibilityOff } from '@material-ui/icons'
 import AppToggleSwitch from '../../components/common/AppToggleSwitch/AppToggleSwitch'
 import { useNavigate } from 'react-router-dom'
 import { MainContainer } from '../../StyledComponents/StyledPageContainer'
@@ -45,7 +45,7 @@ export default function AdminProfile() {
                     <Grid item xs={12} md={6}>
                         <Grid container>
                             <IconBox>
-                                <EmojiFlags style={{ color: `${theme.colors.primary.teal}` }} />
+                                <FlagOutlined style={{ color: `${theme.colors.primary.teal}` }} />
                             </IconBox>
                         </Grid>
                         <H4>Partner admin details</H4>
@@ -128,7 +128,7 @@ export default function AdminProfile() {
                     <Grid item xs={12} md={6}>
                         <Grid container>
                             <IconBox>
-                                <Lock style={{ color: `${theme.colors.primary.teal}` }} />
+                                <LockOutlined style={{ color: `${theme.colors.primary.teal}` }} />
                             </IconBox>
                         </Grid>
                         <H4>Password</H4>

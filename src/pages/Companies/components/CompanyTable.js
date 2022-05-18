@@ -86,7 +86,7 @@ export default function CompanyTable({ data, companyTableHead }) {
                                             {SelectedColumn("ACTION") &&
                                                 <AlternateStyledTableData>
                                                     <TableMenu>
-                                                        <ActionMenuItem onClick={() => navigate('/edit-licences')}>Edit License</ActionMenuItem>
+                                                        <ActionMenuItem onClick={() => navigate('/company-profile')}>Edit Company</ActionMenuItem>
                                                     </TableMenu>
                                                 </AlternateStyledTableData>
                                             }
@@ -139,7 +139,7 @@ export default function CompanyTable({ data, companyTableHead }) {
                                         {SelectedColumn("ACTION") &&
                                             <StyledTableData>
                                                 <TableMenu>
-                                                    <ActionMenuItem onClick={() => navigate('/edit-licences')}>Edit License</ActionMenuItem>
+                                                    <ActionMenuItem onClick={() => navigate('/company-profile')}>Edit Company</ActionMenuItem>
                                                 </TableMenu>
                                             </StyledTableData>
                                         }

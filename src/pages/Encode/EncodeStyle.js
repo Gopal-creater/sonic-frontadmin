@@ -15,14 +15,17 @@ export const FileSelectionContainer = styled(Grid)`
 
 export const NewFileSelectionContainer = styled(Grid)`
     /* background-color:red ; */
+    /* display:flex;
+    flex-direction:column ; */
 `
 
 export const ExistingFileSelectionContainer = styled(Grid)`
     /* background-color:yellow ; */
+    /* display:flex;
+    flex-direction:column ; */
 `
 
 export const AppAutoCompleteContainer = styled(Grid)`
-    flex:1 ;
     background-color:white ;
     margin-top:15px ;
     padding:40px;

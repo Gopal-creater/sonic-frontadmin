@@ -3,12 +3,16 @@ import theme from '../../../theme';
 import AppButton from '../AppButton/AppButton';
 import { FormContainer, FileInput, DragDopLabel, DragFileElement } from './DragDropFileStyle'
 import iconAddSound from "../../../assets/images/icon-add-sound.png"
-import { H4 } from '../../../StyledComponents/StyledHeadings';
+import { H3, H4 } from '../../../StyledComponents/StyledHeadings';
 import { log } from '../../../utils/app.debug';
 import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
 import { Grid } from '@material-ui/core';
 
 export default function DragDropFile({ handleFiles }) {
+    const [state, setState] = React.useState({
+        file: ""
+    })
+
     // ref
     const inputRef = React.useRef(null);
 
@@ -16,7 +20,7 @@ export default function DragDropFile({ handleFiles }) {
     const handleChange = function (e) {
         e.preventDefault();
         if (e.target.files && e.target.files[0]) {
-            handleFiles(e.target.files)
+            setState({ ...state, file: e.target.files })
         }
     };
 
@@ -31,7 +35,7 @@ export default function DragDropFile({ handleFiles }) {
         e.preventDefault();
         e.stopPropagation();
         if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-            handleFiles(e.dataTransfer.files)
+            setState({ ...state, file: e.dataTransfer.files })
         }
     };
 
@@ -54,17 +58,34 @@ export default function DragDropFile({ handleFiles }) {
 
             <DragDopLabel htmlFor='input-file-upload'>
                 <img src={iconAddSound} width={"50px"} />
-                <H4 color={theme.colors.secondary.lightNavy}>
-                    Drag & drop a file to upload or
-                    <AppButton
-                        variant={"none"}
-                        fontSize={"20px"}
-                        style={{ padding: "0px", paddingLeft: "5px" }}
-                        onClick={() => inputRef.current.click()}
-                    >
-                        browse
-                    </AppButton>
-                </H4>
+                {
+                    state.file ?
+                        <Grid>
+                            <H4
+                                fontFamily={theme.fontFamily.nunitoSansMediumBold}
+                            >
+                                {state?.file[0]?.name}
+                            </H4>
+                            <AppButton
+                                variant={"fill"}
+                                className="mt-2"
+                                onClick={() => handleFiles(state?.file)}
+                            >
+                                Add MetaData
+                            </AppButton>
+                        </Grid> :
+                        <H4 color={theme.colors.secondary.lightNavy}>
+                            Drag & drop a file to upload or
+                            <AppButton
+                                variant={"none"}
+                                fontSize={"20px"}
+                                style={{ padding: "0px", paddingLeft: "5px" }}
+                                onClick={() => inputRef.current.click()}
+                            >
+                                browse
+                            </AppButton>
+                        </H4>
+                }
                 <Grid container justifyContent='flex-end' style={{ marginTop: "-10px" }}>
                     <HelpOutlineOutlinedIcon fontSize='small' style={{ color: theme.colors.secondary.lightNavy }} />
                 </Grid>

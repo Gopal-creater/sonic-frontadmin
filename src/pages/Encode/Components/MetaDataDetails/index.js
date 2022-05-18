@@ -11,7 +11,7 @@ import { log } from '../../../../utils/app.debug'
 import AppCheckBox from '../../../../components/common/AppCheckBox'
 import { FormControlLabel, Grid, RadioGroup } from '@material-ui/core'
 import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
-import iconAddSound from "../../../../assets/images/icon-add-sound.png"
+import icon_uploaded from "../../../../assets/icons/icon_file_uploaded.png"
 import { StyledTextField } from '../../../../StyledComponents/StyledAppTextInput/StyledAppTextInput'
 import moment from 'moment'
 import { CustomRadioButton } from '../../../../components/common/AppRadioButton/AppRadioButton'
@@ -20,7 +20,8 @@ import * as actionTypes from "../../../../stores/actions/actionTypes"
 import { encodeFileAction } from '../../../../stores/actions/EncodeActions'
 import cogoToast from 'cogo-toast'
 import PopUp from '../../../../components/common/PopUp'
-import sonickey from "../../../../assets/images/Logo-colour-simple.png"
+import encode_progress from "../../../../assets/icons/encode_progress.png"
+import sonic_preloader from "../../../../assets/icons/sonic_preloader.gif"
 import iconSuccess from "../../../../assets/images/icon-success-graphic.png"
 import CloseIcon from '@material-ui/icons/Close';
 import * as mm from "music-metadata-browser";
@@ -97,7 +98,6 @@ export default function EncodeData() {
         dispatch({ type: actionTypes.SET_METADATA, data: {} })
     }
 
-    log("Encode Reducer", encodeReducer)
 
     return (
         <EncodeContainer>
@@ -132,7 +132,7 @@ export default function EncodeData() {
                     </Grid>
 
                     <IconContainer>
-                        <img src={iconAddSound} width={"55px"} />
+                        <img src={icon_uploaded} width={"55px"} />
                     </IconContainer>
                 </TextContainer>
 
@@ -397,13 +397,13 @@ export default function EncodeData() {
             >
                 <PopUpContainer>
                     <TitleContainer container direction='column' alignItems='center'>
-                        <img src={sonickey} style={{ width: "140px", height: "120px", zIndex: 1 }} />
+                        <img src={encode_progress} style={{ width: "140px", height: "140px", zIndex: 1 }} />
                         <H4
                             className='mt-4'
                             fontFamily={theme.fontFamily.nunitoSansBlack}
                             style={{ textAlign: "center", zIndex: 1 }}
                         >
-                            Encoding of {encodeReducer?.selectedFile?.[0]?.name}
+                            Encoding of {encodeReducer?.selectedFile?.[0]?.name} in progress
                         </H4>
                     </TitleContainer>
                     <H5
@@ -411,6 +411,9 @@ export default function EncodeData() {
                     >
                         Depending on your internet connection and a size of an audio file, encoding may take longer at times
                     </H5>
+                    <Grid container justifyContent='center'>
+                        <img src={sonic_preloader} alt="sonic preloader" />
+                    </Grid>
                 </PopUpContainer>
             </PopUp>
 

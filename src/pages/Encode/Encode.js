@@ -23,6 +23,7 @@ import CustomPagination from '../../components/common/Pagination/CustomPaginatio
 import { trackTableHeads } from '../../constants/constants';
 import { getTrackTitleAction } from '../../stores/actions/picker/titlePicker.action';
 import AppAutoComplete from "../../components/common/AutoComplete/AppAutoComplete"
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 export default function Encode() {
     const [state, setState] = React.useState({
@@ -36,6 +37,7 @@ export default function Encode() {
 
     const encode = useSelector(state => state.encode)
     const monitor = useSelector(state => state.monitor)
+    const matches = useMediaQuery('(max-width:1280px)');
     const dispatch = useDispatch()
 
     React.useEffect(() => {
@@ -114,6 +116,8 @@ export default function Encode() {
         ))
     }
 
+    log("Encode reducer", encode)
+
     return (
         <>
             {
@@ -122,7 +126,7 @@ export default function Encode() {
                     <>
                         <FileContainer>
                             <FileSelectionContainer container>
-                                <NewFileSelectionContainer item xs={12} lg={5} >
+                                <NewFileSelectionContainer item lg sm={12}>
                                     <H2 fontFamily={theme.fontFamily.nunitoSansMediumBold}>Encode new file with sonickey</H2>
                                     <H5 fontFamily={theme.fontFamily.nunitoSansBold} color={theme.colors.secondary.lightNavy}>
                                         Copy MetaData from existing track if needed.
@@ -130,16 +134,17 @@ export default function Encode() {
 
                                     <DragDropFile
                                         handleFiles={(files) => {
-                                            var interval = setInterval(() => {
-                                                setState((state) => {
-                                                    if (state.fileUploadProgress > 99) {
-                                                        clearInterval(interval)
-                                                        dispatch(({ type: actionTypes.SET_SELECTED_FILE, data: files }))
-                                                        return ({ ...state, openFileUploadProgress: false, fileUploadProgress: 0 })
-                                                    }
-                                                    return ({ ...state, openFileUploadProgress: true, fileUploadProgress: state.fileUploadProgress + 1 })
-                                                })
-                                            }, 50)
+                                            // var interval = setInterval(() => {
+                                            //     setState((state) => {
+                                            //         if (state.fileUploadProgress > 99) {
+                                            //             clearInterval(interval)
+                                            //             dispatch(({ type: actionTypes.SET_SELECTED_FILE, data: files }))
+                                            //             return ({ ...state, openFileUploadProgress: false, fileUploadProgress: 0 })
+                                            //         }
+                                            //         return ({ ...state, openFileUploadProgress: true, fileUploadProgress: state.fileUploadProgress + 1 })
+                                            //     })
+                                            // }, 50)
+                                            dispatch(({ type: actionTypes.SET_SELECTED_FILE, data: files }))
                                         }}
                                     />
 
@@ -153,11 +158,11 @@ export default function Encode() {
                                     }
                                 </NewFileSelectionContainer>
 
-                                <Grid item xs={12} lg={1} container justifyContent='center' alignItems='center' >
+                                <Grid item style={{ width: matches ? "100%" : "80px" }} container justifyContent='center' alignItems='center' >
                                     <H4 style={{ marginTop: "15px" }}>or</H4>
                                 </Grid>
 
-                                <ExistingFileSelectionContainer item container direction='column' xs={12} lg={6} >
+                                <ExistingFileSelectionContainer item container direction='column' lg sm={12}>
                                     <H2 fontFamily={theme.fontFamily.nunitoSansMediumBold}>Encode existing file</H2>
                                     <H5 fontFamily={theme.fontFamily.nunitoSansBold} color={theme.colors.secondary.lightNavy}>
                                         Encode a track multiple times to share with different distributors.

@@ -1,17 +1,21 @@
-import { Grid, IconButton, InputAdornment } from "@material-ui/core"
-import { H2, H4 } from "../../../StyledComponents/StyledHeadings"
-import { ButtonContainer, CompanyProfileContainer, MetaDataDetailsContainer, ProperAccessContainer } from "./CompanyProfileStyles"
+import { Grid } from "@material-ui/core"
+import { H1, H4 } from "../../../StyledComponents/StyledHeadings"
+import { ButtonContainer, ProperAccessContainer } from "./CompanyProfileStyles"
 import MusicNoteIcon from '@material-ui/icons/MusicNote';
-import { StyledTextField } from "../../../StyledComponents/StyledAppTextInput/StyledAppTextInput";
+import { DisabledTextField, StyledTextField } from "../../../StyledComponents/StyledAppTextInput/StyledAppTextInput";
 import AppToggleSwitch from "../../../components/common/AppToggleSwitch/AppToggleSwitch";
 import PersonIcon from '@material-ui/icons/Person';
 import theme from "../../../theme";
-import { Visibility, VisibilityOff } from "@material-ui/icons";
 import AppButton from "../../../components/common/AppButton/AppButton";
 import React from "react";
+import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
+import { HelperText } from "../../Licences/LicenseStyled";
+import { Controller, useForm } from "react-hook-form";
+import cogoToast from "cogo-toast";
 
 
 export default function CompanyProfile() {
+    const { handleSubmit, control, reset } = useForm();
     const [state, setState] = React.useState({
         copyMetaData: false,
         showPassword: false,
@@ -40,51 +44,48 @@ export default function CompanyProfile() {
             isAuthorizedForEncode: null
         }
     })
+
+    const updateCompanyProfile = () => {
+        cogoToast.success("Company profile successfully updated.")
+    }
+
     return (
-        <CompanyProfileContainer>
-            <MetaDataDetailsContainer>
-                <H2>Company profile</H2>
-                <Grid className="mb-4">
-                    <H4 color={theme.colors.primary.teal}>Update company details</H4>
-                </Grid>
-                <Grid container spacing={10}>
-                    <Grid item lg={6}>
+        <MainContainer>
+
+            <H1>Company profile</H1>
+            <H4 fontFamily={theme.fontFamily.nunitoSansRegular} color={theme.colors.primary.teal}>
+                Update company details
+            </H4>
+
+            <form onSubmit={handleSubmit(updateCompanyProfile)}>
+                <Grid container spacing={6} className='mt-2'>
+                    <Grid item xs={12} md={6}>
                         <Grid container >
                             <Grid style={{ padding: "5px", borderRadius: "50%", backgroundColor: theme.colors.secondary.lightTeal }}>
                                 <MusicNoteIcon style={{ color: theme.colors.primary.teal }} />
                             </Grid>
                         </Grid>
                         <H4 className='mt-2'>Company details</H4>
-                        <StyledTextField
-                            fullWidth
-                            id="standard-basic"
-                            label="Company name"
-                            value={state?.metaData?.title}
-                            onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, title: e.target.value } }) }}
-                            // placeholder='Song,Video or Audio track title'
-                            autoComplete='off'
-                        />
+                        <Grid style={{ marginTop: 15 }}>
+                            <DisabledTextField
+                                label={"Company name"}
+                                value={"Fresh Sound"}
+                            />
+                        </Grid>
 
-                        <StyledTextField
-                            fullWidth
-                            id="standard-basic"
-                            label="Type"
-                            value={state?.metaData?.title}
-                            className="mt-3"
-                            onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, type: e.target.value } }) }}
-                            autoComplete='off'
-                        />
+                        <Grid style={{ marginTop: 15 }}>
+                            <DisabledTextField
+                                label={"Type"}
+                                value={"Distributor"}
+                            />
+                        </Grid>
 
-
-                        <StyledTextField
-                            fullWidth
-                            id="standard-basic"
-                            label="Company URN / ID"
-                            value={state?.metaData?.artist}
-                            className="mt-3"
-                            onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, artist: e.target.value } }) }}
-                        />
-
+                        <Grid style={{ marginTop: 15 }}>
+                            <DisabledTextField
+                                label={"Company URN / ID"}
+                                value={"3757638783727257672"}
+                            />
+                        </Grid>
 
                         <Grid container>
                             <Grid className='mt-5'>
@@ -105,7 +106,7 @@ export default function CompanyProfile() {
                         </Grid>
                     </Grid >
 
-                    <Grid item lg={6}>
+                    <Grid item xs={12} md={6}>
                         <Grid container >
                             <Grid style={{ padding: "5px", borderRadius: "50%", backgroundColor: theme.colors.secondary.lightTeal }}>
                                 <PersonIcon style={{ color: theme.colors.primary.teal }} />
@@ -113,84 +114,77 @@ export default function CompanyProfile() {
                         </Grid>
                         <H4 className='mt-2'>Admin details</H4>
 
+                        <Grid style={{ marginTop: 15 }}>
+                            <DisabledTextField
+                                label={"Type"}
+                                value={"Admin"}
+                            />
+                        </Grid>
 
-                        <StyledTextField
-                            fullWidth
-                            id="standard-basic"
-                            label="Type"
-                            value={state?.metaData?.title}
-                            className="mt-3"
-                            onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, type: e.target.value } }) }}
-                            autoComplete='off'
-                        />
+                        <Grid style={{ marginTop: 21 }}>
+                            <Controller
+                                name="username"
+                                control={control}
+                                defaultValue=""
+                                render={({
+                                    field: { onChange, value },
+                                    fieldState: { error },
+                                }) => (
+                                    <>
+                                        <StyledTextField
+                                            fullWidth
+                                            id="standard-basic"
+                                            label="Username*"
+                                            value={state?.metaData?.title}
+                                            onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, title: e.target.value } }) }}
+                                            placeholder='Will Smith'
+                                            autoComplete='off'
+                                        />
+                                        {error?.message && <HelperText>{error?.message}</HelperText>}
+                                    </>
+                                )}
+                                rules={{ required: "Username is required" }}
+                            />
+                        </Grid>
 
-                        <StyledTextField
-                            fullWidth
-                            id="standard-basic"
-                            label="Username*"
-                            value={state?.metaData?.title}
-                            onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, title: e.target.value } }) }}
-                            // placeholder='Song,Video or Audio track title'
-                            autoComplete='off'
-                        />
+                        <Grid style={{ marginTop: 21 }}>
+                            <Controller
+                                name="email"
+                                control={control}
+                                defaultValue=""
+                                render={({
+                                    field: { onChange, value },
+                                    fieldState: { error },
+                                }) => (
+                                    <>
+                                        <StyledTextField
+                                            fullWidth
+                                            id="standard-basic"
+                                            label="Email*"
+                                            value={state?.metaData?.version}
+                                            onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, version: e.target.value } }) }}
+                                        />
+                                        {error?.message && <HelperText>{error?.message}</HelperText>}
+                                    </>
+                                )}
+                                rules={{ required: "Email is required" }}
+                            />
+                        </Grid>
 
-                        <StyledTextField
-                            fullWidth
-                            id="standard-basic"
-                            label="Email*"
-                            className="mt-3"
-                            value={state?.metaData?.version}
-                            onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, version: e.target.value } }) }}
-                        />
-
-                        <StyledTextField
-                            fullWidth
-                            id="standard-basic"
-                            label="Phone number"
-                            className="mt-3"
-                            value={state?.metaData?.isrcCode}
-                            onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, isrcCode: e.target.value } }) }}
-                        // helperText="Hint: GB-H01-02-12345."
-                        />
+                        <Grid style={{ marginTop: 21 }}>
+                            <StyledTextField
+                                fullWidth
+                                id="standard-basic"
+                                label="Phone number"
+                                value={state?.metaData?.isrcCode}
+                                onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, isrcCode: e.target.value } }) }}
+                            // helperText="Hint: GB-H01-02-12345."
+                            />
+                        </Grid>
                     </Grid >
                 </Grid>
 
                 <ProperAccessContainer>
-                    {/* <RightsHolderContainer>
-                        <H5
-                            color={theme.colors.secondary.grey}
-                        >
-                            Are you the Rights Holder for the audio file you wish to encode with a SonicKey?
-                        </H5>
-                        <RadioGroup row style={{ marginLeft: "20px" }}>
-                            <FormControlLabel
-                                control={<CustomRadioButton />}
-                                label={<RadioLabel>Yes</RadioLabel>}
-                            />
-                            <FormControlLabel
-                                control={<CustomRadioButton />}
-                                label={<RadioLabel>No</RadioLabel>}
-                            />
-                        </RadioGroup>
-                    </RightsHolderContainer>
-
-                    <RightsHolderContainer>
-                        <H5
-                            color={theme.colors.secondary.grey}
-                        >
-                            Are you Authorised by the Rights Holder to encode this audio file with a SonicKey?
-                        </H5>
-                        <RadioGroup row style={{ marginLeft: "20px" }}>
-                            <FormControlLabel
-                                control={<CustomRadioButton />}
-                                label={<RadioLabel>Yes</RadioLabel>}
-                            />
-                            <FormControlLabel
-                                control={<CustomRadioButton />}
-                                label={<RadioLabel>No</RadioLabel>}
-                            />
-                        </RadioGroup>
-                    </RightsHolderContainer> */}
                 </ProperAccessContainer>
 
                 <ButtonContainer>
@@ -200,9 +194,9 @@ export default function CompanyProfile() {
                     >
                         Cancel
                     </AppButton>
-                    <AppButton variant={"fill"} style={{ marginLeft: "15px" }}>Update details</AppButton>
+                    <AppButton variant={"fill"} type="submit" style={{ marginLeft: "15px" }}>Update details</AppButton>
                 </ButtonContainer>
-            </MetaDataDetailsContainer>
-        </CompanyProfileContainer >
+            </form>
+        </MainContainer >
     )
 }

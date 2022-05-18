@@ -7,6 +7,7 @@ const CustomPopper = styled(Popper)`
     & .MuiAutocomplete-paper {
         border-radius: 0;
         box-shadow: none;
+        padding:10px 25px;
         outline: 2px solid ${theme.colors.primary.navy};
         margin-top: -1px;
     }

@@ -9,6 +9,7 @@ import monitorReducer from './monitor/monitorReducer';
 import dashboardReducer from './dashboard.reducers';
 import encodeRed from './EncodeReducer';
 import pickersReducer from './picker/pickersReducer';
+import userRed from './UserReducer';
 
 const appReducer = combineReducers({
   session: sessionRed,
@@ -20,6 +21,7 @@ const appReducer = combineReducers({
   dashboard: dashboardReducer,
   encode: encodeRed,
   picker: pickersReducer,
+  user: userRed
 });
 
 const rootReducer = (state, action) => {

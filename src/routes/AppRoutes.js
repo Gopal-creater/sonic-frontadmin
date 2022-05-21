@@ -26,6 +26,7 @@ import CompanyProfile from "../pages/Companies/CompanyProfile/CompanyProfile";
 import CreateNewCompany from "../pages/Companies/CompanyProfile/CreateNewCompany";
 import UserProfile from "../pages/Users/UserProfile/UserProfile";
 import CreeateUser from "../pages/Users/CreateUser/CreateUser";
+import { userRoles } from "../constants/constants";
 
 export default function AppRoutes() {
   const dispatch = useDispatch()
@@ -53,19 +54,24 @@ export default function AppRoutes() {
           <Route path="/artists" element={<Artists />} />
           <Route path="/radio-stations" element={<RadioStations />} />
           <Route path="/countries" element={<Countries />} />
-
           <Route path="/company-profile" element={<CompanyProfile />} />
           <Route path="/create-company" element={<CreateNewCompany />} />
           <Route path="/user-profile" element={<UserProfile />} />
           <Route path="/create-user" element={<CreeateUser />} />
+          <Route path="/users" element={<Users />} />
+          <Route path="/admin-profile" element={<AdminProfile />} />
 
+          {/* Routes that are protected */}
+          <Route element={<RoleAuth allowedRoles={[userRoles.PORTAL_USER]} />}>
 
-          {/* Routes accessible by partner */}
-          <Route element={<RoleAuth allowedRoles={["partner"]} />}>
-            <Route path="/admin-profile" element={<AdminProfile />} />
-            <Route path="/users" element={<Users />} />
+          </Route>
+
+          <Route element={<RoleAuth allowedRoles={[userRoles.COMPANY_USER]} />}>
             <Route path="/companies" element={<Companies />} />
           </Route>
+
+          {/* Routes that are protected */}
+
 
           {/* Routes accessible by company */}
           {/* <Route element={<RoleAuth allowedRoles={["company"]} />}>

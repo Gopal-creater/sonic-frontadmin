@@ -4,8 +4,8 @@ const baseUrls = {
     API_URL: "http://localhost:8000",
   },
   staging: {
-    BASE_URL: "https://sonicserver.arba-dev.uk",
-    API_URL: "https://sonicserver.arba-dev.uk",
+    BASE_URL: "https://sonictempserver.arba-dev.uk/",
+    API_URL: "https://sonictempserver.arba-dev.uk/",
   },
   production: {
     BASE_URL: "https://apiserver.sonicdata.com",

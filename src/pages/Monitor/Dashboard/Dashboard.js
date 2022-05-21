@@ -10,26 +10,27 @@ import FilterComponent from "../../../components/common/FilterComponent/FilterCo
 import { H3 } from "../../../StyledComponents/StyledHeadings";
 import CommonDataLoadErrorSuccess from "../../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess";
 import DashboardTable from "./Components/DashboardTable/DashboardTable";
-import { CardContainer, TableContainer } from "./DashboardStyles";
+import { ButtonContainer, CardContainer, StyledIconButton, TableContainer } from "./DashboardStyles";
 import { getMonitorDashboardDataAction } from "../../../stores/actions/dashboardActions.js/dashboardActions";
 import MonitorFilter from "../Components/MonitorFilter/MonitorFilter";
 import { getMonitorExportAction } from "../../../stores/actions/monitorActions/monitorActions";
 import { useReactToPrint } from 'react-to-print';
 import { helpText } from "./Constants";
-// import AppCheckBox from "../../../components/common/AppCheckBox";
-// import { CustomRadioButton } from "../../../components/common/AppRadioButton/AppRadioButton";
-// import AppAutoComplete from "../../../components/common/AutoComplete/AppAutoComplete";
-// import { getTrackTitleAction } from "../../../stores/actions/picker/titlePicker.action";
-// import AppToggleSwitch from "../../../components/common/AppToggleSwitch/AppToggleSwitch";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
+import "./Dashboard.css"
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 export function Dashboard() {
   const dispatch = useDispatch()
-  // const picker = useSelector(state => state.picker);
 
   const dashboard = useSelector(state => state.dashboard)
   const monitor = useSelector(state => state.monitor)
   const radioStation = useSelector(state => state.radioStations)
   const dashboardTableRef = useRef();
+  const carousel = useRef(null)
 
   const handlePrintToPdf = useReactToPrint({
     content: () => dashboardTableRef.current,
@@ -77,6 +78,63 @@ export function Dashboard() {
     }
   }
 
+  const carouselSetting = {
+    slidesToShow: 4.99,
+    slidesToScroll: 1,
+    speed: 300,
+    arrows: false,
+    infinite: true,
+    centerPadding: 0,
+
+    responsive: [
+      {
+        breakpoint: 1750,
+        settings: {
+          slidesToShow: 4.99,
+          slidesToScroll: 1
+        },
+      },
+      {
+        breakpoint: 1470,
+        settings: {
+          slidesToShow: 3.99,
+          slidesToScroll: 1
+        },
+      },
+      {
+        breakpoint: 1200,
+        settings: {
+          slidesToShow: 2.99,
+          slidesToScroll: 1
+        },
+      },
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 1.99,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 800,
+        settings: {
+          slidesToShow: 0.99,
+          slidesToScroll: 1,
+        },
+      }
+    ],
+  }
+
+  const handleCarouselLeftClick = (e) => {
+    e.preventDefault()
+    carousel.current.slickPrev()
+  }
+
+  const handleCarouselRightClick = (e) => {
+    e.preventDefault()
+    carousel.current.slickNext()
+  }
+
   log("Dashboard", dashboard)
   log("Radios", radioStation)
   log(" monitor filter data titltle", monitor.filters)
@@ -101,55 +159,71 @@ export function Dashboard() {
       />
 
       <CardContainer >
-        <Stats
-          imgSrc={radio}
-          title={"My Plays"}
-          loading={dashboard?.loading}
-          data={dashboard?.data?.myPlaysCount || "0"}
-          error={dashboard?.error}
-          pageLink="/plays"
-          helpText={helpText.plays}
-        />
-        <Stats
-          imgSrc={radio}
-          title={"My Tracks"}
-          ownerShipTitle="from"
-          loading={dashboard?.loading}
-          data={dashboard?.data?.myTracksCount || "0"}
-          error={dashboard?.error}
-          pageLink="/tracks"
-          helpText={helpText.tracks}
-        />
-        <Stats
-          imgSrc={radio}
-          title={"Artists"}
-          ownerShipTitle="by"
-          loading={dashboard?.loading}
-          data={dashboard?.data?.myArtistsCount || "0"}
-          error={dashboard?.error}
-          pageLink="/artists"
-          helpText={helpText.artists}
-        />
-        <Stats
-          imgSrc={radio}
-          title={"Radio Stations"}
-          ownerShipTitle="At"
-          loading={dashboard?.loading}
-          data={dashboard?.data?.myRadioStationCount || "0"}
-          error={dashboard?.error}
-          pageLink="/radio-stations"
-          helpText={helpText.radioStation}
-        />
-        <Stats
-          imgSrc={radio}
-          title={"Countries"}
-          ownerShipTitle="In"
-          loading={dashboard?.loading}
-          data={dashboard?.data?.myCountriesCount || "0"}
-          error={dashboard?.error}
-          pageLink="/countries"
-          helpText={helpText.countries}
-        />
+        <Slider
+          className="carousel"
+          ref={carousel}
+          {...carouselSetting}
+        >
+
+          <Stats
+            imgSrc={radio}
+            title={"My Plays"}
+            loading={dashboard?.loading}
+            data={dashboard?.data?.myPlaysCount || "0"}
+            error={dashboard?.error}
+            pageLink="/plays"
+            helpText={helpText.plays}
+          />
+          <Stats
+            imgSrc={radio}
+            title={"My Tracks"}
+            ownerShipTitle="from"
+            loading={dashboard?.loading}
+            data={dashboard?.data?.myTracksCount || "0"}
+            error={dashboard?.error}
+            pageLink="/tracks"
+            helpText={helpText.tracks}
+          />
+          <Stats
+            imgSrc={radio}
+            title={"Artists"}
+            ownerShipTitle="by"
+            loading={dashboard?.loading}
+            data={dashboard?.data?.myArtistsCount || "0"}
+            error={dashboard?.error}
+            pageLink="/artists"
+            helpText={helpText.artists}
+          />
+          <Stats
+            imgSrc={radio}
+            title={"Radio Stations"}
+            ownerShipTitle="At"
+            loading={dashboard?.loading}
+            data={dashboard?.data?.myRadioStationCount || "0"}
+            error={dashboard?.error}
+            pageLink="/radio-stations"
+            helpText={helpText.radioStation}
+          />
+          <Stats
+            imgSrc={radio}
+            title={"Countries"}
+            ownerShipTitle="In"
+            loading={dashboard?.loading}
+            data={dashboard?.data?.myCountriesCount || "0"}
+            error={dashboard?.error}
+            pageLink="/countries"
+            helpText={helpText.countries}
+          />
+        </Slider>
+
+        <ButtonContainer>
+          <StyledIconButton disableRipple onClick={handleCarouselLeftClick} style={{ marginRight: '10px' }}>
+            <ArrowBackIosIcon style={{ height: '10px', width: '10px' }} />
+          </StyledIconButton>
+          <StyledIconButton disableRipple onClick={handleCarouselRightClick}>
+            <ArrowForwardIosIcon style={{ height: '10px', width: '10px' }} />
+          </StyledIconButton>
+        </ButtonContainer>
       </CardContainer>
 
       <TableContainer >

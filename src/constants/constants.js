@@ -1761,8 +1761,12 @@ export const companyType = [
   { value: "Partner" },
 ]
 
-export const userRoles = [
-  "company",
-  "partner",
-  "individual"
-]
+export const userRoles = {
+  ADMIN: "Admin",
+  PORTAL_USER: "PortalUser",
+  PARTNER_ADMIN: "PartnerAdmin",
+  PARTNER_USER: "PartnerUser",
+  COMPANY_ADMIN: "CompanyAdmin",
+  COMPANY_USER: "CompanyUser"
+}
+

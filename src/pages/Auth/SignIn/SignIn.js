@@ -17,6 +17,8 @@ import { StyledTextField } from '../../../StyledComponents/StyledAppTextInput/St
 import AppButton from '../../../components/common/AppButton/AppButton';
 import { useTheme } from 'styled-components';
 import theme from '../../../theme';
+import { log } from "../../../utils/app.debug"
+import { getUserProfileAction } from '../../../stores/actions/UserActions';
 
 const useStyles = makeStyles(() => ({
     signInRoot: {
@@ -58,8 +60,10 @@ export default function SignIn() {
         setValues({ ...values, loginLoading: true });
         Auth.signIn(data.username, data.password)
             .then((response) => {
+                log("SignIn response", response)
                 localStorage.setItem("user_info", JSON.stringify(response));
                 dispatch(setSession(response));
+                dispatch(getUserProfileAction());
                 setValues({ ...values, loginLoading: false });
             })
             .catch((err) => {

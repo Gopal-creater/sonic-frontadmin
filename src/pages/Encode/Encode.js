@@ -4,10 +4,9 @@ import {
     TrackContainer, TrackTitleContainer, TrackTableContainer, TrackFilterContainer
 } from './EncodeStyle';
 import theme from '../../theme';
-import { H1, H2, H3, H4, H5 } from '../../StyledComponents/StyledHeadings';
-import { Grid, TextField } from '@material-ui/core';
+import { H1, H2, H4, H5 } from '../../StyledComponents/StyledHeadings';
+import { Grid } from '@material-ui/core';
 import DragDropFile from '../../components/common/DragDropFile.js';
-import LinearProgress from "../../components/common/LinearProgress"
 import { useDispatch, useSelector } from 'react-redux';
 import * as actionTypes from "../../stores/actions/actionTypes"
 import EncodeData from './Components/MetaDataDetails';
@@ -27,7 +26,6 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 export default function Encode() {
     const [state, setState] = React.useState({
-        openFileUploadProgress: false,
         fileUploadProgress: 0,
         trackTableHeads: trackTableHeads,
         currentSortBy: "",
@@ -37,6 +35,7 @@ export default function Encode() {
 
     const encode = useSelector(state => state.encode)
     const monitor = useSelector(state => state.monitor)
+    const user = useSelector(state => state.user)
     const matches = useMediaQuery('(max-width:1280px)');
     const dispatch = useDispatch()
 
@@ -117,6 +116,7 @@ export default function Encode() {
     }
 
     log("Encode reducer", encode)
+    log("User reducer", user)
 
     return (
         <>
@@ -134,28 +134,10 @@ export default function Encode() {
 
                                     <DragDropFile
                                         handleFiles={(files) => {
-                                            // var interval = setInterval(() => {
-                                            //     setState((state) => {
-                                            //         if (state.fileUploadProgress > 99) {
-                                            //             clearInterval(interval)
-                                            //             dispatch(({ type: actionTypes.SET_SELECTED_FILE, data: files }))
-                                            //             return ({ ...state, openFileUploadProgress: false, fileUploadProgress: 0 })
-                                            //         }
-                                            //         return ({ ...state, openFileUploadProgress: true, fileUploadProgress: state.fileUploadProgress + 1 })
-                                            //     })
-                                            // }, 50)
                                             dispatch(({ type: actionTypes.SET_SELECTED_FILE, data: files }))
                                         }}
                                     />
 
-                                    {
-                                        state.openFileUploadProgress &&
-                                        <LinearProgress
-                                            currentPercentage={state.fileUploadProgress}
-                                        >
-                                            Uploading {state.fileUploadProgress + "%"}
-                                        </LinearProgress>
-                                    }
                                 </NewFileSelectionContainer>
 
                                 <Grid item style={{ width: matches ? "100%" : "80px" }} container justifyContent='center' alignItems='center' >

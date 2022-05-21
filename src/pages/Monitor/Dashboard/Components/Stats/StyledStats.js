@@ -33,7 +33,8 @@ export const StatsContainer = styled(Grid)`
     background-color:${theme.colors.secondary.lightTeal};
     margin-top:5px;
     padding:15px;
-    min-height:120px;
+    min-height:140px;
+    min-width: 100%; 
     cursor: pointer;
     :hover{
         background-color:white;

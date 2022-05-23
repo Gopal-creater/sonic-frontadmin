@@ -10,6 +10,7 @@ import dashboardReducer from './dashboard.reducers';
 import encodeRed from './EncodeReducer';
 import pickersReducer from './picker/pickersReducer';
 import userRed from './UserReducer';
+import companyReducer from './CompanyReducer';
 
 const appReducer = combineReducers({
   session: sessionRed,
@@ -22,6 +23,7 @@ const appReducer = combineReducers({
   encode: encodeRed,
   picker: pickersReducer,
   user: userRed,
+  company: companyReducer,
 });
 
 const rootReducer = (state, action) => {

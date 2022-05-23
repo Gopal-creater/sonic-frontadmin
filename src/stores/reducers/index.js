@@ -21,7 +21,7 @@ const appReducer = combineReducers({
   dashboard: dashboardReducer,
   encode: encodeRed,
   picker: pickersReducer,
-  user: userRed
+  user: userRed,
 });
 
 const rootReducer = (state, action) => {

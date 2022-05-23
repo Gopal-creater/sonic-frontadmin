@@ -7,16 +7,17 @@ import CustomDropDown from '../../../components/common/AppTextInput/CustomDropDo
 import theme from '../../../theme';
 import AppButton from '../../../components/common/AppButton/AppButton';
 import { StyledTextField } from '../../../StyledComponents/StyledAppTextInput/StyledAppTextInput';
-import { fetchLicenceKeys } from '../../../stores/actions/licenceKey';
 import { accountType, licenseStatus } from '../../../constants/constants';
+import * as actionTypes from '../../../stores/actions/actionTypes';
+import { getUsersAction } from '../../../stores/actions/UserActions';
 
 export default function UsersFilter({ closeDialog }) {
     const dispatch = useDispatch();
-    // const license = useSelector(state => state.licenceKey);
+    const users = useSelector(state => state.user);
 
     const handleFilter = (e) => {
         e.preventDefault();
-        dispatch(fetchLicenceKeys());
+        dispatch(getUsersAction(5, 1));
         closeDialog?.()
     }
 
@@ -36,8 +37,8 @@ export default function UsersFilter({ closeDialog }) {
                         <StyledTextField
                             fullWidth
                             label="User name"
-                            // value={license?.filters?.name}
-                            // onChange={(e) => dispatch({ type: actionTypes.LIC_KEY_FILTER, data: { ...license?.filters, name: e.target.value } })}
+                            value={users?.filters?.username}
+                            onChange={(e) => dispatch({ type: actionTypes.SET_USERS_FILTERS, data: { ...users?.filters, username: e.target.value } })}
                             InputLabelProps={{
                                 style: {
                                     fontFamily: theme.fontFamily.nunitoSansBold
@@ -50,8 +51,8 @@ export default function UsersFilter({ closeDialog }) {
                         <StyledTextField
                             fullWidth
                             label="User ID"
-                            // value={license?.filters?.key}
-                            // onChange={(e) => dispatch({ type: actionTypes.LIC_KEY_FILTER, data: { ...license?.filters, key: e.target.value } })}
+                            value={users?.filters?.userId}
+                            onChange={(e) => dispatch({ type: actionTypes.SET_USERS_FILTERS, data: { ...users?.filters, userId: e.target.value } })}
                             InputLabelProps={{
                                 style: {
                                     fontFamily: theme.fontFamily.nunitoSansBold
@@ -68,8 +69,8 @@ export default function UsersFilter({ closeDialog }) {
                                 fullWidth: true
                             }}
                             inputProps={{
-                                // value: license?.filters?.type,
-                                // onChange: (e) => dispatch({ type: actionTypes.LIC_KEY_FILTER, data: { ...license?.filters, type: e.target.value } }),
+                                value: users?.filters?.accountType,
+                                onChange: (e) => dispatch({ type: actionTypes.SET_USERS_FILTERS, data: { ...users?.filters, accountType: e.target.value } }),
                             }}
                             data={accountType || []}
                         />
@@ -79,8 +80,8 @@ export default function UsersFilter({ closeDialog }) {
                         <StyledTextField
                             fullWidth
                             label="Account name"
-                            // value={license?.filters?.key}
-                            // onChange={(e) => dispatch({ type: actionTypes.LIC_KEY_FILTER, data: { ...license?.filters, key: e.target.value } })}
+                            value={users?.filters?.accountName}
+                            onChange={(e) => dispatch({ type: actionTypes.SET_USERS_FILTERS, data: { ...users?.filters, accountName: e.target.value } })}
                             InputLabelProps={{
                                 style: {
                                     fontFamily: theme.fontFamily.nunitoSansBold
@@ -93,8 +94,8 @@ export default function UsersFilter({ closeDialog }) {
                         <StyledTextField
                             fullWidth
                             label="User type"
-                            // value={license?.filters?.key}
-                            // onChange={(e) => dispatch({ type: actionTypes.LIC_KEY_FILTER, data: { ...license?.filters, key: e.target.value } })}
+                            value={users?.filters?.userType}
+                            onChange={(e) => dispatch({ type: actionTypes.SET_USERS_FILTERS, data: { ...users?.filters, userType: e.target.value } })}
                             InputLabelProps={{
                                 style: {
                                     fontFamily: theme.fontFamily.nunitoSansBold
@@ -107,8 +108,8 @@ export default function UsersFilter({ closeDialog }) {
                         <StyledTextField
                             fullWidth
                             label="Email Address"
-                            // value={license?.filters?.key}
-                            // onChange={(e) => dispatch({ type: actionTypes.LIC_KEY_FILTER, data: { ...license?.filters, key: e.target.value } })}
+                            value={users?.filters?.email}
+                            onChange={(e) => dispatch({ type: actionTypes.SET_USERS_FILTERS, data: { ...users?.filters, email: e.target.value } })}
                             InputLabelProps={{
                                 style: {
                                     fontFamily: theme.fontFamily.nunitoSansBold
@@ -125,8 +126,8 @@ export default function UsersFilter({ closeDialog }) {
                                 fullWidth: true
                             }}
                             inputProps={{
-                                // value: license?.filters?.type,
-                                // onChange: (e) => dispatch({ type: actionTypes.LIC_KEY_FILTER, data: { ...license?.filters, type: e.target.value } }),
+                                value: users?.filters?.status,
+                                onChange: (e) => dispatch({ type: actionTypes.SET_USERS_FILTERS, data: { ...users?.filters, status: e.target.value } }),
                             }}
                             data={licenseStatus || []}
                         />
@@ -137,7 +138,18 @@ export default function UsersFilter({ closeDialog }) {
                     <AppButton
                         variant="outline"
                         className="mx-3"
-                        onClick={() => { }}
+                        onClick={() => dispatch({
+                            type: actionTypes.SET_USERS_FILTERS,
+                            data: {
+                                username: "",
+                                userId: "",
+                                accountType: "",
+                                accountName: "",
+                                userType: "",
+                                email: "",
+                                status: "",
+                            }
+                        })}
                     >
                         Reset
                     </AppButton>

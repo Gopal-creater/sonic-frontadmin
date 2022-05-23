@@ -31,7 +31,7 @@ export default function AppRoutes() {
     <AppLayout>
       <div style={{ width: "100%" }}>
         <Routes>
-          <Route path="/" element={<Navigate replace to="/encode" />} />
+          <Route path="/" element={<Navigate replace to="/dashboard" />} />
 
           {/* Public routes */}
           <Route path="/licences" element={<Licences />} />
@@ -45,7 +45,6 @@ export default function AppRoutes() {
           <Route path="/countries" element={<Countries />} />
           <Route path="/sonic-keys" element={<Sonickeys />} />
           <Route path="/streamreader" element={<StreamReader />} />
-          <Route path="/users" element={<Users />} />
           {/* Public routes */}
 
           {/* Routes that are protected */}
@@ -55,6 +54,7 @@ export default function AppRoutes() {
             <Route path="/create-company" element={<CreateNewCompany />} />
             <Route path="/add-licences" element={<AddLicence />} />
             <Route path="/edit-licences" element={<EditLicense />} />
+            <Route path="/users" element={<Users />} />
           </Route>
 
           <Route element={<RoleAuth allowedRoles={[userRoles.ADMIN, userRoles.COMPANY_USER, userRoles.COMPANY_ADMIN, userRoles.PARTNER_ADMIN]} />}>

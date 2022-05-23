@@ -1,11 +1,11 @@
-import { FormControlLabel, Grid, IconButton, InputAdornment, RadioGroup } from "@material-ui/core"
+import { FormControlLabel, Grid, IconButton, InputAdornment } from "@material-ui/core"
 import { ControlPoint, Visibility, VisibilityOff } from "@material-ui/icons"
 import PersonIcon from '@material-ui/icons/Person';
 import LockIcon from '@material-ui/icons/Lock';
 import MusicNoteIcon from '@material-ui/icons/MusicNote';
 import React from "react"
-import { ButtonContainer, CheckBoxLabelContainer, CreateUserContainer, MetaDataDetailsContainer, ProperAccessContainer, RadioLabel, RightsHolderContainer } from "./CreateUserStyles";
-import { H1, H2, H4, H5 } from "../../../StyledComponents/StyledHeadings";
+import { ButtonContainer, CheckBoxLabelContainer, IconBox, ProperAccessContainer } from "./CreateUserStyles";
+import { H1, H4, H5 } from "../../../StyledComponents/StyledHeadings";
 import { StyledTextField } from "../../../StyledComponents/StyledAppTextInput/StyledAppTextInput";
 import AppButton from "../../../components/common/AppButton/AppButton";
 import theme from "../../../theme";
@@ -26,34 +26,9 @@ export default function CreateUser() {
     const [state, setState] = React.useState({
         defaultCountryCode: "+44",
         show: false,
-        phone: "",
-        copyMetaData: false,
         showPassword: false,
         showNewPassword: false,
         showConfirmPassword: false,
-        metaData: {
-            title: "",
-            accountType: "",
-            contentSize: "",
-            contentEncoding: "",
-            contentType: "",
-            artist: "",
-            contentSamplingFrequency: "",
-            contentQuality: "",
-            isrcCode: "",
-            iswcCode: "",
-            tuneCode: "",
-            contentDescription: "",
-            distributor: "",
-            contentFileType: "",
-            label: "",
-            additionalMetadata: {
-
-            },
-            contentDuration: "",
-            isRightsHolderForEncode: null,
-            isAuthorizedForEncode: null
-        }
     })
     const navigate = useNavigate()
 
@@ -61,7 +36,8 @@ export default function CreateUser() {
         setState(value);
     };
 
-    const handleOnCreateUser = () => {
+    const handleOnCreateUser = (data) => {
+        log("Update user", data)
         cogoToast.success("user added");
     }
 
@@ -78,9 +54,9 @@ export default function CreateUser() {
                     <Grid item lg={6}>
 
                         <Grid container >
-                            <Grid style={{ padding: "5px", borderRadius: "50%", backgroundColor: theme.colors.secondary.lightTeal }}>
+                            <IconBox>
                                 <PersonIcon style={{ color: theme.colors.primary.teal }} />
-                            </Grid>
+                            </IconBox>
                         </Grid>
 
                         <H4 className='mt-2'>User details</H4>
@@ -98,9 +74,8 @@ export default function CreateUser() {
                                         fullWidth
                                         id="standard-basic"
                                         label="Username*"
-                                        value={state?.metaData?.title}
-                                        onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, title: e.target.value } }) }}
-                                        // placeholder='Song,Video or Audio track title'
+                                        value={value}
+                                        onChange={onChange}
                                         autoComplete='off'
                                     />
                                     {error?.message && <HelperText>{error?.message}</HelperText>}
@@ -113,7 +88,6 @@ export default function CreateUser() {
                             name="accountType"
                             control={control}
                             defaultValue=""
-                            onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, accountType: e.target.value } }) }}
                             render={({
                                 field: { onChange, value },
                                 fieldState: { error },
@@ -155,8 +129,8 @@ export default function CreateUser() {
                                         id="standard-basic"
                                         label="Email*"
                                         className="mt-3"
-                                        value={state?.metaData?.version}
-                                        onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, version: e.target.value } }) }}
+                                        value={value}
+                                        onChange={onChange}
                                     />
                                     {error?.message && <HelperText>{error?.message}</HelperText>}
                                 </>
@@ -174,12 +148,9 @@ export default function CreateUser() {
                                 }
                                 label={
                                     <CheckBoxLabelContainer>
-                                        <H5
-                                            color={theme.colors.secondary.lightNavy}
-                                        >
+                                        <H5 color={theme.colors.secondary.lightNavy}>
                                             Mark email as verified*
                                         </H5>
-                                        {/* <HelpOutlineOutlinedIcon style={{ color: theme.colors.secondary.lightNavy, fontSize: 17, marginLeft: "5px" }} /> */}
                                     </CheckBoxLabelContainer>
                                 }
                             />
@@ -271,10 +242,10 @@ export default function CreateUser() {
                     </Grid >
 
                     <Grid item lg={6}>
-                        <Grid container >
-                            <Grid style={{ padding: "5px", borderRadius: "50%", backgroundColor: theme.colors.secondary.lightTeal }}>
+                        <Grid container>
+                            <IconBox>
                                 <MusicNoteIcon style={{ color: theme.colors.primary.teal }} />
-                            </Grid>
+                            </IconBox>
                         </Grid>
 
                         <H4 className='mt-2'>Company details</H4>
@@ -304,9 +275,9 @@ export default function CreateUser() {
                                                 fullWidth
                                                 id="standard-basic"
                                                 label="Company name*"
-                                                value={state?.metaData?.title}
-                                                onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, title: e.target.value } }) }}
-                                                // placeholder='Song,Video or Audio track title'
+                                                value={value}
+                                                onChange={onChange}
+                                                error={!!error}
                                                 autoComplete='off'
                                             />
                                             {error?.message && <HelperText>{error?.message}</HelperText>}
@@ -359,9 +330,9 @@ export default function CreateUser() {
                                                 fullWidth
                                                 id="standard-basic"
                                                 label="Company URN / ID*"
-                                                value={state?.metaData?.artist}
+                                                value={value}
                                                 className="mt-3"
-                                                onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, artist: e.target.value } }) }}
+                                                onChange={onChange}
                                             />
                                             {error?.message && <HelperText>{error?.message}</HelperText>}
                                         </>
@@ -374,10 +345,10 @@ export default function CreateUser() {
                         <Grid className="mt-5">
                         </Grid>
 
-                        <Grid container >
-                            <Grid style={{ padding: "5px", borderRadius: "50%", backgroundColor: theme.colors.secondary.lightTeal }}>
+                        <Grid container>
+                            <IconBox>
                                 <LockIcon style={{ color: theme.colors.primary.teal }} />
-                            </Grid>
+                            </IconBox>
                         </Grid>
 
                         <H4 className='mt-2'>Password</H4>

@@ -6,21 +6,24 @@ import Columns from '../../components/common/Columns/Columns'
 import CommonDataLoadErrorSuccess from '../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess'
 import FilterCreate from '../../components/common/FilterComponent/FilterCreate'
 import { usersTableHeads } from '../../constants/constants'
-import { fetchLicenceKeys } from '../../stores/actions/licenceKey'
+import { getUsersAction } from '../../stores/actions/UserActions/usersActions'
 import { H1, H4 } from '../../StyledComponents/StyledHeadings'
 import { MainContainer } from '../../StyledComponents/StyledPageContainer'
 import theme from '../../theme'
+import { log } from '../../utils/app.debug'
 import UsersFilter from './components/UsersFilter'
 import UsersTable from './components/UsersTable'
+import PaginationCount from '../../components/common/Pagination/PaginationCount'
+import CustomPagination from '../../components/common/Pagination/CustomPagination'
 
 export default function Users() {
-    const users = useSelector(state => state.licenceKey)
+    const users = useSelector(state => state.user)
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    // log("USERS", users)
+    log("USERS", users)
 
     React.useEffect(() => {
-        dispatch(fetchLicenceKeys())
+        dispatch(getUsersAction(5, users?.getUsers?.data?.page))
     }, []);
 
     return (
@@ -44,11 +47,28 @@ export default function Users() {
             />
 
             <CommonDataLoadErrorSuccess
-                error={users.error}
-                loading={users.loading}
-                onClickTryAgain={() => dispatch(fetchLicenceKeys())}
+                error={users?.getUsers?.error}
+                loading={users?.getUsers?.loading}
+                onClickTryAgain={() => dispatch(getUsersAction())}
             >
-                <UsersTable data={users.data?.docs} usersTableHead={usersTableHeads} />
+                <UsersTable data={users?.getUsers?.data?.docs} usersTableHead={usersTableHeads} />
+                <Grid container justifyContent="space-between" alignItems="center" style={{ marginTop: "30px" }}>
+                    <Grid item xs={12} sm={4} md={6}>
+                        <PaginationCount
+                            name="users"
+                            total={users?.getUsers?.data?.totalDocs}
+                            start={users?.getUsers?.data?.offset}
+                            end={users?.getUsers?.data?.docs?.length}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={8} md={6}>
+                        <CustomPagination
+                            count={users?.getUsers?.data?.totalPages}
+                            page={users?.getUsers?.data?.page}
+                            onChange={(e, value) => dispatch(getUsersAction(5, value))}
+                        />
+                    </Grid>
+                </Grid>
             </CommonDataLoadErrorSuccess>
         </MainContainer>
     )

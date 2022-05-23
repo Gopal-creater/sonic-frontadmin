@@ -43,41 +43,35 @@ export default function UsersTable({ data, usersTableHead }) {
                                     return (
                                         <StyledAlternateTableRow key={data?._id}>
                                             {SelectedColumn("USERNAME") &&
-                                                <AlternateStyledTableData>
-                                                    {data?.isUnlimitedEncode === true
-                                                        ? "Unlimited"
-                                                        : data?.encodeUses
-                                                    }
-                                                </AlternateStyledTableData>
+                                                <AlternateStyledTableData>{data?.username || "---"}</AlternateStyledTableData>
                                             }
                                             {SelectedColumn("ID") &&
-                                                <AlternateStyledTableData>
-                                                    {data?.isUnlimitedMonitor === true
-                                                        ? "Unlimited"
-                                                        : data?.monitoringUses
-                                                    }
-                                                </AlternateStyledTableData>
+                                                <AlternateStyledTableData>{data?._id || "---"}</AlternateStyledTableData>
                                             }
                                             {SelectedColumn("EMAIL") &&
-                                                <AlternateStyledTableData>{format(new Date(data?.validity), "dd/MM/yyyy")}</AlternateStyledTableData>
+                                                <AlternateStyledTableData>{data?.email || "---"}</AlternateStyledTableData>
                                             }
                                             {SelectedColumn("PHONE NUMBER") &&
-                                                <AlternateStyledTableData>{data?.name}</AlternateStyledTableData>
+                                                <AlternateStyledTableData>{data?.phone_number || "---"}</AlternateStyledTableData>
                                             }
                                             {SelectedColumn("ACCOUNT TYPE") &&
-                                                <AlternateStyledTableData>{data?.type || "---"}</AlternateStyledTableData>
+                                                <AlternateStyledTableData>
+                                                    {data?.partner && "Partner" || data?.company && "Company" || "---"}
+                                                </AlternateStyledTableData>
                                             }
                                             {SelectedColumn("ACCOUNT NAME") &&
-                                                <AlternateStyledTableData>{data?.key}</AlternateStyledTableData>
+                                                <AlternateStyledTableData>{"---"}</AlternateStyledTableData>
                                             }
                                             {SelectedColumn("USER TYPE") &&
-                                                <AlternateStyledTableData>{data?.type || "---"}</AlternateStyledTableData>
+                                                <AlternateStyledTableData>
+                                                    {data?.userRole === "PartnerAdmin" ? "Admin" : "Standard" || "---"}
+                                                </AlternateStyledTableData>
                                             }
                                             {SelectedColumn("STATUS") &&
                                                 <AlternateStyledTableData>
-                                                    {data?.suspended === true
-                                                        ? <SuspendedBox>SUSPENDED</SuspendedBox>
-                                                        : <ActiveBox>ACTIVE</ActiveBox>
+                                                    {data?.enabled === true
+                                                        ? <ActiveBox>ACTIVE</ActiveBox>
+                                                        : <SuspendedBox>SUSPENDED</SuspendedBox>
                                                     }
                                                 </AlternateStyledTableData>
                                             }
@@ -94,41 +88,35 @@ export default function UsersTable({ data, usersTableHead }) {
                                 return (
                                     <StyledTableRow key={data?._id}>
                                         {SelectedColumn("USERNAME") &&
-                                            <StyledTableData>
-                                                {data?.isUnlimitedEncode === true
-                                                    ? "Unlimited"
-                                                    : data?.encodeUses
-                                                }
-                                            </StyledTableData>
+                                            <StyledTableData>{data?.username || "---"}</StyledTableData>
                                         }
                                         {SelectedColumn("ID") &&
-                                            <StyledTableData>
-                                                {data?.isUnlimitedMonitor === true
-                                                    ? "Unlimited"
-                                                    : data?.monitoringUses
-                                                }
-                                            </StyledTableData>
+                                            <StyledTableData>{data?._id || "---"}</StyledTableData>
                                         }
                                         {SelectedColumn("EMAIL") &&
-                                            <StyledTableData>{format(new Date(data?.validity), "dd/MM/yyyy")}</StyledTableData>
+                                            <StyledTableData>{data?.email || "---"}</StyledTableData>
                                         }
                                         {SelectedColumn("PHONE NUMBER") &&
-                                            <StyledTableData>{data?.name}</StyledTableData>
+                                            <StyledTableData>{data?.phone_number || "---"}</StyledTableData>
                                         }
                                         {SelectedColumn("ACCOUNT TYPE") &&
-                                            <StyledTableData>{data?.type || "---"}</StyledTableData>
+                                            <StyledTableData>
+                                                {data?.partner && "Partner" || data?.company && "Company" || "---"}
+                                            </StyledTableData>
                                         }
                                         {SelectedColumn("ACCOUNT NAME") &&
-                                            <StyledTableData>{data?.key}</StyledTableData>
+                                            <StyledTableData>{"---"}</StyledTableData>
                                         }
                                         {SelectedColumn("USER TYPE") &&
-                                            <StyledTableData>{data?.type || "---"}</StyledTableData>
+                                            <StyledTableData>
+                                                {data?.userRole === "PartnerAdmin" ? "Admin" : "Standard" || "---"}
+                                            </StyledTableData>
                                         }
                                         {SelectedColumn("STATUS") &&
                                             <StyledTableData>
-                                                {data?.suspended === true
-                                                    ? <SuspendedBox>INACTIVE</SuspendedBox>
-                                                    : <ActiveBox>ACTIVE</ActiveBox>
+                                                {data?.enabled === true
+                                                    ? <ActiveBox>ACTIVE</ActiveBox>
+                                                    : <SuspendedBox>SUSPENDED</SuspendedBox>
                                                 }
                                             </StyledTableData>
                                         }

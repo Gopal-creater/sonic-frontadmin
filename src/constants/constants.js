@@ -1503,7 +1503,7 @@ export const channel = [
 ]
 
 export const accountType = [
-  { name: "Individual" },
+  { name: "Partner" },
   { name: "Company" },
 ]
 
@@ -1518,13 +1518,40 @@ export const maxUses = [
 ]
 
 export const userType = [
-  { name: "Company" },
-  { name: "Partner" },
+  { name: "Admin" },
+  { name: "Standard" },
 ]
 
+export const partnerTypes = [
+  { name: 'CMO' },
+  { name: 'Distributor' },
+  { name: 'Monitor' },
+  { name: 'Music Management Services' },
+  { name: 'PRO' },
+  { name: 'Production Library' },
+  { name: 'Publisher' },
+  { name: 'Sub Publisher' },
+];
+
 export const companyType = [
+  { name: "Advertising" },
+  { name: "Artist" },
+  { name: "Artist Manager" },
+  { name: "CMO (Collective Management Organisation)" },
+  { name: "Composer" },
+  { name: "Corporate" },
   { name: "Distributer" },
-  { name: "Partner" },
+  { name: "DSP" },
+  { name: "Film/TV" },
+  { name: "Label" },
+  { name: "Monitor" },
+  { name: "Music Management Services" },
+  { name: "PRO (Public Rights Organisation)" },
+  { name: "Production Library" },
+  { name: "Publisher" },
+  { name: "Rights Holder" },
+  { name: "Song Writer" },
+  { name: "Sub Publisher" },
 ]
 
 export const userRoles = {

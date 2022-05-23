@@ -29,10 +29,10 @@ import CreeateUser from "../pages/Users/CreateUser/CreateUser";
 import { userRoles } from "../constants/constants";
 
 export default function AppRoutes() {
-  const dispatch = useDispatch()
-  React.useEffect(() => {
-    dispatch(getAllRadioListAction())
-  }, [])
+  // const dispatch = useDispatch()
+  // React.useEffect(() => {
+  //   dispatch(getAllRadioListAction())
+  // }, [])
 
   return (
     <AppLayout>

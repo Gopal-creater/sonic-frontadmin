@@ -18,7 +18,9 @@ import AppButton from '../../../components/common/AppButton/AppButton';
 import { useTheme } from 'styled-components';
 import theme from '../../../theme';
 import { log } from "../../../utils/app.debug"
-import { getUserProfileAction } from '../../../stores/actions/UserActions';
+import { getUserProfile } from '../../../services/https/resources/UserApi';
+import * as actionTypes from "../../../stores/actions/actionTypes"
+import { getInitialDatas } from '../../../stores/actions/GlobalActions';
 
 const useStyles = makeStyles(() => ({
     signInRoot: {
@@ -57,16 +59,27 @@ export default function SignIn() {
     function signIn(data) {
         if (values.loginLoading) return;
 
+        let signInResponse = null
+
         setValues({ ...values, loginLoading: true });
         Auth.signIn(data.username, data.password)
             .then((response) => {
                 log("SignIn response", response)
-                localStorage.setItem("user_info", JSON.stringify(response));
-                dispatch(setSession(response));
-                dispatch(getUserProfileAction());
+                signInResponse = response
+                return getUserProfile(response?.signInUserSession?.idToken?.jwtToken)
+            })
+            .then((response) => {
+                log("User profile response", response)
+                if (signInResponse !== null) {
+                    localStorage.setItem("user_info", JSON.stringify(signInResponse))
+                    dispatch(setSession(signInResponse));
+                    dispatch({ type: actionTypes.GET_USERPROFILE_DATA, data: response })
+                    dispatch(getInitialDatas())
+                }
                 setValues({ ...values, loginLoading: false });
             })
             .catch((err) => {
+                log("Profile error", err)
                 cogoToast.error(err.message);
                 setValues({ ...values, loginLoading: false });
             });

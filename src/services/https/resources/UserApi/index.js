@@ -1,5 +1,9 @@
+import { log } from "../../../../utils/app.debug"
 import { AppWebRequest } from "../../NetworkManager"
 
-export const getUserProfile = () => {
-    return AppWebRequest("/users/@me")
+export const getUserProfile = (jwtToken) => {
+    const config = {
+        headers: { Authorization: `Bearer ${jwtToken}` }
+    };
+    return AppWebRequest("/users/@me", "get", config)
 }

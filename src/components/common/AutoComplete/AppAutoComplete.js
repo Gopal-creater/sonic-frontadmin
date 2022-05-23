@@ -2,7 +2,6 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { log } from '../../../utils/app.debug';
 import { Search } from '@material-ui/icons';
 
 export default function AppAutoComplete(props) {
@@ -15,7 +14,6 @@ export default function AppAutoComplete(props) {
             onChange={(e, v) => props.getSelectedValue(e, v)}
             style={{ width: "100%" }}
             renderInput={(params) => {
-                log("params", params)
                 return (
                     <TextField
                         {...params}

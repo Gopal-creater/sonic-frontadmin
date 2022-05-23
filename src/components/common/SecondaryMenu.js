@@ -20,9 +20,8 @@ function SecondaryMenu(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate()
 
-  const { session } = useSelector((state) => ({
-    session: state.session,
-  }));
+  const session = useSelector(state => state.session)
+  const user = useSelector(state => state.user)
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -39,6 +38,8 @@ function SecondaryMenu(props) {
   const onPressLogout = async () => {
     try {
       dispatch(logout())
+      navigate("/")
+
     } catch (error) {
       cogoToast.error("Error logging out.");
     }
@@ -77,6 +78,7 @@ function SecondaryMenu(props) {
       >
         {session?.user?.signInUserSession?.idToken?.payload?.email || session?.user?.username}
       </Button>
+
       <Popper
         open={open}
         anchorEl={anchorRef.current}
@@ -96,49 +98,34 @@ function SecondaryMenu(props) {
             <Paper style={{ minWidth: "110px", borderRadius: "0px", boxShadow: "none", border: "1px solid #E0E0E0" }}>
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList
-                  // style={{ backgroundColor: "green" }}
                   autoFocusItem={open}
                   id="menu-list-grow"
                   onKeyDown={handleListKeyDown}
                 >
                   <div style={{ margin: "10px 15px 10px 20px" }}>
+                    {
+                      user.userMenus?.map((menu, index) => {
+                        return (
+                          <MenuItem
+                            id={index}
+                            onClick={(event) => {
+                              handleClose(event)
+                              navigate(`${menu.url}`)
+                            }}
+                            className={classes.menuItem}
+                          >
+                            {menu.urlName}
+                          </MenuItem>
+                        )
+                      })
+                    }
+
                     <MenuItem
-                      onClick={(event) => {
-                        handleClose(event)
-                        navigate("/admin-profile")
-                      }}
+                      onClick={onPressLogout}
                       className={classes.menuItem}
                     >
-                      Admin Profile
+                      Logout
                     </MenuItem>
-                    <MenuItem
-                      onClick={(event) => {
-                        handleClose(event)
-                        navigate("/users")
-                      }}
-                      className={classes.menuItem}
-                    >
-                      Users
-                    </MenuItem>
-                    <MenuItem
-                      onClick={(event) => {
-                        handleClose(event)
-                        navigate("/companies")
-                      }}
-                      className={classes.menuItem}
-                    >
-                      Companies
-                    </MenuItem>
-                    <MenuItem
-                      onClick={(event) => {
-                        handleClose(event)
-                        navigate("/licences")
-                      }}
-                      className={classes.menuItem}
-                    >
-                      Licenses
-                    </MenuItem>
-                    <MenuItem onClick={onPressLogout} className={classes.menuItem}>Logout</MenuItem>
                   </div>
                 </MenuList>
               </ClickAwayListener>

@@ -1,5 +1,6 @@
 import * as actionTypes from "../../actions/actionTypes"
 import produce from "immer";
+import { log } from "../../../utils/app.debug";
 
 const initialState = {
     userProfile: {
@@ -7,6 +8,24 @@ const initialState = {
         error: null,
         data: {}
     },
+    userMenus: [
+        {
+            url: "/admin-profile",
+            urlName: "Admin Profile"
+        },
+        {
+            url: "/users",
+            urlName: "Users"
+        },
+        {
+            url: "/companies",
+            urlName: "Companies"
+        },
+        {
+            url: "/licences",
+            urlName: "Licenses"
+        },
+    ],
     filters: {
         username: "",
         userId: "",
@@ -41,6 +60,7 @@ const userRed = (state = initialState, action) =>
                 draft.userProfile.loading = false;
                 draft.userProfile.error = null;
                 draft.userProfile.data = action.data;
+                log("action user role", action.data)
                 break
 
             case actionTypes.GET_USERPROFILE_ERROR:

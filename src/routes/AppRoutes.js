@@ -26,7 +26,6 @@ import CreeateUser from "../pages/Users/CreateUser/CreateUser";
 import { userRoles } from "../constants/constants";
 
 export default function AppRoutes() {
-
   return (
     <AppLayout>
       <div style={{ width: "100%" }}>
@@ -48,7 +47,7 @@ export default function AppRoutes() {
           {/* Public routes */}
 
           {/* Routes that are protected */}
-          <Route element={<RoleAuth allowedRoles={[userRoles.ADMIN, userRoles.PARTNER_ADMIN, userRoles.COMPANY_ADMIN]} />}>
+          <Route element={<RoleAuth allowedRoles={[userRoles.PARTNER_ADMIN, userRoles.COMPANY_ADMIN]} />}>
             <Route path="/admin-profile" element={<AdminProfile />} />
             <Route path="/create-user" element={<CreeateUser />} />
             <Route path="/create-company" element={<CreateNewCompany />} />
@@ -57,11 +56,11 @@ export default function AppRoutes() {
             <Route path="/users" element={<Users />} />
           </Route>
 
-          <Route element={<RoleAuth allowedRoles={[userRoles.ADMIN, userRoles.COMPANY_USER, userRoles.COMPANY_ADMIN, userRoles.PARTNER_ADMIN]} />}>
+          <Route element={<RoleAuth allowedRoles={[userRoles.PARTNER_ADMIN]} />}>
             <Route path="/companies" element={<Companies />} />
           </Route>
 
-          <Route element={<RoleAuth allowedRoles={[userRoles.COMPANY_USER, userRoles.PORTAL_USER, userRoles.PARTNER_USER]} />}>
+          <Route element={<RoleAuth allowedRoles={[userRoles.COMPANY_ADMIN, userRoles.COMPANY_USER, userRoles.PORTAL_USER, userRoles.PARTNER_USER]} />}>
             <Route path="/encode" element={<Encode />} />
             <Route path="/decode" element={<Decode />} />
           </Route>

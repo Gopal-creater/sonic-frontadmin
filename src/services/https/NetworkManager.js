@@ -1,7 +1,6 @@
 import axios from 'axios';
 import httpUrl from './httpUrl';
 import { getAccessToken } from './AuthHelper';
-import cogoToast from 'cogo-toast';
 import { logout } from '../../stores/actions';
 import store from '../../stores';
 import { log } from '../../utils/app.debug';

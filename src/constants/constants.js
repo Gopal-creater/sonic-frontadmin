@@ -1528,7 +1528,6 @@ export const companyType = [
 ]
 
 export const userRoles = {
-  ADMIN: "Admin",
   PORTAL_USER: "PortalUser",
   PARTNER_ADMIN: "PartnerAdmin",
   PARTNER_USER: "PartnerUser",
@@ -1536,3 +1535,21 @@ export const userRoles = {
   COMPANY_USER: "CompanyUser"
 }
 
+export const secondaryMenus = [
+  {
+    url: "/admin-profile",
+    urlName: "Admin Profile"
+  },
+  {
+    url: "/users",
+    urlName: "Users"
+  },
+  {
+    url: "/companies",
+    urlName: "Companies"
+  },
+  {
+    url: "/licences",
+    urlName: "Licenses"
+  },
+]

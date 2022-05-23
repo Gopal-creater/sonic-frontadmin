@@ -13,8 +13,6 @@ import Tracks from "../pages/Monitor/Tracks/Tracks";
 import Artists from "../pages/Monitor/Artists/Artists";
 import Countries from "../pages/Monitor/Countries/Countries";
 import RadioStations from "../pages/Monitor/RadioStation/RadioStation";
-import { getAllRadioListAction } from "../stores/actions/radioStationAction";
-import { useDispatch } from "react-redux";
 import RoleAuth from "../components/hoc/RoleAuth";
 import Companies from "../pages/Companies/Companies";
 import UnAuthorized from "../components/hoc/UnAuthorized";
@@ -22,62 +20,56 @@ import AddLicence from "../pages/Licences/components/AddLicence";
 import AdminProfile from "../pages/Profile/AdminProfile";
 import Users from "../pages/Users/Users";
 import EditLicense from "../pages/Licences/components/EditLicense";
-import CompanyProfile from "../pages/Companies/CompanyProfile/CompanyProfile";
 import CreateNewCompany from "../pages/Companies/CompanyProfile/CreateNewCompany";
 import UserProfile from "../pages/Users/UserProfile/UserProfile";
 import CreeateUser from "../pages/Users/CreateUser/CreateUser";
 import { userRoles } from "../constants/constants";
 
 export default function AppRoutes() {
-  // const dispatch = useDispatch()
-  // React.useEffect(() => {
-  //   dispatch(getAllRadioListAction())
-  // }, [])
 
   return (
     <AppLayout>
       <div style={{ width: "100%" }}>
         <Routes>
           <Route path="/" element={<Navigate replace to="/encode" />} />
-          <Route path="/unauthorized" element={<UnAuthorized />} />
-          <Route path="/encode" element={<Encode />} />
-          <Route path="/decode" element={<Decode />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/streamreader" element={<StreamReader />} />
-          <Route path="/sonic-keys" element={<Sonickeys />} />
+
+          {/* Public routes */}
           <Route path="/licences" element={<Licences />} />
-          <Route path="/add-licences" element={<AddLicence />} />
-          <Route path="/edit-licences" element={<EditLicense />} />
+          <Route path="/user-profile" element={<UserProfile />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/radio-stations" element={<RadioStations />} />
           <Route path="/sonicstreamdetail" element={<SonicStreamDetail />} />
           <Route path="/plays" element={<Plays />} />
           <Route path="/tracks" element={<Tracks />} />
           <Route path="/artists" element={<Artists />} />
-          <Route path="/radio-stations" element={<RadioStations />} />
           <Route path="/countries" element={<Countries />} />
-          <Route path="/company-profile" element={<CompanyProfile />} />
-          <Route path="/create-company" element={<CreateNewCompany />} />
-          <Route path="/user-profile" element={<UserProfile />} />
-          <Route path="/create-user" element={<CreeateUser />} />
+          <Route path="/sonic-keys" element={<Sonickeys />} />
+          <Route path="/streamreader" element={<StreamReader />} />
           <Route path="/users" element={<Users />} />
-          <Route path="/admin-profile" element={<AdminProfile />} />
+          {/* Public routes */}
 
           {/* Routes that are protected */}
-          <Route element={<RoleAuth allowedRoles={[userRoles.PORTAL_USER]} />}>
-
+          <Route element={<RoleAuth allowedRoles={[userRoles.ADMIN, userRoles.PARTNER_ADMIN, userRoles.COMPANY_ADMIN]} />}>
+            <Route path="/admin-profile" element={<AdminProfile />} />
+            <Route path="/create-user" element={<CreeateUser />} />
+            <Route path="/create-company" element={<CreateNewCompany />} />
+            <Route path="/add-licences" element={<AddLicence />} />
+            <Route path="/edit-licences" element={<EditLicense />} />
           </Route>
 
-          <Route element={<RoleAuth allowedRoles={[userRoles.COMPANY_USER]} />}>
+          <Route element={<RoleAuth allowedRoles={[userRoles.ADMIN, userRoles.COMPANY_USER, userRoles.COMPANY_ADMIN, userRoles.PARTNER_ADMIN]} />}>
             <Route path="/companies" element={<Companies />} />
           </Route>
 
+          <Route element={<RoleAuth allowedRoles={[userRoles.COMPANY_USER, userRoles.PORTAL_USER, userRoles.PARTNER_USER]} />}>
+            <Route path="/encode" element={<Encode />} />
+            <Route path="/decode" element={<Decode />} />
+          </Route>
           {/* Routes that are protected */}
 
-
-          {/* Routes accessible by company */}
-          {/* <Route element={<RoleAuth allowedRoles={["company"]} />}>
-            <Route path="/admin-profile" element={<AdminProfile />} />
-            <Route path="/users" element={<Users />} />
-          </Route> */}
+          {/* Catching unauthorized access */}
+          <Route path="/unauthorized" element={<UnAuthorized />} />
+          {/* Catching unauthorized access */}
         </Routes>
       </div>
     </AppLayout>

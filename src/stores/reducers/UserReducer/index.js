@@ -1,6 +1,7 @@
 import * as actionTypes from "../../actions/actionTypes"
 import produce from "immer";
 import { log } from "../../../utils/app.debug";
+import { userRoles } from "../../../constants/constants";
 
 const initialState = {
     userProfile: {
@@ -60,8 +61,25 @@ const userRed = (state = initialState, action) =>
                 draft.userProfile.loading = false;
                 draft.userProfile.error = null;
                 draft.userProfile.data = action.data;
-                log("action user role", action.data)
-                break
+                if (action.data.userRole === userRoles.COMPANY_ADMIN) {
+                    draft.userMenus = draft.userMenus.filter((menu) => {
+                        if (menu.urlName === "Companies") return
+                        return menu
+                    })
+                }
+                else if (action.data.userRole === userRoles.COMPANY_USER ||
+                    action.data.userRole === userRoles.PARTNER_USER ||
+                    action.data.userRole === userRoles.PORTAL_USER
+                ) {
+                    draft.userMenus = draft.userMenus.filter((menu) => {
+                        if (menu.urlName === "Admin Profile" || menu.urlName === "Users" || menu.urlName === "Companies") return
+                        return menu
+                    })
+                }
+                else {
+                    return
+                }
+                break;
 
             case actionTypes.GET_USERPROFILE_ERROR:
                 draft.userProfile.loading = false;

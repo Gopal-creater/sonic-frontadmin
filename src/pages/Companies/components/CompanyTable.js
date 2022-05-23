@@ -44,18 +44,12 @@ export default function CompanyTable({ data, companyTableHead }) {
                                         <StyledAlternateTableRow key={data?._id}>
                                             {SelectedColumn("COMPANY") &&
                                                 <AlternateStyledTableData>
-                                                    {data?.isUnlimitedEncode === true
-                                                        ? "Unlimited"
-                                                        : data?.encodeUses
-                                                    }
+                                                    {data?.name}
                                                 </AlternateStyledTableData>
                                             }
                                             {SelectedColumn("COMPANY TYPE") &&
                                                 <AlternateStyledTableData>
-                                                    {data?.isUnlimitedEncode === true
-                                                        ? "Unlimited"
-                                                        : data?.encodeUses
-                                                    }
+                                                    {data?.email}
                                                 </AlternateStyledTableData>
                                             }
                                             {SelectedColumn("ID") &&
@@ -67,7 +61,7 @@ export default function CompanyTable({ data, companyTableHead }) {
                                                 </AlternateStyledTableData>
                                             }
                                             {SelectedColumn("EMAIL") &&
-                                                <AlternateStyledTableData>{format(new Date(data?.validity), "dd/MM/yyyy")}</AlternateStyledTableData>
+                                                <AlternateStyledTableData>{ }</AlternateStyledTableData>
                                             }
                                             {SelectedColumn("PHONE NUMBER") &&
                                                 <AlternateStyledTableData>{data?.name}</AlternateStyledTableData>
@@ -97,18 +91,12 @@ export default function CompanyTable({ data, companyTableHead }) {
                                     <StyledTableRow key={data?._id}>
                                         {SelectedColumn("COMPANY") &&
                                             <StyledTableData>
-                                                {data?.isUnlimitedEncode === true
-                                                    ? "Unlimited"
-                                                    : data?.encodeUses
-                                                }
+                                                {data?.name}
                                             </StyledTableData>
                                         }
                                         {SelectedColumn("COMPANY TYPE") &&
                                             <StyledTableData>
-                                                {data?.isUnlimitedEncode === true
-                                                    ? "Unlimited"
-                                                    : data?.encodeUses
-                                                }
+                                                {data?.email}
                                             </StyledTableData>
                                         }
                                         {SelectedColumn("ID") &&
@@ -120,7 +108,7 @@ export default function CompanyTable({ data, companyTableHead }) {
                                             </StyledTableData>
                                         }
                                         {SelectedColumn("EMAIL") &&
-                                            <StyledTableData>{format(new Date(data?.validity), "dd/MM/yyyy")}</StyledTableData>
+                                            <StyledTableData>{ }</StyledTableData>
                                         }
                                         {SelectedColumn("PHONE NUMBER") &&
                                             <StyledTableData>{data?.name}</StyledTableData>

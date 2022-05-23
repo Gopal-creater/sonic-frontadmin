@@ -1,5 +1,4 @@
 import { Grid, Table, TableBody, TableContainer, TableHead, TableRow } from '@material-ui/core';
-import { format } from 'date-fns';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SelectedColumn } from '../../../components/common/Columns/component/SelectedColumn';
@@ -9,6 +8,7 @@ import { ActiveBox, AlternateStyledTableData, StyledAlternateTableRow, StyledTab
 
 export default function UsersTable({ data, usersTableHead }) {
     const navigate = useNavigate()
+
 
     return (
         <Grid>
@@ -64,7 +64,7 @@ export default function UsersTable({ data, usersTableHead }) {
                                             }
                                             {SelectedColumn("USER TYPE") &&
                                                 <AlternateStyledTableData>
-                                                    {data?.userRole === "PartnerAdmin" ? "Admin" : "Standard" || "---"}
+                                                    {data?.userRole === "PartnerAdmin" || "CompanyAdmin" ? "Admin" : "Standard"}
                                                 </AlternateStyledTableData>
                                             }
                                             {SelectedColumn("STATUS") &&
@@ -109,7 +109,7 @@ export default function UsersTable({ data, usersTableHead }) {
                                         }
                                         {SelectedColumn("USER TYPE") &&
                                             <StyledTableData>
-                                                {data?.userRole === "PartnerAdmin" ? "Admin" : "Standard" || "---"}
+                                                {data?.userRole === "PartnerAdmin" || "CompanyAdmin" ? "Admin" : "Standard"}
                                             </StyledTableData>
                                         }
                                         {SelectedColumn("STATUS") &&

@@ -15,7 +15,7 @@ export const CheckBoxLabelContainer = styled.div`
 `
 
 export const ProperAccessContainer = styled(Grid)`
-    padding: 60px 0px 50px 0px;
+    padding: 40px 0px 40px 0px;
     border-bottom: 1px solid ${theme.colors.secondary.mediumGrey};
 `
 

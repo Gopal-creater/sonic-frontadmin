@@ -6,7 +6,7 @@ import { DisabledTextField, StyledTextField } from "../../../StyledComponents/St
 import PersonIcon from '@material-ui/icons/Person';
 import theme from "../../../theme";
 import AppButton from "../../../components/common/AppButton/AppButton";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
 import { Controller, useForm } from "react-hook-form";
@@ -14,40 +14,45 @@ import cogoToast from "cogo-toast";
 import { HelperText } from "../../Licences/LicenseStyled";
 import CustomDropDown from "../../../components/common/AppTextInput/CustomDropDown";
 import { companyType } from "../../../constants/constants";
+import { log } from "../../../utils/app.debug";
+import PhoneTextInput from "../../../components/common/AppTextInput/PhoneTextInput";
+import { createCompanyAction } from "../../../stores/actions/CompanyActions"
+import { useDispatch, useSelector } from "react-redux";
 
 export default function CreateNewCompany() {
     const { handleSubmit, control, reset } = useForm();
-    const [state, setState] = React.useState({
-        copyMetaData: false,
-        showPassword: false,
-        showNewPassword: false,
-        showConfirmPassword: false,
-        metaData: {
-            title: "",
-            contentSize: "",
-            contentEncoding: "",
-            contentType: "",
-            artist: "",
-            contentSamplingFrequency: "",
-            contentQuality: "",
-            isrcCode: "",
-            iswcCode: "",
-            tuneCode: "",
-            contentDescription: "",
-            distributor: "",
-            contentFileType: "",
-            label: "",
-            additionalMetadata: {
-
-            },
-            contentDuration: "",
-            isRightsHolderForEncode: null,
-            isAuthorizedForEncode: null
-        }
+    const dispatch = useDispatch()
+    const user = useSelector(state => state.user)
+    const [state, setState] = useState({
+        countryCode: "+44"
     })
 
-    const createCompany = () => {
-        cogoToast.success("Company created successly");
+    log("data for partner id", user)
+
+    // React.useEffect(() => {
+    //     reset({
+    //         name: "",
+    //         companyType: "",
+    //         companyUrnOrId: "",
+    //         email: "",
+    //         contactNo: "",
+    //         owner: "",
+    //         partner: "",
+    //     })
+    // }, [])
+
+    const createCompany = (data) => {
+        log("data of create company", data)
+        let payload = {
+            name: data?.companyName,
+            companyType: data?.companyType,
+            companyUrnOrId: data?.companyURNID,
+            email: data?.email,
+            contactNo: data?.phoneNumber,
+            owner: "",
+            partner: user?.userProfile?.data?.adminPartner?._id,
+        }
+        dispatch(createCompanyAction(payload))
     }
 
     const navigate = useNavigate()
@@ -74,7 +79,7 @@ export default function CreateNewCompany() {
 
                         <Grid style={{ marginTop: 21 }}>
                             <Controller
-                                name="companyname"
+                                name="companyName"
                                 control={control}
                                 defaultValue=""
                                 render={({
@@ -86,9 +91,9 @@ export default function CreateNewCompany() {
                                             fullWidth
                                             id="standard-basic"
                                             label="Company name*"
-                                            value={state?.metaData?.title}
-                                            onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, title: e.target.value } }) }}
-                                            // placeholder='Song,Video or Audio track title'
+                                            value={value}
+                                            onChange={onChange}
+                                            error={!!error}
                                             autoComplete='off'
                                         />
                                         {error?.message && <HelperText>{error?.message}</HelperText>}
@@ -100,7 +105,7 @@ export default function CreateNewCompany() {
 
                         <Grid style={{ marginTop: 17 }}>
                             <Controller
-                                name="companytype"
+                                name="companyType"
                                 control={control}
                                 defaultValue=""
                                 render={({
@@ -144,8 +149,9 @@ export default function CreateNewCompany() {
                                             fullWidth
                                             id="standard-basic"
                                             label="Company URN / ID"
-                                            value={state?.metaData?.artist}
-                                            onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, artist: e.target.value } }) }}
+                                            value={value}
+                                            onChange={onChange}
+                                            error={!!error}
                                         />
                                         {error?.message && <HelperText>{error?.message}</HelperText>}
                                     </>
@@ -175,7 +181,7 @@ export default function CreateNewCompany() {
                         </Grid>
 
                         <Controller
-                            name="username"
+                            name="userName"
                             control={control}
                             defaultValue=""
                             render={({
@@ -188,9 +194,9 @@ export default function CreateNewCompany() {
                                         id="standard-basic"
                                         label="Username*"
                                         className="mt-3"
-                                        value={state?.metaData?.title}
-                                        onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, title: e.target.value } }) }}
-                                        // placeholder='Song,Video or Audio track title'
+                                        value={value}
+                                        onChange={onChange}
+                                        error={!!error}
                                         autoComplete='off'
                                     />
                                     {error?.message && <HelperText>{error?.message}</HelperText>}
@@ -213,24 +219,47 @@ export default function CreateNewCompany() {
                                         id="standard-basic"
                                         label="Email*"
                                         className="mt-3"
-                                        value={state?.metaData?.version}
-                                        onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, version: e.target.value } }) }}
+                                        value={value}
+                                        onChange={onChange}
+                                        error={!!error}
                                     />
                                     {error?.message && <HelperText>{error?.message}</HelperText>}
                                 </>
                             )}
-                            rules={{ required: "Email is required" }}
+                            rules={{
+                                required: "Email is required",
+                                pattern: {
+                                    value: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                                    message: "Invalid email address"
+                                }
+                            }}
+
                         />
 
-                        <StyledTextField
-                            fullWidth
-                            id="standard-basic"
-                            label="Phone number"
-                            className="mt-3"
-                            value={state?.metaData?.isrcCode}
-                            onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, isrcCode: e.target.value } }) }}
-                        // helperText="Hint: GB-H01-02-12345."
-                        />
+                        <Grid style={{ marginTop: 20 }}>
+                            <Controller
+                                name="phoneNumber"
+                                control={control}
+                                render={({
+                                    field: { onChange, value },
+                                    fieldState: { error },
+                                }) => (
+                                    <>
+                                        <PhoneTextInput
+                                            fullWidth
+                                            value={value}
+                                            onchange={onChange}
+                                            error={!!error}
+                                            phoneCodeProps={{
+                                                value: state.countryCode,
+                                                onChange: (e) => setState({ ...state, countryCode: e.target.value })
+                                            }}
+                                        />
+                                        {error?.message && <HelperText>{error?.message}</HelperText>}
+                                    </>
+                                )}
+                            />
+                        </Grid>
                     </Grid >
                 </Grid>
 

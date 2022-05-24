@@ -13,70 +13,6 @@ import MenuOpenIcon from '@material-ui/icons/MenuOpen';
 import { Grid } from "@material-ui/core";
 import { routeList } from "../../routes/RoutesData";
 
-const useStyles = makeStyles(() => {
-  const theme = useTheme()
-  return ({
-    toggleButton: {
-      cursor: "pointer",
-      width: "10px"
-    },
-    menuIcon: {
-      fontSize: 28,
-      color: theme.colors.secondary.grey,
-      marginBottom: 10
-    },
-    showMenu: {
-      fontSize: theme.fontSize.h4,
-      fontFamily: theme.fontFamily.nunitoSansBold,
-      color: theme.colors.secondary.grey,
-      lineHeight: 0.2,
-    },
-    listContainer: {
-      minWidth: "180px",
-      marginTop: 30
-    },
-    keyImage: {
-      height: 15,
-      width: 15,
-      marginRight: 15,
-    },
-    listItemContainer: {
-      paddingLeft: 0,
-      paddingBottom: 15,
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      textDecoration: "none",
-      color: theme.colors.secondary.mediumGrey,
-      "&:hover": {
-        color: theme.colors.secondary.lightNavy
-      }
-    },
-    activelistItemContainer: {
-      fontFamily: theme.fontFamily.nunitoSansBold,
-      color: theme.colors.primary.teal,
-      fontSize: "15px",
-    },
-    listItemText: {
-      fontSize: "15px",
-      fontFamily: theme.fontFamily.nunitoSansBold,
-    },
-    childListItemContainer: {
-      display: "flex",
-      justifyContent: "flex-start",
-      alignItems: "center",
-      textDecoration: "none",
-      color: theme.colors.secondary.mediumGrey,
-      "&:hover": {
-        color: theme.colors.secondary.lightNavy
-      }
-    },
-    activeChildListItemContainer: {
-      color: theme.colors.secondary.grey,
-    },
-  })
-});
-
 export default function Sidebar({ showMenu, toggleMenu }) {
   const location = useLocation()
 
@@ -186,3 +122,68 @@ export default function Sidebar({ showMenu, toggleMenu }) {
     </>
   );
 }
+
+
+const useStyles = makeStyles(() => {
+  const theme = useTheme()
+  return ({
+    toggleButton: {
+      cursor: "pointer",
+      width: "10px"
+    },
+    menuIcon: {
+      fontSize: 28,
+      color: theme.colors.secondary.grey,
+      marginBottom: 10
+    },
+    showMenu: {
+      fontSize: theme.fontSize.h4,
+      fontFamily: theme.fontFamily.nunitoSansBold,
+      color: theme.colors.secondary.grey,
+      lineHeight: 0.2,
+    },
+    listContainer: {
+      minWidth: "180px",
+      marginTop: 30
+    },
+    keyImage: {
+      height: 15,
+      width: 15,
+      marginRight: 15,
+    },
+    listItemContainer: {
+      paddingLeft: 0,
+      paddingBottom: 15,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      textDecoration: "none",
+      color: theme.colors.secondary.mediumGrey,
+      "&:hover": {
+        color: theme.colors.secondary.lightNavy
+      }
+    },
+    activelistItemContainer: {
+      fontFamily: theme.fontFamily.nunitoSansBold,
+      color: theme.colors.primary.teal,
+      fontSize: "15px",
+    },
+    listItemText: {
+      fontSize: "15px",
+      fontFamily: theme.fontFamily.nunitoSansBold,
+    },
+    childListItemContainer: {
+      display: "flex",
+      justifyContent: "flex-start",
+      alignItems: "center",
+      textDecoration: "none",
+      color: theme.colors.secondary.mediumGrey,
+      "&:hover": {
+        color: theme.colors.secondary.lightNavy
+      }
+    },
+    activeChildListItemContainer: {
+      color: theme.colors.secondary.grey,
+    },
+  })
+});

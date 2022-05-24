@@ -4,9 +4,55 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Toolbar from "@material-ui/core/Toolbar";
 import { Container, Grid } from "@material-ui/core";
 import Footer from "./Footer";
-import Sidebar from "./Sidebar";
 import Header from "./Header";
 import Wave from "../../assets/images/wave-pages.svg"
+import AppSideBar from "./AppSidebar";
+
+export default function AppLayout({ children }) {
+  const classes = useStyles();
+
+  const [showSideBarMenu, setShowSideBarMenu] = React.useState(true)
+
+  const toggleMenu = () => {
+    setShowSideBarMenu(!showSideBarMenu)
+  }
+
+  return (
+    <div className={classes.root}>
+      <CssBaseline />
+
+      <Header id="headerContainer" />
+
+      <Container maxWidth="xl" className={classes.container}>
+        <Toolbar />
+        <Grid id="container" className={classes.subContainer}>
+          <Grid
+            item
+            id="sidebarContainer"
+            className={!showSideBarMenu ? classes.hiddenSideBarContainer : classes.sidebarContainer}
+          >
+            <AppSideBar showMenu={showSideBarMenu} toggleMenu={toggleMenu} />
+          </Grid>
+
+          <Grid
+            item
+            id="pageContainer"
+            className={!showSideBarMenu ? classes.widePageContent : classes.pagecontent}
+          >
+            <main >
+              <div style={{ minHeight: "68vh" }}>{children}</div>
+            </main>
+
+            <Grid className="pt-4" id="footer">
+              <Footer id="footerContainer" />
+            </Grid>
+          </Grid>
+        </Grid>
+      </Container>
+    </div>
+  );
+}
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,48 +92,3 @@ const useStyles = makeStyles((theme) => ({
     overflowY: "auto",
   }
 }));
-
-export default function AppLayout({ children }) {
-  const classes = useStyles();
-
-  const [showSideBarMenu, setShowSideBarMenu] = React.useState(true)
-
-  const toggleMenu = () => {
-    setShowSideBarMenu(!showSideBarMenu)
-  }
-
-  return (
-    <div className={classes.root}>
-      <CssBaseline />
-
-      <Header id="headerContainer" />
-
-      <Container maxWidth="xl" className={classes.container}>
-        <Toolbar />
-        <Grid id="container" className={classes.subContainer}>
-          <Grid
-            item
-            id="sidebarContainer"
-            className={!showSideBarMenu ? classes.hiddenSideBarContainer : classes.sidebarContainer}
-          >
-            <Sidebar showMenu={showSideBarMenu} toggleMenu={toggleMenu} />
-          </Grid>
-
-          <Grid
-            item
-            id="pageContainer"
-            className={!showSideBarMenu ? classes.widePageContent : classes.pagecontent}
-          >
-            <main >
-              <div style={{ minHeight: "68vh" }}>{children}</div>
-            </main>
-
-            <Grid className="pt-4" id="footer">
-              <Footer id="footerContainer" />
-            </Grid>
-          </Grid>
-        </Grid>
-      </Container>
-    </div>
-  );
-}

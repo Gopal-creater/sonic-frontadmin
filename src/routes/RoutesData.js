@@ -1,19 +1,18 @@
 export const routeList = [
-    { link: "/encode", linkText: "Encode" },
-    { link: "/decode", linkText: "Decode" },
+    { path: "/encode", title: "Encode" },
+    { path: "/decode", title: "Decode" },
     {
-        link: "/monitor",
-        linkText: "Monitor",
-        children: [
-            { link: "/dashboard", linkText: "Dashboard" },
-            { link: "/plays", linkText: "My Plays" },
-            { link: "/tracks", linkText: "My Tracks" },
-            { link: "/artists", linkText: "Artists" },
-            { link: "/radio-stations", linkText: "Radio Stations" },
-            { link: "/countries", linkText: "Countries" },
-            { link: "/streamreader", linkText: "StreamReader" },
+        path: "/dashboard",
+        title: "Monitor",
+        subPath: [
+            { path: "/dashboard", title: "Dashboard" },
+            { path: "/plays", title: "My Plays" },
+            { path: "/tracks", title: "My Tracks" },
+            { path: "/artists", title: "Artists" },
+            { path: "/radio-stations", title: "Radio Stations" },
+            { path: "/countries", title: "Countries" },
+            { path: "/streamreader", title: "StreamReader" },
         ]
     },
-    { link: "/sonic-keys", linkText: "SonicKeys" },
-    // { link: "/licences", linkText: "Licenses" }
+    { path: "/sonic-keys", title: "SonicKeys" },
 ]

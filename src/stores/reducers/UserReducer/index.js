@@ -1,6 +1,8 @@
 import * as actionTypes from "../../actions/actionTypes"
 import produce from "immer";
 import { log } from "../../../utils/app.debug";
+import { userRoles } from "../../../constants/constants";
+import { routeList } from "../../../routes/RoutesData";
 
 const initialState = {
     userProfile: {
@@ -12,6 +14,10 @@ const initialState = {
         {
             url: "/admin-profile",
             urlName: "Admin Profile"
+        },
+        {
+            url: "/user-profile",
+            urlName: "User Profile"
         },
         {
             url: "/users",
@@ -44,7 +50,8 @@ const initialState = {
         loading: false,
         data: {},
         error: null,
-    }
+    },
+    sideBarData: routeList
 };
 
 const userRed = (state = initialState, action) =>
@@ -60,8 +67,37 @@ const userRed = (state = initialState, action) =>
                 draft.userProfile.loading = false;
                 draft.userProfile.error = null;
                 draft.userProfile.data = action.data;
-                log("action user role", action.data)
-                break
+                if (action.data.userRole === userRoles.COMPANY_ADMIN) {
+                    draft.userMenus = draft.userMenus.filter((menu) => {
+                        if (menu.urlName === "Companies" || menu.urlName === "User Profile") return
+                        return menu
+                    })
+                }
+
+                if (action.data.userRole === userRoles.PARTNER_ADMIN) {
+                    draft.userMenus = draft.userMenus.filter((menu) => {
+                        if (menu.urlName === "User Profile") return
+                        return menu
+                    })
+                }
+
+                if (action.data.userRole === userRoles.COMPANY_USER ||
+                    action.data.userRole === userRoles.PARTNER_USER ||
+                    action.data.userRole === userRoles.PORTAL_USER
+                ) {
+                    draft.userMenus = draft.userMenus.filter((menu) => {
+                        if (menu.urlName === "Admin Profile" || menu.urlName === "Users" || menu.urlName === "Companies") return
+                        return menu
+                    })
+                }
+
+                if (action.data.userRole === userRoles.PARTNER_ADMIN) {
+                    draft.sideBarData = draft.sideBarData.filter((item) => {
+                        if (item.path === "/encode" || item.path === "/decode") return
+                        return item
+                    })
+                }
+                break;
 
             case actionTypes.GET_USERPROFILE_ERROR:
                 draft.userProfile.loading = false;

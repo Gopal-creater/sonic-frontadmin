@@ -1,6 +1,15 @@
 import { FormControl, Grid, TextField } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
 import styled from "styled-components";
 import theme from "../../theme";
+
+const useStyles = makeStyles(() => ({
+    textInput: {
+        "&:-webkit-autofill": {
+            WebkitBoxShadow: "0 0 0 1000px white inset"
+        }
+    },
+}));
 
 const TextfieldFormControl = styled(FormControl)`
     width: 100%;
@@ -25,6 +34,13 @@ const CustomTextField = styled(TextField)`
         border-bottom-color: ${theme.colors.secondary.error};
     }
 
+    //input[type=number]
+    & .MuiInput-input {
+        &::-webkit-outer-spin-button, &::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+        }
+    }
+
     //For label
     & label {
         color:${theme.colors.secondary.mediumGrey};
@@ -41,10 +57,6 @@ const CustomTextField = styled(TextField)`
         color:${theme.colors.secondary.grey};
         font-family:${theme.fontFamily.nunitoSansRegular};
         font-size:${theme.fontSize.h4};
-
-        /* & :-webkit-autofill::first-line {
-        font-size: 28px;
-        } */
 
         :hover {
             color:${theme.colors.secondary.mediumNavy};
@@ -84,9 +96,10 @@ const DisabledField = styled(Grid)`
 `
 
 export function StyledTextField({ ...props }) {
+    const classes = useStyles();
     return (
         <TextfieldFormControl>
-            <CustomTextField  {...props} />
+            <CustomTextField  {...props} inputProps={{ className: classes.textInput }} />
         </TextfieldFormControl>
     )
 }

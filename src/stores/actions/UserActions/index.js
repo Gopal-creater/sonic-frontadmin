@@ -20,6 +20,8 @@ export const createUsersAction = (payload) => {
         dispatch({ type: actionTypes.CREATE_USER_LOADING });
         createUser(payload).then((res) => {
             dispatch({ type: actionTypes.CREATE_USER_SUCCESS, data: res });
+            dispatch(getUsersAction())
+            cogoToast.success("User added successfully!");
         }).catch((err) => {
             dispatch({ type: actionTypes.CREATE_USER_ERROR, data: err?.message });
             cogoToast.error(err?.message);

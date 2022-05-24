@@ -11,18 +11,8 @@ import { MainContainer } from '../../StyledComponents/StyledPageContainer'
 import { Controller, useForm } from 'react-hook-form'
 import { BorderBottom, IconBox } from './AdminProfileStyles'
 import { HelperText } from '../Licences/LicenseStyled'
-import { makeStyles } from '@material-ui/styles'
-
-const useStyles = makeStyles(() => ({
-    textInput: {
-        "&:-webkit-autofill": {
-            WebkitBoxShadow: "0 0 0 1000px white inset"
-        }
-    },
-}));
 
 export default function AdminProfile() {
-    const classes = useStyles();
     const [state, setState] = React.useState({
         showCurrentPassword: false,
         showNewPassword: false,
@@ -87,9 +77,6 @@ export default function AdminProfile() {
                                             error={!!error}
                                             value={value}
                                             onChange={onChange}
-                                            inputProps={{
-                                                className: classes.textInput
-                                            }}
                                         />
                                         {error?.message && <HelperText>{error?.message}</HelperText>}
                                     </>
@@ -114,9 +101,6 @@ export default function AdminProfile() {
                                             error={!!error}
                                             value={value}
                                             onChange={onChange}
-                                            inputProps={{
-                                                className: classes.textInput
-                                            }}
                                         />
                                         {error?.message && <HelperText>{error?.message}</HelperText>}
                                     </>
@@ -171,9 +155,6 @@ export default function AdminProfile() {
                                                     </InputAdornment>
                                                 ),
                                             }}
-                                            inputProps={{
-                                                className: classes.textInput,
-                                            }}
                                         />
                                         {error?.message && <HelperText>{error?.message}</HelperText>}
                                     </>
@@ -220,9 +201,6 @@ export default function AdminProfile() {
                                                     </InputAdornment>
                                                 ),
                                             }}
-                                            inputProps={{
-                                                className: classes.textInput,
-                                            }}
                                         />
                                         {error?.message && <HelperText>{error?.message}</HelperText>}
                                     </>
@@ -268,9 +246,6 @@ export default function AdminProfile() {
                                                         </IconButton>
                                                     </InputAdornment>
                                                 ),
-                                            }}
-                                            inputProps={{
-                                                className: classes.textInput,
                                             }}
                                         />
                                         {error?.message && <HelperText>{error?.message}</HelperText>}

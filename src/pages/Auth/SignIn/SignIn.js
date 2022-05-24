@@ -32,13 +32,13 @@ const useStyles = makeStyles(() => ({
         "&::-ms-overflow-style": "none",  /* IE and Edge */
         "&::-scrollbar-width": "none",/* Firefox */
     },
-    textInput: {
-        WebkitBoxShadow: "0 0 0 1000px white inset",
-        WebkitTextFillColor: theme.colors.secondary.lightNavy,
-        "&:-webkit-autofill::first-line": {
-            // fontSize: '28px !important',
-        }
-    },
+    // textInput: {
+    //     WebkitBoxShadow: "0 0 0 1000px white inset",
+    //     WebkitTextFillColor: theme.colors.secondary.lightNavy,
+    //     "&:-webkit-autofill::first-line": {
+    //         // fontSize: '28px !important',
+    //     }
+    // },
 
 }));
 
@@ -109,7 +109,7 @@ export default function SignIn() {
                             style={{ marginTop: "25px" }}
                             helperText={error?.message}
                             inputProps={{
-                                className: classes.textInput,
+                                // className: classes.textInput,
                                 // form: {
                                 //     autocomplete: 'off'
                                 // },
@@ -136,7 +136,7 @@ export default function SignIn() {
                             onChange={onChange}
                             error={!!error}
                             helperText={error?.message}
-                            inputProps={{ className: classes.textInput }}
+                            // inputProps={{ className: classes.textInput }}
                             className="mt-1"
                             InputProps={{
                                 endAdornment: (
@@ -161,7 +161,7 @@ export default function SignIn() {
                                         </IconButton>
                                     </InputAdornment>
                                 ),
-                                className: classes.textInput,
+                                // className: classes.textInput,
                                 // form: {
                                 //     autocomplete: 'off'
                                 // },

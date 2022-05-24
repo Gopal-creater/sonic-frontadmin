@@ -22,7 +22,7 @@ import Users from "../pages/Users/Users";
 import EditLicense from "../pages/Licences/components/EditLicense";
 import CreateNewCompany from "../pages/Companies/CompanyProfile/CreateNewCompany";
 import UserProfile from "../pages/Users/UserProfile/UserProfile";
-import CreeateUser from "../pages/Users/CreateUser/CreateUser";
+import CreateUser from "../pages/Users/CreateUser/CreateUser";
 import { userRoles } from "../constants/constants";
 
 export default function AppRoutes() {
@@ -49,7 +49,8 @@ export default function AppRoutes() {
           {/* Routes that are protected */}
           <Route element={<RoleAuth allowedRoles={[userRoles.PARTNER_ADMIN, userRoles.COMPANY_ADMIN]} />}>
             <Route path="/admin-profile" element={<AdminProfile />} />
-            <Route path="/create-user" element={<CreeateUser />} />
+            <Route path="/create-user" element={<CreateUser />} />
+            <Route path="/user-profile/:id" element={<UserProfile />} />
             <Route path="/create-company" element={<CreateNewCompany />} />
             <Route path="/add-licences" element={<AddLicence />} />
             <Route path="/edit-licences" element={<EditLicense />} />

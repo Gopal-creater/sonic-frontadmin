@@ -81,7 +81,7 @@ const userRed = (state = initialState, action) =>
                 break;
             case actionTypes.CREATE_USER_SUCCESS:
                 draft.createUser.loading = false;
-                draft.createUser.data = action.data;
+                draft.createUser.data = action.data.docs.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
                 draft.createUser.error = null;
                 break;
             case actionTypes.CREATE_USER_ERROR:

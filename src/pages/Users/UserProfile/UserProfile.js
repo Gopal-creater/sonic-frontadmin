@@ -14,39 +14,21 @@ import { MainContainer } from "../../../StyledComponents/StyledPageContainer"
 import { Controller, useForm } from "react-hook-form"
 import cogoToast from "cogo-toast"
 import { HelperText } from "../../Licences/LicenseStyled"
+import { useLocation } from "react-router-dom"
+import { log } from "../../../utils/app.debug"
 
 
 export default function UserProfile() {
     const { handleSubmit, control, reset } = useForm();
-    const [state, setState] = React.useState({
-        copyMetaData: false,
-        showPassword: false,
+    const { state } = useLocation();
+
+    const [values, setValues] = React.useState({
+        showCurrentPassword: false,
         showNewPassword: false,
         showConfirmPassword: false,
-        metaData: {
-            title: "",
-            contentSize: "",
-            contentEncoding: "",
-            contentType: "",
-            artist: "",
-            contentSamplingFrequency: "",
-            contentQuality: "",
-            isrcCode: "",
-            iswcCode: "",
-            tuneCode: "",
-            contentDescription: "",
-            distributor: "",
-            contentFileType: "",
-            label: "",
-            additionalMetadata: {
-
-            },
-            contentDuration: "",
-            isRightsHolderForEncode: null,
-            isAuthorizedForEncode: null
-        }
     })
 
+    log("LOCATE USER", state)
     const handleUserProfile = () => {
         cogoToast.success("Successfully")
     }
@@ -71,29 +53,10 @@ export default function UserProfile() {
 
                         <H4 className='mt-2'>User details</H4>
 
-                        <Grid style={{ marginTop: 21 }}>
-                            <Controller
-                                name="userName"
-                                control={control}
-                                defaultValue=""
-                                render={({
-                                    field: { onChange, value },
-                                    fieldState: { error },
-                                }) => (
-                                    <>
-                                        <StyledTextField
-                                            fullWidth
-                                            id="standard-basic"
-                                            label="Username*"
-                                            value={state?.metaData?.title}
-                                            onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, title: e.target.value } }) }}
-                                            // placeholder='Song,Video or Audio track title'
-                                            autoComplete='off'
-                                        />
-                                        {error?.message && <HelperText>{error?.message}</HelperText>}
-                                    </>
-                                )}
-                                rules={{ required: "Username is required" }}
+                        <Grid style={{ marginTop: 15 }}>
+                            <DisabledTextField
+                                label={"Username"}
+                                value={"sonic"}
                             />
                         </Grid>
 
@@ -123,10 +86,10 @@ export default function UserProfile() {
                                     <>
                                         <StyledTextField
                                             fullWidth
-                                            id="standard-basic"
                                             label="Email*"
-                                            value={state?.metaData?.version}
-                                            onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, version: e.target.value } }) }}
+                                            value={value}
+                                            onChange={onChange}
+                                            error={!!error}
                                         />
                                         {error?.message && <HelperText>{error?.message}</HelperText>}
                                     </>
@@ -138,10 +101,10 @@ export default function UserProfile() {
                         <Grid style={{ marginTop: 15 }}>
                             <StyledTextField
                                 fullWidth
-                                id="standard-basic"
                                 label="Phone number"
-                                value={state?.metaData?.isrcCode}
-                                onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, isrcCode: e.target.value } }) }}
+                            // value={value}
+                            // onChange={onChange}
+                            // error={!!error}
                             />
                         </Grid>
 
@@ -158,8 +121,10 @@ export default function UserProfile() {
                                     checkedSize={70}
                                     active={"\"ACTIVE\""}
                                     inActive={"\"SUSPENDED\""}
-                                    checked={state.checkedActive}
-                                    onChange={(e) => setState({ ...state, checkedActive: e.target.checked })}
+                                // checked={value}
+                                // value={value}
+                                // onChange={onChange}
+                                // error={!!error}
                                 />
                             </Grid>
                         </Grid>
@@ -210,24 +175,22 @@ export default function UserProfile() {
                         <Grid style={{ marginTop: 15 }}>
                             <StyledTextField
                                 fullWidth
-                                id="standard-basic"
                                 label="Current password"
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position="end">
                                             <IconButton
-                                                aria-label="toggle password visibility"
-                                                // onClick={() => {
-                                                //     setState({
-                                                //         ...state,
-                                                //         showNewPassword: !state?.showNewPassword,
-                                                //     });
-                                                // }}
+                                                onClick={() => {
+                                                    setValues({
+                                                        ...values,
+                                                        showCurrentPassword: !values?.showCurrentPassword,
+                                                    });
+                                                }}
                                                 onMouseDown={(event) => {
                                                     event.preventDefault();
                                                 }}
                                             >
-                                                {state?.showNewPassword ? <Visibility /> : <VisibilityOff />}
+                                                {values?.showCurrentPassword ? <Visibility /> : <VisibilityOff />}
                                             </IconButton>
                                         </InputAdornment>
                                     ),
@@ -238,24 +201,22 @@ export default function UserProfile() {
                         <Grid style={{ marginTop: 15 }}>
                             <StyledTextField
                                 fullWidth
-                                id="standard-basic"
                                 label="New password"
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position="end">
                                             <IconButton
-                                                aria-label="toggle password visibility"
-                                                // onClick={() => {
-                                                //     setState({
-                                                //         ...state,
-                                                //         showNewPassword: !state?.showNewPassword,
-                                                //     });
-                                                // }}
+                                                onClick={() => {
+                                                    setValues({
+                                                        ...values,
+                                                        showNewPassword: !values?.showNewPassword,
+                                                    });
+                                                }}
                                                 onMouseDown={(event) => {
                                                     event.preventDefault();
                                                 }}
                                             >
-                                                {state?.showNewPassword ? <Visibility /> : <VisibilityOff />}
+                                                {values?.showNewPassword ? <Visibility /> : <VisibilityOff />}
                                             </IconButton>
                                         </InputAdornment>
                                     ),
@@ -266,24 +227,22 @@ export default function UserProfile() {
                         <Grid style={{ marginTop: 15 }}>
                             <StyledTextField
                                 fullWidth
-                                id="standard-basic"
                                 label="Re-enter new password password"
                                 InputProps={{
                                     endAdornment: (
                                         <InputAdornment position="end">
                                             <IconButton
-                                                aria-label="toggle password visibility"
-                                                // onClick={() => {
-                                                //     setState({
-                                                //         ...state,
-                                                //         showNewPassword: !state?.showNewPassword,
-                                                //     });
-                                                // }}
+                                                onClick={() => {
+                                                    setValues({
+                                                        ...values,
+                                                        showConfirmPassword: !values?.showConfirmPassword,
+                                                    });
+                                                }}
                                                 onMouseDown={(event) => {
                                                     event.preventDefault();
                                                 }}
                                             >
-                                                {state?.showNewPassword ? <Visibility /> : <VisibilityOff />}
+                                                {values?.showConfirmPassword ? <Visibility /> : <VisibilityOff />}
                                             </IconButton>
                                         </InputAdornment>
                                     ),
@@ -294,8 +253,7 @@ export default function UserProfile() {
                     </Grid >
                 </Grid>
 
-                <ProperAccessContainer>
-                </ProperAccessContainer>
+                <ProperAccessContainer />
 
                 <ButtonContainer>
                     <AppButton

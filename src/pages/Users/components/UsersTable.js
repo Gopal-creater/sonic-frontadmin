@@ -9,7 +9,6 @@ import { ActiveBox, AlternateStyledTableData, StyledAlternateTableRow, StyledTab
 export default function UsersTable({ data, usersTableHead }) {
     const navigate = useNavigate()
 
-
     return (
         <Grid>
             <TableContainer style={{ padding: '0rem 1rem 1rem 1rem' }}>
@@ -78,7 +77,7 @@ export default function UsersTable({ data, usersTableHead }) {
                                             {SelectedColumn("ACTION") &&
                                                 <AlternateStyledTableData>
                                                     <TableMenu>
-                                                        <ActionMenuItem onClick={() => navigate('/user-profile')}>Edit User</ActionMenuItem>
+                                                        <ActionMenuItem onClick={() => navigate(`/user-profile/${data?._id}`, { state: data })}>Edit User</ActionMenuItem>
                                                     </TableMenu>
                                                 </AlternateStyledTableData>
                                             }
@@ -123,7 +122,7 @@ export default function UsersTable({ data, usersTableHead }) {
                                         {SelectedColumn("ACTION") &&
                                             <StyledTableData>
                                                 <TableMenu>
-                                                    <ActionMenuItem onClick={() => navigate('/user-profile')}>Edit User</ActionMenuItem>
+                                                    <ActionMenuItem onClick={() => navigate(`/user-profile/${data?._id}`, { state: data })}>Edit User</ActionMenuItem>
                                                 </TableMenu>
                                             </StyledTableData>
                                         }

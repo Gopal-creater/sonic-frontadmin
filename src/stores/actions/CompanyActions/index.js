@@ -20,14 +20,14 @@ export const createCompanyAction = (payload) => {
 }
 
 
-export const getAllCompaniesAction = () => {
-    // let params = new URLSearchParams();
-    // params.append("limit", limit);
-    // params.append("page", page);
-    // params.append("skip", page > 1 ? (page - 1) * limit : 0)
+export const getAllCompaniesAction = (limit, page) => {
+    let params = new URLSearchParams();
+    params.append("limit", limit);
+    params.append("page", page);
+    params.append("skip", page > 1 ? (page - 1) * limit : 0)
     return (dispatch) => {
         dispatch({ type: actionTypes.GET_COMPANIES_LOADING })
-        getAllCompanies().then((response) => {
+        getAllCompanies(params).then((response) => {
             log("company details found", response)
             dispatch({ type: actionTypes.GET_COMPANIES_SUCCESS, data: response })
         }).catch((err) => {

@@ -24,6 +24,7 @@ import CreateNewCompany from "../pages/Companies/CompanyProfile/CreateNewCompany
 import UserProfile from "../pages/Users/UserProfile/UserProfile";
 import CreateUser from "../pages/Users/CreateUser/CreateUser";
 import { userRoles } from "../constants/constants";
+import CompanyProfile from "../pages/Companies/CompanyProfile/CompanyProfile";
 
 export default function AppRoutes() {
   return (
@@ -52,6 +53,7 @@ export default function AppRoutes() {
             <Route path="/create-user" element={<CreateUser />} />
             <Route path="/user-profile/:id" element={<UserProfile />} />
             <Route path="/create-company" element={<CreateNewCompany />} />
+            <Route path="/company-profile/:id" element={<CompanyProfile />} />
             <Route path="/add-licences" element={<AddLicence />} />
             <Route path="/edit-licences" element={<EditLicense />} />
             <Route path="/users" element={<Users />} />

@@ -44,43 +44,44 @@ export default function CompanyTable({ data, companyTableHead }) {
                                         <StyledAlternateTableRow key={data?._id}>
                                             {SelectedColumn("COMPANY") &&
                                                 <AlternateStyledTableData>
-                                                    {data?.name}
+                                                    {data?.name || "---"}
                                                 </AlternateStyledTableData>
                                             }
                                             {SelectedColumn("COMPANY TYPE") &&
                                                 <AlternateStyledTableData>
-                                                    {data?.email}
+                                                    {data?.companyType || "---"}
                                                 </AlternateStyledTableData>
                                             }
                                             {SelectedColumn("ID") &&
                                                 <AlternateStyledTableData>
-                                                    {data?.isUnlimitedMonitor === true
-                                                        ? "Unlimited"
-                                                        : data?.monitoringUses
-                                                    }
+                                                    {data?._id || "---"}
                                                 </AlternateStyledTableData>
                                             }
                                             {SelectedColumn("EMAIL") &&
-                                                <AlternateStyledTableData>{ }</AlternateStyledTableData>
+                                                <AlternateStyledTableData>
+                                                    {data?.email || "---"}
+                                                </AlternateStyledTableData>
                                             }
                                             {SelectedColumn("PHONE NUMBER") &&
-                                                <AlternateStyledTableData>{data?.name}</AlternateStyledTableData>
+                                                <AlternateStyledTableData>
+                                                    {data?.contactNo || "---"}
+                                                </AlternateStyledTableData>
                                             }
                                             {SelectedColumn("ADMIN") &&
-                                                <AlternateStyledTableData>{data?.type || "---"}</AlternateStyledTableData>
+                                                <AlternateStyledTableData>{"---"}</AlternateStyledTableData>
                                             }
                                             {SelectedColumn("STATUS") &&
                                                 <AlternateStyledTableData>
-                                                    {data?.suspended === true
-                                                        ? <SuspendedBox>SUSPENDED</SuspendedBox>
-                                                        : <ActiveBox>ACTIVE</ActiveBox>
+                                                    {data?.enabled === true
+                                                        ? <ActiveBox>ACTIVE</ActiveBox>
+                                                        : <SuspendedBox>SUSPENDED</SuspendedBox>
                                                     }
                                                 </AlternateStyledTableData>
                                             }
                                             {SelectedColumn("ACTION") &&
                                                 <AlternateStyledTableData>
                                                     <TableMenu>
-                                                        <ActionMenuItem onClick={() => navigate('/company-profile')}>Edit Company</ActionMenuItem>
+                                                        <ActionMenuItem onClick={() => navigate(`/company-profile/${data?._id}`, { state: data })}>Edit Company</ActionMenuItem>
                                                     </TableMenu>
                                                 </AlternateStyledTableData>
                                             }
@@ -91,43 +92,40 @@ export default function CompanyTable({ data, companyTableHead }) {
                                     <StyledTableRow key={data?._id}>
                                         {SelectedColumn("COMPANY") &&
                                             <StyledTableData>
-                                                {data?.name}
+                                                {data?.name || "---"}
                                             </StyledTableData>
                                         }
                                         {SelectedColumn("COMPANY TYPE") &&
                                             <StyledTableData>
-                                                {data?.email}
+                                                {data?.companyType || "---"}
                                             </StyledTableData>
                                         }
                                         {SelectedColumn("ID") &&
                                             <StyledTableData>
-                                                {data?.isUnlimitedMonitor === true
-                                                    ? "Unlimited"
-                                                    : data?.monitoringUses
-                                                }
+                                                {data?._id || "---"}
                                             </StyledTableData>
                                         }
                                         {SelectedColumn("EMAIL") &&
-                                            <StyledTableData>{ }</StyledTableData>
+                                            <StyledTableData>{data?.email || "---"}</StyledTableData>
                                         }
                                         {SelectedColumn("PHONE NUMBER") &&
-                                            <StyledTableData>{data?.name}</StyledTableData>
+                                            <StyledTableData>{data?.contactNo || "---"}</StyledTableData>
                                         }
                                         {SelectedColumn("ADMIN") &&
-                                            <StyledTableData>{data?.type || "---"}</StyledTableData>
+                                            <StyledTableData>{"---"}</StyledTableData>
                                         }
                                         {SelectedColumn("STATUS") &&
                                             <StyledTableData>
-                                                {data?.suspended === true
-                                                    ? <SuspendedBox>INACTIVE</SuspendedBox>
-                                                    : <ActiveBox>ACTIVE</ActiveBox>
+                                                {data?.enabled === true
+                                                    ? <ActiveBox>ACTIVE</ActiveBox>
+                                                    : <SuspendedBox>SUSPENDED</SuspendedBox>
                                                 }
                                             </StyledTableData>
                                         }
                                         {SelectedColumn("ACTION") &&
                                             <StyledTableData>
                                                 <TableMenu>
-                                                    <ActionMenuItem onClick={() => navigate('/company-profile')}>Edit Company</ActionMenuItem>
+                                                    <ActionMenuItem onClick={() => navigate(`/company-profile/${data?._id}`, { state: data })}>Edit Company</ActionMenuItem>
                                                 </TableMenu>
                                             </StyledTableData>
                                         }

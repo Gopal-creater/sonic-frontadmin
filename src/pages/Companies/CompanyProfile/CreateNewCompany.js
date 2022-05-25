@@ -1,4 +1,4 @@
-import { Grid } from "@material-ui/core"
+import { CircularProgress, Grid } from "@material-ui/core"
 import { H1, H4 } from "../../../StyledComponents/StyledHeadings"
 import { ButtonContainer, ProperAccessContainer } from "./CompanyProfileStyles"
 import MusicNoteIcon from '@material-ui/icons/MusicNote';
@@ -23,23 +23,23 @@ export default function CreateNewCompany() {
     const { handleSubmit, control, reset } = useForm();
     const dispatch = useDispatch()
     const user = useSelector(state => state.user)
+    const company = useSelector(state => state.company)
     const [state, setState] = useState({
         countryCode: "+44"
     })
 
-    log("data for partner id", user)
+    log("data for loading", company?.createCompany?.loading)
 
-    // React.useEffect(() => {
-    //     reset({
-    //         name: "",
-    //         companyType: "",
-    //         companyUrnOrId: "",
-    //         email: "",
-    //         contactNo: "",
-    //         owner: "",
-    //         partner: "",
-    //     })
-    // }, [])
+    React.useEffect(() => {
+        reset({
+            companyName: "",
+            companyType: "",
+            companyURNID: "",
+            userName: "",
+            phoneNumber: "",
+            email: "",
+        })
+    }, [company?.createCompany?.data])
 
     const createCompany = (data) => {
         log("data of create company", data)
@@ -271,10 +271,13 @@ export default function CreateNewCompany() {
                     <AppButton
                         variant={"outline"}
                         onClick={() => navigate(-1)}
+                        disabled={company?.createCompany?.loading}
                     >
                         Cancel
                     </AppButton>
-                    <AppButton variant={"fill"} type="submit" style={{ marginLeft: "15px" }}>Create new company</AppButton>
+                    <AppButton variant={"fill"} type="submit" style={{ marginLeft: "15px", width: "210px" }}>
+                        {company?.createCompany?.loading ? <CircularProgress size={20} color="white" /> : "Create new company"}
+                    </AppButton>
                 </ButtonContainer>
             </form>
         </MainContainer >

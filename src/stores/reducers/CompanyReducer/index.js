@@ -8,13 +8,11 @@ const initialState = {
         data: {}
     },
     filters: {
-        username: "",
-        userId: "",
-        accountType: "",
-        accountName: "",
-        userType: "",
+        companyName: "",
+        companyType: "",
         email: "",
-        status: "",
+        companyId: "",
+        admin: "",
     },
     createCompany: {
         loading: false,

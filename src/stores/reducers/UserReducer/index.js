@@ -124,6 +124,15 @@ const userRed = (state = initialState, action) =>
                 draft.createUser.loading = false;
                 draft.createUser.error = action.data;
                 break;
+            case actionTypes.UPDATE_USERS_PROFILE:
+                draft.createUser.data = draft.createUser.data.docs.map((user) => {
+                    if (user?._id === action.data._id) {
+                        user = action.data
+                        return user
+                    }
+                    return user
+                })
+                break;
 
             //FETCHING USERS
             case actionTypes.GET_USERS_LOADING:

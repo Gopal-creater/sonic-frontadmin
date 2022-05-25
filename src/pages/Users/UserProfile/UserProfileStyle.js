@@ -2,11 +2,6 @@ import styled from "styled-components";
 import { Grid } from "@material-ui/core";
 import theme from "../../../theme";
 
-export const UserProfileContainer = styled(Grid)`
-    padding:20px ;
-    background-color:white ;
-`
-
 export const IconBox = styled(Grid)`
     padding: 10px;
     border-radius: 50%;

@@ -1,4 +1,3 @@
-import { getUserId } from "../../AuthHelper";
 import { AppWebRequest } from "../../NetworkManager"
 
 export const getUserProfile = (jwtToken) => {
@@ -16,10 +15,6 @@ export const createUser = (payload) => {
     return AppWebRequest(`/users`, 'post', { data: payload })
 }
 
-// export const singleUser = () => {
-//     return AppWebRequest(`/users/${getUserId}`, 'get')
-// }
-
-// export const updateUser = (payload) => {
-//     return AppWebRequest(`/users/${getUserId}`, 'put', { data: payload })
-// }
+export const updateUser = (key, payload) => {
+    return AppWebRequest(`/users/${key}`, 'put', { data: payload })
+}

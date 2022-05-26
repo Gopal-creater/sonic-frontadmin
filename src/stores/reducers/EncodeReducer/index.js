@@ -36,6 +36,11 @@ const initialState = {
         loading: false,
         data: [],
         error: null,
+    },
+    encodedTracks: {
+        loading: false,
+        data: {},
+        error: null
     }
 };
 const encodeRed = (state = initialState, action) =>

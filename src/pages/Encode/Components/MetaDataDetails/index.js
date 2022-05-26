@@ -17,7 +17,7 @@ import moment from 'moment'
 import { CustomRadioButton } from '../../../../components/common/AppRadioButton/AppRadioButton'
 import AppButton from '../../../../components/common/AppButton/AppButton'
 import * as actionTypes from "../../../../stores/actions/actionTypes"
-import { encodeFileAction } from '../../../../stores/actions/EncodeActions'
+import { encodeFromFileAction } from '../../../../stores/actions/EncodeActions'
 import cogoToast from 'cogo-toast'
 import PopUp from '../../../../components/common/PopUp'
 import encode_progress from "../../../../assets/icons/encode_progress.png"
@@ -88,7 +88,7 @@ export default function EncodeData() {
             isRightsHolderForEncode: isRightsHolderForEncode,
             isAuthorizedForEncode: isAuthorizedForEncode,
         }));
-        dispatch(encodeFileAction(formData))
+        dispatch(encodeFromFileAction(formData))
     }
 
     const encodeAnotherFile = () => {

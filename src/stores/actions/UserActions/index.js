@@ -37,10 +37,6 @@ export const getUsersAction = (limit, page) => {
 
     let users = store.getState()?.user?.filters;
 
-    //     accountType: "",
-    //     accountName: "",
-    //     userType: "",
-
     if (users?.username) {
         params.append("username", `/${users?.username}/i`);
     }
@@ -49,17 +45,37 @@ export const getUsersAction = (limit, page) => {
         params.append("_id", `/${users?.userId}/i`);
     }
 
-    // if (users?.username) {
-    //     params.append("username", `/${users?.username}/i`);
-    // }
+    if (users?.accountType) {
+        if (users?.accountType === "Partner") {
+            params.append("userRole", "PartnerAdmin");
+            params.append("userRole", "PartnerUser");
+        } else if (users?.accountType === "Company") {
+            params.append("userRole", "CompanyAdmin");
+            params.append("userRole", "CompanyUser");
+        }
+    }
 
-    // if (users?.username) {
-    //     params.append("username", `/${users?.username}/i`);
-    // }
+    if (users?.accountName) {
+        // if (users?.accountType === "Partner") {
+        params.append("relation_partner.name", `/${users?.accountName}/i`);
+        params.append("relation_company.name", `/${users?.accountName}/i`);
+        // } 
+        // else if (users?.accountType === "Company") {
+        //     params.append("userRole", "CompanyAdmin");
+        //     params.append("userRole", "CompanyUser");
+        // }
+    }
 
-    // if (users?.username) {
-    //     params.append("username", `/${users?.username}/i`);
-    // }
+    if (users?.userType) {
+        if (users?.userType === "Admin") {
+            params.append("userRole", "PartnerAdmin");
+            params.append("userRole", "CompanyAdmin");
+        } else if (users?.userType === "Standard") {
+            params.append("userRole", "PartnerUser");
+            params.append("userRole", "CompanyUser");
+            params.append("userRole", "PortalUser");
+        }
+    }
 
     if (users?.email) {
         params.append("email", `/${users?.email}/i`);

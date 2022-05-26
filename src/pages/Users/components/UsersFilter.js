@@ -7,7 +7,7 @@ import CustomDropDown from '../../../components/common/AppTextInput/CustomDropDo
 import theme from '../../../theme';
 import AppButton from '../../../components/common/AppButton/AppButton';
 import { StyledTextField } from '../../../StyledComponents/StyledAppTextInput/StyledAppTextInput';
-import { accountType, licenseStatus } from '../../../constants/constants';
+import { accountType, licenseStatus, userType } from '../../../constants/constants';
 import * as actionTypes from '../../../stores/actions/actionTypes';
 import { getUsersAction } from '../../../stores/actions/UserActions';
 
@@ -91,16 +91,17 @@ export default function UsersFilter({ closeDialog }) {
                     </FilterForm>
 
                     <FilterForm>
-                        <StyledTextField
-                            fullWidth
-                            label="User type"
-                            value={users?.filters?.userType}
-                            onChange={(e) => dispatch({ type: actionTypes.SET_USERS_FILTERS, data: { ...users?.filters, userType: e.target.value } })}
-                            InputLabelProps={{
-                                style: {
-                                    fontFamily: theme.fontFamily.nunitoSansBold
-                                }
+                        <CustomDropDown
+                            id="user-type"
+                            labelText="User type"
+                            formControlProps={{
+                                fullWidth: true
                             }}
+                            inputProps={{
+                                value: users?.filters?.userType,
+                                onChange: (e) => dispatch({ type: actionTypes.SET_USERS_FILTERS, data: { ...users?.filters, userType: e.target.value } }),
+                            }}
+                            data={userType || []}
                         />
                     </FilterForm>
 

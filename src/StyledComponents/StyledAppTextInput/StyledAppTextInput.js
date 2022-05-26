@@ -89,7 +89,11 @@ const DisabledLabel = styled.span`
 
 const DisabledField = styled(Grid)`
     background-color: ${theme.colors.secondary.lightGrey};
-    padding: 8px 5px;
+    display: flex;
+    align-items: center;
+    padding-left: 5px;
+    padding-right: 5px;
+    height: 45px;
     color: ${theme.colors.secondary.grey};
     font-family: ${theme.fontFamily.nunitoSansRegular};
     font-size:${theme.fontSize.h4};

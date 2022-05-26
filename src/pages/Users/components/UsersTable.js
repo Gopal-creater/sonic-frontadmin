@@ -59,11 +59,13 @@ export default function UsersTable({ data, usersTableHead }) {
                                                 </AlternateStyledTableData>
                                             }
                                             {SelectedColumn("ACCOUNT NAME") &&
-                                                <AlternateStyledTableData>{"---"}</AlternateStyledTableData>
+                                                <AlternateStyledTableData>
+                                                    {data?.partner && data?.partner?.name || data?.company && data?.company?.name || "---"}
+                                                </AlternateStyledTableData>
                                             }
                                             {SelectedColumn("USER TYPE") &&
                                                 <AlternateStyledTableData>
-                                                    {data?.userRole === "PartnerAdmin" || "CompanyAdmin" ? "Admin" : "Standard"}
+                                                    {(data?.userRole === "PartnerAdmin" || data?.userRole === "CompanyAdmin") ? "Admin" : "Standard"}
                                                 </AlternateStyledTableData>
                                             }
                                             {SelectedColumn("STATUS") &&
@@ -104,18 +106,20 @@ export default function UsersTable({ data, usersTableHead }) {
                                             </StyledTableData>
                                         }
                                         {SelectedColumn("ACCOUNT NAME") &&
-                                            <StyledTableData>{"---"}</StyledTableData>
+                                            <StyledTableData>
+                                                {data?.partner && data?.partner?.name || data?.company && data?.company?.name || "---"}
+                                            </StyledTableData>
                                         }
                                         {SelectedColumn("USER TYPE") &&
                                             <StyledTableData>
-                                                {data?.userRole === "PartnerAdmin" || "CompanyAdmin" ? "Admin" : "Standard"}
+                                                {(data?.userRole === "PartnerAdmin" || data?.userRole === "CompanyAdmin") ? "Admin" : "Standard"}
                                             </StyledTableData>
                                         }
                                         {SelectedColumn("STATUS") &&
                                             <StyledTableData>
                                                 {data?.enabled === true
                                                     ? <ActiveBox>ACTIVE</ActiveBox>
-                                                    : <SuspendedBox>SUSPENDED</SuspendedBox>
+                                                    : <SuspendedBox>INACTIVE</SuspendedBox>
                                                 }
                                             </StyledTableData>
                                         }

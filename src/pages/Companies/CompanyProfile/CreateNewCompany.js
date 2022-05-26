@@ -18,6 +18,7 @@ import { log } from "../../../utils/app.debug";
 import PhoneTextInput from "../../../components/common/AppTextInput/PhoneTextInput";
 import { createCompanyAction } from "../../../stores/actions/CompanyActions"
 import { useDispatch, useSelector } from "react-redux";
+import AppAutoComplete from "../../../components/common/AutoComplete/AppAutoComplete";
 
 export default function CreateNewCompany() {
     const { handleSubmit, control, reset } = useForm();
@@ -25,7 +26,8 @@ export default function CreateNewCompany() {
     const user = useSelector(state => state.user)
     const company = useSelector(state => state.company)
     const [state, setState] = useState({
-        countryCode: "+44"
+        countryCode: "+44",
+        autoCompleteValue: "",
     })
 
     log("data for loading", company?.createCompany?.loading)
@@ -172,6 +174,31 @@ export default function CreateNewCompany() {
 
                         <H4 className='mt-2'>Admin details</H4>
 
+                        <AppAutoComplete
+                            setTextFieldValue={typedValue => setState({ ...state, autoCompleteValue: typedValue })}
+                            textFieldValue={state.autoCompleteValue}
+                            // setAutoComPleteAction={(value) => dispatch(getTrackTitleAction(value))}
+                            // setAutoCompleteOptions={(option => option?.sonicKey?.contentFileName || "")}
+                            // loading={encode?.encodeSearchTrack?.loading}
+                            // data={encode?.encodeSearchTrack?.data?.docs || []}
+                            // error={encode?.encodeSearchTrack?.error}
+                            getSelectedValue={(e, v) => log("AutoComplete selected Value", v)}
+                            placeholder={"Search for a user"}
+                            helperText="Search your company users"
+                        />
+
+                        <AppAutoComplete
+                            setTextFieldValue={typedValue => setState({ ...state, autoCompleteValue: typedValue })}
+                            textFieldValue={state.autoCompleteValue}
+                            // setAutoComPleteAction={(value) => dispatch(getTrackTitleAction(value))}
+                            // setAutoCompleteOptions={(option => option?.sonicKey?.contentFileName || "")}
+                            // loading={encode?.encodeSearchTrack?.loading}
+                            // data={encode?.encodeSearchTrack?.data?.docs || []}
+                            // error={encode?.encodeSearchTrack?.error}
+                            getSelectedValue={(e, v) => log("AutoComplete selected Value", v)}
+                            placeholder={"Search for a company"}
+                            helperText="Search your company"
+                        />
 
                         <Grid style={{ marginTop: 15 }}>
                             <DisabledTextField

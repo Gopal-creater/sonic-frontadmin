@@ -22,6 +22,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { createUsersAction } from "../../../stores/actions/UserActions";
 import CompanyPopper from "../../../components/common/Popper/CompanyPopper";
 import { getAllCompaniesAction } from '../../../stores/actions/CompanyActions'
+import AppAutoComplete from "../../../components/common/AutoComplete/AppAutoComplete";
+import { getCompanyNameAction } from "../../../stores/actions/picker/titlePicker.action";
 
 const initialState = {
     accountType: "Partner",
@@ -31,6 +33,7 @@ const initialState = {
     countryCode: "+44",
     companyDetails: false,
     showPassword: false,
+    autoCompleteValue: "",
     company: ""
 }
 
@@ -42,7 +45,7 @@ export default function CreateUser() {
     const user = useSelector(state => state.user)
     const company = useSelector(state => state.company)
 
-    log("user", user)
+    log("user", company)
     React.useEffect(() => {
         dispatch(getAllCompaniesAction())
     }, []);
@@ -78,15 +81,6 @@ export default function CreateUser() {
             sendInvitationByEmail: data?.sendInvitationByEmail
         }
         dispatch(createUsersAction(payload))
-    }
-
-    const getCompanyName = () => {
-        let cpy = company.getAllCompanies.data?.docs?.map(data => {
-            return ({
-                name: data?.name
-            })
-        })
-        return cpy;
     }
 
     return (
@@ -285,19 +279,16 @@ export default function CreateUser() {
                             />
                         </Grid> :
                             <CompanyPopper title={"company"}>
-                                <CustomDropDown
-                                    labelText="Company name"
-                                    formControlProps={{
-                                        fullWidth: true
-                                    }}
-                                    inputProps={{
-                                        value: state.company,
-                                        onChange: (e) => setState({ ...state, company: e.target.value }),
-                                    }}
-                                    labelProps={{
-                                        style: { fontFamily: theme.fontFamily.nunitoSansRegular }
-                                    }}
-                                    data={getCompanyName() || []}
+                                <AppAutoComplete
+                                    setTextFieldValue={typedValue => setState({ ...state, autoCompleteValue: typedValue })}
+                                    textFieldValue={state.autoCompleteValue}
+                                    setAutoComPleteAction={(value) => dispatch(getCompanyNameAction(value))}
+                                    setAutoCompleteOptions={(option => option?.name || "")}
+                                    loading={company?.companySearch?.loading}
+                                    data={company?.companySearch?.data?.docs || []}
+                                    error={company?.companySearch?.error}
+                                    getSelectedValue={(e, v) => log("AutoComplete selected Value", v)}
+                                    placeholder={"Search for a company"}
                                 />
                                 <AppButton variant={"fill"} className="mt-3">Add</AppButton>
                             </CompanyPopper>

@@ -23,7 +23,7 @@ export default function AppAutoComplete(props) {
                             props?.setAutoComPleteAction(p.target.value)
                         }}
                         {...params.inputProps.value = props.textFieldValue}
-                        helperText={props?.helperText || "Title"}
+                        helperText={props?.helperText || ""}
                         placeholder={props?.placeholder || ""}
                     />
                 )

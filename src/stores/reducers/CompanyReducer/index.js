@@ -8,13 +8,11 @@ const initialState = {
         data: {}
     },
     filters: {
-        username: "",
-        userId: "",
-        accountType: "",
-        accountName: "",
-        userType: "",
+        companyName: "",
+        companyType: "",
         email: "",
-        status: "",
+        companyId: "",
+        admin: "",
     },
     createCompany: {
         loading: false,
@@ -22,6 +20,11 @@ const initialState = {
         error: null,
     },
     getAllCompanies: {
+        loading: false,
+        data: {},
+        error: null,
+    },
+    companySearch: {
         loading: false,
         data: {},
         error: null,
@@ -82,6 +85,24 @@ const companyReducer = (state = initialState, action) =>
             case actionTypes.GET_COMPANIES_ERROR:
                 draft.getAllCompanies.loading = false;
                 draft.getAllCompanies.error = action.data;
+                break;
+
+            //Searching company
+            case actionTypes.SET_SEARCH_USER_LOADING:
+                draft.companySearch.loading = true;
+                draft.companySearch.error = null;
+                draft.companySearch.data = {};
+                break;
+
+            case actionTypes.SET_SEARCH_USER_SUCCESS:
+                draft.companySearch.loading = false;
+                draft.companySearch.error = null;
+                draft.companySearch.data = action.data;
+                break;
+
+            case actionTypes.SET_SEARCH_USER_ERROR:
+                draft.companySearch.loading = false;
+                draft.companySearch.error = action.data;
                 break;
 
             default:

@@ -1,4 +1,4 @@
-import { Grid } from "@material-ui/core"
+import { CircularProgress, Grid } from "@material-ui/core"
 import { H1, H4 } from "../../../StyledComponents/StyledHeadings"
 import { ButtonContainer, ProperAccessContainer } from "./CompanyProfileStyles"
 import MusicNoteIcon from '@material-ui/icons/MusicNote';
@@ -18,28 +18,30 @@ import { log } from "../../../utils/app.debug";
 import PhoneTextInput from "../../../components/common/AppTextInput/PhoneTextInput";
 import { createCompanyAction } from "../../../stores/actions/CompanyActions"
 import { useDispatch, useSelector } from "react-redux";
+import AppAutoComplete from "../../../components/common/AutoComplete/AppAutoComplete";
 
 export default function CreateNewCompany() {
     const { handleSubmit, control, reset } = useForm();
     const dispatch = useDispatch()
     const user = useSelector(state => state.user)
+    const company = useSelector(state => state.company)
     const [state, setState] = useState({
-        countryCode: "+44"
+        countryCode: "+44",
+        autoCompleteValue: "",
     })
 
-    log("data for partner id", user)
+    log("data for loading", company?.createCompany?.loading)
 
-    // React.useEffect(() => {
-    //     reset({
-    //         name: "",
-    //         companyType: "",
-    //         companyUrnOrId: "",
-    //         email: "",
-    //         contactNo: "",
-    //         owner: "",
-    //         partner: "",
-    //     })
-    // }, [])
+    React.useEffect(() => {
+        reset({
+            companyName: "",
+            companyType: "",
+            companyURNID: "",
+            userName: "",
+            phoneNumber: "",
+            email: "",
+        })
+    }, [company?.createCompany?.data])
 
     const createCompany = (data) => {
         log("data of create company", data)
@@ -172,6 +174,18 @@ export default function CreateNewCompany() {
 
                         <H4 className='mt-2'>Admin details</H4>
 
+                        <AppAutoComplete
+                            setTextFieldValue={typedValue => setState({ ...state, autoCompleteValue: typedValue })}
+                            textFieldValue={state.autoCompleteValue}
+                            // setAutoComPleteAction={(value) => dispatch(getTrackTitleAction(value))}
+                            // setAutoCompleteOptions={(option => option?.sonicKey?.contentFileName || "")}
+                            // loading={encode?.encodeSearchTrack?.loading}
+                            // data={encode?.encodeSearchTrack?.data?.docs || []}
+                            // error={encode?.encodeSearchTrack?.error}
+                            getSelectedValue={(e, v) => log("AutoComplete selected Value", v)}
+                            placeholder={"Search for a user"}
+                            helperText="Search your company users"
+                        />
 
                         <Grid style={{ marginTop: 15 }}>
                             <DisabledTextField
@@ -271,10 +285,13 @@ export default function CreateNewCompany() {
                     <AppButton
                         variant={"outline"}
                         onClick={() => navigate(-1)}
+                        disabled={company?.createCompany?.loading}
                     >
                         Cancel
                     </AppButton>
-                    <AppButton variant={"fill"} type="submit" style={{ marginLeft: "15px" }}>Create new company</AppButton>
+                    <AppButton variant={"fill"} type="submit" style={{ marginLeft: "15px", width: "210px" }}>
+                        {company?.createCompany?.loading ? <CircularProgress size={20} color="white" /> : "Create new company"}
+                    </AppButton>
                 </ButtonContainer>
             </form>
         </MainContainer >

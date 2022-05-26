@@ -51,7 +51,12 @@ const initialState = {
         data: {},
         error: null,
     },
-    sideBarData: routeList
+    sideBarData: routeList,
+    userSearch: {
+        loading: false,
+        data: {},
+        error: null,
+    }
 };
 
 const userRed = (state = initialState, action) =>
@@ -149,6 +154,24 @@ const userRed = (state = initialState, action) =>
             case actionTypes.GET_USERS_ERROR:
                 draft.getUsers.loading = false;
                 draft.getUsers.error = action.data;
+                break;
+
+            // Searching User
+            case actionTypes.SET_SEARCH_USER_LOADING:
+                draft.userSearch.loading = true;
+                draft.userSearch.error = null;
+                draft.userSearch.data = {};
+                break;
+
+            case actionTypes.SET_SEARCH_USER_SUCCESS:
+                draft.userSearch.loading = false;
+                draft.userSearch.error = null;
+                draft.userSearch.data = action.data;
+                break;
+
+            case actionTypes.SET_SEARCH_USER_ERROR:
+                draft.userSearch.loading = false;
+                draft.userSearch.error = action.data;
                 break;
 
             default:

@@ -24,10 +24,10 @@ import { getTrackTitleAction } from '../../stores/actions/picker/titlePicker.act
 import AppAutoComplete from "../../components/common/AutoComplete/AppAutoComplete"
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
+import { getEncodedTrackAction } from '../../stores/actions/EncodeActions';
 
 export default function Encode() {
     const [state, setState] = React.useState({
-        fileUploadProgress: 0,
         trackTableHeads: trackTableHeads,
         currentSortBy: "",
         currentIsAscending: "",
@@ -40,6 +40,7 @@ export default function Encode() {
     const dispatch = useDispatch()
 
     React.useEffect(() => {
+        dispatch(getEncodedTrackAction())
         dispatch(getMonitorListAction(actions, monitor?.dates?.startDate, monitor?.dates?.endDate, monitor?.track?.data?.page, "10", "TRACKS"))
     }, [monitor?.dates?.startDate, monitor?.dates?.endDate])
 
@@ -199,30 +200,28 @@ export default function Encode() {
                                     loading={monitor?.track?.loading}
                                     onClickTryAgain={() => { dispatch(getMonitorListAction(actions, monitor?.dates?.startDate, monitor?.dates?.endDate, monitor?.track?.data?.page, "10", "TRACKS")) }}
                                 >
-                                    <>
-                                        <TracksTable
-                                            data={createStableTrackData()}
-                                            trackTableHeads={state.trackTableHeads}
-                                            onTrackSorting={(sortBy, isAscending, isActive) => trackSorting(sortBy, isAscending, isActive)}
-                                        />
-                                        <Grid container justifyContent="space-between" alignItems="center" style={{ marginTop: "30px" }}>
-                                            <Grid item xs={12} sm={6} md={6}>
-                                                <PaginationCount
-                                                    name="Tracks"
-                                                    total={monitor?.track?.data?.totalDocs}
-                                                    start={monitor?.track?.data?.offset}
-                                                    end={monitor?.track?.data?.docs?.length}
-                                                />
-                                            </Grid>
-                                            <Grid item xs={12} sm={6} md={6}>
-                                                <CustomPagination
-                                                    count={monitor?.track?.data?.totalPages}
-                                                    page={monitor?.track?.data?.page}
-                                                    onChange={handleTrackPageChange}
-                                                />
-                                            </Grid>
+                                    <TracksTable
+                                        data={createStableTrackData()}
+                                        trackTableHeads={state.trackTableHeads}
+                                        onTrackSorting={(sortBy, isAscending, isActive) => trackSorting(sortBy, isAscending, isActive)}
+                                    />
+                                    <Grid container justifyContent="space-between" alignItems="center" style={{ marginTop: "30px" }}>
+                                        <Grid item xs={12} sm={6} md={6}>
+                                            <PaginationCount
+                                                name="Tracks"
+                                                total={monitor?.track?.data?.totalDocs}
+                                                start={monitor?.track?.data?.offset}
+                                                end={monitor?.track?.data?.docs?.length}
+                                            />
                                         </Grid>
-                                    </>
+                                        <Grid item xs={12} sm={6} md={6}>
+                                            <CustomPagination
+                                                count={monitor?.track?.data?.totalPages}
+                                                page={monitor?.track?.data?.page}
+                                                onChange={handleTrackPageChange}
+                                            />
+                                        </Grid>
+                                    </Grid>
                                 </CommonDataLoadErrorSuccess>
                             </TrackTableContainer>
                         </TrackContainer>

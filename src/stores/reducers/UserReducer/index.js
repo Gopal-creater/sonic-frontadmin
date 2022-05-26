@@ -6,7 +6,7 @@ import { routeList } from "../../../routes/RoutesData";
 
 const initialState = {
     userProfile: {
-        loading: false,
+        loading: true,
         error: null,
         data: {}
     },

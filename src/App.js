@@ -8,10 +8,6 @@ import awsconfig from "./config/aws-exports";
 import Authenticator from "./pages/Auth/Authenticator";
 import Communication from "./services/https/Communication";
 import cogoToast from "cogo-toast";
-import { log } from "./utils/app.debug";
-import { getUserProfile } from "./services/https/resources/UserApi";
-import * as actionTypes from "./stores/actions/actionTypes"
-import { getInitialDatas } from "./stores/actions/GlobalActions";
 
 Amplify.configure(awsconfig);
 function App() {
@@ -24,24 +20,17 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    let loggedInUser = null
-    Communication.userAuthentication()
-      .then((response) => {
-        loggedInUser = JSON.parse(localStorage.getItem("user_info"));
-        return getUserProfile(loggedInUser?.signInUserSession?.idToken?.jwtToken)
-      })
-      .then((userProfileResponse) => {
-        if (loggedInUser !== null) {
-          dispatch(setSession(loggedInUser));
-          dispatch({ type: actionTypes.GET_USERPROFILE_DATA, data: userProfileResponse })
-          dispatch(getInitialDatas())
-        }
-        setAuthenticating(false)
-      })
-      .catch((error) => {
-        setAuthenticating(false)
-        cogoToast.error(error?.message || "Error authorizing")
-      })
+    Communication.userAuthentication().then((response) => {
+      const loggedInUser = localStorage.getItem("user_info");
+      if (loggedInUser) {
+        const foundUser = JSON.parse(loggedInUser);
+        dispatch(setSession(foundUser));
+      }
+      setAuthenticating(false)
+    }).catch((error) => {
+      setAuthenticating(false)
+      cogoToast.error(error?.message || "Error authorizing")
+    })
   }, []);
 
   // showing spinner while checking user is logged in or not

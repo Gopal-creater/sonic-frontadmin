@@ -24,53 +24,75 @@ import CreateNewCompany from "../pages/Companies/CompanyProfile/CreateNewCompany
 import UserProfile from "../pages/Users/UserProfile/UserProfile";
 import CreateUser from "../pages/Users/CreateUser/CreateUser";
 import { userRoles } from "../constants/constants";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserProfileAction } from "../stores/actions/UserActions";
+import { getInitialDatas } from "../stores/actions/GlobalActions";
+import SonicSpinner from "../components/common/SonicSpinner";
+import { logout } from "../stores/actions";
 
 export default function AppRoutes() {
-  return (
-    <AppLayout>
-      <div style={{ width: "100%" }}>
-        <Routes>
-          <Route path="/" element={<Navigate replace to="/dashboard" />} />
+  const user = useSelector(state => state.user)
+  const dispatch = useDispatch()
 
-          {/* Public routes */}
-          <Route path="/licences" element={<Licences />} />
-          <Route path="/user-profile/:id" element={<UserProfile />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/radio-stations" element={<RadioStations />} />
-          <Route path="/sonicstreamdetail" element={<SonicStreamDetail />} />
-          <Route path="/plays" element={<Plays />} />
-          <Route path="/tracks" element={<Tracks />} />
-          <Route path="/artists" element={<Artists />} />
-          <Route path="/countries" element={<Countries />} />
-          <Route path="/sonic-keys" element={<Sonickeys />} />
-          <Route path="/streamreader" element={<StreamReader />} />
-          {/* Public routes */}
+  React.useEffect(() => {
+    dispatch(getUserProfileAction())
+    dispatch(getInitialDatas())
+  }, [])
 
-          {/* Routes that are protected */}
-          <Route element={<RoleAuth allowedRoles={[userRoles.PARTNER_ADMIN, userRoles.COMPANY_ADMIN]} />}>
-            <Route path="/admin-profile" element={<AdminProfile />} />
-            <Route path="/create-user" element={<CreateUser />} />
-            <Route path="/create-company" element={<CreateNewCompany />} />
-            <Route path="/add-licences" element={<AddLicence />} />
-            <Route path="/edit-licences" element={<EditLicense />} />
-            <Route path="/users" element={<Users />} />
-          </Route>
+  if (user?.userProfile?.error) {
+    dispatch(logout())
+    return null
+  }
+  else if (user?.userProfile?.loading) {
+    return <SonicSpinner title="Fetching user profile..." />;
+  }
+  else {
+    return (
+      <AppLayout>
+        <div style={{ width: "100%" }}>
+          <Routes>
+            <Route path="/" element={<Navigate replace to="/dashboard" />} />
 
-          <Route element={<RoleAuth allowedRoles={[userRoles.PARTNER_ADMIN]} />}>
-            <Route path="/companies" element={<Companies />} />
-          </Route>
+            {/* Public routes */}
+            <Route path="/licences" element={<Licences />} />
+            <Route path="/user-profile/:id" element={<UserProfile />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/radio-stations" element={<RadioStations />} />
+            <Route path="/sonicstreamdetail" element={<SonicStreamDetail />} />
+            <Route path="/plays" element={<Plays />} />
+            <Route path="/tracks" element={<Tracks />} />
+            <Route path="/artists" element={<Artists />} />
+            <Route path="/countries" element={<Countries />} />
+            <Route path="/sonic-keys" element={<Sonickeys />} />
+            <Route path="/streamreader" element={<StreamReader />} />
+            {/* Public routes */}
 
-          <Route element={<RoleAuth allowedRoles={[userRoles.COMPANY_ADMIN, userRoles.COMPANY_USER, userRoles.PORTAL_USER, userRoles.PARTNER_USER]} />}>
-            <Route path="/encode" element={<Encode />} />
-            <Route path="/decode" element={<Decode />} />
-          </Route>
-          {/* Routes that are protected */}
+            {/* Routes that are protected */}
+            <Route element={<RoleAuth allowedRoles={[userRoles.PARTNER_ADMIN, userRoles.COMPANY_ADMIN]} />}>
+              <Route path="/admin-profile" element={<AdminProfile />} />
+              <Route path="/create-user" element={<CreateUser />} />
+              <Route path="/create-company" element={<CreateNewCompany />} />
+              <Route path="/add-licences" element={<AddLicence />} />
+              <Route path="/edit-licences" element={<EditLicense />} />
+              <Route path="/users" element={<Users />} />
+            </Route>
 
-          {/* Catching unauthorized access */}
-          <Route path="/unauthorized" element={<UnAuthorized />} />
-          {/* Catching unauthorized access */}
-        </Routes>
-      </div>
-    </AppLayout>
-  );
+            <Route element={<RoleAuth allowedRoles={[userRoles.PARTNER_ADMIN]} />}>
+              <Route path="/companies" element={<Companies />} />
+            </Route>
+
+            <Route element={<RoleAuth allowedRoles={[userRoles.COMPANY_ADMIN, userRoles.COMPANY_USER, userRoles.PORTAL_USER, userRoles.PARTNER_USER]} />}>
+              <Route path="/encode" element={<Encode />} />
+              <Route path="/decode" element={<Decode />} />
+            </Route>
+            {/* Routes that are protected */}
+
+            {/* Catching unauthorized access */}
+            <Route path="/unauthorized" element={<UnAuthorized />} />
+            {/* Catching unauthorized access */}
+          </Routes>
+        </div>
+      </AppLayout>
+    );
+  }
 }

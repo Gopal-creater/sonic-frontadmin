@@ -284,7 +284,7 @@ export default function CreateUser() {
                                 value={user?.userProfile?.data?.name}
                             />
                         </Grid> :
-                            <CompanyPopper>
+                            <CompanyPopper title={"company"}>
                                 <CustomDropDown
                                     labelText="Company name"
                                     formControlProps={{

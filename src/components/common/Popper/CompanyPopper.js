@@ -3,7 +3,7 @@ import React from 'react'
 import AppButton from '../AppButton/AppButton'
 import { ActionPopup } from './StyledPopper'
 
-export default function CompanyPopper({ children }) {
+export default function CompanyPopper({ title, children }) {
     const [state, setState] = React.useState({
         open: null,
     })
@@ -17,7 +17,7 @@ export default function CompanyPopper({ children }) {
                 style={{ paddingLeft: 3 }}
                 onClick={(e) => setState({ ...state, open: e.currentTarget })}
             >
-                Add associated new company
+                Add associated new {title}
             </AppButton>
 
             <ActionPopup

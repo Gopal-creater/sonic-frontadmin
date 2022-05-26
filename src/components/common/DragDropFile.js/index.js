@@ -57,10 +57,10 @@ export default function DragDropFile({ handleFiles }) {
             />
 
             <DragDopLabel htmlFor='input-file-upload'>
-                <img src={iconAddSound} width={"50px"} />
+                <img src={iconAddSound} width={"40px"} />
                 {
                     state.file ?
-                        <Grid>
+                        <Grid >
                             <H4
                                 fontFamily={theme.fontFamily.nunitoSansMediumBold}
                             >
@@ -87,7 +87,7 @@ export default function DragDropFile({ handleFiles }) {
                         </H4>
                 }
                 <Grid container justifyContent='flex-end' style={{ marginTop: "-10px" }}>
-                    <HelpOutlineOutlinedIcon fontSize='small' style={{ color: theme.colors.secondary.lightNavy }} />
+                    <HelpOutlineOutlinedIcon style={{ color: theme.colors.secondary.lightNavy, fontSize: "15px" }} />
                 </Grid>
             </DragDopLabel>
         </FormContainer>

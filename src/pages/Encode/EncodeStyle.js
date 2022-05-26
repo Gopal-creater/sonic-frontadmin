@@ -4,7 +4,7 @@ import theme from "../../theme";
 
 export const FileContainer = styled(Grid)`
     background-color:white ;
-    padding:15px;
+    padding:20px;
     /* box-shadow:18px 8px 8px ${theme.colors.secondary.grey} ; */
 `
 
@@ -28,8 +28,12 @@ export const ExistingFileSelectionContainer = styled(Grid)`
 export const AppAutoCompleteContainer = styled(Grid)`
     background-color:white ;
     margin-top:15px ;
-    padding:40px;
-    align-items:center ;
+    padding:30px 40px 10px 40px;
+    display:flex ;
+    flex-direction:column ;
+    align-items: flex-end;
+    justify-content:flex-end ;
+    flex:1 ;
 `
 export const TrackContainer = styled(Grid)`
     margin-top:40px ;

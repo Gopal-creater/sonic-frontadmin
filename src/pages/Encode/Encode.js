@@ -23,6 +23,7 @@ import { trackTableHeads } from '../../constants/constants';
 import { getTrackTitleAction } from '../../stores/actions/picker/titlePicker.action';
 import AppAutoComplete from "../../components/common/AutoComplete/AppAutoComplete"
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
 
 export default function Encode() {
     const [state, setState] = React.useState({
@@ -35,7 +36,6 @@ export default function Encode() {
 
     const encode = useSelector(state => state.encode)
     const monitor = useSelector(state => state.monitor)
-    const user = useSelector(state => state.user)
     const matches = useMediaQuery('(max-width:1280px)');
     const dispatch = useDispatch()
 
@@ -115,9 +115,6 @@ export default function Encode() {
         ))
     }
 
-    log("Encode reducer", encode)
-    log("User reducer", user)
-
     return (
         <>
             {
@@ -149,7 +146,7 @@ export default function Encode() {
                                     <H5 fontFamily={theme.fontFamily.nunitoSansBold} color={theme.colors.secondary.lightNavy}>
                                         Encode a track multiple times to share with different distributors.
                                     </H5>
-                                    <AppAutoCompleteContainer container alignItems="center">
+                                    <AppAutoCompleteContainer>
                                         <AppAutoComplete
                                             setTextFieldValue={typedValue => setState({ ...state, autoCompleteValue: typedValue })}
                                             textFieldValue={state.autoCompleteValue}
@@ -162,6 +159,9 @@ export default function Encode() {
                                             placeholder={"Search for a track by title"}
                                             helperText="Search your company records"
                                         />
+                                        <Grid container justifyContent='flex-end' style={{ marginRight: "-30px" }}>
+                                            <HelpOutlineOutlinedIcon style={{ color: theme.colors.secondary.lightNavy, fontSize: "15px" }} />
+                                        </Grid>
                                     </AppAutoCompleteContainer>
                                 </ExistingFileSelectionContainer>
                             </FileSelectionContainer>

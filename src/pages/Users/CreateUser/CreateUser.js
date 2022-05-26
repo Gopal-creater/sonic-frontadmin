@@ -20,6 +20,8 @@ import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
 import PhoneTextInput from "../../../components/common/AppTextInput/PhoneTextInput";
 import { useDispatch, useSelector } from "react-redux";
 import { createUsersAction } from "../../../stores/actions/UserActions";
+import CompanyPopper from "../../../components/common/Popper/CompanyPopper";
+import { getAllCompaniesAction } from '../../../stores/actions/CompanyActions'
 
 const initialState = {
     accountType: "Partner",
@@ -29,6 +31,7 @@ const initialState = {
     countryCode: "+44",
     companyDetails: false,
     showPassword: false,
+    company: ""
 }
 
 export default function CreateUser() {
@@ -37,8 +40,12 @@ export default function CreateUser() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const user = useSelector(state => state.user)
+    const company = useSelector(state => state.company)
 
     log("user", user)
+    React.useEffect(() => {
+        dispatch(getAllCompaniesAction())
+    }, []);
 
     React.useEffect(() => {
         setState(initialState)
@@ -71,6 +78,15 @@ export default function CreateUser() {
             sendInvitationByEmail: data?.sendInvitationByEmail
         }
         dispatch(createUsersAction(payload))
+    }
+
+    const getCompanyName = () => {
+        let cpy = company.getAllCompanies.data?.docs?.map(data => {
+            return ({
+                name: data?.name
+            })
+        })
+        return cpy;
     }
 
     return (
@@ -268,99 +284,115 @@ export default function CreateUser() {
                                 value={user?.userProfile?.data?.name}
                             />
                         </Grid> :
-                            !state?.companyDetails ? <Grid>
-                                <AppButton
-                                    variant={"none"}
-                                    startIcon={<ControlPoint />}
-                                    style={{ paddingLeft: 0 }}
-                                    onClick={() => setState({ ...state, companyDetails: true })}
-                                >
-                                    Add associated new company
-                                </AppButton>
-                            </Grid> :
-                                state?.companyDetails &&
-                                <>
-                                    <Grid style={{ marginTop: 15 }}>
-                                        <Controller
-                                            name="companyName"
-                                            control={control}
-                                            defaultValue=""
-                                            render={({
-                                                field: { onChange, value },
-                                                fieldState: { error },
-                                            }) => (
-                                                <>
-                                                    <StyledTextField
-                                                        fullWidth
-                                                        label="Company name*"
-                                                        value={value}
-                                                        onChange={onChange}
-                                                        error={!!error}
-                                                        autoComplete='off'
-                                                    />
-                                                    {error?.message && <HelperText>{error?.message}</HelperText>}
-                                                </>
-                                            )}
-                                            rules={{ required: "Company name is required" }}
-                                        />
-                                    </Grid>
+                            <CompanyPopper>
+                                <CustomDropDown
+                                    labelText="Company name"
+                                    formControlProps={{
+                                        fullWidth: true
+                                    }}
+                                    inputProps={{
+                                        value: state.company,
+                                        onChange: (e) => setState({ ...state, company: e.target.value }),
+                                    }}
+                                    labelProps={{
+                                        style: { fontFamily: theme.fontFamily.nunitoSansRegular }
+                                    }}
+                                    data={getCompanyName() || []}
+                                />
+                                <AppButton variant={"fill"} className="mt-3">Add</AppButton>
+                            </CompanyPopper>
+                            // <AppButton
+                            //     variant={"none"}
+                            //     startIcon={<ControlPoint />}
+                            //     style={{ paddingLeft: 0 }}
+                            // onClick={() => setState({ ...state, companyDetails: true })}
+                            // >
+                            //     Add associated new company
+                            // </AppButton>
+                            /* </Grid> : */
+                            // state?.companyDetails &&
+                            //     <>
+                            //         <Grid style={{ marginTop: 15 }}>
+                            //             <Controller
+                            //                 name="companyName"
+                            //                 control={control}
+                            //                 defaultValue=""
+                            //                 render={({
+                            //                     field: { onChange, value },
+                            //                     fieldState: { error },
+                            //                 }) => (
+                            //                     <>
+                            //                         <StyledTextField
+                            //                             fullWidth
+                            //                             label="Company name*"
+                            //                             value={value}
+                            //                             onChange={onChange}
+                            //                             error={!!error}
+                            //                             autoComplete='off'
+                            //                         />
+                            //                         {error?.message && <HelperText>{error?.message}</HelperText>}
+                            //                     </>
+                            //                 )}
+                            //                 rules={{ required: "Company name is required" }}
+                            //             />
+                            //         </Grid>
 
-                                    <Grid style={{ marginTop: 15 }}>
-                                        <Controller
-                                            name="companyType"
-                                            control={control}
-                                            defaultValue=""
-                                            render={({
-                                                field: { onChange, value },
-                                                fieldState: { error },
-                                            }) => (
-                                                <>
-                                                    <CustomDropDown
-                                                        labelText="Company type*"
-                                                        formControlProps={{
-                                                            fullWidth: true
-                                                        }}
-                                                        inputProps={{
-                                                            error: !!error,
-                                                            value: value,
-                                                            onChange: onChange,
-                                                        }}
-                                                        labelProps={{
-                                                            style: { fontFamily: theme.fontFamily.nunitoSansRegular }
-                                                        }}
-                                                        data={companyType || []}
-                                                    />
-                                                    {error?.message && <HelperText>{error?.message}</HelperText>}
-                                                </>
-                                            )}
-                                            rules={{ required: "Company type is required" }}
-                                        />
-                                    </Grid>
+                            //         <Grid style={{ marginTop: 15 }}>
+                            //             <Controller
+                            //                 name="companyType"
+                            //                 control={control}
+                            //                 defaultValue=""
+                            //                 render={({
+                            //                     field: { onChange, value },
+                            //                     fieldState: { error },
+                            //                 }) => (
+                            //                     <>
+                            //                         <CustomDropDown
+                            //                             labelText="Company type*"
+                            //                             formControlProps={{
+                            //                                 fullWidth: true
+                            //                             }}
+                            //                             inputProps={{
+                            //                                 error: !!error,
+                            //                                 value: value,
+                            //                                 onChange: onChange,
+                            //                             }}
+                            //                             labelProps={{
+                            //                                 style: { fontFamily: theme.fontFamily.nunitoSansRegular }
+                            //                             }}
+                            //                             data={companyType || []}
+                            //                         />
+                            //                         {error?.message && <HelperText>{error?.message}</HelperText>}
+                            //                     </>
+                            //                 )}
+                            //                 rules={{ required: "Company type is required" }}
+                            //             />
+                            //         </Grid>
 
-                                    <Grid style={{ marginTop: 15 }}>
-                                        <Controller
-                                            name="companyURNID"
-                                            control={control}
-                                            defaultValue=""
-                                            render={({
-                                                field: { onChange, value },
-                                                fieldState: { error },
-                                            }) => (
-                                                <>
-                                                    <StyledTextField
-                                                        fullWidth
-                                                        label="Company URN / ID*"
-                                                        value={value}
-                                                        onChange={onChange}
-                                                        error={!!error}
-                                                    />
-                                                    {error?.message && <HelperText>{error?.message}</HelperText>}
-                                                </>
-                                            )}
-                                            rules={{ required: "Company URN / ID is required" }}
-                                        />
-                                    </Grid>
-                                </>
+                            //         <Grid style={{ marginTop: 15 }}>
+                            //             <Controller
+                            //                 name="companyURNID"
+                            //                 control={control}
+                            //                 defaultValue=""
+                            //                 render={({
+                            //                     field: { onChange, value },
+                            //                     fieldState: { error },
+                            //                 }) => (
+                            //                     <>
+                            //                         <StyledTextField
+                            //                             fullWidth
+                            //                             label="Company URN / ID*"
+                            //                             value={value}
+                            //                             onChange={onChange}
+                            //                             error={!!error}
+                            //                         />
+                            //                         {error?.message && <HelperText>{error?.message}</HelperText>}
+                            //                     </>
+                            //                 )}
+                            //                 rules={{ required: "Company URN / ID is required" }}
+                            //             />
+                            //         </Grid>
+                            //  </>
                         }
 
                         <Grid className="mt-5">

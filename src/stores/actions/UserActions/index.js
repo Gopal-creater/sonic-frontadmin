@@ -47,18 +47,16 @@ export const getUsersAction = (limit, page) => {
 
     if (users?.accountType) {
         if (users?.accountType === "Partner") {
-            params.append("userRole", "PartnerAdmin");
-            params.append("userRole", "PartnerUser");
+            params.append("userRole", ["PartnerAdmin", "PartnerUser"]);
         } else if (users?.accountType === "Company") {
-            params.append("userRole", "CompanyAdmin");
-            params.append("userRole", "CompanyUser");
+            params.append("userRole", ["CompanyAdmin", "CompanyUser"]);
         }
     }
 
     if (users?.accountName) {
         // if (users?.accountType === "Partner") {
         params.append("relation_partner.name", `/${users?.accountName}/i`);
-        params.append("relation_company.name", `/${users?.accountName}/i`);
+        // params.append("relation_company.name", `/${users?.accountName}/i`);
         // } 
         // else if (users?.accountType === "Company") {
         //     params.append("userRole", "CompanyAdmin");
@@ -68,12 +66,9 @@ export const getUsersAction = (limit, page) => {
 
     if (users?.userType) {
         if (users?.userType === "Admin") {
-            params.append("userRole", "PartnerAdmin");
-            params.append("userRole", "CompanyAdmin");
+            params.append("userRole", ["PartnerAdmin", "CompanyAdmin"]);
         } else if (users?.userType === "Standard") {
-            params.append("userRole", "PartnerUser");
-            params.append("userRole", "CompanyUser");
-            params.append("userRole", "PortalUser");
+            params.append("userRole", ["PartnerUser", "CompanyUser", "PortalUser"]);
         }
     }
 

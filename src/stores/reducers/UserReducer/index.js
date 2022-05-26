@@ -110,29 +110,31 @@ const userRed = (state = initialState, action) =>
                 draft.filters = action.data;
                 break;
 
-            //CREATE USER
+            //CREATING USER
             case actionTypes.CREATE_USER_LOADING:
                 draft.createUser.loading = true;
                 draft.createUser.error = null;
                 break;
             case actionTypes.CREATE_USER_SUCCESS:
                 draft.createUser.loading = false;
-                draft.createUser.data = action.data.docs.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+                draft.createUser.data = action.data;
                 draft.createUser.error = null;
                 break;
             case actionTypes.CREATE_USER_ERROR:
                 draft.createUser.loading = false;
                 draft.createUser.error = action.data;
                 break;
-            case actionTypes.UPDATE_USERS_PROFILE:
-                draft.createUser.data = draft.createUser.data.docs.map((user) => {
-                    if (user?._id === action.data._id) {
-                        user = action.data
-                        return user
-                    }
-                    return user
-                })
-                break;
+
+            //UPDATING USER
+            // case actionTypes.UPDATE_USERS_PROFILE:
+            //     draft.createUser.data = draft.createUser.data.docs.map((user) => {
+            //         if (user?._id === action.data._id) {
+            //             user = action.data
+            //             return user
+            //         }
+            //         return user
+            //     })
+            //     break;array.slice().sort((a, b) => b.stats.speed - a.stats.speed)
 
             //FETCHING USERS
             case actionTypes.GET_USERS_LOADING:

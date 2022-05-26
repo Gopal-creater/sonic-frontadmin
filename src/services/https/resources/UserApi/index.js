@@ -16,5 +16,11 @@ export const createUser = (payload) => {
 }
 
 export const updateUser = (key, payload) => {
-    return AppWebRequest(`/users/${key}`, 'put', { data: payload })
+    const config = {
+        data: payload,
+        headers: {
+            'Accept': 'application/json',
+        },
+    };
+    return AppWebRequest(`/users/${key}`, 'patch', config)
 }

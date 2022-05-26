@@ -64,7 +64,7 @@ export default function UserProfile() {
         setValues({ ...values, loading: true })
         let payload = {
             email: values?.email,
-            phone_number: data?.phone_number,
+            phone_number: data?.phoneNumber,
             enabled: values?.status
         }
 

@@ -91,10 +91,11 @@ const IOSSwitch = withStyles(() => ({
 });
 
 
-export default function AppToggleSwitch({ checked, onChange, size, checkedSize, active, inActive }) {
+export default function AppToggleSwitch({ checked, onChange, size, checkedSize, active, inActive, ...props }) {
     return (
         <Grid>
             <IOSSwitch
+                {...props}
                 checked={checked}
                 onChange={onChange}
                 name="checked"

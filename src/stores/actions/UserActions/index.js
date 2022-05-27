@@ -1,5 +1,5 @@
 import cogoToast from "cogo-toast"
-import { createUser, fetchUsers, getUserProfile, updateUser } from "../../../services/https/resources/UserApi"
+import { createUser, fetchUsers, getUserProfile } from "../../../services/https/resources/UserApi"
 import * as actionTypes from "../actionTypes"
 import store from "../..";
 

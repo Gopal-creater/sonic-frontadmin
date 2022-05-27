@@ -19,6 +19,9 @@ import PhoneTextInput from "../../../components/common/AppTextInput/PhoneTextInp
 import { createCompanyAction } from "../../../stores/actions/CompanyActions"
 import { useDispatch, useSelector } from "react-redux";
 import AppAutoComplete from "../../../components/common/AutoComplete/AppAutoComplete";
+import { getUsersNameAction } from "../../../stores/actions/picker/titlePicker.action";
+import { getUsersAction } from "../../../stores/actions/UserActions";
+import CompanyPopper from "../../../components/common/Popper/CompanyPopper"
 
 export default function CreateNewCompany() {
     const { handleSubmit, control, reset } = useForm();
@@ -30,7 +33,11 @@ export default function CreateNewCompany() {
         autoCompleteValue: "",
     })
 
-    log("data for loading", company?.createCompany?.loading)
+    React.useEffect(() => {
+        dispatch(getUsersAction())
+    }, [])
+
+    log("data for loading", user)
 
     React.useEffect(() => {
         reset({
@@ -173,19 +180,20 @@ export default function CreateNewCompany() {
                         </Grid>
 
                         <H4 className='mt-2'>Admin details</H4>
-
-                        <AppAutoComplete
-                            setTextFieldValue={typedValue => setState({ ...state, autoCompleteValue: typedValue })}
-                            textFieldValue={state.autoCompleteValue}
-                            // setAutoComPleteAction={(value) => dispatch(getTrackTitleAction(value))}
-                            // setAutoCompleteOptions={(option => option?.sonicKey?.contentFileName || "")}
-                            // loading={encode?.encodeSearchTrack?.loading}
-                            // data={encode?.encodeSearchTrack?.data?.docs || []}
-                            // error={encode?.encodeSearchTrack?.error}
-                            getSelectedValue={(e, v) => log("AutoComplete selected Value", v)}
-                            placeholder={"Search for a user"}
-                            helperText="Search your company users"
-                        />
+                        <CompanyPopper title={"user"}>
+                            <AppAutoComplete
+                                setTextFieldValue={typedValue => setState({ ...state, autoCompleteValue: typedValue })}
+                                textFieldValue={state.autoCompleteValue}
+                                setAutoComPleteAction={(value) => dispatch(getUsersNameAction(value))}
+                                setAutoCompleteOptions={(option => option?.username || "")}
+                                loading={user?.userSearch?.loading}
+                                data={user?.userSearch?.data?.docs || []}
+                                error={user?.userSearch?.error}
+                                getSelectedValue={(e, v) => log("AutoComplete selected Value", v)}
+                                placeholder={"Search for a user"}
+                                helperText="Search your company users"
+                            />
+                        </CompanyPopper>
 
                         <Grid style={{ marginTop: 15 }}>
                             <DisabledTextField

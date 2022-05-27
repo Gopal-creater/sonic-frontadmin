@@ -21,6 +21,7 @@ import { useDispatch, useSelector } from "react-redux"
 import * as actionTypes from "../../../stores/actions/actionTypes"
 import cogoToast from "cogo-toast"
 import { updateUser } from "../../../services/https/resources/UserApi"
+import { getUsersAction } from "../../../stores/actions/UserActions"
 
 export default function UserProfile() {
     const schema = Yup.object().shape({
@@ -43,39 +44,32 @@ export default function UserProfile() {
         loading: false,
     })
 
-    // log("upDated USER..", user)
+    log("loCAtion USER..", state)
+    log("upDated USER..", user)
 
-    // React.useEffect(() => {
-    //     setValues({ ...values, status: state?.enabled })
-    //     reset({
-    //         email: state?.email,
-    //         phoneNumber: state?.phoneNumber,
-    //         newPassword: "",
-    //         confirmNewPassword: ""
-    //     })
-    // }, [values.updated])
-
-    //     /**
-    //      * 
-    //      * @param {"There were 2 validation errors:
-    // * MissingRequiredParameter: Missing required key 'UserPoolId' in params
-    // * MissingRequiredParameter: Missing required key 'Username' in params"} data 
-    //      */
+    React.useEffect(() => {
+        setValues({ ...values, status: state?.enabled })
+        reset({
+            phoneNumber: state?.phoneNumber,
+            newPassword: "",
+            confirmNewPassword: ""
+        })
+    }, [values.updated])
 
     function handleUserProfile(data) {
         setValues({ ...values, loading: true })
         let payload = {
-            email: data?.email,
             password: data?.newPassword,
             phoneNumber: data?.phoneNumber,
             enabled: values?.status,
         }
 
         // dispatch(updateUsersAction(state?._id, payload))
-        setValues({ ...values, loading: false, updated: true })
+        // setValues({ ...values, loading: false, updated: true })
         updateUser(state?._id, payload).then((res) => {
             log("user DATA updated", res)
             dispatch({ type: actionTypes.UPDATE_USERS_PROFILE, data: res })
+            dispatch(getUsersAction())
             setValues({ ...values, loading: false, updated: true })
             cogoToast.success("User updated successfully!")
         }).catch((err) => {
@@ -134,25 +128,9 @@ export default function UserProfile() {
                         </Grid>
 
                         <Grid style={{ marginTop: 15 }}>
-                            <Controller
-                                name="email"
-                                control={control}
-                                defaultValue={state?.email}
-                                render={({
-                                    field: { onChange, value },
-                                    fieldState: { error },
-                                }) => (
-                                    <>
-                                        <StyledTextField
-                                            fullWidth
-                                            label="Email"
-                                            value={value}
-                                            onChange={onChange}
-                                            error={!!error}
-                                        />
-                                        {error?.message && <HelperText>{error?.message}</HelperText>}
-                                    </>
-                                )}
+                            <DisabledTextField
+                                label={"Email"}
+                                value={state?.email || ""}
                             />
                         </Grid>
 

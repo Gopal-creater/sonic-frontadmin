@@ -7,16 +7,19 @@ import CustomDropDown from '../../../components/common/AppTextInput/CustomDropDo
 import theme from '../../../theme';
 import AppButton from '../../../components/common/AppButton/AppButton';
 import { StyledTextField } from '../../../StyledComponents/StyledAppTextInput/StyledAppTextInput';
-import { fetchLicenceKeys } from '../../../stores/actions/licenceKey';
-import { accountType, licenseStatus } from '../../../constants/constants';
+import { companyType } from '../../../constants/constants';
+import * as actionTypes from '../../../stores/actions/actionTypes';
+import { log } from '../../../utils/app.debug';
+import { getAllCompaniesAction } from '../../../stores/actions/CompanyActions';
 
 export default function CompanyFilter({ closeDialog }) {
     const dispatch = useDispatch();
-    // const license = useSelector(state => state.licenceKey);
+    const company = useSelector(state => state.company)
+    log("filter data", company)
 
     const handleFilter = (e) => {
         e.preventDefault();
-        dispatch(fetchLicenceKeys());
+        dispatch(getAllCompaniesAction(5, 1));
         closeDialog?.()
     }
 
@@ -36,8 +39,8 @@ export default function CompanyFilter({ closeDialog }) {
                         <StyledTextField
                             fullWidth
                             label="Company name"
-                            // value={license?.filters?.name}
-                            // onChange={(e) => dispatch({ type: actionTypes.LIC_KEY_FILTER, data: { ...license?.filters, name: e.target.value } })}
+                            value={company?.filters?.companyName}
+                            onChange={(e) => dispatch({ type: actionTypes.SET_COMPANIES_FILTERS, data: { ...company?.filters, companyName: e.target.value } })}
                             InputLabelProps={{
                                 style: {
                                     fontFamily: theme.fontFamily.nunitoSansBold
@@ -54,10 +57,10 @@ export default function CompanyFilter({ closeDialog }) {
                                 fullWidth: true
                             }}
                             inputProps={{
-                                // value: license?.filters?.type,
-                                // onChange: (e) => dispatch({ type: actionTypes.LIC_KEY_FILTER, data: { ...license?.filters, type: e.target.value } }),
+                                value: company?.filters?.companyType,
+                                onChange: (e) => dispatch({ type: actionTypes.SET_COMPANIES_FILTERS, data: { ...company?.filters, companyType: e.target.value } }),
                             }}
-                            data={accountType || []}
+                            data={companyType || []}
                         />
                     </FilterForm>
 
@@ -65,8 +68,8 @@ export default function CompanyFilter({ closeDialog }) {
                         <StyledTextField
                             fullWidth
                             label="Company ID"
-                            // value={license?.filters?.key}
-                            // onChange={(e) => dispatch({ type: actionTypes.LIC_KEY_FILTER, data: { ...license?.filters, key: e.target.value } })}
+                            value={company?.filters?.companyId}
+                            onChange={(e) => dispatch({ type: actionTypes.SET_COMPANIES_FILTERS, data: { ...company?.filters, companyId: e.target.value } })}
                             InputLabelProps={{
                                 style: {
                                     fontFamily: theme.fontFamily.nunitoSansBold
@@ -79,8 +82,8 @@ export default function CompanyFilter({ closeDialog }) {
                         <StyledTextField
                             fullWidth
                             label="Email Address"
-                            // value={license?.filters?.key}
-                            // onChange={(e) => dispatch({ type: actionTypes.LIC_KEY_FILTER, data: { ...license?.filters, key: e.target.value } })}
+                            value={company?.filters?.email}
+                            onChange={(e) => dispatch({ type: actionTypes.SET_COMPANIES_FILTERS, data: { ...company?.filters, email: e.target.value } })}
                             InputLabelProps={{
                                 style: {
                                     fontFamily: theme.fontFamily.nunitoSansBold
@@ -93,8 +96,8 @@ export default function CompanyFilter({ closeDialog }) {
                         <StyledTextField
                             fullWidth
                             label="Admin"
-                            // value={license?.filters?.key}
-                            // onChange={(e) => dispatch({ type: actionTypes.LIC_KEY_FILTER, data: { ...license?.filters, key: e.target.value } })}
+                            value={company?.filters?.admin}
+                            onChange={(e) => dispatch({ type: actionTypes.SET_COMPANIES_FILTERS, data: { ...company?.filters, admin: e.target.value } })}
                             InputLabelProps={{
                                 style: {
                                     fontFamily: theme.fontFamily.nunitoSansBold
@@ -108,7 +111,16 @@ export default function CompanyFilter({ closeDialog }) {
                     <AppButton
                         variant="outline"
                         className="mx-3"
-                        onClick={() => { }}
+                        onClick={() => dispatch({
+                            type: actionTypes.SET_COMPANIES_FILTERS,
+                            data: {
+                                companyName: "",
+                                companyType: "",
+                                email: "",
+                                companyId: "",
+                                admin: "",
+                            }
+                        })}
                     >
                         Reset
                     </AppButton>

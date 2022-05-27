@@ -34,6 +34,7 @@ export const getUsersAction = (limit, page) => {
     params.append("limit", limit);
     params.append("page", page);
     params.append("skip", page > 1 ? (page - 1) * limit : 0)
+    params.append("sort", "-createdAt");
 
     let users = store.getState()?.user?.filters;
 
@@ -55,7 +56,7 @@ export const getUsersAction = (limit, page) => {
 
     if (users?.accountName) {
         // if (users?.accountType === "Partner") {
-        params.append("relation_partner.name", `/${users?.accountName}/i`);
+        // params.append("relation_partner.name", `/${users?.accountName}/i`);
         // params.append("relation_company.name", `/${users?.accountName}/i`);
         // } 
         // else if (users?.accountType === "Company") {

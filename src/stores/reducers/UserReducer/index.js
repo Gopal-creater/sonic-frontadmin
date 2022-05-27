@@ -1,8 +1,8 @@
 import * as actionTypes from "../../actions/actionTypes"
 import produce from "immer";
-import { log } from "../../../utils/app.debug";
 import { userRoles } from "../../../constants/constants";
 import { routeList } from "../../../routes/RoutesData";
+import { getUserId } from "../../../services/https/AuthHelper";
 
 const initialState = {
     userProfile: {
@@ -16,7 +16,7 @@ const initialState = {
             urlName: "Admin Profile"
         },
         {
-            url: "/user-profile",
+            url: `/user-profile/${getUserId()}`,
             urlName: "User Profile"
         },
         {
@@ -51,7 +51,12 @@ const initialState = {
         data: {},
         error: null,
     },
-    sideBarData: routeList
+    sideBarData: routeList,
+    userSearch: {
+        loading: false,
+        data: {},
+        error: null,
+    },
 };
 
 const userRed = (state = initialState, action) =>
@@ -126,15 +131,10 @@ const userRed = (state = initialState, action) =>
                 break;
 
             //UPDATING USER
-            // case actionTypes.UPDATE_USERS_PROFILE:
-            //     draft.createUser.data = draft.createUser.data.docs.map((user) => {
-            //         if (user?._id === action.data._id) {
-            //             user = action.data
-            //             return user
-            //         }
-            //         return user
-            //     })
-            //     break;array.slice().sort((a, b) => b.stats.speed - a.stats.speed)
+            case actionTypes.UPDATE_USERS_PROFILE:
+                let index = draft.getUsers.data?.docs?.findIndex(user => user?._id === action.data?._id);
+                draft.getUsers.data.docs[index] = action.data;
+                break;
 
             //FETCHING USERS
             case actionTypes.GET_USERS_LOADING:
@@ -149,6 +149,24 @@ const userRed = (state = initialState, action) =>
             case actionTypes.GET_USERS_ERROR:
                 draft.getUsers.loading = false;
                 draft.getUsers.error = action.data;
+                break;
+
+            // Searching User
+            case actionTypes.SET_SEARCH_USER_LOADING:
+                draft.userSearch.loading = true;
+                draft.userSearch.error = null;
+                draft.userSearch.data = {};
+                break;
+
+            case actionTypes.SET_SEARCH_USER_SUCCESS:
+                draft.userSearch.loading = false;
+                draft.userSearch.error = null;
+                draft.userSearch.data = action.data;
+                break;
+
+            case actionTypes.SET_SEARCH_USER_ERROR:
+                draft.userSearch.loading = false;
+                draft.userSearch.error = action.data;
                 break;
 
             default:

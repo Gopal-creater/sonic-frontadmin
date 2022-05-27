@@ -12,38 +12,16 @@ import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
 import { HelperText } from "../../Licences/LicenseStyled";
 import { Controller, useForm } from "react-hook-form";
 import cogoToast from "cogo-toast";
+import { useLocation } from "react-router-dom";
+import { log } from "../../../utils/app.debug";
+
 
 
 export default function CompanyProfile() {
     const { handleSubmit, control, reset } = useForm();
-    const [state, setState] = React.useState({
-        copyMetaData: false,
-        showPassword: false,
-        showNewPassword: false,
-        showConfirmPassword: false,
-        metaData: {
-            title: "",
-            contentSize: "",
-            contentEncoding: "",
-            contentType: "",
-            artist: "",
-            contentSamplingFrequency: "",
-            contentQuality: "",
-            isrcCode: "",
-            iswcCode: "",
-            tuneCode: "",
-            contentDescription: "",
-            distributor: "",
-            contentFileType: "",
-            label: "",
-            additionalMetadata: {
 
-            },
-            contentDuration: "",
-            isRightsHolderForEncode: null,
-            isAuthorizedForEncode: null
-        }
-    })
+    const { state } = useLocation();
+    log("company profile:", state)
 
     const updateCompanyProfile = () => {
         cogoToast.success("Company profile successfully updated.")
@@ -69,21 +47,21 @@ export default function CompanyProfile() {
                         <Grid style={{ marginTop: 15 }}>
                             <DisabledTextField
                                 label={"Company name"}
-                                value={"Fresh Sound"}
+                                value={state?.name}
                             />
                         </Grid>
 
                         <Grid style={{ marginTop: 15 }}>
                             <DisabledTextField
                                 label={"Type"}
-                                value={"Distributor"}
+                                value={state?.companyType}
                             />
                         </Grid>
 
                         <Grid style={{ marginTop: 15 }}>
                             <DisabledTextField
                                 label={"Company URN / ID"}
-                                value={"3757638783727257672"}
+                                value={state?.companyUrnOrId}
                             />
                         </Grid>
 
@@ -99,8 +77,8 @@ export default function CompanyProfile() {
                                     checkedSize={70}
                                     active={"\"ACTIVE\""}
                                     inActive={"\"SUSPENDED\""}
-                                    checked={state.checkedActive}
-                                    onChange={(e) => setState({ ...state, checkedActive: e.target.checked })}
+                                // checked={state.checkedActive}
+                                // onChange={(e) => setState({ ...state, checkedActive: e.target.checked })}
                                 />
                             </Grid>
                         </Grid>
@@ -135,8 +113,8 @@ export default function CompanyProfile() {
                                             fullWidth
                                             id="standard-basic"
                                             label="Username*"
-                                            value={state?.metaData?.title}
-                                            onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, title: e.target.value } }) }}
+                                            value={state?.email}
+                                            // onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, title: e.target.value } }) }}
                                             placeholder='Will Smith'
                                             autoComplete='off'
                                         />
@@ -161,8 +139,8 @@ export default function CompanyProfile() {
                                             fullWidth
                                             id="standard-basic"
                                             label="Email*"
-                                            value={state?.metaData?.version}
-                                            onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, version: e.target.value } }) }}
+                                            value={state?.email}
+                                        // onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, version: e.target.value } }) }}
                                         />
                                         {error?.message && <HelperText>{error?.message}</HelperText>}
                                     </>
@@ -176,8 +154,8 @@ export default function CompanyProfile() {
                                 fullWidth
                                 id="standard-basic"
                                 label="Phone number"
-                                value={state?.metaData?.isrcCode}
-                                onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, isrcCode: e.target.value } }) }}
+                                value={state?.contactNo}
+                            // onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, isrcCode: e.target.value } }) }}
                             // helperText="Hint: GB-H01-02-12345."
                             />
                         </Grid>

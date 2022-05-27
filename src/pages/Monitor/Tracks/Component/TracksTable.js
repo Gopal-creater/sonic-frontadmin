@@ -51,15 +51,12 @@ export default function TracksTable({ data, trackTableHeads, onTrackSorting }) {
                         <TableRow>
                             {
                                 trackTableHeads?.map((data, index) => {
-                                    const isChecked = SelectedColumn(data?.title);
                                     return (
                                         <StyledTableHead
                                             key={index}
                                             onClick={() => sorting(data?.sortBy, data?.isAscending, data?.isActive)}
                                         >
-                                            {isChecked && <>
-                                                {data?.title} <i className="fa fa-sort" style={{ marginLeft: "5px" }}></i>
-                                            </>}
+                                            {data?.title} <i className="fa fa-sort" style={{ marginLeft: "5px" }}></i>
                                         </StyledTableHead>
                                     )
                                 })
@@ -89,13 +86,13 @@ export default function TracksTable({ data, trackTableHeads, onTrackSorting }) {
                                                         fontFamily: theme.fontFamily.nunitoSansBold
                                                     }}
                                                 >
-                                                    {SelectedColumn("TRACK NAME") && (row?.trackName || "---")}
+                                                    {(row?.trackName || "---")}
                                                 </AlternateStyledTableData>
                                                 <AlternateStyledTableData >
-                                                    {SelectedColumn("PLAYS") && (row?.plays || "---")}
+                                                    {(row?.plays || "---")}
                                                 </AlternateStyledTableData>
-                                                <AlternateStyledTableData >{SelectedColumn("RADIO STATION") && (row?.radioStation || "---")}</AlternateStyledTableData>
-                                                <AlternateStyledTableData >{SelectedColumn("COUNTRY") && (row?.country || "---")}</AlternateStyledTableData>
+                                                <AlternateStyledTableData >{(row?.radioStation || "---")}</AlternateStyledTableData>
+                                                <AlternateStyledTableData >{(row?.country || "---")}</AlternateStyledTableData>
                                             </StyledAlternateTableRow>
                                         )
                                     }
@@ -112,13 +109,13 @@ export default function TracksTable({ data, trackTableHeads, onTrackSorting }) {
                                                     fontFamily: theme.fontFamily.nunitoSansBold
                                                 }}
                                             >
-                                                {SelectedColumn("TRACK NAME") && (row?.trackName || "---")}
+                                                {(row?.trackName || "---")}
                                             </StyledTableData>
                                             <StyledTableData >
-                                                {SelectedColumn("PLAYS") && (row?.plays || "---")}
+                                                {(row?.plays || "---")}
                                             </StyledTableData>
-                                            <StyledTableData >{SelectedColumn("RADIO STATION") && (row?.radioStation || "---")}</StyledTableData>
-                                            <StyledTableData >{SelectedColumn("COUNTRY") && (row?.country || "---")}</StyledTableData>
+                                            <StyledTableData >{(row?.radioStation || "---")}</StyledTableData>
+                                            <StyledTableData >{(row?.country || "---")}</StyledTableData>
                                         </StyledTableRow>
                                     )
                                 })}

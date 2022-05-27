@@ -29,6 +29,7 @@ import { getUserProfileAction } from "../stores/actions/UserActions";
 import { getInitialDatas } from "../stores/actions/GlobalActions";
 import SonicSpinner from "../components/common/SonicSpinner";
 import { logout } from "../stores/actions";
+import CompanyProfile from "../pages/Companies/CompanyProfile/CompanyProfile";
 
 export default function AppRoutes() {
   const user = useSelector(state => state.user)
@@ -46,6 +47,7 @@ export default function AppRoutes() {
   else if (user?.userProfile?.loading) {
     return <SonicSpinner title="Fetching user profile..." />;
   }
+
   else {
     return (
       <AppLayout>
@@ -55,7 +57,6 @@ export default function AppRoutes() {
 
             {/* Public routes */}
             <Route path="/licences" element={<Licences />} />
-            <Route path="/user-profile/:id" element={<UserProfile />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/radio-stations" element={<RadioStations />} />
             <Route path="/sonicstreamdetail" element={<SonicStreamDetail />} />
@@ -65,6 +66,7 @@ export default function AppRoutes() {
             <Route path="/countries" element={<Countries />} />
             <Route path="/sonic-keys" element={<Sonickeys />} />
             <Route path="/streamreader" element={<StreamReader />} />
+            <Route path="/user-profile/:id" element={<UserProfile />} />
             {/* Public routes */}
 
             {/* Routes that are protected */}
@@ -72,6 +74,7 @@ export default function AppRoutes() {
               <Route path="/admin-profile" element={<AdminProfile />} />
               <Route path="/create-user" element={<CreateUser />} />
               <Route path="/create-company" element={<CreateNewCompany />} />
+              <Route path="/company-profile/:id" element={<CompanyProfile />} />
               <Route path="/add-licences" element={<AddLicence />} />
               <Route path="/edit-licences" element={<EditLicense />} />
               <Route path="/users" element={<Users />} />

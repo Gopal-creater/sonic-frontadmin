@@ -1552,7 +1552,7 @@ export const companyType = [
   { name: "CMO (Collective Management Organisation)" },
   { name: "Composer" },
   { name: "Corporate" },
-  { name: "Distributer" },
+  { name: "Distributor" },
   { name: "DSP" },
   { name: "Film/TV" },
   { name: "Label" },

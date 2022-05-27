@@ -1,4 +1,4 @@
-import { Grid } from "@material-ui/core"
+import { CircularProgress, Grid } from "@material-ui/core"
 import { H1, H4 } from "../../../StyledComponents/StyledHeadings"
 import { ButtonContainer, ProperAccessContainer } from "./CompanyProfileStyles"
 import MusicNoteIcon from '@material-ui/icons/MusicNote';
@@ -18,28 +18,38 @@ import { log } from "../../../utils/app.debug";
 import PhoneTextInput from "../../../components/common/AppTextInput/PhoneTextInput";
 import { createCompanyAction } from "../../../stores/actions/CompanyActions"
 import { useDispatch, useSelector } from "react-redux";
+import AppAutoComplete from "../../../components/common/AutoComplete/AppAutoComplete";
+import { getUsersNameAction } from "../../../stores/actions/picker/titlePicker.action";
+import { getUsersAction } from "../../../stores/actions/UserActions";
+import Popper from "../../../components/common/Popper";
 
 export default function CreateNewCompany() {
     const { handleSubmit, control, reset } = useForm();
     const dispatch = useDispatch()
     const user = useSelector(state => state.user)
+    const company = useSelector(state => state.company)
     const [state, setState] = useState({
-        countryCode: "+44"
+        countryCode: "+44",
+        user: {},
+        showUserDetails: false,
     })
 
-    log("data for partner id", user)
+    React.useEffect(() => {
+        dispatch(getUsersAction())
+    }, [])
 
-    // React.useEffect(() => {
-    //     reset({
-    //         name: "",
-    //         companyType: "",
-    //         companyUrnOrId: "",
-    //         email: "",
-    //         contactNo: "",
-    //         owner: "",
-    //         partner: "",
-    //     })
-    // }, [])
+    log("data for loading", user)
+
+    React.useEffect(() => {
+        reset({
+            companyName: "",
+            companyType: "",
+            companyURNID: "",
+            userName: "",
+            phoneNumber: "",
+            email: "",
+        })
+    }, [company?.createCompany?.data])
 
     const createCompany = (data) => {
         log("data of create company", data)
@@ -171,14 +181,24 @@ export default function CreateNewCompany() {
                         </Grid>
 
                         <H4 className='mt-2'>Admin details</H4>
+                        <Popper title={"user"} showDetails={(flag) => setState({ ...state, showUserDetails: flag })}>
+                            <AppAutoComplete
+                                setAutoComPleteAction={(value) => dispatch(getUsersNameAction(value))}
+                                setAutoCompleteOptions={(option => option?.username || "")}
+                                loading={user?.userSearch?.loading}
+                                data={user?.userSearch?.data?.docs || []}
+                                error={user?.userSearch?.error}
+                                getSelectedValue={(e, v) => setState({ ...state, user: v })}
+                                placeholder={"Search for a user"}
+                            />
+                        </Popper>
 
-
-                        <Grid style={{ marginTop: 15 }}>
+                        {state?.showUserDetails && <Grid style={{ marginTop: 15 }}>
                             <DisabledTextField
                                 label={"Type"}
                                 value={"Admin"}
                             />
-                        </Grid>
+                        </Grid>}
 
                         <Controller
                             name="userName"
@@ -271,10 +291,13 @@ export default function CreateNewCompany() {
                     <AppButton
                         variant={"outline"}
                         onClick={() => navigate(-1)}
+                        disabled={company?.createCompany?.loading}
                     >
                         Cancel
                     </AppButton>
-                    <AppButton variant={"fill"} type="submit" style={{ marginLeft: "15px" }}>Create new company</AppButton>
+                    <AppButton variant={"fill"} type="submit" style={{ marginLeft: "15px", width: "210px" }}>
+                        {company?.createCompany?.loading ? <CircularProgress size={20} color="white" /> : "Create new company"}
+                    </AppButton>
                 </ButtonContainer>
             </form>
         </MainContainer >

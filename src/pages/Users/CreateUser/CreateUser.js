@@ -1,5 +1,5 @@
 import { CircularProgress, FormControlLabel, Grid, IconButton, InputAdornment } from "@material-ui/core"
-import { ControlPoint, Visibility, VisibilityOff } from "@material-ui/icons"
+import { Visibility, VisibilityOff } from "@material-ui/icons"
 import PersonIcon from '@material-ui/icons/Person';
 import LockIcon from '@material-ui/icons/Lock';
 import MusicNoteIcon from '@material-ui/icons/MusicNote';
@@ -13,36 +13,46 @@ import AppCheckBox from "../../../components/common/AppCheckBox";
 import { useNavigate } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 import CustomDropDown from "../../../components/common/AppTextInput/CustomDropDown";
-import { accountType, companyType } from "../../../constants/constants";
+import { accountType } from "../../../constants/constants";
 import { HelperText } from "../../Licences/LicenseStyled";
-import { log } from "../../../utils/app.debug";
 import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
 import PhoneTextInput from "../../../components/common/AppTextInput/PhoneTextInput";
 import { useDispatch, useSelector } from "react-redux";
 import { createUsersAction } from "../../../stores/actions/UserActions";
-import CompanyPopper from "../../../components/common/Popper/CompanyPopper";
+import CompanyPopper from "../../../components/common/Popper";
 import { getAllCompaniesAction } from '../../../stores/actions/CompanyActions'
+import AppAutoComplete from "../../../components/common/AutoComplete/AppAutoComplete";
+import { getCompanyNameAction } from "../../../stores/actions/picker/titlePicker.action";
+import * as Yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const initialState = {
     accountType: "Partner",
     isEmailVerified: false,
+    countryCode: "+44",
     isPhoneNumberVerified: false,
     sendInvitationByEmail: false,
-    countryCode: "+44",
-    companyDetails: false,
     showPassword: false,
-    company: ""
+    company: {},
+    showCompanyDetails: false,
 }
 
 export default function CreateUser() {
-    const { handleSubmit, control, reset } = useForm();
+    const schema = Yup.object().shape({
+        password: Yup.string()
+            .required("Password is required")
+            .min(6, 'Min. 6 characters, max. 98 characters, atleast one special character,uppercase and lowercase')
+            .max(98, "Min. 6 characters, max. 98 characters, atleast one special character,uppercase and lowercase")
+            .matches(/^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{6,}$/, "Min. 6 characters, max. 98 characters, atleast one special character,uppercase and lowercase"),
+    });
+    const formOptions = { resolver: yupResolver(schema) }
+    const { handleSubmit, control, reset } = useForm(formOptions);
     const [state, setState] = React.useState(initialState)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const user = useSelector(state => state.user)
     const company = useSelector(state => state.company)
 
-    log("user", user)
     React.useEffect(() => {
         dispatch(getAllCompaniesAction())
     }, []);
@@ -56,8 +66,6 @@ export default function CreateUser() {
             email: "",
             isEmailVerified: false,
             isPhoneNumberVerified: false,
-            group: "",
-            company: "",
             sendInvitationByEmail: false
         })
     }, [user?.createUser?.data])
@@ -78,15 +86,6 @@ export default function CreateUser() {
             sendInvitationByEmail: data?.sendInvitationByEmail
         }
         dispatch(createUsersAction(payload))
-    }
-
-    const getCompanyName = () => {
-        let cpy = company.getAllCompanies.data?.docs?.map(data => {
-            return ({
-                name: data?.name
-            })
-        })
-        return cpy;
     }
 
     return (
@@ -284,115 +283,48 @@ export default function CreateUser() {
                                 value={user?.userProfile?.data?.name}
                             />
                         </Grid> :
-                            <CompanyPopper>
-                                <CustomDropDown
-                                    labelText="Company name"
-                                    formControlProps={{
-                                        fullWidth: true
-                                    }}
-                                    inputProps={{
-                                        value: state.company,
-                                        onChange: (e) => setState({ ...state, company: e.target.value }),
-                                    }}
-                                    labelProps={{
-                                        style: { fontFamily: theme.fontFamily.nunitoSansRegular }
-                                    }}
-                                    data={getCompanyName() || []}
-                                />
-                                <AppButton variant={"fill"} className="mt-3">Add</AppButton>
-                            </CompanyPopper>
-                            // <AppButton
-                            //     variant={"none"}
-                            //     startIcon={<ControlPoint />}
-                            //     style={{ paddingLeft: 0 }}
-                            // onClick={() => setState({ ...state, companyDetails: true })}
-                            // >
-                            //     Add associated new company
-                            // </AppButton>
-                            /* </Grid> : */
-                            // state?.companyDetails &&
-                            //     <>
-                            //         <Grid style={{ marginTop: 15 }}>
-                            //             <Controller
-                            //                 name="companyName"
-                            //                 control={control}
-                            //                 defaultValue=""
-                            //                 render={({
-                            //                     field: { onChange, value },
-                            //                     fieldState: { error },
-                            //                 }) => (
-                            //                     <>
-                            //                         <StyledTextField
-                            //                             fullWidth
-                            //                             label="Company name*"
-                            //                             value={value}
-                            //                             onChange={onChange}
-                            //                             error={!!error}
-                            //                             autoComplete='off'
-                            //                         />
-                            //                         {error?.message && <HelperText>{error?.message}</HelperText>}
-                            //                     </>
-                            //                 )}
-                            //                 rules={{ required: "Company name is required" }}
-                            //             />
-                            //         </Grid>
+                            <>
+                                <CompanyPopper title={"company"} showDetails={(flag) => setState({ ...state, showCompanyDetails: flag })}>
+                                    <AppAutoComplete
+                                        setAutoComPleteAction={(value) => dispatch(getCompanyNameAction(value))}
+                                        setAutoCompleteOptions={(option => option?.name || "")}
+                                        loading={company?.companySearch?.loading}
+                                        data={company?.companySearch?.data?.docs || []}
+                                        error={company?.companySearch?.error}
+                                        getSelectedValue={(e, v) => setState({ ...state, company: v })}
+                                        textFieldSelected={state.autoCompleteSelected}
+                                        placeholder={"Search for a company"}
+                                    />
+                                </CompanyPopper>
 
-                            //         <Grid style={{ marginTop: 15 }}>
-                            //             <Controller
-                            //                 name="companyType"
-                            //                 control={control}
-                            //                 defaultValue=""
-                            //                 render={({
-                            //                     field: { onChange, value },
-                            //                     fieldState: { error },
-                            //                 }) => (
-                            //                     <>
-                            //                         <CustomDropDown
-                            //                             labelText="Company type*"
-                            //                             formControlProps={{
-                            //                                 fullWidth: true
-                            //                             }}
-                            //                             inputProps={{
-                            //                                 error: !!error,
-                            //                                 value: value,
-                            //                                 onChange: onChange,
-                            //                             }}
-                            //                             labelProps={{
-                            //                                 style: { fontFamily: theme.fontFamily.nunitoSansRegular }
-                            //                             }}
-                            //                             data={companyType || []}
-                            //                         />
-                            //                         {error?.message && <HelperText>{error?.message}</HelperText>}
-                            //                     </>
-                            //                 )}
-                            //                 rules={{ required: "Company type is required" }}
-                            //             />
-                            //         </Grid>
+                                <Grid>
+                                    {state?.showCompanyDetails &&
+                                        <>
+                                            <Grid style={{ marginTop: 15 }}>
+                                                <DisabledTextField
+                                                    label={"Company name"}
+                                                    value={state?.company?.name || ""}
+                                                />
+                                            </Grid>
 
-                            //         <Grid style={{ marginTop: 15 }}>
-                            //             <Controller
-                            //                 name="companyURNID"
-                            //                 control={control}
-                            //                 defaultValue=""
-                            //                 render={({
-                            //                     field: { onChange, value },
-                            //                     fieldState: { error },
-                            //                 }) => (
-                            //                     <>
-                            //                         <StyledTextField
-                            //                             fullWidth
-                            //                             label="Company URN / ID*"
-                            //                             value={value}
-                            //                             onChange={onChange}
-                            //                             error={!!error}
-                            //                         />
-                            //                         {error?.message && <HelperText>{error?.message}</HelperText>}
-                            //                     </>
-                            //                 )}
-                            //                 rules={{ required: "Company URN / ID is required" }}
-                            //             />
-                            //         </Grid>
-                            //  </>
+                                            <Grid style={{ marginTop: 15 }}>
+                                                <DisabledTextField
+                                                    label={"Company type"}
+                                                    value={state?.company?.companyType || ""}
+                                                />
+                                            </Grid>
+
+                                            <Grid style={{ marginTop: 15 }}>
+                                                <DisabledTextField
+                                                    label={"Company URN/ID"}
+                                                    value={state?.company?.companyUrnOrId || ""}
+                                                />
+                                            </Grid>
+                                        </>
+                                    }
+                                </Grid>
+
+                            </>
                         }
 
                         <Grid className="mt-5">

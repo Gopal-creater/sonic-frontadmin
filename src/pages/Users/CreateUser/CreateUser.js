@@ -34,8 +34,6 @@ const initialState = {
     isPhoneNumberVerified: false,
     sendInvitationByEmail: false,
     showPassword: false,
-    autoCompleteValue: "",
-    autoCompleteSelected: "",
     company: {},
     showCompanyDetails: false,
 }
@@ -289,14 +287,12 @@ export default function CreateUser() {
                             <>
                                 <CompanyPopper title={"company"} showDetails={(flag) => setState({ ...state, showCompanyDetails: flag })}>
                                     <AppAutoComplete
-                                        setTextFieldValue={typedValue => setState({ ...state, autoCompleteValue: typedValue })}
-                                        textFieldValue={state.autoCompleteValue}
                                         setAutoComPleteAction={(value) => dispatch(getCompanyNameAction(value))}
                                         setAutoCompleteOptions={(option => option?.name || "")}
                                         loading={company?.companySearch?.loading}
                                         data={company?.companySearch?.data?.docs || []}
                                         error={company?.companySearch?.error}
-                                        getSelectedValue={(e, v) => setState({ ...state, company: v, autoCompleteSelected: e.target?.textContent })}
+                                        getSelectedValue={(e, v) => setState({ ...state, company: v })}
                                         textFieldSelected={state.autoCompleteSelected}
                                         placeholder={"Search for a company"}
                                     />

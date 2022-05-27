@@ -21,7 +21,7 @@ import { useDispatch, useSelector } from "react-redux";
 import AppAutoComplete from "../../../components/common/AutoComplete/AppAutoComplete";
 import { getUsersNameAction } from "../../../stores/actions/picker/titlePicker.action";
 import { getUsersAction } from "../../../stores/actions/UserActions";
-import CompanyPopper from "../../../components/common/Popper/CompanyPopper"
+import Popper from "../../../components/common/Popper";
 
 export default function CreateNewCompany() {
     const { handleSubmit, control, reset } = useForm();
@@ -30,7 +30,8 @@ export default function CreateNewCompany() {
     const company = useSelector(state => state.company)
     const [state, setState] = useState({
         countryCode: "+44",
-        autoCompleteValue: "",
+        user: {},
+        showUserDetails: false,
     })
 
     React.useEffect(() => {
@@ -180,27 +181,24 @@ export default function CreateNewCompany() {
                         </Grid>
 
                         <H4 className='mt-2'>Admin details</H4>
-                        <CompanyPopper title={"user"}>
+                        <Popper title={"user"} showDetails={(flag) => setState({ ...state, showUserDetails: flag })}>
                             <AppAutoComplete
-                                setTextFieldValue={typedValue => setState({ ...state, autoCompleteValue: typedValue })}
-                                textFieldValue={state.autoCompleteValue}
                                 setAutoComPleteAction={(value) => dispatch(getUsersNameAction(value))}
                                 setAutoCompleteOptions={(option => option?.username || "")}
                                 loading={user?.userSearch?.loading}
                                 data={user?.userSearch?.data?.docs || []}
                                 error={user?.userSearch?.error}
-                                getSelectedValue={(e, v) => log("AutoComplete selected Value", v)}
+                                getSelectedValue={(e, v) => setState({ ...state, user: v })}
                                 placeholder={"Search for a user"}
-                                helperText="Search your company users"
                             />
-                        </CompanyPopper>
+                        </Popper>
 
-                        <Grid style={{ marginTop: 15 }}>
+                        {state?.showUserDetails && <Grid style={{ marginTop: 15 }}>
                             <DisabledTextField
                                 label={"Type"}
                                 value={"Admin"}
                             />
-                        </Grid>
+                        </Grid>}
 
                         <Controller
                             name="userName"

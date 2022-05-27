@@ -88,19 +88,19 @@ const companyReducer = (state = initialState, action) =>
                 break;
 
             //Searching company
-            case actionTypes.SET_SEARCH_USER_LOADING:
+            case actionTypes.SET_SEARCH_COMPANY_LOADING:
                 draft.companySearch.loading = true;
                 draft.companySearch.error = null;
                 draft.companySearch.data = {};
                 break;
 
-            case actionTypes.SET_SEARCH_USER_SUCCESS:
+            case actionTypes.SET_SEARCH_COMPANY_SUCCESS:
                 draft.companySearch.loading = false;
                 draft.companySearch.error = null;
                 draft.companySearch.data = action.data;
                 break;
 
-            case actionTypes.SET_SEARCH_USER_ERROR:
+            case actionTypes.SET_SEARCH_COMPANY_ERROR:
                 draft.companySearch.loading = false;
                 draft.companySearch.error = action.data;
                 break;

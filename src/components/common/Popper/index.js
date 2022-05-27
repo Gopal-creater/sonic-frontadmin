@@ -3,11 +3,17 @@ import React from 'react'
 import AppButton from '../AppButton/AppButton'
 import { ActionPopup } from './StyledPopper'
 
-export default function CompanyPopper({ title, children }) {
+export default function Popper({ title, showDetails, children }) {
     const [state, setState] = React.useState({
         open: null,
     })
     const openMenu = Boolean(state.open);
+
+    const handleShowDetails = () => {
+        setState({ ...state, open: null })
+        showDetails(true)
+    }
+
     return (
         <div>
             <AppButton
@@ -27,7 +33,13 @@ export default function CompanyPopper({ title, children }) {
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
                 transformOrigin={{ vertical: 'top', horizontal: 'center' }}
             >
-                {children}
+                <>{children}</>
+                {showDetails && <AppButton
+                    variant={"fill"}
+                    className="mt-3"
+                    onClick={handleShowDetails}>
+                    Add
+                </AppButton>}
             </ActionPopup>
         </div>
     )

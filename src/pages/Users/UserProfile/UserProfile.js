@@ -12,81 +12,77 @@ import React from "react"
 import theme from "../../../theme"
 import { MainContainer } from "../../../StyledComponents/StyledPageContainer"
 import { Controller, useForm } from "react-hook-form"
-import cogoToast from "cogo-toast"
 import { HelperText } from "../../Licences/LicenseStyled"
 import { useLocation, useNavigate } from "react-router-dom"
 import { log } from "../../../utils/app.debug"
-import { Auth } from "aws-amplify"
 import * as Yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
+import { useDispatch, useSelector } from "react-redux"
+import * as actionTypes from "../../../stores/actions/actionTypes"
+import cogoToast from "cogo-toast"
 import { updateUser } from "../../../services/https/resources/UserApi"
 
 export default function UserProfile() {
     const schema = Yup.object().shape({
-        // currentPassword: Yup.string()
-        //     .required("Password is required"),
-        // newPassword: Yup.string()
-        // .required("Password is required")
-        // .min(6, 'Min. 6 characters, max. 98 characters, atleast one special character,uppercase and lowercase')
-        // .max(98, "Min. 6 characters, max. 98 characters, atleast one special character,uppercase and lowercase")
-        // .matches(/^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{6,}$/, "Min. 6 characters, max. 98 characters, atleast one special character,uppercase and lowercase"),
-        // confirmNewPassword: Yup.string()
-        // .required('Password is required')
-        // .oneOf([Yup.ref('newPassword')], 'Passwords does not match'),
+        newPassword: Yup.string(),
+        confirmNewPassword: Yup.string()
+            .oneOf([Yup.ref('newPassword')], 'Passwords does not match'),
     });
     const formOptions = { resolver: yupResolver(schema) }
     const { handleSubmit, control, reset } = useForm(formOptions);
     const navigate = useNavigate()
     const { state } = useLocation();
+    const user = useSelector(state => state.user)
+    const dispatch = useDispatch()
 
     const [values, setValues] = React.useState({
-        email: state?.email,
         status: state?.enabled,
-        showCurrentPassword: false,
         showNewPassword: false,
         showConfirmNewPassword: false,
         updated: false,
         loading: false,
     })
 
-    log("LOCATE USER", state)
+    // log("upDated USER..", user)
 
-    React.useEffect(() => {
-        setValues({ ...values, email: state?.email, status: state?.enabled })
-        reset({
-            currentPassword: "",
-            newPassword: "",
-            confirmNewPassword: ""
-        })
-    }, [values.updated])
+    // React.useEffect(() => {
+    //     setValues({ ...values, status: state?.enabled })
+    //     reset({
+    //         email: state?.email,
+    //         phoneNumber: state?.phoneNumber,
+    //         newPassword: "",
+    //         confirmNewPassword: ""
+    //     })
+    // }, [values.updated])
+
+    //     /**
+    //      * 
+    //      * @param {"There were 2 validation errors:
+    // * MissingRequiredParameter: Missing required key 'UserPoolId' in params
+    // * MissingRequiredParameter: Missing required key 'Username' in params"} data 
+    //      */
 
     function handleUserProfile(data) {
         setValues({ ...values, loading: true })
         let payload = {
-            email: values?.email,
-            phone_number: data?.phoneNumber,
-            enabled: values?.status
+            email: data?.email,
+            password: data?.newPassword,
+            phoneNumber: data?.phoneNumber,
+            enabled: values?.status,
         }
 
+        // dispatch(updateUsersAction(state?._id, payload))
+        setValues({ ...values, loading: false, updated: true })
         updateUser(state?._id, payload).then((res) => {
-            log("DATA", res)
+            log("user DATA updated", res)
+            dispatch({ type: actionTypes.UPDATE_USERS_PROFILE, data: res })
             setValues({ ...values, loading: false, updated: true })
-            cogoToast.success("Updated Successfully!")
+            cogoToast.success("User updated successfully!")
         }).catch((err) => {
+            log("updated DATA err", err)
             setValues({ ...values, loading: false })
             cogoToast.error(err?.message)
         })
-        // Auth.currentAuthenticatedUser().then(user => {
-        //     setValues({ ...values, loading: true })
-        //     log("USER", user)
-        //     return Auth.changePassword(user, data?.currentPassword, data?.newPassword)
-        // }).then(() => {
-        //     setValues({ ...values, loading: false, updated: true })
-        //     cogoToast.success("Updated Successfully!")
-        // }).catch((error) => {
-        //     setValues({ ...values, loading: false })
-        //     cogoToast.error(error?.message)
-        // })
     }
 
     const getAccountType = () => {
@@ -138,15 +134,25 @@ export default function UserProfile() {
                         </Grid>
 
                         <Grid style={{ marginTop: 15 }}>
-                            <StyledTextField
-                                required
-                                fullWidth
-                                label="Email"
-                                type="email"
-                                value={values?.email}
-                                onChange={(e) => setValues({ ...values, email: e.target.value })}
-                                title={"Invalid email address"}
-                                pattern={/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/}
+                            <Controller
+                                name="email"
+                                control={control}
+                                defaultValue={state?.email}
+                                render={({
+                                    field: { onChange, value },
+                                    fieldState: { error },
+                                }) => (
+                                    <>
+                                        <StyledTextField
+                                            fullWidth
+                                            label="Email"
+                                            value={value}
+                                            onChange={onChange}
+                                            error={!!error}
+                                        />
+                                        {error?.message && <HelperText>{error?.message}</HelperText>}
+                                    </>
+                                )}
                             />
                         </Grid>
 
@@ -213,21 +219,21 @@ export default function UserProfile() {
                                             <Grid style={{ marginTop: 15 }}>
                                                 <DisabledTextField
                                                     label={"Company name"}
-                                                    value={""}
+                                                    value={state?.company?.name || ""}
                                                 />
                                             </Grid>
 
                                             <Grid style={{ marginTop: 15 }}>
                                                 <DisabledTextField
                                                     label={"Company type"}
-                                                    value={""}
+                                                    value={state?.company?.companyType || ""}
                                                 />
                                             </Grid>
 
                                             <Grid style={{ marginTop: 15 }}>
                                                 <DisabledTextField
                                                     label={"Company URN / ID"}
-                                                    value={""}
+                                                    value={state?.company?.companyUrnOrId || ""}
                                                 />
                                             </Grid>
                                         </Grid>}
@@ -241,51 +247,6 @@ export default function UserProfile() {
                         </Grid>
 
                         <H4 className='mt-2'>Password</H4>
-
-                        <Grid style={{ marginTop: 15 }}>
-                            <Controller
-                                name="currentPassword"
-                                control={control}
-                                defaultValue=""
-                                render={({
-                                    field: { onChange, value },
-                                    fieldState: { error },
-                                }) => (
-                                    <>
-                                        <StyledTextField
-                                            fullWidth
-                                            label="Current password"
-                                            value={value}
-                                            onChange={onChange}
-                                            error={!!error}
-                                            type={values?.showCurrentPassword ? "text" : "password"}
-                                            autoComplete="new-password"
-                                            InputProps={{
-                                                endAdornment: (
-                                                    <InputAdornment position="end">
-                                                        <IconButton
-                                                            onClick={() => {
-                                                                setValues({
-                                                                    ...values,
-                                                                    showCurrentPassword: !values?.showCurrentPassword,
-                                                                });
-                                                            }}
-                                                            onMouseDown={(event) => {
-                                                                event.preventDefault();
-                                                            }}
-                                                        >
-                                                            {values?.showCurrentPassword ? <Visibility /> : <VisibilityOff />}
-                                                        </IconButton>
-                                                    </InputAdornment>
-                                                ),
-                                            }}
-                                        />
-                                        {error?.message && <HelperText>{error?.message}</HelperText>}
-                                    </>
-                                )}
-                            // rules={{ required: "Password is required" }}
-                            />
-                        </Grid>
 
                         <Grid style={{ marginTop: 15 }}>
                             <Controller
@@ -328,7 +289,6 @@ export default function UserProfile() {
                                         {error?.message && <HelperText>{error?.message}</HelperText>}
                                     </>
                                 )}
-                            // rules={{ required: "Password is required" }}
                             />
                         </Grid>
 
@@ -373,7 +333,6 @@ export default function UserProfile() {
                                         {error?.message && <HelperText>{error?.message}</HelperText>}
                                     </>
                                 )}
-                            // rules={{ required: "Password is required" }}
                             />
                         </Grid>
 

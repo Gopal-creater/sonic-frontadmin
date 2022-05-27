@@ -6,7 +6,7 @@ export const ActionPopup = styled(Popover)`
     margin-top: 10px;
     .MuiPaper-root {
         border-radius: 0px;
-        padding: 20px 30px;
+        padding: 40px 30px 20px 30px;
         border: 2px solid ${theme.colors.primary.navy};
         box-shadow: none;
         width: 350px;

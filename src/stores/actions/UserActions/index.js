@@ -1,5 +1,5 @@
 import cogoToast from "cogo-toast"
-import { createUser, fetchUsers, getUserProfile } from "../../../services/https/resources/UserApi"
+import { createUser, fetchUsers, getUserProfile, updateUser } from "../../../services/https/resources/UserApi"
 import * as actionTypes from "../actionTypes"
 import store from "../..";
 
@@ -28,6 +28,21 @@ export const createUsersAction = (payload) => {
         })
     }
 }
+
+// export const updateUsersAction = (id, payload) => {
+//     return dispatch => {
+//         dispatch({ type: actionTypes.UPDATE_USERS_LOADING });
+//         updateUser(id, payload).then((res) => {
+//             dispatch(getUsersAction())
+//             dispatch({ type: actionTypes.UPDATE_USERS_PROFILE, data: res });
+//             dispatch({ type: actionTypes.UPDATE_USERS_SUCCESS, data: res });
+//             cogoToast.success("User updated successfully!");
+//         }).catch((err) => {
+//             dispatch({ type: actionTypes.UPDATE_USERS_ERROR, data: err?.message });
+//             cogoToast.error(err?.message);
+//         })
+//     }
+// }
 
 export const getUsersAction = (limit, page) => {
     let params = new URLSearchParams();

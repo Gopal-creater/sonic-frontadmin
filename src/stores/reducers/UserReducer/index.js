@@ -56,6 +56,11 @@ const initialState = {
         loading: false,
         data: {},
         error: null,
+    },
+    updatedUser: {
+        loading: false,
+        data: {},
+        error: null,
     }
 };
 
@@ -131,15 +136,24 @@ const userRed = (state = initialState, action) =>
                 break;
 
             //UPDATING USER
-            // case actionTypes.UPDATE_USERS_PROFILE:
-            //     draft.createUser.data = draft.createUser.data.docs.map((user) => {
-            //         if (user?._id === action.data._id) {
-            //             user = action.data
-            //             return user
-            //         }
-            //         return user
-            //     })
-            //     break;array.slice().sort((a, b) => b.stats.speed - a.stats.speed)
+            // case actionTypes.UPDATE_USERS_LOADING:
+            //     draft.updatedUser.loading = true;
+            //     draft.updatedUser.error = null;
+            //     break;
+            // case actionTypes.UPDATE_USERS_SUCCESS:
+            //     draft.updatedUser.loading = false;
+            //     draft.updatedUser.data = action.data;
+            //     draft.updatedUser.error = null;
+            //     break;
+            // case actionTypes.UPDATE_USERS_ERROR:
+            //     draft.updatedUser.loading = false;
+            //     draft.updatedUser.error = action.data;
+            //     break;
+            case actionTypes.UPDATE_USERS_PROFILE:
+                console.log("ReDUcer..", action.data);
+                let index = draft.getUsers.data?.docs?.findIndex(user => user?._id == action.data?._id);
+                draft.getUsers.data.docs[index] = action.data;
+                break;
 
             //FETCHING USERS
             case actionTypes.GET_USERS_LOADING:

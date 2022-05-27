@@ -123,9 +123,6 @@ export default function Tracks() {
                         />
                     </H4>
                 </Grid>
-                <Grid item>
-                    <Columns columns={state.trackTableHeads} />
-                </Grid>
             </Grid>
 
             <Grid style={{ marginTop: "40px" }}>

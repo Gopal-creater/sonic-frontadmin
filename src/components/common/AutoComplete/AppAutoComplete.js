@@ -8,9 +8,10 @@ export default function AppAutoComplete(props) {
         <StyledAutocomplete
             id="combo-box-demo"
             options={props.data}
-            noOptionsText={props.error ? props.error : props.loading ? "Loading" : "No Data"}
+            noOptionsText={props.error ? props.error : props.loading ? "Loading..." : "No Data"}
             getOptionLabel={(option) => props?.setAutoCompleteOptions(option)}
-            onChange={(e, v) => props.getSelectedValue(e, v)}
+            onChange={(e, v) => props?.getSelectedValue(e, v)}
+            onInputChange={(e, v) => props?.setAutoComPleteAction(v)}
             style={{ width: "100%" }}
             renderInput={(params) => {
                 return (
@@ -18,11 +19,11 @@ export default function AppAutoComplete(props) {
                         {...params}
                         {...params.InputProps.startAdornment = props?.hideSearchIcon ? "" : <Search />}
                         {...params.InputProps.endAdornment = ""}
-                        {...params.inputProps.onChange = (p) => {
-                            props?.setTextFieldValue(p.target.value)
-                            props?.setAutoComPleteAction(p.target.value)
-                        }}
-                        {...params.inputProps.value = props.textFieldValue}
+                        // {...params.inputProps.onChange = (p) => {
+                        //     props?.setTextFieldValue(p.target.value)
+                        //     props?.setAutoComPleteAction(p.target.value)
+                        // }}
+                        // {...params.inputProps.value = props.textFieldValue}
                         helperText={props?.helperText || ""}
                         placeholder={props?.placeholder || ""}
                     />

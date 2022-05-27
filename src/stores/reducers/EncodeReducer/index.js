@@ -5,6 +5,9 @@ const initialState = {
     loading: false,
     data: {},
     metaData: {
+        owner: "",
+        company: "",
+        partner: "",
         contentName: "",
         contentFileType: "",
         contentOwner: "",
@@ -53,6 +56,38 @@ const encodeRed = (state = initialState, action) =>
             case actionTypes.CLEAR_SELECTED_FILE:
                 draft.selectedFile = null
                 draft.metaData = {
+                    owner: "",
+                    company: "",
+                    partner: "",
+                    contentName: "",
+                    contentFileType: "",
+                    contentOwner: "",
+                    version: "",
+                    isrcCode: "",
+                    iswcCode: "",
+                    tuneCode: "",
+                    contentType: "",
+                    contentDuration: "",
+                    contentSize: "",
+                    contentEncoding: "",
+                    contentSamplingFrequency: "",
+                    contentQuality: "",
+                    contentDescription: "",
+                    distributor: "",
+                    label: "",
+                    additionalMetadata: {
+                        message: ""
+                    },
+                    isRightsHolderForEncode: null,
+                    isAuthorizedForEncode: null
+                }
+                break;
+
+            case actionTypes.CLEAR_METADATA:
+                draft.metaData = {
+                    owner: "",
+                    company: "",
+                    partner: "",
                     contentName: "",
                     contentFileType: "",
                     contentOwner: "",

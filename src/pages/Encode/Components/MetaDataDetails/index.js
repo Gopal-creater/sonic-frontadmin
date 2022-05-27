@@ -27,9 +27,12 @@ import CloseIcon from '@material-ui/icons/Close';
 import * as mm from "music-metadata-browser";
 import CustomDropDown from '../../../../components/common/AppTextInput/CustomDropDown'
 import errorEncodeIcon from "../../../../assets/images/icon-fail-graphic.png"
+import { userRoles } from '../../../../constants/constants'
+import { getUserId } from '../../../../services/https/AuthHelper'
 
 export default function EncodeData() {
     const encodeReducer = useSelector(state => state.encode)
+    const user = useSelector(state => state.user)
     const [state, setState] = React.useState({
         copyMetaData: false,
     })
@@ -40,7 +43,9 @@ export default function EncodeData() {
         let data = {}
         mm.parseBlob(encodeReducer?.selectedFile?.[0], { native: true }).then((metaData) => {
             data = {
-                ...encodeReducer?.metaData,
+                owner: user?.userProfile?.data?.userRole === userRoles.PORTAL_USER ? getUserId() : "",
+                company: user?.userProfile?.data?.userRole === userRoles.COMPANY_ADMIN || user?.userProfile?.data?.userRole === userRoles.COMPANY_USER ? getUserId() : "",
+                partner: user?.userProfile?.data?.userRole === userRoles.PARTNER_USER || user?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN ? getUserId() : "",
                 contentDuration: metaData.format.duration || "",
                 contentSize: encodeReducer?.selectedFile?.[0]?.size / 1024,
                 contentEncoding:
@@ -60,7 +65,7 @@ export default function EncodeData() {
                 contentSamplingFrequency: metaData?.format?.sampleRate?.toString() || "" + "  Hz",
                 contentFileType: encodeReducer?.selectedFile?.[0]?.type,
             }
-            return dispatch({ type: actionTypes.SET_METADATA, data: data })
+            return dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, ...data } })
         }).catch((err) => {
             cogoToast.error(err);
         })
@@ -79,25 +84,8 @@ export default function EncodeData() {
             return cogoToast.error("At least one industry code must be given when type is \"Music\".");
         }
 
-        const formData = new FormData();
-        let isRightsHolderForEncode = encodeReducer?.isRightsHolderForEncode === null || encodeReducer?.isRightsHolderForEncode === "NO" ? false : true
-        let isAuthorizedForEncode = encodeReducer?.isAuthorizedForEncode === null || encodeReducer?.isAuthorizedForEncode === "NO" ? false : true
-        formData.append("mediaFile", encodeReducer?.selectedFile?.[0]);
-        formData.append("data", JSON.stringify({
-            ...encodeReducer?.metaData,
-            isRightsHolderForEncode: isRightsHolderForEncode,
-            isAuthorizedForEncode: isAuthorizedForEncode,
-        }));
-        dispatch(encodeFromFileAction(formData))
+        dispatch(encodeFromFileAction(encodeReducer?.selectedFile?.[0], encodeReducer?.metaData))
     }
-
-    const encodeAnotherFile = () => {
-        dispatch({ type: actionTypes.SET_SELECTED_FILE, data: null })
-        dispatch({ type: actionTypes.CLOSE_SUCCESS_POPUP })
-        dispatch({ type: actionTypes.CLOSE_ERROR_POPUP })
-        dispatch({ type: actionTypes.SET_METADATA, data: {} })
-    }
-
 
     return (
         <EncodeContainer>
@@ -427,8 +415,8 @@ export default function EncodeData() {
                     <Grid container justifyContent='flex-end'>
                         <CloseIcon
                             onClick={() => {
-                                dispatch({ type: actionTypes.SET_SELECTED_FILE, data: null })
-                                dispatch({ type: actionTypes.SET_METADATA, data: {} })
+                                // dispatch({ type: actionTypes.SET_SELECTED_FILE, data: null })
+                                // dispatch({ type: actionTypes.CLEAR_METADATA })
                                 dispatch({ type: actionTypes.CLOSE_SUCCESS_POPUP })
                             }}
                             style={{ cursor: "pointer" }} />
@@ -445,7 +433,12 @@ export default function EncodeData() {
                     </TitleContainer>
                     <Grid container justifyContent='center' className='mt-1'>
                         <AppButton
-                            onClick={encodeAnotherFile}
+                            onClick={() => {
+                                dispatch({ type: actionTypes.SET_SELECTED_FILE, data: null })
+                                dispatch({ type: actionTypes.CLOSE_SUCCESS_POPUP })
+                                dispatch({ type: actionTypes.CLOSE_ERROR_POPUP })
+                                dispatch({ type: actionTypes.CLEAR_METADATA })
+                            }}
                             fontSize={"15px"}
                             fontFamily={theme.fontFamily.nunitoSansBlack}
                         >
@@ -465,8 +458,8 @@ export default function EncodeData() {
                     <Grid container justifyContent='flex-end'>
                         <CloseIcon
                             onClick={() => {
-                                dispatch({ type: actionTypes.SET_SELECTED_FILE, data: null })
-                                dispatch({ type: actionTypes.SET_METADATA, data: {} })
+                                // dispatch({ type: actionTypes.SET_SELECTED_FILE, data: null })
+                                // dispatch({ type: actionTypes.CLEAR_METADATA })
                                 dispatch({ type: actionTypes.CLOSE_ERROR_POPUP })
                             }}
                             style={{ cursor: "pointer" }} />
@@ -483,7 +476,10 @@ export default function EncodeData() {
                     </TitleContainer>
                     <Grid container justifyContent='center' className='mt-1'>
                         <AppButton
-                            onClick={encodeAnotherFile}
+                            onClick={() => {
+                                dispatch({ type: actionTypes.CLOSE_ERROR_POPUP })
+                                encode()
+                            }}
                             fontFamily={theme.fontFamily.nunitoSansBlack}
                         >
                             Try to encode again

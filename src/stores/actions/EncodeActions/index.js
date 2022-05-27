@@ -3,12 +3,23 @@ import { encodeFromFile, getEncodedTrack } from "../../../services/https/resourc
 import { log } from "../../../utils/app.debug"
 import * as actionTypes from "../actionTypes"
 
-export const encodeFromFileAction = (formData) => {
+export const encodeFromFileAction = (mediaFile, metaData) => {
+    const formData = new FormData();
+    let isRightsHolderForEncode = metaData?.isRightsHolderForEncode === null || metaData?.isRightsHolderForEncode === "NO" ? false : true
+    let isAuthorizedForEncode = metaData?.isAuthorizedForEncode === null || metaData?.isAuthorizedForEncode === "NO" ? false : true
+    formData.append("mediaFile", mediaFile);
+    formData.append("data", JSON.stringify({
+        ...metaData,
+        isRightsHolderForEncode: isRightsHolderForEncode,
+        isAuthorizedForEncode: isAuthorizedForEncode
+    }));
+
     return (dispatch) => {
         dispatch({ type: actionTypes.SET_ENCODE_LOADING })
         encodeFromFile(formData).then((response) => {
             dispatch({ type: actionTypes.SET_ENCODE_SUCCESS, data: response })
         }).catch((err) => {
+            log("Encode from file error", err)
             dispatch({ type: actionTypes.SET_ENCODE_ERROR, data: err?.message })
             cogoToast.error(err?.message)
         })

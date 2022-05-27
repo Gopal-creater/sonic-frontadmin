@@ -19,16 +19,18 @@ import { getMonitorExportAction, getMonitorListAction } from '../../stores/actio
 import CommonDataLoadErrorSuccess from '../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess';
 import TracksTable from '../Monitor/Tracks/Component/TracksTable';
 import CustomPagination from '../../components/common/Pagination/CustomPagination';
-import { trackTableHeads } from '../../constants/constants';
+import { EncodedTracksTableHeads, trackTableHeads } from '../../constants/constants';
 import { getTrackTitleAction } from '../../stores/actions/picker/titlePicker.action';
 import AppAutoComplete from "../../components/common/AutoComplete/AppAutoComplete"
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
 import { getEncodedTrackAction } from '../../stores/actions/EncodeActions';
+import EncodedTracksTable from './Components/EncodedTracksTable';
 
 export default function Encode() {
     const [state, setState] = React.useState({
         trackTableHeads: trackTableHeads,
+        encodedTracksTableHeads: EncodedTracksTableHeads,
         currentSortBy: "",
         currentIsAscending: "",
         autoCompleteValue: ""
@@ -62,7 +64,7 @@ export default function Encode() {
         ))
     }
 
-    const createStableTrackData = () => {
+    const createStableEncodedTracksData = () => {
         const trackData = monitor?.track?.data?.docs?.map((data) => {
             return (
                 {
@@ -196,15 +198,17 @@ export default function Encode() {
 
                             <TrackTableContainer>
                                 <CommonDataLoadErrorSuccess
-                                    error={monitor?.track?.error}
-                                    loading={monitor?.track?.loading}
-                                    onClickTryAgain={() => { dispatch(getMonitorListAction(actions, monitor?.dates?.startDate, monitor?.dates?.endDate, monitor?.track?.data?.page, "10", "TRACKS")) }}
+                                    error={encode?.encodedTracks?.error}
+                                    loading={encode?.encodedTracks?.loading}
+                                    // onClickTryAgain={() => { dispatch(getMonitorListAction(actions, monitor?.dates?.startDate, monitor?.dates?.endDate, monitor?.track?.data?.page, "10", "TRACKS")) }}
+                                    onClickTryAgain={() => dispatch(getEncodedTrackAction())}
                                 >
-                                    <TracksTable
+                                    {/* <TracksTable
                                         data={createStableTrackData()}
                                         trackTableHeads={state.trackTableHeads}
                                         onTrackSorting={(sortBy, isAscending, isActive) => trackSorting(sortBy, isAscending, isActive)}
-                                    />
+                                    /> */}
+                                    <EncodedTracksTable tableHeads={state.encodedTracksTableHeads} />
                                     <Grid container justifyContent="space-between" alignItems="center" style={{ marginTop: "30px" }}>
                                         <Grid item xs={12} sm={6} md={6}>
                                             <PaginationCount

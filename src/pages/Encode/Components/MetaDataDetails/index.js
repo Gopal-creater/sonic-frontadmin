@@ -17,7 +17,7 @@ import moment from 'moment'
 import { CustomRadioButton } from '../../../../components/common/AppRadioButton/AppRadioButton'
 import AppButton from '../../../../components/common/AppButton/AppButton'
 import * as actionTypes from "../../../../stores/actions/actionTypes"
-import { encodeFromFileAction } from '../../../../stores/actions/EncodeActions'
+import { encodeFromFileAction, encodeFromTrackAction } from '../../../../stores/actions/EncodeActions'
 import cogoToast from 'cogo-toast'
 import PopUp from '../../../../components/common/PopUp'
 import encode_progress from "../../../../assets/icons/encode_progress.png"
@@ -81,10 +81,11 @@ export default function EncodeData() {
         if (encodeReducer?.metaData?.contentType === 'Music' && (encodeReducer?.metaData?.isrcCode === '' || encodeReducer?.metaData?.isrcCode === undefined)
             && (encodeReducer?.metaData?.iswcCode === '' || encodeReducer?.metaData?.iswcCode === undefined)
             && (encodeReducer?.metaData?.tuneCode === '' || encodeReducer?.metaData?.tuneCode === undefined)) {
-            return cogoToast.error("At least one industry code must be given when type is \"Music\".");
+            return cogoToast.error("At least one industry code(ISRC,ISWC or TuneCode ) must be given when type is \"Music\".");
         }
 
-        dispatch(encodeFromFileAction(encodeReducer?.selectedFile?.[0], encodeReducer?.metaData))
+        if (encodeReducer?.selectedFile) dispatch(encodeFromFileAction(encodeReducer?.selectedFile?.[0], encodeReducer?.metaData))
+        if (encodeReducer?.selectedExistingFile) dispatch(encodeFromTrackAction())
     }
 
     return (

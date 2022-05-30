@@ -4,6 +4,7 @@ import produce from "immer";
 const initialState = {
     loading: false,
     data: {},
+    error: null,
     metaData: {
         owner: "",
         company: "",
@@ -30,20 +31,23 @@ const initialState = {
         isRightsHolderForEncode: null,
         isAuthorizedForEncode: null
     },
-    error: null,
     selectedFile: null,
+    selectedExistingFile: null,
     loadingPopUp: false,
     successPopUp: false,
     errorPopUp: false,
     encodeSearchTrack: {
         loading: false,
-        data: [],
+        data: {},
         error: null,
+        selectedTrack: null
     },
-    encodedTracks: {
+    tracks: {
         loading: false,
         data: {},
-        error: null
+        error: null,
+        startDate: new Date().setMonth(new Date().getMonth() - 1),
+        endDate: new Date(),
     }
 };
 const encodeRed = (state = initialState, action) =>
@@ -55,6 +59,7 @@ const encodeRed = (state = initialState, action) =>
 
             case actionTypes.CLEAR_SELECTED_FILE:
                 draft.selectedFile = null
+                draft.selectedExistingFile = null
                 draft.metaData = {
                     owner: "",
                     company: "",
@@ -82,6 +87,36 @@ const encodeRed = (state = initialState, action) =>
                     isAuthorizedForEncode: null
                 }
                 break;
+
+            case actionTypes.SET_SELECTED_EXISTING_FILE:
+                draft.selectedExistingFile = action.data
+                draft.metaData = {
+                    owner: "",
+                    company: "",
+                    partner: "",
+                    contentName: action?.data?.title || "",
+                    contentFileType: action?.data?.fileType || "",
+                    contentOwner: action?.data?.artist || "",
+                    version: "",
+                    isrcCode: "",
+                    iswcCode: "",
+                    tuneCode: "",
+                    contentType: "",
+                    contentDuration: action?.data?.duration || "",
+                    contentSize: action?.data?.fileSize || "",
+                    contentEncoding: action?.data?.encoding || "",
+                    contentSamplingFrequency: action?.data?.samplingFrequency || "",
+                    contentQuality: "",
+                    contentDescription: "",
+                    distributor: "",
+                    label: "",
+                    additionalMetadata: {
+                        message: ""
+                    },
+                    isRightsHolderForEncode: null,
+                    isAuthorizedForEncode: null
+                }
+                break
 
             case actionTypes.CLEAR_METADATA:
                 draft.metaData = {
@@ -163,6 +198,32 @@ const encodeRed = (state = initialState, action) =>
                 draft.encodeSearchTrack.loading = false;
                 draft.encodeSearchTrack.error = null;
                 draft.encodeSearchTrack.data = action.data;
+                break;
+
+            case actionTypes.SET_TRACKS_LOADING:
+                draft.tracks.loading = true;
+                draft.tracks.data = {};
+                draft.error = null
+                break;
+
+            case actionTypes.SET_TRACKS_SUCCESS:
+                draft.tracks.loading = false;
+                draft.tracks.data = action.data;
+                draft.error = null
+                break;
+
+            case actionTypes.SET_TRACKS_ERROR:
+                draft.tracks.loading = false;
+                draft.tracks.data = {};
+                draft.error = action.data
+                break;
+
+            case actionTypes.SET_ENCODE_TRACKS_START_DATES:
+                draft.tracks.startDate = action.data
+                break;
+
+            case actionTypes.SET_ENCODE_TRACKS_END_DATES:
+                draft.tracks.endDate = action.data
                 break;
 
             default:

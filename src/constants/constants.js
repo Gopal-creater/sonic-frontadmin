@@ -1494,14 +1494,13 @@ export const companiesTableHeads = [
   { title: "ACTION" },
 ]
 
-export const EncodedTracksTableHeads = [
+export const TracksTableHeads = [
   { title: "TRACK ID", sortBy: "TRACK ID", isAscending: null, isActive: false },
   { title: "TITLE", sortBy: "TITLE", isAscending: null, isActive: false },
   { title: "VERSION", sortBy: "VERSION", isAscending: null, isActive: false },
   { title: "ARTIST", sortBy: "ARTIST", isAscending: null, isActive: false },
   { title: "DISTRIBUTOR", sortBy: "DISTRIBUTOR", isAscending: null, isActive: false },
   { title: "FILE TYPE", sortBy: "FILE TYPE", isAscending: null, isActive: false },
-  { title: "ENCODED DATE", sortBy: "ENCODED DATE", isAscending: null, isActive: false },
   { title: "SYSTEM/PARTNER ID", sortBy: "SYSTEM/PARTNER ID", isAscending: null, isActive: false },
   { title: "ACTION", sortBy: "ACTION", isAscending: null, isActive: false },
 ]

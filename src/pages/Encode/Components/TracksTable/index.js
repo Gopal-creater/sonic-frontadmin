@@ -1,10 +1,11 @@
 import { Grid, Table, TableBody, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import React from 'react'
 import { SelectedColumn } from '../../../../components/common/Columns/component/SelectedColumn';
-import { AlternateStyledTableData, StyledAlternateTableRow, StyledTableData, StyledTableHead, StyledTableRow } from '../../../../StyledComponents/StyledTable/StyledTable';
+import { StyledTableData, StyledTableHead, StyledTableRow } from '../../../../StyledComponents/StyledTable/StyledTable';
 import theme from '../../../../theme';
+import { log } from '../../../../utils/app.debug';
 
-export default function EncodedTracksTable({ data, tableHeads, sorting }) {
+export default function TracksTable({ data, tableHeads, sorting }) {
     return (
         <Grid>
             <TableContainer >
@@ -16,9 +17,10 @@ export default function EncodedTracksTable({ data, tableHeads, sorting }) {
                                     return (
                                         <StyledTableHead
                                             key={index}
-                                            onClick={() => sorting(data?.sortBy, data?.isAscending, data?.isActive)}
+                                        // onClick={() => sorting(data?.sortBy, data?.isAscending, data?.isActive)}
                                         >
-                                            {data?.title} <i className="fa fa-sort" style={{ marginLeft: "5px" }}></i>
+                                            {data?.title}
+                                            {/* <i className="fa fa-sort" style={{ marginLeft: "5px" }}></i> */}
                                         </StyledTableHead>
                                     )
                                 })
@@ -29,7 +31,7 @@ export default function EncodedTracksTable({ data, tableHeads, sorting }) {
                         {
                             data?.length === 0 ?
                                 <TableRow key={0}>
-                                    <StyledTableData colSpan={4} style={{ textAlign: "center" }}>
+                                    <StyledTableData colSpan={8} style={{ textAlign: "center" }}>
                                         No Data
                                     </StyledTableData>
                                 </TableRow> :
@@ -46,18 +48,17 @@ export default function EncodedTracksTable({ data, tableHeads, sorting }) {
                                                     fontFamily: theme.fontFamily.nunitoSansBold
                                                 }}
                                             >
-                                                {row?.trackName || "---"}
+                                                {row?._id || "---"}
                                             </StyledTableData>
                                             <StyledTableData >
-                                                {row?.plays || "---"}
+                                                {row?.title || "---"}
                                             </StyledTableData>
                                             <StyledTableData >{row?.radioStation || "---"}</StyledTableData>
-                                            <StyledTableData >{row?.country || "---"}</StyledTableData>
+                                            <StyledTableData >{row?.artist || "---"}</StyledTableData>
                                             <StyledTableData >{row?.radioStation || "---"}</StyledTableData>
-                                            <StyledTableData >{row?.country || "---"}</StyledTableData>
-                                            <StyledTableData >{row?.radioStation || "---"}</StyledTableData>
-                                            <StyledTableData >{row?.country || "---"}</StyledTableData>
-                                            <StyledTableData >{row?.country || "---"}</StyledTableData>
+                                            <StyledTableData >{row?.fileType || "---"}</StyledTableData>
+                                            <StyledTableData >{row?.owner?._id || row?.company?._id || row?.partner?._id || "---"}</StyledTableData>
+                                            <StyledTableData >...</StyledTableData>
                                         </StyledTableRow>
                                     )
                                 })}

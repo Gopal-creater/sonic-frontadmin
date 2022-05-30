@@ -2,7 +2,7 @@ import cogoToast from "cogo-toast"
 import * as actionTypes from "../actionTypes"
 import store from "../..";
 import { log } from "../../../utils/app.debug";
-import { createCompany, getAllCompanies } from "../../../services/https/resources/Companies/Companies.api";
+import { createCompany, getAllCompanies, updateCompanyProfile } from "../../../services/https/resources/Companies/Companies.api";
 
 
 export const createCompanyAction = (payload) => {
@@ -19,11 +19,19 @@ export const createCompanyAction = (payload) => {
     }
 }
 
-// companyName: "",
-// companyType: "",
-// email: "",
-// companyId: "",
-// admin: "",
+export const updateCompanyProfileAction = (payload, id) => {
+    return dispatch => {
+        dispatch({ type: actionTypes.UPDATE_COMPANY_LOADING });
+        updateCompanyProfile(payload, id).then((res) => {
+            dispatch({ type: actionTypes.UPDATE_COMPANY_SUCCESS, data: res });
+            cogoToast.success("Company updated successfully!")
+        }).catch((err) => {
+            log("update Company Error", err)
+            dispatch({ type: actionTypes.UPDATE_COMPANY_ERROR, data: err?.message });
+            cogoToast.error(err?.message);
+        })
+    }
+}
 
 export const getAllCompaniesAction = (limit, page) => {
     let params = new URLSearchParams();

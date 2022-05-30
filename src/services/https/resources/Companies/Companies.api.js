@@ -1,3 +1,4 @@
+import { getUserId } from "../../AuthHelper";
 import { AppWebRequest } from "../../NetworkManager";
 
 export const getAllCompanies = (params) => {
@@ -6,4 +7,8 @@ export const getAllCompanies = (params) => {
 
 export const createCompany = (payload) => {
     return AppWebRequest(`/companies`, "post", { data: payload })
+}
+
+export const updateCompanyProfile = (payload, id) => {
+    return AppWebRequest(`/companies/${id}`, "put", { data: payload })
 }

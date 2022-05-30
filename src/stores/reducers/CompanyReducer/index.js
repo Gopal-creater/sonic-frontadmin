@@ -19,6 +19,11 @@ const initialState = {
         data: {},
         error: null,
     },
+    updateCompany: {
+        loading: false,
+        data: {},
+        error: null,
+    },
     getAllCompanies: {
         loading: false,
         data: {},
@@ -70,6 +75,21 @@ const companyReducer = (state = initialState, action) =>
             case actionTypes.CREATE_COMPANY_ERROR:
                 draft.createCompany.loading = false;
                 draft.createCompany.error = action.data;
+                break;
+
+            //Update Company
+            case actionTypes.UPDATE_COMPANY_LOADING:
+                draft.updateCompany.loading = true;
+                draft.updateCompany.error = null;
+                break;
+            case actionTypes.UPDATE_COMPANY_SUCCESS:
+                draft.updateCompany.loading = false;
+                draft.updateCompany.data = action.data;
+                draft.updateCompany.error = null;
+                break;
+            case actionTypes.UPDATE_COMPANY_ERROR:
+                draft.updateCompany.loading = false;
+                draft.updateCompany.error = action.data;
                 break;
 
             //FETCHING COMPANIES

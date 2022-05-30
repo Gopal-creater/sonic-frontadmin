@@ -1,4 +1,4 @@
-import { Grid } from "@material-ui/core"
+import { CircularProgress, Grid } from "@material-ui/core"
 import { H1, H4 } from "../../../StyledComponents/StyledHeadings"
 import { ButtonContainer, ProperAccessContainer } from "./CompanyProfileStyles"
 import MusicNoteIcon from '@material-ui/icons/MusicNote';
@@ -12,19 +12,29 @@ import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
 import { HelperText } from "../../Licences/LicenseStyled";
 import { Controller, useForm } from "react-hook-form";
 import cogoToast from "cogo-toast";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { log } from "../../../utils/app.debug";
+import { useDispatch, useSelector } from "react-redux";
+import { updateCompanyProfileAction } from "../../../stores/actions/CompanyActions";
 
 
 
 export default function CompanyProfile() {
     const { handleSubmit, control, reset } = useForm();
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const company = useSelector(state => state.company)
 
     const { state } = useLocation();
-    log("company profile:", state?.enabled)
+    log("company profile:", state)
 
-    const updateCompanyProfile = () => {
-        cogoToast.success("Company profile successfully updated.")
+
+
+    const updateCompanyProfile = (data) => {
+        let payload = {
+            enabled: data?.status,
+        }
+        dispatch(updateCompanyProfileAction(payload, state?._id))
     }
 
     return (
@@ -85,10 +95,10 @@ export default function CompanyProfile() {
                                                 checkedSize={70}
                                                 active={"\"ACTIVE\""}
                                                 inActive={"\"SUSPENDED\""}
-                                                defaultChecked={true}
+                                                defaultChecked={state?.enabled}
                                                 checked={value}
                                                 onChange={onChange}
-
+                                                error={!!error}
                                             />
                                             {error?.message && <HelperText>{error?.message}</HelperText>}
                                         </>
@@ -113,7 +123,7 @@ export default function CompanyProfile() {
                             />
                         </Grid>
 
-                        <Grid style={{ marginTop: 21 }}>
+                        {/* <Grid style={{ marginTop: 21 }}>
                             <Controller
                                 name="username"
                                 control={control}
@@ -172,7 +182,7 @@ export default function CompanyProfile() {
                             // onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, isrcCode: e.target.value } }) }}
                             // helperText="Hint: GB-H01-02-12345."
                             />
-                        </Grid>
+                        </Grid> */}
                     </Grid >
                 </Grid>
 
@@ -181,12 +191,13 @@ export default function CompanyProfile() {
 
                 <ButtonContainer>
                     <AppButton
-                        variant={"outline"}
-                    // onClick={() => dispatch({ type: actionTypes.CLEAR_SELECTED_FILE })}
+                        variant={"outline"} onClick={() => navigate(-1)} disabled={company?.updateCompany?.loading}
                     >
                         Cancel
                     </AppButton>
-                    <AppButton variant={"fill"} type="submit" style={{ marginLeft: "15px" }}>Update details</AppButton>
+                    <AppButton type="submit" variant={"fill"} style={{ marginLeft: "15px", width: "180px" }}>
+                        {company?.updateCompany?.loading ? <CircularProgress size={20} color="white" /> : "Update details"}
+                    </AppButton>
                 </ButtonContainer>
             </form>
         </MainContainer >

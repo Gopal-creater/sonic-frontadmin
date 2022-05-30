@@ -55,14 +55,12 @@ export const getUsersAction = (limit, page) => {
     }
 
     if (users?.accountName) {
-        // if (users?.accountType === "Partner") {
-        // params.append("relation_partner.name", `/${users?.accountName}/i`);
-        // params.append("relation_company.name", `/${users?.accountName}/i`);
-        // } 
-        // else if (users?.accountType === "Company") {
-        //     params.append("userRole", "CompanyAdmin");
-        //     params.append("userRole", "CompanyUser");
-        // }
+        if (users?.accountType === "Partner") {
+            params.append("relation_partner.name", `/${users?.accountName}/i`);
+        }
+        else {
+            params.append("relation_company.name", `/${users?.accountName}/i`);
+        }
     }
 
     if (users?.userType) {

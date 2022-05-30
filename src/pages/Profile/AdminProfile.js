@@ -11,6 +11,8 @@ import { MainContainer } from '../../StyledComponents/StyledPageContainer'
 import { Controller, useForm } from 'react-hook-form'
 import { BorderBottom, IconBox } from './AdminProfileStyles'
 import { HelperText } from '../Licences/LicenseStyled'
+import { useSelector } from 'react-redux'
+import { log } from '../../utils/app.debug'
 
 export default function AdminProfile() {
     const [state, setState] = React.useState({
@@ -20,6 +22,8 @@ export default function AdminProfile() {
     })
     const { handleSubmit, control, reset } = useForm();
     const navigate = useNavigate()
+    const admin = useSelector(state => state.user)
+    log("ADmin..", admin)
 
     const updateProfile = () => { }
 
@@ -38,34 +42,38 @@ export default function AdminProfile() {
                                 <FlagOutlined style={{ color: `${theme.colors.primary.teal}` }} />
                             </IconBox>
                         </Grid>
-                        <H4>Partner admin details</H4>
+                        <H4>{admin?.userProfile?.data?.userRole === "PartnerAdmin" ? "Partner" : "Company"} admin details</H4>
 
                         <Grid style={{ marginTop: 15 }}>
                             <DisabledTextField
                                 label={"Username"}
-                                value={"sonicadmin"}
+                                value={admin?.userProfile?.data?.username}
                             />
                         </Grid>
 
                         <Grid style={{ marginTop: 15 }}>
                             <DisabledTextField
                                 label={"Type"}
-                                value={"Partner Admin"}
+                                value={admin?.userProfile?.data?.userRole === "PartnerAdmin" ? "Partner Admin" : "Company Admin"}
                             />
                         </Grid>
 
                         <Grid style={{ marginTop: 15 }}>
                             <DisabledTextField
                                 label={"Partner ID"}
-                                value={"P61fe123gfge3hssdhh5"}
+                                value={admin?.userProfile?.data?.adminPartner?._id || admin?.userProfile?.data?.adminCompany?._id}
                             />
                         </Grid>
 
                         <Grid style={{ marginTop: 15 }}>
-                            <Controller
+                            <DisabledTextField
+                                label={"Email"}
+                                value={admin?.userProfile?.data?.email}
+                            />
+                            {/* <Controller
                                 name="email"
                                 control={control}
-                                defaultValue=""
+                                defaultValue={admin?.userProfile?.data?.email}
                                 render={({
                                     field: { onChange, value },
                                     fieldState: { error },
@@ -82,14 +90,14 @@ export default function AdminProfile() {
                                     </>
                                 )}
                                 rules={{ required: "Email is required" }}
-                            />
+                            /> */}
                         </Grid>
 
                         <Grid style={{ marginTop: 15 }}>
                             <Controller
                                 name="phone"
                                 control={control}
-                                defaultValue=""
+                                defaultValue={admin?.userProfile?.data?.phone_number}
                                 render={({
                                     field: { onChange, value },
                                     fieldState: { error },
@@ -263,7 +271,6 @@ export default function AdminProfile() {
                     <Controller
                         name="status"
                         control={control}
-                        defaultValue=""
                         render={({
                             field: { onChange, value },
                             fieldState: { error },
@@ -274,6 +281,7 @@ export default function AdminProfile() {
                                     checkedSize={70}
                                     active={"\"ACTIVE\""}
                                     inActive={"\"SUSPENDED\""}
+                                    defaultChecked={admin?.userProfile?.data?.enabled}
                                     checked={value}
                                     onChange={onChange}
                                 />

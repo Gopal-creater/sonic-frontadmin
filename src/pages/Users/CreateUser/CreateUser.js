@@ -1,5 +1,5 @@
 import { CircularProgress, FormControlLabel, Grid, IconButton, InputAdornment } from "@material-ui/core"
-import { ControlPoint, Visibility, VisibilityOff } from "@material-ui/icons"
+import { Visibility, VisibilityOff } from "@material-ui/icons"
 import PersonIcon from '@material-ui/icons/Person';
 import LockIcon from '@material-ui/icons/Lock';
 import MusicNoteIcon from '@material-ui/icons/MusicNote';
@@ -15,7 +15,6 @@ import { Controller, useForm } from "react-hook-form";
 import CustomDropDown from "../../../components/common/AppTextInput/CustomDropDown";
 import { accountType } from "../../../constants/constants";
 import { HelperText } from "../../Licences/LicenseStyled";
-import { log } from "../../../utils/app.debug";
 import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
 import PhoneTextInput from "../../../components/common/AppTextInput/PhoneTextInput";
 import { useDispatch, useSelector } from "react-redux";

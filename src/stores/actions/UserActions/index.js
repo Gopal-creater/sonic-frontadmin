@@ -1,5 +1,5 @@
 import cogoToast from "cogo-toast"
-import { createUser, fetchUsers, getUserProfile, updateUser } from "../../../services/https/resources/UserApi"
+import { createUser, fetchUsers, getUserProfile } from "../../../services/https/resources/UserApi"
 import * as actionTypes from "../actionTypes"
 import store from "../..";
 
@@ -29,26 +29,12 @@ export const createUsersAction = (payload) => {
     }
 }
 
-// export const updateUsersAction = (id, payload) => {
-//     return dispatch => {
-//         dispatch({ type: actionTypes.UPDATE_USERS_LOADING });
-//         updateUser(id, payload).then((res) => {
-//             dispatch(getUsersAction())
-//             dispatch({ type: actionTypes.UPDATE_USERS_PROFILE, data: res });
-//             dispatch({ type: actionTypes.UPDATE_USERS_SUCCESS, data: res });
-//             cogoToast.success("User updated successfully!");
-//         }).catch((err) => {
-//             dispatch({ type: actionTypes.UPDATE_USERS_ERROR, data: err?.message });
-//             cogoToast.error(err?.message);
-//         })
-//     }
-// }
-
 export const getUsersAction = (limit, page) => {
     let params = new URLSearchParams();
     params.append("limit", limit);
     params.append("page", page);
     params.append("skip", page > 1 ? (page - 1) * limit : 0)
+    params.append("sort", "-createdAt");
 
     let users = store.getState()?.user?.filters;
 
@@ -70,7 +56,7 @@ export const getUsersAction = (limit, page) => {
 
     if (users?.accountName) {
         // if (users?.accountType === "Partner") {
-        params.append("relation_partner.name", `/${users?.accountName}/i`);
+        // params.append("relation_partner.name", `/${users?.accountName}/i`);
         // params.append("relation_company.name", `/${users?.accountName}/i`);
         // } 
         // else if (users?.accountType === "Company") {

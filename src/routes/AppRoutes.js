@@ -54,20 +54,9 @@ export default function AppRoutes() {
         <div style={{ width: "100%" }}>
           <Routes>
             <Route path="/" element={<Navigate replace to="/dashboard" />} />
-            {/* Routes that are protected */}
-            <Route element={<RoleAuth allowedRoles={[userRoles.PARTNER_ADMIN, userRoles.COMPANY_ADMIN]} />}>
-              <Route path="/admin-profile" element={<AdminProfile />} />
-              <Route path="/create-user" element={<CreateUser />} />
-              <Route path="/create-company" element={<CreateNewCompany />} />
-              <Route path="/company-profile/:id" element={<CompanyProfile />} />
-              <Route path="/add-licences" element={<AddLicence />} />
-              <Route path="/edit-licences" element={<EditLicense />} />
-              <Route path="/users" element={<Users />} />
-            </Route>
 
             {/* Public routes */}
             <Route path="/licences" element={<Licences />} />
-            <Route path="/user-profile/:id" element={<UserProfile />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/radio-stations" element={<RadioStations />} />
             <Route path="/sonicstreamdetail" element={<SonicStreamDetail />} />
@@ -77,6 +66,7 @@ export default function AppRoutes() {
             <Route path="/countries" element={<Countries />} />
             <Route path="/sonic-keys" element={<Sonickeys />} />
             <Route path="/streamreader" element={<StreamReader />} />
+            <Route path="/user-profile/:id" element={<UserProfile />} />
             {/* Public routes */}
 
             {/* Routes that are protected */}
@@ -84,6 +74,7 @@ export default function AppRoutes() {
               <Route path="/admin-profile" element={<AdminProfile />} />
               <Route path="/create-user" element={<CreateUser />} />
               <Route path="/create-company" element={<CreateNewCompany />} />
+              <Route path="/company-profile/:id" element={<CompanyProfile />} />
               <Route path="/add-licences" element={<AddLicence />} />
               <Route path="/edit-licences" element={<EditLicense />} />
               <Route path="/users" element={<Users />} />

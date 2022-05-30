@@ -1,8 +1,8 @@
 import * as actionTypes from "../../actions/actionTypes"
 import produce from "immer";
-import { log } from "../../../utils/app.debug";
 import { userRoles } from "../../../constants/constants";
 import { routeList } from "../../../routes/RoutesData";
+import { getUserId } from "../../../services/https/AuthHelper";
 
 const initialState = {
     userProfile: {
@@ -16,7 +16,7 @@ const initialState = {
             urlName: "Admin Profile"
         },
         {
-            url: "/user-profile",
+            url: `/user-profile/${getUserId()}`,
             urlName: "User Profile"
         },
         {
@@ -57,11 +57,6 @@ const initialState = {
         data: {},
         error: null,
     },
-    updatedUser: {
-        loading: false,
-        data: {},
-        error: null,
-    }
 };
 
 const userRed = (state = initialState, action) =>
@@ -136,22 +131,8 @@ const userRed = (state = initialState, action) =>
                 break;
 
             //UPDATING USER
-            // case actionTypes.UPDATE_USERS_LOADING:
-            //     draft.updatedUser.loading = true;
-            //     draft.updatedUser.error = null;
-            //     break;
-            // case actionTypes.UPDATE_USERS_SUCCESS:
-            //     draft.updatedUser.loading = false;
-            //     draft.updatedUser.data = action.data;
-            //     draft.updatedUser.error = null;
-            //     break;
-            // case actionTypes.UPDATE_USERS_ERROR:
-            //     draft.updatedUser.loading = false;
-            //     draft.updatedUser.error = action.data;
-            //     break;
             case actionTypes.UPDATE_USERS_PROFILE:
-                console.log("ReDUcer..", action.data);
-                let index = draft.getUsers.data?.docs?.findIndex(user => user?._id == action.data?._id);
+                let index = draft.getUsers.data?.docs?.findIndex(user => user?._id === action.data?._id);
                 draft.getUsers.data.docs[index] = action.data;
                 break;
 

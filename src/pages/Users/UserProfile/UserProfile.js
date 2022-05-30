@@ -14,10 +14,9 @@ import { MainContainer } from "../../../StyledComponents/StyledPageContainer"
 import { Controller, useForm } from "react-hook-form"
 import { HelperText } from "../../Licences/LicenseStyled"
 import { useLocation, useNavigate } from "react-router-dom"
-import { log } from "../../../utils/app.debug"
 import * as Yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import * as actionTypes from "../../../stores/actions/actionTypes"
 import cogoToast from "cogo-toast"
 import { updateUser } from "../../../services/https/resources/UserApi"
@@ -30,56 +29,42 @@ export default function UserProfile() {
     });
     const formOptions = { resolver: yupResolver(schema) }
     const { handleSubmit, control, reset } = useForm(formOptions);
+
     const navigate = useNavigate()
     const { state } = useLocation();
-    const user = useSelector(state => state.user)
     const dispatch = useDispatch()
 
+    const [updatedUser, setUpdateUser] = React.useState(state)
     const [values, setValues] = React.useState({
-        status: state?.enabled,
         showNewPassword: false,
         showConfirmNewPassword: false,
         updated: false,
         loading: false,
     })
 
-    // log("upDated USER..", user)
-
-    // React.useEffect(() => {
-    //     setValues({ ...values, status: state?.enabled })
-    //     reset({
-    //         email: state?.email,
-    //         phoneNumber: state?.phoneNumber,
-    //         newPassword: "",
-    //         confirmNewPassword: ""
-    //     })
-    // }, [values.updated])
-
-    //     /**
-    //      * 
-    //      * @param {"There were 2 validation errors:
-    // * MissingRequiredParameter: Missing required key 'UserPoolId' in params
-    // * MissingRequiredParameter: Missing required key 'Username' in params"} data 
-    //      */
+    React.useEffect(() => {
+        reset({
+            status: updatedUser?.enabled,
+            phoneNumber: updatedUser?.phoneNumber,
+            newPassword: "",
+            confirmNewPassword: ""
+        })
+    }, [values.updated])
 
     function handleUserProfile(data) {
         setValues({ ...values, loading: true })
         let payload = {
-            email: data?.email,
-            password: data?.newPassword,
+            password: data?.newPassword || undefined,
             phoneNumber: data?.phoneNumber,
-            enabled: values?.status,
+            enabled: data?.status,
         }
 
-        // dispatch(updateUsersAction(state?._id, payload))
-        setValues({ ...values, loading: false, updated: true })
         updateUser(state?._id, payload).then((res) => {
-            log("user DATA updated", res)
             dispatch({ type: actionTypes.UPDATE_USERS_PROFILE, data: res })
+            setUpdateUser(res)
             setValues({ ...values, loading: false, updated: true })
             cogoToast.success("User updated successfully!")
         }).catch((err) => {
-            log("updated DATA err", err)
             setValues({ ...values, loading: false })
             cogoToast.error(err?.message)
         })
@@ -115,7 +100,7 @@ export default function UserProfile() {
                         <Grid style={{ marginTop: 15 }}>
                             <DisabledTextField
                                 label={"Username"}
-                                value={state?.username || ""}
+                                value={updatedUser?.username || ""}
                             />
                         </Grid>
 
@@ -129,30 +114,14 @@ export default function UserProfile() {
                         <Grid style={{ marginTop: 15 }}>
                             <DisabledTextField
                                 label={"User ID"}
-                                value={state?._id || ""}
+                                value={updatedUser?._id || ""}
                             />
                         </Grid>
 
                         <Grid style={{ marginTop: 15 }}>
-                            <Controller
-                                name="email"
-                                control={control}
-                                defaultValue={state?.email}
-                                render={({
-                                    field: { onChange, value },
-                                    fieldState: { error },
-                                }) => (
-                                    <>
-                                        <StyledTextField
-                                            fullWidth
-                                            label="Email"
-                                            value={value}
-                                            onChange={onChange}
-                                            error={!!error}
-                                        />
-                                        {error?.message && <HelperText>{error?.message}</HelperText>}
-                                    </>
-                                )}
+                            <DisabledTextField
+                                label={"Email"}
+                                value={updatedUser?.email || ""}
                             />
                         </Grid>
 
@@ -160,7 +129,7 @@ export default function UserProfile() {
                             <Controller
                                 name="phoneNumber"
                                 control={control}
-                                defaultValue={state?.phone_number}
+                                defaultValue={updatedUser?.phone_number}
                                 render={({
                                     field: { onChange, value },
                                     fieldState: { error },
@@ -172,6 +141,9 @@ export default function UserProfile() {
                                             value={value}
                                             onChange={onChange}
                                             error={!!error}
+                                            InputLabelProps={{
+                                                shrink: true
+                                            }}
                                         />
                                         {error?.message && <HelperText>{error?.message}</HelperText>}
                                     </>
@@ -181,17 +153,29 @@ export default function UserProfile() {
 
                         <Grid className='mt-5'>
                             <H4>Status</H4>
-                            <AppToggleSwitch
-                                size={121}
-                                checkedSize={70}
-                                active={"\"ACTIVE\""}
-                                inActive={"\"SUSPENDED\""}
-                                checked={values?.status}
-                                onChange={(e) => setValues({ ...values, status: e.target.checked })}
+                            <Controller
+                                name="status"
+                                control={control}
+                                render={({
+                                    field: { onChange, value },
+                                    fieldState: { error },
+                                }) => (
+                                    <>
+                                        <AppToggleSwitch
+                                            size={121}
+                                            checkedSize={70}
+                                            active={"\"ACTIVE\""}
+                                            inActive={"\"SUSPENDED\""}
+                                            defaultChecked={updatedUser?.enabled}
+                                            checked={value}
+                                            onChange={onChange}
+                                            error={!!error}
+                                        />
+                                        {error?.message && <HelperText>{error?.message}</HelperText>}
+                                    </>
+                                )}
                             />
                         </Grid>
-
-
                     </Grid >
 
                     <Grid item xs={12} md={6}>
@@ -211,7 +195,7 @@ export default function UserProfile() {
                                             <Grid style={{ marginTop: 15 }}>
                                                 <DisabledTextField
                                                     label={"Partner name"}
-                                                    value={state?.partner?.name || ""}
+                                                    value={updatedUser?.partner?.name || ""}
                                                 />
                                             </Grid>
                                         </Grid>
@@ -219,21 +203,21 @@ export default function UserProfile() {
                                             <Grid style={{ marginTop: 15 }}>
                                                 <DisabledTextField
                                                     label={"Company name"}
-                                                    value={state?.company?.name || ""}
+                                                    value={updatedUser?.company?.name || ""}
                                                 />
                                             </Grid>
 
                                             <Grid style={{ marginTop: 15 }}>
                                                 <DisabledTextField
                                                     label={"Company type"}
-                                                    value={state?.company?.companyType || ""}
+                                                    value={updatedUser?.company?.companyType || ""}
                                                 />
                                             </Grid>
 
                                             <Grid style={{ marginTop: 15 }}>
                                                 <DisabledTextField
                                                     label={"Company URN / ID"}
-                                                    value={state?.company?.companyUrnOrId || ""}
+                                                    value={updatedUser?.company?.companyUrnOrId || ""}
                                                 />
                                             </Grid>
                                         </Grid>}

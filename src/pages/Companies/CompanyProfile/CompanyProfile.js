@@ -21,7 +21,7 @@ export default function CompanyProfile() {
     const { handleSubmit, control, reset } = useForm();
 
     const { state } = useLocation();
-    log("company profile:", state)
+    log("company profile:", state?.enabled)
 
     const updateCompanyProfile = () => {
         cogoToast.success("Company profile successfully updated.")
@@ -72,13 +72,27 @@ export default function CompanyProfile() {
                         </Grid>
                         <Grid container>
                             <Grid>
-                                <AppToggleSwitch
-                                    size={121}
-                                    checkedSize={70}
-                                    active={"\"ACTIVE\""}
-                                    inActive={"\"SUSPENDED\""}
-                                // checked={state.checkedActive}
-                                // onChange={(e) => setState({ ...state, checkedActive: e.target.checked })}
+                                <Controller
+                                    name="status"
+                                    control={control}
+                                    render={({
+                                        field: { onChange, value },
+                                        fieldState: { error },
+                                    }) => (
+                                        <>
+                                            <AppToggleSwitch
+                                                size={121}
+                                                checkedSize={70}
+                                                active={"\"ACTIVE\""}
+                                                inActive={"\"SUSPENDED\""}
+                                                defaultChecked={true}
+                                                checked={value}
+                                                onChange={onChange}
+
+                                            />
+                                            {error?.message && <HelperText>{error?.message}</HelperText>}
+                                        </>
+                                    )}
                                 />
                             </Grid>
                         </Grid>

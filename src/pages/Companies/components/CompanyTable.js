@@ -6,10 +6,11 @@ import { SelectedColumn } from '../../../components/common/Columns/component/Sel
 import TableMenu from '../../../components/common/Table/components/TableMenu';
 import { ActionMenuItem } from '../../../components/common/Table/TableStyled';
 import { ActiveBox, AlternateStyledTableData, StyledAlternateTableRow, StyledTableData, StyledTableHead, StyledTableRow, SuspendedBox } from '../../../StyledComponents/StyledTable/StyledTable';
+import { log } from '../../../utils/app.debug';
 
 export default function CompanyTable({ data, companyTableHead }) {
     const navigate = useNavigate()
-
+    log("data of table company", data)
     return (
         <Grid>
             <TableContainer style={{ padding: '0rem 1rem 1rem 1rem' }}>

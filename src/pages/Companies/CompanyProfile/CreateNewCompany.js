@@ -23,6 +23,8 @@ import { getUsersNameAction } from "../../../stores/actions/picker/titlePicker.a
 import { getUsersAction } from "../../../stores/actions/UserActions";
 import Popper from "../../../components/common/Popper";
 
+
+
 export default function CreateNewCompany() {
     const { handleSubmit, control, reset } = useForm();
     const dispatch = useDispatch()
@@ -38,7 +40,8 @@ export default function CreateNewCompany() {
         dispatch(getUsersAction())
     }, [])
 
-    log("data for loading", user)
+    log("data for loading", state.user)
+    // log("user data search", userSearch?.user)
 
     React.useEffect(() => {
         reset({
@@ -198,9 +201,30 @@ export default function CreateNewCompany() {
                                 label={"Type"}
                                 value={"Admin"}
                             />
+                            <Grid style={{ marginTop: 15 }}>
+                                <DisabledTextField
+                                    label={"Username"}
+                                    value={state?.user?.name || ""}
+                                />
+                            </Grid>
+
+                            <Grid style={{ marginTop: 15 }}>
+                                <DisabledTextField
+                                    label={"Email"}
+                                    value={state?.user?.email || ""}
+                                />
+                            </Grid>
+
+                            <Grid style={{ marginTop: 15 }}>
+                                <DisabledTextField
+                                    label={"Phone Number"}
+                                    value={state?.user?.phone_number || ""}
+                                />
+                            </Grid>
                         </Grid>}
 
-                        <Controller
+
+                        {/* <Controller
                             name="userName"
                             control={control}
                             defaultValue=""
@@ -278,8 +302,8 @@ export default function CreateNewCompany() {
                                         {error?.message && <HelperText>{error?.message}</HelperText>}
                                     </>
                                 )}
-                            />
-                        </Grid>
+                            /> */}
+                        {/* </Grid> */}
                     </Grid >
                 </Grid>
 

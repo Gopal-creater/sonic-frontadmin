@@ -4,6 +4,7 @@ import { getAccessToken } from './AuthHelper';
 import { logout } from '../../stores/actions';
 import store from '../../stores';
 import { log } from '../../utils/app.debug';
+import { createBrowserHistory } from "history";
 
 const appAxiosInstance = axios.create({
     baseURL: httpUrl.API_URL
@@ -20,6 +21,8 @@ appAxiosInstance.interceptors.request.use(function (config) {
 
 //Any Request to Server
 export function AppWebRequest(endUrl, method, config) {
+    const history = createBrowserHistory()
+
     var responseError = {}
     return new Promise((resolve, reject) => {
         const defaultConfig = {
@@ -39,6 +42,7 @@ export function AppWebRequest(endUrl, method, config) {
                     // case for refresh token
                     store.dispatch(logout());
                     localStorage.clear()
+                    history.push("/")
                 }
                 responseError = {
                     ...error.response?.data,

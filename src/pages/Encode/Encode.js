@@ -15,111 +15,46 @@ import PaginationCount from '../../components/common/Pagination/PaginationCount'
 import Columns from '../../components/common/Columns/Columns';
 import FilterComponent from '../../components/common/FilterComponent/FilterComponent';
 import MonitorFilter from '../Monitor/Components/MonitorFilter/MonitorFilter';
-import { getMonitorExportAction, getMonitorListAction } from '../../stores/actions/monitorActions/monitorActions';
 import CommonDataLoadErrorSuccess from '../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess';
-import TracksTable from '../Monitor/Tracks/Component/TracksTable';
 import CustomPagination from '../../components/common/Pagination/CustomPagination';
-import { trackTableHeads } from '../../constants/constants';
-import { getTrackTitleAction } from '../../stores/actions/picker/titlePicker.action';
+import { TracksTableHeads, trackTableHeads } from '../../constants/constants';
 import AppAutoComplete from "../../components/common/AutoComplete/AppAutoComplete"
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
-import { getEncodedTrackAction } from '../../stores/actions/EncodeActions';
+import { getEncodeSearchTracksAction, getTracksAction } from '../../stores/actions/EncodeActions';
+import TracksTable from './Components/TracksTable';
 
 export default function Encode() {
     const [state, setState] = React.useState({
         trackTableHeads: trackTableHeads,
+        tracksTableHeads: TracksTableHeads,
         currentSortBy: "",
         currentIsAscending: "",
         autoCompleteValue: ""
     })
 
     const encode = useSelector(state => state.encode)
-    const monitor = useSelector(state => state.monitor)
     const matches = useMediaQuery('(max-width:1280px)');
     const dispatch = useDispatch()
 
     React.useEffect(() => {
-        dispatch(getEncodedTrackAction())
-        dispatch(getMonitorListAction(actions, monitor?.dates?.startDate, monitor?.dates?.endDate, monitor?.track?.data?.page, "10", "TRACKS"))
-    }, [monitor?.dates?.startDate, monitor?.dates?.endDate])
-
-    const actions = {
-        loading: actionTypes.SET_TRACK_LOADING,
-        success: actionTypes.SET_TRACK_SUCCESS,
-        error: actionTypes.SET_TRACK_ERROR
-    }
+        dispatch(getTracksAction(encode?.tracks.startDate, encode?.tracks?.endDate, encode?.tracks?.data?.page || 1, "10"))
+    }, [])
 
     const handleExport = (format) => {
-        dispatch(getMonitorExportAction(
-            monitor?.dates?.startDate,
-            monitor?.dates?.endDate,
-            format,
-            2000,
-            "TRACKS",
-            state?.currentSortBy,
-            state?.currentIsAscending
-        ))
-    }
 
-    const createStableTrackData = () => {
-        const trackData = monitor?.track?.data?.docs?.map((data) => {
-            return (
-                {
-                    trackName: data?.trackName,
-                    plays: data?.playsCount,
-                    radioStation: data?.radioStationCount,
-                    country: data?.countriesCount,
-                }
-            )
-        })
-        return trackData
-    }
-
-    const trackSorting = (sortBy, isAscending, isActive) => {
-        // log("sortBy, isAscending, isActive", sortBy, isAscending, isActive)
-        var newTrackTableHeads = state.trackTableHeads.map((data, i) => {
-            if (data.sortBy === sortBy) {
-                data.isActive = isActive
-                data.isAscending = isAscending
-                dispatch(getMonitorListAction(
-                    actions,
-                    monitor?.dates?.startDate,
-                    monitor?.dates?.endDate,
-                    monitor?.track?.data?.page,
-                    "10",
-                    "TRACKS",
-                    sortBy,
-                    isAscending
-                ))
-                return data
-            }
-
-            data.isActive = false
-            data.isAscending = null
-            return data
-        })
-
-        return setState({ ...state, trackTableHeads: newTrackTableHeads, currentSortBy: sortBy, currentIsAscending: isAscending })
     }
 
     const handleTrackPageChange = (event, value) => {
-        dispatch(getMonitorListAction(
-            actions,
-            monitor?.dates?.startDate,
-            monitor?.dates?.endDate,
-            value,
-            "10",
-            "TRACKS",
-            state?.currentSortBy,
-            state.currentIsAscending
-        ))
+        dispatch(getTracksAction(encode?.tracks.startDate, encode?.tracks?.endDate, value, "10"))
     }
+
+    log("Encode", encode)
 
     return (
         <>
             {
-                encode.selectedFile
+                encode?.selectedFile || encode?.selectedExistingFile
                     ? <EncodeData /> :
                     <>
                         <FileContainer>
@@ -151,12 +86,15 @@ export default function Encode() {
                                         <AppAutoComplete
                                             setTextFieldValue={typedValue => setState({ ...state, autoCompleteValue: typedValue })}
                                             textFieldValue={state.autoCompleteValue}
-                                            setAutoComPleteAction={(value) => dispatch(getTrackTitleAction(value))}
-                                            setAutoCompleteOptions={(option => option?.sonicKey?.contentFileName || "")}
+                                            setAutoComPleteAction={(value) => dispatch(getEncodeSearchTracksAction(value))}
+                                            setAutoCompleteOptions={(option => option?.originalFileName || "")}
                                             loading={encode?.encodeSearchTrack?.loading}
                                             data={encode?.encodeSearchTrack?.data?.docs || []}
                                             error={encode?.encodeSearchTrack?.error}
-                                            getSelectedValue={(e, v) => log("AutoComplete selected Value", v)}
+                                            getSelectedValue={(e, v) => {
+                                                log("Autocomplete selected value", v)
+                                                dispatch({ type: actionTypes.SET_SELECTED_EXISTING_FILE, data: v })
+                                            }}
                                             placeholder={"Search for a track by title"}
                                             helperText="Search your company records"
                                         />
@@ -184,11 +122,11 @@ export default function Encode() {
 
                             <TrackFilterContainer>
                                 <FilterComponent
-                                    startDate={monitor?.dates?.startDate}
-                                    onChangeStartDate={(date) => dispatch({ type: actionTypes.SET_MONITOR_DATES, data: { ...monitor.dates, startDate: date } })}
-                                    endDate={monitor?.dates?.endDate}
-                                    onChangeEndDate={(date) => dispatch({ type: actionTypes.SET_MONITOR_DATES, data: { ...monitor.dates, endDate: date } })}
-                                    filterComponent={<MonitorFilter open={true} actions={actions} dashboard={true} />}
+                                    startDate={encode?.tracks.startDate}
+                                    onChangeStartDate={(date) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_START_DATES, data: date })}
+                                    endDate={encode?.tracks?.endDate}
+                                    onChangeEndDate={(date) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_END_DATES, data: date })}
+                                    filterComponent={<MonitorFilter open={true} dashboard={true} />}
                                     exportData={(value) => handleExport(value)}
                                     pdf={false}
                                 />
@@ -196,28 +134,24 @@ export default function Encode() {
 
                             <TrackTableContainer>
                                 <CommonDataLoadErrorSuccess
-                                    error={monitor?.track?.error}
-                                    loading={monitor?.track?.loading}
-                                    onClickTryAgain={() => { dispatch(getMonitorListAction(actions, monitor?.dates?.startDate, monitor?.dates?.endDate, monitor?.track?.data?.page, "10", "TRACKS")) }}
+                                    error={encode?.tracks?.error}
+                                    loading={encode?.tracks?.loading}
+                                    onClickTryAgain={() => dispatch(dispatch(getTracksAction(encode?.tracks.startDate, encode?.tracks?.endDate, 1, "10")))}
                                 >
-                                    <TracksTable
-                                        data={createStableTrackData()}
-                                        trackTableHeads={state.trackTableHeads}
-                                        onTrackSorting={(sortBy, isAscending, isActive) => trackSorting(sortBy, isAscending, isActive)}
-                                    />
+                                    <TracksTable data={encode?.tracks?.data?.docs} tableHeads={state.tracksTableHeads} />
                                     <Grid container justifyContent="space-between" alignItems="center" style={{ marginTop: "30px" }}>
                                         <Grid item xs={12} sm={6} md={6}>
                                             <PaginationCount
                                                 name="Tracks"
-                                                total={monitor?.track?.data?.totalDocs}
-                                                start={monitor?.track?.data?.offset}
-                                                end={monitor?.track?.data?.docs?.length}
+                                                total={encode?.tracks?.data?.totalDocs}
+                                                start={encode?.tracks?.data?.offset}
+                                                end={encode?.tracks?.data?.docs?.length}
                                             />
                                         </Grid>
                                         <Grid item xs={12} sm={6} md={6}>
                                             <CustomPagination
-                                                count={monitor?.track?.data?.totalPages}
-                                                page={monitor?.track?.data?.page}
+                                                count={encode?.tracks?.data?.totalPages}
+                                                page={encode?.tracks?.data?.page}
                                                 onChange={handleTrackPageChange}
                                             />
                                         </Grid>

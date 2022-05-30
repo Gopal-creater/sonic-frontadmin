@@ -72,7 +72,7 @@ export default function UsersTable({ data, usersTableHead }) {
                                                 <AlternateStyledTableData>
                                                     {data?.enabled === true
                                                         ? <ActiveBox>ACTIVE</ActiveBox>
-                                                        : <SuspendedBox>SUSPENDED</SuspendedBox>
+                                                        : <SuspendedBox>INACTIVE</SuspendedBox>
                                                     }
                                                 </AlternateStyledTableData>
                                             }

@@ -17,6 +17,9 @@ const TextfieldFormControl = styled(FormControl)`
         & .MuiInputLabel-formControl {
             color: ${theme.colors.secondary.mediumNavy};
         }
+        .Mui-disabled {
+            color:${theme.colors.secondary.mediumGrey};
+        }
     }
 `
 

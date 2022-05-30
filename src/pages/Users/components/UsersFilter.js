@@ -87,6 +87,7 @@ export default function UsersFilter({ closeDialog }) {
                                     fontFamily: theme.fontFamily.nunitoSansBold
                                 }
                             }}
+                            disabled={users?.filters?.accountType === ""}
                         />
                     </FilterForm>
 

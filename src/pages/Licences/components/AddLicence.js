@@ -155,7 +155,7 @@ export default function AddLicence() {
                   <StyledTextField
                     fullWidth
                     label="Max Uses Encode"
-                    spinner={true}
+                    spinner={"true"}
                     type="number"
                     error={!!error}
                     value={value}
@@ -182,7 +182,7 @@ export default function AddLicence() {
                   <StyledTextField
                     fullWidth
                     label="Max Uses Monitor"
-                    spinner={true}
+                    spinner={"true"}
                     type="number"
                     error={!!error}
                     value={value}
@@ -210,11 +210,11 @@ export default function AddLicence() {
                     error={!!error}
                     selected={value}
                     onChange={onChange}
-                    dateFormat="MMM d,yyyy"
+                    dateformat="MMM d,yyyy"
                     title="Validity*"
                     fullWidth={true}
-                    showYearDropdown
-                    showMonthDropdown
+                    showYearDropdown={true}
+                    showMonthDropdown={true}
                   />
                   {error?.message && <HelperText>{error?.message}</HelperText>}
                 </>

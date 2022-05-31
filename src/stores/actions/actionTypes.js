@@ -55,9 +55,14 @@ export const SONIC_KEY_LOADING = "SONIC_KEY_LOADING"
 export const SORTING = "SORTING"
 
 //licenseKeys
+export const ADD_LIC_KEY_SUCCESS = "ADD_LIC_KEY_SUCCESS"
+export const ADD_LIC_KEY_FAIL = "ADD_LIC_KEY_FAIL"
+export const ADD_LIC_KEY_LOADING = "ADD_LIC_KEY_LOADING"
+
 export const LIC_KEY_SUCCESS = "LIC_KEY_SUCCESS"
 export const LIC_KEY_FAIL = "LIC_KEY_FAIL"
 export const LIC_KEY_LOADING = "LIC_KEY_LOADING"
+
 export const LIC_KEY_FILTER = "LIC_KEY_FILTER"
 
 //thirdPartySonicKeys

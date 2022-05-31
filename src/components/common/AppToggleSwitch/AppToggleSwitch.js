@@ -7,7 +7,7 @@ import { DoneSharp } from '@material-ui/icons';
 
 const IOSSwitch = withStyles(() => ({
     root: {
-        width: props => props?.size || 120,
+        width: props => props?.defaultsize || 120,
         height: 32,
         padding: 0,
     },
@@ -28,7 +28,7 @@ const IOSSwitch = withStyles(() => ({
         height: 30,
     },
     track: {
-        borderRadius: props => props?.size / 2,
+        borderRadius: props => props?.defaultsize / 2,
         backgroundColor: theme.colors.secondary.mediumGrey,
         opacity: 1,
         "&:after, &:before": {
@@ -44,12 +44,12 @@ const IOSSwitch = withStyles(() => ({
             opacity: 0,
         },
         "&:after": {
-            content: props => props?.inActive || "''",
+            content: props => props?.inactive || "''",
             right: "10%"
         }
     },
     checked: {
-        width: props => props?.checkedSize || 69,
+        width: props => props?.checkedsize || 69,
         '&$switchBase': {
             color: theme.colors.secondary.white,
             transform: 'translateX(100%)'
@@ -99,10 +99,10 @@ export default function AppToggleSwitch({ checked, onChange, size, checkedSize, 
                 checked={checked}
                 onChange={onChange}
                 name="checked"
-                size={size}
-                checkedSize={checkedSize}
+                defaultsize={size}
+                checkedsize={checkedSize}
                 active={active}
-                inActive={inActive}
+                inactive={inActive}
             />
         </Grid>
     );

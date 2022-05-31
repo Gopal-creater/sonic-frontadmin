@@ -1,8 +1,22 @@
 import * as actionType from './actionTypes';
 import { log } from '../../utils/app.debug';
-import { getLicenceKey } from '../../services/https/resources/License.api';
+import { addLicenceKey, getLicenceKey } from '../../services/https/resources/License.api';
 import store from '..';
 import moment from 'moment';
+import cogoToast from 'cogo-toast';
+
+export const addLicenseKeyAction = () => {
+    return (dispatch) => {
+        dispatch({ type: actionType.ADD_LIC_KEY_LOADING })
+        addLicenceKey().then((data) => {
+            dispatch({ type: actionType.ADD_LIC_KEY_SUCCESS, data: data });
+            cogoToast.success("License key added successfully!");
+        }).catch((err) => {
+            dispatch({ type: actionType.ADD_LIC_KEY_FAIL, error: err?.message })
+            cogoToast.success(err?.message);
+        })
+    }
+}
 
 //LicenceKeys
 export const fetchLicenceKeys = () => {

@@ -18,7 +18,7 @@ function Licences() {
   const license = useSelector(state => state.licenceKey)
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  // log("LICENSE", license)
+  log("LIcEnSE..", license)
 
   React.useEffect(() => {
     dispatch(fetchLicenceKeys())
@@ -49,7 +49,7 @@ function Licences() {
         loading={license.loading}
         onClickTryAgain={() => dispatch(fetchLicenceKeys())}
       >
-        <LicenceTable data={license.data?.docs} licenseTableHead={licenseTableHeads} />
+        <LicenceTable data={license.data?.docs || []} licenseTableHead={licenseTableHeads} />
       </CommonDataLoadErrorSuccess>
     </MainContainer>
   );

@@ -62,7 +62,7 @@ export default function CreateNewCompany() {
             companyUrnOrId: data?.companyURNID,
             email: data?.email,
             contactNo: data?.phoneNumber,
-            owner: "",
+            owner: state?.user?._id,
             partner: user?.userProfile?.data?.adminPartner?._id,
         }
         dispatch(createCompanyAction(payload))
@@ -188,6 +188,7 @@ export default function CreateNewCompany() {
                             <AppAutoComplete
                                 setAutoComPleteAction={(value) => dispatch(getUsersNameAction(value))}
                                 setAutoCompleteOptions={(option => option?.username || "")}
+                                setAutoCompleteOptionsLabel={(option => option?.username || "")}
                                 loading={user?.userSearch?.loading}
                                 data={user?.userSearch?.data?.docs || []}
                                 error={user?.userSearch?.error}

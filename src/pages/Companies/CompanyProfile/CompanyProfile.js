@@ -125,21 +125,21 @@ export default function CompanyProfile() {
                         <Grid style={{ marginTop: 15 }}>
                             <DisabledTextField
                                 label={"Username"}
-                                value={"username"}
+                                value={"partner1"}
                             />
                         </Grid>
 
                         <Grid style={{ marginTop: 15 }}>
                             <DisabledTextField
                                 label={"Email"}
-                                value={"Email"}
+                                value={"partnerOne@gmail.com"}
                             />
                         </Grid>
 
                         <Grid style={{ marginTop: 15 }}>
                             <DisabledTextField
                                 label={"Phone number"}
-                                value={"Phone number"}
+                                value={"+4498709878"}
                             />
                         </Grid>
 

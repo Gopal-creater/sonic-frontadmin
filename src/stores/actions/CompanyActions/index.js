@@ -3,6 +3,8 @@ import * as actionTypes from "../actionTypes"
 import store from "../..";
 import { log } from "../../../utils/app.debug";
 import { createCompany, getAllCompanies, updateCompanyProfile } from "../../../services/https/resources/Companies/Companies.api";
+import { userRoles } from "../../../constants/constants";
+import { getUserId } from "../../../services/https/AuthHelper";
 
 
 export const createCompanyAction = (payload) => {
@@ -40,6 +42,17 @@ export const getAllCompaniesAction = (limit, page) => {
     params.append("skip", page > 1 ? (page - 1) * limit : 0)
 
     let company = store.getState()?.company?.filters;
+
+    let userRole = store.getState().user?.userProfile?.data?.userRole
+    if (userRole === userRoles.COMPANY_ADMIN || userRole === userRoles.COMPANY_USER) {
+        params.append("company", store.getState().user?.userProfile?.data?.company?.id)
+    }
+    else if (userRole === userRoles.PARTNER_ADMIN || userRole === userRoles.PARTNER_USER) {
+        params.append("partner", store.getState().user?.userProfile?.data?.partner?.id)
+    }
+    else {
+        params.append("owner", getUserId())
+    }
 
     if (company?.companyName) {
         params.append("name", `/${company?.companyName}/i`);

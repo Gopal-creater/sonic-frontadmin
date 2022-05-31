@@ -1518,14 +1518,9 @@ export const accountType = [
   { name: "Company" },
 ]
 
-export const licenseStatus = [
+export const status = [
   { name: "Active" },
   { name: "Suspended" },
-]
-
-export const maxUses = [
-  { name: "Limited" },
-  { name: "Unlimited" },
 ]
 
 export const userType = [
@@ -1536,11 +1531,12 @@ export const userType = [
 export const partnerTypes = [
   { name: 'CMO' },
   { name: 'Distributor' },
-  { name: 'Monitor' },
+  { name: 'Monitoring Company' },
   { name: 'Music Management Services' },
   { name: 'PRO' },
   { name: 'Production Library' },
   { name: 'Publisher' },
+  { name: 'Record Company' },
   { name: 'Sub Publisher' },
 ];
 
@@ -1560,7 +1556,7 @@ export const companyType = [
   { name: "PRO (Public Rights Organisation)" },
   { name: "Production Library" },
   { name: "Publisher" },
-  { name: "Rights Holder" },
+  { name: "Rights Holder ?" },
   { name: "Song Writer" },
   { name: "Sub Publisher" },
 ]

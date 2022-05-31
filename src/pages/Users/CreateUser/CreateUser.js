@@ -288,6 +288,7 @@ export default function CreateUser() {
                                     <AppAutoComplete
                                         setAutoComPleteAction={(value) => dispatch(getCompanyNameAction(value))}
                                         setAutoCompleteOptions={(option => option?.name || "")}
+                                        setAutoCompleteOptionsLabel={(option => option?.companyType || "")}
                                         loading={company?.companySearch?.loading}
                                         data={company?.companySearch?.data?.docs || []}
                                         error={company?.companySearch?.error}
@@ -387,8 +388,8 @@ export default function CreateUser() {
 
                 <ProperAccessContainer />
 
-                <Grid container alignItems="center" justifyContent="space-between">
-                    <Grid item xs={12} md={6} style={{ marginTop: "35px" }}>
+                <Grid container alignItems="center" justifyContent="space-between" className="mt-3 mb-2">
+                    <Grid item xs={12} md={6}>
                         <Controller
                             name="sendInvitationByEmail"
                             control={control}

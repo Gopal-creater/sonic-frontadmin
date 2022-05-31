@@ -1,16 +1,13 @@
 import { FormControl, FormLabel, Grid, RadioGroup } from "@material-ui/core";
 import { MusicNote } from "@material-ui/icons";
-import { makeStyles } from "@material-ui/styles";
 import cogoToast from "cogo-toast";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import AppButton from "../../../components/common/AppButton/AppButton";
 import { CustomRadioButton } from "../../../components/common/AppRadioButton/AppRadioButton";
-import CustomDropDown from "../../../components/common/AppTextInput/CustomDropDown";
 import AppToggleSwitch from "../../../components/common/AppToggleSwitch/AppToggleSwitch";
 import CustomDatePicker from "../../../components/common/FilterComponent/components/CustomDatePicker";
-import { maxUses } from "../../../constants/constants";
 import { StyledTextField } from "../../../StyledComponents/StyledAppTextInput/StyledAppTextInput";
 import { H1, H4 } from "../../../StyledComponents/StyledHeadings";
 import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
@@ -19,16 +16,8 @@ import { log } from "../../../utils/app.debug";
 import { BorderBottom, HelperText, RadioLabel, TuneBox } from "../LicenseStyled";
 import KeyValue from "./KeyValue";
 
-const useStyles = makeStyles(() => ({
-  textInput: {
-    "&:-webkit-autofill": {
-      WebkitBoxShadow: "0 0 0 1000px white inset"
-    }
-  },
-}));
-
 const initialState = {
-  licenseType: 'Individual',
+  licenseType: 'Company',
   userId: "",
   licenseName: "",
   maxEncode: "",
@@ -42,7 +31,6 @@ const initialState = {
 }
 
 export default function AddLicence() {
-  const classes = useStyles();
   const [state, setState] = React.useState(initialState)
   const navigate = useNavigate()
   const { handleSubmit, control, reset } = useForm();
@@ -121,9 +109,6 @@ export default function AddLicence() {
                     value={value}
                     onChange={onChange}
                     style={{ marginTop: "15px" }}
-                    inputProps={{
-                      className: classes.textInput,
-                    }}
                   />
                   {error?.message && <HelperText>{error?.message}</HelperText>}
                 </>
@@ -149,9 +134,6 @@ export default function AddLicence() {
                     value={value}
                     onChange={onChange}
                     style={{ marginTop: "15px" }}
-                    inputProps={{
-                      className: classes.textInput,
-                    }}
                   />
                   {error?.message && <HelperText>{error?.message}</HelperText>}
                 </>
@@ -170,21 +152,16 @@ export default function AddLicence() {
                 fieldState: { error },
               }) => (
                 <>
-                  <CustomDropDown
-                    labelText="Max Uses Encode"
-                    formControlProps={{
-                      fullWidth: true,
-                      style: { marginTop: 15 }
-                    }}
-                    inputProps={{
-                      error: !!error,
-                      value: value,
-                      onChange: onChange,
-                    }}
-                    labelProps={{
-                      style: { fontFamily: theme.fontFamily.nunitoSansRegular }
-                    }}
-                    data={maxUses || []}
+                  <StyledTextField
+                    fullWidth
+                    label="Max Uses Encode"
+                    spinner={true}
+                    type="number"
+                    error={!!error}
+                    value={value}
+                    onChange={onChange}
+                    style={{ marginTop: "15px" }}
+                    disabled={state?.checkedEncode}
                   />
                   {error?.message && <HelperText>{error?.message}</HelperText>}
                 </>
@@ -202,21 +179,16 @@ export default function AddLicence() {
                 fieldState: { error },
               }) => (
                 <>
-                  <CustomDropDown
-                    labelText="Max Uses Monitor"
-                    formControlProps={{
-                      fullWidth: true,
-                      style: { marginTop: 15 }
-                    }}
-                    inputProps={{
-                      error: !!error,
-                      value: value,
-                      onChange: onChange,
-                    }}
-                    labelProps={{
-                      style: { fontFamily: theme.fontFamily.nunitoSansRegular }
-                    }}
-                    data={maxUses || []}
+                  <StyledTextField
+                    fullWidth
+                    label="Max Uses Monitor"
+                    spinner={true}
+                    type="number"
+                    error={!!error}
+                    value={value}
+                    onChange={onChange}
+                    style={{ marginTop: "15px" }}
+                    disabled={state?.checkedMonitor}
                   />
                   {error?.message && <HelperText>{error?.message}</HelperText>}
                 </>
@@ -266,71 +238,35 @@ export default function AddLicence() {
 
         <Grid container spacing={2} className="mt-1">
           <Grid item>
-            <Controller
-              name="checkedEncode"
-              control={control}
-              defaultValue=""
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => (
-                <>
-                  <AppToggleSwitch
-                    size={169}
-                    checkedSize={102}
-                    active={"\"UNLIMITED ENCODE\""}
-                    inActive={"\"LIMITED ENCODE\""}
-                    checked={value}
-                    onChange={onChange}
-                  />
-                </>
-              )}
+            <AppToggleSwitch
+              size={169}
+              checkedSize={102}
+              active={"\"UNLIMITED ENCODE\""}
+              inActive={"\"LIMITED ENCODE\""}
+              checked={state?.checkedEncode}
+              onChange={(e) => setState({ ...state, checkedEncode: e.target.checked })}
             />
           </Grid>
 
           <Grid item>
-            <Controller
-              name="checkedMonitor"
-              control={control}
-              defaultValue=""
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => (
-                <>
-                  <AppToggleSwitch
-                    size={175}
-                    checkedSize={106}
-                    active={"\"UNLIMITED MONITOR\""}
-                    inActive={"\"LIMITED MONITOR\""}
-                    checked={value}
-                    onChange={onChange}
-                  />
-                </>
-              )}
+            <AppToggleSwitch
+              size={175}
+              checkedSize={106}
+              active={"\"UNLIMITED MONITOR\""}
+              inActive={"\"LIMITED MONITOR\""}
+              checked={state?.checkedMonitor}
+              onChange={(e) => setState({ ...state, checkedMonitor: e.target.checked })}
             />
           </Grid>
 
           <Grid item>
-            <Controller
-              name="checkedActive"
-              control={control}
-              defaultValue=""
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => (
-                <>
-                  <AppToggleSwitch
-                    size={121}
-                    checkedSize={70}
-                    active={"\"ACTIVE\""}
-                    inActive={"\"SUSPENDED\""}
-                    checked={value}
-                    onChange={onChange}
-                  />
-                </>
-              )}
+            <AppToggleSwitch
+              size={121}
+              checkedSize={70}
+              active={"\"ACTIVE\""}
+              inActive={"\"SUSPENDED\""}
+              checked={state?.checkedActive}
+              onChange={(e) => setState({ ...state, checkedActive: e.target.checked })}
             />
           </Grid>
         </Grid>
@@ -338,10 +274,10 @@ export default function AddLicence() {
         <BorderBottom />
 
         <Grid container className="mt-3 mb-2" justifyContent="flex-end">
-          <AppButton variant={"outline"} className="mx-2" onClick={() => navigate(-1)}>
+          <AppButton variant={"outline"} onClick={() => navigate(-1)}>
             Cancel
           </AppButton>
-          <AppButton variant={"fill"} type="submit">
+          <AppButton variant={"fill"} type="submit" style={{ marginLeft: "15px", width: "180px" }}>
             Add new license
           </AppButton>
         </Grid>

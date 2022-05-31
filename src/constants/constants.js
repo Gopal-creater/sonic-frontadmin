@@ -1501,6 +1501,7 @@ export const TracksTableHeads = [
   { title: "ARTIST", sortBy: "ARTIST", isAscending: null, isActive: false },
   { title: "DISTRIBUTOR", sortBy: "DISTRIBUTOR", isAscending: null, isActive: false },
   { title: "FILE TYPE", sortBy: "FILE TYPE", isAscending: null, isActive: false },
+  { title: "ENCODED DATE", sortBy: "FILE TYPE", isAscending: null, isActive: false },
   { title: "SYSTEM/PARTNER ID", sortBy: "SYSTEM/PARTNER ID", isAscending: null, isActive: false },
   { title: "ACTION", sortBy: "ACTION", isAscending: null, isActive: false },
 ]

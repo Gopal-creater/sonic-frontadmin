@@ -17,7 +17,7 @@ import moment from 'moment'
 import { CustomRadioButton } from '../../../../components/common/AppRadioButton/AppRadioButton'
 import AppButton from '../../../../components/common/AppButton/AppButton'
 import * as actionTypes from "../../../../stores/actions/actionTypes"
-import { encodeFromFileAction, encodeFromTrackAction } from '../../../../stores/actions/EncodeActions'
+import { encodeFromFileAction, encodeFromTrackAction, getEncodeSearchTracksAction } from '../../../../stores/actions/EncodeActions'
 import cogoToast from 'cogo-toast'
 import PopUp from '../../../../components/common/PopUp'
 import encode_progress from "../../../../assets/icons/encode_progress.png"
@@ -29,17 +29,21 @@ import CustomDropDown from '../../../../components/common/AppTextInput/CustomDro
 import errorEncodeIcon from "../../../../assets/images/icon-fail-graphic.png"
 import { userRoles } from '../../../../constants/constants'
 import { getUserId } from '../../../../services/https/AuthHelper'
+import AppAutoComplete from '../../../../components/common/AutoComplete/AppAutoComplete'
 
 export default function EncodeData() {
     const encodeReducer = useSelector(state => state.encode)
     const user = useSelector(state => state.user)
     const [state, setState] = React.useState({
         copyMetaData: false,
+        autoCompleteValue: "",
+        displaySelectedTrack: false
     })
 
     const dispatch = useDispatch()
 
     React.useEffect(() => {
+        if (encodeReducer?.selectedExistingFile) setState({ ...state, copyMetaData: true, displaySelectedTrack: true })
         let data = {}
         mm.parseBlob(encodeReducer?.selectedFile?.[0], { native: true }).then((metaData) => {
             data = {
@@ -97,13 +101,13 @@ export default function EncodeData() {
                         <H1
                             color={theme.colors.primary.navy}
                         >
-                            {encodeReducer?.selectedFile?.[0]?.name}
+                            {encodeReducer?.selectedFile?.[0]?.name || encodeReducer?.selectedExistingFile?.title || encodeReducer?.selectedExistingFile?.originalFileName}
                         </H1>
 
                         <FormControlLabel
                             control={
                                 <AppCheckBox
-                                    checked={state.copyMetaData}
+                                    value={state.copyMetaData}
                                     onChange={() => setState({ ...state, copyMetaData: !state.copyMetaData })}
                                 />
                             }
@@ -126,9 +130,27 @@ export default function EncodeData() {
                 </TextContainer>
 
                 {
-                    state.copyMetaData && <SearchTrackContainer>
-                        Search track
-                    </SearchTrackContainer>
+                    state.copyMetaData && state.displaySelectedTrack ?
+                        <SearchTrackContainer>
+                            Selected
+                        </SearchTrackContainer> :
+                        <SearchTrackContainer>
+                            <AppAutoComplete
+                                setTextFieldValue={typedValue => setState({ ...state, autoCompleteValue: typedValue })}
+                                textFieldValue={state.autoCompleteValue}
+                                setAutoComPleteAction={(value) => dispatch(getEncodeSearchTracksAction(value))}
+                                setAutoCompleteOptions={(option => option?.originalFileName || "")}
+                                loading={encodeReducer?.encodeSearchTrack?.loading}
+                                data={encodeReducer?.encodeSearchTrack?.data?.docs || []}
+                                error={encodeReducer?.encodeSearchTrack?.error}
+                                getSelectedValue={(e, v) => {
+                                    log("Autocomplete selected value", v)
+                                    dispatch({ type: actionTypes.SET_SELECTED_EXISTING_FILE, data: v })
+                                }}
+                                placeholder={"Search for a track by title"}
+                                helperText="Search your company records"
+                            />
+                        </SearchTrackContainer>
                 }
             </MetaDataHeaderContainer>
 
@@ -458,11 +480,7 @@ export default function EncodeData() {
                 <PopUpContainer padding="20px 40px 25px 40px">
                     <Grid container justifyContent='flex-end'>
                         <CloseIcon
-                            onClick={() => {
-                                // dispatch({ type: actionTypes.SET_SELECTED_FILE, data: null })
-                                // dispatch({ type: actionTypes.CLEAR_METADATA })
-                                dispatch({ type: actionTypes.CLOSE_ERROR_POPUP })
-                            }}
+                            onClick={() => { dispatch({ type: actionTypes.CLOSE_ERROR_POPUP }) }}
                             style={{ cursor: "pointer" }} />
                     </Grid>
                     <TitleContainer container direction='column' alignItems='center' backgroundColor={theme.colors.secondary.lightGrey}>

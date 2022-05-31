@@ -40,7 +40,6 @@ const initialState = {
         loading: false,
         data: {},
         error: null,
-        selectedTrack: null
     },
     tracks: {
         loading: false,

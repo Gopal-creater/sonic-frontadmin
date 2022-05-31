@@ -57,6 +57,7 @@ export default function TracksTable({ data, tableHeads, sorting }) {
                                             <StyledTableData >{row?.artist || "---"}</StyledTableData>
                                             <StyledTableData >{row?.radioStation || "---"}</StyledTableData>
                                             <StyledTableData >{row?.fileType || "---"}</StyledTableData>
+                                            <StyledTableData >{row?.createdAt || "---"}</StyledTableData>
                                             <StyledTableData >{row?.owner?._id || row?.company?._id || row?.partner?._id || "---"}</StyledTableData>
                                             <StyledTableData >...</StyledTableData>
                                         </StyledTableRow>

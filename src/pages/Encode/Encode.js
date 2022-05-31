@@ -17,7 +17,7 @@ import FilterComponent from '../../components/common/FilterComponent/FilterCompo
 import MonitorFilter from '../Monitor/Components/MonitorFilter/MonitorFilter';
 import CommonDataLoadErrorSuccess from '../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess';
 import CustomPagination from '../../components/common/Pagination/CustomPagination';
-import { TracksTableHeads, trackTableHeads } from '../../constants/constants';
+import { TracksTableHeads } from '../../constants/constants';
 import AppAutoComplete from "../../components/common/AutoComplete/AppAutoComplete"
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
@@ -26,7 +26,6 @@ import TracksTable from './Components/TracksTable';
 
 export default function Encode() {
     const [state, setState] = React.useState({
-        trackTableHeads: trackTableHeads,
         tracksTableHeads: TracksTableHeads,
         currentSortBy: "",
         currentIsAscending: "",
@@ -116,7 +115,7 @@ export default function Encode() {
                                     <H5><PaginationCount start={0} end={10} total={20} name={"tracks"} /></H5>
                                 </Grid>
                                 <Grid>
-                                    <Columns columns={state.trackTableHeads} />
+                                    <Columns columns={state.tracksTableHeads} />
                                 </Grid>
                             </TrackTitleContainer>
 

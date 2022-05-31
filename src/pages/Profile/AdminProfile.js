@@ -1,4 +1,4 @@
-import { Grid, IconButton, InputAdornment } from '@material-ui/core'
+import { CircularProgress, Grid, IconButton, InputAdornment } from '@material-ui/core'
 import React from 'react'
 import AppButton from '../../components/common/AppButton/AppButton'
 import { DisabledTextField, StyledTextField } from '../../StyledComponents/StyledAppTextInput/StyledAppTextInput'
@@ -12,20 +12,59 @@ import { Controller, useForm } from 'react-hook-form'
 import { BorderBottom, IconBox } from './AdminProfileStyles'
 import { HelperText } from '../Licences/LicenseStyled'
 import { useSelector } from 'react-redux'
-import { log } from '../../utils/app.debug'
+import { Auth } from 'aws-amplify'
+import cogoToast from 'cogo-toast'
+import * as Yup from "yup"
+import { yupResolver } from "@hookform/resolvers/yup"
 
 export default function AdminProfile() {
     const [state, setState] = React.useState({
         showCurrentPassword: false,
         showNewPassword: false,
         showConfirmPassword: false,
+        update: false,
+        loading: false,
     })
-    const { handleSubmit, control, reset } = useForm();
+
+    const schema = Yup.object().shape({
+        currentPassword: Yup.string()
+            .required("Password is required"),
+        newPassword: Yup.string()
+            .required("Password is required")
+            .min(6, 'Min. 6 characters, max. 98 characters, atleast one special character,uppercase and lowercase')
+            .max(98, "Min. 6 characters, max. 98 characters, atleast one special character,uppercase and lowercase")
+            .matches(/^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{6,}$/, "Min. 6 characters, max. 98 characters, atleast one special character,uppercase and lowercase"),
+        confirmPassword: Yup.string()
+            .required('Password is required')
+            .oneOf([Yup.ref('newPassword')], 'Passwords must match'),
+    });
+    const formOptions = { resolver: yupResolver(schema) }
+    const { handleSubmit, control, reset } = useForm(formOptions);
+
     const navigate = useNavigate()
     const admin = useSelector(state => state.user)
-    log("ADmin..", admin)
 
-    const updateProfile = () => { }
+    React.useEffect(() => {
+        reset({
+            currentPassword: "",
+            newPassword: "",
+            confirmPassword: ""
+        })
+    }, [state.update])
+
+    const updateProfile = (data) => {
+        setState({ ...state, loading: true })
+        Auth.currentAuthenticatedUser().then(user => {
+            setState({ ...state, loading: true })
+            return Auth.changePassword(user, data?.currentPassword, data?.newPassword)
+        }).then((data) => {
+            setState({ ...state, loading: false, update: true })
+            cogoToast.success("Password successfully updated!")
+        }).catch((error) => {
+            setState({ ...state, loading: false })
+            cogoToast.error(error?.message)
+        })
+    }
 
     return (
         <MainContainer>
@@ -70,50 +109,15 @@ export default function AdminProfile() {
                                 label={"Email"}
                                 value={admin?.userProfile?.data?.email}
                             />
-                            {/* <Controller
-                                name="email"
-                                control={control}
-                                defaultValue={admin?.userProfile?.data?.email}
-                                render={({
-                                    field: { onChange, value },
-                                    fieldState: { error },
-                                }) => (
-                                    <>
-                                        <StyledTextField
-                                            fullWidth
-                                            label="Email*"
-                                            error={!!error}
-                                            value={value}
-                                            onChange={onChange}
-                                        />
-                                        {error?.message && <HelperText>{error?.message}</HelperText>}
-                                    </>
-                                )}
-                                rules={{ required: "Email is required" }}
-                            /> */}
                         </Grid>
 
                         <Grid style={{ marginTop: 15 }}>
-                            <Controller
-                                name="phone"
-                                control={control}
-                                defaultValue={admin?.userProfile?.data?.phone_number}
-                                render={({
-                                    field: { onChange, value },
-                                    fieldState: { error },
-                                }) => (
-                                    <>
-                                        <StyledTextField
-                                            fullWidth
-                                            label="Phone number"
-                                            error={!!error}
-                                            value={value}
-                                            onChange={onChange}
-                                        />
-                                        {error?.message && <HelperText>{error?.message}</HelperText>}
-                                    </>
-                                )}
-                            />
+                            <Grid style={{ marginTop: 15 }}>
+                                <DisabledTextField
+                                    label={"Phone number"}
+                                    value={admin?.userProfile?.data?.phone_number}
+                                />
+                            </Grid>
                         </Grid>
                     </Grid>
 
@@ -293,11 +297,11 @@ export default function AdminProfile() {
                 <BorderBottom />
 
                 <Grid container className="mt-3 mb-2" justifyContent="flex-end">
-                    <AppButton variant={"outline"} className="mx-2" onClick={() => navigate(-1)}>
+                    <AppButton variant={"outline"} onClick={() => navigate(-1)} disabled={state?.loading}>
                         Cancel
                     </AppButton>
-                    <AppButton variant={"fill"} type="submit">
-                        Update details
+                    <AppButton variant={"fill"} type="submit" style={{ marginLeft: "15px", width: "180px" }}>
+                        {state?.loading ? <CircularProgress size={20} color="white" /> : "Update details"}
                     </AppButton>
                 </Grid>
             </form>

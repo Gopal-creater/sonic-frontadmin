@@ -1,15 +1,12 @@
 import { FormControl, FormLabel, Grid, RadioGroup } from "@material-ui/core";
-import { ControlPoint, MusicNote, PermIdentity } from "@material-ui/icons";
-import { makeStyles } from "@material-ui/styles";
+import { MusicNote, PermIdentity } from "@material-ui/icons";
 import cogoToast from "cogo-toast";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import AppButton from "../../../components/common/AppButton/AppButton";
 import { CustomRadioButton } from "../../../components/common/AppRadioButton/AppRadioButton";
-import CustomDropDown from "../../../components/common/AppTextInput/CustomDropDown";
 import CustomDatePicker from "../../../components/common/FilterComponent/components/CustomDatePicker";
-import { maxUses } from "../../../constants/constants";
 import { StyledTextField } from "../../../StyledComponents/StyledAppTextInput/StyledAppTextInput";
 import { H1, H4 } from "../../../StyledComponents/StyledHeadings";
 import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
@@ -18,14 +15,6 @@ import { log } from "../../../utils/app.debug";
 import { BorderBottom, HelperText, RadioLabel, TuneBox } from "../LicenseStyled";
 import AddNewUser from "./AddNewUser";
 import KeyValue from "./KeyValue";
-
-const useStyles = makeStyles(() => ({
-    textInput: {
-        "&:-webkit-autofill": {
-            WebkitBoxShadow: "0 0 0 1000px white inset"
-        }
-    },
-}));
 
 const initialState = {
     licenseType: 'Individual',
@@ -39,7 +28,6 @@ const initialState = {
 }
 
 export default function EditLicense() {
-    const classes = useStyles();
     const [state, setState] = React.useState(initialState)
     const navigate = useNavigate()
     const { handleSubmit, control, reset } = useForm();
@@ -121,9 +109,6 @@ export default function EditLicense() {
                                                 InputLabelProps={{
                                                     shrink: true
                                                 }}
-                                                inputProps={{
-                                                    className: classes.textInput,
-                                                }}
                                             />
                                             {error?.message && <HelperText>{error?.message}</HelperText>}
                                         </>
@@ -145,16 +130,12 @@ export default function EditLicense() {
                                             <StyledTextField
                                                 fullWidth
                                                 label="License name*"
+                                                spinner={true}
+                                                type="number"
                                                 error={!!error}
                                                 value={value}
                                                 onChange={onChange}
                                                 style={{ marginTop: "15px" }}
-                                                InputLabelProps={{
-                                                    shrink: true
-                                                }}
-                                                inputProps={{
-                                                    className: classes.textInput,
-                                                }}
                                             />
                                             {error?.message && <HelperText>{error?.message}</HelperText>}
                                         </>
@@ -173,22 +154,15 @@ export default function EditLicense() {
                                         fieldState: { error },
                                     }) => (
                                         <>
-                                            <CustomDropDown
-                                                labelText="Max Uses Encode"
-                                                formControlProps={{
-                                                    fullWidth: true,
-                                                    style: { marginTop: 15 }
-                                                }}
-                                                inputProps={{
-                                                    error: !!error,
-                                                    value: value,
-                                                    onChange: onChange,
-                                                }}
-                                                labelProps={{
-                                                    shrink: true,
-                                                    style: { fontFamily: theme.fontFamily.nunitoSansRegular }
-                                                }}
-                                                data={maxUses || []}
+                                            <StyledTextField
+                                                fullWidth
+                                                label="Max Uses Encode"
+                                                spinner={true}
+                                                type="number"
+                                                error={!!error}
+                                                value={value}
+                                                onChange={onChange}
+                                                style={{ marginTop: "15px" }}
                                             />
                                             {error?.message && <HelperText>{error?.message}</HelperText>}
                                         </>
@@ -206,22 +180,13 @@ export default function EditLicense() {
                                         fieldState: { error },
                                     }) => (
                                         <>
-                                            <CustomDropDown
-                                                labelText="Max Uses Monitor"
-                                                formControlProps={{
-                                                    fullWidth: true,
-                                                    style: { marginTop: 15 }
-                                                }}
-                                                inputProps={{
-                                                    error: !!error,
-                                                    value: value,
-                                                    onChange: onChange,
-                                                }}
-                                                labelProps={{
-                                                    shrink: true,
-                                                    style: { fontFamily: theme.fontFamily.nunitoSansRegular }
-                                                }}
-                                                data={maxUses || []}
+                                            <StyledTextField
+                                                fullWidth
+                                                label="Max Uses Monitor"
+                                                error={!!error}
+                                                value={value}
+                                                onChange={onChange}
+                                                style={{ marginTop: "15px" }}
                                             />
                                             {error?.message && <HelperText>{error?.message}</HelperText>}
                                         </>

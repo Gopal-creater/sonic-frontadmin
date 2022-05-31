@@ -7,7 +7,7 @@ const CustomPopper = styled(Popper)`
     & .MuiAutocomplete-paper {
         border-radius: 0;
         box-shadow: none;
-        padding:10px 25px;
+        padding: 5px 10px;
         outline: 2px solid ${theme.colors.primary.navy};
         margin-top: -1px;
     }
@@ -15,9 +15,8 @@ const CustomPopper = styled(Popper)`
     & .MuiAutocomplete-option {
         color: ${theme.colors.secondary.grey};
         font-family:${theme.fontFamily.nunitoSansRegular};
-        font-size: ${theme.fontSize.h4};
+        font-size: ${theme.fontSize.h5};
         background: transparent;
-        border-bottom: 1px solid ${theme.colors.secondary.lightGrey};
         :hover {
             color: ${theme.colors.secondary.mediumNavy};
         }

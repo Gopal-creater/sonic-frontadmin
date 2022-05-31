@@ -11,7 +11,6 @@ import React from "react";
 import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
 import { HelperText } from "../../Licences/LicenseStyled";
 import { Controller, useForm } from "react-hook-form";
-import cogoToast from "cogo-toast";
 import { useLocation, useNavigate } from "react-router-dom";
 import { log } from "../../../utils/app.debug";
 import { useDispatch, useSelector } from "react-redux";
@@ -120,6 +119,27 @@ export default function CompanyProfile() {
                             <DisabledTextField
                                 label={"Type"}
                                 value={"Admin"}
+                            />
+                        </Grid>
+
+                        <Grid style={{ marginTop: 15 }}>
+                            <DisabledTextField
+                                label={"Username"}
+                                value={"username"}
+                            />
+                        </Grid>
+
+                        <Grid style={{ marginTop: 15 }}>
+                            <DisabledTextField
+                                label={"Email"}
+                                value={"Email"}
+                            />
+                        </Grid>
+
+                        <Grid style={{ marginTop: 15 }}>
+                            <DisabledTextField
+                                label={"Phone number"}
+                                value={"Phone number"}
                             />
                         </Grid>
 

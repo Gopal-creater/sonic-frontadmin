@@ -11,7 +11,7 @@ import CustomDatePicker from '../../../components/common/FilterComponent/compone
 import AppButton from '../../../components/common/AppButton/AppButton';
 import { StyledTextField } from '../../../StyledComponents/StyledAppTextInput/StyledAppTextInput';
 import { fetchLicenceKeys } from '../../../stores/actions/licenceKey';
-import { accountType, licenseStatus } from '../../../constants/constants';
+import { accountType, status } from '../../../constants/constants';
 
 export default function LicenseFilter({ closeDialog }) {
     const dispatch = useDispatch();
@@ -91,7 +91,7 @@ export default function LicenseFilter({ closeDialog }) {
                                 onChange: (e) => dispatch({ type: actionTypes.LIC_KEY_FILTER, data: { ...license?.status, status: e.target.value } }),
                                 displayEmpty: true
                             }}
-                            data={licenseStatus || []}
+                            data={status || []}
                         />
                     </FilterForm>
                 </FilterItems>

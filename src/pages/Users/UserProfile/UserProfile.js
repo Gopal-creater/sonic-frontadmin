@@ -151,7 +151,7 @@ export default function UserProfile() {
                             />
                         </Grid>
 
-                        <Grid className='mt-5'>
+                        <Grid className='mt-4'>
                             <H4>Status</H4>
                             <Controller
                                 name="status"
@@ -325,7 +325,7 @@ export default function UserProfile() {
 
                 <ProperAccessContainer />
 
-                <ButtonContainer>
+                <ButtonContainer className="mt-3 mb-2">
                     <AppButton variant={"outline"} onClick={() => navigate(-1)} disabled={values?.loading}>
                         Cancel
                     </AppButton>

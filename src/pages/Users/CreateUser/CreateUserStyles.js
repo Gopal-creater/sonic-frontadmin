@@ -15,12 +15,11 @@ export const CheckBoxLabelContainer = styled.div`
 `
 
 export const ProperAccessContainer = styled(Grid)`
-    padding: 40px 0px 40px 0px;
+    margin-top: 40px;
     border-bottom: 1px solid ${theme.colors.secondary.mediumGrey};
 `
 
 export const ButtonContainer = styled(Grid)`
-    margin-top: 35px;
     display: flex;
     justify-content: flex-end;
 `

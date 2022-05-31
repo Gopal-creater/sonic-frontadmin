@@ -40,7 +40,7 @@ const CustomTextField = styled(TextField)`
     //input[type=number]
     & .MuiInput-input {
         &::-webkit-outer-spin-button, &::-webkit-inner-spin-button {
-            -webkit-appearance: none;
+            -webkit-appearance: ${props => props.spinner || "none"};
         }
     }
 
@@ -68,6 +68,12 @@ const CustomTextField = styled(TextField)`
 
     & .MuiInput-root.Mui-focused {
         color:${theme.colors.primary.navy};
+    };
+
+    //Inputfield Icon
+    & .MuiInputAdornment-root {
+        margin-left: 0;
+        margin-right: 0;
     };
 
     // For border buttom

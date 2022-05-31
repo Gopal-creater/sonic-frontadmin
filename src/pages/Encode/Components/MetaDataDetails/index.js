@@ -2,7 +2,7 @@ import React from 'react'
 import {
     EncodeContainer, MetaDataHeaderContainer, CheckBoxLabelContainer, IconContainer, ButtonContainer, SearchTrackContainer,
     MetaDataDetailsContainer, ProperAccessContainer, RightsHolderContainer, RadioLabel, TextContainer, PopUpContainer,
-    TitleContainer, Anchor
+    TitleContainer, Anchor, SelectedTrackTextContainer
 } from './indexStyles'
 import { H4, H1, H5, H6, H3 } from "../../../../StyledComponents/StyledHeadings"
 import theme from '../../../../theme'
@@ -132,7 +132,13 @@ export default function EncodeData() {
                 {
                     state.copyMetaData && state.displaySelectedTrack ?
                         <SearchTrackContainer>
-                            Selected
+                            <SelectedTrackTextContainer>
+                                <Grid >Icon</Grid>
+                                <Grid >
+                                    <H4 fontFamily={theme.fontFamily.nunitoSansRegular}>Title</H4>
+                                    <H5 style={{ lineHeight: "1", marginTop: "-10px" }}>sub title</H5>
+                                </Grid>
+                            </SelectedTrackTextContainer>
                         </SearchTrackContainer> :
                         <SearchTrackContainer>
                             <AppAutoComplete

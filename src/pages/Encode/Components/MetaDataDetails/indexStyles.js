@@ -101,3 +101,8 @@ export const Anchor = styled.a`
         color:${theme.colors.primary.navy} !important ;
     }
 `
+
+export const SelectedTrackTextContainer = styled(Grid)`
+    display:flex ;
+    align-items:center ;
+`

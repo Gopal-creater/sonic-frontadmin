@@ -105,4 +105,5 @@ export const Anchor = styled.a`
 export const SelectedTrackTextContainer = styled(Grid)`
     display:flex ;
     align-items:center ;
+    color:${theme.colors.primary.graphite} 
 `

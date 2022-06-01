@@ -24,6 +24,8 @@ import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
 import { getEncodeSearchTracksAction, getTracksAction } from '../../stores/actions/EncodeActions';
 import TracksTable from './Components/TracksTable';
 import { getRoleWiseID } from '../../services/https/AuthHelper';
+import * as mm from "music-metadata-browser";
+import cogoToast from 'cogo-toast';
 
 export default function Encode() {
     const [state, setState] = React.useState({
@@ -49,7 +51,51 @@ export default function Encode() {
         dispatch(getTracksAction(encode?.tracks.startDate, encode?.tracks?.endDate, value, "10"))
     }
 
-    // log("Encode", encode)
+    const handleDragDropFile = (files) => {
+        mm.parseBlob(files?.[0], { native: true }).then((metaData) => {
+            // log("MetaData", metaData)
+            let data = {
+                contentName: metaData?.common?.title || "",
+                contentOwner: metaData?.common?.artist || "",
+                contentDuration: metaData.format.duration || "",
+                contentSize: files?.[0]?.size / 1024,
+                contentEncoding:
+                    (metaData.format.codec ? metaData.format.codec.toString() : "") +
+                    (metaData.format.sampleRate
+                        ? ", " + metaData.format.sampleRate.toString() + " Hz"
+                        : "") +
+                    (metaData.format.codecProfile
+                        ? ", " + metaData.format.codecProfile.toString()
+                        : "") +
+                    (metaData.format.bitrate
+                        ? ", " + metaData.format.bitrate.toString() + " bps"
+                        : "") +
+                    (metaData.format.numberOfChannels
+                        ? ", " + metaData.format.numberOfChannels.toString() + " ch"
+                        : ""),
+                contentSamplingFrequency: metaData?.format?.sampleRate?.toString() || "" + "  Hz",
+                contentFileType: files?.[0]?.type,
+            }
+            dispatch(({ type: actionTypes.SET_SELECTED_FILE, data: { file: files?.[0], metaData: { ...encode.metaData, ...data } } }))
+        }).catch((err) => {
+            cogoToast.error(err);
+        })
+    }
+
+    const handleAutoCompleteSelectedValue = (v) => {
+        log("Autocomplete selected value", v)
+        let metaData = {
+            ...encode?.metaData,
+            contentName: v?.trackMetaData?.contentName || v?.title || "",
+            contentFileType: v?.trackMetaData?.contentFileType || v?.fileType || "",
+            contentOwner: v?.trackMetaData?.contentOwner || v?.artist || "",
+            contentDuration: v?.trackMetaData?.contentDuration || v?.duration || "",
+            contentSize: v?.trackMetaData?.contentSize || v?.fileSize || "",
+            contentEncoding: v?.trackMetaData?.contentEncoding || v?.encoding || "",
+            contentSamplingFrequency: v?.trackMetaData?.contentSamplingFrequency || v?.samplingFrequency || "",
+        }
+        dispatch({ type: actionTypes.SET_SELECTED_EXISTING_FILE, data: { file: v, metaData: metaData } })
+    }
 
     return (
         <>
@@ -65,12 +111,7 @@ export default function Encode() {
                                         Copy MetaData from existing track if needed.
                                     </H5>
 
-                                    <DragDropFile
-                                        handleFiles={(files) => {
-                                            dispatch(({ type: actionTypes.SET_SELECTED_FILE, data: files }))
-                                        }}
-                                    />
-
+                                    <DragDropFile handleFiles={(files) => handleDragDropFile(files)} />
                                 </NewFileSelectionContainer>
 
                                 <Grid item style={{ width: matches ? "100%" : "80px" }} container justifyContent='center' alignItems='center' >
@@ -90,15 +131,12 @@ export default function Encode() {
                                                 dispatch(getEncodeSearchTracksAction(value))
                                                 log("user wise role", getRoleWiseID())
                                             }}
-                                            setAutoCompleteOptions={(option => option?.originalFileName || "")}
-                                            setAutoCompleteOptionsLabel={(option => option?.originalFileName || "")}
+                                            setAutoCompleteOptions={(option => option?.trackMetaData?.contentName || option?.originalFileName || "")}
+                                            setAutoCompleteOptionsLabel={(option => option?.trackMetaData?.contentName || option?.originalFileName || "")}
                                             loading={encode?.encodeSearchTrack?.loading}
                                             data={encode?.encodeSearchTrack?.data?.docs || []}
                                             error={encode?.encodeSearchTrack?.error}
-                                            getSelectedValue={(e, v) => {
-                                                log("Autocomplete selected value", v)
-                                                dispatch({ type: actionTypes.SET_SELECTED_EXISTING_FILE, data: v })
-                                            }}
+                                            getSelectedValue={(e, v) => handleAutoCompleteSelectedValue(v)}
                                             placeholder={"Search for a track by title"}
                                             helperText="Search your company records"
                                         />

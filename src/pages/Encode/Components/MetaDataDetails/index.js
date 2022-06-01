@@ -27,8 +27,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import * as mm from "music-metadata-browser";
 import CustomDropDown from '../../../../components/common/AppTextInput/CustomDropDown'
 import errorEncodeIcon from "../../../../assets/images/icon-fail-graphic.png"
-import { userRoles } from '../../../../constants/constants'
-import { getUserId } from '../../../../services/https/AuthHelper'
+import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import AppAutoComplete from '../../../../components/common/AutoComplete/AppAutoComplete'
 
 export default function EncodeData() {
@@ -47,9 +46,6 @@ export default function EncodeData() {
         let data = {}
         mm.parseBlob(encodeReducer?.selectedFile?.[0], { native: true }).then((metaData) => {
             data = {
-                owner: user?.userProfile?.data?.userRole === userRoles.PORTAL_USER ? getUserId() : "",
-                company: user?.userProfile?.data?.userRole === userRoles.COMPANY_ADMIN || user?.userProfile?.data?.userRole === userRoles.COMPANY_USER ? getUserId() : "",
-                partner: user?.userProfile?.data?.userRole === userRoles.PARTNER_USER || user?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN ? getUserId() : "",
                 contentDuration: metaData.format.duration || "",
                 contentSize: encodeReducer?.selectedFile?.[0]?.size / 1024,
                 contentEncoding:
@@ -133,10 +129,19 @@ export default function EncodeData() {
                     state.copyMetaData && state.displaySelectedTrack ?
                         <SearchTrackContainer>
                             <SelectedTrackTextContainer>
-                                <Grid >Icon</Grid>
-                                <Grid >
-                                    <H4 fontFamily={theme.fontFamily.nunitoSansRegular}>Title</H4>
-                                    <H5 style={{ lineHeight: "1", marginTop: "-10px" }}>sub title</H5>
+                                <Grid ><CancelOutlinedIcon /></Grid>
+                                <Grid style={{ marginLeft: "20px" }}>
+                                    <H4
+                                        fontFamily={theme.fontFamily.nunitoSansRegular}
+                                    >
+                                        {encodeReducer?.selectedFile?.[0]?.name || encodeReducer?.selectedExistingFile?.title || encodeReducer?.selectedExistingFile?.originalFileName}
+                                    </H4>
+                                    <H5
+                                        fontFamily={theme.fontFamily.nunitoSansRegular}
+                                        style={{ lineHeight: "1", marginTop: "-5px" }}
+                                    >
+                                        {encodeReducer?.selectedFile?.[0]?.name || encodeReducer?.selectedExistingFile?.title || encodeReducer?.selectedExistingFile?.originalFileName}
+                                    </H5>
                                 </Grid>
                             </SelectedTrackTextContainer>
                         </SearchTrackContainer> :
@@ -145,7 +150,8 @@ export default function EncodeData() {
                                 setTextFieldValue={typedValue => setState({ ...state, autoCompleteValue: typedValue })}
                                 textFieldValue={state.autoCompleteValue}
                                 setAutoComPleteAction={(value) => dispatch(getEncodeSearchTracksAction(value))}
-                                setAutoCompleteOptions={(option => option?.originalFileName || "")}
+                                setAutoCompleteOptions={(option => option?.trackMetaData?.contentName || option?.originalFileName || "")}
+                                setAutoCompleteOptionsLabel={(option => option?.trackMetaData?.contentName || option?.originalFileName || "")}
                                 loading={encodeReducer?.encodeSearchTrack?.loading}
                                 data={encodeReducer?.encodeSearchTrack?.data?.docs || []}
                                 error={encodeReducer?.encodeSearchTrack?.error}
@@ -187,7 +193,7 @@ export default function EncodeData() {
                                     value: encodeReducer?.metaData?.contentType,
                                     onChange: (e) => dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, contentType: e.target.value } })
                                 }}
-                                data={[{ value: "Music" }, { value: "Video" }, { value: "Audio" }] || []}
+                                data={[{ name: "Music" }, { name: "Video" }, { name: "Audio" }] || []}
                             />
                         </Grid>
 

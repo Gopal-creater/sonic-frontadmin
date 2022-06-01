@@ -1,9 +1,7 @@
 import { Grid, Table, TableBody, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import React from 'react'
-import { SelectedColumn } from '../../../../components/common/Columns/component/SelectedColumn';
 import { StyledTableData, StyledTableHead, StyledTableRow } from '../../../../StyledComponents/StyledTable/StyledTable';
 import theme from '../../../../theme';
-import { log } from '../../../../utils/app.debug';
 
 export default function TracksTable({ data, tableHeads, sorting }) {
     return (
@@ -51,12 +49,12 @@ export default function TracksTable({ data, tableHeads, sorting }) {
                                                 {row?._id || "---"}
                                             </StyledTableData>
                                             <StyledTableData >
-                                                {row?.title || "---"}
+                                                {row?.trackMetaData?.contentName || row?.originalFileName || "---"}
                                             </StyledTableData>
-                                            <StyledTableData >{row?.radioStation || "---"}</StyledTableData>
-                                            <StyledTableData >{row?.artist || "---"}</StyledTableData>
-                                            <StyledTableData >{row?.radioStation || "---"}</StyledTableData>
-                                            <StyledTableData >{row?.fileType || "---"}</StyledTableData>
+                                            <StyledTableData >{row?.trackMetaData?.version || "---"}</StyledTableData>
+                                            <StyledTableData >{row?.trackMetaData?.contentOwner || "---"}</StyledTableData>
+                                            <StyledTableData >{row?.trackMetaData?.distributor || "---"}</StyledTableData>
+                                            <StyledTableData >{row?.trackMetaData?.contentFileType || "---"}</StyledTableData>
                                             <StyledTableData >{row?.createdAt || "---"}</StyledTableData>
                                             <StyledTableData >{row?.owner?._id || row?.company?._id || row?.partner?._id || "---"}</StyledTableData>
                                             <StyledTableData >...</StyledTableData>

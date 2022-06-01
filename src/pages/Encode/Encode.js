@@ -23,6 +23,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
 import { getEncodeSearchTracksAction, getTracksAction } from '../../stores/actions/EncodeActions';
 import TracksTable from './Components/TracksTable';
+import { getRoleWiseID } from '../../services/https/AuthHelper';
 
 export default function Encode() {
     const [state, setState] = React.useState({
@@ -48,7 +49,7 @@ export default function Encode() {
         dispatch(getTracksAction(encode?.tracks.startDate, encode?.tracks?.endDate, value, "10"))
     }
 
-    log("Encode", encode)
+    // log("Encode", encode)
 
     return (
         <>
@@ -85,8 +86,12 @@ export default function Encode() {
                                         <AppAutoComplete
                                             setTextFieldValue={typedValue => setState({ ...state, autoCompleteValue: typedValue })}
                                             textFieldValue={state.autoCompleteValue}
-                                            setAutoComPleteAction={(value) => dispatch(getEncodeSearchTracksAction(value))}
+                                            setAutoComPleteAction={(value) => {
+                                                dispatch(getEncodeSearchTracksAction(value))
+                                                log("user wise role", getRoleWiseID())
+                                            }}
                                             setAutoCompleteOptions={(option => option?.originalFileName || "")}
+                                            setAutoCompleteOptionsLabel={(option => option?.originalFileName || "")}
                                             loading={encode?.encodeSearchTrack?.loading}
                                             data={encode?.encodeSearchTrack?.data?.docs || []}
                                             error={encode?.encodeSearchTrack?.error}

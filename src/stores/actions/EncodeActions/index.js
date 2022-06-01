@@ -1,18 +1,21 @@
 import cogoToast from "cogo-toast"
 import store from "../.."
-import { userRoles } from "../../../constants/constants"
-import { getUserId } from "../../../services/https/AuthHelper"
+import { getRoleWiseID } from "../../../services/https/AuthHelper"
 import { encodeFromFile, encodeFromTrack, getEncodeSearchTracks, getTracks } from "../../../services/https/resources/EncodeApi/encodeApi"
 import { log } from "../../../utils/app.debug"
 import * as actionTypes from "../actionTypes"
 
 export const encodeFromFileAction = (mediaFile, metaData) => {
     const formData = new FormData();
+    let userRoleWiseId = getRoleWiseID()
     let isRightsHolderForEncode = metaData?.isRightsHolderForEncode === null || metaData?.isRightsHolderForEncode === "NO" ? false : true
     let isAuthorizedForEncode = metaData?.isAuthorizedForEncode === null || metaData?.isAuthorizedForEncode === "NO" ? false : true
     formData.append("mediaFile", mediaFile);
     formData.append("data", JSON.stringify({
         ...metaData,
+        owner: userRoleWiseId?.owner,
+        company: userRoleWiseId?.company,
+        partner: userRoleWiseId?.partner,
         isRightsHolderForEncode: isRightsHolderForEncode,
         isAuthorizedForEncode: isAuthorizedForEncode
     }));
@@ -31,14 +34,14 @@ export const encodeFromFileAction = (mediaFile, metaData) => {
 
 export const encodeFromTrackAction = () => {
     let encodeReducer = store.getState()?.encode
-    let userRole = store.getState().user?.userProfile?.data?.userRole
+    let userRoleWiseId = getRoleWiseID()
     let encodePayload = {
         track: encodeReducer?.selectedExistingFile?._id,
         data: {
             ...encodeReducer.metaData,
-            owner: userRole === userRoles.PORTAL_USER ? getUserId() : "",
-            company: userRole === userRoles.COMPANY_ADMIN || userRole === userRoles.COMPANY_USER ? getUserId() : "",
-            partner: userRole === userRoles.PARTNER_ADMIN || userRole === userRoles.PARTNER_USER ? getUserId() : "",
+            owner: userRoleWiseId?.owner,
+            company: userRoleWiseId?.company,
+            partner: userRoleWiseId?.partner,
             channel: encodeReducer?.selectedExistingFile?.channel
         }
     }
@@ -61,16 +64,11 @@ export const getTracksAction = (startDate, endDate, page, limit, playsBy, sortBy
     params.append("page", page)
     params.append("skip", page > 1 ? (page - 1) * limit : 0)
 
-    let userRole = store.getState().user?.userProfile?.data?.userRole
-    if (userRole === userRoles.COMPANY_ADMIN || userRole === userRoles.COMPANY_USER) {
-        params.append("company", getUserId())
-    }
-    else if (userRole === userRoles.PARTNER_ADMIN || userRole === userRoles.PARTNER_USER) {
-        params.append("partner", getUserId())
-    }
-    else {
-        params.append("owner", getUserId())
-    }
+    let userRoleWiseId = getRoleWiseID()
+
+    if (userRoleWiseId?.company) params.append("company", userRoleWiseId?.company)
+    if (userRoleWiseId?.partner) params.append("partner", userRoleWiseId?.partner)
+    if (userRoleWiseId?.owner) params.append("owner", userRoleWiseId?.owner)
 
     return (dispatch) => {
         dispatch({ type: actionTypes.SET_TRACKS_LOADING })
@@ -87,20 +85,19 @@ export const getTracksAction = (startDate, endDate, page, limit, playsBy, sortBy
 
 export const getEncodeSearchTracksAction = (title) => {
     let params = new URLSearchParams()
-    let userRole = store.getState().user?.userProfile?.data?.userRole
+    let userRoleWiseId = getRoleWiseID()
 
-    if (userRole === userRoles.COMPANY_ADMIN || userRole === userRoles.COMPANY_USER) {
-        params.append("company", getUserId())
+    if (userRoleWiseId?.company) params.append("company", userRoleWiseId?.company)
+    if (userRoleWiseId?.partner) params.append("partner", userRoleWiseId?.partner)
+    if (userRoleWiseId?.owner) params.append("owner", userRoleWiseId?.owner)
+
+    const addiFilter = {
+        "$or": [{ "trackMetaData.contentName": { "$regex": title, "$options": "i" } }, { "originalFileName": { "$regex": title, "$options": "i" } }]
     }
-    else if (userRole === userRoles.PARTNER_ADMIN || userRole === userRoles.PARTNER_USER) {
-        params.append("partner", getUserId())
-    }
-    else {
-        params.append("owner", getUserId())
-    }
+    params.append("filter", JSON.stringify(addiFilter))
     return (dispatch) => {
         dispatch({ type: actionTypes.SET_ENCODESEARCHTRACK_LOADING })
-        getEncodeSearchTracks(params, title)
+        getEncodeSearchTracks(params)
             .then((res) => {
                 dispatch({ type: actionTypes.SET_ENCODESEARCHTRACK_SUCCESS, data: res })
                 log("Encode search track response", res)

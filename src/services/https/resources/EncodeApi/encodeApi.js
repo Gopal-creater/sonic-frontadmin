@@ -13,15 +13,15 @@ export const encodeFromFile = (formData) => {
 }
 
 export const encodeFromTrack = (data) => {
-    return AppWebRequest("/sonic-keys/encode-from-track", "post", data);
+    return AppWebRequest("/sonic-keys/encode-from-track", "post", { data: data });
 }
 
 export const getTracks = (param) => {
     return AppWebRequest("/tracks", "get", { params: param })
 }
 
-export const getEncodeSearchTracks = (params, title) => {
+export const getEncodeSearchTracks = (params) => {
     return AppWebRequest("/tracks", "get", {
-        params: { originalFileName: `/${title}/i` }
+        params: params
     });
 }

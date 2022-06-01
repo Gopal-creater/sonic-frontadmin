@@ -4,7 +4,7 @@ import store from '..';
 import moment from 'moment';
 import cogoToast from 'cogo-toast';
 import { userRoles } from '../../constants/constants';
-import { getUserId } from '../../services/https/AuthHelper';
+import { getRoleWiseID } from '../../services/https/AuthHelper';
 
 export const addLicenseKeyAction = () => {
     return (dispatch) => {
@@ -28,17 +28,18 @@ export const fetchLicenceKeys = (limit, page) => {
     params.append("sort", "-createdAt");
 
     let licenseFilter = store.getState()?.licenceKey?.filters;
-    let userRole = store.getState().user?.userProfile?.data?.userRole;
 
-    // if (userRole === userRoles.COMPANY_ADMIN || userRole === userRoles.COMPANY_USER) {
-    //     params.append("company", store.getState().user?.userProfile?.data?.company?.id)
-    // }
-    // else if (userRole === userRoles.PARTNER_ADMIN || userRole === userRoles.PARTNER_USER) {
-    //     params.append("partner", store.getState().user?.userProfile?.data?.partner?.id)
-    // }
-    // else {
-    //     params.append("owner", getUserId())
-    // }
+    let userRoleWiseId = getRoleWiseID()
+    let additionalFilter = {
+
+    }
+    if (userRoleWiseId?.partner) {
+        additionalFilter = { $or: [{ "company.partner": userRoleWiseId?.partner }, { "users.partner": userRoleWiseId?.partner }] }
+        params.append("relation_filter", JSON.stringify(additionalFilter))
+    }
+
+    if (userRoleWiseId?.company) params.append("company", userRoleWiseId?.company)
+    if (userRoleWiseId?.owner) params.append("users", userRoleWiseId?.owner)
 
     if (licenseFilter?.name) {
         params.append("name", `/${licenseFilter?.name}/i`)

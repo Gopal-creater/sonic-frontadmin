@@ -18,6 +18,7 @@ import CustomPagination from "../../components/common/Pagination/CustomPaginatio
 
 function Licences() {
   const license = useSelector(state => state.licenceKey)
+  const user = useSelector(state => state.user)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   log("LIcEnSE..", license)
@@ -25,6 +26,14 @@ function Licences() {
   React.useEffect(() => {
     dispatch(fetchLicenceKeys(5, license?.getLicenseKey?.data?.page))
   }, []);
+
+  const getStableTableColumnHead = () => {
+    let tableHead = licenseTableHeads;
+    if (user?.userProfile?.data?.userRole !== "PartnerAdmin") {
+      return tableHead.filter((itm) => itm.title !== "ACCOUNT NAME")
+    }
+    return tableHead
+  }
 
   return (
     <MainContainer>
@@ -36,7 +45,7 @@ function Licences() {
           </H4>
         </Grid>
         <Grid item>
-          <Columns columns={licenseTableHeads} />
+          <Columns columns={getStableTableColumnHead()} />
         </Grid>
       </Grid>
 
@@ -51,8 +60,8 @@ function Licences() {
         loading={license?.getLicenseKey?.loading}
         onClickTryAgain={() => dispatch(5, license?.getLicenseKey?.data?.page)}
       >
-        <LicenceTable data={license?.getLicenseKey?.data?.docs || []} licenseTableHead={licenseTableHeads} />
-        {license?.getLicenseKey?.data?.totalDocs < 5 ? "" :
+        <LicenceTable data={license?.getLicenseKey?.data?.docs || []} licenseTableHead={getStableTableColumnHead()} />
+        {license?.getLicenseKey?.data?.totalDocs <= 5 ? "" :
           <Grid container justifyContent="space-between" alignItems="center" style={{ marginTop: "30px" }}>
             <Grid item xs={12} sm={4} md={6}>
               <PaginationCount

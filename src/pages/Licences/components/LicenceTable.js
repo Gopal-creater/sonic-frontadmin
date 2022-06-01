@@ -1,6 +1,7 @@
 import { Grid, Table, TableBody, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import { format } from 'date-fns';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { SelectedColumn } from '../../../components/common/Columns/component/SelectedColumn';
 import TableMenu from '../../../components/common/Table/components/TableMenu';
@@ -10,6 +11,7 @@ import theme from '../../../theme';
 
 export default function LicenceTable({ data, licenseTableHead }) {
     const navigate = useNavigate()
+    const user = useSelector(state => state.user)
 
     return (
         <Grid>
@@ -35,7 +37,7 @@ export default function LicenceTable({ data, licenseTableHead }) {
                     <TableBody>
                         {data?.length === 0 ?
                             <TableRow key={0}>
-                                <StyledTableData colSpan={7} style={{ textAlign: "center" }}>
+                                <StyledTableData colSpan={user?.userProfile?.data?.userRole === "PartnerAdmin" ? 10 : 9} style={{ textAlign: "center" }}>
                                     No Data
                                 </StyledTableData>
                             </TableRow> :
@@ -43,7 +45,7 @@ export default function LicenceTable({ data, licenseTableHead }) {
                                 if (index % 2 !== 0) {
                                     return (
                                         <StyledAlternateTableRow key={data?._id}>
-                                            {SelectedColumn("ACCOUNT NAME") &&
+                                            {SelectedColumn("ACCOUNT NAME") && user?.userProfile?.data?.userRole === "PartnerAdmin" &&
                                                 <AlternateStyledTableData
                                                     style={{
                                                         color: theme.colors.primary.navy,
@@ -105,7 +107,7 @@ export default function LicenceTable({ data, licenseTableHead }) {
                                 }
                                 return (
                                     <StyledTableRow key={data?._id}>
-                                        {SelectedColumn("ACCOUNT NAME") &&
+                                        {SelectedColumn("ACCOUNT NAME") && user?.userProfile?.data?.userRole === "PartnerAdmin" &&
                                             <StyledTableData
                                                 style={{
                                                     color: theme.colors.primary.navy,

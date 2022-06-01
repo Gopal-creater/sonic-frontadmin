@@ -2,7 +2,7 @@ import React from 'react'
 import {
     EncodeContainer, MetaDataHeaderContainer, CheckBoxLabelContainer, IconContainer, ButtonContainer, SearchTrackContainer,
     MetaDataDetailsContainer, ProperAccessContainer, RightsHolderContainer, RadioLabel, TextContainer, PopUpContainer,
-    TitleContainer, Anchor
+    TitleContainer, Anchor, SelectedTrackTextContainer
 } from './indexStyles'
 import { H4, H1, H5, H6, H3 } from "../../../../StyledComponents/StyledHeadings"
 import theme from '../../../../theme'
@@ -17,7 +17,7 @@ import moment from 'moment'
 import { CustomRadioButton } from '../../../../components/common/AppRadioButton/AppRadioButton'
 import AppButton from '../../../../components/common/AppButton/AppButton'
 import * as actionTypes from "../../../../stores/actions/actionTypes"
-import { encodeFromFileAction, encodeFromTrackAction } from '../../../../stores/actions/EncodeActions'
+import { encodeFromFileAction, encodeFromTrackAction, getEncodeSearchTracksAction } from '../../../../stores/actions/EncodeActions'
 import cogoToast from 'cogo-toast'
 import PopUp from '../../../../components/common/PopUp'
 import encode_progress from "../../../../assets/icons/encode_progress.png"
@@ -27,25 +27,25 @@ import CloseIcon from '@material-ui/icons/Close';
 import * as mm from "music-metadata-browser";
 import CustomDropDown from '../../../../components/common/AppTextInput/CustomDropDown'
 import errorEncodeIcon from "../../../../assets/images/icon-fail-graphic.png"
-import { userRoles } from '../../../../constants/constants'
-import { getUserId } from '../../../../services/https/AuthHelper'
+import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
+import AppAutoComplete from '../../../../components/common/AutoComplete/AppAutoComplete'
 
 export default function EncodeData() {
     const encodeReducer = useSelector(state => state.encode)
     const user = useSelector(state => state.user)
     const [state, setState] = React.useState({
         copyMetaData: false,
+        autoCompleteValue: "",
+        displaySelectedTrack: false
     })
 
     const dispatch = useDispatch()
 
     React.useEffect(() => {
+        if (encodeReducer?.selectedExistingFile) setState({ ...state, copyMetaData: true, displaySelectedTrack: true })
         let data = {}
         mm.parseBlob(encodeReducer?.selectedFile?.[0], { native: true }).then((metaData) => {
             data = {
-                owner: user?.userProfile?.data?.userRole === userRoles.PORTAL_USER ? getUserId() : "",
-                company: user?.userProfile?.data?.userRole === userRoles.COMPANY_ADMIN || user?.userProfile?.data?.userRole === userRoles.COMPANY_USER ? getUserId() : "",
-                partner: user?.userProfile?.data?.userRole === userRoles.PARTNER_USER || user?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN ? getUserId() : "",
                 contentDuration: metaData.format.duration || "",
                 contentSize: encodeReducer?.selectedFile?.[0]?.size / 1024,
                 contentEncoding:
@@ -97,13 +97,13 @@ export default function EncodeData() {
                         <H1
                             color={theme.colors.primary.navy}
                         >
-                            {encodeReducer?.selectedFile?.[0]?.name}
+                            {encodeReducer?.selectedFile?.[0]?.name || encodeReducer?.selectedExistingFile?.title || encodeReducer?.selectedExistingFile?.originalFileName}
                         </H1>
 
                         <FormControlLabel
                             control={
                                 <AppCheckBox
-                                    checked={state.copyMetaData}
+                                    value={state.copyMetaData}
                                     onChange={() => setState({ ...state, copyMetaData: !state.copyMetaData })}
                                 />
                             }
@@ -126,9 +126,43 @@ export default function EncodeData() {
                 </TextContainer>
 
                 {
-                    state.copyMetaData && <SearchTrackContainer>
-                        Search track
-                    </SearchTrackContainer>
+                    state.copyMetaData && state.displaySelectedTrack ?
+                        <SearchTrackContainer>
+                            <SelectedTrackTextContainer>
+                                <Grid ><CancelOutlinedIcon /></Grid>
+                                <Grid style={{ marginLeft: "20px" }}>
+                                    <H4
+                                        fontFamily={theme.fontFamily.nunitoSansRegular}
+                                    >
+                                        {encodeReducer?.selectedFile?.[0]?.name || encodeReducer?.selectedExistingFile?.title || encodeReducer?.selectedExistingFile?.originalFileName}
+                                    </H4>
+                                    <H5
+                                        fontFamily={theme.fontFamily.nunitoSansRegular}
+                                        style={{ lineHeight: "1", marginTop: "-5px" }}
+                                    >
+                                        {encodeReducer?.selectedFile?.[0]?.name || encodeReducer?.selectedExistingFile?.title || encodeReducer?.selectedExistingFile?.originalFileName}
+                                    </H5>
+                                </Grid>
+                            </SelectedTrackTextContainer>
+                        </SearchTrackContainer> :
+                        <SearchTrackContainer>
+                            <AppAutoComplete
+                                setTextFieldValue={typedValue => setState({ ...state, autoCompleteValue: typedValue })}
+                                textFieldValue={state.autoCompleteValue}
+                                setAutoComPleteAction={(value) => dispatch(getEncodeSearchTracksAction(value))}
+                                setAutoCompleteOptions={(option => option?.trackMetaData?.contentName || option?.originalFileName || "")}
+                                setAutoCompleteOptionsLabel={(option => option?.trackMetaData?.contentName || option?.originalFileName || "")}
+                                loading={encodeReducer?.encodeSearchTrack?.loading}
+                                data={encodeReducer?.encodeSearchTrack?.data?.docs || []}
+                                error={encodeReducer?.encodeSearchTrack?.error}
+                                getSelectedValue={(e, v) => {
+                                    log("Autocomplete selected value", v)
+                                    dispatch({ type: actionTypes.SET_SELECTED_EXISTING_FILE, data: v })
+                                }}
+                                placeholder={"Search for a track by title"}
+                                helperText="Search your company records"
+                            />
+                        </SearchTrackContainer>
                 }
             </MetaDataHeaderContainer>
 
@@ -159,7 +193,7 @@ export default function EncodeData() {
                                     value: encodeReducer?.metaData?.contentType,
                                     onChange: (e) => dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, contentType: e.target.value } })
                                 }}
-                                data={[{ value: "Music" }, { value: "Video" }, { value: "Audio" }] || []}
+                                data={[{ name: "Music" }, { name: "Video" }, { name: "Audio" }] || []}
                             />
                         </Grid>
 
@@ -458,11 +492,7 @@ export default function EncodeData() {
                 <PopUpContainer padding="20px 40px 25px 40px">
                     <Grid container justifyContent='flex-end'>
                         <CloseIcon
-                            onClick={() => {
-                                // dispatch({ type: actionTypes.SET_SELECTED_FILE, data: null })
-                                // dispatch({ type: actionTypes.CLEAR_METADATA })
-                                dispatch({ type: actionTypes.CLOSE_ERROR_POPUP })
-                            }}
+                            onClick={() => { dispatch({ type: actionTypes.CLOSE_ERROR_POPUP }) }}
                             style={{ cursor: "pointer" }} />
                     </Grid>
                     <TitleContainer container direction='column' alignItems='center' backgroundColor={theme.colors.secondary.lightGrey}>

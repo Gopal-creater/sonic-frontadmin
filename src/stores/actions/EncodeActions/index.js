@@ -1,18 +1,21 @@
 import cogoToast from "cogo-toast"
 import store from "../.."
-import { userRoles } from "../../../constants/constants"
-import { getUserId } from "../../../services/https/AuthHelper"
+import { getRoleWiseID } from "../../../services/https/AuthHelper"
 import { encodeFromFile, encodeFromTrack, getEncodeSearchTracks, getTracks } from "../../../services/https/resources/EncodeApi/encodeApi"
 import { log } from "../../../utils/app.debug"
 import * as actionTypes from "../actionTypes"
 
 export const encodeFromFileAction = (mediaFile, metaData) => {
     const formData = new FormData();
+    let userRoleWiseId = getRoleWiseID()
     let isRightsHolderForEncode = metaData?.isRightsHolderForEncode === null || metaData?.isRightsHolderForEncode === "NO" ? false : true
     let isAuthorizedForEncode = metaData?.isAuthorizedForEncode === null || metaData?.isAuthorizedForEncode === "NO" ? false : true
     formData.append("mediaFile", mediaFile);
     formData.append("data", JSON.stringify({
         ...metaData,
+        owner: userRoleWiseId?.owner,
+        company: userRoleWiseId?.company,
+        partner: userRoleWiseId?.partner,
         isRightsHolderForEncode: isRightsHolderForEncode,
         isAuthorizedForEncode: isAuthorizedForEncode
     }));
@@ -31,45 +34,15 @@ export const encodeFromFileAction = (mediaFile, metaData) => {
 
 export const encodeFromTrackAction = () => {
     let encodeReducer = store.getState()?.encode
-    let userRole = store.getState().user?.userProfile?.data?.userRole
+    let userRoleWiseId = getRoleWiseID()
     let encodePayload = {
-        track: encodeReducer?.encodeSearchTrack?.selectedTrack?._id,
+        track: encodeReducer?.selectedExistingFile?._id,
         data: {
-            sonicKey: encodeReducer?.encodeSearchTrack?.selectedTrack?._id,
-            owner: userRole === userRoles.PORTAL_USER ? getUserId() : "",
-            company: userRole === userRoles.COMPANY_ADMIN || userRole === userRoles.COMPANY_USER ? getUserId() : "",
-            partner: userRole === userRoles.PARTNER_ADMIN || userRole === userRoles.PARTNER_USER ? getUserId() : "",
-            channel: encodeReducer?.encodeSearchTrack?.selectedTrack?.channel,
-            channelUuid: "",
-            encodingStrength: 15,
-            contentType: encodeReducer?.metaData?.contentType,
-            contentDescription: encodeReducer?.metaData?.contentDescription,
-            contentCreatedDate: encodeReducer?.encodeSearchTrack?.selectedTrack?.createdAt,
-            contentDuration: encodeReducer?.metaData?.contentDuration,
-            contentSize: encodeReducer?.metaData?.contentSize,
-            contentFilePath: encodeReducer?.encodeSearchTrack?.selectedTrack?.localFilePath,
-            s3FileMeta: encodeReducer?.encodeSearchTrack?.selectedTrack?.s3OriginalFileMeta,
-            s3OriginalFileMeta: encodeReducer?.encodeSearchTrack?.selectedTrack?.s3OriginalFileMeta,
-            contentFileType: encodeReducer?.metaData?.contentFileType,
-            contentEncoding: encodeReducer?.metaData?.contentEncoding,
-            contentSamplingFrequency: encodeReducer?.metaData?.contentSamplingFrequency,
-            isrcCode: encodeReducer?.metaData?.isrcCode,
-            iswcCode: encodeReducer?.metaData?.iswcCode,
-            tuneCode: encodeReducer?.metaData?.tuneCode,
-            contentName: encodeReducer?.metaData?.contentName,
-            contentOwner: encodeReducer?.metaData?.contentOwner,
-            contentValidation: true,
-            contentFileName: "",
-            originalFileName: encodeReducer?.encodeSearchTrack?.selectedTrack?.originalFileName,
-            contentQuality: encodeReducer?.metaData?.contentQuality,
-            additionalMetadata: { message: encodeReducer?.metaData?.additionalMetadata?.message },
-            isRightsHolderForEncode: encodeReducer?.metaData?.isRightsHolderForEncode === null || encodeReducer?.metaData?.isRightsHolderForEncode === "NO" ? false : true,
-            isAuthorizedForEncode: encodeReducer?.metaData?.isAuthorizedForEncode === null || encodeReducer?.metaData?.isAuthorizedForEncode === "NO" ? false : true,
-            distributor: encodeReducer?.metaData?.distributor,
-            version: encodeReducer?.metaData?.version,
-            label: encodeReducer?.metaData?.label,
-            createdBy: "",
-            updatedBy: ""
+            ...encodeReducer.metaData,
+            owner: userRoleWiseId?.owner,
+            company: userRoleWiseId?.company,
+            partner: userRoleWiseId?.partner,
+            channel: encodeReducer?.selectedExistingFile?.channel
         }
     }
 
@@ -91,16 +64,11 @@ export const getTracksAction = (startDate, endDate, page, limit, playsBy, sortBy
     params.append("page", page)
     params.append("skip", page > 1 ? (page - 1) * limit : 0)
 
-    let userRole = store.getState().user?.userProfile?.data?.userRole
-    if (userRole === userRoles.COMPANY_ADMIN || userRole === userRoles.COMPANY_USER) {
-        params.append("company", getUserId())
-    }
-    else if (userRole === userRoles.PARTNER_ADMIN || userRole === userRoles.PARTNER_USER) {
-        params.append("partner", getUserId())
-    }
-    else {
-        params.append("owner", getUserId())
-    }
+    let userRoleWiseId = getRoleWiseID()
+
+    if (userRoleWiseId?.company) params.append("company", userRoleWiseId?.company)
+    if (userRoleWiseId?.partner) params.append("partner", userRoleWiseId?.partner)
+    if (userRoleWiseId?.owner) params.append("owner", userRoleWiseId?.owner)
 
     return (dispatch) => {
         dispatch({ type: actionTypes.SET_TRACKS_LOADING })
@@ -116,9 +84,20 @@ export const getTracksAction = (startDate, endDate, page, limit, playsBy, sortBy
 }
 
 export const getEncodeSearchTracksAction = (title) => {
+    let params = new URLSearchParams()
+    let userRoleWiseId = getRoleWiseID()
+
+    if (userRoleWiseId?.company) params.append("company", userRoleWiseId?.company)
+    if (userRoleWiseId?.partner) params.append("partner", userRoleWiseId?.partner)
+    if (userRoleWiseId?.owner) params.append("owner", userRoleWiseId?.owner)
+
+    const addiFilter = {
+        "$or": [{ "trackMetaData.contentName": { "$regex": title, "$options": "i" } }, { "originalFileName": { "$regex": title, "$options": "i" } }]
+    }
+    params.append("filter", JSON.stringify(addiFilter))
     return (dispatch) => {
         dispatch({ type: actionTypes.SET_ENCODESEARCHTRACK_LOADING })
-        getEncodeSearchTracks(title)
+        getEncodeSearchTracks(params)
             .then((res) => {
                 dispatch({ type: actionTypes.SET_ENCODESEARCHTRACK_SUCCESS, data: res })
                 log("Encode search track response", res)

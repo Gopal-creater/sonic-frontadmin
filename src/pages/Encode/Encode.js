@@ -17,16 +17,16 @@ import FilterComponent from '../../components/common/FilterComponent/FilterCompo
 import MonitorFilter from '../Monitor/Components/MonitorFilter/MonitorFilter';
 import CommonDataLoadErrorSuccess from '../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess';
 import CustomPagination from '../../components/common/Pagination/CustomPagination';
-import { TracksTableHeads, trackTableHeads } from '../../constants/constants';
+import { TracksTableHeads } from '../../constants/constants';
 import AppAutoComplete from "../../components/common/AutoComplete/AppAutoComplete"
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
 import { getEncodeSearchTracksAction, getTracksAction } from '../../stores/actions/EncodeActions';
 import TracksTable from './Components/TracksTable';
+import { getRoleWiseID } from '../../services/https/AuthHelper';
 
 export default function Encode() {
     const [state, setState] = React.useState({
-        trackTableHeads: trackTableHeads,
         tracksTableHeads: TracksTableHeads,
         currentSortBy: "",
         currentIsAscending: "",
@@ -49,7 +49,7 @@ export default function Encode() {
         dispatch(getTracksAction(encode?.tracks.startDate, encode?.tracks?.endDate, value, "10"))
     }
 
-    log("Encode", encode)
+    // log("Encode", encode)
 
     return (
         <>
@@ -86,8 +86,12 @@ export default function Encode() {
                                         <AppAutoComplete
                                             setTextFieldValue={typedValue => setState({ ...state, autoCompleteValue: typedValue })}
                                             textFieldValue={state.autoCompleteValue}
-                                            setAutoComPleteAction={(value) => dispatch(getEncodeSearchTracksAction(value))}
+                                            setAutoComPleteAction={(value) => {
+                                                dispatch(getEncodeSearchTracksAction(value))
+                                                log("user wise role", getRoleWiseID())
+                                            }}
                                             setAutoCompleteOptions={(option => option?.originalFileName || "")}
+                                            setAutoCompleteOptionsLabel={(option => option?.originalFileName || "")}
                                             loading={encode?.encodeSearchTrack?.loading}
                                             data={encode?.encodeSearchTrack?.data?.docs || []}
                                             error={encode?.encodeSearchTrack?.error}
@@ -116,7 +120,7 @@ export default function Encode() {
                                     <H5><PaginationCount start={0} end={10} total={20} name={"tracks"} /></H5>
                                 </Grid>
                                 <Grid>
-                                    <Columns columns={state.trackTableHeads} />
+                                    <Columns columns={state.tracksTableHeads} />
                                 </Grid>
                             </TrackTitleContainer>
 

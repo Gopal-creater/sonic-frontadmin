@@ -19,7 +19,7 @@ export default function LicenseFilter({ closeDialog }) {
 
     const handleFilter = (e) => {
         e.preventDefault();
-        dispatch(fetchLicenceKeys());
+        dispatch(fetchLicenceKeys(5, 1));
         closeDialog?.()
     }
 

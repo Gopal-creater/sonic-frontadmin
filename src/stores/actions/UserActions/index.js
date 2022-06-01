@@ -39,8 +39,8 @@ export const getUsersAction = (limit, page) => {
     params.append("sort", "-createdAt");
 
     let users = store.getState()?.user?.filters;
+    let userRole = store.getState().user?.userProfile?.data?.userRole;
 
-    let userRole = store.getState().user?.userProfile?.data?.userRole
     if (userRole === userRoles.COMPANY_ADMIN || userRole === userRoles.COMPANY_USER) {
         params.append("company", store.getState().user?.userProfile?.data?.company?.id)
     }

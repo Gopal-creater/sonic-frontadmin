@@ -1459,11 +1459,11 @@ export const countryTableHeads = [
 ]
 
 export const licenseTableHeads = [
-  // { title: "ACCOUNT NAME" },
+  { title: "ACCOUNT NAME" },
   { title: "MAX USES ENCODE" },
   { title: "MAX USES MONITOR" },
   { title: "ACCOUNT TYPE" },
-  // { title: "USERS" },
+  { title: "USERS" },
   { title: "RENEWAL DATE" },
   { title: "LICENSE NAME" },
   { title: "KEY" },

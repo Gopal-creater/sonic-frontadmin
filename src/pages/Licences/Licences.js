@@ -13,6 +13,8 @@ import LicenseFilter from "./components/LicenseFilter";
 import { useNavigate } from "react-router-dom";
 import FilterCreate from "../../components/common/FilterComponent/FilterCreate";
 import { MainContainer } from "../../StyledComponents/StyledPageContainer";
+import PaginationCount from "../../components/common/Pagination/PaginationCount";
+import CustomPagination from "../../components/common/Pagination/CustomPagination";
 
 function Licences() {
   const license = useSelector(state => state.licenceKey)
@@ -21,7 +23,7 @@ function Licences() {
   log("LIcEnSE..", license)
 
   React.useEffect(() => {
-    dispatch(fetchLicenceKeys())
+    dispatch(fetchLicenceKeys(5, license?.getLicenseKey?.data?.page))
   }, []);
 
   return (
@@ -45,11 +47,29 @@ function Licences() {
       />
 
       <CommonDataLoadErrorSuccess
-        error={license.error}
-        loading={license.loading}
-        onClickTryAgain={() => dispatch(fetchLicenceKeys())}
+        error={license?.getLicenseKey?.error}
+        loading={license?.getLicenseKey?.loading}
+        onClickTryAgain={() => dispatch(5, license?.getLicenseKey?.data?.page)}
       >
-        <LicenceTable data={license.data?.docs || []} licenseTableHead={licenseTableHeads} />
+        <LicenceTable data={license?.getLicenseKey?.data?.docs || []} licenseTableHead={licenseTableHeads} />
+        {license?.getLicenseKey?.data?.totalDocs < 5 ? "" :
+          <Grid container justifyContent="space-between" alignItems="center" style={{ marginTop: "30px" }}>
+            <Grid item xs={12} sm={4} md={6}>
+              <PaginationCount
+                name="license"
+                total={license?.getLicenseKey?.data?.totalDocs}
+                start={license?.getLicenseKey?.data?.offset}
+                end={license?.getLicenseKey?.data?.docs?.length}
+              />
+            </Grid>
+            <Grid item xs={12} sm={8} md={6}>
+              <CustomPagination
+                count={license?.getLicenseKey?.data?.totalPages}
+                page={license?.getLicenseKey?.data?.page}
+                onChange={(e, value) => dispatch(fetchLicenceKeys(5, value))}
+              />
+            </Grid>
+          </Grid>}
       </CommonDataLoadErrorSuccess>
     </MainContainer>
   );

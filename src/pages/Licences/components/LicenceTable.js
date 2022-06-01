@@ -6,6 +6,7 @@ import { SelectedColumn } from '../../../components/common/Columns/component/Sel
 import TableMenu from '../../../components/common/Table/components/TableMenu';
 import { ActionMenuItem } from '../../../components/common/Table/TableStyled';
 import { ActiveBox, AlternateStyledTableData, StyledAlternateTableRow, StyledTableData, StyledTableHead, StyledTableRow, SuspendedBox } from '../../../StyledComponents/StyledTable/StyledTable';
+import theme from '../../../theme';
 
 export default function LicenceTable({ data, licenseTableHead }) {
     const navigate = useNavigate()
@@ -42,15 +43,17 @@ export default function LicenceTable({ data, licenseTableHead }) {
                                 if (index % 2 !== 0) {
                                     return (
                                         <StyledAlternateTableRow key={data?._id}>
-                                            {/* <AlternateStyledTableData
-                                                style={{
-                                                    color: theme.colors.primary.navy,
-                                                    fontSize: theme.fontSize.h4,
-                                                    fontFamily: theme.fontFamily.nunitoSansBold
-                                                }}
-                                            >
-                                                {SelectedColumn("ACCOUNT NAME") && (index + 1)}
-                                            </AlternateStyledTableData> */}
+                                            {SelectedColumn("ACCOUNT NAME") &&
+                                                <AlternateStyledTableData
+                                                    style={{
+                                                        color: theme.colors.primary.navy,
+                                                        fontSize: theme.fontSize.h4,
+                                                        fontFamily: theme.fontFamily.nunitoSansBold
+                                                    }}
+                                                >
+                                                    {"---"}
+                                                </AlternateStyledTableData>
+                                            }
                                             {SelectedColumn("MAX USES ENCODE") &&
                                                 <AlternateStyledTableData>
                                                     {data?.isUnlimitedEncode === true
@@ -70,7 +73,9 @@ export default function LicenceTable({ data, licenseTableHead }) {
                                             {SelectedColumn("ACCOUNT TYPE") &&
                                                 <AlternateStyledTableData>{data?.type || "---"}</AlternateStyledTableData>
                                             }
-                                            {/* <AlternateStyledTableData> {SelectedColumn("USERS") && (data?.type)}</AlternateStyledTableData> */}
+                                            {SelectedColumn("USERS") &&
+                                                <AlternateStyledTableData> {"---"}</AlternateStyledTableData>
+                                            }
                                             {SelectedColumn("RENEWAL DATE") &&
                                                 <AlternateStyledTableData>{format(new Date(data?.validity), "dd/MM/yyyy")}</AlternateStyledTableData>
                                             }
@@ -100,15 +105,17 @@ export default function LicenceTable({ data, licenseTableHead }) {
                                 }
                                 return (
                                     <StyledTableRow key={data?._id}>
-                                        {/* <StyledTableData
-                                            style={{
-                                                color: theme.colors.primary.navy,
-                                                fontSize: theme.fontSize.h4,
-                                                fontFamily: theme.fontFamily.nunitoSansBold
-                                            }}
-                                        >
-                                            {SelectedColumn("ACCOUNT NAME") && (index + 1)}
-                                        </StyledTableData> */}
+                                        {SelectedColumn("ACCOUNT NAME") &&
+                                            <StyledTableData
+                                                style={{
+                                                    color: theme.colors.primary.navy,
+                                                    fontSize: theme.fontSize.h4,
+                                                    fontFamily: theme.fontFamily.nunitoSansBold
+                                                }}
+                                            >
+                                                {"---"}
+                                            </StyledTableData>
+                                        }
                                         {SelectedColumn("MAX USES ENCODE") &&
                                             <StyledTableData>
                                                 {data?.isUnlimitedEncode === true
@@ -128,7 +135,9 @@ export default function LicenceTable({ data, licenseTableHead }) {
                                         {SelectedColumn("ACCOUNT TYPE") &&
                                             <StyledTableData>{data?.type || "---"}</StyledTableData>
                                         }
-                                        {/* <AlternateStyledTableData> {SelectedColumn("USERS") && (data?.type)}</AlternateStyledTableData> */}
+                                        {SelectedColumn("USERS") &&
+                                            <StyledTableData> {"---"}</StyledTableData>
+                                        }
                                         {SelectedColumn("RENEWAL DATE") &&
                                             <StyledTableData>{format(new Date(data?.validity), "dd/MM/yyyy")}</StyledTableData>
                                         }

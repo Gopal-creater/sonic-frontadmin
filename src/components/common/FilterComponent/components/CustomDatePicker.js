@@ -85,7 +85,7 @@ export default function CustomDatePicker({ title, selected, onChange, calender =
             title={title || ""}
             startDate={startDate || null}
             endDate={endDate || null}
-            placeholderText='DD/MM/YYYY'
+            placeholderText='MM/DD/YYYY'
             {...props}
         // showYearDropdown
         // showMonthDropdown

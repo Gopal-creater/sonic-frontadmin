@@ -1,13 +1,17 @@
-import { FormControl, FormLabel, Grid, RadioGroup } from "@material-ui/core";
+import React from "react";
+import { CircularProgress, FormControl, FormLabel, Grid, RadioGroup } from "@material-ui/core";
 import { MusicNote } from "@material-ui/icons";
 import cogoToast from "cogo-toast";
-import React from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import AppButton from "../../../components/common/AppButton/AppButton";
 import { CustomRadioButton } from "../../../components/common/AppRadioButton/AppRadioButton";
 import AppToggleSwitch from "../../../components/common/AppToggleSwitch/AppToggleSwitch";
+import AppAutoComplete from "../../../components/common/AutoComplete/AppAutoComplete";
 import CustomDatePicker from "../../../components/common/FilterComponent/components/CustomDatePicker";
+import { addLicenseKeyAction } from "../../../stores/actions/licenceKey";
+import { getUsersNameAction } from "../../../stores/actions/picker/titlePicker.action";
 import { StyledTextField } from "../../../StyledComponents/StyledAppTextInput/StyledAppTextInput";
 import { H1, H4 } from "../../../StyledComponents/StyledHeadings";
 import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
@@ -18,31 +22,51 @@ import KeyValue from "./KeyValue";
 
 const initialState = {
   licenseType: 'Company',
-  userId: "",
   licenseName: "",
-  maxEncode: "",
-  maxMonitor: "",
+  maxEncodeUses: 0,
+  maxMonitoringUses: 0,
   validity: "",
-  success: false,
-  checkedEncode: true,
-  checkedMonitor: true,
-  checkedActive: true,
-  metaData: {}
+  isUnlimitedEncode: true,
+  isUnlimitedMonitor: true,
+  isSuspended: true,
+  metaData: {},
+  user: {}
 }
 
 export default function AddLicence() {
   const [state, setState] = React.useState(initialState)
+  const dispatch = useDispatch()
   const navigate = useNavigate()
   const { handleSubmit, control, reset } = useForm();
+  const user = useSelector(state => state.user)
+  const license = useSelector(state => state.licenceKey)
+
+  log("LICeNsE pAyLOad..", state.user)
+  log(license)
 
   React.useEffect(() => {
     reset(initialState)
-  }, [state.success])
+  }, [license?.addLicenseKey?.data])
 
   const handleAddLicense = (data) => {
-    log("ADD LICENSE", data)
-    cogoToast.success("License added successfully!")
-    // setState({ ...state, success: true })
+    if (!state.user) {
+      return cogoToast.warn("User Id is mandatory!");
+    }
+
+    let payload = {
+      name: data?.licenseName,
+      suspended: state?.isSuspended === true ? false : true,
+      maxEncodeUses: state?.maxEncodeUses,
+      isUnlimitedEncode: state?.isUnlimitedEncode,
+      maxMonitoringUses: state?.maxMonitoringUses,
+      isUnlimitedMonitor: state?.isUnlimitedMonitor,
+      validity: data?.validity,
+      metaData: state?.metaData,
+      user: state?.user?._id,
+      company: state?.user?.company?._id || undefined,
+      type: data?.licenseType,
+    }
+    dispatch(addLicenseKeyAction(payload))
   }
 
   return (
@@ -92,28 +116,17 @@ export default function AddLicence() {
             />
           </FormControl>
 
-          <Grid item xs={12} md={6}>
-            <Controller
-              name="userId"
-              control={control}
-              defaultValue=""
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => (
-                <>
-                  <StyledTextField
-                    fullWidth
-                    label="User ID*"
-                    error={!!error}
-                    value={value}
-                    onChange={onChange}
-                    style={{ marginTop: "15px" }}
-                  />
-                  {error?.message && <HelperText>{error?.message}</HelperText>}
-                </>
-              )}
-              rules={{ required: "User ID is required" }}
+          <Grid item xs={12} md={6} style={{ marginTop: "15px" }}>
+            <AppAutoComplete
+              setAutoComPleteAction={(value) => dispatch(getUsersNameAction(value))}
+              setAutoCompleteOptions={(option => option?._id || "")}
+              setAutoCompleteOptionsLabel={(option => option?.username || "")}
+              loading={user?.userSearch?.loading}
+              data={user?.userSearch?.data?.docs || []}
+              error={user?.userSearch?.error}
+              getSelectedValue={(e, v) => setState({ ...state, user: v })}
+              placeholder={"User Id*"}
+              hideSearchIcon={true}
             />
           </Grid>
 
@@ -143,56 +156,36 @@ export default function AddLicence() {
           </Grid>
 
           <Grid item xs={12} md={4}>
-            <Controller
-              name="maxEncode"
-              control={control}
-              defaultValue=""
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => (
-                <>
-                  <StyledTextField
-                    fullWidth
-                    label="Max Uses Encode"
-                    spinner={"true"}
-                    type="number"
-                    error={!!error}
-                    value={value}
-                    onChange={onChange}
-                    style={{ marginTop: "15px" }}
-                    disabled={state?.checkedEncode}
-                  />
-                  {error?.message && <HelperText>{error?.message}</HelperText>}
-                </>
-              )}
+            <StyledTextField
+              fullWidth
+              label="Max Uses Encode"
+              spinner={"true"}
+              type="number"
+              value={state.isUnlimitedEncode ? Number.POSITIVE_INFINITY : state?.maxEncodeUses}
+              placeholder={state.isUnlimitedEncode ? "Unlimited" : "eg. 100"}
+              onChange={(e) => setState({ ...state, maxEncodeUses: e.target.value })}
+              style={{ marginTop: "15px" }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              disabled={state?.isUnlimitedEncode}
             />
           </Grid>
 
           <Grid item xs={12} md={4}>
-            <Controller
-              name="maxMonitor"
-              control={control}
-              defaultValue=""
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => (
-                <>
-                  <StyledTextField
-                    fullWidth
-                    label="Max Uses Monitor"
-                    spinner={"true"}
-                    type="number"
-                    error={!!error}
-                    value={value}
-                    onChange={onChange}
-                    style={{ marginTop: "15px" }}
-                    disabled={state?.checkedMonitor}
-                  />
-                  {error?.message && <HelperText>{error?.message}</HelperText>}
-                </>
-              )}
+            <StyledTextField
+              fullWidth
+              label="Max Uses Monitor"
+              spinner={"true"}
+              type="number"
+              value={state.isUnlimitedMonitor ? Number.POSITIVE_INFINITY : state?.maxMonitoringUses}
+              placeholder={state.isUnlimitedMonitor ? "Unlimited" : "eg. 100"}
+              onChange={(e) => setState({ ...state, maxMonitoringUses: e.target.value })}
+              style={{ marginTop: "15px" }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              disabled={state?.isUnlimitedMonitor}
             />
           </Grid>
 
@@ -210,7 +203,6 @@ export default function AddLicence() {
                     error={!!error}
                     selected={value}
                     onChange={onChange}
-                    dateformat="MMM d,yyyy"
                     title="Validity*"
                     fullWidth={true}
                     showYearDropdown={true}
@@ -243,8 +235,8 @@ export default function AddLicence() {
               checkedSize={102}
               active={"\"UNLIMITED ENCODE\""}
               inActive={"\"LIMITED ENCODE\""}
-              checked={state?.checkedEncode}
-              onChange={(e) => setState({ ...state, checkedEncode: e.target.checked })}
+              checked={state?.isUnlimitedEncode}
+              onChange={(e) => setState({ ...state, isUnlimitedEncode: e.target.checked })}
             />
           </Grid>
 
@@ -254,8 +246,8 @@ export default function AddLicence() {
               checkedSize={106}
               active={"\"UNLIMITED MONITOR\""}
               inActive={"\"LIMITED MONITOR\""}
-              checked={state?.checkedMonitor}
-              onChange={(e) => setState({ ...state, checkedMonitor: e.target.checked })}
+              checked={state?.isUnlimitedMonitor}
+              onChange={(e) => setState({ ...state, isUnlimitedMonitor: e.target.checked })}
             />
           </Grid>
 
@@ -265,8 +257,8 @@ export default function AddLicence() {
               checkedSize={70}
               active={"\"ACTIVE\""}
               inActive={"\"SUSPENDED\""}
-              checked={state?.checkedActive}
-              onChange={(e) => setState({ ...state, checkedActive: e.target.checked })}
+              checked={state?.isSuspended}
+              onChange={(e) => setState({ ...state, isSuspended: e.target.checked })}
             />
           </Grid>
         </Grid>
@@ -274,11 +266,11 @@ export default function AddLicence() {
         <BorderBottom />
 
         <Grid container className="mt-3 mb-2" justifyContent="flex-end">
-          <AppButton variant={"outline"} onClick={() => navigate(-1)}>
+          <AppButton variant={"outline"} onClick={() => navigate(-1)} disabled={license?.addLicenseKey?.loading}>
             Cancel
           </AppButton>
           <AppButton variant={"fill"} type="submit" style={{ marginLeft: "15px", width: "180px" }}>
-            Add new license
+            {license?.addLicenseKey?.loading ? <CircularProgress size={20} color="white" /> : "Add new license"}
           </AppButton>
         </Grid>
       </form>

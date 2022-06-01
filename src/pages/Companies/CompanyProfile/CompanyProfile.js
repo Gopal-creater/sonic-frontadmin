@@ -125,84 +125,23 @@ export default function CompanyProfile() {
                         <Grid style={{ marginTop: 15 }}>
                             <DisabledTextField
                                 label={"Username"}
-                                value={"partner1"}
+                                value={state?.owner?.username}
                             />
                         </Grid>
 
                         <Grid style={{ marginTop: 15 }}>
                             <DisabledTextField
                                 label={"Email"}
-                                value={"partnerOne@gmail.com"}
+                                value={state?.owner?.email}
                             />
                         </Grid>
 
                         <Grid style={{ marginTop: 15 }}>
                             <DisabledTextField
                                 label={"Phone number"}
-                                value={"+4498709878"}
+                                value={state?.owner?.phone_number || " "}
                             />
                         </Grid>
-
-                        {/* <Grid style={{ marginTop: 21 }}>
-                            <Controller
-                                name="username"
-                                control={control}
-                                defaultValue=""
-                                render={({
-                                    field: { onChange, value },
-                                    fieldState: { error },
-                                }) => (
-                                    <>
-                                        <StyledTextField
-                                            fullWidth
-                                            id="standard-basic"
-                                            label="Username*"
-                                            value={state?.email}
-                                            // onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, title: e.target.value } }) }}
-                                            placeholder='Will Smith'
-                                            autoComplete='off'
-                                        />
-                                        {error?.message && <HelperText>{error?.message}</HelperText>}
-                                    </>
-                                )}
-                                rules={{ required: "Username is required" }}
-                            />
-                        </Grid>
-
-                        <Grid style={{ marginTop: 21 }}>
-                            <Controller
-                                name="email"
-                                control={control}
-                                defaultValue=""
-                                render={({
-                                    field: { onChange, value },
-                                    fieldState: { error },
-                                }) => (
-                                    <>
-                                        <StyledTextField
-                                            fullWidth
-                                            id="standard-basic"
-                                            label="Email*"
-                                            value={state?.email}
-                                        // onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, version: e.target.value } }) }}
-                                        />
-                                        {error?.message && <HelperText>{error?.message}</HelperText>}
-                                    </>
-                                )}
-                                rules={{ required: "Email is required" }}
-                            />
-                        </Grid>
-
-                        <Grid style={{ marginTop: 21 }}>
-                            <StyledTextField
-                                fullWidth
-                                id="standard-basic"
-                                label="Phone number"
-                                value={state?.contactNo}
-                            // onChange={(e) => { setState({ ...state, metaData: { ...state?.metaData, isrcCode: e.target.value } }) }}
-                            // helperText="Hint: GB-H01-02-12345."
-                            />
-                        </Grid> */}
                     </Grid >
                 </Grid>
 

@@ -23,10 +23,9 @@ import { getUsersNameAction } from "../../../stores/actions/picker/titlePicker.a
 import { getUsersAction } from "../../../stores/actions/UserActions";
 import Popper from "../../../components/common/Popper";
 
-
-
 export default function CreateNewCompany() {
     const { handleSubmit, control, reset } = useForm();
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const user = useSelector(state => state.user)
     const company = useSelector(state => state.company)
@@ -40,9 +39,6 @@ export default function CreateNewCompany() {
         dispatch(getUsersAction())
     }, [])
 
-    log("data for loading", state.user)
-    // log("user data search", userSearch?.user)
-
     React.useEffect(() => {
         reset({
             companyName: "",
@@ -55,7 +51,6 @@ export default function CreateNewCompany() {
     }, [company?.createCompany?.data])
 
     const createCompany = (data) => {
-        log("data of create company", data)
         let payload = {
             name: data?.companyName,
             companyType: data?.companyType,
@@ -68,11 +63,8 @@ export default function CreateNewCompany() {
         dispatch(createCompanyAction(payload))
     }
 
-    const navigate = useNavigate()
-
     return (
         <MainContainer>
-
             <H1>Create new company</H1>
             <H4 fontFamily={theme.fontFamily.nunitoSansRegular} color={theme.colors.primary.teal}>
                 Add new company
@@ -188,7 +180,7 @@ export default function CreateNewCompany() {
                             <AppAutoComplete
                                 setAutoComPleteAction={(value) => dispatch(getUsersNameAction(value))}
                                 setAutoCompleteOptions={(option => option?.username || "")}
-                                setAutoCompleteOptionsLabel={(option => option?.username || "")}
+                                setAutoCompleteOptionsLabel={(option => option?.email || "")}
                                 loading={user?.userSearch?.loading}
                                 data={user?.userSearch?.data?.docs || []}
                                 error={user?.userSearch?.error}

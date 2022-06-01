@@ -60,16 +60,16 @@ export default function CompanyTable({ data, companyTableHead }) {
                                             }
                                             {SelectedColumn("EMAIL") &&
                                                 <AlternateStyledTableData>
-                                                    {data?.email || "---"}
+                                                    {data?.owner?.email || "---"}
                                                 </AlternateStyledTableData>
                                             }
                                             {SelectedColumn("PHONE NUMBER") &&
                                                 <AlternateStyledTableData>
-                                                    {data?.contactNo || "---"}
+                                                    {data?.owner?.phone_number || "---"}
                                                 </AlternateStyledTableData>
                                             }
                                             {SelectedColumn("ADMIN") &&
-                                                <AlternateStyledTableData>{"---"}</AlternateStyledTableData>
+                                                <AlternateStyledTableData>{data?.owner?.name || "---"}</AlternateStyledTableData>
                                             }
                                             {SelectedColumn("STATUS") &&
                                                 <AlternateStyledTableData>
@@ -107,13 +107,13 @@ export default function CompanyTable({ data, companyTableHead }) {
                                             </StyledTableData>
                                         }
                                         {SelectedColumn("EMAIL") &&
-                                            <StyledTableData>{data?.email || "---"}</StyledTableData>
+                                            <StyledTableData>{data?.owner?.email || "---"}</StyledTableData>
                                         }
                                         {SelectedColumn("PHONE NUMBER") &&
-                                            <StyledTableData>{data?.contactNo || "---"}</StyledTableData>
+                                            <StyledTableData>{data?.owner?.phone_number || "---"}</StyledTableData>
                                         }
                                         {SelectedColumn("ADMIN") &&
-                                            <StyledTableData>{"---"}</StyledTableData>
+                                            <StyledTableData>{data?.owner?.name || "---"}</StyledTableData>
                                         }
                                         {SelectedColumn("STATUS") &&
                                             <StyledTableData>

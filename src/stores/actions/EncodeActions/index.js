@@ -1,8 +1,9 @@
 import cogoToast from "cogo-toast"
+import fileDownload from "js-file-download"
 import moment from 'moment'
 import store from "../.."
 import { getRoleWiseID } from "../../../services/https/AuthHelper"
-import { encodeFromFile, encodeFromTrack, getEncodeSearchTracks, getTracks } from "../../../services/https/resources/EncodeApi/encodeApi"
+import { encodeFromFile, encodeFromTrack, exportTrack, getEncodeSearchTracks, getTracks } from "../../../services/https/resources/EncodeApi/encodeApi"
 import { log } from "../../../utils/app.debug"
 import * as actionTypes from "../actionTypes"
 
@@ -127,5 +128,42 @@ export const getEncodeSearchTracksAction = (title) => {
                 dispatch({ type: actionTypes.SET_ENCODESEARCHTRACK_ERROR, data: err?.message })
                 log("Encode search track error", err?.message)
             })
+    }
+}
+
+export const exportTrackAction = (format, limit = 2000) => {
+    let encode = store.getState()?.encode
+    let trackFilters = store.getState()?.encode?.tracks?.trackFilters
+    let userRoleWiseId = getRoleWiseID()
+    let startDate = encode?.tracks?.startDate
+    let endDate = encode?.tracks?.endDate
+
+    let params = new URLSearchParams(`createdAt>=${moment(encode?.tracks?.startDate).format("YYYY-MM-DD")}&createdAt<=date(${moment(endDate).endOf("days").toISOString()})`)
+
+    params.append("limit", limit);
+
+    if (userRoleWiseId?.company) params.append("company", userRoleWiseId?.company)
+    if (userRoleWiseId?.partner) params.append("partner", userRoleWiseId?.partner)
+    if (userRoleWiseId?.owner) params.append("owner", userRoleWiseId?.owner)
+
+    const addiFilter = {
+        "$or": [
+            { "trackMetaData.contentName": { "$regex": trackFilters?.title, "$options": "i" } },
+            { "originalFileName": { "$regex": trackFilters?.title, "$options": "i" } }
+        ]
+    }
+    params.append("filter", JSON.stringify(addiFilter))
+
+    return (dispatch) => {
+        exportTrack(format, params).then((res) => {
+            if (format === "xlsx") {
+                fileDownload(res, `${"Tracks"} Export-xlsx-(${moment(startDate).format("YYYY_MM_DD")}-to-${moment(endDate).format("YYYY_MM_DD")})_${format}.xlsx`);
+            } else {
+                fileDownload(res, `${"Tracks"} Export-csv-(${moment(startDate).format("YYYY_MM_DD")}-to-${moment(endDate).format("YYYY_MM_DD")})_${format}.csv`);
+            }
+        }).catch((err) => {
+            log("Error getting export track")
+            cogoToast.error(err?.message)
+        })
     }
 }

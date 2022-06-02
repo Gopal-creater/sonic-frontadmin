@@ -21,7 +21,7 @@ import { TracksTableHeads } from '../../constants/constants';
 import AppAutoComplete from "../../components/common/AutoComplete/AppAutoComplete"
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
-import { getEncodeSearchTracksAction, getTracksAction } from '../../stores/actions/EncodeActions';
+import { exportTrackAction, getEncodeSearchTracksAction, getTracksAction } from '../../stores/actions/EncodeActions';
 import TracksTable from './Components/TracksTable';
 import { getRoleWiseID } from '../../services/https/AuthHelper';
 import * as mm from "music-metadata-browser";
@@ -46,7 +46,8 @@ export default function Encode() {
     }, [])
 
     const handleExport = (format) => {
-
+        log("format", format)
+        dispatch(exportTrackAction(format))
     }
 
     const handleTrackPageChange = (event, value) => {

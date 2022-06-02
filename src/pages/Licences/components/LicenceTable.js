@@ -8,10 +8,12 @@ import TableMenu from '../../../components/common/Table/components/TableMenu';
 import { ActionMenuItem } from '../../../components/common/Table/TableStyled';
 import { ActiveBox, AlternateStyledTableData, StyledAlternateTableRow, StyledTableData, StyledTableHead, StyledTableRow, SuspendedBox } from '../../../StyledComponents/StyledTable/StyledTable';
 import theme from '../../../theme';
+import { log } from '../../../utils/app.debug';
 
 export default function LicenceTable({ data, licenseTableHead }) {
     const navigate = useNavigate()
     const user = useSelector(state => state.user)
+    log("license table data:", licenseTableHead)
 
     return (
         <Grid>

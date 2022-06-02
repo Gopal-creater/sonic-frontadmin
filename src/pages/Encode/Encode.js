@@ -26,13 +26,15 @@ import TracksTable from './Components/TracksTable';
 import { getRoleWiseID } from '../../services/https/AuthHelper';
 import * as mm from "music-metadata-browser";
 import cogoToast from 'cogo-toast';
+import TrackFilter from './Components/TrackFilter';
 
 export default function Encode() {
     const [state, setState] = React.useState({
         tracksTableHeads: TracksTableHeads,
         currentSortBy: "",
         currentIsAscending: "",
-        autoCompleteValue: ""
+        autoCompleteValue: "",
+        openTrackFilter: false
     })
 
     const encode = useSelector(state => state.encode)
@@ -168,7 +170,7 @@ export default function Encode() {
                                     onChangeStartDate={(date) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_START_DATES, data: date })}
                                     endDate={encode?.tracks?.endDate}
                                     onChangeEndDate={(date) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_END_DATES, data: date })}
-                                    filterComponent={<MonitorFilter open={true} dashboard={true} />}
+                                    filterComponent={<TrackFilter open={true} />}
                                     exportData={(value) => handleExport(value)}
                                     pdf={false}
                                 />

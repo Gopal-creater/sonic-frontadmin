@@ -47,6 +47,9 @@ const initialState = {
         error: null,
         startDate: new Date().setMonth(new Date().getMonth() - 1),
         endDate: new Date(),
+        trackFilters: {
+            title: ""
+        }
     }
 };
 const encodeRed = (state = initialState, action) =>
@@ -197,6 +200,9 @@ const encodeRed = (state = initialState, action) =>
                 draft.error = action.data
                 break;
 
+            case actionTypes.SET_ENCODE_TRACKS_FILTER:
+                draft.tracks.trackFilters = action.data
+                break
             case actionTypes.SET_ENCODE_TRACKS_START_DATES:
                 draft.tracks.startDate = action.data
                 break;

@@ -3,18 +3,18 @@ import { addLicenceKey, getLicenceKey } from '../../services/https/resources/Lic
 import store from '..';
 import moment from 'moment';
 import cogoToast from 'cogo-toast';
-import { userRoles } from '../../constants/constants';
-import { getUserId } from '../../services/https/AuthHelper';
+import { getRoleWiseID } from '../../services/https/AuthHelper';
 
-export const addLicenseKeyAction = () => {
+export const addLicenseKeyAction = (payload) => {
     return (dispatch) => {
         dispatch({ type: actionType.ADD_LIC_KEY_LOADING })
-        addLicenceKey().then((data) => {
+        addLicenceKey(payload).then((data) => {
             dispatch({ type: actionType.ADD_LIC_KEY_SUCCESS, data: data });
+            dispatch(fetchLicenceKeys());
             cogoToast.success("License key added successfully!");
         }).catch((err) => {
             dispatch({ type: actionType.ADD_LIC_KEY_FAIL, error: err?.message })
-            cogoToast.success(err?.message);
+            cogoToast.error(err?.message);
         })
     }
 }
@@ -28,17 +28,15 @@ export const fetchLicenceKeys = (limit, page) => {
     params.append("sort", "-createdAt");
 
     let licenseFilter = store.getState()?.licenceKey?.filters;
-    let userRole = store.getState().user?.userProfile?.data?.userRole;
 
-    // if (userRole === userRoles.COMPANY_ADMIN || userRole === userRoles.COMPANY_USER) {
-    //     params.append("company", store.getState().user?.userProfile?.data?.company?.id)
-    // }
-    // else if (userRole === userRoles.PARTNER_ADMIN || userRole === userRoles.PARTNER_USER) {
-    //     params.append("partner", store.getState().user?.userProfile?.data?.partner?.id)
-    // }
-    // else {
-    //     params.append("owner", getUserId())
-    // }
+    let userRoleWiseId = getRoleWiseID()
+
+    if (userRoleWiseId?.partner) {
+        let additionalFilter = { $or: [{ "company.partner": userRoleWiseId?.partner }, { "users.partner": userRoleWiseId?.partner }] }
+        params.append("relation_filter", JSON.stringify(additionalFilter))
+    }
+    if (userRoleWiseId?.company) params.append("company", userRoleWiseId?.company)
+    if (userRoleWiseId?.owner) params.append("users", userRoleWiseId?.owner)
 
     if (licenseFilter?.name) {
         params.append("name", `/${licenseFilter?.name}/i`)
@@ -49,11 +47,7 @@ export const fetchLicenceKeys = (limit, page) => {
     }
 
     if (licenseFilter?.type) {
-        if (licenseFilter?.type === "Partner") {
-            params.append("userRole", [userRoles.PARTNER_ADMIN, userRoles.PARTNER_USER]);
-        } else if (licenseFilter?.type === "Company") {
-            params.append("userRole", [userRoles.COMPANY_ADMIN, userRoles.COMPANY_USER]);
-        }
+        params.append("type", licenseFilter?.type);
     }
 
     if (licenseFilter?.status) {
@@ -75,7 +69,7 @@ export const fetchLicenceKeys = (limit, page) => {
             dispatch({ type: actionType.LIC_KEY_SUCCESS, data: data })
         }).catch(error => {
             dispatch({ type: actionType.LIC_KEY_FAIL, error: error?.message })
-            cogoToast.success(error?.message);
+            cogoToast.error(error?.message);
         })
     }
 

@@ -11,12 +11,12 @@ const initialState = {
               renewalEndDate: "",
        },
        addLicenseKey: {
-              loading: true,
+              loading: false,
               data: {},
               error: null,
        },
        getLicenseKey: {
-              loading: true,
+              loading: false,
               data: {},
               error: null,
        },

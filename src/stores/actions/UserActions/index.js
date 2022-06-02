@@ -3,7 +3,7 @@ import { createUser, fetchUsers, getUserProfile } from "../../../services/https/
 import * as actionTypes from "../actionTypes"
 import store from "../..";
 import { userRoles } from "../../../constants/constants";
-import { getUserId } from "../../../services/https/AuthHelper";
+import { getRoleWiseID } from "../../../services/https/AuthHelper";
 
 export const getUserProfileAction = () => {
     return (dispatch) => {
@@ -39,17 +39,11 @@ export const getUsersAction = (limit, page) => {
     params.append("sort", "-createdAt");
 
     let users = store.getState()?.user?.filters;
-    let userRole = store.getState().user?.userProfile?.data?.userRole;
 
-    if (userRole === userRoles.COMPANY_ADMIN || userRole === userRoles.COMPANY_USER) {
-        params.append("company", store.getState().user?.userProfile?.data?.company?.id)
-    }
-    else if (userRole === userRoles.PARTNER_ADMIN || userRole === userRoles.PARTNER_USER) {
-        params.append("partner", store.getState().user?.userProfile?.data?.partner?.id)
-    }
-    else {
-        params.append("owner", getUserId())
-    }
+    let userRoleWiseId = getRoleWiseID()
+    if (userRoleWiseId?.company) params.append("company", userRoleWiseId?.company)
+    if (userRoleWiseId?.partner) params.append("partner", userRoleWiseId?.partner)
+    if (userRoleWiseId?.owner) params.append("owner", userRoleWiseId?.owner)
 
     if (users?.username) {
         params.append("username", `/${users?.username}/i`);
@@ -61,9 +55,9 @@ export const getUsersAction = (limit, page) => {
 
     if (users?.accountType) {
         if (users?.accountType === "Partner") {
-            params.append("userRole", ["PartnerAdmin", "PartnerUser"]);
+            params.append("userRole", [userRoles.PARTNER_ADMIN, userRoles.PARTNER_USER]);
         } else if (users?.accountType === "Company") {
-            params.append("userRole", ["CompanyAdmin", "CompanyUser"]);
+            params.append("userRole", [userRoles.COMPANY_ADMIN, userRoles.COMPANY_USER]);
         }
     }
 
@@ -78,9 +72,9 @@ export const getUsersAction = (limit, page) => {
 
     if (users?.userType) {
         if (users?.userType === "Admin") {
-            params.append("userRole", ["PartnerAdmin", "CompanyAdmin"]);
+            params.append("userRole", [userRoles.PARTNER_ADMIN, userRoles.COMPANY_ADMIN]);
         } else if (users?.userType === "Standard") {
-            params.append("userRole", ["PartnerUser", "CompanyUser", "PortalUser"]);
+            params.append("userRole", [userRoles.PARTNER_USER, userRoles.COMPANY_USER, userRoles.PORTAL_USER]);
         }
     }
 

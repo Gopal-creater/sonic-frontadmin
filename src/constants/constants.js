@@ -1519,6 +1519,11 @@ export const accountType = [
   { name: "Company" },
 ]
 
+export const licenseType = [
+  { name: "Individual" },
+  { name: "Company" },
+]
+
 export const status = [
   { name: "Active" },
   { name: "Suspended" },

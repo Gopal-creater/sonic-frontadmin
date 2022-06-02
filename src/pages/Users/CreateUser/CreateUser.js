@@ -293,7 +293,6 @@ export default function CreateUser() {
                                         data={company?.companySearch?.data?.docs || []}
                                         error={company?.companySearch?.error}
                                         getSelectedValue={(e, v) => setState({ ...state, company: v })}
-                                        textFieldSelected={state.autoCompleteSelected}
                                         placeholder={"Search for a company"}
                                     />
                                 </CompanyPopper>
@@ -324,7 +323,6 @@ export default function CreateUser() {
                                         </>
                                     }
                                 </Grid>
-
                             </>
                         }
 

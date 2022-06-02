@@ -20,6 +20,7 @@ import { useDispatch } from "react-redux"
 import * as actionTypes from "../../../stores/actions/actionTypes"
 import cogoToast from "cogo-toast"
 import { updateUser } from "../../../services/https/resources/UserApi"
+import { userRoles } from "../../../constants/constants"
 
 export default function UserProfile() {
     const schema = Yup.object().shape({
@@ -71,9 +72,9 @@ export default function UserProfile() {
     }
 
     const getAccountType = () => {
-        if (state?.userRole === "PartnerAdmin" || state?.userRole === "PartnerUser") {
+        if (state?.userRole === userRoles.PARTNER_ADMIN || state?.userRole === userRoles.PARTNER_USER) {
             return "Partner"
-        } else if (state?.userRole === "CompanyAdmin" || state?.userRole === "CompanyUser") {
+        } else if (state?.userRole === userRoles.COMPANY_ADMIN || state?.userRole === userRoles.COMPANY_USER) {
             return "Company"
         }
         return null

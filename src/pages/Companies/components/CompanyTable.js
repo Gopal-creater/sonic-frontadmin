@@ -1,16 +1,14 @@
 import { Grid, Table, TableBody, TableContainer, TableHead, TableRow } from '@material-ui/core';
-import { format } from 'date-fns';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SelectedColumn } from '../../../components/common/Columns/component/SelectedColumn';
 import TableMenu from '../../../components/common/Table/components/TableMenu';
 import { ActionMenuItem } from '../../../components/common/Table/TableStyled';
 import { ActiveBox, AlternateStyledTableData, StyledAlternateTableRow, StyledTableData, StyledTableHead, StyledTableRow, SuspendedBox } from '../../../StyledComponents/StyledTable/StyledTable';
-import { log } from '../../../utils/app.debug';
 
 export default function CompanyTable({ data, companyTableHead }) {
     const navigate = useNavigate()
-    log("data of table company", data)
+
     return (
         <Grid>
             <TableContainer style={{ padding: '0rem 1rem 1rem 1rem' }}>
@@ -60,16 +58,16 @@ export default function CompanyTable({ data, companyTableHead }) {
                                             }
                                             {SelectedColumn("EMAIL") &&
                                                 <AlternateStyledTableData>
-                                                    {data?.email || "---"}
+                                                    {data?.owner?.email || "---"}
                                                 </AlternateStyledTableData>
                                             }
                                             {SelectedColumn("PHONE NUMBER") &&
                                                 <AlternateStyledTableData>
-                                                    {data?.contactNo || "---"}
+                                                    {data?.owner?.phone_number || "---"}
                                                 </AlternateStyledTableData>
                                             }
                                             {SelectedColumn("ADMIN") &&
-                                                <AlternateStyledTableData>{"---"}</AlternateStyledTableData>
+                                                <AlternateStyledTableData>{data?.owner?.name || "---"}</AlternateStyledTableData>
                                             }
                                             {SelectedColumn("STATUS") &&
                                                 <AlternateStyledTableData>
@@ -82,7 +80,7 @@ export default function CompanyTable({ data, companyTableHead }) {
                                             {SelectedColumn("ACTION") &&
                                                 <AlternateStyledTableData>
                                                     <TableMenu>
-                                                        <ActionMenuItem onClick={() => navigate(`/company-profile/${data?._id}`, { state: data })}>Edit Company</ActionMenuItem>
+                                                        <ActionMenuItem onClick={() => navigate(`/company-profile/${data?._id}`, { state: data })}>View Company</ActionMenuItem>
                                                     </TableMenu>
                                                 </AlternateStyledTableData>
                                             }
@@ -107,13 +105,13 @@ export default function CompanyTable({ data, companyTableHead }) {
                                             </StyledTableData>
                                         }
                                         {SelectedColumn("EMAIL") &&
-                                            <StyledTableData>{data?.email || "---"}</StyledTableData>
+                                            <StyledTableData>{data?.owner?.email || "---"}</StyledTableData>
                                         }
                                         {SelectedColumn("PHONE NUMBER") &&
-                                            <StyledTableData>{data?.contactNo || "---"}</StyledTableData>
+                                            <StyledTableData>{data?.owner?.phone_number || "---"}</StyledTableData>
                                         }
                                         {SelectedColumn("ADMIN") &&
-                                            <StyledTableData>{"---"}</StyledTableData>
+                                            <StyledTableData>{data?.owner?.name || "---"}</StyledTableData>
                                         }
                                         {SelectedColumn("STATUS") &&
                                             <StyledTableData>
@@ -126,7 +124,7 @@ export default function CompanyTable({ data, companyTableHead }) {
                                         {SelectedColumn("ACTION") &&
                                             <StyledTableData>
                                                 <TableMenu>
-                                                    <ActionMenuItem onClick={() => navigate(`/company-profile/${data?._id}`, { state: data })}>Edit Company</ActionMenuItem>
+                                                    <ActionMenuItem onClick={() => navigate(`/company-profile/${data?._id}`, { state: data })}>View Company</ActionMenuItem>
                                                 </TableMenu>
                                             </StyledTableData>
                                         }

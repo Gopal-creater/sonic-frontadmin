@@ -4,10 +4,29 @@ import { useNavigate } from 'react-router-dom';
 import { SelectedColumn } from '../../../components/common/Columns/component/SelectedColumn';
 import TableMenu from '../../../components/common/Table/components/TableMenu';
 import { ActionMenuItem } from '../../../components/common/Table/TableStyled';
+import { userRoles } from '../../../constants/constants';
 import { ActiveBox, AlternateStyledTableData, StyledAlternateTableRow, StyledTableData, StyledTableHead, StyledTableRow, SuspendedBox } from '../../../StyledComponents/StyledTable/StyledTable';
 
 export default function UsersTable({ data, usersTableHead }) {
     const navigate = useNavigate()
+
+    const getAccountType = (roles) => {
+        if (roles === userRoles.PARTNER_ADMIN || roles === userRoles.PARTNER_USER) {
+            return "Partner"
+        } else if (roles === userRoles.COMPANY_ADMIN || roles === userRoles.COMPANY_USER) {
+            return "Company"
+        }
+        return null
+    }
+
+    const getAccountName = (data) => {
+        if (data?.userRole === userRoles.PARTNER_ADMIN || data?.userRole === userRoles.PARTNER_USER) {
+            return data?.partner?.name
+        } else if (data?.userRole === userRoles.COMPANY_ADMIN || data?.userRole === userRoles.COMPANY_USER) {
+            return data?.company?.name
+        }
+        return null
+    }
 
     return (
         <Grid>
@@ -55,17 +74,17 @@ export default function UsersTable({ data, usersTableHead }) {
                                             }
                                             {SelectedColumn("ACCOUNT TYPE") &&
                                                 <AlternateStyledTableData>
-                                                    {data?.partner && "Partner" || data?.company && "Company" || "---"}
+                                                    {getAccountType(data?.userRole)}
                                                 </AlternateStyledTableData>
                                             }
                                             {SelectedColumn("ACCOUNT NAME") &&
                                                 <AlternateStyledTableData>
-                                                    {data?.partner && data?.partner?.name || data?.company && data?.company?.name || "---"}
+                                                    {getAccountName(data)}
                                                 </AlternateStyledTableData>
                                             }
                                             {SelectedColumn("USER TYPE") &&
                                                 <AlternateStyledTableData>
-                                                    {(data?.userRole === "PartnerAdmin" || data?.userRole === "CompanyAdmin") ? "Admin" : "Standard"}
+                                                    {(data?.userRole === userRoles.PARTNER_ADMIN || data?.userRole === userRoles.COMPANY_ADMIN) ? "Admin" : "Standard"}
                                                 </AlternateStyledTableData>
                                             }
                                             {SelectedColumn("STATUS") &&
@@ -79,7 +98,7 @@ export default function UsersTable({ data, usersTableHead }) {
                                             {SelectedColumn("ACTION") &&
                                                 <AlternateStyledTableData>
                                                     <TableMenu>
-                                                        <ActionMenuItem onClick={() => navigate(`/user-profile/${data?._id}`, { state: data })}>Edit User</ActionMenuItem>
+                                                        <ActionMenuItem onClick={() => navigate(`/user-profile/${data?._id}`, { state: data })}>View User</ActionMenuItem>
                                                     </TableMenu>
                                                 </AlternateStyledTableData>
                                             }
@@ -102,17 +121,17 @@ export default function UsersTable({ data, usersTableHead }) {
                                         }
                                         {SelectedColumn("ACCOUNT TYPE") &&
                                             <StyledTableData>
-                                                {data?.partner && "Partner" || data?.company && "Company" || "---"}
+                                                {getAccountType(data?.userRole)}
                                             </StyledTableData>
                                         }
                                         {SelectedColumn("ACCOUNT NAME") &&
                                             <StyledTableData>
-                                                {data?.partner && data?.partner?.name || data?.company && data?.company?.name || "---"}
+                                                {getAccountName(data)}
                                             </StyledTableData>
                                         }
                                         {SelectedColumn("USER TYPE") &&
                                             <StyledTableData>
-                                                {(data?.userRole === "PartnerAdmin" || data?.userRole === "CompanyAdmin") ? "Admin" : "Standard"}
+                                                {(data?.userRole === userRoles.PARTNER_ADMIN || data?.userRole === userRoles.COMPANY_ADMIN) ? "Admin" : "Standard"}
                                             </StyledTableData>
                                         }
                                         {SelectedColumn("STATUS") &&
@@ -126,7 +145,7 @@ export default function UsersTable({ data, usersTableHead }) {
                                         {SelectedColumn("ACTION") &&
                                             <StyledTableData>
                                                 <TableMenu>
-                                                    <ActionMenuItem onClick={() => navigate(`/user-profile/${data?._id}`, { state: data })}>Edit User</ActionMenuItem>
+                                                    <ActionMenuItem onClick={() => navigate(`/user-profile/${data?._id}`, { state: data })}>View User</ActionMenuItem>
                                                 </TableMenu>
                                             </StyledTableData>
                                         }

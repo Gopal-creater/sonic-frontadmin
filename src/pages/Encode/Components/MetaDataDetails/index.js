@@ -330,6 +330,20 @@ export default function EncodeData() {
                             onChange={(e) => { dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, label: e.target.value } }) }}
                         />
 
+                        <CustomDropDown
+                            id="channel-dropdown"
+                            labelText="Label"
+                            formControlProps={{
+                                fullWidth: true
+                            }}
+                            labelProps={{ style: { fontFamily: theme.fontFamily.nunitoSansRegular } }}
+                            inputProps={{
+                                value: encodeReducer?.metaData?.label,
+                                onChange: (e) => dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, label: e.target.value } })
+                            }}
+                            data={[{ name: "Music" }, { name: "Video" }, { name: "Audio" }] || []}
+                        />
+
                         <StyledTextField
                             fullWidth
                             id="standard-basic"

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import { Popper, TextField, Typography } from "@material-ui/core";
+import { FormControl, Popper, TextField, Typography } from "@material-ui/core";
 import theme from "../../../theme";
 
 const CustomPopper = styled(Popper)`
@@ -29,20 +29,34 @@ const MyPopper = (props) => {
 
 export const StyledAutocomplete = ({ ...props }) => {
     return (
-        <Autocomplete {...props} PopperComponent={MyPopper} />
+        <AutocompleteFormControl>
+            <Autocomplete {...props} PopperComponent={MyPopper} />
+        </AutocompleteFormControl>
     )
 };
+
+export const AutocompleteFormControl = styled(FormControl)`
+    width: 100%;
+    & .MuiInput-underline:hover:not(.Mui-disabled):before {
+      border-color: ${theme.colors.primary.navy};
+    }
+    &:hover {
+        & .MuiInputLabel-formControl {
+            color: ${theme.colors.secondary.mediumNavy};
+        }
+    }
+`
 
 export const AutocompleteTextfield = styled(TextField)`
      //label
      & label {
-        color:${theme.colors.primary.navy};
+        color:${theme.colors.secondary.mediumGrey};
         font-family:${theme.fontFamily.nunitoSansRegular};
         font-size: ${theme.fontSize.h4};
         z-index: 1;
     }
     & label.Mui-focused {
-        color: ${theme.colors.secondary.lightGrey};
+        color: ${theme.colors.primary.navy};
     };
 
     //for textInput
@@ -55,7 +69,7 @@ export const AutocompleteTextfield = styled(TextField)`
         }
     }
     & .MuiInput-root.Mui-focused {
-        color:${theme.colors.primary.graphite};
+        color:${theme.colors.primary.navy};
     };
 
     // For border buttom

@@ -47,13 +47,17 @@ const initialState = {
         error: null,
         startDate: new Date().setMonth(new Date().getMonth() - 1),
         endDate: new Date(),
+        trackFilters: {
+            title: ""
+        }
     }
 };
 const encodeRed = (state = initialState, action) =>
     produce(state, (draft) => {
         switch (action.type) {
             case actionTypes.SET_SELECTED_FILE:
-                draft.selectedFile = action.data
+                draft.selectedFile = action.data.file
+                draft.metaData = action.data.metaData
                 break;
 
             case actionTypes.CLEAR_SELECTED_FILE:
@@ -88,34 +92,13 @@ const encodeRed = (state = initialState, action) =>
                 break;
 
             case actionTypes.SET_SELECTED_EXISTING_FILE:
-                draft.selectedExistingFile = action.data
-                draft.metaData = {
-                    owner: "",
-                    company: "",
-                    partner: "",
-                    contentName: action?.data?.title || "",
-                    contentFileType: action?.data?.fileType || "",
-                    contentOwner: action?.data?.artist || "",
-                    version: "",
-                    isrcCode: "",
-                    iswcCode: "",
-                    tuneCode: "",
-                    contentType: "",
-                    contentDuration: action?.data?.duration || "",
-                    contentSize: action?.data?.fileSize || "",
-                    contentEncoding: action?.data?.encoding || "",
-                    contentSamplingFrequency: action?.data?.samplingFrequency || "",
-                    contentQuality: "",
-                    contentDescription: "",
-                    distributor: "",
-                    label: "",
-                    additionalMetadata: {
-                        message: ""
-                    },
-                    isRightsHolderForEncode: null,
-                    isAuthorizedForEncode: null
-                }
+                draft.selectedExistingFile = action.data.file
+                draft.metaData = action.data.metaData
                 break
+
+            case actionTypes.CLEAR_SELECTED_EXISTING_FILE:
+                draft.selectedExistingFile = null
+                break;
 
             case actionTypes.CLEAR_METADATA:
                 draft.metaData = {
@@ -217,6 +200,9 @@ const encodeRed = (state = initialState, action) =>
                 draft.error = action.data
                 break;
 
+            case actionTypes.SET_ENCODE_TRACKS_FILTER:
+                draft.tracks.trackFilters = action.data
+                break
             case actionTypes.SET_ENCODE_TRACKS_START_DATES:
                 draft.tracks.startDate = action.data
                 break;

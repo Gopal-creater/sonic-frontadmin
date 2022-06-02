@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { H1, H4 } from "../../StyledComponents/StyledHeadings";
 import theme from "../../theme";
 import Columns from "../../components/common/Columns/Columns";
-import { licenseTableHeads } from "../../constants/constants";
+import { licenseTableHeads, userRoles } from "../../constants/constants";
 import { log } from "../../utils/app.debug";
 import CommonDataLoadErrorSuccess from "../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess";
 import LicenceTable from "./components/LicenceTable";
@@ -29,7 +29,7 @@ function Licences() {
 
   const getStableTableColumnHead = () => {
     let tableHead = licenseTableHeads;
-    if (user?.userProfile?.data?.userRole !== "PartnerAdmin") {
+    if (user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN) {
       return tableHead.filter((itm) => itm.title !== "ACCOUNT NAME")
     }
     return tableHead
@@ -49,11 +49,12 @@ function Licences() {
         </Grid>
       </Grid>
 
-      <FilterCreate
-        filterComponent={<LicenseFilter />}
-        createComponent={() => navigate('/add-licences')}
-        btnTitle={"Create new license"}
-      />
+      {user?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
+        <FilterCreate
+          filterComponent={<LicenseFilter />}
+          createComponent={() => navigate('/add-licences')}
+          btnTitle={"Create new license"}
+        />}
 
       <CommonDataLoadErrorSuccess
         error={license?.getLicenseKey?.error}

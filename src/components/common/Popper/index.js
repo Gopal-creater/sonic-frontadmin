@@ -23,7 +23,7 @@ export default function Popper({ title, showDetails, children }) {
                 style={{ paddingLeft: 3 }}
                 onClick={(e) => setState({ ...state, open: e.currentTarget })}
             >
-                Add associated new {title}
+                {title}
             </AppButton>
 
             <ActionPopup

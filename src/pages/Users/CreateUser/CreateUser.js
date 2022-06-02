@@ -284,7 +284,7 @@ export default function CreateUser() {
                             />
                         </Grid> :
                             <>
-                                <CompanyPopper title={"company"} showDetails={(flag) => setState({ ...state, showCompanyDetails: flag })}>
+                                <CompanyPopper title={"Add associated new company"} showDetails={(flag) => setState({ ...state, showCompanyDetails: flag })}>
                                     <AppAutoComplete
                                         setAutoComPleteAction={(value) => dispatch(getCompanyNameAction(value))}
                                         setAutoCompleteOptions={(option => option?.name || "")}

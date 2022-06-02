@@ -100,7 +100,7 @@ export default function LicenceTable({ data, licenseTableHead }) {
                                             {SelectedColumn("ACTION") &&
                                                 <AlternateStyledTableData>
                                                     <TableMenu>
-                                                        <ActionMenuItem onClick={() => navigate('/edit-licences')}>Edit License</ActionMenuItem>
+                                                        <ActionMenuItem onClick={() => navigate(`/edit-licences/${data?._id}`, { state: data })}>View License</ActionMenuItem>
                                                     </TableMenu>
                                                 </AlternateStyledTableData>
                                             }
@@ -162,7 +162,7 @@ export default function LicenceTable({ data, licenseTableHead }) {
                                         {SelectedColumn("ACTION") &&
                                             <StyledTableData>
                                                 <TableMenu>
-                                                    <ActionMenuItem onClick={() => navigate('/edit-licences')}>Edit License</ActionMenuItem>
+                                                    <ActionMenuItem onClick={() => navigate(`/edit-licences/${data?._id}`, { state: data })}>View License</ActionMenuItem>
                                                 </TableMenu>
                                             </StyledTableData>
                                         }

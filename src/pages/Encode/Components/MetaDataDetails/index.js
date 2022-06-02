@@ -17,58 +17,31 @@ import moment from 'moment'
 import { CustomRadioButton } from '../../../../components/common/AppRadioButton/AppRadioButton'
 import AppButton from '../../../../components/common/AppButton/AppButton'
 import * as actionTypes from "../../../../stores/actions/actionTypes"
-import { encodeFromFileAction, encodeFromTrackAction, getEncodeSearchTracksAction } from '../../../../stores/actions/EncodeActions'
+import { encodeFromFileAction, encodeFromTrackAction, getEncodeSearchTracksAction, getTracksAction } from '../../../../stores/actions/EncodeActions'
 import cogoToast from 'cogo-toast'
 import PopUp from '../../../../components/common/PopUp'
 import encode_progress from "../../../../assets/icons/encode_progress.png"
 import sonic_preloader from "../../../../assets/icons/sonic_preloader.gif"
 import iconSuccess from "../../../../assets/images/icon-success-graphic.png"
 import CloseIcon from '@material-ui/icons/Close';
-import * as mm from "music-metadata-browser";
 import CustomDropDown from '../../../../components/common/AppTextInput/CustomDropDown'
 import errorEncodeIcon from "../../../../assets/images/icon-fail-graphic.png"
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import AppAutoComplete from '../../../../components/common/AutoComplete/AppAutoComplete'
+import IconButton from '@material-ui/core/IconButton';
 
 export default function EncodeData() {
     const encodeReducer = useSelector(state => state.encode)
-    const user = useSelector(state => state.user)
+    const dispatch = useDispatch()
+
     const [state, setState] = React.useState({
         copyMetaData: false,
-        autoCompleteValue: "",
+        autoCompleteValue: null,
         displaySelectedTrack: false
     })
 
-    const dispatch = useDispatch()
-
     React.useEffect(() => {
-        if (encodeReducer?.selectedExistingFile) setState({ ...state, copyMetaData: true, displaySelectedTrack: true })
-        let data = {}
-        mm.parseBlob(encodeReducer?.selectedFile?.[0], { native: true }).then((metaData) => {
-            data = {
-                contentDuration: metaData.format.duration || "",
-                contentSize: encodeReducer?.selectedFile?.[0]?.size / 1024,
-                contentEncoding:
-                    (metaData.format.codec ? metaData.format.codec.toString() : "") +
-                    (metaData.format.sampleRate
-                        ? ", " + metaData.format.sampleRate.toString() + " Hz"
-                        : "") +
-                    (metaData.format.codecProfile
-                        ? ", " + metaData.format.codecProfile.toString()
-                        : "") +
-                    (metaData.format.bitrate
-                        ? ", " + metaData.format.bitrate.toString() + " bps"
-                        : "") +
-                    (metaData.format.numberOfChannels
-                        ? ", " + metaData.format.numberOfChannels.toString() + " ch"
-                        : ""),
-                contentSamplingFrequency: metaData?.format?.sampleRate?.toString() || "" + "  Hz",
-                contentFileType: encodeReducer?.selectedFile?.[0]?.type,
-            }
-            return dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, ...data } })
-        }).catch((err) => {
-            cogoToast.error(err);
-        })
+        if (encodeReducer?.selectedExistingFile) setState({ ...state, copyMetaData: true, displaySelectedTrack: true, autoCompleteValue: encodeReducer?.selectedExistingFile })
     }, [])
 
     const encode = () => {
@@ -84,8 +57,24 @@ export default function EncodeData() {
             return cogoToast.error("At least one industry code(ISRC,ISWC or TuneCode ) must be given when type is \"Music\".");
         }
 
-        if (encodeReducer?.selectedFile) dispatch(encodeFromFileAction(encodeReducer?.selectedFile?.[0], encodeReducer?.metaData))
+        if (encodeReducer?.selectedFile) dispatch(encodeFromFileAction(encodeReducer?.selectedFile, encodeReducer?.metaData))
         if (encodeReducer?.selectedExistingFile) dispatch(encodeFromTrackAction())
+    }
+
+    const handleAutoCompleteSelectedValue = (v) => {
+        log("Autocomplete selected value", v)
+        let metaData = {
+            ...encodeReducer?.metaData,
+            contentName: v?.trackMetaData?.contentName || v?.title || "",
+            contentFileType: v?.trackMetaData?.contentFileType || v?.fileType || "",
+            contentOwner: v?.trackMetaData?.contentOwner || v?.artist || "",
+            contentDuration: v?.trackMetaData?.contentDuration || v?.duration || "",
+            contentSize: v?.trackMetaData?.contentSize || v?.fileSize || "",
+            contentEncoding: v?.trackMetaData?.contentEncoding || v?.encoding || "",
+            contentSamplingFrequency: v?.trackMetaData?.contentSamplingFrequency || v?.samplingFrequency || "",
+        }
+        dispatch({ type: actionTypes.SET_METADATA, data: metaData })
+        setState({ ...state, displaySelectedTrack: true, autoCompleteValue: v })
     }
 
     return (
@@ -97,7 +86,7 @@ export default function EncodeData() {
                         <H1
                             color={theme.colors.primary.navy}
                         >
-                            {encodeReducer?.selectedFile?.[0]?.name || encodeReducer?.selectedExistingFile?.title || encodeReducer?.selectedExistingFile?.originalFileName}
+                            {encodeReducer?.selectedFile?.name || encodeReducer?.selectedFile?.originalFileName || encodeReducer?.selectedExistingFile?.title || encodeReducer?.selectedExistingFile?.originalFileName}
                         </H1>
 
                         <FormControlLabel
@@ -126,43 +115,52 @@ export default function EncodeData() {
                 </TextContainer>
 
                 {
-                    state.copyMetaData && state.displaySelectedTrack ?
-                        <SearchTrackContainer>
-                            <SelectedTrackTextContainer>
-                                <Grid ><CancelOutlinedIcon /></Grid>
-                                <Grid style={{ marginLeft: "20px" }}>
-                                    <H4
-                                        fontFamily={theme.fontFamily.nunitoSansRegular}
-                                    >
-                                        {encodeReducer?.selectedFile?.[0]?.name || encodeReducer?.selectedExistingFile?.title || encodeReducer?.selectedExistingFile?.originalFileName}
-                                    </H4>
-                                    <H5
-                                        fontFamily={theme.fontFamily.nunitoSansRegular}
-                                        style={{ lineHeight: "1", marginTop: "-5px" }}
-                                    >
-                                        {encodeReducer?.selectedFile?.[0]?.name || encodeReducer?.selectedExistingFile?.title || encodeReducer?.selectedExistingFile?.originalFileName}
-                                    </H5>
-                                </Grid>
-                            </SelectedTrackTextContainer>
-                        </SearchTrackContainer> :
-                        <SearchTrackContainer>
-                            <AppAutoComplete
-                                setTextFieldValue={typedValue => setState({ ...state, autoCompleteValue: typedValue })}
-                                textFieldValue={state.autoCompleteValue}
-                                setAutoComPleteAction={(value) => dispatch(getEncodeSearchTracksAction(value))}
-                                setAutoCompleteOptions={(option => option?.trackMetaData?.contentName || option?.originalFileName || "")}
-                                setAutoCompleteOptionsLabel={(option => option?.trackMetaData?.contentName || option?.originalFileName || "")}
-                                loading={encodeReducer?.encodeSearchTrack?.loading}
-                                data={encodeReducer?.encodeSearchTrack?.data?.docs || []}
-                                error={encodeReducer?.encodeSearchTrack?.error}
-                                getSelectedValue={(e, v) => {
-                                    log("Autocomplete selected value", v)
-                                    dispatch({ type: actionTypes.SET_SELECTED_EXISTING_FILE, data: v })
-                                }}
-                                placeholder={"Search for a track by title"}
-                                helperText="Search your company records"
-                            />
-                        </SearchTrackContainer>
+                    state.copyMetaData ?
+                        state.displaySelectedTrack ?
+                            <SearchTrackContainer>
+                                <SelectedTrackTextContainer>
+                                    <Grid >
+                                        <IconButton
+                                            color={theme.colors.primary.navy}
+                                            aria-label="upload picture"
+                                            component="span"
+                                            onClick={() => setState({ ...state, displaySelectedTrack: false })}
+                                        >
+                                            <CancelOutlinedIcon />
+                                        </IconButton>
+                                    </Grid>
+                                    <Grid style={{ marginLeft: "10px" }}>
+                                        <H4
+                                            fontFamily={theme.fontFamily.nunitoSansBold}
+                                            color={theme.colors.primary.navy}
+                                        >
+                                            {state?.autoCompleteValue?.trackMetaData?.contentName || state?.autoCompleteValue?.title || state?.autoCompleteValue?.originalFileName}
+                                        </H4>
+                                        <H5
+                                            fontFamily={theme.fontFamily.nunitoSansBold}
+                                            color={theme.colors.primary.navy}
+                                            style={{ lineHeight: "1", marginTop: "-5px" }}
+                                        >
+                                            {state?.autoCompleteValue?.trackMetaData?.contentName || state?.autoCompleteValue?.title || state?.autoCompleteValue?.originalFileName}
+                                        </H5>
+                                    </Grid>
+                                </SelectedTrackTextContainer>
+                            </SearchTrackContainer> :
+                            <SearchTrackContainer>
+                                <AppAutoComplete
+                                    setTextFieldValue={typedValue => setState({ ...state, autoCompleteValue: typedValue })}
+                                    textFieldValue={state.autoCompleteValue}
+                                    setAutoComPleteAction={(value) => dispatch(getEncodeSearchTracksAction(value))}
+                                    setAutoCompleteOptions={(option => option?.trackMetaData?.contentName || option?.originalFileName || "")}
+                                    setAutoCompleteOptionsLabel={(option => option?.trackMetaData?.contentName || option?.originalFileName || "")}
+                                    loading={encodeReducer?.encodeSearchTrack?.loading}
+                                    data={encodeReducer?.encodeSearchTrack?.data?.docs || []}
+                                    error={encodeReducer?.encodeSearchTrack?.error}
+                                    getSelectedValue={(e, v) => handleAutoCompleteSelectedValue(v)}
+                                    placeholder={"Search for a track by title"}
+                                    helperText="Search your company records"
+                                />
+                            </SearchTrackContainer> : ""
                 }
             </MetaDataHeaderContainer>
 
@@ -397,7 +395,10 @@ export default function EncodeData() {
                 <ButtonContainer>
                     <AppButton
                         variant={"outline"}
-                        onClick={() => dispatch({ type: actionTypes.CLEAR_SELECTED_FILE })}
+                        onClick={() => {
+                            dispatch({ type: actionTypes.CLEAR_SELECTED_FILE })
+                            dispatch(getTracksAction(encodeReducer?.tracks.startDate, encodeReducer?.tracks?.endDate, encodeReducer?.tracks?.data?.page || 1, "10"))
+                        }}
                     >
                         Cancel
                     </AppButton>
@@ -426,7 +427,7 @@ export default function EncodeData() {
                             fontFamily={theme.fontFamily.nunitoSansBlack}
                             style={{ textAlign: "center", zIndex: 1 }}
                         >
-                            Encoding of {encodeReducer?.selectedFile?.[0]?.name} in progress
+                            Encoding of {encodeReducer?.selectedFile?.name || encodeReducer?.selectedFile?.originalFileName || encodeReducer?.selectedExistingFile?.title || encodeReducer?.selectedExistingFile?.originalFileName} in progress
                         </H4>
                     </TitleContainer>
                     <H5
@@ -450,8 +451,6 @@ export default function EncodeData() {
                     <Grid container justifyContent='flex-end'>
                         <CloseIcon
                             onClick={() => {
-                                // dispatch({ type: actionTypes.SET_SELECTED_FILE, data: null })
-                                // dispatch({ type: actionTypes.CLEAR_METADATA })
                                 dispatch({ type: actionTypes.CLOSE_SUCCESS_POPUP })
                             }}
                             style={{ cursor: "pointer" }} />
@@ -469,10 +468,10 @@ export default function EncodeData() {
                     <Grid container justifyContent='center' className='mt-1'>
                         <AppButton
                             onClick={() => {
-                                dispatch({ type: actionTypes.SET_SELECTED_FILE, data: null })
+                                dispatch({ type: actionTypes.CLEAR_SELECTED_FILE })
                                 dispatch({ type: actionTypes.CLOSE_SUCCESS_POPUP })
                                 dispatch({ type: actionTypes.CLOSE_ERROR_POPUP })
-                                dispatch({ type: actionTypes.CLEAR_METADATA })
+                                dispatch(getTracksAction(encodeReducer?.tracks.startDate, encodeReducer?.tracks?.endDate, encodeReducer?.tracks?.data?.page || 1, "10"))
                             }}
                             fontSize={"15px"}
                             fontFamily={theme.fontFamily.nunitoSansBlack}

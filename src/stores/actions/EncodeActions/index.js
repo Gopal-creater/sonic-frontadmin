@@ -1,4 +1,5 @@
 import cogoToast from "cogo-toast"
+import moment from 'moment'
 import store from "../.."
 import { getRoleWiseID } from "../../../services/https/AuthHelper"
 import { encodeFromFile, encodeFromTrack, getEncodeSearchTracks, getTracks } from "../../../services/https/resources/EncodeApi/encodeApi"
@@ -58,8 +59,22 @@ export const encodeFromTrackAction = () => {
     }
 }
 
-export const getTracksAction = (startDate, endDate, page, limit, playsBy, sortBy, isAscending) => {
-    let params = new URLSearchParams()
+export const encodeAgainFromTrackAction = (encodePayload) => {
+    return (dispatch) => {
+        dispatch({ type: actionTypes.SET_ENCODE_LOADING })
+        encodeFromTrack(encodePayload).then((res) => {
+            dispatch({ type: actionTypes.SET_ENCODE_SUCCESS, data: res })
+        }).catch((err) => {
+            log("Encode from track error", err)
+            dispatch({ type: actionTypes.SET_ENCODE_ERROR, data: err?.message })
+            cogoToast.error(err?.message)
+        })
+    }
+}
+
+export const getTracksAction = (startDate, endDate, page, limit, filter = "", playsBy, sortBy, isAscending) => {
+    let newEndDate = moment(endDate).endOf("days").toISOString()
+    let params = new URLSearchParams(`createdAt>=${moment(startDate).format("YYYY-MM-DD")}&createdAt<=date(${newEndDate})`)
     params.append("limit", limit);
     params.append("page", page)
     params.append("skip", page > 1 ? (page - 1) * limit : 0)
@@ -69,6 +84,13 @@ export const getTracksAction = (startDate, endDate, page, limit, playsBy, sortBy
     if (userRoleWiseId?.company) params.append("company", userRoleWiseId?.company)
     if (userRoleWiseId?.partner) params.append("partner", userRoleWiseId?.partner)
     if (userRoleWiseId?.owner) params.append("owner", userRoleWiseId?.owner)
+
+    if (filter) {
+        const addiFilter = {
+            "$or": [{ "trackMetaData.contentName": { "$regex": filter, "$options": "i" } }, { "originalFileName": { "$regex": filter, "$options": "i" } }]
+        }
+        params.append("filter", JSON.stringify(addiFilter))
+    }
 
     return (dispatch) => {
         dispatch({ type: actionTypes.SET_TRACKS_LOADING })

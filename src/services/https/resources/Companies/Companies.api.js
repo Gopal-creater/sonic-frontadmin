@@ -1,4 +1,3 @@
-import { getUserId } from "../../AuthHelper";
 import { AppWebRequest } from "../../NetworkManager";
 
 export const getAllCompanies = (params) => {

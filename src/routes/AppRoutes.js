@@ -76,7 +76,7 @@ export default function AppRoutes() {
               <Route path="/create-company" element={<CreateNewCompany />} />
               <Route path="/company-profile/:id" element={<CompanyProfile />} />
               <Route path="/add-licences" element={<AddLicence />} />
-              <Route path="/edit-licences" element={<EditLicense />} />
+              <Route path="/edit-licences/:id" element={<EditLicense />} />
               <Route path="/users" element={<Users />} />
             </Route>
 

@@ -1,9 +1,9 @@
-import { FormControl, FormLabel, Grid, RadioGroup } from "@material-ui/core";
+import React from "react";
+import { FormControl, FormLabel, Grid } from "@material-ui/core";
 import { MusicNote, PermIdentity } from "@material-ui/icons";
 import cogoToast from "cogo-toast";
-import React from "react";
 import { Controller, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import AppButton from "../../../components/common/AppButton/AppButton";
 import { CustomRadioButton } from "../../../components/common/AppRadioButton/AppRadioButton";
 import CustomDatePicker from "../../../components/common/FilterComponent/components/CustomDatePicker";
@@ -16,30 +16,24 @@ import { BorderBottom, HelperText, RadioLabel, TuneBox } from "../LicenseStyled"
 import AddNewUser from "./AddNewUser";
 import KeyValue from "./KeyValue";
 
-const initialState = {
-    licenseType: 'Individual',
-    userId: "",
-    licenseName: "",
-    maxEncode: "",
-    maxMonitor: "",
-    validity: "",
-    success: false,
-    metaData: {}
-}
-
 export default function EditLicense() {
-    const [state, setState] = React.useState(initialState)
+    const { state } = useLocation();
     const navigate = useNavigate()
     const { handleSubmit, control, reset } = useForm();
 
+    const [license, setLicense] = React.useState(state)
+    const [values, setValues] = React.useState()
+
+    log("StaTe LICeNsE", license)
+
     React.useEffect(() => {
-        reset(initialState)
-    }, [state.success])
+        reset()
+    }, [])
 
     const handleEditLicense = (data) => {
         log("ADD LICENSE", data)
-        cogoToast.success("License added successfully!")
-        setState({ ...state, success: true })
+        cogoToast.success("License updated successfully!")
+        // setState({ ...state, success: true })
     }
 
     return (
@@ -63,30 +57,7 @@ export default function EditLicense() {
                                 <FormLabel component="legend" style={{ color: theme.colors.primary.graphite, fontFamily: theme.fontFamily.nunitoSansBold, fontSize: '18px' }}>
                                     License details
                                 </FormLabel>
-                                <Controller
-                                    name="licenseType"
-                                    control={control}
-                                    defaultValue=""
-                                    render={({
-                                        field: { onChange, value },
-                                        fieldState: { error },
-                                    }) => (
-                                        <>
-                                            <RadioGroup
-                                                row
-                                                aria-label="license"
-                                                name="licenseType"
-                                                defaultValue={state.licenseType}
-                                                error={!!error}
-                                                value={value}
-                                                onChange={onChange}
-                                            >
-                                                <RadioLabel value="Individual" control={<CustomRadioButton />} label="Individual license" />
-                                                {/* <RadioLabel value="Company" control={<CustomRadioButton />} label="Company license" /> */}
-                                            </RadioGroup>
-                                        </>
-                                    )}
-                                />
+                                <RadioLabel checked control={<CustomRadioButton />} label={`${license?.type} license`} disabled />
                             </FormControl>
 
                             <Grid item xs={12} md={12}>
@@ -130,8 +101,6 @@ export default function EditLicense() {
                                             <StyledTextField
                                                 fullWidth
                                                 label="License name*"
-                                                spinner={true}
-                                                type="number"
                                                 error={!!error}
                                                 value={value}
                                                 onChange={onChange}
@@ -145,52 +114,36 @@ export default function EditLicense() {
                             </Grid>
 
                             <Grid item xs={12} md={8}>
-                                <Controller
-                                    name="maxEncode"
-                                    control={control}
-                                    defaultValue=""
-                                    render={({
-                                        field: { onChange, value },
-                                        fieldState: { error },
-                                    }) => (
-                                        <>
-                                            <StyledTextField
-                                                fullWidth
-                                                label="Max Uses Encode"
-                                                spinner={true}
-                                                type="number"
-                                                error={!!error}
-                                                value={value}
-                                                onChange={onChange}
-                                                style={{ marginTop: "15px" }}
-                                            />
-                                            {error?.message && <HelperText>{error?.message}</HelperText>}
-                                        </>
-                                    )}
+                                <StyledTextField
+                                    fullWidth
+                                    label="Max Uses Encode"
+                                    spinner={"true"}
+                                    type="number"
+                                    value={license?.isUnlimitedEncode ? Number.POSITIVE_INFINITY : license?.maxEncodeUses}
+                                    placeholder={license?.isUnlimitedEncode ? "Unlimited" : "eg. 100"}
+                                    onChange={(e) => setLicense({ ...license, maxEncodeUses: e.target.value })}
+                                    style={{ marginTop: "15px" }}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    disabled={license?.isUnlimitedEncode}
                                 />
                             </Grid>
 
                             <Grid item xs={12} md={8}>
-                                <Controller
-                                    name="maxMonitor"
-                                    control={control}
-                                    defaultValue=""
-                                    render={({
-                                        field: { onChange, value },
-                                        fieldState: { error },
-                                    }) => (
-                                        <>
-                                            <StyledTextField
-                                                fullWidth
-                                                label="Max Uses Monitor"
-                                                error={!!error}
-                                                value={value}
-                                                onChange={onChange}
-                                                style={{ marginTop: "15px" }}
-                                            />
-                                            {error?.message && <HelperText>{error?.message}</HelperText>}
-                                        </>
-                                    )}
+                                <StyledTextField
+                                    fullWidth
+                                    label="Max Uses Monitor"
+                                    spinner={"true"}
+                                    type="number"
+                                    value={license?.isUnlimitedMonitor ? Number.POSITIVE_INFINITY : license?.maxMonitoringUses}
+                                    placeholder={license?.isUnlimitedMonitor ? "Unlimited" : "eg. 100"}
+                                    onChange={(e) => setLicense({ ...license, maxMonitoringUses: e.target.value })}
+                                    style={{ marginTop: "15px" }}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    disabled={license?.isUnlimitedMonitor}
                                 />
                             </Grid>
 
@@ -198,7 +151,7 @@ export default function EditLicense() {
                                 <Controller
                                     name="validity"
                                     control={control}
-                                    defaultValue=""
+                                    // defaultValue={license?.validity}
                                     render={({
                                         field: { onChange, value },
                                         fieldState: { error },
@@ -208,7 +161,6 @@ export default function EditLicense() {
                                                 error={!!error}
                                                 selected={value}
                                                 onChange={onChange}
-                                                dateFormat="MMM d,yyyy"
                                                 title="Validity*"
                                                 fullWidth={true}
                                                 showYearDropdown
@@ -224,9 +176,9 @@ export default function EditLicense() {
 
                         <Grid className="mt-3">
                             <KeyValue
-                                data={state.metaData}
+                                data={license?.metaData}
                                 onChangeData={(newData) => {
-                                    setState({ ...state, metaData: newData });
+                                    setLicense({ ...license, metaData: newData });
                                 }}
                                 containerStyle={{ marginTop: 5 }}
                             />
@@ -255,17 +207,10 @@ export default function EditLicense() {
                 <BorderBottom />
 
                 <Grid container className="mt-3 mb-2" justifyContent="flex-end">
-                    <AppButton
-                        variant={"outline"}
-                        className="mx-2"
-                        onClick={() => navigate(-1)}
-                    >
+                    <AppButton variant={"outline"} onClick={() => navigate(-1)}>
                         Cancel
                     </AppButton>
-                    <AppButton
-                        variant={"fill"}
-                        type="submit"
-                    >
+                    <AppButton variant={"fill"} type="submit" style={{ marginLeft: "15px", width: "180px" }}>
                         Update details
                     </AppButton>
                 </Grid>

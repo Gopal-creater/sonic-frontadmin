@@ -11,7 +11,7 @@ import AppToggleSwitch from "../../../components/common/AppToggleSwitch/AppToggl
 import AppAutoComplete from "../../../components/common/AutoComplete/AppAutoComplete";
 import CustomDatePicker from "../../../components/common/FilterComponent/components/CustomDatePicker";
 import { addLicenseKeyAction } from "../../../stores/actions/licenceKey";
-import { getUsersNameAction } from "../../../stores/actions/picker/titlePicker.action";
+import { getCompanyNameAction, getUsersNameAction } from "../../../stores/actions/picker/titlePicker.action";
 import { StyledTextField } from "../../../StyledComponents/StyledAppTextInput/StyledAppTextInput";
 import { H1, H4 } from "../../../StyledComponents/StyledHeadings";
 import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
@@ -39,6 +39,7 @@ export default function AddLicence() {
   const navigate = useNavigate()
   const { handleSubmit, control, reset } = useForm();
   const user = useSelector(state => state.user)
+  const company = useSelector(state => state.company)
   const license = useSelector(state => state.licenceKey)
 
   log("LICeNsE pAyLOad..", state.user)
@@ -64,7 +65,7 @@ export default function AddLicence() {
       metaData: state?.metaData,
       user: state?.user?._id,
       company: state?.user?.company?._id || undefined,
-      type: data?.licenseType,
+      type: state?.licenseType,
     }
     dispatch(addLicenseKeyAction(payload))
   }
@@ -88,44 +89,28 @@ export default function AddLicence() {
             <FormLabel component="legend" style={{ color: theme.colors.primary.graphite, fontFamily: theme.fontFamily.nunitoSansBold, fontSize: '18px' }}>
               License details
             </FormLabel>
-            <Controller
+            <RadioGroup
+              row
+              aria-label="license"
               name="licenseType"
-              control={control}
-              defaultValue=""
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => (
-                <>
-                  <RadioGroup
-                    row
-                    aria-label="license"
-                    name="licenseType"
-                    defaultValue={state.licenseType}
-                    error={!!error}
-                    value={value}
-                    onChange={onChange}
-                  >
-                    <RadioLabel value="Individual" control={<CustomRadioButton />} label="Individual license" />
-                    <RadioLabel value="Company" control={<CustomRadioButton />} label="Company license" />
-                  </RadioGroup>
-                  {error?.message && <HelperText>{error?.message}</HelperText>}
-                </>
-              )}
-              rules={{ required: "User ID is required" }}
-            />
+              value={state.licenseType}
+              onChange={(e) => setState({ ...state, licenseType: e.target.value })}
+            >
+              <RadioLabel value="Individual" control={<CustomRadioButton />} label="Individual license" />
+              <RadioLabel value="Company" control={<CustomRadioButton />} label="Company license" />
+            </RadioGroup>
           </FormControl>
 
           <Grid item xs={12} md={6} style={{ marginTop: "15px" }}>
             <AppAutoComplete
-              setAutoComPleteAction={(value) => dispatch(getUsersNameAction(value))}
-              setAutoCompleteOptions={(option => option?._id || "")}
-              setAutoCompleteOptionsLabel={(option => option?.username || "")}
-              loading={user?.userSearch?.loading}
-              data={user?.userSearch?.data?.docs || []}
-              error={user?.userSearch?.error}
+              setAutoComPleteAction={(value) => state.licenseType === "Company" ? dispatch(getCompanyNameAction(value)) : dispatch(getUsersNameAction(value))}
+              setAutoCompleteOptions={(option => (state.licenseType === "Company" ? option?.name : option?.username) || "")}
+              setAutoCompleteOptionsLabel={(option => option?._id || "")}
+              loading={state.licenseType === "Company" ? company?.companySearch?.loading : user?.userSearch?.loading}
+              data={(state.licenseType === "Company" ? company?.companySearch?.data?.docs : user?.userSearch?.data?.docs) || []}
+              error={state.licenseType === "Company" ? company?.companySearch?.error : user?.userSearch?.error}
               getSelectedValue={(e, v) => setState({ ...state, user: v })}
-              placeholder={"User Id*"}
+              labelText={state.licenseType === "Company" ? "Company*" : "User*"}
               hideSearchIcon={true}
             />
           </Grid>

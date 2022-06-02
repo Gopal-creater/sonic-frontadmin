@@ -73,7 +73,7 @@ export const encodeAgainFromTrackAction = (encodePayload) => {
     }
 }
 
-export const getTracksAction = (startDate, endDate, page, limit, filter = "", playsBy, sortBy, isAscending) => {
+export const getTracksAction = (startDate, endDate, page, limit, filters, playsBy, sortBy, isAscending) => {
     let newEndDate = moment(endDate).endOf("days").toISOString()
     let params = new URLSearchParams(`createdAt>=${moment(startDate).format("YYYY-MM-DD")}&createdAt<=date(${newEndDate})`)
     params.append("limit", limit);
@@ -86,12 +86,16 @@ export const getTracksAction = (startDate, endDate, page, limit, filter = "", pl
     if (userRoleWiseId?.partner) params.append("partner", userRoleWiseId?.partner)
     if (userRoleWiseId?.owner) params.append("owner", userRoleWiseId?.owner)
 
-    if (filter) {
-        const addiFilter = {
-            "$or": [{ "trackMetaData.contentName": { "$regex": filter, "$options": "i" } }, { "originalFileName": { "$regex": filter, "$options": "i" } }]
-        }
-        params.append("filter", JSON.stringify(addiFilter))
-    }
+    let filterArray = []
+
+    if (filters?.title) filterArray.push({ "trackMetaData.contentName": { "$regex": filters?.title, "$options": "i" } }, { "originalFileName": { "$regex": filters?.title, "$options": "i" } })
+    if (filters?.id) filterArray.push({ "_id": { "$regex": filters?.id, "$options": "i" } })
+    if (filters?.artist) filterArray.push({ "trackMetaData.contentOwner": { "$regex": filters?.artist, "$options": "i" } }, { "artist": { "$regex": filters?.artist, "$options": "i" } })
+    if (filters?.distributor) filterArray.push({ "trackMetaData.distributor": { "$regex": filters?.distributor, "$options": "i" } })
+    if (filters?.company) filterArray.push({ "company.name": { "$regex": filters?.company, "$options": "i" } })
+    if (filters?.user) filterArray.push({ "owner.name": { "$regex": filters?.user, "$options": "i" } })
+
+    if (filterArray.length !== 0) params.append("filter", JSON.stringify({ "$or": filterArray }))
 
     return (dispatch) => {
         dispatch({ type: actionTypes.SET_TRACKS_LOADING })
@@ -131,7 +135,7 @@ export const getEncodeSearchTracksAction = (title) => {
     }
 }
 
-export const exportTrackAction = (format, limit = 2000) => {
+export const exportTrackAction = (format, limit = 2000, filters) => {
     let encode = store.getState()?.encode
     let trackFilters = store.getState()?.encode?.tracks?.trackFilters
     let userRoleWiseId = getRoleWiseID()
@@ -146,13 +150,16 @@ export const exportTrackAction = (format, limit = 2000) => {
     if (userRoleWiseId?.partner) params.append("partner", userRoleWiseId?.partner)
     if (userRoleWiseId?.owner) params.append("owner", userRoleWiseId?.owner)
 
-    const addiFilter = {
-        "$or": [
-            { "trackMetaData.contentName": { "$regex": trackFilters?.title, "$options": "i" } },
-            { "originalFileName": { "$regex": trackFilters?.title, "$options": "i" } }
-        ]
-    }
-    params.append("filter", JSON.stringify(addiFilter))
+    let filterArray = []
+
+    if (filters?.title) filterArray.push({ "trackMetaData.contentName": { "$regex": filters?.title, "$options": "i" } }, { "originalFileName": { "$regex": filters?.title, "$options": "i" } })
+    if (filters?.id) filterArray.push({ "_id": { "$regex": filters?.id, "$options": "i" } })
+    if (filters?.artist) filterArray.push({ "trackMetaData.contentOwner": { "$regex": filters?.artist, "$options": "i" } }, { "artist": { "$regex": filters?.artist, "$options": "i" } })
+    if (filters?.distributor) filterArray.push({ "trackMetaData.distributor": { "$regex": filters?.distributor, "$options": "i" } })
+    if (filters?.company) filterArray.push({ "company.name": { "$regex": filters?.company, "$options": "i" } })
+    if (filters?.user) filterArray.push({ "owner.name": { "$regex": filters?.user, "$options": "i" } })
+
+    if (filterArray.length !== 0) params.append("filter", JSON.stringify({ "$or": filterArray }))
 
     return (dispatch) => {
         exportTrack(format, params).then((res) => {

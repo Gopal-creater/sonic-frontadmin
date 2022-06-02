@@ -42,12 +42,12 @@ export default function Encode() {
     const dispatch = useDispatch()
 
     React.useEffect(() => {
-        dispatch(getTracksAction(encode?.tracks.startDate, encode?.tracks?.endDate, encode?.tracks?.data?.page || 1, "10"))
+        dispatch(getTracksAction(encode?.tracks.startDate, encode?.tracks?.endDate, encode?.tracks?.data?.page || 1, "10", encode?.tracks?.trackFilters))
     }, [])
 
     const handleExport = (format) => {
         log("format", format)
-        dispatch(exportTrackAction(format))
+        dispatch(exportTrackAction(format, 2000, encode?.tracks?.trackFilters))
     }
 
     const handleTrackPageChange = (event, value) => {

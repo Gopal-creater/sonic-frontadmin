@@ -48,7 +48,12 @@ const initialState = {
         startDate: new Date().setMonth(new Date().getMonth() - 1),
         endDate: new Date(),
         trackFilters: {
-            title: ""
+            title: "",
+            id: "",
+            artist: "",
+            company: "",
+            distributor: "",
+            user: ""
         }
     }
 };

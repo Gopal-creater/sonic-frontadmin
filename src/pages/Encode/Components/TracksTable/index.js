@@ -64,6 +64,10 @@ export default function TracksTable({ data, tableHeads, trackSorting }) {
             }).then(res => {
                 fileDownload(res.data, track?.originalFileName);
                 setState({ ...state, openDownloadingModal: false })
+            }).catch(error => {
+                log("Download error", error)
+                cogoToast.error(error?.message)
+                setState({ ...state, openDownloadingModal: false })
             });
         }).catch((error) => {
             log("Download error", error)

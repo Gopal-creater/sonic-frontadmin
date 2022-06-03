@@ -11,6 +11,7 @@ import encodeRed from './EncodeReducer';
 import pickersReducer from './picker/pickersReducer';
 import userRed from './UserReducer';
 import companyReducer from './CompanyReducer';
+import sonickeyReducer from './SonicKeysReducer';
 
 const appReducer = combineReducers({
   session: sessionRed,
@@ -24,6 +25,7 @@ const appReducer = combineReducers({
   picker: pickersReducer,
   user: userRed,
   company: companyReducer,
+  sonickey: sonickeyReducer,
 });
 
 const rootReducer = (state, action) => {

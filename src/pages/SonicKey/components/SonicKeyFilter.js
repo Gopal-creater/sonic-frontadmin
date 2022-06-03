@@ -7,19 +7,19 @@ import CustomDropDown from '../../../components/common/AppTextInput/CustomDropDo
 import theme from '../../../theme';
 import AppButton from '../../../components/common/AppButton/AppButton';
 import { StyledTextField } from '../../../StyledComponents/StyledAppTextInput/StyledAppTextInput';
-import { companyType } from '../../../constants/constants';
+import { channel } from '../../../constants/constants';
 import * as actionTypes from '../../../stores/actions/actionTypes';
 import { log } from '../../../utils/app.debug';
-import { getAllCompaniesAction } from '../../../stores/actions/CompanyActions';
+import { getAllSonickeysActions } from '../../../stores/actions/SonicKeyAcrtions';
 
 export default function SonicKeyFilter({ closeDialog }) {
     const dispatch = useDispatch();
-    const company = useSelector(state => state.company)
-    log("filter data", company)
+    const sonickey = useSelector(state => state.sonickey)
+    log("filter Sonickey data", sonickey)
 
     const handleFilter = (e) => {
         e.preventDefault();
-        dispatch(getAllCompaniesAction(5, 1));
+        dispatch(getAllSonickeysActions(10, 1));
         closeDialog?.()
     }
 
@@ -35,41 +35,55 @@ export default function SonicKeyFilter({ closeDialog }) {
             </FilterHeader>
             <form onSubmit={handleFilter}>
                 <FilterItems container>
-                    <FilterForm>
-                        <StyledTextField
-                            fullWidth
-                            label="Company name"
-                            value={company?.filters?.companyName}
-                            onChange={(e) => dispatch({ type: actionTypes.SET_COMPANIES_FILTERS, data: { ...company?.filters, companyName: e.target.value } })}
-                            InputLabelProps={{
-                                style: {
-                                    fontFamily: theme.fontFamily.nunitoSansBold
-                                }
-                            }}
-                        />
-                    </FilterForm>
 
                     <FilterForm>
                         <CustomDropDown
-                            id="company-type"
-                            labelText="Company type"
+                            id="channel-dropdown"
+                            labelText="Channel"
                             formControlProps={{
                                 fullWidth: true
                             }}
                             inputProps={{
-                                value: company?.filters?.companyType,
-                                onChange: (e) => dispatch({ type: actionTypes.SET_COMPANIES_FILTERS, data: { ...company?.filters, companyType: e.target.value } }),
+                                value: sonickey?.filters?.channel,
+                                onChange: (e) => dispatch({ type: actionTypes.SONIC_KEY_FILTERS, data: { ...sonickey?.filters, channel: e.target.value } }),
                             }}
-                            data={companyType || []}
+                            data={channel || []}
                         />
                     </FilterForm>
 
                     <FilterForm>
                         <StyledTextField
                             fullWidth
-                            label="Company ID"
-                            value={company?.filters?.companyId}
-                            onChange={(e) => dispatch({ type: actionTypes.SET_COMPANIES_FILTERS, data: { ...company?.filters, companyId: e.target.value } })}
+                            label="SonicKey"
+                            value={sonickey?.filters?.sonicKey}
+                            onChange={(e) => dispatch({ type: actionTypes.SONIC_KEY_FILTERS, data: { ...sonickey?.filters, sonicKey: e.target.value } })}
+                            InputLabelProps={{
+                                style: {
+                                    fontFamily: theme.fontFamily.nunitoSansBold
+                                }
+                            }}
+                        />
+                    </FilterForm>
+
+                    <FilterForm>
+                        {/* <AppAutoComplete
+                            setAutoComPleteAction={(value) => dispatch(getCompanyNameAction(value))}
+                            setAutoCompleteOptions={(option => option?.name || "")}
+                            setAutoCompleteOptionsLabel={(option => option?.companyType || "")}
+                            loading={company?.companySearch?.loading}
+                            data={company?.companySearch?.data?.docs || []}
+                            error={company?.companySearch?.error}
+                            getSelectedValue={(e, v) => setState({ ...state, company: v })}
+                            placeholder={"Search for a company"}
+                        /> */}
+                    </FilterForm>
+
+                    <FilterForm>
+                        <StyledTextField
+                            fullWidth
+                            label="Track"
+                            value={sonickey?.filters?.song}
+                            onChange={(e) => dispatch({ type: actionTypes.SONIC_KEY_FILTERS, data: { ...sonickey?.filters, track: e.target.value } })}
                             InputLabelProps={{
                                 style: {
                                     fontFamily: theme.fontFamily.nunitoSansBold
@@ -81,9 +95,9 @@ export default function SonicKeyFilter({ closeDialog }) {
                     <FilterForm>
                         <StyledTextField
                             fullWidth
-                            label="Email Address"
-                            value={company?.filters?.email}
-                            onChange={(e) => dispatch({ type: actionTypes.SET_COMPANIES_FILTERS, data: { ...company?.filters, email: e.target.value } })}
+                            label="Label"
+                            value={sonickey?.filters?.label}
+                            onChange={(e) => dispatch({ type: actionTypes.SONIC_KEY_FILTERS, data: { ...sonickey?.filters, label: e.target.value } })}
                             InputLabelProps={{
                                 style: {
                                     fontFamily: theme.fontFamily.nunitoSansBold
@@ -95,9 +109,9 @@ export default function SonicKeyFilter({ closeDialog }) {
                     <FilterForm>
                         <StyledTextField
                             fullWidth
-                            label="Admin"
-                            value={company?.filters?.admin}
-                            onChange={(e) => dispatch({ type: actionTypes.SET_COMPANIES_FILTERS, data: { ...company?.filters, admin: e.target.value } })}
+                            label="Distributor"
+                            value={sonickey?.filters?.distributor}
+                            onChange={(e) => dispatch({ type: actionTypes.SONIC_KEY_FILTERS, data: { ...sonickey?.filters, distributor: e.target.value } })}
                             InputLabelProps={{
                                 style: {
                                     fontFamily: theme.fontFamily.nunitoSansBold
@@ -112,13 +126,14 @@ export default function SonicKeyFilter({ closeDialog }) {
                         variant="outline"
                         className="mx-3"
                         onClick={() => dispatch({
-                            type: actionTypes.SET_COMPANIES_FILTERS,
+                            type: actionTypes.SONIC_KEY_FILTERS,
                             data: {
-                                companyName: "",
-                                companyType: "",
-                                email: "",
-                                companyId: "",
-                                admin: "",
+                                channel: "ALL",
+                                sonicKey: "",
+                                artist: "",
+                                track: "",
+                                label: "",
+                                distributor: "",
                             }
                         })}
                     >

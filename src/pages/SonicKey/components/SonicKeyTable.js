@@ -1,5 +1,8 @@
 import { Grid, Table, TableBody, TableContainer, TableHead, TableRow } from '@material-ui/core';
+import axios from 'axios';
+import cogoToast from 'cogo-toast';
 import { format } from 'date-fns';
+import fileDownload from 'js-file-download';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -7,9 +10,47 @@ import { SelectedColumn } from '../../../components/common/Columns/component/Sel
 import TableMenu from '../../../components/common/Table/components/TableMenu';
 import { ActionMenuItem } from '../../../components/common/Table/TableStyled';
 import { AlternateStyledTableData, StyledAlternateTableRow, StyledTableData, StyledTableHead, StyledTableRow } from '../../../StyledComponents/StyledTable/StyledTable';
+import { log } from '../../../utils/app.debug';
+import DownloadProgressModal from '../../Encode/Components/DownloadProgressModal';
+import { downloadAnyFile } from '../../../services/https/resources/EncodeApi/encodeApi'
+import MetaDataDailog from '../../../components/common/MetaDataDialog';
 
 export default function SonicKeyTable({ data, sonicKeyTableHead }) {
     const navigate = useNavigate()
+    const [sonicKeys, setSonicKeys] = React.useState({});
+    const [openTable, setOpenTable] = React.useState(false);
+    const [tableData, setTableData] = React.useState([]);
+    const [state, setState] = React.useState({
+        openDownloadingModal: false,
+        percentComplete: "0"
+    })
+
+    const handleClickOpenTable = async (data) => {
+        setSonicKeys(data)
+        setOpenTable(true);
+    };
+
+    const download = (sonickey) => {
+        log("Download sonickey", sonickey)
+        setState({ ...state, openDownloadingModal: true })
+        downloadAnyFile(sonickey?.s3OriginalFileMeta?.Key).then((response) => {
+            axios({
+                url: response,
+                responseType: 'blob',
+                onDownloadProgress: function (progressEvent) {
+                    let percent = Math.floor(progressEvent?.loaded / progressEvent?.total * 100)
+                    setState({ ...state, percentComplete: percent, openDownloadingModal: true })
+                }
+            }).then(res => {
+                fileDownload(res.data, sonickey?.originalFileName);
+                setState({ ...state, openDownloadingModal: false })
+            });
+        }).catch((error) => {
+            log("Download error", error)
+            cogoToast.error(error?.message)
+            setState({ ...state, openDownloadingModal: false })
+        })
+    }
 
     return (
         <Grid>
@@ -74,7 +115,8 @@ export default function SonicKeyTable({ data, sonicKeyTableHead }) {
                                             {SelectedColumn("ACTION") &&
                                                 <AlternateStyledTableData>
                                                     <TableMenu>
-                                                        <ActionMenuItem onClick={() => navigate(`/company-profile/${data?._id}`, { state: data })}>View Company</ActionMenuItem>
+                                                        <ActionMenuItem onClick={() => handleClickOpenTable(data)}>View details</ActionMenuItem>
+                                                        <ActionMenuItem onClick={() => download(data)}>Download</ActionMenuItem>
                                                     </TableMenu>
                                                 </AlternateStyledTableData>
                                             }
@@ -110,8 +152,8 @@ export default function SonicKeyTable({ data, sonicKeyTableHead }) {
                                         {SelectedColumn("ACTION") &&
                                             <StyledTableData>
                                                 <TableMenu>
-                                                    <ActionMenuItem onClick={() => navigate(`/company-profile/${data?._id}`, { state: data })}>View details</ActionMenuItem>
-                                                    <ActionMenuItem onClick={() => navigate(`/company-profile/${data?._id}`, { state: data })}>Download</ActionMenuItem>
+                                                    <ActionMenuItem onClick={() => handleClickOpenTable(data)}>View details</ActionMenuItem>
+                                                    <ActionMenuItem onClick={() => download(data)}>Download</ActionMenuItem>
                                                 </TableMenu>
                                             </StyledTableData>
                                         }
@@ -120,6 +162,24 @@ export default function SonicKeyTable({ data, sonicKeyTableHead }) {
                             })}
                     </TableBody>
                 </Table>
+                {openTable &&
+                    <MetaDataDailog
+                        sonicKey={sonicKeys}
+                        open={true}
+                        setOpenTable={setOpenTable}
+                        updateMetaData={(key) => {
+                            setSonicKeys(key)
+                            let newTableData = tableData?.map((data, index) => {
+                                if (data?._id === key?.sonicKey) {
+                                    return key
+                                }
+                                return data
+                            })
+                            setTableData(newTableData)
+                        }}
+                        enableEditMode={true}
+                    />}
+                <DownloadProgressModal open={state.openDownloadingModal} percentage={state.percentComplete} />
             </TableContainer>
         </Grid>
     );

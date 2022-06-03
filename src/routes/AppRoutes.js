@@ -57,7 +57,7 @@ export default function AppRoutes() {
             <Route path="/" element={<Navigate replace to="/dashboard" />} />
 
             {/* Public routes */}
-            <Route path="/sonickeys" element={<SonicKey />} />
+            {/* <Route path="/sonickeys" element={<SonicKey />} /> */}
             <Route path="/licences" element={<Licences />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/radio-stations" element={<RadioStations />} />
@@ -66,7 +66,7 @@ export default function AppRoutes() {
             <Route path="/tracks" element={<Tracks />} />
             <Route path="/artists" element={<Artists />} />
             <Route path="/countries" element={<Countries />} />
-            <Route path="/sonic-keys" element={<Sonickeys />} />
+            <Route path="/sonic-keys" element={<SonicKey />} />
             <Route path="/streamreader" element={<StreamReader />} />
             <Route path="/user-profile/:id" element={<UserProfile />} />
             {/* Public routes */}

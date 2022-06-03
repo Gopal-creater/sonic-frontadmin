@@ -11,14 +11,13 @@ const initialState = {
         data: {}
     },
     filters: {
-        username: "",
-        userId: "",
-        accountType: "",
-        accountName: "",
-        userType: "",
-        email: "",
-        status: "",
-    }
+        channel: "ALL",
+        sonicKey: "",
+        artist: "",
+        track: "",
+        label: "",
+        distributor: "",
+    },
 };
 
 const sonickeyReducer = (state = initialState, action) =>
@@ -38,6 +37,11 @@ const sonickeyReducer = (state = initialState, action) =>
             case actionTypes.GET_ALL_SONICKEYS_ERROR:
                 draft.getSonicKeys.loading = false;
                 draft.getSonicKeys.error = action.data;
+                break;
+
+            //Filters
+            case actionTypes.SONIC_KEY_FILTERS:
+                draft.filters = action.data;
                 break;
 
             default:

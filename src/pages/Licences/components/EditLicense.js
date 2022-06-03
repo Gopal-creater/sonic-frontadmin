@@ -1,39 +1,46 @@
 import React from "react";
-import { FormControl, FormLabel, Grid } from "@material-ui/core";
+import { CircularProgress, FormControl, FormLabel, Grid } from "@material-ui/core";
 import { MusicNote, PermIdentity } from "@material-ui/icons";
 import cogoToast from "cogo-toast";
-import { Controller, useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import AppButton from "../../../components/common/AppButton/AppButton";
 import { CustomRadioButton } from "../../../components/common/AppRadioButton/AppRadioButton";
 import CustomDatePicker from "../../../components/common/FilterComponent/components/CustomDatePicker";
-import { StyledTextField } from "../../../StyledComponents/StyledAppTextInput/StyledAppTextInput";
+import { DisabledTextField, StyledTextField } from "../../../StyledComponents/StyledAppTextInput/StyledAppTextInput";
 import { H1, H4 } from "../../../StyledComponents/StyledHeadings";
 import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
 import theme from "../../../theme";
 import { log } from "../../../utils/app.debug";
-import { BorderBottom, HelperText, RadioLabel, TuneBox } from "../LicenseStyled";
+import { BorderBottom, RadioLabel, TuneBox } from "../LicenseStyled";
 import AddNewUser from "./AddNewUser";
 import KeyValue from "./KeyValue";
+import AppToggleSwitch from "../../../components/common/AppToggleSwitch/AppToggleSwitch";
+import { useSelector } from "react-redux";
+import { updateLicenceKey } from "../../../services/https/resources/License.api";
 
 export default function EditLicense() {
     const { state } = useLocation();
     const navigate = useNavigate()
-    const { handleSubmit, control, reset } = useForm();
+    const user = useSelector(state => state.user)
 
     const [license, setLicense] = React.useState(state)
-    const [values, setValues] = React.useState()
+    const [values, setValues] = React.useState({
+        loading: false,
+    })
 
     log("StaTe LICeNsE", license)
 
-    React.useEffect(() => {
-        reset()
-    }, [])
-
-    const handleEditLicense = (data) => {
-        log("ADD LICENSE", data)
-        cogoToast.success("License updated successfully!")
-        // setState({ ...state, success: true })
+    const handleEditLicense = (e) => {
+        e.preventDefault();
+        setValues({ ...values, loading: true })
+        updateLicenceKey(license?._id, license).then((res) => {
+            setLicense(res)
+            setValues({ ...values, loading: false })
+            cogoToast.success("License updated successfully!")
+        }).catch((err) => {
+            setValues({ ...values, loading: false })
+            cogoToast.error(err?.message)
+        })
     }
 
     return (
@@ -43,7 +50,7 @@ export default function EditLicense() {
                 Edit license
             </H4>
 
-            <form onSubmit={handleSubmit(handleEditLicense)}>
+            <form onSubmit={handleEditLicense}>
                 <Grid container spacing={2} direction="row">
                     <Grid item xs={12} md={6}>
                         <Grid container direction="column" className="mt-4">
@@ -60,56 +67,20 @@ export default function EditLicense() {
                                 <RadioLabel checked control={<CustomRadioButton />} label={`${license?.type} license`} disabled />
                             </FormControl>
 
-                            <Grid item xs={12} md={12}>
-                                <Controller
-                                    name="userId"
-                                    control={control}
-                                    defaultValue=""
-                                    render={({
-                                        field: { onChange, value },
-                                        fieldState: { error },
-                                    }) => (
-                                        <>
-                                            <StyledTextField
-                                                fullWidth
-                                                label="User ID*"
-                                                error={!!error}
-                                                value={value}
-                                                onChange={onChange}
-                                                style={{ marginTop: "15px" }}
-                                                InputLabelProps={{
-                                                    shrink: true
-                                                }}
-                                            />
-                                            {error?.message && <HelperText>{error?.message}</HelperText>}
-                                        </>
-                                    )}
-                                    rules={{ required: "User ID is required" }}
+                            <Grid item xs={12} md={12} style={{ marginTop: "15px" }}>
+                                <DisabledTextField
+                                    label={license?.type === "Company" ? "Company" : "User"}
+                                    value={(license?.type === "Company" ? license?.company?.name : license?.users?.map(u => u.username)) || ""}
                                 />
                             </Grid>
 
                             <Grid item xs={12} md={12}>
-                                <Controller
-                                    name="licenseName"
-                                    control={control}
-                                    defaultValue=""
-                                    render={({
-                                        field: { onChange, value },
-                                        fieldState: { error },
-                                    }) => (
-                                        <>
-                                            <StyledTextField
-                                                fullWidth
-                                                label="License name*"
-                                                error={!!error}
-                                                value={value}
-                                                onChange={onChange}
-                                                style={{ marginTop: "15px" }}
-                                            />
-                                            {error?.message && <HelperText>{error?.message}</HelperText>}
-                                        </>
-                                    )}
-                                    rules={{ required: "License name is required" }}
+                                <StyledTextField
+                                    fullWidth
+                                    label="License name*"
+                                    value={license?.name}
+                                    onChange={(e) => setLicense({ ...license, name: e.target.value })}
+                                    style={{ marginTop: "15px" }}
                                 />
                             </Grid>
 
@@ -148,28 +119,13 @@ export default function EditLicense() {
                             </Grid>
 
                             <Grid item xs={12} md={8} style={{ marginTop: 15 }}>
-                                <Controller
-                                    name="validity"
-                                    control={control}
-                                    // defaultValue={license?.validity}
-                                    render={({
-                                        field: { onChange, value },
-                                        fieldState: { error },
-                                    }) => (
-                                        <>
-                                            <CustomDatePicker
-                                                error={!!error}
-                                                selected={value}
-                                                onChange={onChange}
-                                                title="Validity*"
-                                                fullWidth={true}
-                                                showYearDropdown
-                                                showMonthDropdown
-                                            />
-                                            {error?.message && <HelperText>{error?.message}</HelperText>}
-                                        </>
-                                    )}
-                                    rules={{ required: "Validity is required" }}
+                                <CustomDatePicker
+                                    selected={new Date(license?.validity)}
+                                    onChange={(date) => setLicense({ ...license, validity: date })}
+                                    title="Validity*"
+                                    fullWidth={true}
+                                    showYearDropdown
+                                    showMonthDropdown
                                 />
                             </Grid>
                         </Grid>
@@ -183,8 +139,6 @@ export default function EditLicense() {
                                 containerStyle={{ marginTop: 5 }}
                             />
                         </Grid>
-
-                        <H4 className="mt-4">Status</H4>
                     </Grid>
                     <Grid item xs={12} md={6} >
                         <Grid container direction="column" className="mt-4">
@@ -195,7 +149,7 @@ export default function EditLicense() {
                             </Grid>
 
                             <H4 component="legend" style={{ color: theme.colors.primary.graphite, fontFamily: theme.fontFamily.nunitoSansBold, fontSize: '18px' }}>
-                                Users (0)
+                                Users {license?.users?.length}
                             </H4>
                             <Grid>
                                 <AddNewUser />
@@ -204,17 +158,54 @@ export default function EditLicense() {
                     </Grid>
                 </Grid>
 
+                <H4 className="mt-4">Status</H4>
+
+                <Grid container spacing={2} className="mt-1">
+                    <Grid item>
+                        <AppToggleSwitch
+                            size={169}
+                            checkedSize={102}
+                            active={"\"UNLIMITED ENCODE\""}
+                            inActive={"\"LIMITED ENCODE\""}
+                            checked={license?.isUnlimitedEncode}
+                            onChange={(e) => setLicense({ ...license, isUnlimitedEncode: e.target.checked })}
+                        />
+                    </Grid>
+
+                    <Grid item>
+                        <AppToggleSwitch
+                            size={175}
+                            checkedSize={106}
+                            active={"\"UNLIMITED MONITOR\""}
+                            inActive={"\"LIMITED MONITOR\""}
+                            checked={license?.isUnlimitedMonitor}
+                            onChange={(e) => setLicense({ ...license, isUnlimitedMonitor: e.target.checked })}
+                        />
+                    </Grid>
+
+                    <Grid item>
+                        <AppToggleSwitch
+                            size={121}
+                            checkedSize={70}
+                            active={"\"ACTIVE\""}
+                            inActive={"\"SUSPENDED\""}
+                            checked={license?.suspended ? false : true}
+                            onChange={(e) => setLicense({ ...license, suspended: e.target.checked })}
+                        />
+                    </Grid>
+                </Grid>
+
                 <BorderBottom />
 
                 <Grid container className="mt-3 mb-2" justifyContent="flex-end">
-                    <AppButton variant={"outline"} onClick={() => navigate(-1)}>
+                    <AppButton variant={"outline"} onClick={() => navigate(-1)} disabled={values.loading}>
                         Cancel
                     </AppButton>
                     <AppButton variant={"fill"} type="submit" style={{ marginLeft: "15px", width: "180px" }}>
-                        Update details
+                        {values.loading ? <CircularProgress size={20} color="white" /> : "Update details"}
                     </AppButton>
                 </Grid>
             </form>
-        </MainContainer>
+        </MainContainer >
     );
 }

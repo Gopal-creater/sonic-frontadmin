@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import Columns from '../../components/common/Columns/Columns'
 import CommonDataLoadErrorSuccess from '../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess'
 import FilterCreate from '../../components/common/FilterComponent/FilterCreate'
-import { usersTableHeads } from '../../constants/constants'
+import { userRoles, usersTableHeads } from '../../constants/constants'
 import { getUsersAction } from '../../stores/actions/UserActions'
 import { H1, H4 } from '../../StyledComponents/StyledHeadings'
 import { MainContainer } from '../../StyledComponents/StyledPageContainer'
@@ -26,6 +26,17 @@ export default function Users() {
         dispatch(getUsersAction(5, users?.getUsers?.data?.page))
     }, []);
 
+    const getStableTableColumnHead = () => {
+        let tableHead = usersTableHeads;
+        if (users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN) {
+            return tableHead.filter((itm) => itm?.title !== "COMPANY NAME")
+        } else if (users?.userProfile?.data?.userRole === userRoles.COMPANY_ADMIN) {
+            return tableHead.filter((itm) => itm?.title !== "ACCOUNT NAME" && itm?.title !== "ACCOUNT TYPE")
+        }
+
+        return tableHead
+    }
+
     return (
         <MainContainer>
             <Grid container justifyContent="space-between" alignItems="center">
@@ -36,7 +47,7 @@ export default function Users() {
                     </H4>
                 </Grid>
                 <Grid item>
-                    <Columns columns={usersTableHeads} />
+                    <Columns columns={getStableTableColumnHead()} />
                 </Grid>
             </Grid>
 
@@ -51,7 +62,7 @@ export default function Users() {
                 loading={users?.getUsers?.loading}
                 onClickTryAgain={() => dispatch(getUsersAction())}
             >
-                <UsersTable data={users?.getUsers?.data?.docs} usersTableHead={usersTableHeads} />
+                <UsersTable data={users?.getUsers?.data?.docs} usersTableHead={getStableTableColumnHead()} />
                 <Grid container justifyContent="space-between" alignItems="center" style={{ marginTop: "30px" }}>
                     <Grid item xs={12} sm={4} md={6}>
                         <PaginationCount

@@ -13,7 +13,7 @@ import AppCheckBox from "../../../components/common/AppCheckBox";
 import { useNavigate } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 import CustomDropDown from "../../../components/common/AppTextInput/CustomDropDown";
-import { accountType } from "../../../constants/constants";
+import { accountType, userRoles } from "../../../constants/constants";
 import { HelperText } from "../../Licences/LicenseStyled";
 import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
 import PhoneTextInput from "../../../components/common/AppTextInput/PhoneTextInput";
@@ -54,10 +54,6 @@ export default function CreateUser() {
     const company = useSelector(state => state.company)
 
     React.useEffect(() => {
-        dispatch(getAllCompaniesAction())
-    }, []);
-
-    React.useEffect(() => {
         setState(initialState)
         reset({
             userName: "",
@@ -82,6 +78,7 @@ export default function CreateUser() {
             email: data?.email,
             isEmailVerified: data?.isEmailVerified,
             isPhoneNumberVerified: data?.isPhoneNumberVerified,
+            company: state.company?._id || user?.userProfile?.data?.company?._id || undefined,
             partner: user?.userProfile?.data?.adminPartner?._id,
             sendInvitationByEmail: data?.sendInvitationByEmail
         }
@@ -131,22 +128,23 @@ export default function CreateUser() {
                             />
                         </Grid>
 
-                        <Grid style={{ marginTop: 21 }}>
-                            <CustomDropDown
-                                labelText="Account type*"
-                                formControlProps={{
-                                    fullWidth: true
-                                }}
-                                inputProps={{
-                                    value: state.accountType,
-                                    onChange: (e) => setState({ ...state, accountType: e.target.value }),
-                                }}
-                                labelProps={{
-                                    style: { fontFamily: theme.fontFamily.nunitoSansRegular }
-                                }}
-                                data={accountType || []}
-                            />
-                        </Grid>
+                        {user?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
+                            <Grid style={{ marginTop: 21 }}>
+                                <CustomDropDown
+                                    labelText="Account type*"
+                                    formControlProps={{
+                                        fullWidth: true
+                                    }}
+                                    inputProps={{
+                                        value: state.accountType,
+                                        onChange: (e) => setState({ ...state, accountType: e.target.value }),
+                                    }}
+                                    labelProps={{
+                                        style: { fontFamily: theme.fontFamily.nunitoSansRegular }
+                                    }}
+                                    data={accountType || []}
+                                />
+                            </Grid>}
 
                         <Grid style={{ marginTop: 21 }}>
                             <Controller
@@ -275,53 +273,77 @@ export default function CreateUser() {
                             </IconBox>
                         </Grid>
 
-                        <H4 className='mt-2'>{state.accountType} details</H4>
-
-                        {state.accountType === "Partner" ? <Grid style={{ marginTop: 15 }}>
-                            <DisabledTextField
-                                label={"Partner name"}
-                                value={user?.userProfile?.data?.name}
-                            />
-                        </Grid> :
+                        <H4 className='mt-2'>{user?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN ? state.accountType : "Company"} details</H4>
+                        {user?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN ?
                             <>
-                                <CompanyPopper title={"Add associated new company"} showDetails={(flag) => setState({ ...state, showCompanyDetails: flag })}>
-                                    <AppAutoComplete
-                                        setAutoComPleteAction={(value) => dispatch(getCompanyNameAction(value))}
-                                        setAutoCompleteOptions={(option => option?.name || "")}
-                                        setAutoCompleteOptionsLabel={(option => option?.companyType || "")}
-                                        loading={company?.companySearch?.loading}
-                                        data={company?.companySearch?.data?.docs || []}
-                                        error={company?.companySearch?.error}
-                                        getSelectedValue={(e, v) => setState({ ...state, company: v })}
-                                        placeholder={"Search for a company"}
+                                {state.accountType === "Partner" ? <Grid style={{ marginTop: 15 }}>
+                                    <DisabledTextField
+                                        label={"Partner name"}
+                                        value={user?.userProfile?.data?.name}
                                     />
-                                </CompanyPopper>
+                                </Grid> :
+                                    <>
+                                        <CompanyPopper title={"Add associated new company"} showDetails={(flag) => setState({ ...state, showCompanyDetails: flag })}>
+                                            <AppAutoComplete
+                                                setAutoComPleteAction={(value) => dispatch(getCompanyNameAction(value))}
+                                                setAutoCompleteOptions={(option => option?.name || "")}
+                                                setAutoCompleteOptionsLabel={(option => option?.companyType || "")}
+                                                loading={company?.companySearch?.loading}
+                                                data={company?.companySearch?.data?.docs || []}
+                                                error={company?.companySearch?.error}
+                                                getSelectedValue={(e, v) => setState({ ...state, company: v })}
+                                                placeholder={"Search for a company"}
+                                            />
+                                        </CompanyPopper>
 
-                                <Grid>
-                                    {state?.showCompanyDetails &&
-                                        <>
-                                            <Grid style={{ marginTop: 15 }}>
-                                                <DisabledTextField
-                                                    label={"Company name"}
-                                                    value={state?.company?.name || ""}
-                                                />
-                                            </Grid>
+                                        <Grid>
+                                            {state?.showCompanyDetails &&
+                                                <>
+                                                    <Grid style={{ marginTop: 15 }}>
+                                                        <DisabledTextField
+                                                            label={"Company name"}
+                                                            value={state?.company?.name || ""}
+                                                        />
+                                                    </Grid>
 
-                                            <Grid style={{ marginTop: 15 }}>
-                                                <DisabledTextField
-                                                    label={"Company type"}
-                                                    value={state?.company?.companyType || ""}
-                                                />
-                                            </Grid>
+                                                    <Grid style={{ marginTop: 15 }}>
+                                                        <DisabledTextField
+                                                            label={"Company type"}
+                                                            value={state?.company?.companyType || ""}
+                                                        />
+                                                    </Grid>
 
-                                            <Grid style={{ marginTop: 15 }}>
-                                                <DisabledTextField
-                                                    label={"Company URN/ID"}
-                                                    value={state?.company?.companyUrnOrId || ""}
-                                                />
-                                            </Grid>
-                                        </>
-                                    }
+                                                    <Grid style={{ marginTop: 15 }}>
+                                                        <DisabledTextField
+                                                            label={"Company URN/ID"}
+                                                            value={state?.company?.companyUrnOrId || ""}
+                                                        />
+                                                    </Grid>
+                                                </>
+                                            }
+                                        </Grid>
+                                    </>
+                                }
+                            </> : <>
+                                <Grid style={{ marginTop: 15 }}>
+                                    <DisabledTextField
+                                        label={"Company name"}
+                                        value={user?.userProfile?.data?.company?.name || ""}
+                                    />
+                                </Grid>
+
+                                <Grid style={{ marginTop: 15 }}>
+                                    <DisabledTextField
+                                        label={"Company type"}
+                                        value={user?.userProfile?.data?.company?.companyType || ""}
+                                    />
+                                </Grid>
+
+                                <Grid style={{ marginTop: 15 }}>
+                                    <DisabledTextField
+                                        label={"Company URN/ID"}
+                                        value={user?.userProfile?.data?.company?.companyUrnOrId || ""}
+                                    />
                                 </Grid>
                             </>
                         }

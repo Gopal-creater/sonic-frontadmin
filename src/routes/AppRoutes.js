@@ -73,15 +73,15 @@ export default function AppRoutes() {
             <Route element={<RoleAuth allowedRoles={[userRoles.PARTNER_ADMIN, userRoles.COMPANY_ADMIN]} />}>
               <Route path="/admin-profile" element={<AdminProfile />} />
               <Route path="/create-user" element={<CreateUser />} />
-              <Route path="/create-company" element={<CreateNewCompany />} />
               <Route path="/company-profile/:id" element={<CompanyProfile />} />
-              <Route path="/add-licences" element={<AddLicence />} />
               <Route path="/edit-licences/:id" element={<EditLicense />} />
               <Route path="/users" element={<Users />} />
             </Route>
 
             <Route element={<RoleAuth allowedRoles={[userRoles.PARTNER_ADMIN]} />}>
               <Route path="/companies" element={<Companies />} />
+              <Route path="/create-company" element={<CreateNewCompany />} />
+              <Route path="/add-licences" element={<AddLicence />} />
             </Route>
 
             <Route element={<RoleAuth allowedRoles={[userRoles.COMPANY_ADMIN, userRoles.COMPANY_USER, userRoles.PORTAL_USER, userRoles.PARTNER_USER]} />}>

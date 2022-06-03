@@ -1478,6 +1478,7 @@ export const usersTableHeads = [
   { title: "PHONE NUMBER" },
   { title: "ACCOUNT TYPE" },
   { title: "ACCOUNT NAME" },
+  { title: "COMPANY NAME" },
   { title: "USER TYPE" },
   { title: "STATUS" },
   { title: "ACTION" },

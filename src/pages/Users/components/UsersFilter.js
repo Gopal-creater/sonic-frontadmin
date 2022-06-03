@@ -7,7 +7,7 @@ import CustomDropDown from '../../../components/common/AppTextInput/CustomDropDo
 import theme from '../../../theme';
 import AppButton from '../../../components/common/AppButton/AppButton';
 import { StyledTextField } from '../../../StyledComponents/StyledAppTextInput/StyledAppTextInput';
-import { accountType, status, userType } from '../../../constants/constants';
+import { accountType, status, userRoles, userType } from '../../../constants/constants';
 import * as actionTypes from '../../../stores/actions/actionTypes';
 import { getUsersAction } from '../../../stores/actions/UserActions';
 
@@ -61,35 +61,37 @@ export default function UsersFilter({ closeDialog }) {
                         />
                     </FilterForm>
 
-                    <FilterForm>
-                        <CustomDropDown
-                            id="account-type"
-                            labelText="Account type"
-                            formControlProps={{
-                                fullWidth: true
-                            }}
-                            inputProps={{
-                                value: users?.filters?.accountType,
-                                onChange: (e) => dispatch({ type: actionTypes.SET_USERS_FILTERS, data: { ...users?.filters, accountType: e.target.value } }),
-                            }}
-                            data={accountType || []}
-                        />
-                    </FilterForm>
+                    {users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
+                        <FilterForm>
+                            <CustomDropDown
+                                id="account-type"
+                                labelText="Account type"
+                                formControlProps={{
+                                    fullWidth: true
+                                }}
+                                inputProps={{
+                                    value: users?.filters?.accountType,
+                                    onChange: (e) => dispatch({ type: actionTypes.SET_USERS_FILTERS, data: { ...users?.filters, accountType: e.target.value } }),
+                                }}
+                                data={accountType || []}
+                            />
+                        </FilterForm>}
 
-                    <FilterForm>
-                        <StyledTextField
-                            fullWidth
-                            label="Account name"
-                            value={users?.filters?.accountName}
-                            onChange={(e) => dispatch({ type: actionTypes.SET_USERS_FILTERS, data: { ...users?.filters, accountName: e.target.value } })}
-                            InputLabelProps={{
-                                style: {
-                                    fontFamily: theme.fontFamily.nunitoSansBold
-                                }
-                            }}
-                            disabled={users?.filters?.accountType === ""}
-                        />
-                    </FilterForm>
+                    {users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
+                        <FilterForm>
+                            <StyledTextField
+                                fullWidth
+                                label="Account name"
+                                value={users?.filters?.accountName}
+                                onChange={(e) => dispatch({ type: actionTypes.SET_USERS_FILTERS, data: { ...users?.filters, accountName: e.target.value } })}
+                                InputLabelProps={{
+                                    style: {
+                                        fontFamily: theme.fontFamily.nunitoSansBold
+                                    }
+                                }}
+                                disabled={users?.filters?.accountType === ""}
+                            />
+                        </FilterForm>}
 
                     <FilterForm>
                         <CustomDropDown

@@ -49,12 +49,14 @@ function Licences() {
         </Grid>
       </Grid>
 
-      {user?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
+      {user?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN ?
         <FilterCreate
           filterComponent={<LicenseFilter />}
           createComponent={() => navigate('/add-licences')}
           btnTitle={"Create new license"}
-        />}
+        /> :
+        <Grid style={{ margin: '30px 0px' }} />
+      }
 
       <CommonDataLoadErrorSuccess
         error={license?.getLicenseKey?.error}

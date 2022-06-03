@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as actionTypes from '../../../stores/actions/actionTypes';
 
 export default function FilterComponent(props) {
-    const { filterComponent, openFilter = true, exportData } = props;
+    const { filterComponent, openFilter = true, exportData, timezone = true } = props;
     const monitor = useSelector(state => state.monitor);
     const dispatch = useDispatch();
     const [state, setState] = React.useState({
@@ -22,7 +22,6 @@ export default function FilterComponent(props) {
     const openExport = Boolean(state.exportAnchorEl);
 
     const handleExportData = (value) => {
-        log("Export File", value)
         exportData(value);
         setState({ ...state, exportAnchorEl: null })
     }
@@ -60,7 +59,7 @@ export default function FilterComponent(props) {
                 </Grid>
             </ContainerItem>
 
-            <Grid item xs={12} md={3}>
+            {timezone && <Grid item xs={12} md={3}>
                 <Timezone
                     id="timezone"
                     labelText="Timezone"
@@ -72,7 +71,7 @@ export default function FilterComponent(props) {
                         onChange: (e) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, timezone: e.target.value } })
                     }}
                 />
-            </Grid>
+            </Grid>}
 
             <Grid style={{ display: 'flex', justifyContent: 'flex-end' }} item xs={12} md={3}>
                 <Grid>

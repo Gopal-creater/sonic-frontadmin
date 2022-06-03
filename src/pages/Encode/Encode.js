@@ -196,6 +196,7 @@ export default function Encode() {
                                     filterComponent={<TrackFilter open={true} />}
                                     exportData={(value) => handleExport(value)}
                                     pdf={false}
+                                    timezone={false}
                                 />
                             </TrackFilterContainer>
 

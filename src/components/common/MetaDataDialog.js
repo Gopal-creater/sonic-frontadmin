@@ -144,6 +144,7 @@ const MetaDataDailog = (props) => {
             props.updateMetaData(response)
             cogoToast.success("Successfully updated meta-data")
         }).catch((error) => {
+            log("Error updating meta-data", error)
             setValues({ ...values, updateSonicKeyLoading: false })
             cogoToast.error(error?.message || "Error updating meta-data")
         })

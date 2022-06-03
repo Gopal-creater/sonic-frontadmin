@@ -15,7 +15,7 @@ export const getMostPlayedStationsData = (params) => {
 
 
 export const exportDashboardData = (fileFormat, params) => {
-    return AppWebRequest(`/detections/owners/${getUserId()}/export/dashboard-plays-view/${fileFormat}`, 'get', { params: params, responseType: "blob" });
+    return AppWebRequest(`/detections/export/dashboard-plays-view/${fileFormat}`, 'get', { params: params, responseType: "blob" });
 }
 
 export const exportPlaysData = (sonicKey, format, params) => {
@@ -23,5 +23,5 @@ export const exportPlaysData = (sonicKey, format, params) => {
 }
 
 export const getMonitorDashboardData = (params) => {
-    return AppWebRequest(`detections/owners/${getUserId()}/get-monitor-dashboard-data`, "get", { params: params })
+    return AppWebRequest(`detections/get-monitor-dashboard-data`, "get", { params: params })
 }

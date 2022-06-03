@@ -11,7 +11,7 @@ import { H3 } from "../../../StyledComponents/StyledHeadings";
 import CommonDataLoadErrorSuccess from "../../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess";
 import DashboardTable from "./Components/DashboardTable/DashboardTable";
 import { ButtonContainer, CardContainer, StyledIconButton, TableContainer } from "./DashboardStyles";
-import { getMonitorDashboardDataAction } from "../../../stores/actions/dashboardActions.js/dashboardActions";
+import { getMonitorDashboardDataAction, getMonitorDashboardExportAction } from "../../../stores/actions/dashboardActions.js/dashboardActions";
 import MonitorFilter from "../Components/MonitorFilter/MonitorFilter";
 import { getMonitorExportAction } from "../../../stores/actions/monitorActions/monitorActions";
 import { useReactToPrint } from 'react-to-print';
@@ -74,7 +74,7 @@ export function Dashboard() {
     if (format === 'pdf') {
       handlePrintToPdf();
     } else {
-      dispatch(getMonitorExportAction(monitor?.dates?.startDate, monitor?.dates?.endDate, format, 2000))
+      dispatch(getMonitorDashboardExportAction(format, monitor?.dates?.startDate, monitor?.dates?.endDate, 2000))
     }
   }
 
@@ -238,22 +238,8 @@ export function Dashboard() {
           <DashboardTable
             data={createStableTableData()}
           />
-          {/* <AppCheckBox />
-          <CustomRadioButton /> */}
-
         </CommonDataLoadErrorSuccess>
       </TableContainer>
-
-      {/* import ControlPointIcon from '@material-ui/icons/ControlPoint'; */}
-      {/* <AppAutoComplete
-        loading={picker.title.loading}
-        error={picker.title.error}
-        data={picker.title.data?.docs}
-        onInputChange={(title) => dispatch(getTrackTitleAction(title))}
-        onChange={(artist) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, artist: artist?.sonicKey?.contentFileName } })}
-        optionLabel={(option) => option?.sonicKey?.contentFileName || ""}
-      />
-      <AppToggleSwitch /> */}
     </Grid >
   );
 }

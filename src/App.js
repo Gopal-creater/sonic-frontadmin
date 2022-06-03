@@ -8,6 +8,7 @@ import awsconfig from "./config/aws-exports";
 import Authenticator from "./pages/Auth/Authenticator";
 import Communication from "./services/https/Communication";
 import cogoToast from "cogo-toast";
+import { log } from "./utils/app.debug";
 
 Amplify.configure(awsconfig);
 function App() {
@@ -15,6 +16,7 @@ function App() {
     session: state.session,
   }));
 
+  log("session", session)
   const [authenticating, setAuthenticating] = React.useState(true)
 
   const dispatch = useDispatch();
@@ -39,26 +41,32 @@ function App() {
   }
 
   //if user is present and session is not null then only show main page
-  if (
+
+  if (session?.user?.signInUserSession === null &&
+    session?.user?.challengeName === "NEW_PASSWORD_REQUIRED") {
+    return <Authenticator propName="NEW_PASSWORD_REQUIRED" />
+  }
+
+  // else if (
+  //   session?.user?.challengeParam?.userAttributes?.email_verified === false ||
+  //   session?.user?.challengeParam?.userAttributes?.email_verified === "false" ||
+  //   session?.user?.attributes?.email_verified === false ||
+  //   session?.user?.email_verified === false
+  // ) {
+  //   return <Authenticator propName="EmailNotVerified" />
+  // }
+
+  else if (session?.resetPassword) {
+    return <Authenticator propName="ResetPassword" />
+  }
+
+  else if (
     session?.user !== null &&
     session?.user?.signInUserSession !== null
   ) {
     return (
       <AppRoutes />
     );
-  }
-
-  else if (session?.user?.signInUserSession === null &&
-    session?.user?.challengeName === "NEW_PASSWORD_REQUIRED") {
-    return <Authenticator propName="NEW_PASSWORD_REQUIRED" />
-  }
-
-  else if (session?.user?.challengeParam?.userAttributes?.email_verified === "false") {
-    return <Authenticator propName="EmailNotVerified" />
-  }
-
-  else if (session?.resetPassword) {
-    return <Authenticator propName="ResetPassword" />
   }
 
   return <Authenticator propName="SignIn" />

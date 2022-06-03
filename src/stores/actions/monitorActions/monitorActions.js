@@ -2,12 +2,14 @@ import cogoToast from "cogo-toast";
 import fileDownload from "js-file-download";
 import moment from "moment";
 import store from "../..";
+import { getRoleWiseID } from "../../../services/https/AuthHelper";
 import { getMonitorExport, getMonitorList } from "../../../services/https/resources/Monitor/Monitor.api";
 import { log } from "../../../utils/app.debug";
 
 export const getMonitorListAction = (actions, startDate, endDate, page, limit, playsBy, sortBy, isAscending) => {
     let newEndDate = moment(endDate).endOf("days").toISOString()
     let params = new URLSearchParams(`detectedAt>=${moment(startDate).format("YYYY-MM-DD")}&detectedAt<=date(${newEndDate})`)
+    let userRoleWiseId = getRoleWiseID()
 
     params.append("limit", limit);
     params.append("page", page)
@@ -58,6 +60,10 @@ export const getMonitorListAction = (actions, startDate, endDate, page, limit, p
         }
     }
 
+    if (userRoleWiseId?.company) params.append("relation_sonicKey.company", userRoleWiseId?.company)
+    if (userRoleWiseId?.partner) params.append("relation_sonicKey.partner", userRoleWiseId?.partner)
+    if (userRoleWiseId?.owner) params.append("relation_sonicKey.owner", userRoleWiseId?.owner)
+
     return (dispatch) => {
         dispatch({ type: actions?.loading })
         getMonitorList(params).then((data) => {
@@ -73,13 +79,12 @@ export const getMonitorListAction = (actions, startDate, endDate, page, limit, p
 
 export const getMonitorExportAction = (startDate, endDate, format, limit = 2000, playsBy, sortBy, isAscending) => {
     let monitorFilters = store.getState()?.monitor?.filters
+    let userRoleWiseId = getRoleWiseID()
 
     let newEndDate = moment(endDate).endOf("days").toISOString()
     let params = new URLSearchParams(`detectedAt>=${moment(startDate).format("YYYY-MM-DD")}&detectedAt<=date(${newEndDate})`)
 
     params.append("limit", limit);
-
-    monitorFilters?.channel === "ALL" ? params.append("channel", "") : params.append("channel", monitorFilters?.channel)
 
     if (playsBy) {
         params.append("playsBy", playsBy)
@@ -87,6 +92,10 @@ export const getMonitorExportAction = (startDate, endDate, format, limit = 2000,
 
     if (sortBy) {
         isAscending ? params.append("sort", sortBy) : params.append("sort", `-${sortBy}`)
+    }
+
+    if (monitorFilters?.channel !== "ALL") {
+        params.append("channel", monitorFilters?.channel)
     }
 
     if (monitorFilters?.sonicKey) {
@@ -120,6 +129,10 @@ export const getMonitorExportAction = (startDate, endDate, format, limit = 2000,
             params.append(`relation_sonicKey.createdAt<`, `date(${moment(monitorFilters?.encodedStartDate).endOf("days").toISOString()})`)
         }
     }
+
+    if (userRoleWiseId?.company) params.append("relation_sonicKey.company", userRoleWiseId?.company)
+    if (userRoleWiseId?.partner) params.append("relation_sonicKey.partner", userRoleWiseId?.partner)
+    if (userRoleWiseId?.owner) params.append("relation_sonicKey.owner", userRoleWiseId?.owner)
 
     return dispatch => {
         getMonitorExport(format, params).then((data) => {

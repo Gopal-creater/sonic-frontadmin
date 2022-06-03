@@ -7,6 +7,9 @@ import AppButton from '../../../../components/common/AppButton/AppButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTracksAction } from '../../../../stores/actions/EncodeActions';
 import * as actionTypes from "../../../../stores/actions/actionTypes"
+import CustomDropDown from '../../../../components/common/AppTextInput/CustomDropDown';
+import theme from '../../../../theme';
+import { Distributor } from '../../../../constants/constants';
 
 export default function TrackFilter({ closeDialog }) {
     const encode = useSelector(state => state.encode)
@@ -17,6 +20,8 @@ export default function TrackFilter({ closeDialog }) {
         dispatch(getTracksAction(encode?.tracks.startDate, encode?.tracks?.endDate, 1, "10", encode?.tracks?.trackFilters))
         closeDialog?.()
     }
+
+    let distributorArray = Distributor.map((data) => { return { name: data } })
 
     return (
         <Grid style={{ padding: "30px" }}>
@@ -45,13 +50,18 @@ export default function TrackFilter({ closeDialog }) {
                         value={encode?.tracks?.trackFilters?.artist}
                         onChange={(e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, artist: e.target.value } })}
                     />
-
-                    <StyledTextField
-                        id=""
-                        label="User"
-                        className="mt-1"
-                        value={encode?.tracks?.trackFilters?.user}
-                        onChange={(e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, user: e.target.value } })}
+                    <CustomDropDown
+                        id="channel-dropdown"
+                        labelText="Distributor"
+                        formControlProps={{
+                            fullWidth: true
+                        }}
+                        labelProps={{ style: { fontFamily: theme.fontFamily.nunitoSansRegular } }}
+                        inputProps={{
+                            value: encode?.tracks?.trackFilters?.distributor,
+                            onChange: (e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, distributor: e.target.value } })
+                        }}
+                        data={distributorArray || []}
                     />
                 </Grid>
                 <Grid item xs={6}>
@@ -64,17 +74,17 @@ export default function TrackFilter({ closeDialog }) {
                     />
                     <StyledTextField
                         id=""
-                        label="Distributor"
-                        className="mt-1"
-                        value={encode?.tracks?.trackFilters?.distributor}
-                        onChange={(e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, distributor: e.target.value } })}
-                    />
-                    <StyledTextField
-                        id=""
                         label="Company"
                         className="mt-1"
                         value={encode?.tracks?.trackFilters?.company}
                         onChange={(e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, company: e.target.value } })}
+                    />
+                    <StyledTextField
+                        id=""
+                        label="User"
+                        className="mt-1"
+                        value={encode?.tracks?.trackFilters?.user}
+                        onChange={(e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, user: e.target.value } })}
                     />
                 </Grid>
             </Grid>

@@ -14,10 +14,9 @@ import { log } from '../../utils/app.debug.js';
 import PaginationCount from '../../components/common/Pagination/PaginationCount';
 import Columns from '../../components/common/Columns/Columns';
 import FilterComponent from '../../components/common/FilterComponent/FilterComponent';
-import MonitorFilter from '../Monitor/Components/MonitorFilter/MonitorFilter';
 import CommonDataLoadErrorSuccess from '../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess';
 import CustomPagination from '../../components/common/Pagination/CustomPagination';
-import { TracksTableHeads } from '../../constants/constants';
+import { tracksTableHeads } from '../../constants/constants';
 import AppAutoComplete from "../../components/common/AutoComplete/AppAutoComplete"
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
@@ -30,7 +29,7 @@ import TrackFilter from './Components/TrackFilter';
 
 export default function Encode() {
     const [state, setState] = React.useState({
-        tracksTableHeads: TracksTableHeads,
+        tracksTableHeads: tracksTableHeads,
         currentSortBy: "",
         currentIsAscending: "",
         autoCompleteValue: "",
@@ -47,11 +46,11 @@ export default function Encode() {
 
     const handleExport = (format) => {
         log("format", format)
-        dispatch(exportTrackAction(format, 2000, encode?.tracks?.trackFilters))
+        dispatch(exportTrackAction(format, 2000, encode?.tracks?.trackFilters, state.currentSortBy, state.currentIsAscending))
     }
 
     const handleTrackPageChange = (event, value) => {
-        dispatch(getTracksAction(encode?.tracks.startDate, encode?.tracks?.endDate, value, "10"))
+        dispatch(getTracksAction(encode?.tracks.startDate, encode?.tracks?.endDate, value, "10", encode?.tracks?.trackFilters, state.currentSortBy, state.currentIsAscending))
     }
 
     const handleDragDropFile = (files) => {
@@ -98,6 +97,29 @@ export default function Encode() {
             contentSamplingFrequency: v?.trackMetaData?.contentSamplingFrequency || v?.samplingFrequency || "",
         }
         dispatch({ type: actionTypes.SET_SELECTED_EXISTING_FILE, data: { file: v, metaData: metaData } })
+    }
+
+    const trackSorting = (sortBy, isAscending, isActive) => {
+        log("sortBy, isAscending, isActive", sortBy, isAscending, isActive)
+        var newTrackTableHeads = state.tracksTableHeads.map((data) => {
+            if (data.sortBy === sortBy) {
+                dispatch(getTracksAction(
+                    encode?.tracks.startDate,
+                    encode?.tracks?.endDate,
+                    encode?.tracks?.data?.page,
+                    "10",
+                    encode?.tracks?.trackFilters,
+                    sortBy,
+                    isAscending
+                ))
+                return { ...data, isActive: isActive, isAscending: isAscending }
+            }
+            return { ...data, isActive: false, isAscending: null }
+        })
+
+        log("new table heads", newTrackTableHeads)
+
+        return setState({ ...state, tracksTableHeads: newTrackTableHeads, currentSortBy: sortBy, currentIsAscending: isAscending })
     }
 
     return (
@@ -181,9 +203,13 @@ export default function Encode() {
                                 <CommonDataLoadErrorSuccess
                                     error={encode?.tracks?.error}
                                     loading={encode?.tracks?.loading}
-                                    onClickTryAgain={() => dispatch(dispatch(getTracksAction(encode?.tracks.startDate, encode?.tracks?.endDate, 1, "10")))}
+                                    onClickTryAgain={() => dispatch(dispatch(getTracksAction(encode?.tracks.startDate, encode?.tracks?.endDate, 1, "10", encode?.tracks?.trackFilters, state.currentSortBy, state.currentIsAscending)))}
                                 >
-                                    <TracksTable data={encode?.tracks?.data?.docs} tableHeads={state.tracksTableHeads} />
+                                    <TracksTable
+                                        data={encode?.tracks?.data?.docs}
+                                        tableHeads={state.tracksTableHeads}
+                                        trackSorting={(sortBy, isAscending, isActive) => trackSorting(sortBy, isAscending, isActive)}
+                                    />
                                     <Grid container justifyContent="space-between" alignItems="center" style={{ marginTop: "30px" }}>
                                         <Grid item xs={12} sm={6} md={6}>
                                             <PaginationCount

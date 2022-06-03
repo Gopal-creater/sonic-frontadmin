@@ -73,14 +73,24 @@ export const encodeAgainFromTrackAction = (encodePayload) => {
     }
 }
 
-export const getTracksAction = (startDate, endDate, page, limit, filters, playsBy, sortBy, isAscending) => {
+export const getTracksAction = (startDate, endDate, page, limit, filters, sortBy, isAscending) => {
     let newEndDate = moment(endDate).endOf("days").toISOString()
+    let userRoleWiseId = getRoleWiseID()
+
     let params = new URLSearchParams(`createdAt>=${moment(startDate).format("YYYY-MM-DD")}&createdAt<=date(${newEndDate})`)
     params.append("limit", limit);
     params.append("page", page)
     params.append("skip", page > 1 ? (page - 1) * limit : 0)
 
-    let userRoleWiseId = getRoleWiseID()
+    if (sortBy && sortBy !== "SYSTEM/PARTNER_ID") {
+        isAscending ? params.append("sort", sortBy) : params.append("sort", `-${sortBy}`)
+    }
+
+    if (sortBy && sortBy === "SYSTEM/PARTNER_ID") {
+        if (userRoleWiseId?.company) isAscending ? params.append("sort", "company._id") : params.append("sort", "-company._id")
+        if (userRoleWiseId?.partner) isAscending ? params.append("sort", "partner._id") : params.append("sort", "-partner._id")
+        if (userRoleWiseId?.owner) isAscending ? params.append("sort", "owner._id") : params.append("sort", "-owner._id")
+    }
 
     if (userRoleWiseId?.company) params.append("company", userRoleWiseId?.company)
     if (userRoleWiseId?.partner) params.append("partner", userRoleWiseId?.partner)
@@ -135,9 +145,8 @@ export const getEncodeSearchTracksAction = (title) => {
     }
 }
 
-export const exportTrackAction = (format, limit = 2000, filters) => {
+export const exportTrackAction = (format, limit = 2000, filters, sortBy, isAscending) => {
     let encode = store.getState()?.encode
-    let trackFilters = store.getState()?.encode?.tracks?.trackFilters
     let userRoleWiseId = getRoleWiseID()
     let startDate = encode?.tracks?.startDate
     let endDate = encode?.tracks?.endDate
@@ -145,6 +154,16 @@ export const exportTrackAction = (format, limit = 2000, filters) => {
     let params = new URLSearchParams(`createdAt>=${moment(encode?.tracks?.startDate).format("YYYY-MM-DD")}&createdAt<=date(${moment(endDate).endOf("days").toISOString()})`)
 
     params.append("limit", limit);
+
+    if (sortBy && sortBy !== "SYSTEM/PARTNER_ID") {
+        isAscending ? params.append("sort", sortBy) : params.append("sort", `-${sortBy}`)
+    }
+
+    if (sortBy && sortBy === "SYSTEM/PARTNER_ID") {
+        if (userRoleWiseId?.company) isAscending ? params.append("sort", "company._id") : params.append("sort", "-company._id")
+        if (userRoleWiseId?.partner) isAscending ? params.append("sort", "partner._id") : params.append("sort", "-partner._id")
+        if (userRoleWiseId?.owner) isAscending ? params.append("sort", "owner._id") : params.append("sort", "-owner._id")
+    }
 
     if (userRoleWiseId?.company) params.append("company", userRoleWiseId?.company)
     if (userRoleWiseId?.partner) params.append("partner", userRoleWiseId?.partner)

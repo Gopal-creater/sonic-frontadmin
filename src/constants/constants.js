@@ -1494,16 +1494,16 @@ export const companiesTableHeads = [
   { title: "ACTION" },
 ]
 
-export const TracksTableHeads = [
-  { title: "TRACK ID", sortBy: "TRACK ID", isAscending: null, isActive: false },
-  { title: "TITLE", sortBy: "TITLE", isAscending: null, isActive: false },
-  { title: "VERSION", sortBy: "VERSION", isAscending: null, isActive: false },
-  { title: "ARTIST", sortBy: "ARTIST", isAscending: null, isActive: false },
-  { title: "DISTRIBUTOR", sortBy: "DISTRIBUTOR", isAscending: null, isActive: false },
-  { title: "FILE TYPE", sortBy: "FILE TYPE", isAscending: null, isActive: false },
-  { title: "ENCODED DATE", sortBy: "FILE TYPE", isAscending: null, isActive: false },
-  { title: "SYSTEM/PARTNER ID", sortBy: "SYSTEM/PARTNER ID", isAscending: null, isActive: false },
-  { title: "ACTION", sortBy: "ACTION", isAscending: null, isActive: false },
+export const tracksTableHeads = [
+  { title: "TRACK ID", sortBy: "_id", isAscending: null, isActive: false },
+  { title: "TITLE", sortBy: "trackMetaData.contentName", isAscending: null, isActive: false },
+  { title: "VERSION", sortBy: "trackMetaData.version", isAscending: null, isActive: false },
+  { title: "ARTIST", sortBy: "trackMetaData.contentOwner", isAscending: null, isActive: false },
+  { title: "DISTRIBUTOR", sortBy: "trackMetaData.distributor", isAscending: null, isActive: false },
+  { title: "FILE TYPE", sortBy: "trackMetaData.contentFileType", isAscending: null, isActive: false },
+  { title: "ENCODED DATE", sortBy: "createdAt", isAscending: null, isActive: false },
+  { title: "SYSTEM/PARTNER ID", sortBy: "SYSTEM/PARTNER_ID", isAscending: null, isActive: false },
+  { title: "ACTION", sortBy: "", isAscending: null, isActive: false },
 ]
 
 //Dropdown values

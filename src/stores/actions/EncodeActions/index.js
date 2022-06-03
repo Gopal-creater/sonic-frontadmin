@@ -1,8 +1,9 @@
 import cogoToast from "cogo-toast"
+import fileDownload from "js-file-download"
 import moment from 'moment'
 import store from "../.."
 import { getRoleWiseID } from "../../../services/https/AuthHelper"
-import { encodeFromFile, encodeFromTrack, getEncodeSearchTracks, getTracks } from "../../../services/https/resources/EncodeApi/encodeApi"
+import { encodeFromFile, encodeFromTrack, exportTrack, getEncodeSearchTracks, getTracks } from "../../../services/https/resources/EncodeApi/encodeApi"
 import { log } from "../../../utils/app.debug"
 import * as actionTypes from "../actionTypes"
 
@@ -72,25 +73,39 @@ export const encodeAgainFromTrackAction = (encodePayload) => {
     }
 }
 
-export const getTracksAction = (startDate, endDate, page, limit, filter = "", playsBy, sortBy, isAscending) => {
+export const getTracksAction = (startDate, endDate, page, limit, filters, sortBy, isAscending) => {
     let newEndDate = moment(endDate).endOf("days").toISOString()
+    let userRoleWiseId = getRoleWiseID()
+
     let params = new URLSearchParams(`createdAt>=${moment(startDate).format("YYYY-MM-DD")}&createdAt<=date(${newEndDate})`)
     params.append("limit", limit);
     params.append("page", page)
     params.append("skip", page > 1 ? (page - 1) * limit : 0)
 
-    let userRoleWiseId = getRoleWiseID()
+    if (sortBy && sortBy !== "SYSTEM/PARTNER_ID") {
+        isAscending ? params.append("sort", sortBy) : params.append("sort", `-${sortBy}`)
+    }
+
+    if (sortBy && sortBy === "SYSTEM/PARTNER_ID") {
+        if (userRoleWiseId?.company) isAscending ? params.append("sort", "company._id") : params.append("sort", "-company._id")
+        if (userRoleWiseId?.partner) isAscending ? params.append("sort", "partner._id") : params.append("sort", "-partner._id")
+        if (userRoleWiseId?.owner) isAscending ? params.append("sort", "owner._id") : params.append("sort", "-owner._id")
+    }
 
     if (userRoleWiseId?.company) params.append("company", userRoleWiseId?.company)
     if (userRoleWiseId?.partner) params.append("partner", userRoleWiseId?.partner)
     if (userRoleWiseId?.owner) params.append("owner", userRoleWiseId?.owner)
 
-    if (filter) {
-        const addiFilter = {
-            "$or": [{ "trackMetaData.contentName": { "$regex": filter, "$options": "i" } }, { "originalFileName": { "$regex": filter, "$options": "i" } }]
-        }
-        params.append("filter", JSON.stringify(addiFilter))
-    }
+    let filterArray = []
+
+    if (filters?.title) filterArray.push({ "trackMetaData.contentName": { "$regex": filters?.title, "$options": "i" } }, { "originalFileName": { "$regex": filters?.title, "$options": "i" } })
+    if (filters?.id) filterArray.push({ "_id": { "$regex": filters?.id, "$options": "i" } })
+    if (filters?.artist) filterArray.push({ "trackMetaData.contentOwner": { "$regex": filters?.artist, "$options": "i" } }, { "artist": { "$regex": filters?.artist, "$options": "i" } })
+    if (filters?.distributor) filterArray.push({ "trackMetaData.distributor": { "$regex": filters?.distributor, "$options": "i" } })
+    if (filters?.company) filterArray.push({ "company.name": { "$regex": filters?.company, "$options": "i" } })
+    if (filters?.user) filterArray.push({ "owner.name": { "$regex": filters?.user, "$options": "i" } })
+
+    if (filterArray.length !== 0) params.append("filter", JSON.stringify({ "$or": filterArray }))
 
     return (dispatch) => {
         dispatch({ type: actionTypes.SET_TRACKS_LOADING })
@@ -127,5 +142,54 @@ export const getEncodeSearchTracksAction = (title) => {
                 dispatch({ type: actionTypes.SET_ENCODESEARCHTRACK_ERROR, data: err?.message })
                 log("Encode search track error", err?.message)
             })
+    }
+}
+
+export const exportTrackAction = (format, limit = 2000, filters, sortBy, isAscending) => {
+    let encode = store.getState()?.encode
+    let userRoleWiseId = getRoleWiseID()
+    let startDate = encode?.tracks?.startDate
+    let endDate = encode?.tracks?.endDate
+
+    let params = new URLSearchParams(`createdAt>=${moment(encode?.tracks?.startDate).format("YYYY-MM-DD")}&createdAt<=date(${moment(endDate).endOf("days").toISOString()})`)
+
+    params.append("limit", limit);
+
+    if (sortBy && sortBy !== "SYSTEM/PARTNER_ID") {
+        isAscending ? params.append("sort", sortBy) : params.append("sort", `-${sortBy}`)
+    }
+
+    if (sortBy && sortBy === "SYSTEM/PARTNER_ID") {
+        if (userRoleWiseId?.company) isAscending ? params.append("sort", "company._id") : params.append("sort", "-company._id")
+        if (userRoleWiseId?.partner) isAscending ? params.append("sort", "partner._id") : params.append("sort", "-partner._id")
+        if (userRoleWiseId?.owner) isAscending ? params.append("sort", "owner._id") : params.append("sort", "-owner._id")
+    }
+
+    if (userRoleWiseId?.company) params.append("company", userRoleWiseId?.company)
+    if (userRoleWiseId?.partner) params.append("partner", userRoleWiseId?.partner)
+    if (userRoleWiseId?.owner) params.append("owner", userRoleWiseId?.owner)
+
+    let filterArray = []
+
+    if (filters?.title) filterArray.push({ "trackMetaData.contentName": { "$regex": filters?.title, "$options": "i" } }, { "originalFileName": { "$regex": filters?.title, "$options": "i" } })
+    if (filters?.id) filterArray.push({ "_id": { "$regex": filters?.id, "$options": "i" } })
+    if (filters?.artist) filterArray.push({ "trackMetaData.contentOwner": { "$regex": filters?.artist, "$options": "i" } }, { "artist": { "$regex": filters?.artist, "$options": "i" } })
+    if (filters?.distributor) filterArray.push({ "trackMetaData.distributor": { "$regex": filters?.distributor, "$options": "i" } })
+    if (filters?.company) filterArray.push({ "company.name": { "$regex": filters?.company, "$options": "i" } })
+    if (filters?.user) filterArray.push({ "owner.name": { "$regex": filters?.user, "$options": "i" } })
+
+    if (filterArray.length !== 0) params.append("filter", JSON.stringify({ "$or": filterArray }))
+
+    return (dispatch) => {
+        exportTrack(format, params).then((res) => {
+            if (format === "xlsx") {
+                fileDownload(res, `${"Tracks"} Export-xlsx-(${moment(startDate).format("YYYY_MM_DD")}-to-${moment(endDate).format("YYYY_MM_DD")})_${format}.xlsx`);
+            } else {
+                fileDownload(res, `${"Tracks"} Export-csv-(${moment(startDate).format("YYYY_MM_DD")}-to-${moment(endDate).format("YYYY_MM_DD")})_${format}.csv`);
+            }
+        }).catch((err) => {
+            log("Error getting export track")
+            cogoToast.error(err?.message)
+        })
     }
 }

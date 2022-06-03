@@ -18,11 +18,19 @@ import encode_progress from "../../../../assets/icons/encode_progress.png"
 import sonic_preloader from "../../../../assets/icons/sonic_preloader.gif"
 import iconSuccess from "../../../../assets/images/icon-success-graphic.png"
 import errorEncodeIcon from "../../../../assets/images/icon-fail-graphic.png"
+import cogoToast from 'cogo-toast';
+import fileDownload from 'js-file-download'
+import axios from 'axios';
+import DownloadProgressModal from '../DownloadProgressModal';
+import { downloadAnyFile } from '../../../../services/https/resources/EncodeApi/encodeApi';
+import { SelectedColumn } from '../../../../components/common/Columns/component/SelectedColumn';
 
-export default function TracksTable({ data, tableHeads, sorting }) {
+export default function TracksTable({ data, tableHeads, trackSorting }) {
     const [state, setState] = React.useState({
         openViewTrackPopUp: false,
-        selectedTrack: null
+        selectedTrack: null,
+        openDownloadingModal: false,
+        percentComplete: "0",
     })
     const encodeReducer = useSelector(state => state.encode)
 
@@ -42,44 +50,72 @@ export default function TracksTable({ data, tableHeads, sorting }) {
         setState({ ...state, openViewTrackPopUp: false, selectedTrack: null })
     }
 
-    const TCell = ({ children, cell1, ...props }) => {
-        if (cell1) {
-            return (
-                <TableCell size='small' width="35%" {...props}>
-                    <H6 fontSize={"12px"} color={theme.colors.secondary.mediumGrey}>{children}</H6>
-                </TableCell>
-            )
-        }
-        else {
-            return (
-                <TableCell size='small' width="65%"{...props}>
-                    <H6 fontSize={"14px"} fontFamily={theme.fontFamily.nunitoSansMediumBold}>{children}</H6>
-                </TableCell>
-            )
-        }
-    }
-
     const download = (track) => {
         log("Download track", track)
+        setState({ ...state, openDownloadingModal: true })
+        downloadAnyFile(track?.s3OriginalFileMeta?.Key).then((response) => {
+            axios({
+                url: response,
+                responseType: 'blob',
+                onDownloadProgress: function (progressEvent) {
+                    let percent = Math.floor(progressEvent?.loaded / progressEvent?.total * 100)
+                    setState({ ...state, percentComplete: percent, openDownloadingModal: true })
+                }
+            }).then(res => {
+                fileDownload(res.data, track?.originalFileName);
+                setState({ ...state, openDownloadingModal: false })
+            });
+        }).catch((error) => {
+            log("Download error", error)
+            cogoToast.error(error?.message)
+            setState({ ...state, openDownloadingModal: false })
+        })
+    }
+
+    const sorting = (sortBy, isAscending, isActive) => {
+        if (isActive) {
+            if (isAscending === true) {
+                trackSorting(sortBy, false, false)
+            }
+            else if (isAscending === false) {
+                trackSorting(sortBy, true, false)
+            }
+            else if (isAscending === null) {
+                trackSorting(sortBy, true, false)
+            }
+        } else {
+            if (isAscending === true) {
+                trackSorting(sortBy, false, true)
+            }
+            else if (isAscending === false) {
+                trackSorting(sortBy, true, true)
+            }
+            else if (isAscending === null) {
+                trackSorting(sortBy, true, true)
+            }
+        }
     }
 
     return (
         <Grid>
             <TableContainer >
-                <Table aria-label="customized table" style={{ minWidth: "1030px" }}>
+                <Table aria-label="customized table" style={{ minWidth: "1200px" }}>
                     <TableHead>
                         <TableRow>
                             {
                                 tableHeads?.map((data, index) => {
-                                    return (
-                                        <StyledTableHead
-                                            key={index}
-                                        // onClick={() => sorting(data?.sortBy, data?.isAscending, data?.isActive)}
-                                        >
-                                            {data?.title}
-                                            {/* <i className="fa fa-sort" style={{ marginLeft: "5px" }}></i> */}
-                                        </StyledTableHead>
-                                    )
+                                    const isChecked = SelectedColumn(data?.title);
+                                    if (isChecked) {
+                                        return (
+                                            <StyledTableHead
+                                                key={index}
+                                                onClick={() => data?.title !== "ACTION" && sorting(data?.sortBy, data?.isAscending, data?.isActive)}
+                                            >
+                                                {data?.title}
+                                                {data?.title !== "ACTION" && <i className="fa fa-sort" style={{ marginLeft: "5px" }}></i>}
+                                            </StyledTableHead>
+                                        )
+                                    }
                                 })
                             }
                         </TableRow>
@@ -97,31 +133,58 @@ export default function TracksTable({ data, tableHeads, sorting }) {
                                         <StyledTableRow
                                             key={index}
                                         >
-                                            <StyledTableData
-                                                style={{
-                                                    color: theme.colors.primary.navy,
-                                                    fontSize: theme.fontSize.h4,
-                                                    fontFamily: theme.fontFamily.nunitoSansBold
-                                                }}
-                                            >
-                                                {row?._id || "---"}
-                                            </StyledTableData>
-                                            <StyledTableData >
-                                                {row?.trackMetaData?.contentName || row?.originalFileName || "---"}
-                                            </StyledTableData>
-                                            <StyledTableData >{row?.trackMetaData?.version || "---"}</StyledTableData>
-                                            <StyledTableData >{row?.trackMetaData?.contentOwner || "---"}</StyledTableData>
-                                            <StyledTableData >{row?.trackMetaData?.distributor || "---"}</StyledTableData>
-                                            <StyledTableData >{row?.trackMetaData?.contentFileType || "---"}</StyledTableData>
-                                            <StyledTableData >{moment(row?.createdAt).format("YYYY/MM/DD") || "---"}</StyledTableData>
-                                            <StyledTableData >{row?.owner?._id || row?.company?._id || row?.partner?._id || "---"}</StyledTableData>
-                                            <StyledTableData >
-                                                <TableMenu>
-                                                    <ActionMenuItem onClick={() => setState({ ...state, openViewTrackPopUp: true, selectedTrack: row })}>View</ActionMenuItem>
-                                                    <ActionMenuItem onClick={() => download(row)}>Download</ActionMenuItem>
-                                                    <ActionMenuItem onClick={() => encodeAgain(row)}>Encode again</ActionMenuItem>
-                                                </TableMenu>
-                                            </StyledTableData>
+                                            {
+                                                SelectedColumn("TRACK ID") &&
+                                                <StyledTableData
+                                                    style={{
+                                                        color: theme.colors.primary.navy,
+                                                        fontSize: theme.fontSize.h4,
+                                                        fontFamily: theme.fontFamily.nunitoSansBold
+                                                    }}
+                                                >
+                                                    {row?._id || "---"}
+                                                </StyledTableData>
+                                            }
+                                            {
+                                                SelectedColumn("TITLE") &&
+                                                <StyledTableData >
+                                                    {row?.trackMetaData?.contentName || "---"}
+                                                </StyledTableData>
+                                            }
+                                            {
+                                                SelectedColumn("VERSION") &&
+                                                <StyledTableData >{row?.trackMetaData?.version || "---"}</StyledTableData>
+                                            }
+                                            {
+                                                SelectedColumn("ARTIST") &&
+                                                <StyledTableData >{row?.trackMetaData?.contentOwner || "---"}</StyledTableData>
+                                            }
+                                            {
+                                                SelectedColumn("DISTRIBUTOR") &&
+                                                <StyledTableData >{row?.trackMetaData?.distributor || "---"}</StyledTableData>
+                                            }
+                                            {
+                                                SelectedColumn("FILE TYPE") &&
+                                                <StyledTableData >{row?.trackMetaData?.contentFileType || "---"}</StyledTableData>
+                                            }
+                                            {
+                                                SelectedColumn("ENCODED DATE") &&
+                                                <StyledTableData >{moment(row?.createdAt).format("DD/MM/YYYY") || "---"}</StyledTableData>
+                                            }
+                                            {
+                                                SelectedColumn("SYSTEM/PARTNER ID") &&
+                                                <StyledTableData >{row?.owner?._id || row?.company?._id || row?.partner?._id || "---"}</StyledTableData>
+                                            }
+                                            {
+                                                SelectedColumn("ACTION") &&
+                                                <StyledTableData >
+                                                    <TableMenu>
+                                                        <ActionMenuItem onClick={() => setState({ ...state, openViewTrackPopUp: true, selectedTrack: row })}>View</ActionMenuItem>
+                                                        <ActionMenuItem onClick={() => download(row)}>Download</ActionMenuItem>
+                                                        <ActionMenuItem onClick={() => encodeAgain(row)}>Encode again</ActionMenuItem>
+                                                    </TableMenu>
+                                                </StyledTableData>
+                                            }
                                         </StyledTableRow>
                                     )
                                 })}
@@ -147,7 +210,7 @@ export default function TracksTable({ data, tableHeads, sorting }) {
                             </TableRow>
                             <TableRow>
                                 <TCell cell1={true}>TITLE</TCell>
-                                <TCell cell1={false}>{state?.selectedTrack?.trackMetaData?.contentName || state?.selectedTrack?.title || "---"}</TCell>
+                                <TCell cell1={false}>{state?.selectedTrack?.trackMetaData?.contentName || "---"}</TCell>
                             </TableRow>
                             <TableRow>
                                 <TCell cell1={true}>VERSION</TCell>
@@ -155,7 +218,7 @@ export default function TracksTable({ data, tableHeads, sorting }) {
                             </TableRow>
                             <TableRow>
                                 <TCell cell1={true}>ARTIST</TCell>
-                                <TCell cell1={false}>{state?.selectedTrack?.trackMetaData?.contentOwner || state?.selectedTrack?.artist || "---"}</TCell>
+                                <TCell cell1={false}>{state?.selectedTrack?.trackMetaData?.contentOwner || "---"}</TCell>
                             </TableRow>
                             <TableRow>
                                 <TCell cell1={true}>DISTRIBUTOR</TCell>
@@ -167,7 +230,7 @@ export default function TracksTable({ data, tableHeads, sorting }) {
                             </TableRow>
                             <TableRow>
                                 <TCell cell1={true}>ENCODED DATE</TCell>
-                                <TCell cell1={false}>{moment(state?.selectedTrack?.createdAt).format("YYYY/MM/DD") || "---"}</TCell>
+                                <TCell cell1={false}>{moment(state?.selectedTrack?.createdAt).format("DD/MM/YYYY") || "---"}</TCell>
                             </TableRow>
                             <TableRow>
                                 <TCell cell1={true}>SYSTEM/PARTNER ID</TCell>
@@ -294,6 +357,26 @@ export default function TracksTable({ data, tableHeads, sorting }) {
                     </Grid>
                 </PopUpContainer>
             </PopUp>
+
+            <DownloadProgressModal open={state.openDownloadingModal} percentage={state.percentComplete} />
         </Grid>
     )
+}
+
+
+const TCell = ({ children, cell1, ...props }) => {
+    if (cell1) {
+        return (
+            <TableCell size='small' width="35%" {...props}>
+                <H6 fontSize={"12px"} color={theme.colors.secondary.mediumGrey}>{children}</H6>
+            </TableCell>
+        )
+    }
+    else {
+        return (
+            <TableCell size='small' width="65%"{...props}>
+                <H6 fontSize={"14px"} fontFamily={theme.fontFamily.nunitoSansMediumBold}>{children}</H6>
+            </TableCell>
+        )
+    }
 }

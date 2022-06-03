@@ -18,11 +18,18 @@ import encode_progress from "../../../../assets/icons/encode_progress.png"
 import sonic_preloader from "../../../../assets/icons/sonic_preloader.gif"
 import iconSuccess from "../../../../assets/images/icon-success-graphic.png"
 import errorEncodeIcon from "../../../../assets/images/icon-fail-graphic.png"
+import cogoToast from 'cogo-toast';
+import fileDownload from 'js-file-download'
+import axios from 'axios';
+import DownloadProgressModal from '../DownloadProgressModal';
+import { downloadAnyFile } from '../../../../services/https/resources/EncodeApi/encodeApi';
 
 export default function TracksTable({ data, tableHeads, sorting }) {
     const [state, setState] = React.useState({
         openViewTrackPopUp: false,
-        selectedTrack: null
+        selectedTrack: null,
+        openDownloadingModal: false,
+        percentComplete: "0"
     })
     const encodeReducer = useSelector(state => state.encode)
 
@@ -61,6 +68,24 @@ export default function TracksTable({ data, tableHeads, sorting }) {
 
     const download = (track) => {
         log("Download track", track)
+        setState({ ...state, openDownloadingModal: true })
+        downloadAnyFile(track?.s3OriginalFileMeta?.Key).then((response) => {
+            axios({
+                url: response,
+                responseType: 'blob',
+                onDownloadProgress: function (progressEvent) {
+                    let percent = Math.floor(progressEvent?.loaded / progressEvent?.total * 100)
+                    setState({ ...state, percentComplete: percent, openDownloadingModal: true })
+                }
+            }).then(res => {
+                fileDownload(res.data, track?.originalFileName);
+                setState({ ...state, openDownloadingModal: false })
+            });
+        }).catch((error) => {
+            log("Download error", error)
+            cogoToast.error(error?.message)
+            setState({ ...state, openDownloadingModal: false })
+        })
     }
 
     return (
@@ -294,6 +319,8 @@ export default function TracksTable({ data, tableHeads, sorting }) {
                     </Grid>
                 </PopUpContainer>
             </PopUp>
+
+            <DownloadProgressModal open={state.openDownloadingModal} percentage={state.percentComplete} />
         </Grid>
     )
 }

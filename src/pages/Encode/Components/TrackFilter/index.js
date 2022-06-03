@@ -14,7 +14,7 @@ export default function TrackFilter({ closeDialog }) {
     const dispatch = useDispatch()
 
     const handleFilter = () => {
-        dispatch(getTracksAction(encode?.tracks.startDate, encode?.tracks?.endDate, 1, "10", encode?.tracks?.trackFilters?.title))
+        dispatch(getTracksAction(encode?.tracks.startDate, encode?.tracks?.endDate, 1, "10", encode?.tracks?.trackFilters))
         closeDialog?.()
     }
 
@@ -29,13 +29,54 @@ export default function TrackFilter({ closeDialog }) {
             </Grid>
 
             {/* Body */}
-            <Grid className='mt-3'>
-                <StyledTextField
-                    id=""
-                    label="Title"
-                    value={encode?.tracks?.trackFilters?.title}
-                    onChange={(e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, title: e.target.value } })}
-                />
+            <Grid container spacing={2}>
+                <Grid item xs={6}>
+                    <StyledTextField
+                        id=""
+                        className="mt-1"
+                        label="ID"
+                        value={encode?.tracks?.trackFilters?.id}
+                        onChange={(e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, id: e.target.value } })}
+                    />
+                    <StyledTextField
+                        id=""
+                        label="Artist"
+                        className="mt-1"
+                        value={encode?.tracks?.trackFilters?.artist}
+                        onChange={(e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, artist: e.target.value } })}
+                    />
+
+                    <StyledTextField
+                        id=""
+                        label="User"
+                        className="mt-1"
+                        value={encode?.tracks?.trackFilters?.user}
+                        onChange={(e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, user: e.target.value } })}
+                    />
+                </Grid>
+                <Grid item xs={6}>
+                    <StyledTextField
+                        id=""
+                        label="Title"
+                        className="mt-1"
+                        value={encode?.tracks?.trackFilters?.title}
+                        onChange={(e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, title: e.target.value } })}
+                    />
+                    <StyledTextField
+                        id=""
+                        label="Distributor"
+                        className="mt-1"
+                        value={encode?.tracks?.trackFilters?.distributor}
+                        onChange={(e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, distributor: e.target.value } })}
+                    />
+                    <StyledTextField
+                        id=""
+                        label="Company"
+                        className="mt-1"
+                        value={encode?.tracks?.trackFilters?.company}
+                        onChange={(e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, company: e.target.value } })}
+                    />
+                </Grid>
             </Grid>
 
             {/* Footer Button */}
@@ -43,7 +84,17 @@ export default function TrackFilter({ closeDialog }) {
                 <AppButton
                     variant={"outline"}
                     style={{ marginRight: "10px" }}
-                    onClick={() => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, title: "" } })}
+                    onClick={() => dispatch({
+                        type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: {
+                            ...encode?.tracks?.trackFilters,
+                            title: "",
+                            id: "",
+                            artist: "",
+                            company: "",
+                            distributor: "",
+                            user: ""
+                        }
+                    })}
                 >
                     Reset
                 </AppButton>

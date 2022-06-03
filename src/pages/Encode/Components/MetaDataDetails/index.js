@@ -29,6 +29,7 @@ import errorEncodeIcon from "../../../../assets/images/icon-fail-graphic.png"
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import AppAutoComplete from '../../../../components/common/AutoComplete/AppAutoComplete'
 import IconButton from '@material-ui/core/IconButton';
+import { Distributor, Labels } from '../../../../constants/constants'
 
 export default function EncodeData() {
     const encodeReducer = useSelector(state => state.encode)
@@ -76,6 +77,9 @@ export default function EncodeData() {
         dispatch({ type: actionTypes.SET_METADATA, data: metaData })
         setState({ ...state, displaySelectedTrack: true, autoCompleteValue: v })
     }
+
+    let labelArray = Labels.map((data) => { return { name: data } })
+    let distributorArray = Distributor.map((data) => { return { name: data } })
 
     return (
         <EncodeContainer>
@@ -312,23 +316,37 @@ export default function EncodeData() {
                             onChange={(e) => { dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, contentDescription: e.target.value } }) }}
                         />
 
-                        <StyledTextField
-                            fullWidth
-                            id="standard-basic"
-                            label="Distributor"
-                            className="mt-3"
-                            value={encodeReducer?.metaData?.distributor}
-                            onChange={(e) => { dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, distributor: e.target.value } }) }}
-                        />
+                        <Grid className='mt-3'>
+                            <CustomDropDown
+                                id="channel-dropdown"
+                                labelText="Distributor"
+                                formControlProps={{
+                                    fullWidth: true
+                                }}
+                                labelProps={{ style: { fontFamily: theme.fontFamily.nunitoSansRegular } }}
+                                inputProps={{
+                                    value: encodeReducer?.metaData?.distributor,
+                                    onChange: (e) => dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, distributor: e.target.value } })
+                                }}
+                                data={distributorArray || []}
+                            />
+                        </Grid>
 
-                        <StyledTextField
-                            fullWidth
-                            id="standard-basic"
-                            label="Label"
-                            className="mt-3"
-                            value={encodeReducer?.metaData?.label}
-                            onChange={(e) => { dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, label: e.target.value } }) }}
-                        />
+                        <Grid className='mt-3'>
+                            <CustomDropDown
+                                id="channel-dropdown"
+                                labelText="Label"
+                                formControlProps={{
+                                    fullWidth: true
+                                }}
+                                labelProps={{ style: { fontFamily: theme.fontFamily.nunitoSansRegular } }}
+                                inputProps={{
+                                    value: encodeReducer?.metaData?.label,
+                                    onChange: (e) => dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, label: e.target.value } })
+                                }}
+                                data={labelArray || []}
+                            />
+                        </Grid>
 
                         <StyledTextField
                             fullWidth

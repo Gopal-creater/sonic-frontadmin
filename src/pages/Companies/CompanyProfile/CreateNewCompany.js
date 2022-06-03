@@ -10,12 +10,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
 import { Controller, useForm } from "react-hook-form";
-import cogoToast from "cogo-toast";
 import { HelperText } from "../../Licences/LicenseStyled";
 import CustomDropDown from "../../../components/common/AppTextInput/CustomDropDown";
 import { companyType } from "../../../constants/constants";
-import { log } from "../../../utils/app.debug";
-import PhoneTextInput from "../../../components/common/AppTextInput/PhoneTextInput";
 import { createCompanyAction } from "../../../stores/actions/CompanyActions"
 import { useDispatch, useSelector } from "react-redux";
 import AppAutoComplete from "../../../components/common/AutoComplete/AppAutoComplete";
@@ -197,7 +194,7 @@ export default function CreateNewCompany() {
                             <Grid style={{ marginTop: 15 }}>
                                 <DisabledTextField
                                     label={"Username"}
-                                    value={state?.user?.name || ""}
+                                    value={state?.user?.username || ""}
                                 />
                             </Grid>
 
@@ -214,89 +211,8 @@ export default function CreateNewCompany() {
                                     value={state?.user?.phone_number || ""}
                                 />
                             </Grid>
-                        </Grid>}
-
-
-                        {/* <Controller
-                            name="userName"
-                            control={control}
-                            defaultValue=""
-                            render={({
-                                field: { onChange, value },
-                                fieldState: { error },
-                            }) => (
-                                <>
-                                    <StyledTextField
-                                        fullWidth
-                                        id="standard-basic"
-                                        label="Username*"
-                                        className="mt-3"
-                                        value={value}
-                                        onChange={onChange}
-                                        error={!!error}
-                                        autoComplete='off'
-                                    />
-                                    {error?.message && <HelperText>{error?.message}</HelperText>}
-                                </>
-                            )}
-                            rules={{ required: "Username is required" }}
-                        />
-
-                        <Controller
-                            name="email"
-                            control={control}
-                            defaultValue=""
-                            render={({
-                                field: { onChange, value },
-                                fieldState: { error },
-                            }) => (
-                                <>
-                                    <StyledTextField
-                                        fullWidth
-                                        id="standard-basic"
-                                        label="Email*"
-                                        className="mt-3"
-                                        value={value}
-                                        onChange={onChange}
-                                        error={!!error}
-                                    />
-                                    {error?.message && <HelperText>{error?.message}</HelperText>}
-                                </>
-                            )}
-                            rules={{
-                                required: "Email is required",
-                                pattern: {
-                                    value: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                                    message: "Invalid email address"
-                                }
-                            }}
-
-                        />
-
-                        <Grid style={{ marginTop: 20 }}>
-                            <Controller
-                                name="phoneNumber"
-                                control={control}
-                                render={({
-                                    field: { onChange, value },
-                                    fieldState: { error },
-                                }) => (
-                                    <>
-                                        <PhoneTextInput
-                                            fullWidth
-                                            value={value}
-                                            onchange={onChange}
-                                            error={!!error}
-                                            phoneCodeProps={{
-                                                value: state.countryCode,
-                                                onChange: (e) => setState({ ...state, countryCode: e.target.value })
-                                            }}
-                                        />
-                                        {error?.message && <HelperText>{error?.message}</HelperText>}
-                                    </>
-                                )}
-                            /> */}
-                        {/* </Grid> */}
+                        </Grid>
+                        }
                     </Grid >
                 </Grid>
 

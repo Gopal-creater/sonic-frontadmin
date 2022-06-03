@@ -32,11 +32,10 @@ export const fetchLicenceKeys = (limit, page) => {
     let userRoleWiseId = getRoleWiseID()
 
     if (userRoleWiseId?.partner) {
-        // let additionalFilter = { $or: [{ "company.partner": userRoleWiseId?.partner }, { "users.partner": userRoleWiseId?.partner }] }
-        // params.append("relation_filter", JSON.stringify(additionalFilter))
-        params.append("relation_filter", JSON.stringify({ $or: [{ "company.partner": userRoleWiseId?.partner }, { "users.partner": userRoleWiseId?.partner }] }))
+        let additionalFilter = { $or: [{ "company.partner": userRoleWiseId?.partner }, { "users.partner": userRoleWiseId?.partner }] }
+        params.append("relation_filter", JSON.stringify(additionalFilter))
     }
-    // if (userRoleWiseId?.partner) params.append("relation_company.partner", userRoleWiseId?.partner)
+    // if (userRoleWiseId?.partner) params.append("relation_users.partner", userRoleWiseId?.partner)
     if (userRoleWiseId?.company) params.append("company", userRoleWiseId?.company)
     if (userRoleWiseId?.owner) params.append("users", userRoleWiseId?.owner)
 

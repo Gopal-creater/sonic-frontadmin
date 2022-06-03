@@ -1495,6 +1495,16 @@ export const companiesTableHeads = [
   { title: "ACTION" },
 ]
 
+export const sonicKeyTableHeads = [
+  { title: "ID" },
+  { title: "SONICKEY" },
+  { title: "ORIGINAL FILENAME" },
+  { title: "ARTIST" },
+  { title: "ENCODED DATE" },
+  { title: "DESCRIPTION" },
+  { title: "ACTION" },
+]
+
 export const tracksTableHeads = [
   { title: "TRACK ID", sortBy: "_id", isAscending: null, isActive: false },
   { title: "TITLE", sortBy: "trackMetaData.contentName", isAscending: null, isActive: false },

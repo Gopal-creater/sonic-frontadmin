@@ -1,10 +1,13 @@
-import { getUserId } from "../AuthHelper";
 import { AppWebRequest } from "../NetworkManager";
 
-export const fetchRadioStations = (params) => {
-    return AppWebRequest(`/radiomonitors/owners/${getUserId()}/subscribed-stations-list`, "get", { params: params });
+export const fetchRadioMonitors = (params) => {
+    return AppWebRequest(`/radiomonitors/subscribed-stations-list`, "get", { params: params });
 }
 
-export const getSubscribedStationCount = () => {
-    return AppWebRequest(`/radiomonitors/owners/${getUserId()}/subscribed-stations-count`);
+export const getRadioMonitorsPlaysCount = (params) => {
+    return AppWebRequest(`/detections/count`, "get", { params: params });
+}
+
+export const getSonicStreamDetails = (params) => {
+    return AppWebRequest(`/detections/list-plays`, "get", { params: params });
 }

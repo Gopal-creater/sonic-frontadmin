@@ -2,48 +2,80 @@ import * as actionTypes from "../actions/actionTypes";
 import produce from "immer";
 
 const initialState = {
+    filters: {
+        country: "",
+        radioStation: ""
+    },
     stations: {
         loading: false,
-        data: [],
+        data: {},
         error: null,
     },
-    stationCount: {
+    playsCount: {
         loading: false,
         data: 0,
         error: null,
+    },
+    streamDetails: {
+        loading: false,
+        data: {},
+        error: null,
     }
-
 }
 
 const streamReaderReducer = (state = initialState, action) =>
     produce(state, (draft) => {
         switch (action.type) {
-            case actionTypes.FETCH_RADIOSTATIONS_LOADING:
-                draft.stations.loading = true;
+            //FILTERS
+            case actionTypes.FETCH_RADIOMONITORS_FILTERS:
+                draft.filters = action.data;
                 break;
-            case actionTypes.FETCH_RADIOSTATIONS_SUCCESS:
+
+            //RADIOMONITORS
+            case actionTypes.FETCH_RADIOMONITORS_LOADING:
+                draft.stations.loading = true;
+                draft.stations.error = null;
+                break;
+            case actionTypes.FETCH_RADIOMONITORS_SUCCESS:
                 draft.stations.loading = false;
                 draft.stations.data = action.data;
                 draft.stations.error = null;
                 break;
-            case actionTypes.FETCH_RADIOSTATIONS_ERROR:
+            case actionTypes.FETCH_RADIOMONITORS_ERROR:
                 draft.stations.loading = false;
-                draft.stations.data = [];
                 draft.stations.error = action.data;
                 break;
-            case actionTypes.TOTAL_SUBSCRIBED_STATION_COUNT_LOADING:
-                draft.stationCount.loading = true;
+
+            //RADIOMONITORS PLAYS COUNT
+            case actionTypes.FETCH_RADIOMONITORS_PLAYS_COUNT_LOADING:
+                draft.playsCount.loading = true;
+                draft.playsCount.error = null;
                 break;
-            case actionTypes.TOTAL_SUBSCRIBED_STATION_COUNT_SUCCESS:
-                draft.stationCount.loading = false;
-                draft.stationCount.data = action.data;
-                draft.stationCount.error = null;
+            case actionTypes.FETCH_RADIOMONITORS_PLAYS_COUNT_SUCCESS:
+                draft.playsCount.loading = false;
+                draft.playsCount.data = action.data;
+                draft.playsCount.error = null;
                 break;
-            case actionTypes.TOTAL_SUBSCRIBED_STATION_COUNT_ERROR:
-                draft.stationCount.loading = false;
-                draft.stationCount.data = 0;
-                draft.stationCount.error = action.data;
+            case actionTypes.FETCH_RADIOMONITORS_PLAYS_COUNT_ERROR:
+                draft.playsCount.loading = false;
+                draft.playsCount.error = action.data;
                 break;
+
+            //SONICSTREAM DETAILS
+            case actionTypes.FETCH_SONICSTREAM_DETAILS_LOADING:
+                draft.streamDetails.loading = true;
+                draft.streamDetails.error = null;
+                break;
+            case actionTypes.FETCH_SONICSTREAM_DETAILS_SUCCESS:
+                draft.streamDetails.loading = false;
+                draft.streamDetails.data = action.data;
+                draft.streamDetails.error = null;
+                break;
+            case actionTypes.FETCH_SONICSTREAM_DETAILS_ERROR:
+                draft.streamDetails.loading = false;
+                draft.streamDetails.error = action.data;
+                break;
+
             default:
                 break;
         }

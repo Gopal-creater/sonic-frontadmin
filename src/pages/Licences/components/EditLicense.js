@@ -15,20 +15,16 @@ import { BorderBottom, RadioLabel, TuneBox } from "../LicenseStyled";
 import AddNewUser from "./AddNewUser";
 import KeyValue from "./KeyValue";
 import AppToggleSwitch from "../../../components/common/AppToggleSwitch/AppToggleSwitch";
-import { useSelector } from "react-redux";
 import { updateLicenceKey } from "../../../services/https/resources/License.api";
 
 export default function EditLicense() {
     const { state } = useLocation();
     const navigate = useNavigate()
-    const user = useSelector(state => state.user)
 
     const [license, setLicense] = React.useState(state)
     const [values, setValues] = React.useState({
         loading: false,
     })
-
-    log("StaTe LICeNsE", license)
 
     const handleEditLicense = (e) => {
         e.preventDefault();
@@ -38,6 +34,7 @@ export default function EditLicense() {
             setValues({ ...values, loading: false })
             cogoToast.success("License updated successfully!")
         }).catch((err) => {
+            log("License update error", err)
             setValues({ ...values, loading: false })
             cogoToast.error(err?.message)
         })

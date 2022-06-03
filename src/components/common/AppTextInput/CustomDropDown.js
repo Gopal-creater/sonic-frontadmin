@@ -12,6 +12,7 @@ export default function CustomDropDown({
     data,
 }) {
     const plays = useSelector(state => state.monitor);
+    const streamReader = useSelector(state => state.streamReader)
 
     return (
         <SelectFormControl {...formControlProps}>
@@ -35,7 +36,7 @@ export default function CustomDropDown({
             </StyledSelect>
             {data?.length === 0 ?
                 <span style={{ color: "red", fontSize: 12 }}>
-                    No radio station for {plays?.filters?.country}
+                    No radio station for {plays?.filters?.country || streamReader?.filters?.country}
                 </span> : ""
             }
         </SelectFormControl>

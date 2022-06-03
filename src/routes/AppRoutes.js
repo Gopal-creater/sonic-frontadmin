@@ -6,7 +6,6 @@ import Decode from "../pages/Decode/Decode";
 import StreamReader from "../pages/Monitor/StreamReader/StreamReader";
 import Sonickeys from "../pages/SonicKeys/SonicKeys";
 import Licences from "../pages/Licences/Licences";
-import { SonicStreamDetail } from "../pages/Monitor/StreamReader/SonicStreamDetail";
 import { Dashboard } from "../pages/Monitor/Dashboard/Dashboard";
 import Plays from "../pages/Monitor/Plays/Plays";
 import Tracks from "../pages/Monitor/Tracks/Tracks";
@@ -31,6 +30,7 @@ import SonicSpinner from "../components/common/SonicSpinner";
 import { logout } from "../stores/actions";
 import CompanyProfile from "../pages/Companies/CompanyProfile/CompanyProfile";
 import SonicKey from "../pages/SonicKey/SonicKey";
+import SonicStreamDetail from "../pages/Monitor/StreamReader/SonicStreamDetail";
 
 export default function AppRoutes() {
   const user = useSelector(state => state.user)

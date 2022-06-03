@@ -164,7 +164,7 @@ export default function Countries() {
             >
                 <>
                     <CountriesTable
-                        data={createStableCountryData}
+                        data={createStableCountryData()}
                         countriesTableHeads={state.countriesTableHeads}
                         onCountriesSorting={(sortBy, isAscending, isActive) => countriesSorting(sortBy, isAscending, isActive)}
                     />

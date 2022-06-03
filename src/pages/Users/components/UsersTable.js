@@ -1,13 +1,17 @@
 import { Grid, Table, TableBody, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { SelectedColumn } from '../../../components/common/Columns/component/SelectedColumn';
 import TableMenu from '../../../components/common/Table/components/TableMenu';
 import { ActionMenuItem } from '../../../components/common/Table/TableStyled';
 import { userRoles } from '../../../constants/constants';
 import { ActiveBox, AlternateStyledTableData, StyledAlternateTableRow, StyledTableData, StyledTableHead, StyledTableRow, SuspendedBox } from '../../../StyledComponents/StyledTable/StyledTable';
+import { CustomTooltip } from '../../../StyledComponents/StyledToolTip/CustomTooltip';
+import theme from '../../../theme';
 
 export default function UsersTable({ data, usersTableHead }) {
+    const users = useSelector(state => state.user)
     const navigate = useNavigate()
 
     const getAccountType = (roles) => {
@@ -61,7 +65,17 @@ export default function UsersTable({ data, usersTableHead }) {
                                     return (
                                         <StyledAlternateTableRow key={data?._id}>
                                             {SelectedColumn("USERNAME") &&
-                                                <AlternateStyledTableData>{data?.username || "---"}</AlternateStyledTableData>
+                                                <CustomTooltip title={data?.username || "---"}>
+                                                    <AlternateStyledTableData
+                                                        style={{
+                                                            color: theme.colors.primary.navy,
+                                                            fontSize: theme.fontSize.h4,
+                                                            fontFamily: theme.fontFamily.nunitoSansBold
+                                                        }}
+                                                    >
+                                                        {data?.username || "---"}
+                                                    </AlternateStyledTableData>
+                                                </CustomTooltip>
                                             }
                                             {SelectedColumn("ID") &&
                                                 <AlternateStyledTableData>{data?._id || "---"}</AlternateStyledTableData>
@@ -72,15 +86,18 @@ export default function UsersTable({ data, usersTableHead }) {
                                             {SelectedColumn("PHONE NUMBER") &&
                                                 <AlternateStyledTableData>{data?.phone_number || "---"}</AlternateStyledTableData>
                                             }
-                                            {SelectedColumn("ACCOUNT TYPE") &&
+                                            {SelectedColumn("ACCOUNT TYPE") && users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
                                                 <AlternateStyledTableData>
                                                     {getAccountType(data?.userRole)}
                                                 </AlternateStyledTableData>
                                             }
-                                            {SelectedColumn("ACCOUNT NAME") &&
+                                            {SelectedColumn("ACCOUNT NAME") && users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
                                                 <AlternateStyledTableData>
                                                     {getAccountName(data)}
                                                 </AlternateStyledTableData>
+                                            }
+                                            {SelectedColumn("COMPANY NAME") && users?.userProfile?.data?.userRole === userRoles.COMPANY_ADMIN &&
+                                                <AlternateStyledTableData>{data?.company?.name || "---"}</AlternateStyledTableData>
                                             }
                                             {SelectedColumn("USER TYPE") &&
                                                 <AlternateStyledTableData>
@@ -108,7 +125,17 @@ export default function UsersTable({ data, usersTableHead }) {
                                 return (
                                     <StyledTableRow key={data?._id}>
                                         {SelectedColumn("USERNAME") &&
-                                            <StyledTableData>{data?.username || "---"}</StyledTableData>
+                                            <CustomTooltip title={data?.username || "---"}>
+                                                <StyledTableData
+                                                    style={{
+                                                        color: theme.colors.primary.navy,
+                                                        fontSize: theme.fontSize.h4,
+                                                        fontFamily: theme.fontFamily.nunitoSansBold
+                                                    }}
+                                                >
+                                                    {data?.username || "---"}
+                                                </StyledTableData>
+                                            </CustomTooltip>
                                         }
                                         {SelectedColumn("ID") &&
                                             <StyledTableData>{data?._id || "---"}</StyledTableData>
@@ -119,15 +146,18 @@ export default function UsersTable({ data, usersTableHead }) {
                                         {SelectedColumn("PHONE NUMBER") &&
                                             <StyledTableData>{data?.phone_number || "---"}</StyledTableData>
                                         }
-                                        {SelectedColumn("ACCOUNT TYPE") &&
+                                        {SelectedColumn("ACCOUNT TYPE") && users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
                                             <StyledTableData>
                                                 {getAccountType(data?.userRole)}
                                             </StyledTableData>
                                         }
-                                        {SelectedColumn("ACCOUNT NAME") &&
+                                        {SelectedColumn("ACCOUNT NAME") && users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
                                             <StyledTableData>
                                                 {getAccountName(data)}
                                             </StyledTableData>
+                                        }
+                                        {SelectedColumn("COMPANY NAME") && users?.userProfile?.data?.userRole === userRoles.COMPANY_ADMIN &&
+                                            <AlternateStyledTableData>{data?.company?.name || "---"}</AlternateStyledTableData>
                                         }
                                         {SelectedColumn("USER TYPE") &&
                                             <StyledTableData>

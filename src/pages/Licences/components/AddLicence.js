@@ -16,7 +16,6 @@ import { StyledTextField } from "../../../StyledComponents/StyledAppTextInput/St
 import { H1, H4 } from "../../../StyledComponents/StyledHeadings";
 import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
 import theme from "../../../theme";
-import { log } from "../../../utils/app.debug";
 import { BorderBottom, HelperText, RadioLabel, TuneBox } from "../LicenseStyled";
 import KeyValue from "./KeyValue";
 
@@ -41,9 +40,6 @@ export default function AddLicence() {
   const user = useSelector(state => state.user)
   const company = useSelector(state => state.company)
   const license = useSelector(state => state.licenceKey)
-
-  log("LICeNsE pAyLOad..", state.user)
-  log(license)
 
   React.useEffect(() => {
     reset(initialState)

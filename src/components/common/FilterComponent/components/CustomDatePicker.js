@@ -81,7 +81,7 @@ export default function CustomDatePicker({ title, selected, onChange, calender =
             selected={selected}
             onChange={onChange}
             customInput={<CustomDate calender={calender} dateRange={dateRange} {...props} />}
-            dateFormat="MMM d,yyyy"
+            dateFormat="MMM d, yyyy"
             title={title || ""}
             startDate={startDate || null}
             endDate={endDate || null}

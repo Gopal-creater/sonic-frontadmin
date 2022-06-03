@@ -7,13 +7,12 @@ import { SelectedColumn } from '../../../components/common/Columns/component/Sel
 import TableMenu from '../../../components/common/Table/components/TableMenu';
 import { ActionMenuItem } from '../../../components/common/Table/TableStyled';
 import { ActiveBox, AlternateStyledTableData, StyledAlternateTableRow, StyledTableData, StyledTableHead, StyledTableRow, SuspendedBox } from '../../../StyledComponents/StyledTable/StyledTable';
+import { CustomTooltip } from '../../../StyledComponents/StyledToolTip/CustomTooltip';
 import theme from '../../../theme';
-import { log } from '../../../utils/app.debug';
 
 export default function LicenceTable({ data, licenseTableHead }) {
     const navigate = useNavigate()
     const user = useSelector(state => state.user)
-    log("license table data:", licenseTableHead)
 
     return (
         <Grid>
@@ -78,13 +77,15 @@ export default function LicenceTable({ data, licenseTableHead }) {
                                                 <AlternateStyledTableData>{data?.type || "---"}</AlternateStyledTableData>
                                             }
                                             {SelectedColumn("USERS") &&
-                                                <AlternateStyledTableData> {"---"}</AlternateStyledTableData>
+                                                <AlternateStyledTableData> {data?.users?.length || "0"}</AlternateStyledTableData>
                                             }
                                             {SelectedColumn("RENEWAL DATE") &&
                                                 <AlternateStyledTableData>{format(new Date(data?.validity), "dd/MM/yyyy")}</AlternateStyledTableData>
                                             }
                                             {SelectedColumn("LICENSE NAME") &&
-                                                <AlternateStyledTableData>{data?.name}</AlternateStyledTableData>
+                                                <CustomTooltip title={data?.name || "---"}>
+                                                    <AlternateStyledTableData>{data?.name}</AlternateStyledTableData>
+                                                </CustomTooltip>
                                             }
                                             {SelectedColumn("KEY") &&
                                                 <AlternateStyledTableData>{data?.key}</AlternateStyledTableData>
@@ -140,13 +141,15 @@ export default function LicenceTable({ data, licenseTableHead }) {
                                             <StyledTableData>{data?.type || "---"}</StyledTableData>
                                         }
                                         {SelectedColumn("USERS") &&
-                                            <StyledTableData> {"---"}</StyledTableData>
+                                            <StyledTableData> {data?.users?.length || "0"}</StyledTableData>
                                         }
                                         {SelectedColumn("RENEWAL DATE") &&
                                             <StyledTableData>{format(new Date(data?.validity), "dd/MM/yyyy")}</StyledTableData>
                                         }
                                         {SelectedColumn("LICENSE NAME") &&
-                                            <StyledTableData>{data?.name}</StyledTableData>
+                                            <CustomTooltip title={data?.name || "---"}>
+                                                <StyledTableData>{data?.name}</StyledTableData>
+                                            </CustomTooltip>
                                         }
                                         {SelectedColumn("KEY") &&
                                             <StyledTableData>{data?.key}</StyledTableData>

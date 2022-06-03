@@ -2,10 +2,11 @@ import { Dialog, DialogContent } from '@material-ui/core'
 import { CloseOutlined, ControlPoint } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/styles'
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import AppButton from '../../../components/common/AppButton/AppButton'
-import { StyledTextField } from '../../../StyledComponents/StyledAppTextInput/StyledAppTextInput'
+import AppAutoComplete from '../../../components/common/AutoComplete/AppAutoComplete'
+import { getUsersNameAction } from '../../../stores/actions/picker/titlePicker.action'
 import { H3 } from '../../../StyledComponents/StyledHeadings'
-import theme from '../../../theme'
 import { FilterButton, FilterContainer, FilterHeader } from '../../Monitor/Components/MonitorFilter/MonitorFilterStyles'
 
 const useStyles = makeStyles({
@@ -18,8 +19,11 @@ const useStyles = makeStyles({
 
 export default function AddNewUser() {
     const classes = useStyles();
+    const dispatch = useDispatch()
+    const user = useSelector(state => state.user)
     const [state, setState] = React.useState({
-        open: false
+        open: false,
+        user: {}
     })
 
     return (
@@ -50,28 +54,23 @@ export default function AddNewUser() {
                         </div>
                     </FilterHeader>
                     <DialogContent>
-                        <StyledTextField
-                            fullWidth
-                            label="Enter username"
-                            InputLabelProps={{
-                                style: {
-                                    fontFamily: theme.fontFamily.nunitoSansBold
-                                }
-                            }}
+                        <AppAutoComplete
+                            setAutoComPleteAction={(value) => dispatch(getUsersNameAction(value))}
+                            setAutoCompleteOptions={(option) => option?.username || ""}
+                            setAutoCompleteOptionsLabel={(option) => option?._id || ""}
+                            loading={user?.userSearch?.loading}
+                            data={user?.userSearch?.data?.docs || []}
+                            error={user?.userSearch?.error}
+                            getSelectedValue={(e, v) => setState({ ...state, user: v })}
+                            labelText={"Enter username"}
+                            hideSearchIcon={true}
                         />
                     </DialogContent>
                     <FilterButton style={{ marginTop: 20, marginBottom: 10 }}>
-                        <AppButton
-                            variant="outline"
-                            className="mx-3"
-                            onClick={() => setState({ ...state, open: false })}
-                        >
+                        <AppButton variant="outline" className="mx-3" onClick={() => setState({ ...state, open: false })}>
                             Cancel
                         </AppButton>
-                        <AppButton
-                            variant="fill"
-                            type="submit"
-                        >
+                        <AppButton variant="fill" type="submit" onClick={() => setState({ ...state, open: false })}>
                             Add user
                         </AppButton>
                     </FilterButton>

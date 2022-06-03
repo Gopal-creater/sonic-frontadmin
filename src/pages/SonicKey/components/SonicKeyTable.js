@@ -4,7 +4,7 @@ import cogoToast from 'cogo-toast';
 import { format } from 'date-fns';
 import fileDownload from 'js-file-download';
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { SelectedColumn } from '../../../components/common/Columns/component/SelectedColumn';
 import TableMenu from '../../../components/common/Table/components/TableMenu';
@@ -14,16 +14,20 @@ import { log } from '../../../utils/app.debug';
 import DownloadProgressModal from '../../Encode/Components/DownloadProgressModal';
 import { downloadAnyFile } from '../../../services/https/resources/EncodeApi/encodeApi'
 import MetaDataDailog from '../../../components/common/MetaDataDialog';
+import * as actionTypes from '../../../stores/actions/actionTypes';
 
 export default function SonicKeyTable({ data, sonicKeyTableHead }) {
     const navigate = useNavigate()
-    const [sonicKeys, setSonicKeys] = React.useState({});
+    const [sonickeys, setSonicKeys] = React.useState({});
     const [openTable, setOpenTable] = React.useState(false);
     const [tableData, setTableData] = React.useState([]);
     const [state, setState] = React.useState({
         openDownloadingModal: false,
         percentComplete: "0"
     })
+    log("data of table", data)
+
+    const dispatch = useDispatch();
 
     const handleClickOpenTable = async (data) => {
         setSonicKeys(data)
@@ -77,49 +81,50 @@ export default function SonicKeyTable({ data, sonicKeyTableHead }) {
                     </TableHead>
 
                     <TableBody>
-                        {data?.length === 0 ?
+                        {data?.docs?.length === 0 ?
                             <TableRow key={0}>
                                 <StyledTableData colSpan={8} style={{ textAlign: "center" }}>
                                     No Data
                                 </StyledTableData>
                             </TableRow> :
-                            data?.map((data, index) => {
+                            data?.docs?.map((row, index) => {
+                                log("data number haru yo sapai", row?.offset)
                                 if (index % 2 !== 0) {
                                     return (
-                                        <StyledAlternateTableRow key={data?._id}>
+                                        <StyledAlternateTableRow key={row?._id}>
                                             {SelectedColumn("ID") &&
                                                 <AlternateStyledTableData>
-                                                    {1}
+                                                    {data?.offset + index + 1}
                                                 </AlternateStyledTableData>
                                             }
                                             {SelectedColumn("SONICKEY") &&
                                                 <AlternateStyledTableData>
-                                                    {data?.sonicKey || "---"}
+                                                    {row?.sonicKey || "---"}
                                                 </AlternateStyledTableData>
                                             }
                                             {SelectedColumn("ORIGINAL FILENAME") &&
                                                 <AlternateStyledTableData>
-                                                    {data?.originalFileName || data?.contentFileName || "---"}
+                                                    {row?.originalFileName || row?.contentFileName || "---"}
                                                 </AlternateStyledTableData>
                                             }
                                             {SelectedColumn("ARTIST") &&
                                                 <AlternateStyledTableData>
-                                                    {data?.contentOwner || "---"}
+                                                    {row?.contentOwner || "---"}
                                                 </AlternateStyledTableData>
                                             }
                                             {SelectedColumn("ENCODED DATE") &&
                                                 <AlternateStyledTableData>
-                                                    {format(new Date(data?.createdAt), 'dd/MM/yyyy') || "---"}
+                                                    {format(new Date(row?.createdAt), 'dd/MM/yyyy') || "---"}
                                                 </AlternateStyledTableData>
                                             }
                                             {SelectedColumn("DESCRIPTION") &&
-                                                <AlternateStyledTableData>{data?.contentDescription || "---"}</AlternateStyledTableData>
+                                                <AlternateStyledTableData>{row?.contentDescription || "---"}</AlternateStyledTableData>
                                             }
                                             {SelectedColumn("ACTION") &&
                                                 <AlternateStyledTableData>
                                                     <TableMenu>
-                                                        <ActionMenuItem onClick={() => handleClickOpenTable(data)}>View details</ActionMenuItem>
-                                                        <ActionMenuItem onClick={() => download(data)}>Download</ActionMenuItem>
+                                                        <ActionMenuItem onClick={() => handleClickOpenTable(row)}>View details</ActionMenuItem>
+                                                        <ActionMenuItem onClick={() => download(row)}>Download</ActionMenuItem>
                                                     </TableMenu>
                                                 </AlternateStyledTableData>
                                             }
@@ -127,36 +132,36 @@ export default function SonicKeyTable({ data, sonicKeyTableHead }) {
                                     )
                                 }
                                 return (
-                                    <StyledTableRow key={data?._id}>
+                                    <StyledTableRow key={row?._id}>
                                         {SelectedColumn("ID") &&
                                             <StyledTableData>
-                                                {2}
+                                                {data?.offset + index + 1}
                                             </StyledTableData>
                                         }
                                         {SelectedColumn("SONICKEY") &&
                                             <StyledTableData>
-                                                {data?.sonicKey || "---"}
+                                                {row?.sonicKey || "---"}
                                             </StyledTableData>
                                         }
                                         {SelectedColumn("ORIGINAL FILENAME") &&
                                             <StyledTableData>
-                                                {data?.originalFileName || data?.contentFileName || "---"}
+                                                {row?.originalFileName || row?.contentFileName || "---"}
                                             </StyledTableData>
                                         }
                                         {SelectedColumn("ARTIST") &&
-                                            <StyledTableData>{data?.contentOwner || "---"}</StyledTableData>
+                                            <StyledTableData>{row?.contentOwner || "---"}</StyledTableData>
                                         }
                                         {SelectedColumn("ENCODED DATE") &&
-                                            <StyledTableData>{format(new Date(data?.createdAt), 'dd/MM/yyyy') || "---"}</StyledTableData>
+                                            <StyledTableData>{format(new Date(row?.createdAt), 'dd/MM/yyyy') || "---"}</StyledTableData>
                                         }
                                         {SelectedColumn("DESCRIPTION") &&
-                                            <StyledTableData>{data?.contentDescription || "---"}</StyledTableData>
+                                            <StyledTableData>{row?.contentDescription || "---"}</StyledTableData>
                                         }
                                         {SelectedColumn("ACTION") &&
                                             <StyledTableData>
                                                 <TableMenu>
-                                                    <ActionMenuItem onClick={() => handleClickOpenTable(data)}>View details</ActionMenuItem>
-                                                    <ActionMenuItem onClick={() => download(data)}>Download</ActionMenuItem>
+                                                    <ActionMenuItem onClick={() => handleClickOpenTable(row)}>View details</ActionMenuItem>
+                                                    <ActionMenuItem onClick={() => download(row)}>Download</ActionMenuItem>
                                                 </TableMenu>
                                             </StyledTableData>
                                         }
@@ -167,18 +172,14 @@ export default function SonicKeyTable({ data, sonicKeyTableHead }) {
                 </Table>
                 {openTable &&
                     <MetaDataDailog
-                        sonicKey={sonicKeys}
+                        sonicKey={sonickeys}
                         open={true}
                         setOpenTable={setOpenTable}
                         updateMetaData={(key) => {
+                            log("key data is: ", key)
                             setSonicKeys(key)
-                            let newTableData = tableData?.map((data, index) => {
-                                if (data?._id === key?.sonicKey) {
-                                    return key
-                                }
-                                return data
-                            })
-                            setTableData(newTableData)
+                            dispatch({ type: actionTypes.UPDATE_SONIC_KEYS, data: key })
+                            // setTableData(newTableData)
                         }}
                         enableEditMode={true}
                     />}

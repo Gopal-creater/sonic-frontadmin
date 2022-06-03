@@ -66,16 +66,17 @@ export default function SonicKeyFilter({ closeDialog }) {
                     </FilterForm>
 
                     <FilterForm>
-                        {/* <AppAutoComplete
-                            setAutoComPleteAction={(value) => dispatch(getCompanyNameAction(value))}
-                            setAutoCompleteOptions={(option => option?.name || "")}
-                            setAutoCompleteOptionsLabel={(option => option?.companyType || "")}
-                            loading={company?.companySearch?.loading}
-                            data={company?.companySearch?.data?.docs || []}
-                            error={company?.companySearch?.error}
-                            getSelectedValue={(e, v) => setState({ ...state, company: v })}
-                            placeholder={"Search for a company"}
-                        /> */}
+                        <StyledTextField
+                            fullWidth
+                            label="Artist name"
+                            value={sonickey?.filters?.artist}
+                            onChange={(e) => dispatch({ type: actionTypes.SONIC_KEY_FILTERS, data: { ...sonickey?.filters, artist: e.target.value } })}
+                            InputLabelProps={{
+                                style: {
+                                    fontFamily: theme.fontFamily.nunitoSansBold
+                                }
+                            }}
+                        />
                     </FilterForm>
 
                     <FilterForm>

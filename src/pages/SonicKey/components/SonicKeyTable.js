@@ -31,9 +31,8 @@ export default function SonicKeyTable({ data, sonicKeyTableHead }) {
     };
 
     const download = (sonickey) => {
-        log("Download sonickey", sonickey)
         setState({ ...state, openDownloadingModal: true })
-        downloadAnyFile(sonickey?.s3OriginalFileMeta?.Key).then((response) => {
+        downloadAnyFile(sonickey?.s3FileMeta?.Key).then((response) => {
             axios({
                 url: response,
                 responseType: 'blob',
@@ -43,6 +42,10 @@ export default function SonicKeyTable({ data, sonicKeyTableHead }) {
                 }
             }).then(res => {
                 fileDownload(res.data, sonickey?.originalFileName);
+                setState({ ...state, openDownloadingModal: false })
+            }).catch(error => {
+                log("Download error", error)
+                cogoToast.error(error?.message)
                 setState({ ...state, openDownloadingModal: false })
             });
         }).catch((error) => {

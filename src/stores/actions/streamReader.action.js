@@ -50,15 +50,15 @@ export const getRadioMonitorsPlaysCountActions = (id) => {
 
 export const getSonicStreamDetailsActions = (id) => {
     let params = new URLSearchParams();
-    params.append("channel", "STREAMREADER");
+    let channel = "STREAMREADER";
 
-    // if (id) {
-    //     params.append("radioStation", id);
-    // }
+    if (id) {
+        params.append("radioStation", id);
+    }
 
     return (dispatch) => {
         dispatch({ type: actionTypes.FETCH_SONICSTREAM_DETAILS_LOADING })
-        getSonicStreamDetails(params).then((res) => {
+        getSonicStreamDetails(channel, params).then((res) => {
             dispatch({ type: actionTypes.FETCH_SONICSTREAM_DETAILS_SUCCESS, data: res })
         }).catch((err) => {
             log("SonicStream Details Error", err);

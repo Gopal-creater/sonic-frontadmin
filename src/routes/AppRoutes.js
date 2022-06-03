@@ -61,7 +61,7 @@ export default function AppRoutes() {
             <Route path="/licences" element={<Licences />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/radio-stations" element={<RadioStations />} />
-            <Route path="/sonicstreamdetail" element={<SonicStreamDetail />} />
+            <Route path="/sonicstreamdetail/:id" element={<SonicStreamDetail />} />
             <Route path="/plays" element={<Plays />} />
             <Route path="/tracks" element={<Tracks />} />
             <Route path="/artists" element={<Artists />} />

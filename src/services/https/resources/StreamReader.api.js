@@ -8,6 +8,6 @@ export const getRadioMonitorsPlaysCount = (params) => {
     return AppWebRequest(`/detections/count`, "get", { params: params });
 }
 
-export const getSonicStreamDetails = (params) => {
-    return AppWebRequest(`/detections/list-plays`, "get", { params: params });
+export const getSonicStreamDetails = (channel, params) => {
+    return AppWebRequest(`/detections/${channel}/data`, "get", { params: params });
 }

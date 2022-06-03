@@ -1434,6 +1434,16 @@ export const streamReaderTableHeads = [
   { title: "ACTION" },
 ];
 
+export const sonicStreamDetailsTableHeads = [
+  { title: "ID" },
+  { title: "SONICKEY" },
+  { title: "NAME" },
+  { title: "ARTIST" },
+  { title: "QUALITY" },
+  { title: "DESCRIPTION" },
+  { title: "PLAYS" },
+]
+
 export const trackTableHeads = [
   { title: "TRACK NAME", sortBy: "trackName", isAscending: null, isActive: false },
   { title: "PLAYS", sortBy: "playsCount", isAscending: null, isActive: false },

@@ -1,11 +1,13 @@
 import cogoToast from "cogo-toast";
-import { fetchRadioStations, getSubscribedStationCount } from "../../services/https/resources/StreamReader.api";
+import { fetchRadioMonitors, getRadioMonitorsPlaysCount, getSonicStreamDetails } from "../../services/https/resources/StreamReader.api";
 import { log } from "../../utils/app.debug";
 import * as actionTypes from "./actionTypes";
 
-export const fetchRadioStationsActions = (limit, page, country, radiostations) => {
-    let skip = page > 1 ? (page - 1) * limit : 0;
-    let params = new URLSearchParams(`limit=${limit}&skip=${skip}&page=${page}`);
+export const fetchRadioMonitorsActions = (limit, page, country, radiostations) => {
+    let params = new URLSearchParams();
+    params.append("limit", limit);
+    params.append("page", page);
+    params.append("skip", page > 1 ? (page - 1) * limit : 0)
 
     if (country) {
         params.append('country', country);
@@ -15,28 +17,52 @@ export const fetchRadioStationsActions = (limit, page, country, radiostations) =
     }
 
     return dispatch => {
-        dispatch({ type: actionTypes.FETCH_RADIOSTATIONS_LOADING })
-
-        fetchRadioStations(params).then((res) => {
-            log("Radio Stations", res);
-            dispatch({ type: actionTypes.FETCH_RADIOSTATIONS_SUCCESS, data: res })
+        dispatch({ type: actionTypes.FETCH_RADIOMONITORS_LOADING })
+        fetchRadioMonitors(params).then((res) => {
+            dispatch({ type: actionTypes.FETCH_RADIOMONITORS_SUCCESS, data: res })
         }).catch((err) => {
-            log("Radio Stations Error", err);
-            dispatch({ type: actionTypes.FETCH_RADIOSTATIONS_ERROR, data: err?.message })
+            log("Radio Monitor Error", err);
+            dispatch({ type: actionTypes.FETCH_RADIOMONITORS_ERROR, data: err?.message })
+            cogoToast.error(err?.message)
         })
     }
 }
 
-export const getSubscribedStationCountActions = () => {
-    return (dispatch) => {
-        dispatch({ type: actionTypes.TOTAL_SUBSCRIBED_STATION_COUNT_LOADING })
+export const getRadioMonitorsPlaysCountActions = (id) => {
+    let params = new URLSearchParams();
+    params.append("channel", "STREAMREADER");
 
-        getSubscribedStationCount().then((res) => {
-            log("Subscribed Stations Count", res);
-            dispatch({ type: actionTypes.TOTAL_SUBSCRIBED_STATION_COUNT_SUCCESS, data: res })
+    if (id) {
+        params.append("radioStation", id);
+    }
+
+    return (dispatch) => {
+        dispatch({ type: actionTypes.FETCH_RADIOMONITORS_PLAYS_COUNT_LOADING })
+        getRadioMonitorsPlaysCount(params).then((res) => {
+            dispatch({ type: actionTypes.FETCH_RADIOMONITORS_PLAYS_COUNT_SUCCESS, data: res })
         }).catch((err) => {
-            log("Subscribed Stations Count", err);
-            dispatch({ type: actionTypes.TOTAL_SUBSCRIBED_STATION_COUNT_ERROR, data: err?.message })
+            log("Radio Monitor Count Error", err);
+            dispatch({ type: actionTypes.FETCH_RADIOMONITORS_PLAYS_COUNT_ERROR, data: err?.message })
+            cogoToast.error(err?.message)
+        })
+    }
+}
+
+export const getSonicStreamDetailsActions = (id) => {
+    let params = new URLSearchParams();
+    params.append("channel", "STREAMREADER");
+
+    // if (id) {
+    //     params.append("radioStation", id);
+    // }
+
+    return (dispatch) => {
+        dispatch({ type: actionTypes.FETCH_SONICSTREAM_DETAILS_LOADING })
+        getSonicStreamDetails(params).then((res) => {
+            dispatch({ type: actionTypes.FETCH_SONICSTREAM_DETAILS_SUCCESS, data: res })
+        }).catch((err) => {
+            log("SonicStream Details Error", err);
+            dispatch({ type: actionTypes.FETCH_SONICSTREAM_DETAILS_ERROR, data: err?.message })
             cogoToast.error(err?.message)
         })
     }

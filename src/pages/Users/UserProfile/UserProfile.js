@@ -21,6 +21,7 @@ import * as actionTypes from "../../../stores/actions/actionTypes"
 import cogoToast from "cogo-toast"
 import { updateUser } from "../../../services/https/resources/UserApi"
 import { userRoles } from "../../../constants/constants"
+import { log } from "../../../utils/app.debug"
 
 export default function UserProfile() {
     const schema = Yup.object().shape({
@@ -66,6 +67,7 @@ export default function UserProfile() {
             setValues({ ...values, loading: false, updated: true })
             cogoToast.success("User updated successfully!")
         }).catch((err) => {
+            log("User update error", err)
             setValues({ ...values, loading: false })
             cogoToast.error(err?.message)
         })

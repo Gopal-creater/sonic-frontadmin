@@ -28,7 +28,6 @@ export const fetchLicenceKeys = (limit, page) => {
     params.append("sort", "-createdAt");
 
     let licenseFilter = store.getState()?.licenceKey?.filters;
-
     let userRoleWiseId = getRoleWiseID()
 
     if (userRoleWiseId?.partner) {

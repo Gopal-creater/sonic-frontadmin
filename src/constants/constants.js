@@ -1424,7 +1424,14 @@ export const playsTableHeads = [
 ]
 
 export const streamReaderTableHeads = [
-  "ID", "LOGO", "RADIO NAME", "RADIO URL", "ADDED DATE", "PLAYS", "STATUS", "ACTION",
+  { title: "ID" },
+  { title: "LOGO" },
+  { title: "RADIO NAME" },
+  { title: "RADIO URL" },
+  { title: "ADDED DATE" },
+  { title: "PLAYS" },
+  { title: "STATUS" },
+  { title: "ACTION" },
 ];
 
 export const trackTableHeads = [

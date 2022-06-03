@@ -20,6 +20,8 @@ import theme from "../../theme";
 import { monitorInitialState } from "../../stores/reducers/monitor/monitorReducer";
 import { getMonitorListAction } from "../../stores/actions/monitorActions/monitorActions";
 import { useNavigate } from 'react-router-dom';
+import { Distributor } from "../../constants/constants";
+import CustomDropDown from "./AppTextInput/CustomDropDown";
 
 const useStyles = makeStyles({
     dialogPaper: {
@@ -69,6 +71,8 @@ const MetaDataDailog = (props) => {
             version: ""
         }
     });
+
+    let distributorArray = Distributor.map((data) => { return { name: data } })
 
     React.useEffect(() => {
         setValues({
@@ -123,6 +127,7 @@ const MetaDataDailog = (props) => {
         if (values?.updateSonicKeyLoading) {
             return
         }
+        if (!values.updatingSonicKey.distributor) return cogoToast.error("Distributor is required")
         setValues({ ...values, updateSonicKeyLoading: true })
         let payload = {
             isrcCode: values?.updatingSonicKey?.isrcCode || values?.sonicKey?.isrcCode,
@@ -358,13 +363,18 @@ const MetaDataDailog = (props) => {
                                 <TableCell className={classes.tableCellTwo}>
                                     {
                                         values?.switchEdit ?
-                                            <TextField
-                                                id="distributorInput"
-                                                fullWidth
-                                                placeholder="Edit distributor"
-                                                inputProps={{ className: classes.textInput }}
-                                                value={values?.updatingSonicKey?.distributor}
-                                                onChange={(e) => setValues({ ...values, updatingSonicKey: { ...values?.updatingSonicKey, distributor: e.target.value } })}
+                                            <CustomDropDown
+                                                id="channel-dropdown"
+                                                labelText="Distributor"
+                                                formControlProps={{
+                                                    fullWidth: true
+                                                }}
+                                                labelProps={{ style: { fontFamily: theme.fontFamily.nunitoSansRegular } }}
+                                                inputProps={{
+                                                    value: values?.updatingSonicKey?.distributor,
+                                                    onChange: (e) => setValues({ ...values, updatingSonicKey: { ...values?.updatingSonicKey, distributor: e.target.value } })
+                                                }}
+                                                data={distributorArray || []}
                                             /> :
                                             values?.sonicKey?.distributor || "---"
                                     }

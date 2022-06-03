@@ -53,7 +53,7 @@ export default function SonicKey() {
                 onClickTryAgain={() => dispatch(getAllSonickeysActions())}
             >
                 <SonicKeyTable
-                    data={sonickey?.getSonicKeys?.data?.docs}
+                    data={sonickey?.getSonicKeys?.data || []}
                     sonicKeyTableHead={sonicKeyTableHeads}
                 />
                 <Grid container justifyContent="space-between" alignItems="center" style={{ marginTop: "30px" }}>

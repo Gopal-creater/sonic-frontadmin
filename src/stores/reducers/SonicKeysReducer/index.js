@@ -1,8 +1,5 @@
 import * as actionTypes from "../../actions/actionTypes"
 import produce from "immer";
-import { userRoles } from "../../../constants/constants";
-import { routeList } from "../../../routes/RoutesData";
-import { getUserId } from "../../../services/https/AuthHelper";
 
 const initialState = {
     getSonicKeys: {
@@ -42,6 +39,11 @@ const sonickeyReducer = (state = initialState, action) =>
             //Filters
             case actionTypes.SONIC_KEY_FILTERS:
                 draft.filters = action.data;
+                break;
+
+            case actionTypes.UPDATE_SONIC_KEYS:
+                let index = draft.getSonicKeys.data.docs.findIndex(key => key.sonicKey == action.data.sonicKey)
+                draft.getSonicKeys.data.docs[index] = action.data;
                 break;
 
             default:

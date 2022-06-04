@@ -50,19 +50,21 @@ export default function TrackFilter({ closeDialog }) {
                         value={encode?.tracks?.trackFilters?.artist}
                         onChange={(e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, artist: e.target.value } })}
                     />
-                    <CustomDropDown
-                        id="channel-dropdown"
-                        labelText="Distributor"
-                        formControlProps={{
-                            fullWidth: true
-                        }}
-                        labelProps={{ style: { fontFamily: theme.fontFamily.nunitoSansRegular } }}
-                        inputProps={{
-                            value: encode?.tracks?.trackFilters?.distributor,
-                            onChange: (e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, distributor: e.target.value } })
-                        }}
-                        data={distributorArray || []}
-                    />
+                    <Grid className="mt-1">
+                        <CustomDropDown
+                            id="channel-dropdown"
+                            labelText="Distributor"
+                            formControlProps={{
+                                fullWidth: true
+                            }}
+                            labelProps={{ style: { fontFamily: theme.fontFamily.nunitoSansRegular } }}
+                            inputProps={{
+                                value: encode?.tracks?.trackFilters?.distributor,
+                                onChange: (e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, distributor: e.target.value } })
+                            }}
+                            data={distributorArray || []}
+                        />
+                    </Grid>
                 </Grid>
                 <Grid item xs={6}>
                     <StyledTextField

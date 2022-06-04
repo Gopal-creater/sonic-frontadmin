@@ -255,7 +255,7 @@ export default function EncodeData() {
                             inputProps={{ readOnly: true }}
                             InputLabelProps={{ shrink: true, }}
                             value={encodeReducer?.metaData?.contentFileType}
-                            onChange={(e) => { dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, contentFileType: e.target.value } }) }} />
+                        />
 
                         <StyledTextField
                             fullWidth
@@ -285,7 +285,7 @@ export default function EncodeData() {
                             InputLabelProps={{ shrink: true, }}
                             value={encodeReducer?.metaData?.contentEncoding}
                             className="mt-3"
-                            onChange={(e) => { dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, contentEncoding: e.target.value } }) }} />
+                        />
 
                         <StyledTextField
                             fullWidth
@@ -295,7 +295,7 @@ export default function EncodeData() {
                             inputProps={{ readOnly: true }}
                             InputLabelProps={{ shrink: true, }}
                             value={encodeReducer?.metaData?.contentSamplingFrequency}
-                            onChange={(e) => { dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, contentSamplingFrequency: e.target.value } }) }} />
+                        />
 
                         <StyledTextField
                             fullWidth

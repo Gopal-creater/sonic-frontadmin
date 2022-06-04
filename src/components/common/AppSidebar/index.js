@@ -14,13 +14,15 @@ export default function AppSideBar({ showMenu, toggleMenu }) {
                 {!showMenu ? <NavIcon src={iconShowMenu} width={"60px"} height={"70px"} /> : <NavIcon src={iconHideMenu} />}
             </NavIconContainer>
             {
-                showMenu ? <SideBarNav>
-                    {
-                        user?.sideBarData?.map((menu, index) => {
-                            return <Menu menu={menu} key={index} />
-                        })
-                    }
-                </SideBarNav> : null
+                showMenu ?
+                    <SideBarNav>
+                        {
+                            user?.sideBarData?.map((menu, index) => {
+                                return <Menu menu={menu} key={index} />
+                            })
+                        }
+                    </SideBarNav> :
+                    null
             }
 
         </SideBarContainer>

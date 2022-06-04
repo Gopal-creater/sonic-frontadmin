@@ -1,13 +1,13 @@
 import React from 'react'
-import { MenuContainer, NavIcon, SideBarLabel, SideBarLink, DropDownLink } from './style'
+import { MenuContainer, NavIcon, SideBarLabel } from './style'
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 import { Grid, makeStyles } from '@material-ui/core';
 import sonickeyGrey from "../../../assets/images/sonickey-grey.png";
-import { useLocation } from 'react-router-dom';
-import theme from '../../../theme';
+import sonickeyActive from "../../../assets/images/sonickey-teal.png";
+import { NavLink, useLocation } from 'react-router-dom';
 import hoverKey from "../../../assets/images/key-logo.png"
-import { log } from '../../../utils/app.debug';
+import theme from '../../../theme';
 
 export default function Menu({ menu }) {
     const [subMenu, setSubMenu] = React.useState(false)
@@ -20,10 +20,10 @@ export default function Menu({ menu }) {
     return (
         <>
             <MenuContainer>
-                <SideBarLink
+                <NavLink
                     to={menu?.subPath ? location.pathname : menu?.path}
                     onClick={menu?.subPath && showSubMenu}
-                    className={classes.sideBarLink}
+                    className={({ isActive }) => isActive && !menu?.subPath ? classes.activeSideBarLink : classes.link}
                 >
                     <NavIcon src={sonickeyGrey} width="15px" height="15px" className={classes.sideBarLinkIcon} />
                     <SideBarLabel>
@@ -32,16 +32,20 @@ export default function Menu({ menu }) {
                     <Grid>
                         {menu?.subPath && subMenu ? <ArrowDropUpIcon /> : menu?.subPath ? <ArrowDropDownIcon /> : null}
                     </Grid>
-                </SideBarLink>
+                </NavLink>
             </MenuContainer>
             {
                 subMenu && menu?.subPath?.map((item, index) => {
                     return (
-                        <DropDownLink to={item?.path} key={index}>
+                        <NavLink
+                            className={({ isActive }) => isActive ? classes.activeSideBarLink : classes.link}
+                            to={item?.path}
+                            key={index}
+                        >
                             <SideBarLabel left="0px">
                                 {item.title}
                             </SideBarLabel>
-                        </DropDownLink>
+                        </NavLink>
                     )
                 })
             }
@@ -52,16 +56,36 @@ export default function Menu({ menu }) {
 
 const useStyles = makeStyles(() => {
     return ({
-        sideBarLink: {
+        link: {
+            display: "flex",
+            alignItems: "center",
+            fontSize: "15px",
+            color: theme.colors.secondary.grey,
+            textDecoration: "none",
+            fontFamily: theme.fontFamily.nunitoSansRegular,
             "&:hover": {
+                color: theme.colors.primary.graphite,
                 "& $sideBarLinkIcon": {
-                    content: `url(${hoverKey})`
+                    content: `url(${hoverKey})`,
                 },
             }
         },
         sideBarLinkIcon: {},
         activeSideBarLink: {
-            color: "red"
+            fontSize: "15px",
+            fontFamily: theme.fontFamily.nunitoSansRegular,
+            color: theme.colors.primary.teal,
+            display: "flex",
+            alignItems: "center",
+            textDecoration: "none",
+            "& $sideBarLinkIcon": {
+                content: `url(${sonickeyActive})`
+            },
+            "&:hover": {
+                "& $sideBarLinkIcon": {
+                    content: `url(${hoverKey})`
+                },
+            },
         }
     })
 });

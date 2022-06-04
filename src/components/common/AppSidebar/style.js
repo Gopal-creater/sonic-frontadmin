@@ -28,38 +28,7 @@ export const MenuContainer = styled(Grid)`
     padding-left:0px ;
 `
 
-export const SideBarLink = styled(NavLink)`
-    display:flex ;
-    align-items:center ;
-    justify-content:flex-start ;
-    text-decoration:none ;
-    font-family:${props => props.theme.fontFamily.nunitoSansRegular} ;
-    font-size:15px ;
-    color: ${props => props.active ? props.theme.colors.primary.teal : props.theme.colors.secondary.grey} ;
-
-    &:hover {
-        color: ${props => props.theme.colors.primary.graphite} ;
-    }
-`
-
 export const SideBarLabel = styled.span`
     margin-left:${(props) => props.left || "10px"};
 
 `
-
-export const DropDownLink = styled(NavLink)`
-    display:flex ;
-    align-items:center ;
-    justify-content:flex-start ;
-    padding:3px ;
-    padding-left:0px ;
-    text-decoration:none ;
-    font-family:${props => props.theme.fontFamily.nunitoSansRegular} ;
-    font-size:15px ;
-    color: ${props => props.theme.colors.secondary.grey} ;
-
-    &:hover {
-        color: ${props => props.theme.colors.primary.graphite} ;
-    }
-`
-//SubMenu

@@ -29,6 +29,7 @@ export default function TracksTable({ data, tableHeads, trackSorting }) {
     const [state, setState] = React.useState({
         openViewTrackPopUp: false,
         selectedTrack: null,
+        selectedEncodeAgainTrack: null,
         openDownloadingModal: false,
         percentComplete: "0",
     })
@@ -348,7 +349,7 @@ export default function TracksTable({ data, tableHeads, trackSorting }) {
                         <AppButton
                             onClick={() => {
                                 dispatch({ type: actionTypes.CLOSE_ERROR_POPUP })
-                                encodeAgain()
+                                encodeAgain(state?.selectedTrack)
                             }}
                             fontFamily={theme.fontFamily.nunitoSansBlack}
                         >

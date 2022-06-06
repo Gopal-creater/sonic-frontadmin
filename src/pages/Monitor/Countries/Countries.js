@@ -1,8 +1,6 @@
 import { Grid } from '@material-ui/core';
 import React, { useEffect, useRef } from 'react';
 import { H1, H4, H2 } from '../../../StyledComponents/StyledHeadings';
-import Search from '../../SonicKeys/Components/Search';
-import viewFilter from '../../../assets/images/view.png'
 import { useTheme } from 'styled-components';
 import FilterComponent from '../../../components/common/FilterComponent/FilterComponent';
 import { useDispatch, useSelector } from 'react-redux';

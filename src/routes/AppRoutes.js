@@ -4,7 +4,6 @@ import AppLayout from "../components/common/AppLayout";
 import Encode from "../pages/Encode/Encode";
 import Decode from "../pages/Decode/Decode";
 import StreamReader from "../pages/Monitor/StreamReader/StreamReader";
-import Sonickeys from "../pages/SonicKeys/SonicKeys";
 import Licences from "../pages/Licences/Licences";
 import { Dashboard } from "../pages/Monitor/Dashboard/Dashboard";
 import Plays from "../pages/Monitor/Plays/Plays";
@@ -57,7 +56,6 @@ export default function AppRoutes() {
             <Route path="/" element={<Navigate replace to="/dashboard" />} />
 
             {/* Public routes */}
-            {/* <Route path="/sonickeys" element={<SonicKey />} /> */}
             <Route path="/licences" element={<Licences />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/radio-stations" element={<RadioStations />} />

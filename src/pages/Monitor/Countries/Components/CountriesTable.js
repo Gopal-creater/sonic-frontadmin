@@ -3,8 +3,8 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from 'styled-components';
-import *as actionTypes from "../../../../stores/actions/actionTypes"
-import { AlternateStyledTableData, StyledTableData, StyledTableHead, StyledAlternateTableRow, StyledTableRow } from '../../../../StyledComponents/StyledTable/StyledTable';
+import * as actionTypes from "../../../../stores/actions/actionTypes"
+import { StyledTableData, StyledTableHead, StyledTableRow } from '../../../../StyledComponents/StyledTable/StyledTable';
 
 export default function CountriesTable({ data, countriesTableHeads, onCountriesSorting }) {
     const theme = useTheme()

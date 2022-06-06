@@ -46,11 +46,11 @@ export default function TrackFilter({ closeDialog }) {
                     <StyledTextField
                         id=""
                         label="Artist"
-                        className="mt-1"
+                        className="mt-2"
                         value={encode?.tracks?.trackFilters?.artist}
                         onChange={(e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, artist: e.target.value } })}
                     />
-                    <Grid className="mt-1">
+                    <Grid className="mt-2">
                         <CustomDropDown
                             id="channel-dropdown"
                             labelText="Distributor"
@@ -77,14 +77,14 @@ export default function TrackFilter({ closeDialog }) {
                     <StyledTextField
                         id=""
                         label="Company"
-                        className="mt-1"
+                        className="mt-2"
                         value={encode?.tracks?.trackFilters?.company}
                         onChange={(e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, company: e.target.value } })}
                     />
                     <StyledTextField
                         id=""
                         label="User"
-                        className="mt-1"
+                        className="mt-2"
                         value={encode?.tracks?.trackFilters?.user}
                         onChange={(e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, user: e.target.value } })}
                     />

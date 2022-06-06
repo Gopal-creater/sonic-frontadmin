@@ -7,7 +7,7 @@ import { SelectedColumn } from '../../../components/common/Columns/component/Sel
 import CustomToolTip from '../../../components/common/CustomToolTip';
 import TableMenu from '../../../components/common/Table/components/TableMenu';
 import { ActionMenuItem } from '../../../components/common/Table/TableStyled';
-import { ActiveBox, AlternateStyledTableData, StyledAlternateTableRow, StyledTableData, StyledTableHead, StyledTableRow, SuspendedBox } from '../../../StyledComponents/StyledTable/StyledTable';
+import { ActiveBox, StyledTableData, StyledTableHead, StyledTableRow, SuspendedBox } from '../../../StyledComponents/StyledTable/StyledTable';
 import theme from '../../../theme';
 
 export default function LicenceTable({ data, licenseTableHead }) {
@@ -43,73 +43,8 @@ export default function LicenceTable({ data, licenseTableHead }) {
                                 </StyledTableData>
                             </TableRow> :
                             data.map((data, index) => {
-                                if (index % 2 !== 0) {
-                                    return (
-                                        <StyledAlternateTableRow key={data?._id}>
-                                            {SelectedColumn("ACCOUNT NAME") && user?.userProfile?.data?.userRole === "PartnerAdmin" &&
-                                                <AlternateStyledTableData
-                                                    style={{
-                                                        color: theme.colors.primary.navy,
-                                                        fontSize: theme.fontSize.h4,
-                                                        fontFamily: theme.fontFamily.nunitoSansBold
-                                                    }}
-                                                >
-                                                    {"---"}
-                                                </AlternateStyledTableData>
-                                            }
-                                            {SelectedColumn("MAX USES ENCODE") &&
-                                                <AlternateStyledTableData>
-                                                    {data?.isUnlimitedEncode === true
-                                                        ? "Unlimited"
-                                                        : data?.encodeUses
-                                                    }
-                                                </AlternateStyledTableData>
-                                            }
-                                            {SelectedColumn("MAX USES MONITOR") &&
-                                                <AlternateStyledTableData>
-                                                    {data?.isUnlimitedMonitor === true
-                                                        ? "Unlimited"
-                                                        : data?.monitoringUses
-                                                    }
-                                                </AlternateStyledTableData>
-                                            }
-                                            {SelectedColumn("ACCOUNT TYPE") &&
-                                                <AlternateStyledTableData>{data?.type || "---"}</AlternateStyledTableData>
-                                            }
-                                            {SelectedColumn("USERS") &&
-                                                <AlternateStyledTableData> {data?.users?.length || "0"}</AlternateStyledTableData>
-                                            }
-                                            {SelectedColumn("RENEWAL DATE") &&
-                                                <AlternateStyledTableData>{format(new Date(data?.validity), "dd/MM/yyyy")}</AlternateStyledTableData>
-                                            }
-                                            {SelectedColumn("LICENSE NAME") &&
-                                                <CustomToolTip title={data?.name || "---"}>
-                                                    <AlternateStyledTableData>{data?.name}</AlternateStyledTableData>
-                                                </CustomToolTip>
-                                            }
-                                            {SelectedColumn("KEY") &&
-                                                <AlternateStyledTableData>{data?.key}</AlternateStyledTableData>
-                                            }
-                                            {SelectedColumn("STATUS") &&
-                                                <AlternateStyledTableData>
-                                                    {data?.suspended === true
-                                                        ? <SuspendedBox>SUSPENDED</SuspendedBox>
-                                                        : <ActiveBox>ACTIVE</ActiveBox>
-                                                    }
-                                                </AlternateStyledTableData>
-                                            }
-                                            {SelectedColumn("ACTION") &&
-                                                <AlternateStyledTableData>
-                                                    <TableMenu>
-                                                        <ActionMenuItem onClick={() => navigate(`/edit-licences/${data?._id}`, { state: data })}>View License</ActionMenuItem>
-                                                    </TableMenu>
-                                                </AlternateStyledTableData>
-                                            }
-                                        </StyledAlternateTableRow>
-                                    )
-                                }
                                 return (
-                                    <StyledTableRow key={data?._id}>
+                                    <StyledTableRow key={index} bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
                                         {SelectedColumn("ACCOUNT NAME") && user?.userProfile?.data?.userRole === "PartnerAdmin" &&
                                             <StyledTableData
                                                 style={{

@@ -6,7 +6,7 @@ import { SelectedColumn } from '../../../components/common/Columns/component/Sel
 import TableMenu from '../../../components/common/Table/components/TableMenu';
 import { ActionMenuItem } from '../../../components/common/Table/TableStyled';
 import { userRoles } from '../../../constants/constants';
-import { ActiveBox, AlternateStyledTableData, StyledAlternateTableRow, StyledTableData, StyledTableHead, StyledTableRow, SuspendedBox } from '../../../StyledComponents/StyledTable/StyledTable';
+import { ActiveBox, AlternateStyledTableData, StyledTableData, StyledTableHead, StyledTableRow, SuspendedBox } from '../../../StyledComponents/StyledTable/StyledTable';
 import theme from '../../../theme';
 
 export default function UsersTable({ data, usersTableHead }) {
@@ -48,7 +48,6 @@ export default function UsersTable({ data, usersTableHead }) {
                                         )
                                 })
                             }
-
                         </TableRow>
                     </TableHead>
 
@@ -60,67 +59,8 @@ export default function UsersTable({ data, usersTableHead }) {
                                 </StyledTableData>
                             </TableRow> :
                             data?.map((data, index) => {
-                                if (index % 2 !== 0) {
-                                    return (
-                                        <StyledAlternateTableRow key={data?._id}>
-                                            {SelectedColumn("USERNAME") &&
-                                                <AlternateStyledTableData
-                                                    style={{
-                                                        color: theme.colors.primary.navy,
-                                                        fontSize: theme.fontSize.h4,
-                                                        fontFamily: theme.fontFamily.nunitoSansBold
-                                                    }}
-                                                >
-                                                    {data?.username || "---"}
-                                                </AlternateStyledTableData>
-                                            }
-                                            {SelectedColumn("ID") &&
-                                                <AlternateStyledTableData>{data?._id || "---"}</AlternateStyledTableData>
-                                            }
-                                            {SelectedColumn("EMAIL") &&
-                                                <AlternateStyledTableData>{data?.email || "---"}</AlternateStyledTableData>
-                                            }
-                                            {SelectedColumn("PHONE NUMBER") &&
-                                                <AlternateStyledTableData>{data?.phone_number || "---"}</AlternateStyledTableData>
-                                            }
-                                            {SelectedColumn("ACCOUNT TYPE") && users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
-                                                <AlternateStyledTableData>
-                                                    {getAccountType(data?.userRole)}
-                                                </AlternateStyledTableData>
-                                            }
-                                            {SelectedColumn("ACCOUNT NAME") && users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
-                                                <AlternateStyledTableData>
-                                                    {getAccountName(data)}
-                                                </AlternateStyledTableData>
-                                            }
-                                            {SelectedColumn("COMPANY NAME") && users?.userProfile?.data?.userRole === userRoles.COMPANY_ADMIN &&
-                                                <AlternateStyledTableData>{data?.company?.name || "---"}</AlternateStyledTableData>
-                                            }
-                                            {SelectedColumn("USER TYPE") &&
-                                                <AlternateStyledTableData>
-                                                    {(data?.userRole === userRoles.PARTNER_ADMIN || data?.userRole === userRoles.COMPANY_ADMIN) ? "Admin" : "Standard"}
-                                                </AlternateStyledTableData>
-                                            }
-                                            {SelectedColumn("STATUS") &&
-                                                <AlternateStyledTableData>
-                                                    {data?.enabled === true
-                                                        ? <ActiveBox>ACTIVE</ActiveBox>
-                                                        : <SuspendedBox>INACTIVE</SuspendedBox>
-                                                    }
-                                                </AlternateStyledTableData>
-                                            }
-                                            {SelectedColumn("ACTION") &&
-                                                <AlternateStyledTableData>
-                                                    <TableMenu>
-                                                        <ActionMenuItem onClick={() => navigate(`/user-profile/${data?._id}`, { state: data })}>View User</ActionMenuItem>
-                                                    </TableMenu>
-                                                </AlternateStyledTableData>
-                                            }
-                                        </StyledAlternateTableRow>
-                                    )
-                                }
                                 return (
-                                    <StyledTableRow key={data?._id}>
+                                    <StyledTableRow key={index} bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
                                         {SelectedColumn("USERNAME") &&
                                             <StyledTableData
                                                 style={{

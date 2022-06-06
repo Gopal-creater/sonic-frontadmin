@@ -43,7 +43,7 @@ export default function StreamReaderTable({ data, tableHeads }) {
                                 data?.docs?.map((row, index) => {
                                     const favIconUrl = `https://s2.googleusercontent.com/s2/favicons?domain_url=${row?.website || row?.streamingUrl || row?.logo}`;
                                     return (
-                                        <StyledTableRow key={index}>
+                                        <StyledTableRow key={index} bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
                                             {
                                                 SelectedColumn("ID") &&
                                                 <StyledTableData>{data?.offset + index + 1}</StyledTableData>

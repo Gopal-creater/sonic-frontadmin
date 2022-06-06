@@ -48,8 +48,14 @@ export const AutocompleteFormControl = styled(FormControl)`
 `
 
 export const AutocompleteTextfield = styled(TextField)`
-     //label
-     & label {
+    & .MuiFormHelperText-root {
+        color: ${theme.colors.secondary.mediumGrey};
+        font-family:${theme.fontFamily.nunitoSansRegular};
+        font-size: '12px';
+    }
+
+    //label
+    & label {
         color:${theme.colors.secondary.mediumGrey};
         font-family:${theme.fontFamily.nunitoSansRegular};
         font-size: ${theme.fontSize.h4};

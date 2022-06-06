@@ -103,7 +103,7 @@ export default function AddLicence() {
               setAutoCompleteOptions={(option => (state.licenseType === "Company" ? option?.name : option?.username) || "")}
               setAutoCompleteOptionsLabel={(option => option?._id || "")}
               loading={state.licenseType === "Company" ? company?.companySearch?.loading : user?.userSearch?.loading}
-              data={(state.licenseType === "Company" ? company?.companySearch?.data?.docs : user?.userSearch?.data?.docs) || []}
+              data={state.licenseType === "Company" ? company?.companySearch?.data?.docs : user?.userSearch?.data?.docs}
               error={state.licenseType === "Company" ? company?.companySearch?.error : user?.userSearch?.error}
               getSelectedValue={(e, v) => setState({ ...state, user: v })}
               labelText={state.licenseType === "Company" ? "Company*" : "User*"}

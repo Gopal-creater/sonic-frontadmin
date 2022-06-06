@@ -84,7 +84,7 @@ export default function TrackFilter({ closeDialog }) {
                             onChange={(e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, company: e.target.value } })}
                         />
                     }
-                    {users?.userProfile?.data?.userRole === userRoles.COMPANY_ADMIN &&
+                    {(users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN || users?.userProfile?.data?.userRole === userRoles.COMPANY_ADMIN) &&
                         <StyledTextField
                             id=""
                             label="User"

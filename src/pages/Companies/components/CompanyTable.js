@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { SelectedColumn } from '../../../components/common/Columns/component/SelectedColumn';
 import TableMenu from '../../../components/common/Table/components/TableMenu';
 import { ActionMenuItem } from '../../../components/common/Table/TableStyled';
-import { ActiveBox, AlternateStyledTableData, StyledAlternateTableRow, StyledTableData, StyledTableHead, StyledTableRow, SuspendedBox } from '../../../StyledComponents/StyledTable/StyledTable';
+import { ActiveBox, StyledTableData, StyledTableHead, StyledTableRow, SuspendedBox } from '../../../StyledComponents/StyledTable/StyledTable';
+import theme from '../../../theme';
 
 export default function CompanyTable({ data, companyTableHead }) {
     const navigate = useNavigate()
@@ -38,57 +39,8 @@ export default function CompanyTable({ data, companyTableHead }) {
                                 </StyledTableData>
                             </TableRow> :
                             data?.map((data, index) => {
-                                if (index % 2 !== 0) {
-                                    return (
-                                        <StyledAlternateTableRow key={data?._id}>
-                                            {SelectedColumn("COMPANY") &&
-                                                <AlternateStyledTableData>
-                                                    {data?.name || "---"}
-                                                </AlternateStyledTableData>
-                                            }
-                                            {SelectedColumn("COMPANY TYPE") &&
-                                                <AlternateStyledTableData>
-                                                    {data?.companyType || "---"}
-                                                </AlternateStyledTableData>
-                                            }
-                                            {SelectedColumn("ID") &&
-                                                <AlternateStyledTableData>
-                                                    {data?._id || "---"}
-                                                </AlternateStyledTableData>
-                                            }
-                                            {SelectedColumn("EMAIL") &&
-                                                <AlternateStyledTableData>
-                                                    {data?.owner?.email || "---"}
-                                                </AlternateStyledTableData>
-                                            }
-                                            {SelectedColumn("PHONE NUMBER") &&
-                                                <AlternateStyledTableData>
-                                                    {data?.owner?.phone_number || "---"}
-                                                </AlternateStyledTableData>
-                                            }
-                                            {SelectedColumn("ADMIN") &&
-                                                <AlternateStyledTableData>{data?.owner?.name || "---"}</AlternateStyledTableData>
-                                            }
-                                            {SelectedColumn("STATUS") &&
-                                                <AlternateStyledTableData>
-                                                    {data?.enabled === true
-                                                        ? <ActiveBox>ACTIVE</ActiveBox>
-                                                        : <SuspendedBox>SUSPENDED</SuspendedBox>
-                                                    }
-                                                </AlternateStyledTableData>
-                                            }
-                                            {SelectedColumn("ACTION") &&
-                                                <AlternateStyledTableData>
-                                                    <TableMenu>
-                                                        <ActionMenuItem onClick={() => navigate(`/company-profile/${data?._id}`, { state: data })}>View Company</ActionMenuItem>
-                                                    </TableMenu>
-                                                </AlternateStyledTableData>
-                                            }
-                                        </StyledAlternateTableRow>
-                                    )
-                                }
                                 return (
-                                    <StyledTableRow key={data?._id}>
+                                    <StyledTableRow key={index} bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
                                         {SelectedColumn("COMPANY") &&
                                             <StyledTableData>
                                                 {data?.name || "---"}

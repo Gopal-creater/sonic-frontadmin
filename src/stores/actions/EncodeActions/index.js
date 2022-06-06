@@ -39,12 +39,13 @@ export const encodeFromTrackAction = () => {
     let metaData = { ...encodeReducer.metaData }
     if (!metaData?.distributor) delete metaData?.distributor
     if (!metaData?.label) delete metaData?.label
-    log("metaData", metaData)
     let userRoleWiseId = getRoleWiseID()
     let encodePayload = {
         track: encodeReducer?.selectedExistingFile?._id,
         data: {
             ...metaData,
+            isRightsHolderForEncode: metaData?.isRightsHolderForEncode === null || metaData?.isRightsHolderForEncode === "NO" ? false : true,
+            isAuthorizedForEncode: metaData?.isAuthorizedForEncode === null || metaData?.isAuthorizedForEncode === "NO" ? false : true,
             owner: userRoleWiseId?.owner,
             company: userRoleWiseId?.company,
             partner: userRoleWiseId?.partner,
@@ -55,25 +56,7 @@ export const encodeFromTrackAction = () => {
     return (dispatch) => {
         dispatch({ type: actionTypes.SET_ENCODE_LOADING })
         encodeFromTrack(encodePayload).then((res) => {
-            dispatch({ type: actionTypes.SET_ENCODE_SUCCESS, data: res })
-        }).catch((err) => {
-            log("Encode from track error", err)
-            dispatch({ type: actionTypes.SET_ENCODE_ERROR, data: err?.message })
-            cogoToast.error(err?.message)
-        })
-    }
-}
-
-export const encodeAgainFromTrackAction = (encodePayload) => {
-    let metaData = { ...encodePayload?.data }
-    if (!metaData?.distributor) delete metaData?.distributor
-    if (!metaData?.label) delete metaData?.label
-
-    log("Encode metaData", metaData)
-    let newEncodePayload = { ...encodePayload, data: metaData }
-    return (dispatch) => {
-        dispatch({ type: actionTypes.SET_ENCODE_LOADING })
-        encodeFromTrack(newEncodePayload).then((res) => {
+            log("Encode from track response", res)
             dispatch({ type: actionTypes.SET_ENCODE_SUCCESS, data: res })
         }).catch((err) => {
             log("Encode from track error", err)

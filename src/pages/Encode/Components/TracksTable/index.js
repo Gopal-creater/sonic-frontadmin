@@ -7,17 +7,11 @@ import { StyledTableData, StyledTableHead, StyledTableRow } from '../../../../St
 import theme from '../../../../theme';
 import { log } from '../../../../utils/app.debug';
 import CloseIcon from '@material-ui/icons/Close';
-import { H3, H4, H5, H6 } from '../../../../StyledComponents/StyledHeadings';
+import { H3, H4, H6 } from '../../../../StyledComponents/StyledHeadings';
 import AppButton from '../../../../components/common/AppButton/AppButton';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
-import { encodeAgainFromTrackAction } from '../../../../stores/actions/EncodeActions';
-import { Anchor, PopUpContainer, TitleContainer } from '../MetaDataDetails/indexStyles';
 import * as actionTypes from "../../../../stores/actions/actionTypes"
-import encode_progress from "../../../../assets/icons/encode_progress.png"
-import sonic_preloader from "../../../../assets/icons/sonic_preloader.gif"
-import iconSuccess from "../../../../assets/images/icon-success-graphic.png"
-import errorEncodeIcon from "../../../../assets/images/icon-fail-graphic.png"
 import cogoToast from 'cogo-toast';
 import fileDownload from 'js-file-download'
 import axios from 'axios';
@@ -40,12 +34,18 @@ export default function TracksTable({ data, tableHeads, trackSorting }) {
 
     const encodeAgain = (track) => {
         log("Encode Again track", track)
-        let encodePayload = {
-            track: track?._id,
-            data: track?.trackMetaData || {}
+
+        let metaData = {
+            ...encodeReducer?.metaData,
+            contentName: track?.trackMetaData?.contentName || track?.title || "",
+            contentFileType: track?.trackMetaData?.contentFileType || track?.fileType || "",
+            contentOwner: track?.trackMetaData?.contentOwner || track?.artist || "",
+            contentDuration: track?.trackMetaData?.contentDuration || track?.duration || "",
+            contentSize: track?.trackMetaData?.contentSize || track?.fileSize || "",
+            contentEncoding: track?.trackMetaData?.contentEncoding || track?.encoding || "",
+            contentSamplingFrequency: track?.trackMetaData?.contentSamplingFrequency || track?.samplingFrequency || "",
         }
-        dispatch(encodeAgainFromTrackAction(encodePayload))
-        setState({ ...state, selectedTrack: track })
+        dispatch({ type: actionTypes.SET_SELECTED_EXISTING_FILE, data: { file: track, metaData: metaData } })
     }
 
     const closePopUp = () => {
@@ -293,112 +293,6 @@ export default function TracksTable({ data, tableHeads, trackSorting }) {
                         </AppButton>
                     </Grid>
                 </Grid>
-            </PopUp>
-
-            <PopUp
-                id="loadingPopUp"
-                open={encodeReducer?.loadingPopUp}
-                maxWidth="sm"
-                fullWidth
-            >
-                <PopUpContainer>
-                    <TitleContainer container direction='column' alignItems='center'>
-                        <img src={encode_progress} style={{ width: "140px", height: "140px", zIndex: 1 }} />
-                        <H4
-                            className='mt-4'
-                            fontFamily={theme.fontFamily.nunitoSansBlack}
-                            style={{ textAlign: "center", zIndex: 1 }}
-                        >
-                            Encoding of {state?.selectedTrack?.trackMetaData?.contentName || state?.selectedTrack?.title || "---"} in progress
-                        </H4>
-                    </TitleContainer>
-                    <H5
-                        style={{ textAlign: "center", padding: "25px" }}
-                    >
-                        Depending on your internet connection and a size of an audio file, encoding may take longer at times
-                    </H5>
-                    <Grid container justifyContent='center'>
-                        <img src={sonic_preloader} alt="sonic preloader" />
-                    </Grid>
-                </PopUpContainer>
-            </PopUp>
-
-            <PopUp
-                id="successPopUp"
-                open={encodeReducer?.successPopUp}
-                maxWidth="sm"
-                fullWidth
-            >
-                <PopUpContainer padding="20px 40px 25px 40px">
-                    <Grid container justifyContent='flex-end'>
-                        <CloseIcon
-                            onClick={() => {
-                                dispatch({ type: actionTypes.CLOSE_SUCCESS_POPUP })
-                            }}
-                            style={{ cursor: "pointer" }} />
-                    </Grid>
-                    <TitleContainer container direction='column' alignItems='center'>
-                        <img src={iconSuccess} style={{ width: "140px", height: "140px", zIndex: 1 }} />
-                        <H3
-                            className='mt-4'
-                            fontFamily={theme.fontFamily.nunitoSansBlack}
-                            style={{ textAlign: "center", zIndex: 1 }}
-                        >
-                            Well done! Encoding successful
-                        </H3>
-                    </TitleContainer>
-                    <Grid container justifyContent='center' className='mt-1'>
-                        <AppButton
-                            onClick={() => {
-                                dispatch({ type: actionTypes.CLOSE_SUCCESS_POPUP })
-                            }}
-                            fontSize={"15px"}
-                            fontFamily={theme.fontFamily.nunitoSansBlack}
-                        >
-                            Encode another file
-                        </AppButton>
-                    </Grid>
-                </PopUpContainer>
-            </PopUp>
-
-            <PopUp
-                id="errorPopUp"
-                open={encodeReducer?.errorPopUp}
-                maxWidth="sm"
-                fullWidth
-            >
-                <PopUpContainer padding="20px 40px 25px 40px">
-                    <Grid container justifyContent='flex-end'>
-                        <CloseIcon
-                            onClick={() => { dispatch({ type: actionTypes.CLOSE_ERROR_POPUP }) }}
-                            style={{ cursor: "pointer" }} />
-                    </Grid>
-                    <TitleContainer container direction='column' alignItems='center' backgroundColor={theme.colors.secondary.lightGrey}>
-                        <img src={errorEncodeIcon} style={{ width: "140px", height: "140px", zIndex: 1 }} />
-                        <H3
-                            className='mt-4'
-                            fontFamily={theme.fontFamily.nunitoSansBlack}
-                            style={{ textAlign: "center", zIndex: 1 }}
-                        >
-                            Ooops! Encoding failed
-                        </H3>
-                    </TitleContainer>
-                    <Grid container justifyContent='center' className='mt-1'>
-                        <AppButton
-                            onClick={() => {
-                                dispatch({ type: actionTypes.CLOSE_ERROR_POPUP })
-                                encodeAgain(state?.selectedTrack)
-                            }}
-                            fontFamily={theme.fontFamily.nunitoSansBlack}
-                        >
-                            Try to encode again
-                        </AppButton>
-                    </Grid>
-                    <Grid className='mt-5'>
-                        <H5 fontFamily={theme.fontFamily.nunitoSansBlack}>Do you need help?</H5>
-                        <H4 fontFamily={theme.fontFamily.nunitoSansRegular}>Use <Anchor>HelpCenter</Anchor> or email our <Anchor>Support Team</Anchor></H4>
-                    </Grid>
-                </PopUpContainer>
             </PopUp>
 
             <DownloadProgressModal open={state.openDownloadingModal} percentage={state.percentComplete} />

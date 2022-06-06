@@ -1,4 +1,5 @@
 import cogoToast from "cogo-toast";
+import { getRoleWiseID } from "../../services/https/AuthHelper";
 import { fetchRadioMonitors, getRadioMonitorsPlaysCount, getSonicStreamDetails } from "../../services/https/resources/StreamReader.api";
 import { log } from "../../utils/app.debug";
 import * as actionTypes from "./actionTypes";
@@ -32,6 +33,11 @@ export const getRadioMonitorsPlaysCountActions = (id) => {
     let params = new URLSearchParams();
     params.append("channel", "STREAMREADER");
 
+    let userRoleWiseId = getRoleWiseID()
+    if (userRoleWiseId?.company) params.append("company", userRoleWiseId?.company)
+    if (userRoleWiseId?.partner) params.append("partner", userRoleWiseId?.partner)
+    if (userRoleWiseId?.owner) params.append("owner", userRoleWiseId?.owner)
+
     if (id) {
         params.append("radioStation", id);
     }
@@ -51,6 +57,11 @@ export const getRadioMonitorsPlaysCountActions = (id) => {
 export const getSonicStreamDetailsActions = (id) => {
     let params = new URLSearchParams();
     let channel = "STREAMREADER";
+
+    let userRoleWiseId = getRoleWiseID()
+    if (userRoleWiseId?.company) params.append("company", userRoleWiseId?.company)
+    if (userRoleWiseId?.partner) params.append("partner", userRoleWiseId?.partner)
+    if (userRoleWiseId?.owner) params.append("owner", userRoleWiseId?.owner)
 
     if (id) {
         params.append("radioStation", id);

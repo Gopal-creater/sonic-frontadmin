@@ -173,13 +173,13 @@ export default function CreateNewCompany() {
                         </Grid>
 
                         <H4 className='mt-2'>Admin details</H4>
-                        <Popper title={"Add associated new user"} showDetails={(flag) => setState({ ...state, showUserDetails: flag })}>
+                        <Popper title={"Select an Admin"} showDetails={(flag) => setState({ ...state, showUserDetails: flag })}>
                             <AppAutoComplete
                                 setAutoComPleteAction={(value) => dispatch(getUsersNameAction(value))}
                                 setAutoCompleteOptions={(option => option?.username || "")}
                                 setAutoCompleteOptionsLabel={(option => option?.email || "")}
                                 loading={user?.userSearch?.loading}
-                                data={user?.userSearch?.data?.docs || []}
+                                data={user?.userSearch?.data?.docs}
                                 error={user?.userSearch?.error}
                                 getSelectedValue={(e, v) => setState({ ...state, user: v })}
                                 placeholder={"Search for a user"}

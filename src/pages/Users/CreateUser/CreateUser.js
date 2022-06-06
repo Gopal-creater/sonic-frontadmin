@@ -273,7 +273,9 @@ export default function CreateUser() {
                             </IconBox>
                         </Grid>
 
-                        <H4 className='mt-2'>{user?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN ? state.accountType : "Company"} details</H4>
+                        <H4 className='mt-2'>
+                            {user?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN ? state.accountType : "Company"} details {state.accountType === "Company" && "(optional)"}
+                        </H4>
                         {user?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN ?
                             <>
                                 {state.accountType === "Partner" ? <Grid style={{ marginTop: 15 }}>
@@ -289,7 +291,7 @@ export default function CreateUser() {
                                                 setAutoCompleteOptions={(option => option?.name || "")}
                                                 setAutoCompleteOptionsLabel={(option => option?.companyType || "")}
                                                 loading={company?.companySearch?.loading}
-                                                data={company?.companySearch?.data?.docs || []}
+                                                data={company?.companySearch?.data?.docs}
                                                 error={company?.companySearch?.error}
                                                 getSelectedValue={(e, v) => setState({ ...state, company: v })}
                                                 placeholder={"Search for a company"}

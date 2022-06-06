@@ -158,7 +158,7 @@ export default function EncodeData() {
                                     setAutoCompleteOptions={(option => option?.trackMetaData?.contentName || option?.originalFileName || "")}
                                     setAutoCompleteOptionsLabel={(option => option?.trackMetaData?.contentOwner || "")}
                                     loading={encodeReducer?.encodeSearchTrack?.loading}
-                                    data={encodeReducer?.encodeSearchTrack?.data?.docs || []}
+                                    data={encodeReducer?.encodeSearchTrack?.data?.docs}
                                     error={encodeReducer?.encodeSearchTrack?.error}
                                     getSelectedValue={(e, v) => handleAutoCompleteSelectedValue(v)}
                                     placeholder={"Search for a track by title"}

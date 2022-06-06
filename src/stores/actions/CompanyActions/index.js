@@ -4,7 +4,7 @@ import store from "../..";
 import { log } from "../../../utils/app.debug";
 import { createCompany, getAllCompanies, updateCompanyProfile } from "../../../services/https/resources/Companies/Companies.api";
 import { userRoles } from "../../../constants/constants";
-import { getUserId } from "../../../services/https/AuthHelper";
+import { getRoleWiseID, getUserId } from "../../../services/https/AuthHelper";
 
 
 export const createCompanyAction = (payload) => {
@@ -43,16 +43,10 @@ export const getAllCompaniesAction = (limit, page) => {
 
     let company = store.getState()?.company?.filters;
 
-    let userRole = store.getState().user?.userProfile?.data?.userRole
-    if (userRole === userRoles.COMPANY_ADMIN || userRole === userRoles.COMPANY_USER) {
-        params.append("company", store.getState().user?.userProfile?.data?.company?.id)
-    }
-    else if (userRole === userRoles.PARTNER_ADMIN || userRole === userRoles.PARTNER_USER) {
-        params.append("partner", store.getState().user?.userProfile?.data?.partner?.id)
-    }
-    else {
-        params.append("owner", getUserId())
-    }
+    let userRoleWiseId = getRoleWiseID()
+    if (userRoleWiseId?.company) params.append("company", userRoleWiseId?.company)
+    if (userRoleWiseId?.partner) params.append("partner", userRoleWiseId?.partner)
+    if (userRoleWiseId?.owner) params.append("owner", userRoleWiseId?.owner)
 
     if (company?.companyName) {
         params.append("name", `/${company?.companyName}/i`);
@@ -63,15 +57,15 @@ export const getAllCompaniesAction = (limit, page) => {
     }
 
     if (company?.email) {
-        params.append("email", `/${company?.email}/i`);
+        params.append("relation_owner.email", `/${company?.email}/i`);
     }
 
     if (company?.companyId) {
-        params.append("companyUrnOrId", `/${company?.email}/i`);
+        params.append("companyUrnOrId", `/${company?.companyId}/i`);
     }
 
     if (company?.admin) {
-        params.append("admin", `/${company?.admin}/i`);
+        params.append("relation_owner.name", `/${company?.admin}/i`);
     }
 
     return (dispatch) => {

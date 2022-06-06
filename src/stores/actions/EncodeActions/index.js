@@ -36,11 +36,14 @@ export const encodeFromFileAction = (mediaFile, metaData) => {
 
 export const encodeFromTrackAction = () => {
     let encodeReducer = store.getState()?.encode
+    let metaData = { ...encodeReducer.metaData }
+    // if (!metaData?.distributor) delete metaData?.distributor
+    // log("metaData", metaData)
     let userRoleWiseId = getRoleWiseID()
     let encodePayload = {
         track: encodeReducer?.selectedExistingFile?._id,
         data: {
-            ...encodeReducer.metaData,
+            ...metaData,
             owner: userRoleWiseId?.owner,
             company: userRoleWiseId?.company,
             partner: userRoleWiseId?.partner,

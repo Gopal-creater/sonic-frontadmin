@@ -24,6 +24,7 @@ import axios from 'axios';
 import DownloadProgressModal from '../DownloadProgressModal';
 import { downloadAnyFile } from '../../../../services/https/resources/EncodeApi/encodeApi';
 import { SelectedColumn } from '../../../../components/common/Columns/component/SelectedColumn';
+import CustomToolTip from '../../../../components/common/CustomToolTip';
 
 export default function TracksTable({ data, tableHeads, trackSorting }) {
     const [state, setState] = React.useState({
@@ -141,45 +142,73 @@ export default function TracksTable({ data, tableHeads, trackSorting }) {
                                         >
                                             {
                                                 SelectedColumn("TRACK ID") &&
-                                                <StyledTableData
-                                                    style={{
-                                                        color: theme.colors.primary.navy,
-                                                        fontSize: theme.fontSize.h4,
-                                                        fontFamily: theme.fontFamily.nunitoSansBold
-                                                    }}
-                                                >
-                                                    {row?._id || "---"}
-                                                </StyledTableData>
+                                                <CustomToolTip title={row?._id || "---"} placement={"bottom-start"}>
+                                                    <StyledTableData
+                                                        style={{
+                                                            color: theme.colors.primary.navy,
+                                                            fontSize: theme.fontSize.h4,
+                                                            fontFamily: theme.fontFamily.nunitoSansBold
+                                                        }}
+                                                    >
+                                                        {row?._id || "---"}
+                                                    </StyledTableData>
+                                                </CustomToolTip>
                                             }
                                             {
                                                 SelectedColumn("TITLE") &&
-                                                <StyledTableData >
-                                                    {row?.trackMetaData?.contentName || "---"}
-                                                </StyledTableData>
+                                                <CustomToolTip title={row?.trackMetaData?.contentName || "---"} placement={"bottom-start"}>
+                                                    <StyledTableData >
+                                                        {row?.trackMetaData?.contentName || "---"}
+                                                    </StyledTableData>
+                                                </CustomToolTip>
                                             }
                                             {
                                                 SelectedColumn("VERSION") &&
-                                                <StyledTableData >{row?.trackMetaData?.version || "---"}</StyledTableData>
+                                                <CustomToolTip title={row?.trackMetaData?.version || "---"} placement={"bottom-start"}>
+                                                    <StyledTableData >
+                                                        {row?.trackMetaData?.version || "---"}
+                                                    </StyledTableData>
+                                                </CustomToolTip>
                                             }
                                             {
                                                 SelectedColumn("ARTIST") &&
-                                                <StyledTableData >{row?.trackMetaData?.contentOwner || "---"}</StyledTableData>
+                                                <CustomToolTip title={row?.trackMetaData?.contentOwner || "---"} placement={"bottom-start"}>
+                                                    <StyledTableData >
+                                                        {row?.trackMetaData?.contentOwner || "---"}
+                                                    </StyledTableData>
+                                                </CustomToolTip>
                                             }
                                             {
                                                 SelectedColumn("DISTRIBUTOR") &&
-                                                <StyledTableData >{row?.trackMetaData?.distributor || "---"}</StyledTableData>
+                                                <CustomToolTip title={row?.trackMetaData?.distributor || "---"} placement={"bottom-start"}>
+                                                    <StyledTableData >
+                                                        {row?.trackMetaData?.distributor || "---"}
+                                                    </StyledTableData>
+                                                </CustomToolTip>
                                             }
                                             {
                                                 SelectedColumn("FILE TYPE") &&
-                                                <StyledTableData >{row?.trackMetaData?.contentFileType || "---"}</StyledTableData>
+                                                <CustomToolTip title={row?.trackMetaData?.contentFileType || "---"} placement={"bottom-start"}>
+                                                    <StyledTableData >
+                                                        {row?.trackMetaData?.contentFileType || "---"}
+                                                    </StyledTableData>
+                                                </CustomToolTip>
                                             }
                                             {
                                                 SelectedColumn("ENCODED DATE") &&
-                                                <StyledTableData >{moment(row?.createdAt).format("DD/MM/YYYY") || "---"}</StyledTableData>
+                                                <CustomToolTip title={moment(row?.createdAt).format("DD/MM/YYYY") || "---"} placement={"bottom-start"}>
+                                                    <StyledTableData >
+                                                        {moment(row?.createdAt).format("DD/MM/YYYY") || "---"}
+                                                    </StyledTableData>
+                                                </CustomToolTip>
                                             }
                                             {
                                                 SelectedColumn("SYSTEM/PARTNER ID") &&
-                                                <StyledTableData >{row?.owner?._id || row?.company?._id || row?.partner?._id || "---"}</StyledTableData>
+                                                <CustomToolTip title={row?.owner?._id || row?.company?._id || row?.partner?._id || "---"} placement={"bottom-start"}>
+                                                    <StyledTableData >
+                                                        {row?.owner?._id || row?.company?._id || row?.partner?._id || "---"}
+                                                    </StyledTableData>
+                                                </CustomToolTip>
                                             }
                                             {
                                                 SelectedColumn("ACTION") &&
@@ -219,8 +248,16 @@ export default function TracksTable({ data, tableHeads, trackSorting }) {
                                 <TCell cell1={false}>{state?.selectedTrack?.trackMetaData?.contentName || "---"}</TCell>
                             </TableRow>
                             <TableRow>
+                                <TCell cell1={true}>ORIGINAL FILENAME</TCell>
+                                <TCell cell1={false}>{state?.selectedTrack?.originalFileName || "---"}</TCell>
+                            </TableRow>
+                            <TableRow>
                                 <TCell cell1={true}>VERSION</TCell>
                                 <TCell cell1={false}>{state?.selectedTrack?.trackMetaData?.version || "---"}</TCell>
+                            </TableRow>
+                            <TableRow>
+                                <TCell cell1={true}>LABEL</TCell>
+                                <TCell cell1={false}>{state?.selectedTrack?.trackMetaData?.label || "---"}</TCell>
                             </TableRow>
                             <TableRow>
                                 <TCell cell1={true}>ARTIST</TCell>

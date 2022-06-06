@@ -138,14 +138,14 @@ export default function EncodeData() {
                                             fontFamily={theme.fontFamily.nunitoSansBold}
                                             color={theme.colors.primary.navy}
                                         >
-                                            {state?.autoCompleteValue?.trackMetaData?.contentName || state?.autoCompleteValue?.title || state?.autoCompleteValue?.originalFileName}
+                                            {state?.autoCompleteValue?.trackMetaData?.contentName || state?.autoCompleteValue?.originalFileName || ""}
                                         </H4>
                                         <H5
                                             fontFamily={theme.fontFamily.nunitoSansBold}
                                             color={theme.colors.primary.navy}
                                             style={{ lineHeight: "1", marginTop: "-5px" }}
                                         >
-                                            {state?.autoCompleteValue?.trackMetaData?.contentName || state?.autoCompleteValue?.title || state?.autoCompleteValue?.originalFileName}
+                                            {state?.autoCompleteValue?.trackMetaData?.contentOwner || ""}
                                         </H5>
                                     </Grid>
                                 </SelectedTrackTextContainer>
@@ -156,7 +156,7 @@ export default function EncodeData() {
                                     textFieldValue={state.autoCompleteValue}
                                     setAutoComPleteAction={(value) => dispatch(getEncodeSearchTracksAction(value))}
                                     setAutoCompleteOptions={(option => option?.trackMetaData?.contentName || option?.originalFileName || "")}
-                                    setAutoCompleteOptionsLabel={(option => option?.trackMetaData?.contentName || option?.originalFileName || "")}
+                                    setAutoCompleteOptionsLabel={(option => option?.trackMetaData?.contentOwner || "")}
                                     loading={encodeReducer?.encodeSearchTrack?.loading}
                                     data={encodeReducer?.encodeSearchTrack?.data?.docs || []}
                                     error={encodeReducer?.encodeSearchTrack?.error}

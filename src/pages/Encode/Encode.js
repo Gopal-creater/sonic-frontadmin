@@ -157,7 +157,7 @@ export default function Encode() {
                                                 log("user wise role", getRoleWiseID())
                                             }}
                                             setAutoCompleteOptions={(option => option?.trackMetaData?.contentName || option?.originalFileName || "")}
-                                            setAutoCompleteOptionsLabel={(option => option?.trackMetaData?.contentName || option?.originalFileName || "")}
+                                            setAutoCompleteOptionsLabel={(option => option?.trackMetaData?.contentOwner || "")}
                                             loading={encode?.encodeSearchTrack?.loading}
                                             data={encode?.encodeSearchTrack?.data?.docs || []}
                                             error={encode?.encodeSearchTrack?.error}

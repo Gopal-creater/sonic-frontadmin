@@ -7,7 +7,6 @@ import { Grid } from '@material-ui/core';
 import { log } from '../../../utils/app.debug';
 
 export default function AppAutoComplete(props) {
-    log("props", props)
     return (
         <StyledAutocomplete
             id="combo-box-demo"

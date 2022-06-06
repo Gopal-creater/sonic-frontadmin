@@ -19,6 +19,7 @@ import AppAutoComplete from "../../../components/common/AutoComplete/AppAutoComp
 import { getUsersNameAction } from "../../../stores/actions/picker/titlePicker.action";
 import { getUsersAction } from "../../../stores/actions/UserActions";
 import Popper from "../../../components/common/Popper";
+import { log } from "../../../utils/app.debug";
 
 export default function CreateNewCompany() {
     const { handleSubmit, control, reset } = useForm();
@@ -59,7 +60,7 @@ export default function CreateNewCompany() {
         }
         dispatch(createCompanyAction(payload))
     }
-
+    log("state to user", state?.user);
     return (
         <MainContainer>
             <H1>Create new company</H1>
@@ -228,7 +229,10 @@ export default function CreateNewCompany() {
                     >
                         Cancel
                     </AppButton>
-                    <AppButton variant={"fill"} type="submit" style={{ marginLeft: "15px", width: "210px" }}>
+                    <AppButton
+                        disabled={!state.showUserDetails}
+                        variant={"fill"} type="submit"
+                        style={{ marginLeft: "15px", width: "210px" }}>
                         {company?.createCompany?.loading ? <CircularProgress size={20} color="white" /> : "Create new company"}
                     </AppButton>
                 </ButtonContainer>

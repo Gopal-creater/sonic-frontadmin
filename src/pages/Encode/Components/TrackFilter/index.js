@@ -9,10 +9,11 @@ import { getTracksAction } from '../../../../stores/actions/EncodeActions';
 import * as actionTypes from "../../../../stores/actions/actionTypes"
 import CustomDropDown from '../../../../components/common/AppTextInput/CustomDropDown';
 import theme from '../../../../theme';
-import { Distributor } from '../../../../constants/constants';
+import { Distributor, userRoles } from '../../../../constants/constants';
 
 export default function TrackFilter({ closeDialog }) {
     const encode = useSelector(state => state.encode)
+    const users = useSelector(state => state.user);
 
     const dispatch = useDispatch()
 
@@ -46,11 +47,11 @@ export default function TrackFilter({ closeDialog }) {
                     <StyledTextField
                         id=""
                         label="Artist"
-                        className="mt-1"
+                        className="mt-2"
                         value={encode?.tracks?.trackFilters?.artist}
                         onChange={(e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, artist: e.target.value } })}
                     />
-                    <Grid className="mt-1">
+                    <Grid className="mt-2">
                         <CustomDropDown
                             id="channel-dropdown"
                             labelText="Distributor"
@@ -74,20 +75,24 @@ export default function TrackFilter({ closeDialog }) {
                         value={encode?.tracks?.trackFilters?.title}
                         onChange={(e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, title: e.target.value } })}
                     />
-                    <StyledTextField
-                        id=""
-                        label="Company"
-                        className="mt-1"
-                        value={encode?.tracks?.trackFilters?.company}
-                        onChange={(e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, company: e.target.value } })}
-                    />
-                    <StyledTextField
-                        id=""
-                        label="User"
-                        className="mt-1"
-                        value={encode?.tracks?.trackFilters?.user}
-                        onChange={(e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, user: e.target.value } })}
-                    />
+                    {users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
+                        <StyledTextField
+                            id=""
+                            label="Company"
+                            className="mt-2"
+                            value={encode?.tracks?.trackFilters?.company}
+                            onChange={(e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, company: e.target.value } })}
+                        />
+                    }
+                    {(users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN || users?.userProfile?.data?.userRole === userRoles.COMPANY_ADMIN) &&
+                        <StyledTextField
+                            id=""
+                            label="User"
+                            className="mt-2"
+                            value={encode?.tracks?.trackFilters?.user}
+                            onChange={(e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, user: e.target.value } })}
+                        />
+                    }
                 </Grid>
             </Grid>
 

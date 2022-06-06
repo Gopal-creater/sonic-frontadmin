@@ -37,8 +37,9 @@ export const encodeFromFileAction = (mediaFile, metaData) => {
 export const encodeFromTrackAction = () => {
     let encodeReducer = store.getState()?.encode
     let metaData = { ...encodeReducer.metaData }
-    // if (!metaData?.distributor) delete metaData?.distributor
-    // log("metaData", metaData)
+    if (!metaData?.distributor) delete metaData?.distributor
+    if (!metaData?.label) delete metaData?.label
+    log("metaData", metaData)
     let userRoleWiseId = getRoleWiseID()
     let encodePayload = {
         track: encodeReducer?.selectedExistingFile?._id,
@@ -64,9 +65,15 @@ export const encodeFromTrackAction = () => {
 }
 
 export const encodeAgainFromTrackAction = (encodePayload) => {
+    let metaData = { ...encodePayload?.data }
+    if (!metaData?.distributor) delete metaData?.distributor
+    if (!metaData?.label) delete metaData?.label
+
+    log("Encode metaData", metaData)
+    let newEncodePayload = { ...encodePayload, data: metaData }
     return (dispatch) => {
         dispatch({ type: actionTypes.SET_ENCODE_LOADING })
-        encodeFromTrack(encodePayload).then((res) => {
+        encodeFromTrack(newEncodePayload).then((res) => {
             dispatch({ type: actionTypes.SET_ENCODE_SUCCESS, data: res })
         }).catch((err) => {
             log("Encode from track error", err)

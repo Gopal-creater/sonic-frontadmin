@@ -159,7 +159,7 @@ export default function Encode() {
                                             setAutoCompleteOptions={(option => option?.trackMetaData?.contentName || option?.originalFileName || "")}
                                             setAutoCompleteOptionsLabel={(option => option?.trackMetaData?.contentOwner || "")}
                                             loading={encode?.encodeSearchTrack?.loading}
-                                            data={encode?.encodeSearchTrack?.data?.docs || []}
+                                            data={encode?.encodeSearchTrack?.data?.docs}
                                             error={encode?.encodeSearchTrack?.error}
                                             getSelectedValue={(e, v) => handleAutoCompleteSelectedValue(v)}
                                             placeholder={"Search for a track by title"}

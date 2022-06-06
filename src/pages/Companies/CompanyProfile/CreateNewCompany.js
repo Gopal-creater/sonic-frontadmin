@@ -179,7 +179,7 @@ export default function CreateNewCompany() {
                                 setAutoCompleteOptions={(option => option?.username || "")}
                                 setAutoCompleteOptionsLabel={(option => option?.email || "")}
                                 loading={user?.userSearch?.loading}
-                                data={user?.userSearch?.data?.docs || []}
+                                data={user?.userSearch?.data?.docs}
                                 error={user?.userSearch?.error}
                                 getSelectedValue={(e, v) => setState({ ...state, user: v })}
                                 placeholder={"Search for a user"}

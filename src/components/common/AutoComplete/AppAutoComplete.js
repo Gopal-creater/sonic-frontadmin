@@ -4,13 +4,15 @@ import { ControlPoint, Search } from '@material-ui/icons';
 import { AutocompleteTextfield, StyledAutocomplete } from './StyledPicker';
 import theme from '../../../theme';
 import { Grid } from '@material-ui/core';
+import { log } from '../../../utils/app.debug';
 
 export default function AppAutoComplete(props) {
+    log("props", props)
     return (
         <StyledAutocomplete
             id="combo-box-demo"
-            options={props.data}
-            noOptionsText={props.error ? props.error : props.loading ? "Loading..." : "No Data"}
+            options={props.data || []}
+            noOptionsText={props.error ? props.error : props.loading ? "Loading..." : props?.data === undefined ? "Start typing..." : props?.data?.length === 0 && "No Data"}
             getOptionLabel={(option) => props?.setAutoCompleteOptions(option)}
             renderOption={(option) => (
                 <Grid container alignItems='center' style={{ margin: 0, borderBottom: `1px solid ${theme.colors.secondary.lightGrey}`, padding: '5px 0px' }}>

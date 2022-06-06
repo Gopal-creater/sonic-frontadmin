@@ -291,7 +291,7 @@ export default function CreateUser() {
                                                 setAutoCompleteOptions={(option => option?.name || "")}
                                                 setAutoCompleteOptionsLabel={(option => option?.companyType || "")}
                                                 loading={company?.companySearch?.loading}
-                                                data={company?.companySearch?.data?.docs || []}
+                                                data={company?.companySearch?.data?.docs}
                                                 error={company?.companySearch?.error}
                                                 getSelectedValue={(e, v) => setState({ ...state, company: v })}
                                                 placeholder={"Search for a company"}

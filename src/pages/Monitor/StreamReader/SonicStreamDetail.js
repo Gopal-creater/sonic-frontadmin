@@ -30,7 +30,7 @@ export default function SonicStreamDetail() {
           <AppButton style={{ marginBottom: 20 }} variant={"outline"} onClick={() => navigate(-1)} startIcon={<ArrowBack />}>Back</AppButton>
           <H1>Detected SonicKeys</H1>
           <H4 color={theme.colors.primary.teal} fontFamily={theme.fontFamily.nunitoSansRegular}>
-            Found {streamReader?.streamDetails?.data?.docs?.length} SonicKeys in{" "}
+            Found {streamReader?.streamDetails?.data?.docs?.length || 0} SonicKeys in{" "}
             {state?.name} radio station {" "}
             {state?.isStreamStarted === true && (
               <Badge style={{ background: "rgb(229, 245, 244)", color: "rgb(72, 187, 183)", padding: 5, fontWeight: "lighter" }}>

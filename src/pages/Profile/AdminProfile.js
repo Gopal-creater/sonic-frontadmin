@@ -288,6 +288,7 @@ export default function AdminProfile() {
                                     defaultChecked={admin?.userProfile?.data?.enabled}
                                     checked={value}
                                     onChange={onChange}
+                                    disabled={true}
                                 />
                             </>
                         )}

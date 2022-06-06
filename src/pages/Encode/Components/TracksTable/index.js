@@ -102,6 +102,10 @@ export default function TracksTable({ data, tableHeads, trackSorting }) {
         }
     }
 
+    const viewSonicKeys = (track) => {
+
+    }
+
     return (
         <Grid>
             <TableContainer >
@@ -217,6 +221,7 @@ export default function TracksTable({ data, tableHeads, trackSorting }) {
                                                         <ActionMenuItem onClick={() => setState({ ...state, openViewTrackPopUp: true, selectedTrack: row })}>View</ActionMenuItem>
                                                         <ActionMenuItem onClick={() => download(row)}>Download</ActionMenuItem>
                                                         <ActionMenuItem onClick={() => encodeAgain(row)}>Encode again</ActionMenuItem>
+                                                        <ActionMenuItem onClick={() => viewSonicKeys(row)}>View Sonickeys</ActionMenuItem>
                                                     </TableMenu>
                                                 </StyledTableData>
                                             }

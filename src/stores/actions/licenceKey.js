@@ -3,7 +3,7 @@ import { addLicenceKey, getLicenceKey } from '../../services/https/resources/Lic
 import store from '..';
 import moment from 'moment';
 import cogoToast from 'cogo-toast';
-import { getRoleWiseID } from '../../services/https/AuthHelper';
+import { getRoleWiseID, getUserId } from '../../services/https/AuthHelper';
 
 export const addLicenseKeyAction = (payload) => {
     return (dispatch) => {
@@ -31,10 +31,11 @@ export const fetchLicenceKeys = (limit, page) => {
     let userRoleWiseId = getRoleWiseID()
 
     if (userRoleWiseId?.partner) {
-        let additionalFilter = { $or: [{ "company.partner": userRoleWiseId?.partner }, { "users.partner": userRoleWiseId?.partner }] }
+        let additionalFilter = {
+            $or: [{ "company.partner": userRoleWiseId?.partner }, { "users.partner": userRoleWiseId?.partner }, { "users._id": getUserId() }]
+        }
         params.append("relation_filter", JSON.stringify(additionalFilter))
     }
-    // if (userRoleWiseId?.partner) params.append("relation_users.partner", userRoleWiseId?.partner)
     if (userRoleWiseId?.company) params.append("company", userRoleWiseId?.company)
     if (userRoleWiseId?.owner) params.append("users", userRoleWiseId?.owner)
 

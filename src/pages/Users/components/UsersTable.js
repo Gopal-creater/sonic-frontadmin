@@ -7,7 +7,6 @@ import TableMenu from '../../../components/common/Table/components/TableMenu';
 import { ActionMenuItem } from '../../../components/common/Table/TableStyled';
 import { userRoles } from '../../../constants/constants';
 import { ActiveBox, AlternateStyledTableData, StyledAlternateTableRow, StyledTableData, StyledTableHead, StyledTableRow, SuspendedBox } from '../../../StyledComponents/StyledTable/StyledTable';
-import { CustomTooltip } from '../../../StyledComponents/StyledToolTip/CustomTooltip';
 import theme from '../../../theme';
 
 export default function UsersTable({ data, usersTableHead }) {
@@ -65,17 +64,15 @@ export default function UsersTable({ data, usersTableHead }) {
                                     return (
                                         <StyledAlternateTableRow key={data?._id}>
                                             {SelectedColumn("USERNAME") &&
-                                                <CustomTooltip title={data?.username || "---"}>
-                                                    <AlternateStyledTableData
-                                                        style={{
-                                                            color: theme.colors.primary.navy,
-                                                            fontSize: theme.fontSize.h4,
-                                                            fontFamily: theme.fontFamily.nunitoSansBold
-                                                        }}
-                                                    >
-                                                        {data?.username || "---"}
-                                                    </AlternateStyledTableData>
-                                                </CustomTooltip>
+                                                <AlternateStyledTableData
+                                                    style={{
+                                                        color: theme.colors.primary.navy,
+                                                        fontSize: theme.fontSize.h4,
+                                                        fontFamily: theme.fontFamily.nunitoSansBold
+                                                    }}
+                                                >
+                                                    {data?.username || "---"}
+                                                </AlternateStyledTableData>
                                             }
                                             {SelectedColumn("ID") &&
                                                 <AlternateStyledTableData>{data?._id || "---"}</AlternateStyledTableData>
@@ -125,17 +122,15 @@ export default function UsersTable({ data, usersTableHead }) {
                                 return (
                                     <StyledTableRow key={data?._id}>
                                         {SelectedColumn("USERNAME") &&
-                                            <CustomTooltip title={data?.username || "---"}>
-                                                <StyledTableData
-                                                    style={{
-                                                        color: theme.colors.primary.navy,
-                                                        fontSize: theme.fontSize.h4,
-                                                        fontFamily: theme.fontFamily.nunitoSansBold
-                                                    }}
-                                                >
-                                                    {data?.username || "---"}
-                                                </StyledTableData>
-                                            </CustomTooltip>
+                                            <StyledTableData
+                                                style={{
+                                                    color: theme.colors.primary.navy,
+                                                    fontSize: theme.fontSize.h4,
+                                                    fontFamily: theme.fontFamily.nunitoSansBold
+                                                }}
+                                            >
+                                                {data?.username || "---"}
+                                            </StyledTableData>
                                         }
                                         {SelectedColumn("ID") &&
                                             <StyledTableData>{data?._id || "---"}</StyledTableData>

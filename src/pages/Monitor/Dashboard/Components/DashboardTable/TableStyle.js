@@ -80,6 +80,7 @@ export const TableDataColumn = styled.td`
     padding: 16px 25px 16px 5px;
     color: ${props => props.theme.colors.secondary.grey};
     font-family:${props => props.theme.fontFamily.nunitoSansBold};
+    background-color:${props => props?.bgColor || "white"};
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;

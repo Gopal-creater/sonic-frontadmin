@@ -6,7 +6,6 @@ import { AlternateStyledTableData, StyledTableData, StyledTableHead, StyledTable
 import * as actionTypes from "../../../../stores/actions/actionTypes"
 import { log } from '../../../../utils/app.debug';
 import { useNavigate } from 'react-router-dom';
-import { SelectedColumn } from '../../../../components/common/Columns/component/SelectedColumn';
 
 export default function TracksTable({ data, trackTableHeads, onTrackSorting }) {
     const theme = useTheme()
@@ -72,35 +71,12 @@ export default function TracksTable({ data, trackTableHeads, onTrackSorting }) {
                                     </StyledTableData>
                                 </TableRow> :
                                 data?.map((row, index) => {
-                                    if (index % 2 !== 0) {
-                                        return (
-                                            <StyledAlternateTableRow
-                                                key={index}
-                                                style={{ cursor: "pointer" }}
-                                                onClick={() => onPlaysClick(row?.trackName)}
-                                            >
-                                                <AlternateStyledTableData
-                                                    style={{
-                                                        color: theme.colors.primary.navy,
-                                                        fontSize: theme.fontSize.h4,
-                                                        fontFamily: theme.fontFamily.nunitoSansBold
-                                                    }}
-                                                >
-                                                    {(row?.trackName || "---")}
-                                                </AlternateStyledTableData>
-                                                <AlternateStyledTableData >
-                                                    {(row?.plays || "---")}
-                                                </AlternateStyledTableData>
-                                                <AlternateStyledTableData >{(row?.radioStation || "---")}</AlternateStyledTableData>
-                                                <AlternateStyledTableData >{(row?.country || "---")}</AlternateStyledTableData>
-                                            </StyledAlternateTableRow>
-                                        )
-                                    }
                                     return (
                                         <StyledTableRow
                                             key={index}
                                             style={{ cursor: "pointer" }}
                                             onClick={() => onPlaysClick(row?.trackName)}
+                                            bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}
                                         >
                                             <StyledTableData
                                                 style={{

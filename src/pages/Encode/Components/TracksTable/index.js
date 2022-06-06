@@ -137,6 +137,7 @@ export default function TracksTable({ data, tableHeads, trackSorting }) {
                                     return (
                                         <StyledTableRow
                                             key={index}
+                                            bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}
                                         >
                                             {
                                                 SelectedColumn("TRACK ID") &&

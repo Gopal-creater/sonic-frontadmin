@@ -70,34 +70,12 @@ export default function RadioStationTable({ data, radioStationTableHeads, onRadi
                                     </StyledTableData>
                                 </TableRow> :
                                 data?.map((row, index) => {
-                                    if (index % 2 !== 0) {
-                                        return (
-                                            <StyledAlternateTableRow
-                                                key={index}
-                                                style={{ cursor: "pointer" }}
-                                                onClick={() => onPlaysClick(row?.radioStation)}
-                                            >
-                                                <AlternateStyledTableData
-                                                    style={{
-                                                        color: theme.colors.primary.navy,
-                                                        fontSize: theme.fontSize.h4,
-                                                        fontFamily: theme.fontFamily.nunitoSansBold
-                                                    }}
-                                                >
-                                                    {row?.radioStation || "---"}
-                                                </AlternateStyledTableData>
-                                                <AlternateStyledTableData >{`${row?.country}` || "---"}</AlternateStyledTableData>
-                                                <AlternateStyledTableData >{`${row?.playsCount}` || "---"}</AlternateStyledTableData>
-                                                <AlternateStyledTableData >{`${row?.uniquePlays}` || "---"}</AlternateStyledTableData>
-                                                <AlternateStyledTableData >{`${row?.artistsCount}` || "---"}</AlternateStyledTableData>
-                                            </StyledAlternateTableRow >
-                                        )
-                                    }
                                     return (
                                         <StyledTableRow
                                             key={index}
                                             style={{ cursor: "pointer" }}
                                             onClick={() => onPlaysClick(row?.radioStation)}
+                                            bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}
                                         >
                                             <StyledTableData
                                                 style={{

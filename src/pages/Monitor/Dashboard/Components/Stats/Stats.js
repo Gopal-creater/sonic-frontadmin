@@ -2,9 +2,9 @@ import { CircularProgress, Grid } from '@material-ui/core';
 import React from 'react';
 import { DataContainer, IconContainer, OwnershipTitleContainer, StatsContainer, Title } from './StyledStats';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
-import theme from '../../../../../theme';
-import CustomToolTip from '../../../../../components/common/CustomToolTip';
 import { useNavigate } from 'react-router-dom';
+import CustomToolTip from '../../../../../components/common/CustomToolTip/index';
+import theme from '../../../../../theme';
 
 export default function Stats(
     { loading, data, error, title, imgSrc, ownerShipTitle, pageLink, helpText }
@@ -32,19 +32,11 @@ export default function Stats(
                         <Title style={{ textAlign: "end" }}>{title || "---"}</Title>
                     </Grid>
                 </Grid>
-                <IconContainer item>
-                    <HelpOutlineIcon fontSize='small' style={{ color: theme.colors.secondary.lightNavy }}
-                        data-for={title} data-tip />
-                    <CustomToolTip
-                        id={title}
-                        placement="bottom"
-                        toolTipText={helpText}
-                        textColor={`${theme.colors.primary.teal}`}
-                        bgColor='white'
-                        borderColor={`${theme.colors.secondary.lightNavy}`}
-                    />
-                </IconContainer>
-
+                <CustomToolTip title={helpText} placement={"bottom-end"} arrow marginTop={"40px"}>
+                    <IconContainer item>
+                        <HelpOutlineIcon style={{ fontSize: "15px", color: `${theme.colors.primary.graphite}` }} />
+                    </IconContainer>
+                </CustomToolTip>
             </Grid>
         </StatsContainer >
     );

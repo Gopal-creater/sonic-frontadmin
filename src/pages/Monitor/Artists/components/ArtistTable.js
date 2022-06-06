@@ -70,36 +70,11 @@ export default function ArtistTable({ data, artistTableHeads, onArtistSorting })
                                     </StyledTableData>
                                 </TableRow> :
                                 data?.map((row, index) => {
-                                    if (index % 2 !== 0) {
-                                        return (
-                                            <StyledAlternateTableRow key={index}
-                                                onClick={() => onPlaysClick(row?.artistName)}
-                                                style={{ cursor: "pointer" }}
-                                            >
-                                                <AlternateStyledTableData
-                                                    style={{
-                                                        color: theme.colors.primary.navy,
-                                                        fontSize: theme.fontSize.h4,
-                                                        fontFamily: theme.fontFamily.nunitoSansBold
-                                                    }}
-                                                >
-                                                    {row?.artistName || "---"}
-                                                </AlternateStyledTableData>
-                                                <AlternateStyledTableData >
-                                                    {row?.plays || "---"}
-                                                </AlternateStyledTableData>
-                                                <AlternateStyledTableData >
-                                                    {row?.uniquePlaysCount || "---"}
-                                                </AlternateStyledTableData>
-                                                <AlternateStyledTableData >{row?.radioStation || "---"}</AlternateStyledTableData>
-                                                <AlternateStyledTableData >{row?.country || "---"}</AlternateStyledTableData>
-                                            </StyledAlternateTableRow>
-                                        )
-                                    }
                                     return (
                                         <StyledTableRow key={index}
                                             onClick={() => onPlaysClick(row?.artistName)}
                                             style={{ cursor: "pointer" }}
+                                            bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}
                                         >
                                             <StyledTableData
                                                 style={{

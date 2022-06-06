@@ -72,36 +72,12 @@ export default function CountriesTable({ data, countriesTableHeads, onCountriesS
                                 </TableRow> :
 
                                 data?.map((row, index) => {
-                                    if (index % 2 !== 0) {
-                                        return (
-                                            <StyledAlternateTableRow
-                                                key={row.name}
-                                                style={{ cursor: "pointer" }}
-                                                onClick={() => onPlaysClick(row.country)}
-                                            >
-                                                <AlternateStyledTableData
-                                                    style={{
-                                                        color: theme.colors.primary.navy,
-                                                        fontSize: theme.fontSize.h4,
-                                                        fontFamily: theme.fontFamily.nunitoSansBold
-                                                    }}
-                                                    align="left"
-                                                >
-                                                    {row.country}
-                                                </AlternateStyledTableData>
-                                                <AlternateStyledTableData align="center">{row.plays}</AlternateStyledTableData>
-                                                <AlternateStyledTableData align="center">{row.tracks}</AlternateStyledTableData>
-                                                <AlternateStyledTableData align="center">{row.artists}</AlternateStyledTableData>
-                                                <AlternateStyledTableData align="center">{row.radioStations}</AlternateStyledTableData>
-
-                                            </StyledAlternateTableRow>
-                                        )
-                                    }
                                     return (
                                         <StyledTableRow
                                             key={row.name}
                                             style={{ cursor: "pointer" }}
                                             onClick={() => onPlaysClick(row.country)}
+                                            bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}
                                         >
                                             <StyledTableData
                                                 style={{

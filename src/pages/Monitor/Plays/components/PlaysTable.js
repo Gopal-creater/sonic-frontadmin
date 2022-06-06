@@ -3,8 +3,8 @@ import React from 'react';
 import styled, { useTheme } from 'styled-components';
 import { AlternateDataColumn, ResizableTable, StyledTableBody, StyledTableHead, StyledTableHeadColumn, StyledTableRow, TableDataColumn, TableResizer, TableWrapper } from '../../Dashboard/Components/DashboardTable/TableStyle';
 import MetaDataDialog from "../../../../components/common/MetaDataDialog";
-import { CustomTooltip } from '../../../../StyledComponents/StyledToolTip/CustomTooltip';
 import { useSelector } from 'react-redux';
+import CustomToolTip from '../../../../components/common/CustomToolTip';
 
 const createHeaders = (headers) => {
     return headers.map((item) => ({
@@ -138,7 +138,7 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                             if (index % 2 !== 0) {
                                 return (
                                     <StyledTableRow key={index}>
-                                        <CustomTooltip title={row?.artist || "---"}>
+                                        <CustomToolTip title={row?.artist || "---"} placement={"bottom-start"}>
                                             <AlternateDataColumn
                                                 style={{
                                                     color: theme.colors.primary.navy,
@@ -151,8 +151,8 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                                             >
                                                 {row?.artist || "---"}
                                             </AlternateDataColumn>
-                                        </CustomTooltip>
-                                        <CustomTooltip title={row?.title || "---"}>
+                                        </CustomToolTip>
+                                        <CustomToolTip title={row?.title || "---"} placement={"bottom-start"}>
                                             <AlternateDataColumn
                                                 style={{
                                                     color: theme.colors.primary.graphite,
@@ -165,7 +165,7 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                                             >
                                                 {row?.title || "---"}
                                             </AlternateDataColumn>
-                                        </CustomTooltip>
+                                        </CustomToolTip>
                                         <AlternateDataColumn>{row?.radioStation || "---"}</AlternateDataColumn>
                                         <AlternateDataColumn>{moment(row?.date).utc().format("DD/MM/YYYY") || "---"}</AlternateDataColumn>
                                         <AlternateDataColumn>
@@ -203,7 +203,7 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                             }
                             return (
                                 <StyledTableRow key={index}>
-                                    <CustomTooltip title={row?.artist || "---"}>
+                                    <CustomToolTip title={row?.artist || "---"} placement={"bottom-start"}>
                                         <TableDataColumn
                                             style={{
                                                 color: theme.colors.primary.navy,
@@ -217,9 +217,9 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                                         >
                                             {row?.artist || "---"}
                                         </TableDataColumn>
-                                    </CustomTooltip>
+                                    </CustomToolTip>
 
-                                    <CustomTooltip title={row?.title || "---"}>
+                                    <CustomToolTip title={row?.title || "---"} placement={"bottom-start"}>
                                         <TableDataColumn
                                             style={{
                                                 color: theme.colors.primary.graphite,
@@ -233,7 +233,7 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                                         >
                                             {row?.title || "---"}
                                         </TableDataColumn>
-                                    </CustomTooltip>
+                                    </CustomToolTip>
                                     <TableDataColumn>{row?.radioStation || "---"}</TableDataColumn>
                                     <TableDataColumn>{moment(row?.date).utc().format("DD/MM/YYYY") || "---"}</TableDataColumn>
                                     <TableDataColumn>

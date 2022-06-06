@@ -7,7 +7,6 @@ import { SelectedColumn } from '../../../components/common/Columns/component/Sel
 import TableMenu from '../../../components/common/Table/components/TableMenu';
 import { ActionMenuItem } from '../../../components/common/Table/TableStyled';
 import { ActiveBox, AlternateStyledTableData, StyledAlternateTableRow, StyledTableData, StyledTableHead, StyledTableRow, SuspendedBox } from '../../../StyledComponents/StyledTable/StyledTable';
-import { CustomTooltip } from '../../../StyledComponents/StyledToolTip/CustomTooltip';
 import theme from '../../../theme';
 
 export default function LicenceTable({ data, licenseTableHead }) {

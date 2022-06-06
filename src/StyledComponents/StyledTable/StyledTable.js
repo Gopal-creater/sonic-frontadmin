@@ -3,6 +3,7 @@ import styled from "styled-components"
 import theme from "../../theme"
 
 export const StyledTableRow = styled(TableRow)`
+    background-color:${props => props?.bgColor || "white"};
     &:hover {
         box-shadow: 0 0 12px rgba(0,0,0,0.25), 0 0 12px rgba(0,0,0,0.22);
         opacity: 0.8;

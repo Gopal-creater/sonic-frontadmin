@@ -1,16 +1,18 @@
 import React from 'react';
 import {
     TableWrapper, ResizableTable, StyledTableHead, StyledTableRow,
-    StyledTableHeadColumn, StyledTableBody, TableResizer, TableDataColumn, AlternateDataColumn
+    StyledTableHeadColumn, StyledTableBody, TableResizer, TableDataColumn
 } from './TableStyle';
 import { useRef } from "react";
 import { log } from '../../../../../utils/app.debug';
 import { playsTableHeads } from '../../../../../constants/constants';
 import { useTheme } from 'styled-components';
 import moment from 'moment';
-import { CustomTooltip } from '../../../../../StyledComponents/StyledToolTip/CustomTooltip';
 import MetaDataDialog from '../../../../../components/common/MetaDataDialog';
 import { useSelector } from 'react-redux';
+import CustomToolTip from '../../../../../components/common/CustomToolTip';
+import { TableRow } from '@material-ui/core';
+import { StyledTableData } from '../../../../../StyledComponents/StyledTable/StyledTable';
 
 const createHeaders = (headers) => {
     return headers.map((item) => ({
@@ -154,143 +156,115 @@ export default function DashboardTable({ data }) {
                         </StyledTableHead>
 
                         <StyledTableBody>
-                            {state.data?.map((row, index) => {
-                                if (index % 2 !== 0) {
-                                    return (
-                                        <StyledTableRow key={index}>
-                                            <CustomTooltip title={row?.artist || "---"}>
-                                                <AlternateDataColumn
+                            {
+                                state?.data?.length === 0 ?
+                                    <TableRow key={0}>
+                                        <StyledTableData colSpan={5} style={{ textAlign: "center" }}>
+                                            No Data
+                                        </StyledTableData>
+                                    </TableRow> :
+                                    state.data?.map((row, index) => {
+                                        return (
+                                            <StyledTableRow key={index}>
+                                                <CustomToolTip title={row?.artist || "---"} placement={"bottom-start"}>
+                                                    <TableDataColumn
+                                                        style={{
+                                                            color: theme.colors.primary.navy,
+                                                            fontSize: theme.fontSize.h4,
+                                                            fontFamily: theme.fontFamily.nunitoSansMediumBold,
+                                                            position: "sticky",
+                                                            width: "130px",
+                                                            left: 0,
+                                                        }}
+                                                        bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}
+                                                    >
+                                                        {row?.artist || "---"}
+                                                    </TableDataColumn>
+                                                </CustomToolTip>
+
+                                                <CustomToolTip title={row?.title || "---"} placement={"bottom-start"}>
+                                                    <TableDataColumn
+                                                        style={{
+                                                            color: theme.colors.primary.graphite,
+                                                            fontSize: theme.fontSize.h4,
+                                                            fontFamily: theme.fontFamily.nunitoSansMediumBold,
+                                                            position: "sticky",
+                                                            width: "130px",
+                                                            left: "130px",
+                                                        }}
+                                                        bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}
+                                                    >
+                                                        {row?.title || "---"}
+                                                    </TableDataColumn>
+                                                </CustomToolTip>
+
+                                                <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
+                                                    {row?.radioStation || "---"}
+                                                </TableDataColumn>
+
+                                                <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
+                                                    {moment(row?.date).utc().format("DD/MM/YYYY") || "---"}
+                                                </TableDataColumn>
+
+                                                <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
+                                                    {monitor?.filters?.timezone === "GMT" ? moment(row?.time).utc().format("HH:mm:ss") : moment(row?.time).format("HH:mm:ss") || "---"}
+                                                </TableDataColumn>
+
+                                                <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
+                                                    {moment.utc(row?.duration * 1000).format("mm:ss") || "---"}
+                                                </TableDataColumn>
+
+                                                <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
+                                                    {row?.country || "---"}
+                                                </TableDataColumn>
+
+                                                <TableDataColumn
+                                                    bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}
                                                     style={{
                                                         color: theme.colors.primary.navy,
-                                                        fontSize: theme.fontSize.h4,
+                                                        fontSize: theme.fontSize.h5,
                                                         fontFamily: theme.fontFamily.nunitoSansMediumBold,
-                                                        position: "sticky",
-                                                        left: 0,
-                                                        background: theme.colors.secondary.tableColor
+                                                        cursor: 'pointer'
                                                     }}
+                                                    onClick={() => setState({ ...state, sonicKeyModal: true, selectedSonicKey: row?.modal })}
                                                 >
-                                                    {row?.artist || "---"}
-                                                </AlternateDataColumn>
-                                            </CustomTooltip>
-                                            <CustomTooltip title={row?.title || "---"}>
-                                                <AlternateDataColumn
+                                                    {row?.sonicKey || "---"}
+                                                </TableDataColumn>
+
+                                                <TableDataColumn
                                                     style={{
                                                         color: theme.colors.primary.graphite,
-                                                        fontSize: theme.fontSize.h4,
-                                                        fontFamily: theme.fontFamily.nunitoSansMediumBold,
-                                                        position: "sticky",
-                                                        left: "130px",
-                                                        background: theme.colors.secondary.tableColor
+                                                        fontSize: theme.fontSize.h5,
+                                                        fontFamily: theme.fontFamily.nunitoSansMediumBold
                                                     }}
+                                                    bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}
                                                 >
-                                                    {row?.title || "---"}
-                                                </AlternateDataColumn>
-                                            </CustomTooltip>
-                                            <AlternateDataColumn>{row?.radioStation || "---"}</AlternateDataColumn>
-                                            <AlternateDataColumn>{moment(row?.date).utc().format("DD/MM/YYYY") || "---"}</AlternateDataColumn>
-                                            <AlternateDataColumn>
-                                                {monitor?.filters?.timezone === "GMT" ? moment(row?.time).utc().format("HH:mm:ss") : moment(row?.time).format("HH:mm:ss") || "---"}
-                                            </AlternateDataColumn>
-                                            <AlternateDataColumn>{moment.utc(row?.duration * 1000).format("mm:ss") || "---"}</AlternateDataColumn>
-                                            <AlternateDataColumn>{row?.country || "---"}</AlternateDataColumn>
-                                            <AlternateDataColumn
-                                                style={{
-                                                    color: theme.colors.primary.navy,
-                                                    fontSize: theme.fontSize.h5,
-                                                    fontFamily: theme.fontFamily.nunitoSansMediumBold,
-                                                    cursor: 'pointer'
-                                                }}
-                                                onClick={() => setState({ ...state, sonicKeyModal: true, selectedSonicKey: row?.modal })}
-                                            >
-                                                {row?.sonicKey || "---"}
-                                            </AlternateDataColumn>
-                                            <AlternateDataColumn
-                                                style={{
-                                                    color: theme.colors.primary.graphite,
-                                                    fontSize: theme.fontSize.h5,
-                                                    fontFamily: theme.fontFamily.nunitoSansMediumBold
-                                                }}
-                                            >
-                                                {row?.isrcCode || "---"}
-                                            </AlternateDataColumn>
-                                            <AlternateDataColumn>{row?.version || "---"}</AlternateDataColumn>
-                                            <AlternateDataColumn>{row?.distributor || "---"}</AlternateDataColumn>
-                                            <AlternateDataColumn>{row?.label || "---"}</AlternateDataColumn>
-                                            <AlternateDataColumn>{row?.iswc || "---"}</AlternateDataColumn>
-                                            <AlternateDataColumn>{row?.tuneCode || "---"}</AlternateDataColumn>
+                                                    {row?.isrcCode || "---"}
+                                                </TableDataColumn>
 
-                                        </StyledTableRow>
-                                    )
-                                }
-                                return (
-                                    <StyledTableRow key={index}>
-                                        <CustomTooltip title={row?.artist || "---"}>
-                                            <TableDataColumn
-                                                style={{
-                                                    color: theme.colors.primary.navy,
-                                                    fontSize: theme.fontSize.h4,
-                                                    fontFamily: theme.fontFamily.nunitoSansMediumBold,
-                                                    position: "sticky",
-                                                    width: "130px",
-                                                    left: 0,
-                                                    background: "white"
-                                                }}
-                                            >
-                                                {row?.artist || "---"}
-                                            </TableDataColumn>
-                                        </CustomTooltip>
+                                                <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
+                                                    {row?.version || "---"}
+                                                </TableDataColumn>
 
-                                        <CustomTooltip title={row?.title || "---"}>
-                                            <TableDataColumn
-                                                style={{
-                                                    color: theme.colors.primary.graphite,
-                                                    fontSize: theme.fontSize.h4,
-                                                    fontFamily: theme.fontFamily.nunitoSansMediumBold,
-                                                    position: "sticky",
-                                                    width: "130px",
-                                                    left: "130px",
-                                                    background: "white"
-                                                }}
-                                            >
-                                                {row?.title || "---"}
-                                            </TableDataColumn>
-                                        </CustomTooltip>
-                                        <TableDataColumn>{row?.radioStation || "---"}</TableDataColumn>
-                                        <TableDataColumn>{moment(row?.date).utc().format("DD/MM/YYYY") || "---"}</TableDataColumn>
-                                        <TableDataColumn>
-                                            {monitor?.filters?.timezone === "GMT" ? moment(row?.time).utc().format("HH:mm:ss") : moment(row?.time).format("HH:mm:ss") || "---"}
-                                        </TableDataColumn>
-                                        <TableDataColumn>{moment.utc(row?.duration * 1000).format("mm:ss") || "---"}</TableDataColumn>
-                                        <TableDataColumn>{row?.country || "---"}</TableDataColumn>
-                                        <TableDataColumn
-                                            style={{
-                                                color: theme.colors.primary.navy,
-                                                fontSize: theme.fontSize.h5,
-                                                fontFamily: theme.fontFamily.nunitoSansMediumBold,
-                                                cursor: 'pointer'
-                                            }}
-                                            onClick={() => setState({ ...state, sonicKeyModal: true, selectedSonicKey: row?.modal })}
-                                        >
-                                            {row?.sonicKey || "---"}
-                                        </TableDataColumn>
-                                        <TableDataColumn
-                                            style={{
-                                                color: theme.colors.primary.graphite,
-                                                fontSize: theme.fontSize.h5,
-                                                fontFamily: theme.fontFamily.nunitoSansMediumBold
-                                            }}
-                                        >
-                                            {row?.isrcCode || "---"}
-                                        </TableDataColumn>
-                                        <TableDataColumn>{row?.version || "---"}</TableDataColumn>
-                                        <TableDataColumn>{row?.distributor || "---"}</TableDataColumn>
-                                        <TableDataColumn>{row?.label || "---"}</TableDataColumn>
-                                        <TableDataColumn>{row?.iswc || "---"}</TableDataColumn>
-                                        <TableDataColumn>{row?.tuneCode || "---"}</TableDataColumn>
+                                                <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
+                                                    {row?.distributor || "---"}
+                                                </TableDataColumn>
 
-                                    </StyledTableRow>
-                                )
-                            })}
+                                                <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
+                                                    {row?.label || "---"}
+                                                </TableDataColumn>
+
+                                                <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
+                                                    {row?.iswc || "---"}
+                                                </TableDataColumn>
+
+                                                <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
+                                                    {row?.tuneCode || "---"}
+                                                </TableDataColumn>
+
+                                            </StyledTableRow>
+                                        )
+                                    })}
                         </StyledTableBody>
 
                         {state?.sonicKeyModal && (

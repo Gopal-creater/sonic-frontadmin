@@ -35,7 +35,7 @@ export default function StreamDetailsTable({ data, tableHeads }) {
                                 </TableRow> :
                                 data?.docs?.map((row, index) => {
                                     return (
-                                        <StyledTableRow key={index}>
+                                        <StyledTableRow key={index} bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
                                             {
                                                 SelectedColumn("ID") &&
                                                 <StyledTableData>{data?.offset + index + 1}</StyledTableData>

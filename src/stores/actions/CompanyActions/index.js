@@ -61,7 +61,7 @@ export const getAllCompaniesAction = (limit, page) => {
     }
 
     if (company?.companyId) {
-        params.append("companyUrnOrId", `/${company?.companyId}/i`);
+        params.append("_id", `${company?.companyId}`);
     }
 
     if (company?.admin) {

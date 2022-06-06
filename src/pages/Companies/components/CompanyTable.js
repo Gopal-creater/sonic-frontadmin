@@ -53,7 +53,7 @@ export default function CompanyTable({ data, companyTableHead }) {
                                         }
                                         {SelectedColumn("ID") &&
                                             <StyledTableData>
-                                                {data?.companyUrnOrId || "---"}
+                                                {data?._id || "---"}
                                             </StyledTableData>
                                         }
                                         {SelectedColumn("EMAIL") &&

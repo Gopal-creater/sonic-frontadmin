@@ -4,6 +4,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { SelectedColumn } from '../../../components/common/Columns/component/SelectedColumn';
+import CustomToolTip from '../../../components/common/CustomToolTip';
 import TableMenu from '../../../components/common/Table/components/TableMenu';
 import { ActionMenuItem } from '../../../components/common/Table/TableStyled';
 import { ActiveBox, AlternateStyledTableData, StyledAlternateTableRow, StyledTableData, StyledTableHead, StyledTableRow, SuspendedBox } from '../../../StyledComponents/StyledTable/StyledTable';
@@ -82,9 +83,9 @@ export default function LicenceTable({ data, licenseTableHead }) {
                                                 <AlternateStyledTableData>{format(new Date(data?.validity), "dd/MM/yyyy")}</AlternateStyledTableData>
                                             }
                                             {SelectedColumn("LICENSE NAME") &&
-                                                <CustomTooltip title={data?.name || "---"}>
+                                                <CustomToolTip title={data?.name || "---"}>
                                                     <AlternateStyledTableData>{data?.name}</AlternateStyledTableData>
-                                                </CustomTooltip>
+                                                </CustomToolTip>
                                             }
                                             {SelectedColumn("KEY") &&
                                                 <AlternateStyledTableData>{data?.key}</AlternateStyledTableData>
@@ -146,9 +147,9 @@ export default function LicenceTable({ data, licenseTableHead }) {
                                             <StyledTableData>{format(new Date(data?.validity), "dd/MM/yyyy")}</StyledTableData>
                                         }
                                         {SelectedColumn("LICENSE NAME") &&
-                                            <CustomTooltip title={data?.name || "---"}>
+                                            <CustomToolTip title={data?.name || "---"}>
                                                 <StyledTableData>{data?.name}</StyledTableData>
-                                            </CustomTooltip>
+                                            </CustomToolTip>
                                         }
                                         {SelectedColumn("KEY") &&
                                             <StyledTableData>{data?.key}</StyledTableData>

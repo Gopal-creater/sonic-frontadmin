@@ -47,10 +47,9 @@ export default function EncodeData() {
 
     const encode = () => {
         if (encodeReducer?.loading) return
-        if (!encodeReducer?.metaData?.contentOwner) {
-            cogoToast.error("Artist is mandetory field")
-            return
-        }
+        if (!encodeReducer?.metaData?.contentOwner) return cogoToast.error("Artist is mandetory field")
+        if (!encodeReducer?.metaData?.distributor) return cogoToast.error("Distributor is mandetory field")
+        if (!encodeReducer?.metaData?.label) return cogoToast.error("Label is mandetory field")
 
         if (encodeReducer?.metaData?.contentType === 'Music' && (encodeReducer?.metaData?.isrcCode === '' || encodeReducer?.metaData?.isrcCode === undefined)
             && (encodeReducer?.metaData?.iswcCode === '' || encodeReducer?.metaData?.iswcCode === undefined)
@@ -86,7 +85,9 @@ export default function EncodeData() {
             <MetaDataHeaderContainer>
                 <TextContainer>
                     <Grid container direction='column' justifyItem='center' >
-                        <H4 fontFamily={theme.fontFamily.nunitoSansMediumBold}>You're about to encode  new file:</H4>
+                        <H4 fontFamily={theme.fontFamily.nunitoSansMediumBold}>
+                            {encodeReducer?.selectedExistingFile ? "You're about to encode again:" : "You're about to encode new file:"}
+                        </H4>
                         <H1
                             color={theme.colors.primary.navy}
                         >

@@ -1,6 +1,4 @@
 import { combineReducers } from 'redux';
-
-import sonicKeyRed from './sonicKeyRed';
 import licenceKeyRed from './licenceKeyRed';
 import sessionRed from './sessionRed';
 import radiostationsReducer from './radioStationReducer';
@@ -15,7 +13,6 @@ import sonickeyReducer from './SonicKeysReducer';
 
 const appReducer = combineReducers({
   session: sessionRed,
-  sonicKeys: sonicKeyRed, //for access the data have same name
   licenceKey: licenceKeyRed,
   radioStations: radiostationsReducer,
   streamReader: streamReaderReducer,

@@ -19,6 +19,7 @@ import DownloadProgressModal from '../DownloadProgressModal';
 import { downloadAnyFile } from '../../../../services/https/resources/EncodeApi/encodeApi';
 import { SelectedColumn } from '../../../../components/common/Columns/component/SelectedColumn';
 import CustomToolTip from '../../../../components/common/CustomToolTip';
+import { useNavigate } from 'react-router-dom';
 
 export default function TracksTable({ data, tableHeads, trackSorting }) {
     const [state, setState] = React.useState({
@@ -28,7 +29,10 @@ export default function TracksTable({ data, tableHeads, trackSorting }) {
         openDownloadingModal: false,
         percentComplete: "0",
     })
+
     const encodeReducer = useSelector(state => state.encode)
+    const sonickey = useSelector(state => state.sonickey)
+    const navigation = useNavigate()
 
     const dispatch = useDispatch()
 
@@ -103,7 +107,9 @@ export default function TracksTable({ data, tableHeads, trackSorting }) {
     }
 
     const viewSonicKeys = (track) => {
-
+        log("View SonicKeys", track)
+        dispatch({ type: actionTypes.SONIC_KEY_FILTERS, data: { ...sonickey?.filters, track: track?._id } })
+        navigation("/sonic-keys")
     }
 
     return (

@@ -83,7 +83,7 @@ export default function SonicKeyFilter({ closeDialog }) {
                         <StyledTextField
                             fullWidth
                             label="Track"
-                            value={sonickey?.filters?.song}
+                            value={sonickey?.filters?.track}
                             onChange={(e) => dispatch({ type: actionTypes.SONIC_KEY_FILTERS, data: { ...sonickey?.filters, track: e.target.value } })}
                             InputLabelProps={{
                                 style: {

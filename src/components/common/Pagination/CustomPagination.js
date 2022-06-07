@@ -6,8 +6,10 @@ import theme from '../../../theme';
 const useStyles = makeStyles(() => {
     return ({
         root: {
+            "& > *": { justifyContent: "space-between" },
             '& ul > li:not(:first-child):not(:last-child) > button:not(.Mui-selected)': {
                 backgroundColor: 'transparent',
+                textAlign: "center",
                 color: theme.colors.secondary.mediumNavy,
                 "&:hover": {
                     color: theme.colors.secondary.lightNavy,
@@ -15,6 +17,7 @@ const useStyles = makeStyles(() => {
             },
             ".MuiPaginationItem-root": {
                 backgroundColor: '#fff',
+                width: "100%"
             },
             "&:hover .MuiPaginationItem-root": {
                 backgroundColor: '#fff',

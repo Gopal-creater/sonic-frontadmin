@@ -94,6 +94,34 @@ export default function LicenseFilter({ closeDialog }) {
                             data={status || []}
                         />
                     </FilterForm>
+
+                    <FilterForm>
+                        <StyledTextField
+                            fullWidth
+                            label="Company"
+                            value={license?.filters?.company}
+                            onChange={(e) => dispatch({ type: actionTypes.LIC_KEY_FILTER, data: { ...license?.filters, company: e.target.value } })}
+                            InputLabelProps={{
+                                style: {
+                                    fontFamily: theme.fontFamily.nunitoSansBold
+                                }
+                            }}
+                        />
+                    </FilterForm>
+
+                    <FilterForm>
+                        <StyledTextField
+                            fullWidth
+                            label="User"
+                            value={license?.filters?.user}
+                            onChange={(e) => dispatch({ type: actionTypes.LIC_KEY_FILTER, data: { ...license?.filters, user: e.target.value } })}
+                            InputLabelProps={{
+                                style: {
+                                    fontFamily: theme.fontFamily.nunitoSansBold
+                                }
+                            }}
+                        />
+                    </FilterForm>
                 </FilterItems>
 
                 <FormControl>
@@ -139,6 +167,8 @@ export default function LicenseFilter({ closeDialog }) {
                                 key: "",
                                 type: "",
                                 status: "",
+                                company: "",
+                                user: "",
                                 renewalStartDate: "",
                                 renewalEndDate: "",
                             }

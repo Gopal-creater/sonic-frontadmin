@@ -1,4 +1,4 @@
-import { FormControlLabel, Grid } from "@material-ui/core";
+import { FormControlLabel, Grid, List, ListItemAvatar } from "@material-ui/core";
 import styled from "styled-components";
 import theme from "../../theme";
 
@@ -24,5 +24,5 @@ export const RadioLabel = styled(FormControlLabel)`
 export const HelperText = styled.span`
     color: ${theme.colors.secondary.error};
     font-size: 13px;
-    font-family: ${theme.fontFamily.nunitoSansBold}
+    font-family: ${theme.fontFamily.nunitoSansBold};
 `

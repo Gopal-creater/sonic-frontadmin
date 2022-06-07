@@ -59,7 +59,7 @@ export default function AddNewUser() {
                             setAutoCompleteOptions={(option) => option?.username || ""}
                             setAutoCompleteOptionsLabel={(option) => option?._id || ""}
                             loading={user?.userSearch?.loading}
-                            data={user?.userSearch?.data?.docs || []}
+                            data={user?.userSearch?.data?.docs}
                             error={user?.userSearch?.error}
                             getSelectedValue={(e, v) => setState({ ...state, user: v })}
                             labelText={"Enter username"}

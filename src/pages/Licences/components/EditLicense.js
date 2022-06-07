@@ -1,5 +1,5 @@
 import React from "react";
-import { CircularProgress, FormControl, FormLabel, Grid } from "@material-ui/core";
+import { Avatar, CircularProgress, FormControl, FormLabel, Grid, List, ListItem, ListItemAvatar, ListItemText } from "@material-ui/core";
 import { MusicNote, PermIdentity } from "@material-ui/icons";
 import cogoToast from "cogo-toast";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -48,7 +48,7 @@ export default function EditLicense() {
             </H4>
 
             <form onSubmit={handleEditLicense}>
-                <Grid container spacing={2} direction="row">
+                <Grid container spacing={6} direction="row">
                     <Grid item xs={12} md={6}>
                         <Grid container direction="column" className="mt-4">
                             <Grid item container>
@@ -146,11 +146,27 @@ export default function EditLicense() {
                             </Grid>
 
                             <H4 component="legend" style={{ color: theme.colors.primary.graphite, fontFamily: theme.fontFamily.nunitoSansBold, fontSize: '18px' }}>
-                                Users {license?.users?.length}
+                                Users ({license?.users?.length})
                             </H4>
-                            <Grid>
+                            <List style={{ padding: 0 }}>
+                                {license?.users?.map((user, index) => (
+                                    <ListItem alignItems="flex-start" key={index} style={{ padding: 0 }}>
+                                        <ListItemAvatar>
+                                            <Avatar style={{ backgroundColor: theme.colors.secondary.lightGrey }}>
+                                                <PermIdentity style={{ color: `${theme.colors.secondary.grey}` }} />
+                                            </Avatar>
+                                        </ListItemAvatar>
+                                        <ListItemText
+                                            primary={user?.username || user?.sub}
+                                            secondary={user?.email || "--"}
+                                        />
+                                    </ListItem>
+                                ))}
+                            </List>
+                            <Grid className="mt-2">
                                 <AddNewUser />
                             </Grid>
+
                         </Grid>
                     </Grid>
                 </Grid>

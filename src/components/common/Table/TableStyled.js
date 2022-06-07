@@ -1,4 +1,5 @@
 import { MenuItem, Popover, styled } from "@material-ui/core"
+import { createStyles, withStyles } from "@material-ui/styles";
 import theme from "../../../theme"
 
 export const ActionPopup = styled(Popover)`
@@ -11,12 +12,17 @@ export const ActionPopup = styled(Popover)`
     }
 `
 
-export const ActionMenuItem = styled(MenuItem)`
-    font-family: ${theme.fontFamily.nunitoSansBold};
-    color: ${theme.colors.primary.graphite};
-    border-bottom: 1px solid ${theme.colors.secondary.lightGrey};
-    :hover{
-        background-color: white;
-        color: ${theme.colors.secondary.mediumNavy};
+export const ActionMenuItem = withStyles(() => createStyles({
+    root: {
+        color: theme.colors.secondary.mediumGrey,
+        fontFamily: theme.fontFamily.nunitoSansBold,
+        '&:hover': {
+            backgroundColor: 'white',
+            color: theme.colors.primary.graphite
+        }
+    },
+    selected: {
+        color: theme.colors.primary.teal,
     }
-`
+})
+)(MenuItem);

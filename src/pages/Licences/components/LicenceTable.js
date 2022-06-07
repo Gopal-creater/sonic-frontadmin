@@ -7,6 +7,7 @@ import { SelectedColumn } from '../../../components/common/Columns/component/Sel
 import CustomToolTip from '../../../components/common/CustomToolTip';
 import TableMenu from '../../../components/common/Table/components/TableMenu';
 import { ActionMenuItem } from '../../../components/common/Table/TableStyled';
+import { userRoles } from '../../../constants/constants';
 import { ActiveBox, StyledTableData, StyledTableHead, StyledTableRow, SuspendedBox } from '../../../StyledComponents/StyledTable/StyledTable';
 import theme from '../../../theme';
 
@@ -46,15 +47,17 @@ export default function LicenceTable({ data, licenseTableHead }) {
                                 return (
                                     <StyledTableRow key={index} bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
                                         {SelectedColumn("ACCOUNT NAME") && user?.userProfile?.data?.userRole === "PartnerAdmin" &&
-                                            <StyledTableData
-                                                style={{
-                                                    color: theme.colors.primary.navy,
-                                                    fontSize: theme.fontSize.h4,
-                                                    fontFamily: theme.fontFamily.nunitoSansBold
-                                                }}
-                                            >
-                                                {"---"}
-                                            </StyledTableData>
+                                            <CustomToolTip title={data?.company?.name || data?.users?.map(u => u.username) || "---"}>
+                                                <StyledTableData
+                                                    style={{
+                                                        color: theme.colors.primary.navy,
+                                                        fontSize: theme.fontSize.h4,
+                                                        fontFamily: theme.fontFamily.nunitoSansBold
+                                                    }}
+                                                >
+                                                    {data?.company?.name || data?.users?.map(u => u.username) || "---"}
+                                                </StyledTableData>
+                                            </CustomToolTip>
                                         }
                                         {SelectedColumn("MAX USES ENCODE") &&
                                             <StyledTableData>
@@ -97,7 +100,7 @@ export default function LicenceTable({ data, licenseTableHead }) {
                                                 }
                                             </StyledTableData>
                                         }
-                                        {SelectedColumn("ACTION") &&
+                                        {SelectedColumn("ACTION") && (user?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN || user?.userProfile?.data?.userRole === userRoles.COMPANY_ADMIN) &&
                                             <StyledTableData>
                                                 <TableMenu>
                                                     <ActionMenuItem onClick={() => navigate(`/edit-licences/${data?._id}`, { state: data })}>View License</ActionMenuItem>

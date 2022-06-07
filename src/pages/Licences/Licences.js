@@ -29,8 +29,10 @@ function Licences() {
 
   const getStableTableColumnHead = () => {
     let tableHead = licenseTableHeads;
-    if (user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN) {
-      return tableHead.filter((itm) => itm.title !== "ACCOUNT NAME")
+    if (user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN && user?.userProfile?.data?.userRole !== userRoles.COMPANY_ADMIN) {
+      return tableHead.filter((itm) => (itm?.title !== "ACCOUNT NAME" && itm?.title !== "ACTION"))
+    } else if (user?.userProfile?.data?.userRole === userRoles.COMPANY_ADMIN) {
+      return tableHead.filter((itm) => itm?.title !== "ACCOUNT NAME")
     }
     return tableHead
   }

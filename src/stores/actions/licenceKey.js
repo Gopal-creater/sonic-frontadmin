@@ -55,6 +55,14 @@ export const fetchLicenceKeys = (limit, page) => {
         params.append("suspended", licenseFilter?.status === "Active" ? false : true)
     }
 
+    if (licenseFilter?.company) {
+        params.append("relation_company.name", `/${licenseFilter?.company}/i`);
+    }
+
+    if (licenseFilter?.user) {
+        params.append("relation_users.username", `/${licenseFilter?.user}/i`);
+    }
+
     if (licenseFilter?.renewalStartDate) {
         params.append(`validity>`, `date(${moment(licenseFilter?.renewalStartDate).startOf("days").toISOString()})`)
         if (licenseFilter?.renewalEndDate) {

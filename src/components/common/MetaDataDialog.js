@@ -64,9 +64,7 @@ const MetaDataDailog = (props) => {
             tuneCode: "",
             contentOwner: "",
             contentDescription: "",
-            additionalMetadata: {
-                message: ""
-            },
+            additionalMetadata: "",
             distributor: "",
             version: ""
         }
@@ -83,9 +81,7 @@ const MetaDataDailog = (props) => {
                 tuneCode: props?.sonicKey?.tuneCode || "",
                 contentOwner: props?.sonicKey?.contentOwner || "",
                 contentDescription: props?.sonicKey?.contentDescription || "",
-                additionalMetadata: {
-                    message: props?.sonicKey?.additionalMetadata?.message || ""
-                },
+                additionalMetadata: JSON.stringify(props?.sonicKey?.additionalMetadata) || "",
                 distributor: props?.sonicKey?.distributor || "",
                 version: props?.sonicKey?.version || ""
             }
@@ -135,9 +131,7 @@ const MetaDataDailog = (props) => {
             tuneCode: values?.updatingSonicKey?.tuneCode || values?.sonicKey?.tuneCode,
             contentOwner: values?.updatingSonicKey?.contentOwner || values?.sonicKey?.contentOwner,
             contentDescription: values?.updatingSonicKey?.contentDescription || values?.sonicKey?.contentDescription,
-            additionalMetadata: {
-                message: values?.updatingSonicKey?.additionalMetadata?.message || values?.sonicKey?.additionalMetadata?.message
-            },
+            additionalMetadata: values?.updatingSonicKey?.additionalMetadata && JSON.parse(values?.updatingSonicKey?.additionalMetadata) || values?.sonicKey?.additionalMetadata?.message && JSON.parse(values?.sonicKey?.additionalMetadata?.message),
             distributor: values?.updatingSonicKey?.distributor || values?.sonicKey?.distributor,
             version: values?.updatingSonicKey?.version || values?.sonicKey?.version,
             contentName: values?.updatingSonicKey?.contentName || values?.sonicKey?.contentName
@@ -415,10 +409,10 @@ const MetaDataDailog = (props) => {
                                                 fullWidth
                                                 placeholder="Edit additional metadata"
                                                 inputProps={{ className: classes.textInput }}
-                                                value={values?.updatingSonicKey?.additionalMetadata?.message}
-                                                onChange={(e) => setValues({ ...values, updatingSonicKey: { ...values?.updatingSonicKey, additionalMetadata: { ...values?.updatingSonicKey?.additionalMetadata, message: e.target.value } } })}
+                                                value={values?.updatingSonicKey?.additionalMetadata}
+                                                onChange={(e) => setValues({ ...values, updatingSonicKey: { ...values?.updatingSonicKey, additionalMetadata: e.target.value } })}
                                             /> :
-                                            values?.sonicKey?.additionalMetadata?.message || "---"
+                                            values?.sonicKey?.additionalMetadata ? JSON.stringify(values?.sonicKey?.additionalMetadata) : "---"
                                     }
                                 </TableCell>
                             </TableRow>

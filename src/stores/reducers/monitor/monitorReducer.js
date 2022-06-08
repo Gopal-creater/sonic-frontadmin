@@ -18,6 +18,8 @@ export const monitorInitialState = {
         encodedStartDate: "",
         encodedEndDate: "",
         timezone: "GMT",
+        company: "",
+        user: ""
     },
     track: {
         error: null,

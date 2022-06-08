@@ -35,6 +35,9 @@ export default function EncodeData() {
     const encodeReducer = useSelector(state => state.encode)
     const dispatch = useDispatch()
 
+    let labelArray = Labels.map((data) => { return { name: data } })
+    let distributorArray = Distributor.map((data) => { return { name: data } })
+
     const [state, setState] = React.useState({
         copyMetaData: false,
         autoCompleteValue: null,
@@ -50,6 +53,7 @@ export default function EncodeData() {
         if (!encodeReducer?.metaData?.contentOwner) return cogoToast.error("Artist is mandetory field")
         if (!encodeReducer?.metaData?.distributor) return cogoToast.error("Distributor is mandetory field")
         if (!encodeReducer?.metaData?.label) return cogoToast.error("Label is mandetory field")
+        if (!isJsonObject(encodeReducer?.metaData?.additionalMetadata)) return cogoToast.error("Additional MetaData must be in JSON format")
 
         if (encodeReducer?.metaData?.contentType === 'Music' && (encodeReducer?.metaData?.isrcCode === '' || encodeReducer?.metaData?.isrcCode === undefined)
             && (encodeReducer?.metaData?.iswcCode === '' || encodeReducer?.metaData?.iswcCode === undefined)
@@ -77,8 +81,14 @@ export default function EncodeData() {
         setState({ ...state, displaySelectedTrack: true, autoCompleteValue: v })
     }
 
-    let labelArray = Labels.map((data) => { return { name: data } })
-    let distributorArray = Distributor.map((data) => { return { name: data } })
+    const isJsonObject = (str) => {
+        try {
+            JSON.parse(str);
+        } catch (e) {
+            return false;
+        }
+        return true;
+    }
 
     return (
         <EncodeContainer>
@@ -351,11 +361,13 @@ export default function EncodeData() {
 
                         <StyledTextField
                             fullWidth
+                            multiline
+                            placeholder="Json object"
                             id="standard-basic"
-                            label="Additional Metada"
+                            label="Additional MetaData"
                             className="mt-3"
-                            value={encodeReducer?.metaData?.additionalMetadata?.message}
-                            onChange={(e) => { dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, additionalMetadata: { message: e.target.value } } }) }} />
+                            value={encodeReducer?.metaData?.additionalMetadata}
+                            onChange={(e) => { dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, additionalMetadata: e.target.value } }) }} />
                     </Grid >
                 </Grid>
 

@@ -7,7 +7,7 @@ import CustomDropDown from '../../../components/common/AppTextInput/CustomDropDo
 import theme from '../../../theme';
 import AppButton from '../../../components/common/AppButton/AppButton';
 import { StyledTextField } from '../../../StyledComponents/StyledAppTextInput/StyledAppTextInput';
-import { channel } from '../../../constants/constants';
+import { channel, userRoles } from '../../../constants/constants';
 import * as actionTypes from '../../../stores/actions/actionTypes';
 import { log } from '../../../utils/app.debug';
 import { getAllSonickeysActions } from '../../../stores/actions/SonicKeyAcrtions';
@@ -15,6 +15,7 @@ import { getAllSonickeysActions } from '../../../stores/actions/SonicKeyAcrtions
 export default function SonicKeyFilter({ closeDialog }) {
     const dispatch = useDispatch();
     const sonickey = useSelector(state => state.sonickey)
+    const users = useSelector(state => state.user)
     log("filter Sonickey data", sonickey)
 
     const handleFilter = (e) => {
@@ -120,6 +121,37 @@ export default function SonicKeyFilter({ closeDialog }) {
                             }}
                         />
                     </FilterForm>
+                    {users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
+                        <FilterForm>
+                            <StyledTextField
+                                fullWidth
+                                label="Company"
+                                value={sonickey?.filters?.company}
+                                onChange={(e) => dispatch({ type: actionTypes.SONIC_KEY_FILTERS, data: { ...sonickey?.filters, company: e.target.value } })}
+                                InputLabelProps={{
+                                    style: {
+                                        fontFamily: theme.fontFamily.nunitoSansBold
+                                    }
+                                }}
+                            />
+                        </FilterForm>
+                    }
+
+                    {(users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN || users?.userProfile?.data?.userRole === userRoles.COMPANY_ADMIN) &&
+                        <FilterForm>
+                            <StyledTextField
+                                fullWidth
+                                label="User"
+                                value={sonickey?.filters?.user}
+                                onChange={(e) => dispatch({ type: actionTypes.SONIC_KEY_FILTERS, data: { ...sonickey?.filters, user: e.target.value } })}
+                                InputLabelProps={{
+                                    style: {
+                                        fontFamily: theme.fontFamily.nunitoSansBold
+                                    }
+                                }}
+                            />
+                        </FilterForm>
+                    }
                 </FilterItems>
 
                 <FilterButton>

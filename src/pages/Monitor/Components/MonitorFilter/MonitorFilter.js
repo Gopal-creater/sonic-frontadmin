@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormControl, Grid } from '@material-ui/core'
-import { channel, countries } from '../../../../constants/constants';
+import { channel, countries, userRoles } from '../../../../constants/constants';
 import { useDispatch, useSelector } from 'react-redux';
 import * as actionTypes from '../../../../stores/actions/actionTypes';
 import { CloseOutlined } from '@material-ui/icons';
@@ -18,6 +18,7 @@ export default function MonitorFilter({ closeDialog, playsBy, actions, dashboard
     const dispatch = useDispatch();
     const monitor = useSelector(state => state.monitor);
     const radioStations = useSelector(state => state.radioStations)
+    const users = useSelector(state => state.user)
 
     const filteredRadioStation = radioStations.data?.filter((data) => {
         if (monitor.filters.country === "") {
@@ -189,6 +190,38 @@ export default function MonitorFilter({ closeDialog, playsBy, actions, dashboard
                             inputProps={{ style: { fontSize: theme.fontSize.h4 } }}
                         />
                     </FilterForm>
+
+                    {users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
+                        <FilterForm>
+                            <StyledTextField
+                                fullWidth
+                                label="Company"
+                                value={monitor?.filters?.company}
+                                onChange={(e) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, company: e.target.value } })}
+                                InputLabelProps={{
+                                    style: {
+                                        fontFamily: theme.fontFamily.nunitoSansBold
+                                    }
+                                }}
+                            />
+                        </FilterForm>
+                    }
+
+                    {(users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN || users?.userProfile?.data?.userRole === userRoles.COMPANY_ADMIN) &&
+                        <FilterForm>
+                            <StyledTextField
+                                fullWidth
+                                label="User"
+                                value={monitor?.filters?.user}
+                                onChange={(e) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, user: e.target.value } })}
+                                InputLabelProps={{
+                                    style: {
+                                        fontFamily: theme.fontFamily.nunitoSansBold
+                                    }
+                                }}
+                            />
+                        </FilterForm>
+                    }
                 </FilterItems>
 
                 <FormControl>

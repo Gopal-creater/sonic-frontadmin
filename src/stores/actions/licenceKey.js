@@ -36,7 +36,12 @@ export const fetchLicenceKeys = (limit, page) => {
         }
         params.append("relation_filter", JSON.stringify(additionalFilter))
     }
-    if (userRoleWiseId?.company) params.append("company", userRoleWiseId?.company)
+    if (userRoleWiseId?.company) {
+        let additionalFilter = {
+            $or: [{ "company._id": userRoleWiseId?.company }, { "users._id": getUserId() }, { "users.company": userRoleWiseId?.company }]
+        }
+        params.append("relation_filter", additionalFilter)
+    }
     if (userRoleWiseId?.owner) params.append("users", userRoleWiseId?.owner)
 
     if (licenseFilter?.name) {
@@ -56,11 +61,11 @@ export const fetchLicenceKeys = (limit, page) => {
     }
 
     if (licenseFilter?.company) {
-        params.append("relation_company.name", `/${licenseFilter?.company}/i`);
+        params.append("company", licenseFilter?.company);
     }
 
     if (licenseFilter?.user) {
-        params.append("relation_users.username", `/${licenseFilter?.user}/i`);
+        params.append("users", licenseFilter?.user);
     }
 
     if (licenseFilter?.renewalStartDate) {

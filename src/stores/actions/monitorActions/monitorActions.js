@@ -2,7 +2,7 @@ import cogoToast from "cogo-toast";
 import fileDownload from "js-file-download";
 import moment from "moment";
 import store from "../..";
-import { getRoleWiseID } from "../../../services/https/AuthHelper";
+import { getRoleWiseID, getUserId } from "../../../services/https/AuthHelper";
 import { getMonitorExport, getMonitorList } from "../../../services/https/resources/Monitor/Monitor.api";
 import { log } from "../../../utils/app.debug";
 
@@ -16,6 +16,21 @@ export const getMonitorListAction = (actions, startDate, endDate, page, limit, p
     params.append("skip", page > 1 ? (page - 1) * limit : 0)
 
     let monitorFilters = store.getState()?.monitor?.filters
+
+    if (userRoleWiseId?.partner) {
+        let additionalFilter = {
+            $or: [{ "sonicKey.company.partner": userRoleWiseId?.partner }, { "sonicKey.partner._id": userRoleWiseId?.partner }, { "sonicKey.owner.partner": userRoleWiseId?.partner }, { "sonicKey.owner._id": getUserId() }]
+        }
+        params.append("relation_filter", JSON.stringify(additionalFilter))
+    }
+    if (userRoleWiseId?.company) {
+        let additionalFilter = {
+            $or: [{ "sonicKey.company._id": userRoleWiseId?.company }, { "sonicKey.owner._id": getUserId() }, { "sonicKey.owner.company": userRoleWiseId?.company }]
+        }
+        params.append("relation_filter", additionalFilter)
+    }
+
+    if (userRoleWiseId?.owner) params.append("relation_sonicKey.owner._id", userRoleWiseId?.owner)
 
     if (playsBy) {
         params.append("playsBy", playsBy)
@@ -60,9 +75,8 @@ export const getMonitorListAction = (actions, startDate, endDate, page, limit, p
         }
     }
 
-    if (userRoleWiseId?.company) params.append("relation_sonicKey.company", userRoleWiseId?.company)
-    if (userRoleWiseId?.partner) params.append("relation_sonicKey.partner", userRoleWiseId?.partner)
-    if (userRoleWiseId?.owner) params.append("relation_sonicKey.owner", userRoleWiseId?.owner)
+    if (monitorFilters?.company) params.append("relation_company.name", `/${monitorFilters?.company}/i`);
+    if (monitorFilters?.user) params.append("relation_users.username", `/${monitorFilters?.user}/i`);
 
     return (dispatch) => {
         dispatch({ type: actions?.loading })
@@ -85,6 +99,21 @@ export const getMonitorExportAction = (startDate, endDate, format, limit = 2000,
     let params = new URLSearchParams(`detectedAt>=${moment(startDate).format("YYYY-MM-DD")}&detectedAt<=date(${newEndDate})`)
 
     params.append("limit", limit);
+
+    if (userRoleWiseId?.partner) {
+        let additionalFilter = {
+            $or: [{ "sonicKey.company.partner": userRoleWiseId?.partner }, { "sonicKey.partner._id": userRoleWiseId?.partner }, { "sonicKey.owner.partner": userRoleWiseId?.partner }, { "sonicKey.owner._id": getUserId() }]
+        }
+        params.append("relation_filter", JSON.stringify(additionalFilter))
+    }
+    if (userRoleWiseId?.company) {
+        let additionalFilter = {
+            $or: [{ "sonicKey.company._id": userRoleWiseId?.company }, { "sonicKey.owner._id": getUserId() }, { "sonicKey.owner.company": userRoleWiseId?.company }]
+        }
+        params.append("relation_filter", additionalFilter)
+    }
+
+    if (userRoleWiseId?.owner) params.append("relation_sonicKey.owner._id", userRoleWiseId?.owner)
 
     if (playsBy) {
         params.append("playsBy", playsBy)
@@ -130,9 +159,8 @@ export const getMonitorExportAction = (startDate, endDate, format, limit = 2000,
         }
     }
 
-    if (userRoleWiseId?.company) params.append("relation_sonicKey.company", userRoleWiseId?.company)
-    if (userRoleWiseId?.partner) params.append("relation_sonicKey.partner", userRoleWiseId?.partner)
-    if (userRoleWiseId?.owner) params.append("relation_sonicKey.owner", userRoleWiseId?.owner)
+    if (monitorFilters?.company) params.append("relation_company.name", `/${monitorFilters?.company}/i`);
+    if (monitorFilters?.user) params.append("relation_users.username", `/${monitorFilters?.user}/i`);
 
     return dispatch => {
         getMonitorExport(format, params).then((data) => {

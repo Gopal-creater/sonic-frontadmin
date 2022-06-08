@@ -14,6 +14,8 @@ const initialState = {
         track: "",
         label: "",
         distributor: "",
+        company: "",
+        user: ""
     },
 };
 

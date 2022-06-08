@@ -2,7 +2,7 @@ import cogoToast from "cogo-toast"
 import fileDownload from "js-file-download"
 import moment from 'moment'
 import store from "../.."
-import { getRoleWiseID } from "../../../services/https/AuthHelper"
+import { getRoleWiseID, getUserId } from "../../../services/https/AuthHelper"
 import { encodeFromFile, encodeFromTrack, exportTrack, getEncodeSearchTracks, getTracks } from "../../../services/https/resources/EncodeApi/encodeApi"
 import { log } from "../../../utils/app.debug"
 import * as actionTypes from "../actionTypes"
@@ -19,7 +19,8 @@ export const encodeFromFileAction = (mediaFile, metaData) => {
         company: userRoleWiseId?.company,
         partner: userRoleWiseId?.partner,
         isRightsHolderForEncode: isRightsHolderForEncode,
-        isAuthorizedForEncode: isAuthorizedForEncode
+        isAuthorizedForEncode: isAuthorizedForEncode,
+        additionalMetadata: metaData?.additionalMetadata && JSON.parse(metaData?.additionalMetadata)
     }));
 
     return (dispatch) => {
@@ -75,6 +76,20 @@ export const getTracksAction = (startDate, endDate, page, limit, filters, sortBy
     params.append("page", page)
     params.append("skip", page > 1 ? (page - 1) * limit : 0)
 
+    if (userRoleWiseId?.partner) {
+        let additionalFilter = {
+            $or: [{ "company.partner": userRoleWiseId?.partner }, { "owner.partner": userRoleWiseId?.partner }, { "owner._id": getUserId() }, { "partner._id": userRoleWiseId?.partner }]
+        }
+        params.append("relation_filter", JSON.stringify(additionalFilter))
+    }
+    if (userRoleWiseId?.company) {
+        let additionalFilter = {
+            $or: [{ "company._id": userRoleWiseId?.company }, { "owner._id": getUserId() }, { "owner.company": userRoleWiseId?.company }]
+        }
+        params.append("relation_filter", additionalFilter)
+    }
+    if (userRoleWiseId?.owner) params.append("owner", userRoleWiseId?.owner)
+
     if (sortBy && sortBy !== "SYSTEM/PARTNER_ID") {
         isAscending ? params.append("sort", sortBy) : params.append("sort", `-${sortBy}`)
     }
@@ -84,10 +99,6 @@ export const getTracksAction = (startDate, endDate, page, limit, filters, sortBy
         if (userRoleWiseId?.partner) isAscending ? params.append("sort", "partner._id") : params.append("sort", "-partner._id")
         if (userRoleWiseId?.owner) isAscending ? params.append("sort", "owner._id") : params.append("sort", "-owner._id")
     }
-
-    if (userRoleWiseId?.company) params.append("company", userRoleWiseId?.company)
-    if (userRoleWiseId?.partner) params.append("partner", userRoleWiseId?.partner)
-    if (userRoleWiseId?.owner) params.append("owner", userRoleWiseId?.owner)
 
     let filterArray = []
 
@@ -148,6 +159,20 @@ export const exportTrackAction = (format, limit = 2000, filters, sortBy, isAscen
 
     params.append("limit", limit);
 
+    if (userRoleWiseId?.partner) {
+        let additionalFilter = {
+            $or: [{ "company.partner": userRoleWiseId?.partner }, { "owner.partner": userRoleWiseId?.partner }, { "owner._id": getUserId() }, { "partner._id": userRoleWiseId?.partner }]
+        }
+        params.append("relation_filter", JSON.stringify(additionalFilter))
+    }
+    if (userRoleWiseId?.company) {
+        let additionalFilter = {
+            $or: [{ "company._id": userRoleWiseId?.company }, { "owner._id": getUserId() }, { "owner.company": userRoleWiseId?.company }]
+        }
+        params.append("relation_filter", additionalFilter)
+    }
+    if (userRoleWiseId?.owner) params.append("owner", userRoleWiseId?.owner)
+
     if (sortBy && sortBy !== "SYSTEM/PARTNER_ID") {
         isAscending ? params.append("sort", sortBy) : params.append("sort", `-${sortBy}`)
     }
@@ -157,10 +182,6 @@ export const exportTrackAction = (format, limit = 2000, filters, sortBy, isAscen
         if (userRoleWiseId?.partner) isAscending ? params.append("sort", "partner._id") : params.append("sort", "-partner._id")
         if (userRoleWiseId?.owner) isAscending ? params.append("sort", "owner._id") : params.append("sort", "-owner._id")
     }
-
-    if (userRoleWiseId?.company) params.append("company", userRoleWiseId?.company)
-    if (userRoleWiseId?.partner) params.append("partner", userRoleWiseId?.partner)
-    if (userRoleWiseId?.owner) params.append("owner", userRoleWiseId?.owner)
 
     let filterArray = []
 

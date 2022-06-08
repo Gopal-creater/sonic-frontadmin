@@ -25,9 +25,7 @@ const initialState = {
         contentDescription: "",
         distributor: "",
         label: "",
-        additionalMetadata: {
-            message: ""
-        },
+        additionalMetadata: "",
         isRightsHolderForEncode: null,
         isAuthorizedForEncode: null
     },

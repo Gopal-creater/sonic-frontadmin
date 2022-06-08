@@ -2,7 +2,7 @@ import cogoToast from "cogo-toast"
 import fileDownload from "js-file-download"
 import moment from "moment"
 import store from "../.."
-import { getRoleWiseID } from "../../../services/https/AuthHelper"
+import { getRoleWiseID, getUserId } from "../../../services/https/AuthHelper"
 import { exportDashboardData, getMonitorDashboardData } from "../../../services/https/resources/Dashboard.api"
 import { log } from "../../../utils/app.debug"
 import * as actionTypes from "../actionTypes"
@@ -18,9 +18,20 @@ export const getMonitorDashboardDataAction = (startDate, endDate, limit = 10, so
         isAscending ? params.append("sort", sortBy) : params.append("sort", `-${sortBy}`)
     }
 
-    if (userRoleWiseId?.company) params.append("relation_sonicKey.company", userRoleWiseId?.company)
-    if (userRoleWiseId?.partner) params.append("relation_sonicKey.partner", userRoleWiseId?.partner)
-    if (userRoleWiseId?.owner) params.append("relation_sonicKey.owner", userRoleWiseId?.owner)
+    if (userRoleWiseId?.partner) {
+        let additionalFilter = {
+            $or: [{ "sonicKey.company.partner": userRoleWiseId?.partner }, { "sonicKey.partner._id": userRoleWiseId?.partner }, { "sonicKey.owner.partner": userRoleWiseId?.partner }, { "sonicKey.owner._id": getUserId() }]
+        }
+        params.append("relation_filter", JSON.stringify(additionalFilter))
+    }
+    if (userRoleWiseId?.company) {
+        let additionalFilter = {
+            $or: [{ "sonicKey.company._id": userRoleWiseId?.company }, { "sonicKey.owner._id": getUserId() }, { "sonicKey.owner.company": userRoleWiseId?.company }]
+        }
+        params.append("relation_filter", additionalFilter)
+    }
+
+    if (userRoleWiseId?.owner) params.append("relation_sonicKey.owner._id", userRoleWiseId?.owner)
 
     if (monitorFilters?.channel !== "ALL") {
         params.append("channel", monitorFilters?.channel)
@@ -82,9 +93,20 @@ export const getMonitorDashboardExportAction = (format, startDate, endDate, limi
         isAscending ? params.append("sort", sortBy) : params.append("sort", `-${sortBy}`)
     }
 
-    if (userRoleWiseId?.company) params.append("company", userRoleWiseId?.company)
-    if (userRoleWiseId?.partner) params.append("partner", userRoleWiseId?.partner)
-    if (userRoleWiseId?.owner) params.append("owner", userRoleWiseId?.owner)
+    if (userRoleWiseId?.partner) {
+        let additionalFilter = {
+            $or: [{ "sonicKey.company.partner": userRoleWiseId?.partner }, { "sonicKey.partner._id": userRoleWiseId?.partner }, { "sonicKey.owner.partner": userRoleWiseId?.partner }, { "sonicKey.owner._id": getUserId() }]
+        }
+        params.append("relation_filter", JSON.stringify(additionalFilter))
+    }
+    if (userRoleWiseId?.company) {
+        let additionalFilter = {
+            $or: [{ "sonicKey.company._id": userRoleWiseId?.company }, { "sonicKey.owner._id": getUserId() }, { "sonicKey.owner.company": userRoleWiseId?.company }]
+        }
+        params.append("relation_filter", additionalFilter)
+    }
+
+    if (userRoleWiseId?.owner) params.append("relation_sonicKey.owner._id", userRoleWiseId?.owner)
 
     if (monitorFilters?.channel !== "ALL") {
         params.append("channel", monitorFilters?.channel)

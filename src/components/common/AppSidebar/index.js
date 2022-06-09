@@ -11,7 +11,7 @@ export default function AppSideBar({ showMenu, toggleMenu }) {
     return (
         <SideBarContainer>
             <NavIconContainer onClick={() => toggleMenu?.()}>
-                {!showMenu ? <NavIcon src={iconShowMenu} width={"60px"} height={"70px"} /> : <NavIcon src={iconHideMenu} />}
+                {!showMenu ? <NavIcon src={iconShowMenu} width={"65px"} height={"100px"} /> : <NavIcon src={iconHideMenu} width={"30px"} height={"25px"} />}
             </NavIconContainer>
             {
                 showMenu ?

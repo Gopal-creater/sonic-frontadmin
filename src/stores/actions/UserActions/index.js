@@ -50,7 +50,7 @@ export const getUsersAction = (limit, page) => {
     }
 
     if (users?.userId) {
-        params.append("_id", `/${users?.userId}/i`);
+        params.append("_id", users?.userId);
     }
 
     if (users?.accountType) {

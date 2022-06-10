@@ -79,7 +79,7 @@ export const getMonitorListAction = (actions, startDate, endDate, page, limit, p
         additionalFilter.$or.push({ "relation_owner._id": monitorFilters?.user }, { "createdBy": monitorFilters?.user })
     }
 
-    params.append("relation_filter", JSON.stringify(additionalFilter));
+    if (additionalFilter.$or.length !== 0) params.append("relation_filter", JSON.stringify(additionalFilter));
 
     return (dispatch) => {
         dispatch({ type: actions?.loading })
@@ -166,7 +166,7 @@ export const getMonitorExportAction = (startDate, endDate, format, limit = 2000,
         additionalFilter.$or.push({ "relation_owner._id": monitorFilters?.user }, { "createdBy": monitorFilters?.user })
     }
 
-    params.append("relation_filter", JSON.stringify(additionalFilter));
+    if (additionalFilter.$or.length !== 0) params.append("relation_filter", JSON.stringify(additionalFilter));
 
     return (dispatch) => {
         getMonitorExport(format, params).then((data) => {

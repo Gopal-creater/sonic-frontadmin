@@ -51,7 +51,8 @@ export const getAllSonickeysActions = (limit, page) => {
     if (sonicKeyData?.user) {
         additionalFilter.$or.push({ "relation_owner._id": sonicKeyData?.user }, { "createdBy": sonicKeyData?.user })
     }
-    params.append("relation_filter", JSON.stringify(additionalFilter));
+
+    if (additionalFilter.$or.length !== 0) params.append("relation_filter", JSON.stringify(additionalFilter));
 
     return (dispatch) => {
         dispatch({ type: actionTypes.GET_ALL_SONICKEYS_LOADING })

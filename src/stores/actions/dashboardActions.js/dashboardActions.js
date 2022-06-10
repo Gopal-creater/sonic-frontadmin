@@ -74,7 +74,7 @@ export const getMonitorDashboardDataAction = (startDate, endDate, limit = 10, so
         additionalFilter.$or.push({ "relation_owner._id": monitorFilters?.user }, { "createdBy": monitorFilters?.user })
     }
 
-    params.append("relation_filter", JSON.stringify(additionalFilter));
+    if (additionalFilter.$or.length !== 0) params.append("relation_filter", JSON.stringify(additionalFilter));
 
     return (dispatch) => {
         dispatch({ type: actionTypes.SET_DASHBOARD_LOADING })
@@ -156,7 +156,7 @@ export const getMonitorDashboardExportAction = (format, startDate, endDate, limi
         additionalFilter.$or.push({ "relation_owner._id": monitorFilters?.user }, { "createdBy": monitorFilters?.user })
     }
 
-    params.append("relation_filter", JSON.stringify(additionalFilter));
+    if (additionalFilter.$or.length !== 0) params.append("relation_filter", JSON.stringify(additionalFilter));
 
     return (dispatch) => {
         exportDashboardData(format, params).then((data) => {

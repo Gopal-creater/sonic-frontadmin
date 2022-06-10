@@ -14,21 +14,21 @@ export const getMonitorDashboardDataAction = (startDate, endDate, limit = 10, so
     let params = new URLSearchParams(`detectedAt>=${moment(startDate).format("YYYY-MM-DD")}&detectedAt<=date(${newEndDate})`)
 
     params.append("limit", limit);
+    let additionalFilter = { $or: [] }
+
     if (sortBy) {
         isAscending ? params.append("sort", sortBy) : params.append("sort", `-${sortBy}`)
     }
 
     if (userRoleWiseId?.partner) {
-        let additionalFilter = {
+        additionalFilter = {
             $or: [{ "sonicKey.company.partner": userRoleWiseId?.partner }, { "sonicKey.partner._id": userRoleWiseId?.partner }, { "sonicKey.owner.partner": userRoleWiseId?.partner }, { "sonicKey.owner._id": getUserId() }]
         }
-        params.append("relation_filter", JSON.stringify(additionalFilter))
     }
     if (userRoleWiseId?.company) {
-        let additionalFilter = {
+        additionalFilter = {
             $or: [{ "sonicKey.company._id": userRoleWiseId?.company }, { "sonicKey.owner._id": getUserId() }, { "sonicKey.owner.company": userRoleWiseId?.company }]
         }
-        params.append("relation_filter", JSON.stringify(additionalFilter))
     }
 
     if (userRoleWiseId?.owner) params.append("relation_sonicKey.owner._id", userRoleWiseId?.owner)
@@ -68,6 +68,13 @@ export const getMonitorDashboardDataAction = (startDate, endDate, limit = 10, so
             params.append(`relation_sonicKey.createdAt<`, `date(${moment(monitorFilters?.encodedStartDate).endOf("days").toISOString()})`)
         }
     }
+
+    if (monitorFilters?.company) params.append("relation_company._id", monitorFilters?.company);
+    if (monitorFilters?.user) {
+        additionalFilter.$or.push({ "relation_owner._id": monitorFilters?.user }, { "createdBy": monitorFilters?.user })
+    }
+
+    params.append("relation_filter", JSON.stringify(additionalFilter));
 
     return (dispatch) => {
         dispatch({ type: actionTypes.SET_DASHBOARD_LOADING })
@@ -89,21 +96,21 @@ export const getMonitorDashboardExportAction = (format, startDate, endDate, limi
     let params = new URLSearchParams(`detectedAt>=${moment(startDate).format("YYYY-MM-DD")}&detectedAt<=date(${newEndDate})`)
 
     params.append("limit", limit);
+    let additionalFilter = { $or: [] }
+
     if (sortBy) {
         isAscending ? params.append("sort", sortBy) : params.append("sort", `-${sortBy}`)
     }
 
     if (userRoleWiseId?.partner) {
-        let additionalFilter = {
+        additionalFilter = {
             $or: [{ "sonicKey.company.partner": userRoleWiseId?.partner }, { "sonicKey.partner._id": userRoleWiseId?.partner }, { "sonicKey.owner.partner": userRoleWiseId?.partner }, { "sonicKey.owner._id": getUserId() }]
         }
-        params.append("relation_filter", JSON.stringify(additionalFilter))
     }
     if (userRoleWiseId?.company) {
-        let additionalFilter = {
+        additionalFilter = {
             $or: [{ "sonicKey.company._id": userRoleWiseId?.company }, { "sonicKey.owner._id": getUserId() }, { "sonicKey.owner.company": userRoleWiseId?.company }]
         }
-        params.append("relation_filter", JSON.stringify(additionalFilter))
     }
 
     if (userRoleWiseId?.owner) params.append("relation_sonicKey.owner._id", userRoleWiseId?.owner)
@@ -143,6 +150,13 @@ export const getMonitorDashboardExportAction = (format, startDate, endDate, limi
             params.append(`relation_sonicKey.createdAt<`, `date(${moment(monitorFilters?.encodedStartDate).endOf("days").toISOString()})`)
         }
     }
+
+    if (monitorFilters?.company) params.append("relation_company._id", monitorFilters?.company);
+    if (monitorFilters?.user) {
+        additionalFilter.$or.push({ "relation_owner._id": monitorFilters?.user }, { "createdBy": monitorFilters?.user })
+    }
+
+    params.append("relation_filter", JSON.stringify(additionalFilter));
 
     return (dispatch) => {
         exportDashboardData(format, params).then((data) => {

@@ -142,6 +142,13 @@ export default function CompanyProfile() {
                                 value={state?.owner?.phone_number || " "}
                             />
                         </Grid>
+
+                        <Grid style={{ marginTop: 15 }}>
+                            <DisabledTextField
+                                label={"Admin ID"}
+                                value={state?.owner?._id || " "}
+                            />
+                        </Grid>
                     </Grid >
                 </Grid>
 

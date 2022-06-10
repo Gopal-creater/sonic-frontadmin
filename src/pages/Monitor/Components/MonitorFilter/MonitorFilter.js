@@ -13,12 +13,16 @@ import { StyledTextField } from '../../../../StyledComponents/StyledAppTextInput
 import CustomDropDown from '../../../../components/common/AppTextInput/CustomDropDown';
 import { getMonitorListAction } from '../../../../stores/actions/monitorActions/monitorActions';
 import { getMonitorDashboardDataAction } from '../../../../stores/actions/dashboardActions.js/dashboardActions';
+import { Distributor, Labels } from "../../../../constants/constants"
 
 export default function MonitorFilter({ closeDialog, playsBy, actions, dashboard = false }) {
     const dispatch = useDispatch();
     const monitor = useSelector(state => state.monitor);
     const radioStations = useSelector(state => state.radioStations)
     const users = useSelector(state => state.user)
+
+    let distributorArray = Distributor.map((data) => { return { name: data } })
+    let labelArray = Labels.map((data) => { return { name: data } })
 
     const filteredRadioStation = radioStations.data?.filter((data) => {
         if (monitor.filters.country === "") {
@@ -158,36 +162,34 @@ export default function MonitorFilter({ closeDialog, playsBy, actions, dashboard
                     </FilterForm>
 
                     <FilterForm>
-                        <StyledTextField
-                            fullWidth
-                            label="Label"
-                            value={monitor?.filters?.label}
-                            onChange={(e) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, label: e.target.value } })}
-                            InputLabelProps={{
-                                style: {
-                                    fontSize: theme.fontSize.h4,
-                                    color: theme.colors.secondary.mediumGrey,
-                                    fontFamily: theme.fontFamily.nunitoSansBold
-                                }
+                        <CustomDropDown
+                            id="channel-dropdown"
+                            labelText="Label"
+                            formControlProps={{
+                                fullWidth: true
                             }}
-                            inputProps={{ style: { fontSize: theme.fontSize.h4 } }}
+                            labelProps={{ style: { fontFamily: theme.fontFamily.nunitoSansRegular } }}
+                            inputProps={{
+                                value: monitor?.filters?.label,
+                                onChange: (e) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, label: e.target.value } })
+                            }}
+                            data={labelArray || []}
                         />
                     </FilterForm>
 
                     <FilterForm>
-                        <StyledTextField
-                            fullWidth
-                            label="Distributor"
-                            value={monitor?.filters?.distributor}
-                            onChange={(e) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, distributor: e.target.value } })}
-                            InputLabelProps={{
-                                style: {
-                                    fontSize: theme.fontSize.h4,
-                                    color: theme.colors.secondary.mediumGrey,
-                                    fontFamily: theme.fontFamily.nunitoSansBold
-                                }
+                        <CustomDropDown
+                            id="channel-dropdown"
+                            labelText="Distributor"
+                            formControlProps={{
+                                fullWidth: true
                             }}
-                            inputProps={{ style: { fontSize: theme.fontSize.h4 } }}
+                            labelProps={{ style: { fontFamily: theme.fontFamily.nunitoSansRegular } }}
+                            inputProps={{
+                                value: monitor?.filters?.distributor,
+                                onChange: (e) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, distributor: e.target.value } })
+                            }}
+                            data={distributorArray || []}
                         />
                     </FilterForm>
 
@@ -271,6 +273,8 @@ export default function MonitorFilter({ closeDialog, playsBy, actions, dashboard
                                 encodedStartDate: "",
                                 encodedEndDate: "",
                                 timezone: "GMT",
+                                company: "",
+                                user: ""
                             }
                         })}
                     >

@@ -57,15 +57,15 @@ export const getAllCompaniesAction = (limit, page) => {
     }
 
     if (company?.email) {
-        params.append("relation_owner.email", `/${company?.email}/i`);
+        params.append("relation_owner.email", company?.email);
     }
 
     if (company?.companyId) {
-        params.append("_id", `${company?.companyId}`);
+        params.append("_id", company?.companyId);
     }
 
     if (company?.admin) {
-        params.append("relation_owner.name", `/${company?.admin}/i`);
+        params.append("relation_owner._id", company?.admin);
     }
 
     return (dispatch) => {

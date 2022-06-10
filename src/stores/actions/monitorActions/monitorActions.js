@@ -16,18 +16,17 @@ export const getMonitorListAction = (actions, startDate, endDate, page, limit, p
     params.append("skip", page > 1 ? (page - 1) * limit : 0)
 
     let monitorFilters = store.getState()?.monitor?.filters
+    let additionalFilter = { $or: [] }
 
     if (userRoleWiseId?.partner) {
-        let additionalFilter = {
+        additionalFilter = {
             $or: [{ "sonicKey.company.partner": userRoleWiseId?.partner }, { "sonicKey.partner._id": userRoleWiseId?.partner }, { "sonicKey.owner.partner": userRoleWiseId?.partner }, { "sonicKey.owner._id": getUserId() }]
         }
-        params.append("relation_filter", JSON.stringify(additionalFilter))
     }
     if (userRoleWiseId?.company) {
-        let additionalFilter = {
+        additionalFilter = {
             $or: [{ "sonicKey.company._id": userRoleWiseId?.company }, { "sonicKey.owner._id": getUserId() }, { "sonicKey.owner.company": userRoleWiseId?.company }]
         }
-        params.append("relation_filter", JSON.stringify(additionalFilter))
     }
 
     if (userRoleWiseId?.owner) params.append("relation_sonicKey.owner._id", userRoleWiseId?.owner)
@@ -75,8 +74,12 @@ export const getMonitorListAction = (actions, startDate, endDate, page, limit, p
         }
     }
 
-    if (monitorFilters?.company) params.append("relation_company.name", `/${monitorFilters?.company}/i`);
-    if (monitorFilters?.user) params.append("relation_users.username", `/${monitorFilters?.user}/i`);
+    if (monitorFilters?.company) params.append("relation_company._id", monitorFilters?.company);
+    if (monitorFilters?.user) {
+        additionalFilter.$or.push({ "relation_owner._id": monitorFilters?.user }, { "createdBy": monitorFilters?.user })
+    }
+
+    params.append("relation_filter", JSON.stringify(additionalFilter));
 
     return (dispatch) => {
         dispatch({ type: actions?.loading })
@@ -99,18 +102,17 @@ export const getMonitorExportAction = (startDate, endDate, format, limit = 2000,
     let params = new URLSearchParams(`detectedAt>=${moment(startDate).format("YYYY-MM-DD")}&detectedAt<=date(${newEndDate})`)
 
     params.append("limit", limit);
+    let additionalFilter = { $or: [] }
 
     if (userRoleWiseId?.partner) {
-        let additionalFilter = {
+        additionalFilter = {
             $or: [{ "sonicKey.company.partner": userRoleWiseId?.partner }, { "sonicKey.partner._id": userRoleWiseId?.partner }, { "sonicKey.owner.partner": userRoleWiseId?.partner }, { "sonicKey.owner._id": getUserId() }]
         }
-        params.append("relation_filter", JSON.stringify(additionalFilter))
     }
     if (userRoleWiseId?.company) {
-        let additionalFilter = {
+        additionalFilter = {
             $or: [{ "sonicKey.company._id": userRoleWiseId?.company }, { "sonicKey.owner._id": getUserId() }, { "sonicKey.owner.company": userRoleWiseId?.company }]
         }
-        params.append("relation_filter", JSON.stringify(additionalFilter))
     }
 
     if (userRoleWiseId?.owner) params.append("relation_sonicKey.owner._id", userRoleWiseId?.owner)
@@ -159,10 +161,14 @@ export const getMonitorExportAction = (startDate, endDate, format, limit = 2000,
         }
     }
 
-    if (monitorFilters?.company) params.append("relation_company.name", `/${monitorFilters?.company}/i`);
-    if (monitorFilters?.user) params.append("relation_users.username", `/${monitorFilters?.user}/i`);
+    if (monitorFilters?.company) params.append("relation_company._id", monitorFilters?.company);
+    if (monitorFilters?.user) {
+        additionalFilter.$or.push({ "relation_owner._id": monitorFilters?.user }, { "createdBy": monitorFilters?.user })
+    }
 
-    return dispatch => {
+    params.append("relation_filter", JSON.stringify(additionalFilter));
+
+    return (dispatch) => {
         getMonitorExport(format, params).then((data) => {
             log("Monitor graphs", data);
             if (format === "xlsx") {

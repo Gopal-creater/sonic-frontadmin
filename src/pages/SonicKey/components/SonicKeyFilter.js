@@ -7,7 +7,7 @@ import CustomDropDown from '../../../components/common/AppTextInput/CustomDropDo
 import theme from '../../../theme';
 import AppButton from '../../../components/common/AppButton/AppButton';
 import { StyledTextField } from '../../../StyledComponents/StyledAppTextInput/StyledAppTextInput';
-import { channel, userRoles } from '../../../constants/constants';
+import { channel, Distributor, Labels, userRoles } from '../../../constants/constants';
 import * as actionTypes from '../../../stores/actions/actionTypes';
 import { log } from '../../../utils/app.debug';
 import { getAllSonickeysActions } from '../../../stores/actions/SonicKeyAcrtions';
@@ -24,6 +24,8 @@ export default function SonicKeyFilter({ closeDialog }) {
         closeDialog?.()
     }
 
+    let distributorArray = Distributor.map((data) => { return { name: data } })
+    let labelArray = Labels.map((data) => { return { name: data } })
     return (
         <FilterContainer>
             <FilterHeader>
@@ -95,30 +97,34 @@ export default function SonicKeyFilter({ closeDialog }) {
                     </FilterForm>
 
                     <FilterForm>
-                        <StyledTextField
-                            fullWidth
-                            label="Label"
-                            value={sonickey?.filters?.label}
-                            onChange={(e) => dispatch({ type: actionTypes.SONIC_KEY_FILTERS, data: { ...sonickey?.filters, label: e.target.value } })}
-                            InputLabelProps={{
-                                style: {
-                                    fontFamily: theme.fontFamily.nunitoSansBold
-                                }
+                        <CustomDropDown
+                            id="channel-dropdown"
+                            labelText="Label"
+                            formControlProps={{
+                                fullWidth: true
                             }}
+                            labelProps={{ style: { fontFamily: theme.fontFamily.nunitoSansRegular } }}
+                            inputProps={{
+                                value: sonickey?.filters?.label,
+                                onChange: (e) => dispatch({ type: actionTypes.SONIC_KEY_FILTERS, data: { ...sonickey?.filters, label: e.target.value } })
+                            }}
+                            data={labelArray || []}
                         />
                     </FilterForm>
 
                     <FilterForm>
-                        <StyledTextField
-                            fullWidth
-                            label="Distributor"
-                            value={sonickey?.filters?.distributor}
-                            onChange={(e) => dispatch({ type: actionTypes.SONIC_KEY_FILTERS, data: { ...sonickey?.filters, distributor: e.target.value } })}
-                            InputLabelProps={{
-                                style: {
-                                    fontFamily: theme.fontFamily.nunitoSansBold
-                                }
+                        <CustomDropDown
+                            id="channel-dropdown"
+                            labelText="Distributor"
+                            formControlProps={{
+                                fullWidth: true
                             }}
+                            labelProps={{ style: { fontFamily: theme.fontFamily.nunitoSansRegular } }}
+                            inputProps={{
+                                value: sonickey?.filters?.distributor,
+                                onChange: (e) => dispatch({ type: actionTypes.SONIC_KEY_FILTERS, data: { ...sonickey?.filters, distributor: e.target.value } })
+                            }}
+                            data={distributorArray || []}
                         />
                     </FilterForm>
                     {users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&

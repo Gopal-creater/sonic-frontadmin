@@ -15,17 +15,17 @@ export const getAllSonickeysActions = (limit, page) => {
 
     let sonicKeyData = store.getState()?.sonickey?.filters
 
+    let additionalFilter = { $or: [] }
+
     if (userRoleWiseId?.partner) {
-        let additionalFilter = {
+        additionalFilter = {
             $or: [{ "company.partner": userRoleWiseId?.partner }, { "owner.partner": userRoleWiseId?.partner }, { "owner._id": getUserId() }, { "partner._id": userRoleWiseId?.partner }]
         }
-        params.append("relation_filter", JSON.stringify(additionalFilter))
     }
     if (userRoleWiseId?.company) {
-        let additionalFilter = {
+        additionalFilter = {
             $or: [{ "company._id": userRoleWiseId?.company }, { "owner._id": getUserId() }, { "owner.company": userRoleWiseId?.company }]
         }
-        params.append("relation_filter", JSON.stringify(additionalFilter))
     }
     if (userRoleWiseId?.owner) params.append("owner", userRoleWiseId?.owner)
 
@@ -47,8 +47,11 @@ export const getAllSonickeysActions = (limit, page) => {
     if (sonicKeyData?.distributor) {
         params.append("distributor", `/${sonicKeyData?.distributor}/i`);
     }
-    if (sonicKeyData?.company) params.append("company", sonicKeyData?.company);
-    if (sonicKeyData?.user) params.append("relation_owner._id", sonicKeyData?.user);
+    if (sonicKeyData?.company) params.append("relation_company._id", sonicKeyData?.company);
+    if (sonicKeyData?.user) {
+        additionalFilter.$or.push({ "relation_owner._id": sonicKeyData?.user }, { "createdBy": sonicKeyData?.user })
+    }
+    params.append("relation_filter", JSON.stringify(additionalFilter));
 
     return (dispatch) => {
         dispatch({ type: actionTypes.GET_ALL_SONICKEYS_LOADING })

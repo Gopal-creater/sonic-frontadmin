@@ -53,7 +53,7 @@ export default function EncodeData() {
         if (!encodeReducer?.metaData?.contentOwner) return cogoToast.error("Artist is mandetory field")
         if (!encodeReducer?.metaData?.distributor) return cogoToast.error("Distributor is mandetory field")
         if (!encodeReducer?.metaData?.label) return cogoToast.error("Label is mandetory field")
-        if (!isJsonObject(encodeReducer?.metaData?.additionalMetadata)) return cogoToast.error("Additional MetaData must be in JSON format")
+        if (encodeReducer?.metaData?.additionalMetadata && !isJsonObject(encodeReducer?.metaData?.additionalMetadata)) return cogoToast.error("Additional MetaData must be in JSON format")
 
         if (encodeReducer?.metaData?.contentType === 'Music' && (encodeReducer?.metaData?.isrcCode === '' || encodeReducer?.metaData?.isrcCode === undefined)
             && (encodeReducer?.metaData?.iswcCode === '' || encodeReducer?.metaData?.iswcCode === undefined)
@@ -366,7 +366,7 @@ export default function EncodeData() {
                             id="standard-basic"
                             label="Additional MetaData"
                             className="mt-3"
-                            value={encodeReducer?.metaData?.additionalMetadata}
+                            value={encodeReducer?.metaData?.additionalMetadata ? JSON.stringify(encodeReducer?.metaData?.additionalMetadata) : ""}
                             onChange={(e) => { dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, additionalMetadata: e.target.value } }) }} />
                     </Grid >
                 </Grid>

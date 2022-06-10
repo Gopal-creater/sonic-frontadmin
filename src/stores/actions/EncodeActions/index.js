@@ -86,7 +86,7 @@ export const getTracksAction = (startDate, endDate, page, limit, filters, sortBy
         let additionalFilter = {
             $or: [{ "company._id": userRoleWiseId?.company }, { "owner._id": getUserId() }, { "owner.company": userRoleWiseId?.company }]
         }
-        params.append("relation_filter", additionalFilter)
+        params.append("relation_filter", JSON.stringify(additionalFilter))
     }
     if (userRoleWiseId?.owner) params.append("owner", userRoleWiseId?.owner)
 
@@ -169,7 +169,7 @@ export const exportTrackAction = (format, limit = 2000, filters, sortBy, isAscen
         let additionalFilter = {
             $or: [{ "company._id": userRoleWiseId?.company }, { "owner._id": getUserId() }, { "owner.company": userRoleWiseId?.company }]
         }
-        params.append("relation_filter", additionalFilter)
+        params.append("relation_filter", JSON.stringify(additionalFilter))
     }
     if (userRoleWiseId?.owner) params.append("owner", userRoleWiseId?.owner)
 

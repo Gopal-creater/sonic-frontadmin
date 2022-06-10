@@ -27,7 +27,7 @@ export const getMonitorListAction = (actions, startDate, endDate, page, limit, p
         let additionalFilter = {
             $or: [{ "sonicKey.company._id": userRoleWiseId?.company }, { "sonicKey.owner._id": getUserId() }, { "sonicKey.owner.company": userRoleWiseId?.company }]
         }
-        params.append("relation_filter", additionalFilter)
+        params.append("relation_filter", JSON.stringify(additionalFilter))
     }
 
     if (userRoleWiseId?.owner) params.append("relation_sonicKey.owner._id", userRoleWiseId?.owner)
@@ -110,7 +110,7 @@ export const getMonitorExportAction = (startDate, endDate, format, limit = 2000,
         let additionalFilter = {
             $or: [{ "sonicKey.company._id": userRoleWiseId?.company }, { "sonicKey.owner._id": getUserId() }, { "sonicKey.owner.company": userRoleWiseId?.company }]
         }
-        params.append("relation_filter", additionalFilter)
+        params.append("relation_filter", JSON.stringify(additionalFilter))
     }
 
     if (userRoleWiseId?.owner) params.append("relation_sonicKey.owner._id", userRoleWiseId?.owner)

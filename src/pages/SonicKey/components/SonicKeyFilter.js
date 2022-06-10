@@ -167,6 +167,8 @@ export default function SonicKeyFilter({ closeDialog }) {
                                 track: "",
                                 label: "",
                                 distributor: "",
+                                company: "",
+                                user: ""
                             }
                         })}
                     >

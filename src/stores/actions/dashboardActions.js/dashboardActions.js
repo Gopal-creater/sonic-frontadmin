@@ -28,7 +28,7 @@ export const getMonitorDashboardDataAction = (startDate, endDate, limit = 10, so
         let additionalFilter = {
             $or: [{ "sonicKey.company._id": userRoleWiseId?.company }, { "sonicKey.owner._id": getUserId() }, { "sonicKey.owner.company": userRoleWiseId?.company }]
         }
-        params.append("relation_filter", additionalFilter)
+        params.append("relation_filter", JSON.stringify(additionalFilter))
     }
 
     if (userRoleWiseId?.owner) params.append("relation_sonicKey.owner._id", userRoleWiseId?.owner)
@@ -103,7 +103,7 @@ export const getMonitorDashboardExportAction = (format, startDate, endDate, limi
         let additionalFilter = {
             $or: [{ "sonicKey.company._id": userRoleWiseId?.company }, { "sonicKey.owner._id": getUserId() }, { "sonicKey.owner.company": userRoleWiseId?.company }]
         }
-        params.append("relation_filter", additionalFilter)
+        params.append("relation_filter", JSON.stringify(additionalFilter))
     }
 
     if (userRoleWiseId?.owner) params.append("relation_sonicKey.owner._id", userRoleWiseId?.owner)

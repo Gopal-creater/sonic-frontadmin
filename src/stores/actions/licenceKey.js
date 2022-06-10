@@ -40,7 +40,7 @@ export const fetchLicenceKeys = (limit, page) => {
         let additionalFilter = {
             $or: [{ "company._id": userRoleWiseId?.company }, { "users._id": getUserId() }, { "users.company": userRoleWiseId?.company }]
         }
-        params.append("relation_filter", additionalFilter)
+        params.append("relation_filter", JSON.stringify(additionalFilter))
     }
     if (userRoleWiseId?.owner) params.append("users", userRoleWiseId?.owner)
 

@@ -131,7 +131,7 @@ export default function SonicKeyFilter({ closeDialog }) {
                         <FilterForm>
                             <StyledTextField
                                 fullWidth
-                                label="Company"
+                                label="Company ID"
                                 value={sonickey?.filters?.company}
                                 onChange={(e) => dispatch({ type: actionTypes.SONIC_KEY_FILTERS, data: { ...sonickey?.filters, company: e.target.value } })}
                                 InputLabelProps={{
@@ -147,7 +147,7 @@ export default function SonicKeyFilter({ closeDialog }) {
                         <FilterForm>
                             <StyledTextField
                                 fullWidth
-                                label="User"
+                                label="User ID"
                                 value={sonickey?.filters?.user}
                                 onChange={(e) => dispatch({ type: actionTypes.SONIC_KEY_FILTERS, data: { ...sonickey?.filters, user: e.target.value } })}
                                 InputLabelProps={{

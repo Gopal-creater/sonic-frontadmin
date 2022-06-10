@@ -197,7 +197,7 @@ export default function MonitorFilter({ closeDialog, playsBy, actions, dashboard
                         <FilterForm>
                             <StyledTextField
                                 fullWidth
-                                label="Company"
+                                label="Company ID"
                                 value={monitor?.filters?.company}
                                 onChange={(e) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, company: e.target.value } })}
                                 InputLabelProps={{
@@ -213,7 +213,7 @@ export default function MonitorFilter({ closeDialog, playsBy, actions, dashboard
                         <FilterForm>
                             <StyledTextField
                                 fullWidth
-                                label="User"
+                                label="User ID"
                                 value={monitor?.filters?.user}
                                 onChange={(e) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, user: e.target.value } })}
                                 InputLabelProps={{

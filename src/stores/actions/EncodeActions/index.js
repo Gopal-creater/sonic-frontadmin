@@ -50,7 +50,8 @@ export const encodeFromTrackAction = () => {
             owner: userRoleWiseId?.owner,
             company: userRoleWiseId?.company,
             partner: userRoleWiseId?.partner,
-            channel: encodeReducer?.selectedExistingFile?.channel
+            channel: encodeReducer?.selectedExistingFile?.channel,
+            additionalMetadata: metaData?.additionalMetadata && JSON.parse(metaData?.additionalMetadata)
         }
     }
 

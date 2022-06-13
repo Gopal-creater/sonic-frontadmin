@@ -88,6 +88,7 @@ export default function Encode() {
         log("Autocomplete selected value", v)
         let metaData = {
             ...encode?.metaData,
+            additionalMetadata: JSON.stringify(v?.trackMetaData?.additionalMetadata),
             contentName: v?.trackMetaData?.contentName || v?.title || "",
             contentFileType: v?.trackMetaData?.contentFileType || v?.fileType || "",
             contentOwner: v?.trackMetaData?.contentOwner || v?.artist || "",

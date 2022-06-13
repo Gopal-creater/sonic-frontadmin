@@ -69,6 +69,7 @@ export default function EncodeData() {
         log("Autocomplete selected value", v)
         let metaData = {
             ...encodeReducer?.metaData,
+            additionalMetadata: JSON.stringify(v?.trackMetaData?.additionalMetadata),
             contentName: v?.trackMetaData?.contentName || v?.title || "",
             contentFileType: v?.trackMetaData?.contentFileType || v?.fileType || "",
             contentOwner: v?.trackMetaData?.contentOwner || v?.artist || "",
@@ -89,6 +90,8 @@ export default function EncodeData() {
         }
         return true;
     }
+
+    log("encode metadata", encodeReducer?.metaData)
 
     return (
         <EncodeContainer>
@@ -366,7 +369,7 @@ export default function EncodeData() {
                             id="standard-basic"
                             label="Additional MetaData"
                             className="mt-3"
-                            value={encodeReducer?.metaData?.additionalMetadata ? JSON.stringify(encodeReducer?.metaData?.additionalMetadata) : ""}
+                            value={encodeReducer?.metaData?.additionalMetadata}
                             onChange={(e) => { dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, additionalMetadata: e.target.value } }) }} />
                     </Grid >
                 </Grid>

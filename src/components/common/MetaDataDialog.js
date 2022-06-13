@@ -126,15 +126,15 @@ const MetaDataDailog = (props) => {
         if (!values.updatingSonicKey.distributor) return cogoToast.error("Distributor is required")
         setValues({ ...values, updateSonicKeyLoading: true })
         let payload = {
-            isrcCode: values?.updatingSonicKey?.isrcCode || values?.sonicKey?.isrcCode,
-            iswcCode: values?.updatingSonicKey?.iswcCode || values?.sonicKey?.iswcCode,
-            tuneCode: values?.updatingSonicKey?.tuneCode || values?.sonicKey?.tuneCode,
-            contentOwner: values?.updatingSonicKey?.contentOwner || values?.sonicKey?.contentOwner,
-            contentDescription: values?.updatingSonicKey?.contentDescription || values?.sonicKey?.contentDescription,
-            additionalMetadata: values?.updatingSonicKey?.additionalMetadata && JSON.parse(values?.updatingSonicKey?.additionalMetadata) || values?.sonicKey?.additionalMetadata?.message && JSON.parse(values?.sonicKey?.additionalMetadata?.message),
-            distributor: values?.updatingSonicKey?.distributor || values?.sonicKey?.distributor,
-            version: values?.updatingSonicKey?.version || values?.sonicKey?.version,
-            contentName: values?.updatingSonicKey?.contentName || values?.sonicKey?.contentName
+            isrcCode: values?.updatingSonicKey?.isrcCode,
+            iswcCode: values?.updatingSonicKey?.iswcCode,
+            tuneCode: values?.updatingSonicKey?.tuneCode,
+            contentOwner: values?.updatingSonicKey?.contentOwner,
+            contentDescription: values?.updatingSonicKey?.contentDescription,
+            additionalMetadata: values?.updatingSonicKey?.additionalMetadata && JSON.parse(values?.updatingSonicKey?.additionalMetadata),
+            distributor: values?.updatingSonicKey?.distributor,
+            version: values?.updatingSonicKey?.version,
+            contentName: values?.updatingSonicKey?.contentName
         }
         Communication.editSonicMetaData(values?.sonicKey?.sonicKey, payload).then((response) => {
             setValues({

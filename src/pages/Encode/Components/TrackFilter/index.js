@@ -9,7 +9,7 @@ import { getTracksAction } from '../../../../stores/actions/EncodeActions';
 import * as actionTypes from "../../../../stores/actions/actionTypes"
 import CustomDropDown from '../../../../components/common/AppTextInput/CustomDropDown';
 import theme from '../../../../theme';
-import { Distributor, userRoles } from '../../../../constants/constants';
+import { Distributor, Labels, userRoles } from '../../../../constants/constants';
 
 export default function TrackFilter({ closeDialog }) {
     const encode = useSelector(state => state.encode)
@@ -23,7 +23,7 @@ export default function TrackFilter({ closeDialog }) {
     }
 
     let distributorArray = Distributor.map((data) => { return { name: data } })
-
+    let labelArray = Labels.map((data) => { return { name: data } })
     return (
         <Grid style={{ padding: "30px" }}>
             {/* Header */}
@@ -44,13 +44,6 @@ export default function TrackFilter({ closeDialog }) {
                         value={encode?.tracks?.trackFilters?.id}
                         onChange={(e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, id: e.target.value } })}
                     />
-                    <StyledTextField
-                        id=""
-                        label="Artist"
-                        className="mt-2"
-                        value={encode?.tracks?.trackFilters?.artist}
-                        onChange={(e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, artist: e.target.value } })}
-                    />
                     <Grid className="mt-2">
                         <CustomDropDown
                             id="channel-dropdown"
@@ -66,6 +59,13 @@ export default function TrackFilter({ closeDialog }) {
                             data={distributorArray || []}
                         />
                     </Grid>
+                    <StyledTextField
+                        id=""
+                        label="Artist"
+                        className="mt-2"
+                        value={encode?.tracks?.trackFilters?.artist}
+                        onChange={(e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, artist: e.target.value } })}
+                    />
                 </Grid>
                 <Grid item xs={6}>
                     <StyledTextField
@@ -75,6 +75,24 @@ export default function TrackFilter({ closeDialog }) {
                         value={encode?.tracks?.trackFilters?.title}
                         onChange={(e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, title: e.target.value } })}
                     />
+
+                    <Grid className="mt-2">
+                        <CustomDropDown
+                            id="channel-dropdown"
+                            className="mt-1"
+                            labelText="Label"
+                            formControlProps={{
+                                fullWidth: true
+                            }}
+                            labelProps={{ style: { fontFamily: theme.fontFamily.nunitoSansRegular } }}
+                            inputProps={{
+                                value: encode?.tracks?.trackFilters?.label,
+                                onChange: (e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, label: e.target.value } })
+                            }}
+                            data={labelArray || []}
+                        />
+                    </Grid>
+
                     {users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
                         <StyledTextField
                             id=""
@@ -109,6 +127,7 @@ export default function TrackFilter({ closeDialog }) {
                             artist: "",
                             company: "",
                             distributor: "",
+                            label: "",
                             user: ""
                         }
                     })}

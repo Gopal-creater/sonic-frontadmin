@@ -51,6 +51,7 @@ const initialState = {
             artist: "",
             company: "",
             distributor: "",
+            label: "",
             user: ""
         }
     }

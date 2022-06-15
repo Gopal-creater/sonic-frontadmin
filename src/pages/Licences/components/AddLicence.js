@@ -18,6 +18,7 @@ import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
 import theme from "../../../theme";
 import { BorderBottom, HelperText, RadioLabel, TuneBox } from "../LicenseStyled";
 import KeyValue from "./KeyValue";
+import { log } from "../../../utils/app.debug";
 
 const initialState = {
   licenseType: 'Company',
@@ -60,11 +61,13 @@ export default function AddLicence() {
       validity: data?.validity,
       metaData: state?.metaData,
       user: state?.user?._id,
-      company: state?.user?.company?._id || undefined,
+      company: state?.user?._id || undefined,
       type: state?.licenseType,
     }
     dispatch(addLicenseKeyAction(payload))
   }
+
+  log("state license", state)
 
   return (
     <MainContainer>

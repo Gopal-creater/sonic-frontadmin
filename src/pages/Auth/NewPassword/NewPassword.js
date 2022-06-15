@@ -183,13 +183,14 @@ export default function NewPassword() {
                             type="submit"
                             variant="fill"
                             color="primary"
-                            size="lg"
+                            style={{ width: "90px", height: "40px" }}
                         >
                             <Spinner animation="border" role="status" size="sm">
                             </Spinner>
                         </AppButton>
                     ) : (
-                        <AppButton type="submit" variant="fill">
+                        <AppButton
+                            type="submit" variant="fill" size="lg" style={{ width: "90px", height: "40px" }}>
                             Change
                         </AppButton>
                     )}

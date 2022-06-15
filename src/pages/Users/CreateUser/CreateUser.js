@@ -281,7 +281,7 @@ export default function CreateUser() {
                                 {state.accountType === "Partner" ? <Grid style={{ marginTop: 15 }}>
                                     <DisabledTextField
                                         label={"Partner name"}
-                                        value={user?.userProfile?.data?.name}
+                                        value={user?.userProfile?.data?.partner?.name}
                                     />
                                 </Grid> :
                                     <>

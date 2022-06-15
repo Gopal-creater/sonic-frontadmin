@@ -104,12 +104,12 @@ export const getTracksAction = (startDate, endDate, page, limit, filters, sortBy
     let filterArray = []
 
     if (filters?.title) filterArray.push({ "trackMetaData.contentName": { "$regex": filters?.title, "$options": "i" } }, { "originalFileName": { "$regex": filters?.title, "$options": "i" } })
-    if (filters?.id) filterArray.push({ "_id": { "$regex": filters?.id, "$options": "i" } })
+    if (filters?.id) filterArray.push({ "_id": filters?.id })
     if (filters?.artist) filterArray.push({ "trackMetaData.contentOwner": { "$regex": filters?.artist, "$options": "i" } }, { "artist": { "$regex": filters?.artist, "$options": "i" } })
     if (filters?.distributor) filterArray.push({ "trackMetaData.distributor": { "$regex": filters?.distributor, "$options": "i" } })
     if (filters?.label) filterArray.push({ "trackMetaData.label": { "$regex": filters?.label, "$options": "i" } })
-    if (filters?.company) filterArray.push({ "company.name": { "$regex": filters?.company, "$options": "i" } })
-    if (filters?.user) filterArray.push({ "owner.name": { "$regex": filters?.user, "$options": "i" } })
+    if (filters?.company) filterArray.push({ "trackMetaData.company": filters?.company })
+    if (filters?.user) filterArray.push({ "trackMetaData.owner": filters?.user })
 
     if (filterArray.length !== 0) params.append("filter", JSON.stringify({ "$or": filterArray }))
 

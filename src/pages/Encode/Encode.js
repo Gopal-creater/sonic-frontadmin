@@ -57,6 +57,7 @@ export default function Encode() {
         mm.parseBlob(files?.[0], { native: true }).then((metaData) => {
             // log("MetaData", metaData)
             let data = {
+                additionalMetadata: "",
                 contentName: metaData?.common?.title || "",
                 contentOwner: metaData?.common?.artist || "",
                 contentDuration: metaData.format.duration || "",

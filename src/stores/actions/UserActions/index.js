@@ -53,11 +53,28 @@ export const getUsersAction = (limit, page) => {
         params.append("_id", users?.userId);
     }
 
-    if (users?.accountType) {
-        if (users?.accountType === "Partner") {
-            params.append("userRole", [userRoles.PARTNER_ADMIN, userRoles.PARTNER_USER]);
-        } else if (users?.accountType === "Company") {
-            params.append("userRole", [userRoles.COMPANY_ADMIN, userRoles.COMPANY_USER]);
+    if (users?.accountType || users?.userType) {
+        if (users?.accountType && users?.userType === "") {
+            if (users?.accountType === "Partner") {
+                params.append("userRole", [userRoles.PARTNER_ADMIN, userRoles.PARTNER_USER]);
+            } else if (users?.accountType === "Company") {
+                params.append("userRole", [userRoles.COMPANY_ADMIN, userRoles.COMPANY_USER]);
+            }
+        }
+        if (users?.userType) {
+            if (users?.userType === "Admin" && users?.accountType === "") {
+                params.append("userRole", [userRoles.PARTNER_ADMIN, userRoles.COMPANY_ADMIN]);
+            } else if (users?.userType === "Standard" && users?.accountType === "") {
+                params.append("userRole", [userRoles.PARTNER_USER, userRoles.COMPANY_USER, userRoles.PORTAL_USER]);
+            } else if (users?.userType === "Admin" && users?.accountType === "Partner") {
+                params.append("userRole", userRoles.PARTNER_ADMIN);
+            } else if (users?.userType === "Admin" && users?.accountType === "Company") {
+                params.append("userRole", userRoles.COMPANY_ADMIN);
+            } else if (users?.userType === "Standard" && users?.accountType === "Partner") {
+                params.append("userRole", userRoles.PARTNER_USER);
+            } else if (users?.userType === "Standard" && users?.accountType === "Company") {
+                params.append("userRole", userRoles.COMPANY_USER);
+            }
         }
     }
 
@@ -67,14 +84,6 @@ export const getUsersAction = (limit, page) => {
         }
         else {
             params.append("relation_company.name", `/${users?.accountName}/i`);
-        }
-    }
-
-    if (users?.userType) {
-        if (users?.userType === "Admin") {
-            params.append("userRole", [userRoles.PARTNER_ADMIN, userRoles.COMPANY_ADMIN]);
-        } else if (users?.userType === "Standard") {
-            params.append("userRole", [userRoles.PARTNER_USER, userRoles.COMPANY_USER, userRoles.PORTAL_USER]);
         }
     }
 

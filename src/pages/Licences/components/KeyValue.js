@@ -73,7 +73,7 @@ export default function KeyValue({ data = {}, disabled, onChangeData, addButtonP
                     disabled={disabled}
                     {...addButtonProps}
                 >
-                    Add MetaData (Key/Value)
+                    Add Metadata (Key/Value)
                 </AppButton>
             </Grid>
             {Object.entries(data).map(([key, value], index) => {

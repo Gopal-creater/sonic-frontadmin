@@ -58,6 +58,8 @@ export default function UserProfile() {
         let payload = {
             password: data?.newPassword || undefined,
             phoneNumber: data?.phoneNumber,
+            firstName: data?.firstName || undefined,
+            lastName: data?.lastName || undefined,
             enabled: data?.status,
         }
 
@@ -105,6 +107,61 @@ export default function UserProfile() {
                                 label={"Username"}
                                 value={updatedUser?.username || ""}
                             />
+                        </Grid>
+
+                        <Grid container spacing={1}>
+                            <Grid item xs style={{ marginTop: 21 }}>
+                                <Controller
+                                    name="firstName"
+                                    control={control}
+                                    defaultValue={updatedUser?.firstName}
+                                    render={({
+                                        field: { onChange, value },
+                                        fieldState: { error },
+                                    }) => (
+                                        <>
+                                            <StyledTextField
+                                                fullWidth
+                                                label="Firstname"
+                                                value={value}
+                                                onChange={onChange}
+                                                error={!!error}
+                                                InputLabelProps={{
+                                                    shrink: true,
+                                                }}
+                                            />
+                                            {error?.message && <HelperText>{error?.message}</HelperText>}
+                                        </>
+                                    )}
+                                    rules={{ required: "Firstname is required" }}
+                                />
+                            </Grid>
+
+                            <Grid item xs style={{ marginTop: 21 }}>
+                                <Controller
+                                    name="lastName"
+                                    control={control}
+                                    defaultValue={updatedUser?.lastName}
+                                    render={({
+                                        field: { onChange, value },
+                                        fieldState: { error },
+                                    }) => (
+                                        <>
+                                            <StyledTextField
+                                                fullWidth
+                                                label="Surname"
+                                                value={value}
+                                                onChange={onChange}
+                                                error={!!error}
+                                                InputLabelProps={{
+                                                    shrink: true,
+                                                }}
+                                            />
+                                            {error?.message && <HelperText>{error?.message}</HelperText>}
+                                        </>
+                                    )}
+                                />
+                            </Grid>
                         </Grid>
 
                         <Grid style={{ marginTop: 15 }}>

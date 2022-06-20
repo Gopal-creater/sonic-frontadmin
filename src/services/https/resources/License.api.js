@@ -11,3 +11,7 @@ export const addLicenceKey = (payload) => {
 export const updateLicenceKey = (key, payload) => {
     return AppWebRequest(`/license-keys/${key}`, "put", { data: payload });
 }
+
+export const addUserToLicense = (id, user) => {
+    return AppWebRequest(`/license-keys/${id}/add-new-user`, "put", { data: { user: user } });
+}

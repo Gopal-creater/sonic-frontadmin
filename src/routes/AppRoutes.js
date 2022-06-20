@@ -15,7 +15,6 @@ import RoleAuth from "../components/hoc/RoleAuth";
 import Companies from "../pages/Companies/Companies";
 import UnAuthorized from "../components/hoc/UnAuthorized";
 import AddLicence from "../pages/Licences/components/AddLicence";
-import AdminProfile from "../pages/Profile/AdminProfile";
 import Users from "../pages/Users/Users";
 import EditLicense from "../pages/Licences/components/EditLicense";
 import CreateNewCompany from "../pages/Companies/CompanyProfile/CreateNewCompany";
@@ -30,6 +29,7 @@ import { logout } from "../stores/actions";
 import CompanyProfile from "../pages/Companies/CompanyProfile/CompanyProfile";
 import SonicKey from "../pages/SonicKey/SonicKey";
 import SonicStreamDetail from "../pages/Monitor/StreamReader/SonicStreamDetail";
+import Profile from "../pages/Profile/Profile";
 
 export default function AppRoutes() {
   const user = useSelector(state => state.user)
@@ -66,12 +66,12 @@ export default function AppRoutes() {
             <Route path="/countries" element={<Countries />} />
             <Route path="/sonic-keys" element={<SonicKey />} />
             <Route path="/streamreader" element={<StreamReader />} />
-            <Route path="/user-profile/:id" element={<UserProfile />} />
+            <Route path="/profile" element={<Profile />} />
             {/* Public routes */}
 
             {/* Routes that are protected */}
             <Route element={<RoleAuth allowedRoles={[userRoles.PARTNER_ADMIN, userRoles.COMPANY_ADMIN]} />}>
-              <Route path="/admin-profile" element={<AdminProfile />} />
+              <Route path="/user-profile/:id" element={<UserProfile />} />
               <Route path="/create-user" element={<CreateUser />} />
               <Route path="/company-profile/:id" element={<CompanyProfile />} />
               <Route path="/edit-licences/:id" element={<EditLicense />} />

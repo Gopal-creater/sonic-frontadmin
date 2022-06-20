@@ -4,7 +4,7 @@ import AppButton from '../../components/common/AppButton/AppButton'
 import { DisabledTextField, StyledTextField } from '../../StyledComponents/StyledAppTextInput/StyledAppTextInput'
 import { H1, H4 } from '../../StyledComponents/StyledHeadings'
 import theme from '../../theme'
-import { FlagOutlined, LockOutlined, Visibility, VisibilityOff } from '@material-ui/icons'
+import { FlagOutlined, LockOutlined, MusicNote, Visibility, VisibilityOff } from '@material-ui/icons'
 import AppToggleSwitch from '../../components/common/AppToggleSwitch/AppToggleSwitch'
 import { useNavigate } from 'react-router-dom'
 import { MainContainer } from '../../StyledComponents/StyledPageContainer'
@@ -16,8 +16,9 @@ import { Auth } from 'aws-amplify'
 import cogoToast from 'cogo-toast'
 import * as Yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
+import { userRoles } from '../../constants/constants'
 
-export default function AdminProfile() {
+export default function Profile() {
     const [state, setState] = React.useState({
         showCurrentPassword: false,
         showNewPassword: false,
@@ -42,7 +43,7 @@ export default function AdminProfile() {
     const { handleSubmit, control, reset } = useForm(formOptions);
 
     const navigate = useNavigate()
-    const admin = useSelector(state => state.user)
+    const profile = useSelector(state => state.user)
 
     React.useEffect(() => {
         reset({
@@ -66,11 +67,43 @@ export default function AdminProfile() {
         })
     }
 
+    const getType = () => {
+        if (profile?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN || profile?.userProfile?.data?.userRole === userRoles.PARTNER_USER) {
+            return "Partner";
+        } else if (profile?.userProfile?.data?.userRole === userRoles.COMPANY_ADMIN || profile?.userProfile?.data?.userRole === userRoles.COMPANY_USER || profile?.userProfile?.data?.userRole === userRoles.PORTAL_USER) {
+            return "Company";
+        }
+        return null;
+    }
+
+    const getAccountType = () => {
+        if (profile?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN || profile?.userProfile?.data?.userRole === userRoles.COMPANY_ADMIN) {
+            return "Admin";
+        } else if (profile?.userProfile?.data?.userRole === userRoles.PARTNER_USER || profile?.userProfile?.data?.userRole === userRoles.COMPANY_USER || profile?.userProfile?.data?.userRole === userRoles.PORTAL_USER) {
+            return "User";
+        }
+        return "User";
+    }
+
+    const getUserType = () => {
+        if (profile?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN) {
+            return "Partner Admin";
+        } else if (profile?.userProfile?.data?.userRole === userRoles.PARTNER_USER) {
+            return "Partner User";
+        } else if (profile?.userProfile?.data?.userRole === userRoles.COMPANY_ADMIN) {
+            return "Company Admin";
+        } else if (profile?.userProfile?.data?.userRole === userRoles.COMPANY_USER) {
+            return "Company User";
+        } else {
+            return "Portal User";
+        }
+    }
+
     return (
         <MainContainer>
-            <H1>Admin profile</H1>
+            <H1>{getAccountType()} profile</H1>
             <H4 fontFamily={theme.fontFamily.nunitoSansRegular} color={theme.colors.primary.teal}>
-                Update Admin details
+                Update {getAccountType()} details
             </H4>
 
             <form onSubmit={handleSubmit(updateProfile)}>
@@ -81,33 +114,33 @@ export default function AdminProfile() {
                                 <FlagOutlined style={{ color: `${theme.colors.primary.teal}` }} />
                             </IconBox>
                         </Grid>
-                        <H4>{admin?.userProfile?.data?.userRole === "PartnerAdmin" ? "Partner" : "Company"} admin details</H4>
+                        <H4>Users details</H4>
 
                         <Grid style={{ marginTop: 15 }}>
                             <DisabledTextField
                                 label={"Username"}
-                                value={admin?.userProfile?.data?.username}
+                                value={profile?.userProfile?.data?.username}
                             />
                         </Grid>
 
                         <Grid style={{ marginTop: 15 }}>
                             <DisabledTextField
-                                label={"Type"}
-                                value={admin?.userProfile?.data?.userRole === "PartnerAdmin" ? "Partner Admin" : "Company Admin"}
+                                label={"User Type"}
+                                value={getUserType()}
                             />
                         </Grid>
 
                         <Grid style={{ marginTop: 15 }}>
                             <DisabledTextField
-                                label={"Partner ID"}
-                                value={admin?.userProfile?.data?.adminPartner?._id || admin?.userProfile?.data?.adminCompany?._id}
+                                label={"User ID"}
+                                value={profile?.userProfile?.data?._id}
                             />
                         </Grid>
 
                         <Grid style={{ marginTop: 15 }}>
                             <DisabledTextField
                                 label={"Email"}
-                                value={admin?.userProfile?.data?.email}
+                                value={profile?.userProfile?.data?.email}
                             />
                         </Grid>
 
@@ -115,13 +148,96 @@ export default function AdminProfile() {
                             <Grid style={{ marginTop: 15 }}>
                                 <DisabledTextField
                                     label={"Phone number"}
-                                    value={admin?.userProfile?.data?.phone_number}
+                                    value={profile?.userProfile?.data?.phone_number}
                                 />
                             </Grid>
+                        </Grid>
+
+                        <H4 className="mt-5">Status</H4>
+                        <Grid className="mt-1">
+                            <Controller
+                                name="status"
+                                control={control}
+                                render={({
+                                    field: { onChange, value },
+                                    fieldState: { error },
+                                }) => (
+                                    <>
+                                        <AppToggleSwitch
+                                            size={121}
+                                            checkedSize={70}
+                                            active={"\"ACTIVE\""}
+                                            inActive={"\"SUSPENDED\""}
+                                            defaultChecked={profile?.userProfile?.data?.enabled}
+                                            checked={value}
+                                            onChange={onChange}
+                                            disabled={true}
+                                        />
+                                    </>
+                                )}
+                            />
                         </Grid>
                     </Grid>
 
                     <Grid item xs={12} md={6}>
+                        {(getType() !== null || getUserType !== "Portal User") &&
+                            <Grid className="mb-4">
+                                <Grid container>
+                                    <IconBox>
+                                        <MusicNote style={{ color: theme.colors.primary.teal }} />
+                                    </IconBox>
+                                </Grid>
+                                <H4>{getType()} details</H4>
+
+                                <>
+                                    {(getUserType() === "Partner Admin" || getUserType() === "Partner User") ?
+                                        <Grid>
+                                            <Grid style={{ marginTop: 15 }}>
+                                                <DisabledTextField
+                                                    label={"Partner Name"}
+                                                    value={profile?.userProfile?.data?.partner?.name || ""}
+                                                />
+                                            </Grid>
+                                            <Grid style={{ marginTop: 15 }}>
+                                                <DisabledTextField
+                                                    label={"Partner Type"}
+                                                    value={profile?.userProfile?.data?.partner?.partnerType || ""}
+                                                />
+                                            </Grid>
+                                            <Grid style={{ marginTop: 15 }}>
+                                                <DisabledTextField
+                                                    label={"Partner ID"}
+                                                    value={profile?.userProfile?.data?.partner?._id || ""}
+                                                />
+                                            </Grid>
+                                        </Grid>
+                                        : <Grid>
+                                            <Grid style={{ marginTop: 15 }}>
+                                                <DisabledTextField
+                                                    label={"Company Name"}
+                                                    value={profile?.userProfile?.data?.company?.name || ""}
+                                                />
+                                            </Grid>
+
+                                            <Grid style={{ marginTop: 15 }}>
+                                                <DisabledTextField
+                                                    label={"Company Type"}
+                                                    value={profile?.userProfile?.data?.company?.companyType || ""}
+                                                />
+                                            </Grid>
+
+                                            <Grid style={{ marginTop: 15 }}>
+                                                <DisabledTextField
+                                                    label={"Company URN / ID"}
+                                                    value={profile?.userProfile?.data?.company?.companyUrnOrId || ""}
+                                                />
+                                            </Grid>
+                                        </Grid>
+                                    }
+                                </>
+                            </Grid>
+                        }
+
                         <Grid container>
                             <IconBox>
                                 <LockOutlined style={{ color: `${theme.colors.primary.teal}` }} />
@@ -129,7 +245,7 @@ export default function AdminProfile() {
                         </Grid>
                         <H4>Password</H4>
 
-                        <Grid style={{ marginTop: 23 }}>
+                        <Grid style={{ marginTop: 15 }}>
                             <Controller
                                 name="currentPassword"
                                 control={control}
@@ -175,7 +291,7 @@ export default function AdminProfile() {
                             />
                         </Grid>
 
-                        <Grid style={{ marginTop: 23 }}>
+                        <Grid style={{ marginTop: 15 }}>
                             <Controller
                                 name="newPassword"
                                 control={control}
@@ -221,7 +337,7 @@ export default function AdminProfile() {
                             />
                         </Grid>
 
-                        <Grid style={{ marginTop: 23 }}>
+                        <Grid style={{ marginTop: 15 }}>
                             <Controller
                                 name="confirmPassword"
                                 control={control}
@@ -268,32 +384,6 @@ export default function AdminProfile() {
                         </Grid>
                     </Grid >
                 </Grid >
-
-                <H4 className="mt-5">Status</H4>
-
-                <Grid className="mt-1">
-                    <Controller
-                        name="status"
-                        control={control}
-                        render={({
-                            field: { onChange, value },
-                            fieldState: { error },
-                        }) => (
-                            <>
-                                <AppToggleSwitch
-                                    size={121}
-                                    checkedSize={70}
-                                    active={"\"ACTIVE\""}
-                                    inActive={"\"SUSPENDED\""}
-                                    defaultChecked={admin?.userProfile?.data?.enabled}
-                                    checked={value}
-                                    onChange={onChange}
-                                    disabled={true}
-                                />
-                            </>
-                        )}
-                    />
-                </Grid>
 
                 <BorderBottom />
 

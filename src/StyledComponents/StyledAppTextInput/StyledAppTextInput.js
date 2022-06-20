@@ -121,7 +121,7 @@ export function DisabledTextField({ label, value, ...props }) {
     return (
         <TextfieldFormControl>
             <DisabledLabel>{label}</DisabledLabel>
-            <DisabledField {...props}>{value}</DisabledField>
+            <DisabledField {...props}>{value || ""}</DisabledField>
         </TextfieldFormControl>
     )
 } 

@@ -163,9 +163,10 @@ export default function EditLicense() {
                                     </ListItem>
                                 ))}
                             </List>
-                            <Grid className="mt-2">
-                                <AddNewUser />
-                            </Grid>
+                            {license?.type === "Company" &&
+                                <Grid className="mt-2">
+                                    <AddNewUser license={license} setLicense={(data) => setLicense(data)} />
+                                </Grid>}
 
                         </Grid>
                     </Grid>

@@ -95,8 +95,8 @@ export default function AddLicence() {
               value={state.licenseType}
               onChange={(e) => setState({ ...state, licenseType: e.target.value })}
             >
-              <RadioLabel value="Individual" control={<CustomRadioButton />} label="Individual license" />
               <RadioLabel value="Company" control={<CustomRadioButton />} label="Company license" />
+              <RadioLabel value="Individual" control={<CustomRadioButton />} label="Individual license" />
             </RadioGroup>
           </FormControl>
 

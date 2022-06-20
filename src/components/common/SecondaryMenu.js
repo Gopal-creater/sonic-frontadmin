@@ -110,7 +110,7 @@ function SecondaryMenu(props) {
                             id={index}
                             onClick={(event) => {
                               handleClose(event)
-                              navigate(`${menu.url}`, { state: menu.urlName === "User Profile" && user.userProfile.data })
+                              navigate(menu.url)
                             }}
                             className={classes.menuItem}
                           >

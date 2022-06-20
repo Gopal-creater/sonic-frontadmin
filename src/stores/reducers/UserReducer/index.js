@@ -12,11 +12,11 @@ const initialState = {
     },
     userMenus: [
         {
-            url: "/admin-profile",
+            url: "/profile",
             urlName: "Admin Profile"
         },
         {
-            url: `/user-profile/${getUserId()}`,
+            url: `/profile`,
             urlName: "User Profile"
         },
         {

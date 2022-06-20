@@ -63,7 +63,7 @@ export default function CompanyTable({ data, companyTableHead }) {
                                             <StyledTableData>{data?.owner?.phone_number || "---"}</StyledTableData>
                                         }
                                         {SelectedColumn("ADMIN") &&
-                                            <StyledTableData>{data?.owner?.name || "---"}</StyledTableData>
+                                            <StyledTableData>{data?.owner?.username || "---"}</StyledTableData>
                                         }
                                         {SelectedColumn("STATUS") &&
                                             <StyledTableData>

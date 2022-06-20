@@ -73,6 +73,8 @@ export default function CreateUser() {
         }
         let payload = {
             userName: data?.userName,
+            firstName: data?.firstName,
+            lastName: data?.lastName,
             password: data?.password,
             phoneNumber: contactNumber || "",
             email: data?.email,
@@ -127,24 +129,6 @@ export default function CreateUser() {
                                 rules={{ required: "Username is required" }}
                             />
                         </Grid>
-
-                        {user?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
-                            <Grid style={{ marginTop: 21 }}>
-                                <CustomDropDown
-                                    labelText="Account type*"
-                                    formControlProps={{
-                                        fullWidth: true
-                                    }}
-                                    inputProps={{
-                                        value: state.accountType,
-                                        onChange: (e) => setState({ ...state, accountType: e.target.value }),
-                                    }}
-                                    labelProps={{
-                                        style: { fontFamily: theme.fontFamily.nunitoSansRegular }
-                                    }}
-                                    data={accountType || []}
-                                />
-                            </Grid>}
 
                         <Grid style={{ marginTop: 21 }}>
                             <Controller
@@ -201,6 +185,73 @@ export default function CreateUser() {
                                                     </H5>
                                                 </CheckBoxLabelContainer>
                                             }
+                                        />
+                                        {error?.message && <HelperText>{error?.message}</HelperText>}
+                                    </>
+                                )}
+                            />
+                        </Grid>
+
+                        {user?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
+                            <Grid style={{ marginTop: 21 }}>
+                                <CustomDropDown
+                                    labelText="Account type*"
+                                    formControlProps={{
+                                        fullWidth: true
+                                    }}
+                                    inputProps={{
+                                        value: state.accountType,
+                                        onChange: (e) => setState({ ...state, accountType: e.target.value }),
+                                    }}
+                                    labelProps={{
+                                        style: { fontFamily: theme.fontFamily.nunitoSansRegular }
+                                    }}
+                                    data={accountType || []}
+                                />
+                            </Grid>}
+
+                        <Grid style={{ marginTop: 21 }}>
+                            <Controller
+                                name="firstName"
+                                control={control}
+                                defaultValue=""
+                                render={({
+                                    field: { onChange, value },
+                                    fieldState: { error },
+                                }) => (
+                                    <>
+                                        <StyledTextField
+                                            fullWidth
+                                            label="Firstname"
+                                            value={value}
+                                            onChange={onChange}
+                                            error={!!error}
+                                            autoComplete='off'
+                                        />
+                                        {error?.message && <HelperText>{error?.message}</HelperText>}
+                                    </>
+                                )}
+                                rules={{ required: "Firstname is required" }}
+                            />
+                        </Grid>
+
+                        <Grid style={{ marginTop: 21 }}>
+                            <Controller
+                                name="lastName"
+                                control={control}
+                                defaultValue=""
+                                render={({
+                                    field: { onChange, value },
+                                    fieldState: { error },
+                                }) => (
+                                    <>
+                                        <StyledTextField
+                                            fullWidth
+                                            label="Surname"
+                                            value={value}
+                                            onChange={onChange}
+                                            error={!!error}
+                                            autoComplete='off'
                                         />
                                         {error?.message && <HelperText>{error?.message}</HelperText>}
                                     </>

@@ -93,7 +93,7 @@ export default function CreateNewCompany() {
                                         <StyledTextField
                                             fullWidth
                                             id="standard-basic"
-                                            label="Company name*"
+                                            label="Company Name*"
                                             value={value}
                                             onChange={onChange}
                                             error={!!error}
@@ -117,7 +117,7 @@ export default function CreateNewCompany() {
                                 }) => (
                                     <>
                                         <CustomDropDown
-                                            labelText="Type*"
+                                            labelText="Company Type*"
                                             formControlProps={{
                                                 fullWidth: true,
                                             }}
@@ -159,7 +159,6 @@ export default function CreateNewCompany() {
                                         {error?.message && <HelperText>{error?.message}</HelperText>}
                                     </>
                                 )}
-                                rules={{ required: "Company URN / ID is required" }}
                             />
                         </Grid>
 
@@ -189,7 +188,7 @@ export default function CreateNewCompany() {
 
                         {state?.showUserDetails && <Grid style={{ marginTop: 15 }}>
                             <DisabledTextField
-                                label={"Type"}
+                                label={"User Type"}
                                 value={"Admin"}
                             />
                             <Grid style={{ marginTop: 15 }}>

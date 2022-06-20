@@ -55,14 +55,14 @@ export default function CompanyProfile() {
                         <H4 className='mt-2'>Company details</H4>
                         <Grid style={{ marginTop: 15 }}>
                             <DisabledTextField
-                                label={"Company name"}
+                                label={"Company Name"}
                                 value={state?.name}
                             />
                         </Grid>
 
                         <Grid style={{ marginTop: 15 }}>
                             <DisabledTextField
-                                label={"Type"}
+                                label={"Company Type"}
                                 value={state?.companyType}
                             />
                         </Grid>

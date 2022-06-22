@@ -212,14 +212,14 @@ export default function TracksTable({ data, tableHeads, trackSorting }) {
                                                     </StyledTableData>
                                                 </CustomToolTip>
                                             }
-                                            {
+                                            {/* {
                                                 SelectedColumn("SYSTEM/PARTNER ID") &&
                                                 <CustomToolTip title={row?.owner?._id || row?.company?._id || row?.partner?._id || "---"} placement={"bottom-start"}>
                                                     <StyledTableData >
                                                         {row?.owner?._id || row?.company?._id || row?.partner?._id || "---"}
                                                     </StyledTableData>
                                                 </CustomToolTip>
-                                            }
+                                            } */}
                                             {
                                                 SelectedColumn("ACTION") &&
                                                 <StyledTableData >

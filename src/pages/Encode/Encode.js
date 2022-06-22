@@ -182,7 +182,14 @@ export default function Encode() {
                                     <H4 color={theme.colors.primary.teal}>
                                         Browse your tracks
                                     </H4>
-                                    <H5><PaginationCount start={0} end={10} total={20} name={"tracks"} /></H5>
+                                    <H5>
+                                        <PaginationCount
+                                            name="Tracks"
+                                            total={encode?.tracks?.data?.totalDocs}
+                                            start={encode?.tracks?.data?.offset}
+                                            end={encode?.tracks?.data?.docs?.length}
+                                        />
+                                    </H5>
                                 </Grid>
                                 <Grid>
                                     <Columns columns={state.tracksTableHeads} />

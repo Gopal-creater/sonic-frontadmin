@@ -3,6 +3,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { SelectedColumn } from '../../../components/common/Columns/component/SelectedColumn';
+import CustomToolTip from '../../../components/common/CustomToolTip';
 import TableMenu from '../../../components/common/Table/components/TableMenu';
 import { ActionMenuItem } from '../../../components/common/Table/TableStyled';
 import { userRoles } from '../../../constants/constants';
@@ -62,21 +63,27 @@ export default function UsersTable({ data, usersTableHead }) {
                                 return (
                                     <StyledTableRow key={index} bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
                                         {SelectedColumn("USERNAME") &&
-                                            <StyledTableData
-                                                style={{
-                                                    color: theme.colors.primary.navy,
-                                                    fontSize: theme.fontSize.h4,
-                                                    fontFamily: theme.fontFamily.nunitoSansBold
-                                                }}
-                                            >
-                                                {data?.username || "---"}
-                                            </StyledTableData>
+                                            <CustomToolTip title={data?.username || "---"}>
+                                                <StyledTableData
+                                                    style={{
+                                                        color: theme.colors.primary.navy,
+                                                        fontSize: theme.fontSize.h4,
+                                                        fontFamily: theme.fontFamily.nunitoSansBold
+                                                    }}
+                                                >
+                                                    {data?.username || "---"}
+                                                </StyledTableData>
+                                            </CustomToolTip>
                                         }
-                                        {SelectedColumn("ID") &&
-                                            <StyledTableData>{data?._id || "---"}</StyledTableData>
+                                        {SelectedColumn("USER ID") &&
+                                            <CustomToolTip title={data?._id || "---"}>
+                                                <StyledTableData>{data?._id || "---"}</StyledTableData>
+                                            </CustomToolTip>
                                         }
                                         {SelectedColumn("EMAIL") &&
-                                            <StyledTableData>{data?.email || "---"}</StyledTableData>
+                                            <CustomToolTip title={data?.email || "---"}>
+                                                <StyledTableData>{data?.email || "---"}</StyledTableData>
+                                            </CustomToolTip>
                                         }
                                         {SelectedColumn("PHONE NUMBER") &&
                                             <StyledTableData>{data?.phone_number || "---"}</StyledTableData>
@@ -87,12 +94,16 @@ export default function UsersTable({ data, usersTableHead }) {
                                             </StyledTableData>
                                         }
                                         {SelectedColumn("ACCOUNT NAME") && users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
-                                            <StyledTableData>
-                                                {getAccountName(data)}
-                                            </StyledTableData>
+                                            <CustomToolTip title={getAccountName(data)}>
+                                                <StyledTableData>
+                                                    {getAccountName(data)}
+                                                </StyledTableData>
+                                            </CustomToolTip>
                                         }
                                         {SelectedColumn("COMPANY NAME") && users?.userProfile?.data?.userRole === userRoles.COMPANY_ADMIN &&
-                                            <AlternateStyledTableData>{data?.company?.name || "---"}</AlternateStyledTableData>
+                                            <CustomToolTip title={data?.company?.name || "---"}>
+                                                <AlternateStyledTableData>{data?.company?.name || "---"}</AlternateStyledTableData>
+                                            </CustomToolTip>
                                         }
                                         {SelectedColumn("USER TYPE") &&
                                             <StyledTableData>

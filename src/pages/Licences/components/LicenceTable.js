@@ -90,7 +90,9 @@ export default function LicenceTable({ data, licenseTableHead }) {
                                             </CustomToolTip>
                                         }
                                         {SelectedColumn("KEY") &&
-                                            <StyledTableData>{data?.key}</StyledTableData>
+                                            <CustomToolTip title={data?.key || "---"}>
+                                                <StyledTableData>{data?.key}</StyledTableData>
+                                            </CustomToolTip>
                                         }
                                         {SelectedColumn("STATUS") &&
                                             <StyledTableData>

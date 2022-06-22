@@ -9,7 +9,7 @@ import AppToggleSwitch from '../../components/common/AppToggleSwitch/AppToggleSw
 import { useNavigate } from 'react-router-dom'
 import { MainContainer } from '../../StyledComponents/StyledPageContainer'
 import { Controller, useForm } from 'react-hook-form'
-import { BorderBottom, IconBox } from './AdminProfileStyles'
+import { BorderBottom, IconBox } from './ProfileStyles'
 import { HelperText } from '../Licences/LicenseStyled'
 import { useSelector } from 'react-redux'
 import { Auth } from 'aws-amplify'
@@ -125,8 +125,38 @@ export default function Profile() {
 
                         <Grid style={{ marginTop: 15 }}>
                             <DisabledTextField
+                                label={"Email"}
+                                value={profile?.userProfile?.data?.email}
+                            />
+                        </Grid>
+
+                        <Grid style={{ marginTop: 15 }}>
+                            <DisabledTextField
                                 label={"User Type"}
                                 value={getUserType()}
+                            />
+                        </Grid>
+
+                        <Grid container style={{ marginTop: 10 }} spacing={1}>
+                            <Grid item xs={12} md={6}>
+                                <DisabledTextField
+                                    label={"Firstname"}
+                                    value={profile?.userProfile?.data?.firstName}
+                                />
+                            </Grid>
+
+                            <Grid item xs={12} md={6}>
+                                <DisabledTextField
+                                    label={"Surname"}
+                                    value={profile?.userProfile?.data?.lastName}
+                                />
+                            </Grid>
+                        </Grid>
+
+                        <Grid style={{ marginTop: 15 }}>
+                            <DisabledTextField
+                                label={"Phone number"}
+                                value={profile?.userProfile?.data?.phone_number}
                             />
                         </Grid>
 
@@ -135,22 +165,6 @@ export default function Profile() {
                                 label={"User ID"}
                                 value={profile?.userProfile?.data?._id}
                             />
-                        </Grid>
-
-                        <Grid style={{ marginTop: 15 }}>
-                            <DisabledTextField
-                                label={"Email"}
-                                value={profile?.userProfile?.data?.email}
-                            />
-                        </Grid>
-
-                        <Grid style={{ marginTop: 15 }}>
-                            <Grid style={{ marginTop: 15 }}>
-                                <DisabledTextField
-                                    label={"Phone number"}
-                                    value={profile?.userProfile?.data?.phone_number}
-                                />
-                            </Grid>
                         </Grid>
 
                         <H4 className="mt-5">Status</H4>

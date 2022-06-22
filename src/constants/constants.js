@@ -1490,7 +1490,7 @@ export const licenseTableHeads = [
 
 export const usersTableHeads = [
   { title: "USERNAME" },
-  { title: "ID" },
+  { title: "USER ID" },
   { title: "EMAIL" },
   { title: "PHONE NUMBER" },
   { title: "ACCOUNT TYPE" },
@@ -1504,7 +1504,7 @@ export const usersTableHeads = [
 export const companiesTableHeads = [
   { title: "COMPANY" },
   { title: "COMPANY TYPE" },
-  { title: "ID" },
+  { title: "COMPANY ID" },
   { title: "EMAIL" },
   { title: "PHONE NUMBER" },
   { title: "ADMIN" },

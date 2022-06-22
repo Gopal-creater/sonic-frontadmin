@@ -105,7 +105,7 @@ export default function CreateUser() {
 
                         <H4 className='mt-2'>User details</H4>
 
-                        <Grid style={{ marginTop: 21 }}>
+                        <Grid style={{ marginTop: 15 }}>
                             <Controller
                                 name="userName"
                                 control={control}
@@ -130,7 +130,7 @@ export default function CreateUser() {
                             />
                         </Grid>
 
-                        <Grid style={{ marginTop: 21 }}>
+                        <Grid style={{ marginTop: 15 }}>
                             <Controller
                                 name="email"
                                 control={control}
@@ -193,7 +193,7 @@ export default function CreateUser() {
                         </Grid>
 
                         {user?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
-                            <Grid style={{ marginTop: 21 }}>
+                            <Grid style={{ marginTop: 15 }}>
                                 <CustomDropDown
                                     labelText="Account type*"
                                     formControlProps={{
@@ -210,8 +210,8 @@ export default function CreateUser() {
                                 />
                             </Grid>}
 
-                        <Grid container spacing={1}>
-                            <Grid item xs style={{ marginTop: 21 }}>
+                        <Grid container spacing={1} style={{ marginTop: 10 }}>
+                            <Grid item xs={12} md={6}>
                                 <Controller
                                     name="firstName"
                                     control={control}
@@ -236,7 +236,7 @@ export default function CreateUser() {
                                 />
                             </Grid>
 
-                            <Grid item xs style={{ marginTop: 21 }}>
+                            <Grid item xs={12} md={6}>
                                 <Controller
                                     name="lastName"
                                     control={control}
@@ -261,7 +261,7 @@ export default function CreateUser() {
                             </Grid>
                         </Grid>
 
-                        <Grid style={{ marginTop: 20 }}>
+                        <Grid style={{ marginTop: 15 }}>
                             <Controller
                                 name="phoneNumber"
                                 control={control}
@@ -331,13 +331,27 @@ export default function CreateUser() {
                         </H4>
                         {user?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN ?
                             <>
-                                {state.accountType === "Partner" ? <Grid style={{ marginTop: 15 }}>
-                                    <DisabledTextField
-                                        label={"Partner name"}
-                                        value={user?.userProfile?.data?.partner?.name}
-                                    />
-                                </Grid> :
+                                {state.accountType === "Partner" ?
                                     <>
+                                        <Grid style={{ marginTop: 15 }}>
+                                            <DisabledTextField
+                                                label={"Partner Name"}
+                                                value={user?.userProfile?.data?.partner?.name}
+                                            />
+                                        </Grid>
+                                        <Grid style={{ marginTop: 15 }}>
+                                            <DisabledTextField
+                                                label={"Partner Type"}
+                                                value={user?.userProfile?.data?.partner?.partnerType}
+                                            />
+                                        </Grid>
+                                        <Grid style={{ marginTop: 15 }}>
+                                            <DisabledTextField
+                                                label={"Partner ID"}
+                                                value={user?.userProfile?.data?.partner?._id}
+                                            />
+                                        </Grid>
+                                    </> : <>
                                         <CompanyPopper title={"Add associated new company"} showDetails={(flag) => setState({ ...state, showCompanyDetails: flag })}>
                                             <AppAutoComplete
                                                 setAutoComPleteAction={(value) => dispatch(getCompanyNameAction(value))}
@@ -356,18 +370,16 @@ export default function CreateUser() {
                                                 <>
                                                     <Grid style={{ marginTop: 15 }}>
                                                         <DisabledTextField
-                                                            label={"Company name"}
+                                                            label={"Company Name"}
                                                             value={state?.company?.name || ""}
                                                         />
                                                     </Grid>
-
                                                     <Grid style={{ marginTop: 15 }}>
                                                         <DisabledTextField
-                                                            label={"Company type"}
+                                                            label={"Company Type"}
                                                             value={state?.company?.companyType || ""}
                                                         />
                                                     </Grid>
-
                                                     <Grid style={{ marginTop: 15 }}>
                                                         <DisabledTextField
                                                             label={"Company URN/ID"}
@@ -403,10 +415,7 @@ export default function CreateUser() {
                             </>
                         }
 
-                        <Grid className="mt-5">
-                        </Grid>
-
-                        <Grid container>
+                        <Grid container className="mt-4">
                             <IconBox>
                                 <LockIcon style={{ color: theme.colors.primary.teal }} />
                             </IconBox>

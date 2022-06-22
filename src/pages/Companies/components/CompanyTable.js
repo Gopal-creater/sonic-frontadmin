@@ -2,6 +2,7 @@ import { Grid, Table, TableBody, TableContainer, TableHead, TableRow } from '@ma
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SelectedColumn } from '../../../components/common/Columns/component/SelectedColumn';
+import CustomToolTip from '../../../components/common/CustomToolTip';
 import TableMenu from '../../../components/common/Table/components/TableMenu';
 import { ActionMenuItem } from '../../../components/common/Table/TableStyled';
 import { ActiveBox, StyledTableData, StyledTableHead, StyledTableRow, SuspendedBox } from '../../../StyledComponents/StyledTable/StyledTable';
@@ -42,28 +43,38 @@ export default function CompanyTable({ data, companyTableHead }) {
                                 return (
                                     <StyledTableRow key={index} bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
                                         {SelectedColumn("COMPANY") &&
-                                            <StyledTableData>
-                                                {data?.name || "---"}
-                                            </StyledTableData>
+                                            <CustomToolTip title={data?.name || "---"}>
+                                                <StyledTableData>
+                                                    {data?.name || "---"}
+                                                </StyledTableData>
+                                            </CustomToolTip>
                                         }
                                         {SelectedColumn("COMPANY TYPE") &&
-                                            <StyledTableData>
-                                                {data?.companyType || "---"}
-                                            </StyledTableData>
+                                            <CustomToolTip title={data?.companyType || "---"}>
+                                                <StyledTableData>
+                                                    {data?.companyType || "---"}
+                                                </StyledTableData>
+                                            </CustomToolTip>
                                         }
-                                        {SelectedColumn("ID") &&
-                                            <StyledTableData>
-                                                {data?._id || "---"}
-                                            </StyledTableData>
+                                        {SelectedColumn("COMPANY ID") &&
+                                            <CustomToolTip title={data?._id || "---"}>
+                                                <StyledTableData>
+                                                    {data?._id || "---"}
+                                                </StyledTableData>
+                                            </CustomToolTip>
                                         }
                                         {SelectedColumn("EMAIL") &&
-                                            <StyledTableData>{data?.owner?.email || "---"}</StyledTableData>
+                                            <CustomToolTip title={data?.owner?.email || "---"}>
+                                                <StyledTableData>{data?.owner?.email || "---"}</StyledTableData>
+                                            </CustomToolTip>
                                         }
                                         {SelectedColumn("PHONE NUMBER") &&
                                             <StyledTableData>{data?.owner?.phone_number || "---"}</StyledTableData>
                                         }
                                         {SelectedColumn("ADMIN") &&
-                                            <StyledTableData>{data?.owner?.username || "---"}</StyledTableData>
+                                            <CustomToolTip title={data?.owner?.username || "---"}>
+                                                <StyledTableData>{data?.owner?.username || "---"}</StyledTableData>
+                                            </CustomToolTip>
                                         }
                                         {SelectedColumn("STATUS") &&
                                             <StyledTableData>

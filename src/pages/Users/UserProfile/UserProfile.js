@@ -109,8 +109,22 @@ export default function UserProfile() {
                             />
                         </Grid>
 
-                        <Grid container spacing={1}>
-                            <Grid item xs style={{ marginTop: 21 }}>
+                        <Grid style={{ marginTop: 15 }}>
+                            <DisabledTextField
+                                label={"Email"}
+                                value={updatedUser?.email || ""}
+                            />
+                        </Grid>
+
+                        <Grid style={{ marginTop: 15 }}>
+                            <DisabledTextField
+                                label={"Account Type"}
+                                value={getAccountType()}
+                            />
+                        </Grid>
+
+                        <Grid container spacing={1} style={{ marginTop: 15 }}>
+                            <Grid item xs={12} md={6} >
                                 <Controller
                                     name="firstName"
                                     control={control}
@@ -133,11 +147,10 @@ export default function UserProfile() {
                                             {error?.message && <HelperText>{error?.message}</HelperText>}
                                         </>
                                     )}
-                                    rules={{ required: "Firstname is required" }}
                                 />
                             </Grid>
 
-                            <Grid item xs style={{ marginTop: 21 }}>
+                            <Grid item xs={12} md={6}>
                                 <Controller
                                     name="lastName"
                                     control={control}
@@ -165,27 +178,6 @@ export default function UserProfile() {
                         </Grid>
 
                         <Grid style={{ marginTop: 15 }}>
-                            <DisabledTextField
-                                label={"Account Type"}
-                                value={getAccountType()}
-                            />
-                        </Grid>
-
-                        <Grid style={{ marginTop: 15 }}>
-                            <DisabledTextField
-                                label={"User ID"}
-                                value={updatedUser?._id || ""}
-                            />
-                        </Grid>
-
-                        <Grid style={{ marginTop: 15 }}>
-                            <DisabledTextField
-                                label={"Email"}
-                                value={updatedUser?.email || ""}
-                            />
-                        </Grid>
-
-                        <Grid style={{ marginTop: 15 }}>
                             <Controller
                                 name="phoneNumber"
                                 control={control}
@@ -208,6 +200,13 @@ export default function UserProfile() {
                                         {error?.message && <HelperText>{error?.message}</HelperText>}
                                     </>
                                 )}
+                            />
+                        </Grid>
+
+                        <Grid style={{ marginTop: 15 }}>
+                            <DisabledTextField
+                                label={"User ID"}
+                                value={updatedUser?._id || ""}
                             />
                         </Grid>
 
@@ -254,22 +253,34 @@ export default function UserProfile() {
                                         <Grid>
                                             <Grid style={{ marginTop: 15 }}>
                                                 <DisabledTextField
-                                                    label={"Partner name"}
-                                                    value={updatedUser?.partner?.name || ""}
+                                                    label={"Partner Name"}
+                                                    value={updatedUser?.partner?.name}
+                                                />
+                                            </Grid>
+                                            <Grid style={{ marginTop: 15 }}>
+                                                <DisabledTextField
+                                                    label={"Partner Type"}
+                                                    value={updatedUser?.partner?.partnerType}
+                                                />
+                                            </Grid>
+                                            <Grid style={{ marginTop: 15 }}>
+                                                <DisabledTextField
+                                                    label={"Partner ID"}
+                                                    value={updatedUser?.partner?._id}
                                                 />
                                             </Grid>
                                         </Grid>
                                         : <Grid>
                                             <Grid style={{ marginTop: 15 }}>
                                                 <DisabledTextField
-                                                    label={"Company name"}
+                                                    label={"Company Name"}
                                                     value={updatedUser?.company?.name || ""}
                                                 />
                                             </Grid>
 
                                             <Grid style={{ marginTop: 15 }}>
                                                 <DisabledTextField
-                                                    label={"Company type"}
+                                                    label={"Company Type"}
                                                     value={updatedUser?.company?.companyType || ""}
                                                 />
                                             </Grid>

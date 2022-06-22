@@ -119,7 +119,7 @@ export default function EditLicense() {
                                 <CustomDatePicker
                                     selected={new Date(license?.validity)}
                                     onChange={(date) => setLicense({ ...license, validity: date })}
-                                    title="Validity*"
+                                    title="Renewal Date*"
                                     fullWidth={true}
                                     showYearDropdown
                                     showMonthDropdown

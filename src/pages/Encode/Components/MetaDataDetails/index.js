@@ -2,7 +2,7 @@ import React from 'react'
 import {
     EncodeContainer, MetaDataHeaderContainer, CheckBoxLabelContainer, IconContainer, ButtonContainer, SearchTrackContainer,
     MetaDataDetailsContainer, ProperAccessContainer, RightsHolderContainer, RadioLabel, TextContainer, PopUpContainer,
-    TitleContainer, Anchor, SelectedTrackTextContainer
+    TitleContainer, Anchor, SelectedTrackTextContainer, UlList
 } from './indexStyles'
 import { H4, H1, H5, H6, H3 } from "../../../../StyledComponents/StyledHeadings"
 import theme from '../../../../theme'
@@ -399,6 +399,10 @@ export default function EncodeData() {
                             />
                         </RadioGroup>
                     </RightsHolderContainer>
+                    <ul>
+                        <UlList>If you select 'Yes' the grey encode button will turn to blue and you can immediately encode the audio file by cUlListcking on the blue encode button.</UlList>
+                        <UlList>If you select 'No', please answer the question below.</UlList>
+                    </ul>
 
                     <RightsHolderContainer>
                         <H5
@@ -424,6 +428,10 @@ export default function EncodeData() {
                             />
                         </RadioGroup>
                     </RightsHolderContainer>
+                    <ul>
+                        <UlList>If you select 'Yes' the grey encode button will turn to blue and you can immediately encode the audio file by clicking on the blue encode button.</UlList>
+                        <UlList>IIf you select 'No', you will be unable to encode the file.</UlList>
+                    </ul>
                 </ProperAccessContainer>
 
                 <ButtonContainer>
@@ -485,7 +493,10 @@ export default function EncodeData() {
                     <Grid container justifyContent='flex-end'>
                         <CloseIcon
                             onClick={() => {
+                                dispatch({ type: actionTypes.CLEAR_SELECTED_FILE })
                                 dispatch({ type: actionTypes.CLOSE_SUCCESS_POPUP })
+                                dispatch({ type: actionTypes.CLOSE_ERROR_POPUP })
+                                dispatch(getTracksAction(encodeReducer?.tracks.startDate, encodeReducer?.tracks?.endDate, encodeReducer?.tracks?.data?.page || 1, "10"))
                             }}
                             style={{ cursor: "pointer" }} />
                     </Grid>

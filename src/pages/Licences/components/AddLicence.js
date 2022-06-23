@@ -187,7 +187,7 @@ export default function AddLicence() {
                     error={!!error}
                     selected={value}
                     onChange={onChange}
-                    title="Validity*"
+                    title="Renewal Date*"
                     fullWidth={true}
                     showYearDropdown={true}
                     showMonthDropdown={true}

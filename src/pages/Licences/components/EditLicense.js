@@ -24,12 +24,19 @@ export default function EditLicense() {
     const [license, setLicense] = React.useState(state)
     const [values, setValues] = React.useState({
         loading: false,
+        isActive: license.suspended ? false : true,
     })
 
     const handleEditLicense = (e) => {
         e.preventDefault();
         setValues({ ...values, loading: true })
-        updateLicenceKey(license?._id, license).then((res) => {
+
+        let payload = {
+            ...license,
+            suspended: values.isActive ? false : true,
+        }
+
+        updateLicenceKey(license?._id, payload).then((res) => {
             setLicense(res)
             setValues({ ...values, loading: false })
             cogoToast.success("License updated successfully!")
@@ -203,8 +210,10 @@ export default function EditLicense() {
                             checkedSize={70}
                             active={"\"ACTIVE\""}
                             inActive={"\"SUSPENDED\""}
-                            checked={license?.suspended ? false : true}
-                            onChange={(e) => setLicense({ ...license, suspended: e.target.checked })}
+                            // checked={license.suspended}
+                            // onChange={(e) => setLicense({ ...license, suspended: e.target.checked })}
+                            checked={values.isActive}
+                            onChange={(e) => setValues({ ...values, isActive: e.target.checked })}
                         />
                     </Grid>
                 </Grid>

@@ -40,7 +40,7 @@ export default function TrackFilter({ closeDialog }) {
                     <StyledTextField
                         id=""
                         className="mt-1"
-                        label="ID"
+                        label="Track Id"
                         value={encode?.tracks?.trackFilters?.id}
                         onChange={(e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, id: e.target.value } })}
                     />

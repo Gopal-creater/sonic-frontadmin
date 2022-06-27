@@ -204,7 +204,7 @@ export default function EncodeData() {
                                 formControlProps={{
                                     fullWidth: true
                                 }}
-                                labelProps={{ style: { fontFamily: theme.fontFamily.nunitoSansRegular } }}
+                                labelProps={{ style: { fontFamily: theme.fontFamily.nunitoSansRegular, padding: `${encodeReducer?.metaData?.encodeFromExistingFile === true ? "10px 0px 0px 15px" : "0px"}` } }}
                                 inputProps={{
                                     disabled: encodeReducer?.metaData?.encodeFromExistingFile === true ? true : false,
                                     variant: encodeReducer?.metaData?.encodeFromExistingFile === true ? "filled" : "standard",

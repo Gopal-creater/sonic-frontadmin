@@ -196,14 +196,14 @@ export default function TracksTable({ data, tableHeads, trackSorting }) {
                                                     </StyledTableData>
                                                 </CustomToolTip>
                                             }
-                                            {
+                                            {/* {
                                                 SelectedColumn("FILE TYPE") &&
                                                 <CustomToolTip title={row?.trackMetaData?.contentFileType || "---"} placement={"bottom-start"}>
                                                     <StyledTableData >
                                                         {row?.trackMetaData?.contentFileType || "---"}
                                                     </StyledTableData>
                                                 </CustomToolTip>
-                                            }
+                                            } */}
                                             {
                                                 SelectedColumn("ENCODED DATE") &&
                                                 <CustomToolTip title={moment(row?.createdAt).format("DD/MM/YYYY") || "---"} placement={"bottom-start"}>

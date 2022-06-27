@@ -1,8 +1,8 @@
-import { Badge, Table, TableBody, TableContainer, TableHead, TableRow } from '@material-ui/core';
+import { Table, TableBody, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import React from 'react'
-import { SelectedColumn } from '../../../../components/common/Columns/component/SelectedColumn';
-import { StyledTableData, StyledTableHead, StyledTableRow } from '../../../../StyledComponents/StyledTable/StyledTable';
-import theme from '../../../../theme';
+import { SelectedColumn } from '../../../components/common/Columns/component/SelectedColumn';
+import { StyledTableData, StyledTableHead, StyledTableRow } from '../../../StyledComponents/StyledTable/StyledTable';
+import theme from '../../../theme';
 
 export default function StreamDetailsTable({ data, tableHeads }) {
     return (

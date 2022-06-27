@@ -3,7 +3,6 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import AppLayout from "../components/common/AppLayout";
 import Encode from "../pages/Encode/Encode";
 import Decode from "../pages/Decode/Decode";
-import StreamReader from "../pages/Monitor/StreamReader/StreamReader";
 import Licences from "../pages/Licences/Licences";
 import { Dashboard } from "../pages/Monitor/Dashboard/Dashboard";
 import Plays from "../pages/Monitor/Plays/Plays";
@@ -28,8 +27,9 @@ import SonicSpinner from "../components/common/SonicSpinner";
 import { logout } from "../stores/actions";
 import CompanyProfile from "../pages/Companies/CompanyProfile/CompanyProfile";
 import SonicKey from "../pages/SonicKey/SonicKey";
-import SonicStreamDetail from "../pages/Monitor/StreamReader/SonicStreamDetail";
 import Profile from "../pages/Profile/Profile";
+import SonicStreamReader from "../pages/StreamReader/SonicStreamReader";
+import SonicStreamDetail from "../pages/StreamReader/SonicStreamDetail";
 
 export default function AppRoutes() {
   const user = useSelector(state => state.user)
@@ -65,7 +65,7 @@ export default function AppRoutes() {
             <Route path="/artists" element={<Artists />} />
             <Route path="/countries" element={<Countries />} />
             <Route path="/encoded-tracks" element={<SonicKey />} />
-            <Route path="/streamreader" element={<StreamReader />} />
+            <Route path="/streamreader" element={<SonicStreamReader />} />
             <Route path="/profile" element={<Profile />} />
             {/* Public routes */}
 

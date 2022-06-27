@@ -2,11 +2,11 @@ import { Badge, Table, TableBody, TableContainer, TableHead, TableRow } from '@m
 import moment from 'moment';
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
-import { SelectedColumn } from '../../../../components/common/Columns/component/SelectedColumn';
-import TableMenu from '../../../../components/common/Table/components/TableMenu';
-import { ActionMenuItem } from '../../../../components/common/Table/TableStyled';
-import { StyledTableData, StyledTableHead, StyledTableRow } from '../../../../StyledComponents/StyledTable/StyledTable';
-import theme from '../../../../theme';
+import { SelectedColumn } from '../../../components/common/Columns/component/SelectedColumn';
+import TableMenu from '../../../components/common/Table/components/TableMenu';
+import { ActionMenuItem } from '../../../components/common/Table/TableStyled';
+import { StyledTableData, StyledTableHead, StyledTableRow } from '../../../StyledComponents/StyledTable/StyledTable';
+import theme from '../../../theme';
 import RadioPlays from './RadioPlays';
 
 export default function StreamReaderTable({ data, tableHeads }) {

@@ -1,13 +1,13 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import * as actionTypes from '../../../../stores/actions/actionTypes';
+import * as actionTypes from '../../../stores/actions/actionTypes';
 import { CloseOutlined } from '@material-ui/icons';
-import { countries } from '../../../../constants/constants';
-import { FilterButton, FilterContainer, FilterForm, FilterHeader, FilterItems } from '../../Components/MonitorFilter/MonitorFilterStyles';
-import { H3 } from '../../../../StyledComponents/StyledHeadings';
-import CustomDropDown from '../../../../components/common/AppTextInput/CustomDropDown';
-import AppButton from '../../../../components/common/AppButton/AppButton';
-import { fetchRadioMonitorsActions } from '../../../../stores/actions/streamReader.action';
+import { countries } from '../../../constants/constants';
+import { FilterButton, FilterContainer, FilterForm, FilterHeader, FilterItems } from '../../Monitor/Components/MonitorFilter/MonitorFilterStyles';
+import CustomDropDown from '../../../components/common/AppTextInput/CustomDropDown';
+import AppButton from '../../../components/common/AppButton/AppButton';
+import { H3 } from '../../../StyledComponents/StyledHeadings';
+import { fetchRadioMonitorsActions } from '../../../stores/actions/streamReader.action';
 
 export default function StreamReaderFilter({ closeDialog }) {
     const dispatch = useDispatch();

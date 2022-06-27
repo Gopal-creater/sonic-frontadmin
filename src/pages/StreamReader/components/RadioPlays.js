@@ -3,9 +3,8 @@ import { Info } from '@material-ui/icons';
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components'
-import { getRadioMonitorsPlaysCountActions } from '../../../../stores/actions/streamReader.action';
-import theme from '../../../../theme';
-import { log } from '../../../../utils/app.debug';
+import { getRadioMonitorsPlaysCountActions } from '../../../stores/actions/streamReader.action';
+import theme from '../../../theme';
 
 const Container = styled.div`
     display: flex;

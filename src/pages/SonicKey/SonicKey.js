@@ -1,27 +1,22 @@
 import { Grid } from '@material-ui/core'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
 import Columns from '../../components/common/Columns/Columns'
 import CommonDataLoadErrorSuccess from '../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess'
 import FilterCreate from '../../components/common/FilterComponent/FilterCreate'
 import CustomPagination from '../../components/common/Pagination/CustomPagination'
 import PaginationCount from '../../components/common/Pagination/PaginationCount'
-import { companiesTableHeads, sonicKeyTableHeads } from '../../constants/constants'
-import { getAllCompaniesAction } from '../../stores/actions/CompanyActions'
+import { sonicKeyTableHeads } from '../../constants/constants'
 import { getAllSonickeysActions } from '../../stores/actions/SonicKeyAcrtions'
 import { H1, H4 } from '../../StyledComponents/StyledHeadings'
 import { MainContainer } from '../../StyledComponents/StyledPageContainer'
 import theme from '../../theme'
-import { log } from '../../utils/app.debug'
 import SonicKeyFilter from './components/SonicKeyFilter'
 import SonicKeyTable from './components/SonicKeyTable'
 
 export default function SonicKey() {
     const sonickey = useSelector(state => state.sonickey)
     const dispatch = useDispatch()
-    const navigate = useNavigate()
-    log("Sonic Keys data", sonickey)
 
     React.useEffect(() => {
         dispatch(getAllSonickeysActions(10, sonickey?.data?.page))

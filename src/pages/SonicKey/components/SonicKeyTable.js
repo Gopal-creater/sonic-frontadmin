@@ -15,6 +15,7 @@ import { downloadAnyFile } from '../../../services/https/resources/EncodeApi/enc
 import MetaDataDailog from '../../../components/common/MetaDataDialog';
 import * as actionTypes from '../../../stores/actions/actionTypes';
 import theme from '../../../theme';
+import CustomToolTip from '../../../components/common/CustomToolTip';
 
 export default function SonicKeyTable({ data, sonicKeyTableHead }) {
     const [sonickeys, setSonicKeys] = React.useState({});
@@ -23,8 +24,6 @@ export default function SonicKeyTable({ data, sonicKeyTableHead }) {
         openDownloadingModal: false,
         percentComplete: "0"
     })
-    log("data of table", data)
-
     const dispatch = useDispatch();
 
     const handleClickOpenTable = async (data) => {
@@ -88,29 +87,41 @@ export default function SonicKeyTable({ data, sonicKeyTableHead }) {
                             data?.docs?.map((row, index) => {
                                 return (
                                     <StyledTableRow key={row?._id} bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
-                                        {SelectedColumn("ID") &&
-                                            <StyledTableData>
-                                                {data?.offset + index + 1}
-                                            </StyledTableData>
-                                        }
+                                        {/* {SelectedColumn("TRACK ID") &&
+                                            <CustomToolTip title={row?.track}>
+                                                <StyledTableData>{row?.track || "---"}</StyledTableData>
+                                            </CustomToolTip>
+                                        } */}
                                         {SelectedColumn("SONICKEY") &&
-                                            <StyledTableData>
-                                                {row?.sonicKey || "---"}
-                                            </StyledTableData>
+                                            <CustomToolTip title={row?.sonicKey || "---"}>
+                                                <StyledTableData>{row?.sonicKey || "---"}</StyledTableData>
+                                            </CustomToolTip>
                                         }
-                                        {SelectedColumn("ORIGINAL FILENAME") &&
-                                            <StyledTableData>
-                                                {row?.originalFileName || row?.contentFileName || "---"}
-                                            </StyledTableData>
+                                        {SelectedColumn("TITLE") &&
+                                            <CustomToolTip title={row?.contentName || "---"}>
+                                                <StyledTableData>{row?.contentName || "---"}</StyledTableData>
+                                            </CustomToolTip>
+                                        }
+                                        {SelectedColumn("VERSION") &&
+                                            <StyledTableData>{row?.version || "---"}</StyledTableData>
                                         }
                                         {SelectedColumn("ARTIST") &&
-                                            <StyledTableData>{row?.contentOwner || "---"}</StyledTableData>
+                                            <CustomToolTip title={row?.contentOwner || "---"}>
+                                                <StyledTableData>{row?.contentOwner || "---"}</StyledTableData>
+                                            </CustomToolTip>
+                                        }
+                                        {SelectedColumn("DISTRIBUTOR") &&
+                                            <CustomToolTip title={row?.distributor || "---"}>
+                                                <StyledTableData>{row?.distributor || "---"}</StyledTableData>
+                                            </CustomToolTip>
+                                        }
+                                        {SelectedColumn("DESCRIPTION") &&
+                                            <CustomToolTip title={row?.contentDescription || "---"}>
+                                                <StyledTableData>{row?.contentDescription || "---"}</StyledTableData>
+                                            </CustomToolTip>
                                         }
                                         {SelectedColumn("ENCODED DATE") &&
                                             <StyledTableData>{format(new Date(row?.createdAt), 'dd/MM/yyyy') || "---"}</StyledTableData>
-                                        }
-                                        {SelectedColumn("DESCRIPTION") &&
-                                            <StyledTableData>{row?.contentDescription || "---"}</StyledTableData>
                                         }
                                         {SelectedColumn("ACTION") &&
                                             <StyledTableData>

@@ -152,11 +152,11 @@ const MetaDataDailog = (props) => {
             setValues({
                 ...values,
                 updateSonicKeyLoading: false,
-                sonicKey: response,
+                // sonicKey: response,
                 switchEdit: false
             })
             log("updating meta-data", response)
-            props.updateMetaData(response)
+            // props.updateMetaData(response)
             cogoToast.success("Successfully updated meta-data")
         }).catch((error) => {
             log("Error updating meta-data", error)
@@ -218,7 +218,7 @@ const MetaDataDailog = (props) => {
                         <TableBody>
                             <TableRow>
                                 <TableCell className={classes.tableCellOne}>TRACK ID</TableCell>
-                                <TableCell className={classes.tableCellTwo}>{values?.sonicKey?.track?._id || "---"}</TableCell>
+                                <TableCell className={classes.tableCellTwo}>{values?.sonicKey?.track || "---"}</TableCell>
                             </TableRow>
 
                             <TableRow>

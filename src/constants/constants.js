@@ -1528,7 +1528,7 @@ export const tracksTableHeads = [
   { title: "VERSION", sortBy: "trackMetaData.version", isAscending: null, isActive: false },
   { title: "ARTIST", sortBy: "trackMetaData.contentOwner", isAscending: null, isActive: false },
   { title: "DISTRIBUTOR", sortBy: "trackMetaData.distributor", isAscending: null, isActive: false },
-  { title: "FILE TYPE", sortBy: "trackMetaData.contentFileType", isAscending: null, isActive: false },
+  // { title: "FILE TYPE", sortBy: "trackMetaData.contentFileType", isAscending: null, isActive: false },
   { title: "ENCODED DATE", sortBy: "createdAt", isAscending: null, isActive: false },
   // { title: "SYSTEM/PARTNER ID", sortBy: "SYSTEM/PARTNER_ID", isAscending: null, isActive: false },
   { title: "ACTION", sortBy: "", isAscending: null, isActive: false },

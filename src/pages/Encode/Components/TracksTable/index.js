@@ -42,12 +42,20 @@ export default function TracksTable({ data, tableHeads, trackSorting }) {
         let metaData = {
             ...encodeReducer?.metaData,
             contentName: track?.trackMetaData?.contentName || track?.title || "",
-            contentFileType: track?.trackMetaData?.contentFileType || track?.fileType || "",
+            contentType: track?.trackMetaData?.contentType || track?.fileType || "",
             contentOwner: track?.trackMetaData?.contentOwner || track?.artist || "",
+            trackersion: track?.trackMetaData?.trackersion || "",
+            contentFileType: track?.trackMetaData?.contentFileType || "",
             contentDuration: track?.trackMetaData?.contentDuration || track?.duration || "",
             contentSize: track?.trackMetaData?.contentSize || track?.fileSize || "",
             contentEncoding: track?.trackMetaData?.contentEncoding || track?.encoding || "",
             contentSamplingFrequency: track?.trackMetaData?.contentSamplingFrequency || track?.samplingFrequency || "",
+            contentQuality: track?.trackMetaData?.contentQuality || "",
+            contentDescription: track?.trackMetaData?.contentDescription || "",
+            label: track?.trackMetaData?.label || "",
+            distributor: track?.trackMetaData?.distributor || "",
+            additionalMetadata: JSON.stringify(track?.trackMetaData?.additionalMetadata),
+            encodeFromExistingFile: true
         }
         dispatch({ type: actionTypes.SET_SELECTED_EXISTING_FILE, data: { file: track, metaData: metaData } })
     }

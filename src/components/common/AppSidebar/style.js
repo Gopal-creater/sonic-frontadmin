@@ -30,5 +30,5 @@ export const MenuContainer = styled(Grid)`
 
 export const SideBarLabel = styled.span`
     margin-left:${(props) => props.left || "10px"};
-
+    margin-bottom:${(props) => props.bottom || "0px"};
 `

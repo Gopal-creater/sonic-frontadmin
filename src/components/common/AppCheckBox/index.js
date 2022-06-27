@@ -13,12 +13,12 @@ const useStyles = makeStyles({
         '&.Mui-checked': {
             color: theme.colors.primary.navy,
             "&:hover": {
-                color: theme.colors.grey3,
+                color: theme.colors.secondary.grey,
                 backgroundColor: theme.colors.secondary.lightTeal,
             },
         },
         "&.Mui-disabled": {
-            color: theme.colors.grey3,
+            color: theme.colors.secondary.grey,
         }
     },
 });

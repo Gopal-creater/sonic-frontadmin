@@ -2,7 +2,6 @@ import * as actionTypes from "../../actions/actionTypes"
 import produce from "immer";
 import { userRoles } from "../../../constants/constants";
 import { routeList } from "../../../routes/RoutesData";
-import { getUserId } from "../../../services/https/AuthHelper";
 
 const initialState = {
     userProfile: {

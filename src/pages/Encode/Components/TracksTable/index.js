@@ -109,7 +109,7 @@ export default function TracksTable({ data, tableHeads, trackSorting }) {
     const viewSonicKeys = (track) => {
         log("View SonicKeys", track)
         dispatch({ type: actionTypes.SONIC_KEY_FILTERS, data: { ...sonickey?.filters, track: track?._id } })
-        navigation("/sonic-keys")
+        navigation("/encoded-tracks")
     }
 
     return (

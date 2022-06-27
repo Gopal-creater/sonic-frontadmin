@@ -9,18 +9,18 @@ export const CustomRadioButton = styled(Radio)(({ color, hoverColor, backgroundC
     return ({
         color: color || theme.colors.primary.navy,
         "&:hover": {
-            color: hoverColor || theme.colors.greenTea,
-            backgroundColor: backgroundColor || theme.colors.greenTeaBg,
+            color: hoverColor || theme.colors.primary.navy,
+            backgroundColor: backgroundColor || theme.colors.secondary.extraLightTeal,
         },
         "&.Mui-checked": {
-            color: hoverColor || theme.colors.secondary.lightNavy,
+            color: hoverColor || theme.colors.primary.navy,
             "&:hover": {
-                color: hoverColor || theme.colors.greenTea,
-                backgroundColor: backgroundColor || theme.colors.greenTeaBg,
+                color: hoverColor || theme.colors.secondary.grey,
+                backgroundColor: backgroundColor || theme.colors.secondary.extraLightTeal,
             },
         },
         "&.Mui-disabled": {
-            color: theme.colors.grey3,
+            color: theme.colors.secondary.grey,
         }
     })
 })

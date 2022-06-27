@@ -4,23 +4,21 @@ import cogoToast from 'cogo-toast';
 import { format } from 'date-fns';
 import fileDownload from 'js-file-download';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { SelectedColumn } from '../../../components/common/Columns/component/SelectedColumn';
 import TableMenu from '../../../components/common/Table/components/TableMenu';
 import { ActionMenuItem } from '../../../components/common/Table/TableStyled';
-import { AlternateStyledTableData, StyledAlternateTableRow, StyledTableData, StyledTableHead, StyledTableRow } from '../../../StyledComponents/StyledTable/StyledTable';
+import { StyledTableData, StyledTableHead, StyledTableRow } from '../../../StyledComponents/StyledTable/StyledTable';
 import { log } from '../../../utils/app.debug';
 import DownloadProgressModal from '../../Encode/Components/DownloadProgressModal';
 import { downloadAnyFile } from '../../../services/https/resources/EncodeApi/encodeApi'
 import MetaDataDailog from '../../../components/common/MetaDataDialog';
 import * as actionTypes from '../../../stores/actions/actionTypes';
+import theme from '../../../theme';
 
 export default function SonicKeyTable({ data, sonicKeyTableHead }) {
-    const navigate = useNavigate()
     const [sonickeys, setSonicKeys] = React.useState({});
     const [openTable, setOpenTable] = React.useState(false);
-    const [tableData, setTableData] = React.useState([]);
     const [state, setState] = React.useState({
         openDownloadingModal: false,
         percentComplete: "0"
@@ -88,51 +86,8 @@ export default function SonicKeyTable({ data, sonicKeyTableHead }) {
                                 </StyledTableData>
                             </TableRow> :
                             data?.docs?.map((row, index) => {
-                                log("data number haru yo sapai", row?.offset)
-                                if (index % 2 !== 0) {
-                                    return (
-                                        <StyledAlternateTableRow key={row?._id}>
-                                            {SelectedColumn("ID") &&
-                                                <AlternateStyledTableData>
-                                                    {data?.offset + index + 1}
-                                                </AlternateStyledTableData>
-                                            }
-                                            {SelectedColumn("SONICKEY") &&
-                                                <AlternateStyledTableData>
-                                                    {row?.sonicKey || "---"}
-                                                </AlternateStyledTableData>
-                                            }
-                                            {SelectedColumn("ORIGINAL FILENAME") &&
-                                                <AlternateStyledTableData>
-                                                    {row?.originalFileName || row?.contentFileName || "---"}
-                                                </AlternateStyledTableData>
-                                            }
-                                            {SelectedColumn("ARTIST") &&
-                                                <AlternateStyledTableData>
-                                                    {row?.contentOwner || "---"}
-                                                </AlternateStyledTableData>
-                                            }
-                                            {SelectedColumn("ENCODED DATE") &&
-                                                <AlternateStyledTableData>
-                                                    {format(new Date(row?.createdAt), 'dd/MM/yyyy') || "---"}
-                                                </AlternateStyledTableData>
-                                            }
-                                            {SelectedColumn("DESCRIPTION") &&
-                                                <AlternateStyledTableData>{row?.contentDescription || "---"}</AlternateStyledTableData>
-                                            }
-                                            {SelectedColumn("ACTION") &&
-                                                <AlternateStyledTableData>
-                                                    <TableMenu>
-                                                        <ActionMenuItem onClick={() => handleClickOpenTable(row)}>View details</ActionMenuItem>
-                                                        <ActionMenuItem onClick={() => download(row)}>Download</ActionMenuItem>
-                                                    </TableMenu>
-                                                </AlternateStyledTableData>
-                                            }
-                                        </StyledAlternateTableRow>
-                                    )
-                                }
                                 return (
-                                    <StyledTableRow key={row?._id}>
+                                    <StyledTableRow key={row?._id} bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
                                         {SelectedColumn("ID") &&
                                             <StyledTableData>
                                                 {data?.offset + index + 1}
@@ -160,7 +115,7 @@ export default function SonicKeyTable({ data, sonicKeyTableHead }) {
                                         {SelectedColumn("ACTION") &&
                                             <StyledTableData>
                                                 <TableMenu>
-                                                    <ActionMenuItem onClick={() => handleClickOpenTable(row)}>View details</ActionMenuItem>
+                                                    <ActionMenuItem onClick={() => handleClickOpenTable(row)}>View / Edit</ActionMenuItem>
                                                     <ActionMenuItem onClick={() => download(row)}>Download</ActionMenuItem>
                                                 </TableMenu>
                                             </StyledTableData>

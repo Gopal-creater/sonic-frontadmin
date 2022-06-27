@@ -31,9 +31,9 @@ export default function SonicKey() {
         <MainContainer>
             <Grid container justifyContent="space-between" alignItems="center">
                 <Grid item>
-                    <H1>SonicKeys</H1>
+                    <H1>Encoded Tracks</H1>
                     <H4 fontFamily={theme.fontFamily.nunitoSansRegular} color={theme.colors.primary.teal}>
-                        Manage all sonickeys
+                        Browse your encoded tracks
                     </H4>
                 </Grid>
                 <Grid item>
@@ -41,11 +41,7 @@ export default function SonicKey() {
                 </Grid>
             </Grid>
 
-            <FilterCreate
-                filterComponent={<SonicKeyFilter />}
-            // createComponent={() => navigate("/create-company")}
-            // btnTitle={"Create new company"}
-            />
+            <FilterCreate filterComponent={<SonicKeyFilter />} />
 
             <CommonDataLoadErrorSuccess
                 error={sonickey?.getSonicKeys?.error}
@@ -59,7 +55,7 @@ export default function SonicKey() {
                 <Grid container justifyContent="space-between" alignItems="center" style={{ marginTop: "30px" }}>
                     <Grid item xs={12} sm={4} md={6}>
                         <PaginationCount
-                            name="sonickeys"
+                            name="encoded tracks"
                             total={sonickey?.getSonicKeys?.data?.totalDocs}
                             start={sonickey?.getSonicKeys?.data?.offset}
                             end={sonickey?.getSonicKeys?.data?.docs?.length}

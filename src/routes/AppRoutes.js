@@ -64,7 +64,7 @@ export default function AppRoutes() {
             <Route path="/tracks" element={<Tracks />} />
             <Route path="/artists" element={<Artists />} />
             <Route path="/countries" element={<Countries />} />
-            <Route path="/sonic-keys" element={<SonicKey />} />
+            <Route path="/encoded-tracks" element={<SonicKey />} />
             <Route path="/streamreader" element={<StreamReader />} />
             <Route path="/profile" element={<Profile />} />
             {/* Public routes */}

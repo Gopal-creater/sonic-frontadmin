@@ -14,7 +14,6 @@ import { log } from "../../utils/app.debug";
 import EditIcon from '@material-ui/icons/Edit';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import cogoToast from "cogo-toast";
-import Communication from "../../services/https/Communication";
 import AppButton from "./AppButton/AppButton";
 import theme from "../../theme";
 import { monitorInitialState } from "../../stores/reducers/monitor/monitorReducer";
@@ -22,6 +21,7 @@ import { getMonitorListAction } from "../../stores/actions/monitorActions/monito
 import { useNavigate } from 'react-router-dom';
 import { Distributor } from "../../constants/constants";
 import CustomDropDown from "./AppTextInput/CustomDropDown";
+import { editSonicMetaData } from "../../services/https/resources/SonicKeys/SonicKeys.api";
 
 const useStyles = makeStyles({
     dialogPaper: {
@@ -47,7 +47,6 @@ const useStyles = makeStyles({
         color: `${theme.colors.secondary.grey}`,
     }
 });
-
 
 const MetaDataDailog = (props) => {
     const [values, setValues] = React.useState({
@@ -136,7 +135,8 @@ const MetaDataDailog = (props) => {
             version: values?.updatingSonicKey?.version,
             contentName: values?.updatingSonicKey?.contentName
         }
-        Communication.editSonicMetaData(values?.sonicKey?.sonicKey, payload).then((response) => {
+
+        editSonicMetaData(values?.sonicKey?.sonicKey, payload).then((response) => {
             setValues({
                 ...values, updateSonicKeyLoading: false, sonicKey: response, switchEdit: false
             })
@@ -148,9 +148,6 @@ const MetaDataDailog = (props) => {
             cogoToast.error(error?.message || "Error updating meta-data")
         })
     }
-
-    log("values", values)
-
 
     return (
         <>
@@ -171,7 +168,7 @@ const MetaDataDailog = (props) => {
                     </Button>
                 }
 
-                <Grid container justifyContent="space-between">
+                <Grid container justifyContent="space-between" className="mt-1">
                     <DialogTitle id="form-dialog-title">
                         <div style={{ display: 'flex', alignItems: 'center' }}>
                             <img style={{ width: '30px' }} src={DialogLogo} alt="" />
@@ -183,19 +180,21 @@ const MetaDataDailog = (props) => {
                         </div>
                     </DialogTitle>
 
-                    <IconButton
-                        aria-label="close"
-                        style={{
-                            marginRight: 5,
-                            color: theme.colors.primary.graphite
-                        }}
-                        onClick={handleCloseTable}
-                        data-toggle="tooltip"
-                        data-placement="top"
-                        title='Close'
-                    >
-                        <CloseIcon />
-                    </IconButton>
+                    <Grid>
+                        <IconButton
+                            aria-label="close"
+                            style={{
+                                marginRight: 5,
+                                color: theme.colors.primary.graphite
+                            }}
+                            onClick={handleCloseTable}
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title='Close'
+                        >
+                            <CloseIcon />
+                        </IconButton>
+                    </Grid>
                 </Grid>
 
                 <TableContainer component={Paper} style={{ marginTop: 5, padding: '10px 20px', border: 'none' }} elevation={0}>

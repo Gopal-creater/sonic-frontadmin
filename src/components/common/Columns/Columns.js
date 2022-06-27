@@ -59,6 +59,12 @@ export default function Columns({ columns }) {
         return filterColumns.columns.includes(title)
     }
 
+    function formatString(str) {
+        return str
+            .replace(/(\B)[^ ]*/g, match => (match.toLowerCase()))
+            .replace(/^[^ ]/g, match => (match.toUpperCase()));
+    }
+
     return (
         <Grid>
             <AppButton
@@ -83,7 +89,6 @@ export default function Columns({ columns }) {
                         </RestoreItem>
                         <SearchColumn>
                             <StyledTextField
-                                // fullWidth
                                 value={state.input}
                                 onChange={(e) => setState({ ...state, input: e.target.value })}
                                 InputLabelProps={{
@@ -123,7 +128,7 @@ export default function Columns({ columns }) {
                                                     onChange={(e) => handleColumns(e, col?.title)}
                                                 />
                                             }
-                                            label={col?.title}
+                                            label={formatString(col?.title)}
                                         />
                                     </ColumnMenuItem>
                                 )

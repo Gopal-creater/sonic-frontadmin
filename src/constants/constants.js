@@ -1513,7 +1513,7 @@ export const companiesTableHeads = [
 ]
 
 export const sonicKeyTableHeads = [
-  // { title: "TRACK ID" },
+  { title: "TRACK ID" },
   { title: "SONICKEY" },
   { title: "TITLE" },
   { title: "VERSION" },

@@ -125,7 +125,6 @@ const MetaDataDailog = (props) => {
         props.setOpenTable(false)
         navigate("/plays")
     }
-    log("state meta-data", values.sonicKey)
 
     const updateSonicKey = () => {
         if (values?.updateSonicKeyLoading) {
@@ -149,13 +148,7 @@ const MetaDataDailog = (props) => {
         }
 
         editSonicMetaData(values?.sonicKey?.sonicKey, payload).then((response) => {
-            setValues({
-                ...values,
-                updateSonicKeyLoading: false,
-                sonicKey: response,
-                switchEdit: false
-            })
-            log("updating meta-data", response)
+            setValues({ ...values, updateSonicKeyLoading: false, sonicKey: response, switchEdit: false })
             props.updateMetaData(response)
             cogoToast.success("Successfully updated meta-data")
         }).catch((error) => {

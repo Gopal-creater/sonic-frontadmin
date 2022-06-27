@@ -85,9 +85,9 @@ export default function SonicKeyFilter({ closeDialog }) {
                     <FilterForm>
                         <StyledTextField
                             fullWidth
-                            label="Track"
-                            value={sonickey?.filters?.track}
-                            onChange={(e) => dispatch({ type: actionTypes.SONIC_KEY_FILTERS, data: { ...sonickey?.filters, track: e.target.value } })}
+                            label="Track Id"
+                            value={sonickey?.filters?.trackId}
+                            onChange={(e) => dispatch({ type: actionTypes.SONIC_KEY_FILTERS, data: { ...sonickey?.filters, trackId: e.target.value } })}
                             InputLabelProps={{
                                 style: {
                                     fontFamily: theme.fontFamily.nunitoSansBold
@@ -103,7 +103,7 @@ export default function SonicKeyFilter({ closeDialog }) {
                             formControlProps={{
                                 fullWidth: true
                             }}
-                            labelProps={{ style: { fontFamily: theme.fontFamily.nunitoSansRegular } }}
+                            labelProps={{ style: { fontFamily: theme.fontFamily.nunitoSansBold } }}
                             inputProps={{
                                 value: sonickey?.filters?.label,
                                 onChange: (e) => dispatch({ type: actionTypes.SONIC_KEY_FILTERS, data: { ...sonickey?.filters, label: e.target.value } })
@@ -119,7 +119,7 @@ export default function SonicKeyFilter({ closeDialog }) {
                             formControlProps={{
                                 fullWidth: true
                             }}
-                            labelProps={{ style: { fontFamily: theme.fontFamily.nunitoSansRegular } }}
+                            labelProps={{ style: { fontFamily: theme.fontFamily.nunitoSansBold } }}
                             inputProps={{
                                 value: sonickey?.filters?.distributor,
                                 onChange: (e) => dispatch({ type: actionTypes.SONIC_KEY_FILTERS, data: { ...sonickey?.filters, distributor: e.target.value } })
@@ -158,6 +158,20 @@ export default function SonicKeyFilter({ closeDialog }) {
                             />
                         </FilterForm>
                     }
+
+                    <FilterForm>
+                        <StyledTextField
+                            fullWidth
+                            label="Title"
+                            value={sonickey?.filters?.title}
+                            onChange={(e) => dispatch({ type: actionTypes.SONIC_KEY_FILTERS, data: { ...sonickey?.filters, title: e.target.value } })}
+                            InputLabelProps={{
+                                style: {
+                                    fontFamily: theme.fontFamily.nunitoSansBold
+                                }
+                            }}
+                        />
+                    </FilterForm>
                 </FilterItems>
 
                 <FilterButton>
@@ -170,7 +184,8 @@ export default function SonicKeyFilter({ closeDialog }) {
                                 channel: "ALL",
                                 sonicKey: "",
                                 artist: "",
-                                track: "",
+                                trackId: "",
+                                title: "",
                                 label: "",
                                 distributor: "",
                                 company: "",

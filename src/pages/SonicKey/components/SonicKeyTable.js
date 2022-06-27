@@ -87,11 +87,11 @@ export default function SonicKeyTable({ data, sonicKeyTableHead }) {
                             data?.docs?.map((row, index) => {
                                 return (
                                     <StyledTableRow key={row?._id} bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
-                                        {/* {SelectedColumn("TRACK ID") &&
-                                            <CustomToolTip title={row?.track}>
-                                                <StyledTableData>{row?.track || "---"}</StyledTableData>
+                                        {SelectedColumn("TRACK ID") &&
+                                            <CustomToolTip title={row?.track?._id}>
+                                                <StyledTableData>{row?.track?._id || "---"}</StyledTableData>
                                             </CustomToolTip>
-                                        } */}
+                                        }
                                         {SelectedColumn("SONICKEY") &&
                                             <CustomToolTip title={row?.sonicKey || "---"}>
                                                 <StyledTableData>{row?.sonicKey || "---"}</StyledTableData>

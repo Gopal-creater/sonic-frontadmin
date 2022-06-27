@@ -18,7 +18,8 @@ export const NavIcon = styled.img`
 
 //SubMenu
 export const SideBarNav = styled(Grid)`
-    margin-top:50px ;
+    margin-top: 50px;
+    overflow-y: auto;
 `
 export const MenuContainer = styled(Grid)`
     display:flex ;

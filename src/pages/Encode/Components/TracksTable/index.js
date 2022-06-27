@@ -235,7 +235,7 @@ export default function TracksTable({ data, tableHeads, trackSorting }) {
                                                         <ActionMenuItem onClick={() => setState({ ...state, openViewTrackPopUp: true, selectedTrack: row })}>View</ActionMenuItem>
                                                         <ActionMenuItem onClick={() => download(row)}>Download</ActionMenuItem>
                                                         <ActionMenuItem onClick={() => encodeAgain(row)}>Encode again</ActionMenuItem>
-                                                        <ActionMenuItem onClick={() => viewSonicKeys(row)}>View Sonickeys</ActionMenuItem>
+                                                        <ActionMenuItem onClick={() => viewSonicKeys(row)}>View Encoded Tracks</ActionMenuItem>
                                                     </TableMenu>
                                                 </StyledTableData>
                                             }

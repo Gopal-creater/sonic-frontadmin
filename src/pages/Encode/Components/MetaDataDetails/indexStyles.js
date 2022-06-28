@@ -107,3 +107,8 @@ export const SelectedTrackTextContainer = styled(Grid)`
     align-items:center ;
     color:${theme.colors.primary.graphite} 
 `
+
+export const UlList = styled.li`
+    color:${theme.colors.secondary.grey};
+    font-family: ${theme.fontFamily.nunitoSansRegular}
+`

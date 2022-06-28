@@ -42,12 +42,20 @@ export default function TracksTable({ data, tableHeads, trackSorting }) {
         let metaData = {
             ...encodeReducer?.metaData,
             contentName: track?.trackMetaData?.contentName || track?.title || "",
-            contentFileType: track?.trackMetaData?.contentFileType || track?.fileType || "",
+            contentType: track?.trackMetaData?.contentType || track?.fileType || "",
             contentOwner: track?.trackMetaData?.contentOwner || track?.artist || "",
+            trackersion: track?.trackMetaData?.trackersion || "",
+            contentFileType: track?.trackMetaData?.contentFileType || "",
             contentDuration: track?.trackMetaData?.contentDuration || track?.duration || "",
             contentSize: track?.trackMetaData?.contentSize || track?.fileSize || "",
             contentEncoding: track?.trackMetaData?.contentEncoding || track?.encoding || "",
             contentSamplingFrequency: track?.trackMetaData?.contentSamplingFrequency || track?.samplingFrequency || "",
+            contentQuality: track?.trackMetaData?.contentQuality || "",
+            contentDescription: track?.trackMetaData?.contentDescription || "",
+            label: track?.trackMetaData?.label || "",
+            distributor: track?.trackMetaData?.distributor || "",
+            additionalMetadata: JSON.stringify(track?.trackMetaData?.additionalMetadata),
+            encodeFromExistingFile: true
         }
         dispatch({ type: actionTypes.SET_SELECTED_EXISTING_FILE, data: { file: track, metaData: metaData } })
     }
@@ -196,14 +204,14 @@ export default function TracksTable({ data, tableHeads, trackSorting }) {
                                                     </StyledTableData>
                                                 </CustomToolTip>
                                             }
-                                            {
+                                            {/* {
                                                 SelectedColumn("FILE TYPE") &&
                                                 <CustomToolTip title={row?.trackMetaData?.contentFileType || "---"} placement={"bottom-start"}>
                                                     <StyledTableData >
                                                         {row?.trackMetaData?.contentFileType || "---"}
                                                     </StyledTableData>
                                                 </CustomToolTip>
-                                            }
+                                            } */}
                                             {
                                                 SelectedColumn("ENCODED DATE") &&
                                                 <CustomToolTip title={moment(row?.createdAt).format("DD/MM/YYYY") || "---"} placement={"bottom-start"}>
@@ -212,14 +220,14 @@ export default function TracksTable({ data, tableHeads, trackSorting }) {
                                                     </StyledTableData>
                                                 </CustomToolTip>
                                             }
-                                            {
+                                            {/* {
                                                 SelectedColumn("SYSTEM/PARTNER ID") &&
                                                 <CustomToolTip title={row?.owner?._id || row?.company?._id || row?.partner?._id || "---"} placement={"bottom-start"}>
                                                     <StyledTableData >
                                                         {row?.owner?._id || row?.company?._id || row?.partner?._id || "---"}
                                                     </StyledTableData>
                                                 </CustomToolTip>
-                                            }
+                                            } */}
                                             {
                                                 SelectedColumn("ACTION") &&
                                                 <StyledTableData >

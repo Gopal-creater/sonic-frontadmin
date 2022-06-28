@@ -89,14 +89,21 @@ export default function Encode() {
         log("Autocomplete selected value", v)
         let metaData = {
             ...encode?.metaData,
-            additionalMetadata: JSON.stringify(v?.trackMetaData?.additionalMetadata),
             contentName: v?.trackMetaData?.contentName || v?.title || "",
-            contentFileType: v?.trackMetaData?.contentFileType || v?.fileType || "",
+            contentType: v?.trackMetaData?.contentType || v?.fileType || "",
             contentOwner: v?.trackMetaData?.contentOwner || v?.artist || "",
+            version: v?.trackMetaData?.version || "",
+            contentFileType: v?.trackMetaData?.contentFileType || "",
             contentDuration: v?.trackMetaData?.contentDuration || v?.duration || "",
             contentSize: v?.trackMetaData?.contentSize || v?.fileSize || "",
             contentEncoding: v?.trackMetaData?.contentEncoding || v?.encoding || "",
             contentSamplingFrequency: v?.trackMetaData?.contentSamplingFrequency || v?.samplingFrequency || "",
+            contentQuality: v?.trackMetaData?.contentQuality || "",
+            contentDescription: v?.trackMetaData?.contentDescription || "",
+            label: v?.trackMetaData?.label || "",
+            distributor: v?.trackMetaData?.distributor || "",
+            additionalMetadata: JSON.stringify(v?.trackMetaData?.additionalMetadata),
+            encodeFromExistingFile: true
         }
         dispatch({ type: actionTypes.SET_SELECTED_EXISTING_FILE, data: { file: v, metaData: metaData } })
     }
@@ -178,11 +185,18 @@ export default function Encode() {
                         <TrackContainer>
                             <TrackTitleContainer >
                                 <Grid>
-                                    <H1>My Tracks</H1>
+                                    <H1>Source Tracks</H1>
                                     <H4 color={theme.colors.primary.teal}>
-                                        Browse your tracks
+                                        Browse your source tracks
                                     </H4>
-                                    <H5><PaginationCount start={0} end={10} total={20} name={"tracks"} /></H5>
+                                    <H5>
+                                        <PaginationCount
+                                            name="Tracks"
+                                            total={encode?.tracks?.data?.totalDocs}
+                                            start={encode?.tracks?.data?.offset}
+                                            end={encode?.tracks?.data?.docs?.length}
+                                        />
+                                    </H5>
                                 </Grid>
                                 <Grid>
                                     <Columns columns={state.tracksTableHeads} />

@@ -2,9 +2,9 @@ import React from 'react'
 import {
     EncodeContainer, MetaDataHeaderContainer, CheckBoxLabelContainer, IconContainer, ButtonContainer, SearchTrackContainer,
     MetaDataDetailsContainer, ProperAccessContainer, RightsHolderContainer, RadioLabel, TextContainer, PopUpContainer,
-    TitleContainer, Anchor, SelectedTrackTextContainer
+    TitleContainer, Anchor, SelectedTrackTextContainer, UlList
 } from './indexStyles'
-import { H4, H1, H5, H6, H3 } from "../../../../StyledComponents/StyledHeadings"
+import { H4, H1, H5, H3 } from "../../../../StyledComponents/StyledHeadings"
 import theme from '../../../../theme'
 import { useDispatch, useSelector } from 'react-redux'
 import { log } from '../../../../utils/app.debug'
@@ -51,8 +51,6 @@ export default function EncodeData() {
     const encode = () => {
         if (encodeReducer?.loading) return
         if (!encodeReducer?.metaData?.contentOwner) return cogoToast.error("Artist is mandetory field")
-        if (!encodeReducer?.metaData?.distributor) return cogoToast.error("Distributor is mandetory field")
-        if (!encodeReducer?.metaData?.label) return cogoToast.error("Label is mandetory field")
         if (encodeReducer?.metaData?.additionalMetadata && !isJsonObject(encodeReducer?.metaData?.additionalMetadata)) return cogoToast.error("Additional MetaData must be in JSON format")
 
         if (encodeReducer?.metaData?.contentType === 'Music' && (encodeReducer?.metaData?.isrcCode === '' || encodeReducer?.metaData?.isrcCode === undefined)
@@ -69,14 +67,14 @@ export default function EncodeData() {
         log("Autocomplete selected value", v)
         let metaData = {
             ...encodeReducer?.metaData,
-            additionalMetadata: JSON.stringify(v?.trackMetaData?.additionalMetadata),
             contentName: v?.trackMetaData?.contentName || v?.title || "",
-            contentFileType: v?.trackMetaData?.contentFileType || v?.fileType || "",
+            version: v?.trackMetaData?.version || "",
             contentOwner: v?.trackMetaData?.contentOwner || v?.artist || "",
-            contentDuration: v?.trackMetaData?.contentDuration || v?.duration || "",
-            contentSize: v?.trackMetaData?.contentSize || v?.fileSize || "",
-            contentEncoding: v?.trackMetaData?.contentEncoding || v?.encoding || "",
-            contentSamplingFrequency: v?.trackMetaData?.contentSamplingFrequency || v?.samplingFrequency || "",
+            contentType: v?.trackMetaData?.contentType || v?.fileType || "",
+            label: v?.trackMetaData?.label || "",
+            distributor: v?.trackMetaData?.distributor || "",
+            contentDescription: v?.trackMetaData?.contentDescription || "",
+            additionalMetadata: JSON.stringify(v?.trackMetaData?.additionalMetadata),
         }
         dispatch({ type: actionTypes.SET_METADATA, data: metaData })
         setState({ ...state, displaySelectedTrack: true, autoCompleteValue: v })
@@ -188,6 +186,8 @@ export default function EncodeData() {
                 <Grid container spacing={10}>
                     <Grid item lg={6}>
                         <StyledTextField
+                            disabled={encodeReducer?.metaData?.encodeFromExistingFile === true ? true : false}
+                            variant={encodeReducer?.metaData?.encodeFromExistingFile === true ? "filled" : "standard"}
                             fullWidth
                             id="standard-basic"
                             label="Title"
@@ -206,6 +206,8 @@ export default function EncodeData() {
                                 }}
                                 labelProps={{ style: { fontFamily: theme.fontFamily.nunitoSansRegular } }}
                                 inputProps={{
+                                    disabled: encodeReducer?.metaData?.encodeFromExistingFile === true ? true : false,
+                                    variant: encodeReducer?.metaData?.encodeFromExistingFile === true ? "filled" : "standard",
                                     value: encodeReducer?.metaData?.contentType,
                                     onChange: (e) => dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, contentType: e.target.value } })
                                 }}
@@ -214,6 +216,8 @@ export default function EncodeData() {
                         </Grid>
 
                         <StyledTextField
+                            disabled={encodeReducer?.metaData?.encodeFromExistingFile === true ? true : false}
+                            variant={encodeReducer?.metaData?.encodeFromExistingFile === true ? "filled" : "standard"}
                             fullWidth
                             id="standard-basic"
                             label="Artist"
@@ -223,6 +227,8 @@ export default function EncodeData() {
                         />
 
                         <StyledTextField
+                            disabled={encodeReducer?.metaData?.encodeFromExistingFile === true ? true : false}
+                            variant={encodeReducer?.metaData?.encodeFromExistingFile === true ? "filled" : "standard"}
                             fullWidth
                             id="standard-basic"
                             label="Version"
@@ -232,6 +238,8 @@ export default function EncodeData() {
                         />
 
                         <StyledTextField
+                            disabled={encodeReducer?.metaData?.encodeFromExistingFile === true ? true : false}
+                            variant={encodeReducer?.metaData?.encodeFromExistingFile === true ? "filled" : "standard"}
                             fullWidth
                             id="standard-basic"
                             label="ISRC"
@@ -242,6 +250,8 @@ export default function EncodeData() {
                         />
 
                         <StyledTextField
+                            disabled={encodeReducer?.metaData?.encodeFromExistingFile === true ? true : false}
+                            variant={encodeReducer?.metaData?.encodeFromExistingFile === true ? "filled" : "standard"}
                             fullWidth
                             id="standard-basic"
                             label="ISWC"
@@ -252,6 +262,8 @@ export default function EncodeData() {
                         />
 
                         <StyledTextField
+                            disabled={encodeReducer?.metaData?.encodeFromExistingFile === true ? true : false}
+                            variant={encodeReducer?.metaData?.encodeFromExistingFile === true ? "filled" : "standard"}
                             fullWidth
                             id="standard-basic"
                             label="Tune Code"
@@ -262,9 +274,11 @@ export default function EncodeData() {
                         />
 
                         <StyledTextField
+                            disabled
                             fullWidth
                             id="standard-basic"
                             label="File type"
+                            variant="filled"
                             className="mt-3"
                             inputProps={{ readOnly: true }}
                             InputLabelProps={{ shrink: true, }}
@@ -273,6 +287,8 @@ export default function EncodeData() {
 
                         <StyledTextField
                             fullWidth
+                            disabled
+                            variant="filled"
                             id="standard-basic"
                             label="Audio length"
                             className="mt-3"
@@ -285,6 +301,8 @@ export default function EncodeData() {
                     <Grid item lg={6}>
                         <StyledTextField
                             fullWidth
+                            disabled
+                            variant="filled"
                             id="standard-basic"
                             label="Audio Size (In MB)"
                             inputProps={{ readOnly: true }}
@@ -293,6 +311,8 @@ export default function EncodeData() {
 
                         <StyledTextField
                             fullWidth
+                            disabled
+                            variant="filled"
                             id="standard-basic"
                             label="Underlying encoding of file"
                             inputProps={{ readOnly: true }}
@@ -303,6 +323,8 @@ export default function EncodeData() {
 
                         <StyledTextField
                             fullWidth
+                            disabled
+                            variant="filled"
                             id="standard-basic"
                             label="Sampling Frequency"
                             className="mt-3"
@@ -312,6 +334,8 @@ export default function EncodeData() {
                         />
 
                         <StyledTextField
+                            disabled={encodeReducer?.metaData?.encodeFromExistingFile === true ? true : false}
+                            variant={encodeReducer?.metaData?.encodeFromExistingFile === true ? "filled" : "standard"}
                             fullWidth
                             id="standard-basic"
                             label="Quality Grade"
@@ -363,6 +387,8 @@ export default function EncodeData() {
                         </Grid>
 
                         <StyledTextField
+                            disabled={encodeReducer?.metaData?.encodeFromExistingFile === true ? true : false}
+                            variant={encodeReducer?.metaData?.encodeFromExistingFile === true ? "filled" : "standard"}
                             fullWidth
                             multiline
                             placeholder="Json object"
@@ -399,6 +425,10 @@ export default function EncodeData() {
                             />
                         </RadioGroup>
                     </RightsHolderContainer>
+                    <ul>
+                        <UlList>If you select 'Yes' the grey encode button will turn to blue and you can immediately encode the audio file by cUlListcking on the blue encode button.</UlList>
+                        <UlList>If you select 'No', please answer the question below.</UlList>
+                    </ul>
 
                     <RightsHolderContainer>
                         <H5
@@ -424,6 +454,10 @@ export default function EncodeData() {
                             />
                         </RadioGroup>
                     </RightsHolderContainer>
+                    <ul>
+                        <UlList>If you select 'Yes' the grey encode button will turn to blue and you can immediately encode the audio file by clicking on the blue encode button.</UlList>
+                        <UlList>IIf you select 'No', you will be unable to encode the file.</UlList>
+                    </ul>
                 </ProperAccessContainer>
 
                 <ButtonContainer>
@@ -485,7 +519,10 @@ export default function EncodeData() {
                     <Grid container justifyContent='flex-end'>
                         <CloseIcon
                             onClick={() => {
+                                dispatch({ type: actionTypes.CLEAR_SELECTED_FILE })
                                 dispatch({ type: actionTypes.CLOSE_SUCCESS_POPUP })
+                                dispatch({ type: actionTypes.CLOSE_ERROR_POPUP })
+                                dispatch(getTracksAction(encodeReducer?.tracks.startDate, encodeReducer?.tracks?.endDate, encodeReducer?.tracks?.data?.page || 1, "10"))
                             }}
                             style={{ cursor: "pointer" }} />
                     </Grid>

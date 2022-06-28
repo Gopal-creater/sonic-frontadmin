@@ -4,6 +4,12 @@ import { Grid } from "@material-ui/core";
 import FailedFileSelection from "../../components/common/FileSelection/FailedFileSelection";
 import DecodeSuccess from "./components/DecodeSuccess";
 import EncodeDecodeLoading from "../../components/common/FileSelection/EncodeDecodeLoading";
+import PopUp from "../../components/common/PopUp";
+import { H4, H5 } from "../../StyledComponents/StyledHeadings";
+import theme from "../../theme";
+import { PopUpContainer, TitleContainer } from "../Encode/Components/MetaDataDetails/indexStyles";
+import encode_progress from "../../assets/icons/encode_progress.png"
+import sonic_preloader from "../../assets/icons/sonic_preloader.gif"
 
 export default function Decode() {
   const [loading, setLoading] = useState(false);
@@ -61,12 +67,40 @@ export default function Decode() {
         }}
       />
 
-      <EncodeDecodeLoading
+      {/* <EncodeDecodeLoading
         open={loading}
         onClose={() => setLoading(false)}
         title="Decoding"
         audioName={values?.name}
-      />
+      /> */}
+
+      <PopUp
+        id="loadingPopUp"
+        open={loading}
+        maxWidth="sm"
+        fullWidth
+      >
+        <PopUpContainer>
+          <TitleContainer container direction='column' alignItems='center'>
+            <img src={encode_progress} style={{ width: "140px", height: "140px", zIndex: 1 }} />
+            <H4
+              className='mt-4'
+              fontFamily={theme.fontFamily.nunitoSansBlack}
+              style={{ textAlign: "center", zIndex: 1 }}
+            >
+              Decoding of  in progress
+            </H4>
+          </TitleContainer>
+          <H5
+            style={{ textAlign: "center", padding: "25px" }}
+          >
+            Depending on your internet connection and a size of an audio file, decoding may take longer at times
+          </H5>
+          <Grid container justifyContent='center'>
+            <img src={sonic_preloader} alt="sonic preloader" />
+          </Grid>
+        </PopUpContainer>
+      </PopUp>
     </Grid>
   );
 }

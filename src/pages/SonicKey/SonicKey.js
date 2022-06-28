@@ -21,6 +21,7 @@ export default function SonicKey() {
     React.useEffect(() => {
         dispatch(getAllSonickeysActions(10, sonickey?.data?.page))
     }, []);
+    console.log(sonickey.filters);
 
     return (
         <MainContainer>

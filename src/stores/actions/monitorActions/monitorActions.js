@@ -57,11 +57,11 @@ export const getMonitorListAction = (actions, startDate, endDate, page, limit, p
     if (monitorFilters?.song) {
         params.append("relation_sonicKey.contentName", monitorFilters?.song);
     }
-    if (monitorFilters?.label) {
-        params.append("relation_sonicKey.label", `/${monitorFilters?.label}/i`);
+    if (monitorFilters?.label?.name) {
+        params.append("relation_sonicKey.label", monitorFilters?.label?.name);
     }
-    if (monitorFilters?.distributor) {
-        params.append("relation_sonicKey.distributor", `/${monitorFilters?.distributor}/i`);
+    if (monitorFilters?.distributor?.name) {
+        params.append("relation_sonicKey.distributor", monitorFilters?.distributor?.name);
     }
     if (monitorFilters?.encodedStartDate) {
         let startOfEncodedDate = moment(monitorFilters?.encodedStartDate).startOf("days").toISOString()

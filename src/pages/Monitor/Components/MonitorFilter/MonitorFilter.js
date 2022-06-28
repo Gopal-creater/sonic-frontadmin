@@ -171,25 +171,33 @@ export default function MonitorFilter({ closeDialog, playsBy, actions, dashboard
                         />
                     </FilterForm>
 
-                    <FilterForm>
+                    <FilterForm className='mt-3'>
                         <AppAutoComplete
-                            setAutoComPleteAction={(value) => ""}
+                            setAutoComPleteAction={() => { }}
                             setAutoCompleteOptions={(option => option?.name || "")}
                             data={labelArray}
-                            setAutoCompleteOptionsLabel={(option => "")}
-                            getSelectedValue={(e, v) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, label: v?.name } })}
+                            setAutoCompleteOptionsLabel={() => { }}
+                            getSelectedValue={(e, v) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, label: v } })}
                             placeholder={"Label"}
+                            hideSearchIcon={true}
+                            value={monitor?.filters?.label}
+                            color={theme.colors.secondary.grey}
+                            fontFamily={theme.fontFamily.nunitoSansBold}
                         />
                     </FilterForm>
 
-                    <FilterForm>
+                    <FilterForm className='mt-3'>
                         <AppAutoComplete
-                            setAutoComPleteAction={(value) => ""}
+                            setAutoComPleteAction={() => { }}
                             setAutoCompleteOptions={(option => option?.name || "")}
                             data={distributorArray}
-                            setAutoCompleteOptionsLabel={(option => "")}
-                            getSelectedValue={(e, v) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, distributor: v?.name } })}
+                            setAutoCompleteOptionsLabel={() => { }}
+                            getSelectedValue={(e, v) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, distributor: v } })}
                             placeholder={"Distributor"}
+                            hideSearchIcon={true}
+                            value={monitor?.filters?.distributor}
+                            color={theme.colors.secondary.grey}
+                            fontFamily={theme.fontFamily.nunitoSansBold}
                         />
                     </FilterForm>
 

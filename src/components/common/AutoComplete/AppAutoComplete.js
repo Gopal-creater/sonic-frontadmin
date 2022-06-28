@@ -4,11 +4,11 @@ import { ControlPoint, Search } from '@material-ui/icons';
 import { AutocompleteTextfield, StyledAutocomplete } from './StyledPicker';
 import theme from '../../../theme';
 import { Grid } from '@material-ui/core';
-import { log } from '../../../utils/app.debug';
 
 export default function AppAutoComplete(props) {
     return (
         <StyledAutocomplete
+            {...props}
             id="combo-box-demo"
             options={props.data || []}
             noOptionsText={props.error ? props.error : props.loading ? "Loading..." : props?.data === undefined ? "Start typing..." : props?.data?.length === 0 && "No Data"}
@@ -36,6 +36,9 @@ export default function AppAutoComplete(props) {
                         helperText={props?.helperText || ""}
                         placeholder={props?.placeholder || ""}
                         label={props?.labelText || ""}
+                        color={props?.color}
+                        fontFamily={props?.fontFamily}
+                        fontSize={props?.fontSize}
                     />
                 )
             }}

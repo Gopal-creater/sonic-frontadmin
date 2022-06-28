@@ -44,11 +44,11 @@ export const getAllSonickeysActions = (limit, page) => {
     if (sonicKeyData?.title) {
         params.append("contentName", `/${sonicKeyData?.title}/i`);
     }
-    if (sonicKeyData?.label) {
-        params.append("label", `/${sonicKeyData?.label}/i`);
+    if (sonicKeyData?.label?.name) {
+        params.append("label", sonicKeyData?.label?.name);
     }
-    if (sonicKeyData?.distributor) {
-        params.append("distributor", `/${sonicKeyData?.distributor}/i`);
+    if (sonicKeyData?.distributor?.name) {
+        params.append("distributor", sonicKeyData?.distributor?.name);
     }
     if (sonicKeyData?.company) params.append("relation_company._id", sonicKeyData?.company);
     if (sonicKeyData?.user) {

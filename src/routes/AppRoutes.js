@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import AppLayout from "../components/common/AppLayout";
 import Encode from "../pages/Encode/Encode";
 import Decode from "../pages/Decode/Decode";
@@ -30,15 +30,36 @@ import SonicKey from "../pages/SonicKey/SonicKey";
 import Profile from "../pages/Profile/Profile";
 import SonicStreamReader from "../pages/StreamReader/SonicStreamReader";
 import SonicStreamDetail from "../pages/StreamReader/SonicStreamDetail";
+import * as actionTypes from '../stores/actions/actionTypes';
 
 export default function AppRoutes() {
   const user = useSelector(state => state.user)
   const dispatch = useDispatch()
+  const location = useLocation();
 
   React.useEffect(() => {
     dispatch(getUserProfileAction())
     dispatch(getInitialDatas())
   }, [])
+
+  React.useEffect(() => {
+    if (location.pathname !== "/encoded-tracks") {
+      dispatch({
+        type: actionTypes.SONIC_KEY_FILTERS,
+        data: {
+          channel: "ALL",
+          sonicKey: "",
+          artist: "",
+          trackId: "",
+          title: "",
+          label: "",
+          distributor: "",
+          company: "",
+          user: ""
+        }
+      })
+    }
+  }, [location])
 
   if (user?.userProfile?.error) {
     dispatch(logout())

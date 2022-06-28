@@ -74,7 +74,6 @@ const useStyles = makeStyles((theme) => ({
   sidebarContainer: {
     width: "190px",
     position: "fixed",
-    height: "100%",
   },
   pagecontent: {
     flexGrow: 1,

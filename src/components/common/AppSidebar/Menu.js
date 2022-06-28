@@ -42,7 +42,7 @@ export default function Menu({ menu }) {
                             to={item?.path}
                             key={index}
                         >
-                            <SideBarLabel left="0px">
+                            <SideBarLabel left="25px">
                                 {item.title}
                             </SideBarLabel>
                         </NavLink>

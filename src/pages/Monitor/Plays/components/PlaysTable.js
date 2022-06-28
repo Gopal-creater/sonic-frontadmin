@@ -149,9 +149,10 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                                                     background: theme.colors.secondary.tableColor
                                                 }}
                                             >
-                                                {row?.artist || "---"}
+                                                {row?.modal?.company?.name || "---"}
                                             </AlternateDataColumn>
                                         </CustomToolTip>
+
                                         <CustomToolTip title={row?.title || "---"} placement={"bottom-start"}>
                                             <AlternateDataColumn
                                                 style={{
@@ -163,16 +164,50 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                                                     background: theme.colors.secondary.tableColor
                                                 }}
                                             >
-                                                {row?.title || "---"}
+                                                {row?.modal?.company?.companyType || "---"}
                                             </AlternateDataColumn>
                                         </CustomToolTip>
+
+                                        <AlternateDataColumn>{row?.artist || "---"}</AlternateDataColumn>
+
+                                        <AlternateDataColumn>{row?.title || "---"}</AlternateDataColumn>
+
+                                        <AlternateDataColumn>{row?.version || "---"}</AlternateDataColumn>
+
+                                        <AlternateDataColumn>{row?.trackId || "---"}</AlternateDataColumn>
+
                                         <AlternateDataColumn>{row?.radioStation || "---"}</AlternateDataColumn>
+
                                         <AlternateDataColumn>{moment(row?.date).utc().format("DD/MM/YYYY") || "---"}</AlternateDataColumn>
+
                                         <AlternateDataColumn>
                                             {monitor?.filters?.timezone === "GMT" ? moment(row?.time).utc().format("HH:mm:ss") : moment(row?.time).format("HH:mm:ss") || "---"}
                                         </AlternateDataColumn>
+
                                         <AlternateDataColumn>{moment.utc(row?.duration * 1000).format("mm:ss") || "---"}</AlternateDataColumn>
+
                                         <AlternateDataColumn>{row?.country || "---"}</AlternateDataColumn>
+
+                                        <AlternateDataColumn
+                                            style={{
+                                                color: theme.colors.primary.graphite,
+                                                fontSize: theme.fontSize.h5,
+                                                fontFamily: theme.fontFamily.nunitoSansMediumBold
+                                            }}
+                                        >
+                                            {row?.isrcCode || "---"}
+                                        </AlternateDataColumn>
+
+                                        <AlternateDataColumn>{row?.iswc || "---"}</AlternateDataColumn>
+
+                                        <AlternateDataColumn>{row?.tuneCode || "---"}</AlternateDataColumn>
+
+                                        <AlternateDataColumn>{row?.label || "---"}</AlternateDataColumn>
+
+                                        <AlternateDataColumn>{row?.distributor || "---"}</AlternateDataColumn>
+
+                                        <AlternateDataColumn>{row?.fileType || "---"}</AlternateDataColumn>
+
                                         <AlternateDataColumn
                                             style={{
                                                 color: theme.colors.primary.navy,
@@ -184,26 +219,13 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                                         >
                                             {row?.sonicKey || "---"}
                                         </AlternateDataColumn>
-                                        <AlternateDataColumn
-                                            style={{
-                                                color: theme.colors.primary.graphite,
-                                                fontSize: theme.fontSize.h5,
-                                                fontFamily: theme.fontFamily.nunitoSansMediumBold
-                                            }}
-                                        >
-                                            {row?.isrcCode || "---"}
-                                        </AlternateDataColumn>
-                                        <AlternateDataColumn>{row?.version || "---"}</AlternateDataColumn>
-                                        <AlternateDataColumn>{row?.distributor || "---"}</AlternateDataColumn>
-                                        <AlternateDataColumn>{row?.label || "---"}</AlternateDataColumn>
-                                        <AlternateDataColumn>{row?.iswc || "---"}</AlternateDataColumn>
-                                        <AlternateDataColumn>{row?.tuneCode || "---"}</AlternateDataColumn>
+
                                     </StyledTableRow>
                                 )
                             }
                             return (
                                 <StyledTableRow key={index}>
-                                    <CustomToolTip title={row?.artist || "---"} placement={"bottom-start"}>
+                                    <CustomToolTip title={row?.modal?.company?.name || "---"} placement={"bottom-start"}>
                                         <TableDataColumn
                                             style={{
                                                 color: theme.colors.primary.navy,
@@ -215,11 +237,11 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                                                 background: "white"
                                             }}
                                         >
-                                            {row?.artist || "---"}
+                                            {row?.modal?.company?.name || "---"}
                                         </TableDataColumn>
                                     </CustomToolTip>
 
-                                    <CustomToolTip title={row?.title || "---"} placement={"bottom-start"}>
+                                    <CustomToolTip title={row?.modal?.company?.companyType || "---"} placement={"bottom-start"}>
                                         <TableDataColumn
                                             style={{
                                                 color: theme.colors.primary.graphite,
@@ -231,16 +253,51 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                                                 background: "white"
                                             }}
                                         >
-                                            {row?.title || "---"}
+                                            {row?.modal?.company?.companyType || "---"}
                                         </TableDataColumn>
                                     </CustomToolTip>
+
+                                    <TableDataColumn>{row?.artist || "---"}</TableDataColumn>
+
+                                    <TableDataColumn>{row?.title || "---"}</TableDataColumn>
+
+                                    <TableDataColumn>{row?.version || "---"}</TableDataColumn>
+
+                                    <TableDataColumn>{row?.trackId || "---"}</TableDataColumn>
+
                                     <TableDataColumn>{row?.radioStation || "---"}</TableDataColumn>
+
                                     <TableDataColumn>{moment(row?.date).utc().format("DD/MM/YYYY") || "---"}</TableDataColumn>
+
                                     <TableDataColumn>
                                         {monitor?.filters?.timezone === "GMT" ? moment(row?.time).utc().format("HH:mm:ss") : moment(row?.time).format("HH:mm:ss") || "---"}
                                     </TableDataColumn>
+
                                     <TableDataColumn>{moment.utc(row?.duration * 1000).format("mm:ss") || "---"}</TableDataColumn>
+
                                     <TableDataColumn>{row?.country || "---"}</TableDataColumn>
+
+                                    <TableDataColumn
+                                        style={{
+                                            color: theme.colors.primary.graphite,
+                                            fontSize: theme.fontSize.h5,
+                                            fontFamily: theme.fontFamily.nunitoSansMediumBold
+                                        }}
+                                    >
+                                        {row?.isrcCode || "---"}
+                                    </TableDataColumn>
+
+                                    <TableDataColumn>{row?.iswc || "---"}</TableDataColumn>
+
+                                    <TableDataColumn>{row?.tuneCode || "---"}</TableDataColumn>
+
+                                    <TableDataColumn>{row?.label || "---"}</TableDataColumn>
+
+                                    <TableDataColumn>{row?.distributor || "---"}</TableDataColumn>
+
+                                    <TableDataColumn>{row?.fileType || "---"}</TableDataColumn>
+
+
                                     <TableDataColumn
                                         style={{
                                             color: theme.colors.primary.navy,
@@ -252,20 +309,7 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                                     >
                                         {row?.sonicKey || "---"}
                                     </TableDataColumn>
-                                    <TableDataColumn
-                                        style={{
-                                            color: theme.colors.primary.graphite,
-                                            fontSize: theme.fontSize.h5,
-                                            fontFamily: theme.fontFamily.nunitoSansMediumBold
-                                        }}
-                                    >
-                                        {row?.isrcCode || "---"}
-                                    </TableDataColumn>
-                                    <TableDataColumn>{row?.version || "---"}</TableDataColumn>
-                                    <TableDataColumn>{row?.distributor || "---"}</TableDataColumn>
-                                    <TableDataColumn>{row?.label || "---"}</TableDataColumn>
-                                    <TableDataColumn>{row?.iswc || "---"}</TableDataColumn>
-                                    <TableDataColumn>{row?.tuneCode || "---"}</TableDataColumn>
+
                                 </StyledTableRow>
                             )
                         })}

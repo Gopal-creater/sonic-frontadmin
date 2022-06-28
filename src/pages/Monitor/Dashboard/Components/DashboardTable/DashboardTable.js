@@ -147,7 +147,7 @@ export default function DashboardTable({ data }) {
                                             {
                                                 index === 0 || index === 1 ?
                                                     "" :
-                                                    <TableResizer onMouseDown={() => setState({ ...state, activeColumnIndex: index })} style={{ height: state.tableHeight }} />
+                                                    <TableResizer onMouseDown={() => setState({ ...state, activeColumnIndex: index })} style={{ height: state.tableHeight, }} />
                                             }
                                         </StyledTableHeadColumn>
                                     )
@@ -166,27 +166,29 @@ export default function DashboardTable({ data }) {
                                     state.data?.map((row, index) => {
                                         return (
                                             <StyledTableRow key={index}>
-                                                <CustomToolTip title={row?.artist || "---"} placement={"bottom-start"}>
+                                                <CustomToolTip title={row?.modal?.company?.name || "---"} placement={"bottom-start"}>
                                                     <TableDataColumn
                                                         style={{
                                                             color: theme.colors.primary.navy,
                                                             fontSize: theme.fontSize.h4,
                                                             fontFamily: theme.fontFamily.nunitoSansMediumBold,
                                                             position: "sticky",
+                                                            // backgroundColor: "yellow",
                                                             width: "130px",
                                                             left: 0,
                                                         }}
                                                         bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}
                                                     >
-                                                        {row?.artist || "---"}
+                                                        {row?.modal?.company?.name || "---"}
                                                     </TableDataColumn>
                                                 </CustomToolTip>
 
-                                                <CustomToolTip title={row?.title || "---"} placement={"bottom-start"}>
+                                                <CustomToolTip title={row?.modal?.company?.companyType || "---"} placement={"bottom-start"}>
                                                     <TableDataColumn
                                                         style={{
                                                             color: theme.colors.primary.graphite,
                                                             fontSize: theme.fontSize.h4,
+                                                            // backgroundColor: "red",
                                                             fontFamily: theme.fontFamily.nunitoSansMediumBold,
                                                             position: "sticky",
                                                             width: "130px",
@@ -194,9 +196,25 @@ export default function DashboardTable({ data }) {
                                                         }}
                                                         bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}
                                                     >
-                                                        {row?.title || "---"}
+                                                        {row?.modal?.company?.companyType || "---"}
                                                     </TableDataColumn>
                                                 </CustomToolTip>
+
+                                                <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
+                                                    {row?.artist || "---"}
+                                                </TableDataColumn>
+
+                                                <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
+                                                    {row?.title || "---"}
+                                                </TableDataColumn>
+
+                                                <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
+                                                    {row?.version || "---"}
+                                                </TableDataColumn>
+
+                                                <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
+                                                    {row?.trackId || "---"}
+                                                </TableDataColumn>
 
                                                 <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
                                                     {row?.radioStation || "---"}
@@ -219,19 +237,6 @@ export default function DashboardTable({ data }) {
                                                 </TableDataColumn>
 
                                                 <TableDataColumn
-                                                    bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}
-                                                    style={{
-                                                        color: theme.colors.primary.navy,
-                                                        fontSize: theme.fontSize.h5,
-                                                        fontFamily: theme.fontFamily.nunitoSansMediumBold,
-                                                        cursor: 'pointer'
-                                                    }}
-                                                    onClick={() => setState({ ...state, sonicKeyModal: true, selectedSonicKey: row?.modal })}
-                                                >
-                                                    {row?.sonicKey || "---"}
-                                                </TableDataColumn>
-
-                                                <TableDataColumn
                                                     style={{
                                                         color: theme.colors.primary.graphite,
                                                         fontSize: theme.fontSize.h5,
@@ -243,11 +248,11 @@ export default function DashboardTable({ data }) {
                                                 </TableDataColumn>
 
                                                 <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
-                                                    {row?.version || "---"}
+                                                    {row?.iswc || "---"}
                                                 </TableDataColumn>
 
                                                 <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
-                                                    {row?.distributor || "---"}
+                                                    {row?.tuneCode || "---"}
                                                 </TableDataColumn>
 
                                                 <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
@@ -255,11 +260,24 @@ export default function DashboardTable({ data }) {
                                                 </TableDataColumn>
 
                                                 <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
-                                                    {row?.iswc || "---"}
+                                                    {row?.distributor || "---"}
                                                 </TableDataColumn>
 
                                                 <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
-                                                    {row?.tuneCode || "---"}
+                                                    {row?.fileType || "---"}
+                                                </TableDataColumn>
+
+                                                <TableDataColumn
+                                                    bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}
+                                                    style={{
+                                                        color: theme.colors.primary.navy,
+                                                        fontSize: theme.fontSize.h5,
+                                                        fontFamily: theme.fontFamily.nunitoSansMediumBold,
+                                                        cursor: 'pointer'
+                                                    }}
+                                                    onClick={() => setState({ ...state, sonicKeyModal: true, selectedSonicKey: row?.modal })}
+                                                >
+                                                    {row?.sonicKey || "---"}
                                                 </TableDataColumn>
 
                                             </StyledTableRow>

@@ -355,7 +355,17 @@ export default function EncodeData() {
                         />
 
                         <Grid className='mt-3'>
-                            <CustomDropDown
+                            <AppAutoComplete
+                                // setAutoComPleteAction={(value) => dispatch(getUsersNameAction(value))}
+                                setAutoCompleteOptions={(option => option?.username || "")}
+                                setAutoCompleteOptionsLabel={(option => option?.email || "")}
+                                // loading={user?.userSearch?.loading}
+                                // data={user?.userSearch?.data?.docs}
+                                // error={user?.userSearch?.error}
+                                // getSelectedValue={(e, v) => setState({ ...state, user: v })}
+                                placeholder={"Search for a Distributor"}
+                            />
+                            {/* <CustomDropDown
                                 id="channel-dropdown"
                                 labelText="Distributor"
                                 formControlProps={{
@@ -367,11 +377,20 @@ export default function EncodeData() {
                                     onChange: (e) => dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, distributor: e.target.value } })
                                 }}
                                 data={distributorArray || []}
-                            />
+                            /> */}
                         </Grid>
 
                         <Grid className='mt-3'>
-                            <CustomDropDown
+                            <AppAutoComplete
+                                // setAutoComPleteAction={(value) => dispatch(getUsersNameAction(value))}
+                                setAutoCompleteOptions={(option => option?.name || "")}
+                                // loading={state.loading}
+                                data={labelArray}
+                                // error={state.error}
+                                getSelectedValue={(e, v) => dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, label: v } })}
+                                placeholder={"Search for a Label"}
+                            />
+                            {/* <CustomDropDown
                                 id="channel-dropdown"
                                 labelText="Label"
                                 formControlProps={{
@@ -383,7 +402,7 @@ export default function EncodeData() {
                                     onChange: (e) => dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, label: e.target.value } })
                                 }}
                                 data={labelArray || []}
-                            />
+                            /> */}
                         </Grid>
 
                         <StyledTextField

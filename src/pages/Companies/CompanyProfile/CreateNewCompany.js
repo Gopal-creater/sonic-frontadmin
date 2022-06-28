@@ -61,6 +61,7 @@ export default function CreateNewCompany() {
         dispatch(createCompanyAction(payload))
     }
     log("state to user", state?.user);
+
     return (
         <MainContainer>
             <H1>Create new company</H1>

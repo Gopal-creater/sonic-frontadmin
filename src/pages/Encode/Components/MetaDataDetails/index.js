@@ -354,55 +354,30 @@ export default function EncodeData() {
                             onChange={(e) => { dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, contentDescription: e.target.value } }) }}
                         />
 
-                        <Grid className='mt-3'>
+                        <Grid style={{ marginTop: "35px" }}>
                             <AppAutoComplete
-                                // setAutoComPleteAction={(value) => dispatch(getUsersNameAction(value))}
-                                setAutoCompleteOptions={(option => option?.username || "")}
-                                setAutoCompleteOptionsLabel={(option => option?.email || "")}
-                                // loading={user?.userSearch?.loading}
-                                // data={user?.userSearch?.data?.docs}
-                                // error={user?.userSearch?.error}
-                                // getSelectedValue={(e, v) => setState({ ...state, user: v })}
-                                placeholder={"Search for a Distributor"}
+                                setAutoComPleteAction={(value) => ""}
+                                setAutoCompleteOptions={(option => option?.name || "")}
+                                // loading={state.loading}
+                                data={distributorArray}
+                                // error={state.error}
+                                setAutoCompleteOptionsLabel={(option => "")}
+                                getSelectedValue={(e, v) => dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, distributor: v?.name } })}
+                                placeholder={"Distributor"}
                             />
-                            {/* <CustomDropDown
-                                id="channel-dropdown"
-                                labelText="Distributor"
-                                formControlProps={{
-                                    fullWidth: true
-                                }}
-                                labelProps={{ style: { fontFamily: theme.fontFamily.nunitoSansRegular } }}
-                                inputProps={{
-                                    value: encodeReducer?.metaData?.distributor,
-                                    onChange: (e) => dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, distributor: e.target.value } })
-                                }}
-                                data={distributorArray || []}
-                            /> */}
                         </Grid>
 
-                        <Grid className='mt-3'>
+                        <Grid style={{ marginTop: "35px" }}>
                             <AppAutoComplete
-                                // setAutoComPleteAction={(value) => dispatch(getUsersNameAction(value))}
+                                setAutoComPleteAction={(value) => ""}
                                 setAutoCompleteOptions={(option => option?.name || "")}
                                 // loading={state.loading}
                                 data={labelArray}
                                 // error={state.error}
-                                getSelectedValue={(e, v) => dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, label: v } })}
-                                placeholder={"Search for a Label"}
+                                setAutoCompleteOptionsLabel={(option => "")}
+                                getSelectedValue={(e, v) => dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, label: v?.name } })}
+                                placeholder={"Label"}
                             />
-                            {/* <CustomDropDown
-                                id="channel-dropdown"
-                                labelText="Label"
-                                formControlProps={{
-                                    fullWidth: true
-                                }}
-                                labelProps={{ style: { fontFamily: theme.fontFamily.nunitoSansRegular } }}
-                                inputProps={{
-                                    value: encodeReducer?.metaData?.label,
-                                    onChange: (e) => dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, label: e.target.value } })
-                                }}
-                                data={labelArray || []}
-                            /> */}
                         </Grid>
 
                         <StyledTextField

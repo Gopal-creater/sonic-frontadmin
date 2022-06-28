@@ -14,15 +14,22 @@ import CustomDropDown from '../../../../components/common/AppTextInput/CustomDro
 import { getMonitorListAction } from '../../../../stores/actions/monitorActions/monitorActions';
 import { getMonitorDashboardDataAction } from '../../../../stores/actions/dashboardActions.js/dashboardActions';
 import { Distributor, Labels } from "../../../../constants/constants"
+import { getAllCompaniesAction } from '../../../../stores/actions/CompanyActions';
 
 export default function MonitorFilter({ closeDialog, playsBy, actions, dashboard = false }) {
     const dispatch = useDispatch();
     const monitor = useSelector(state => state.monitor);
+    const company = useSelector(state => state.company)
     const radioStations = useSelector(state => state.radioStations)
     const users = useSelector(state => state.user)
 
+    React.useEffect(() => {
+        dispatch(getAllCompaniesAction(50, company?.getAllCompanies?.data?.page))
+    }, []);
+
     let distributorArray = Distributor.map((data) => { return { name: data } })
     let labelArray = Labels.map((data) => { return { name: data } })
+    let companyName = company?.getAllCompanies?.data?.docs?.map((data) => { return { id: data?._id, name: data?.name } })
 
     const filteredRadioStation = radioStations.data?.filter((data) => {
         if (monitor.filters.country === "") {
@@ -32,7 +39,6 @@ export default function MonitorFilter({ closeDialog, playsBy, actions, dashboard
             return data
         }
     })
-
     const handleFilter = (e) => {
         e.preventDefault();
         if (dashboard) {
@@ -168,7 +174,7 @@ export default function MonitorFilter({ closeDialog, playsBy, actions, dashboard
                             formControlProps={{
                                 fullWidth: true
                             }}
-                            labelProps={{ style: { fontFamily: theme.fontFamily.nunitoSansRegular } }}
+                            labelProps={{ style: { fontFamily: theme.fontFamily.nunitoSansBold } }}
                             inputProps={{
                                 value: monitor?.filters?.label,
                                 onChange: (e) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, label: e.target.value } })
@@ -184,7 +190,7 @@ export default function MonitorFilter({ closeDialog, playsBy, actions, dashboard
                             formControlProps={{
                                 fullWidth: true
                             }}
-                            labelProps={{ style: { fontFamily: theme.fontFamily.nunitoSansRegular } }}
+                            labelProps={{ style: { fontFamily: theme.fontFamily.nunitoSansBold } }}
                             inputProps={{
                                 value: monitor?.filters?.distributor,
                                 onChange: (e) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, distributor: e.target.value } })
@@ -195,16 +201,19 @@ export default function MonitorFilter({ closeDialog, playsBy, actions, dashboard
 
                     {users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
                         <FilterForm>
-                            <StyledTextField
-                                fullWidth
-                                label="Company ID"
-                                value={monitor?.filters?.company}
-                                onChange={(e) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, company: e.target.value } })}
-                                InputLabelProps={{
-                                    style: {
-                                        fontFamily: theme.fontFamily.nunitoSansBold
-                                    }
+                            <CustomDropDown
+                                id="company-dropdown"
+                                labelText="Company Name"
+                                formControlProps={{
+                                    fullWidth: true
                                 }}
+                                labelProps={{ style: { fontFamily: theme.fontFamily.nunitoSansBold } }}
+                                inputProps={{
+                                    value: monitor?.filters?.company,
+                                    onChange: (e) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, company: e.target.value } })
+                                }}
+                                data={companyName || []}
+                                selectId={true}
                             />
                         </FilterForm>
                     }

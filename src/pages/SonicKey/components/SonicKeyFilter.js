@@ -9,14 +9,18 @@ import AppButton from '../../../components/common/AppButton/AppButton';
 import { StyledTextField } from '../../../StyledComponents/StyledAppTextInput/StyledAppTextInput';
 import { channel, Distributor, Labels, userRoles } from '../../../constants/constants';
 import * as actionTypes from '../../../stores/actions/actionTypes';
-import { log } from '../../../utils/app.debug';
 import { getAllSonickeysActions } from '../../../stores/actions/SonicKeyAcrtions';
+import { getAllCompaniesAction } from '../../../stores/actions/CompanyActions';
 
 export default function SonicKeyFilter({ closeDialog }) {
     const dispatch = useDispatch();
     const sonickey = useSelector(state => state.sonickey)
     const users = useSelector(state => state.user)
-    log("filter Sonickey data", sonickey)
+    const company = useSelector(state => state.company)
+
+    React.useEffect(() => {
+        dispatch(getAllCompaniesAction(50, company?.getAllCompanies?.data?.page))
+    }, []);
 
     const handleFilter = (e) => {
         e.preventDefault();
@@ -26,6 +30,8 @@ export default function SonicKeyFilter({ closeDialog }) {
 
     let distributorArray = Distributor.map((data) => { return { name: data } })
     let labelArray = Labels.map((data) => { return { name: data } })
+    let companyName = company?.getAllCompanies?.data?.docs?.map((data) => { return { id: data?._id, name: data?.name } })
+
     return (
         <FilterContainer>
             <FilterHeader>
@@ -129,16 +135,19 @@ export default function SonicKeyFilter({ closeDialog }) {
                     </FilterForm>
                     {users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
                         <FilterForm>
-                            <StyledTextField
-                                fullWidth
-                                label="Company ID"
-                                value={sonickey?.filters?.company}
-                                onChange={(e) => dispatch({ type: actionTypes.SONIC_KEY_FILTERS, data: { ...sonickey?.filters, company: e.target.value } })}
-                                InputLabelProps={{
-                                    style: {
-                                        fontFamily: theme.fontFamily.nunitoSansBold
-                                    }
+                            <CustomDropDown
+                                id="company-dropdown"
+                                labelText="Company Name"
+                                formControlProps={{
+                                    fullWidth: true
                                 }}
+                                labelProps={{ style: { fontFamily: theme.fontFamily.nunitoSansBold } }}
+                                inputProps={{
+                                    value: sonickey?.filters?.company,
+                                    onChange: (e) => dispatch({ type: actionTypes.SONIC_KEY_FILTERS, data: { ...sonickey?.filters, company: e.target.value } })
+                                }}
+                                data={companyName || []}
+                                selectId={true}
                             />
                         </FilterForm>
                     }

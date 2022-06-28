@@ -12,7 +12,6 @@ import { getAllCompaniesAction } from '../../stores/actions/CompanyActions'
 import { H1, H4 } from '../../StyledComponents/StyledHeadings'
 import { MainContainer } from '../../StyledComponents/StyledPageContainer'
 import theme from '../../theme'
-import { log } from '../../utils/app.debug'
 import CompanyFilter from './components/CompanyFilter'
 import CompanyTable from './components/CompanyTable'
 
@@ -20,7 +19,6 @@ export default function Companies() {
     const company = useSelector(state => state.company)
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    log("Companies ko data haru aayexa hai", company)
 
     React.useEffect(() => {
         dispatch(getAllCompaniesAction(5, company?.data?.page))

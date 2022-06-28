@@ -10,6 +10,7 @@ export default function CustomDropDown({
     labelProps,
     inputProps,
     data,
+    selectId = false,
 }) {
     const plays = useSelector(state => state.monitor);
     const streamReader = useSelector(state => state.streamReader)
@@ -30,7 +31,7 @@ export default function CustomDropDown({
             >
                 {data?.map((item, index) => {
                     return (
-                        <MenuItem value={item?.name} key={index}>{item?.name}</MenuItem>
+                        <MenuItem value={selectId ? item?.id : item?.name} key={index}>{item?.name}</MenuItem>
                     );
                 })}
             </StyledSelect>

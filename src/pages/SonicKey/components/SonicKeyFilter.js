@@ -19,7 +19,9 @@ export default function SonicKeyFilter({ closeDialog }) {
     const company = useSelector(state => state.company)
 
     React.useEffect(() => {
-        dispatch(getAllCompaniesAction(50, company?.getAllCompanies?.data?.page))
+        if (users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN) {
+            dispatch(getAllCompaniesAction(50, company?.getAllCompanies?.data?.page))
+        }
     }, []);
 
     const handleFilter = (e) => {

@@ -11,6 +11,7 @@ import { channel, Distributor, Labels, userRoles } from '../../../constants/cons
 import * as actionTypes from '../../../stores/actions/actionTypes';
 import { getAllSonickeysActions } from '../../../stores/actions/SonicKeyAcrtions';
 import { getAllCompaniesAction } from '../../../stores/actions/CompanyActions';
+import AppAutoComplete from '../../../components/common/AutoComplete/AppAutoComplete';
 
 export default function SonicKeyFilter({ closeDialog }) {
     const dispatch = useDispatch();
@@ -105,34 +106,24 @@ export default function SonicKeyFilter({ closeDialog }) {
                     </FilterForm>
 
                     <FilterForm>
-                        <CustomDropDown
-                            id="channel-dropdown"
-                            labelText="Label"
-                            formControlProps={{
-                                fullWidth: true
-                            }}
-                            labelProps={{ style: { fontFamily: theme.fontFamily.nunitoSansBold } }}
-                            inputProps={{
-                                value: sonickey?.filters?.label,
-                                onChange: (e) => dispatch({ type: actionTypes.SONIC_KEY_FILTERS, data: { ...sonickey?.filters, label: e.target.value } })
-                            }}
-                            data={labelArray || []}
+                        <AppAutoComplete
+                            setAutoComPleteAction={(value) => ""}
+                            setAutoCompleteOptions={(option => option?.name || "")}
+                            data={labelArray}
+                            setAutoCompleteOptionsLabel={(option => "")}
+                            getSelectedValue={(e, v) => dispatch({ type: actionTypes.SONIC_KEY_FILTERS, data: { ...sonickey?.filters, label: v?.name } })}
+                            placeholder={"Label"}
                         />
                     </FilterForm>
 
                     <FilterForm>
-                        <CustomDropDown
-                            id="channel-dropdown"
-                            labelText="Distributor"
-                            formControlProps={{
-                                fullWidth: true
-                            }}
-                            labelProps={{ style: { fontFamily: theme.fontFamily.nunitoSansBold } }}
-                            inputProps={{
-                                value: sonickey?.filters?.distributor,
-                                onChange: (e) => dispatch({ type: actionTypes.SONIC_KEY_FILTERS, data: { ...sonickey?.filters, distributor: e.target.value } })
-                            }}
-                            data={distributorArray || []}
+                        <AppAutoComplete
+                            setAutoComPleteAction={(value) => ""}
+                            setAutoCompleteOptions={(option => option?.name || "")}
+                            data={distributorArray}
+                            setAutoCompleteOptionsLabel={(option => "")}
+                            getSelectedValue={(e, v) => dispatch({ type: actionTypes.SONIC_KEY_FILTERS, data: { ...sonickey?.filters, distributor: v?.name } })}
+                            placeholder={"Distributor"}
                         />
                     </FilterForm>
                     {users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&

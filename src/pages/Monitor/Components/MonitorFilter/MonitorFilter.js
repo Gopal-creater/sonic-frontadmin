@@ -15,6 +15,7 @@ import { getMonitorListAction } from '../../../../stores/actions/monitorActions/
 import { getMonitorDashboardDataAction } from '../../../../stores/actions/dashboardActions.js/dashboardActions';
 import { Distributor, Labels } from "../../../../constants/constants"
 import { getAllCompaniesAction } from '../../../../stores/actions/CompanyActions';
+import AppAutoComplete from '../../../../components/common/AutoComplete/AppAutoComplete';
 
 export default function MonitorFilter({ closeDialog, playsBy, actions, dashboard = false }) {
     const dispatch = useDispatch();
@@ -171,34 +172,24 @@ export default function MonitorFilter({ closeDialog, playsBy, actions, dashboard
                     </FilterForm>
 
                     <FilterForm>
-                        <CustomDropDown
-                            id="channel-dropdown"
-                            labelText="Label"
-                            formControlProps={{
-                                fullWidth: true
-                            }}
-                            labelProps={{ style: { fontFamily: theme.fontFamily.nunitoSansBold } }}
-                            inputProps={{
-                                value: monitor?.filters?.label,
-                                onChange: (e) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, label: e.target.value } })
-                            }}
-                            data={labelArray || []}
+                        <AppAutoComplete
+                            setAutoComPleteAction={(value) => ""}
+                            setAutoCompleteOptions={(option => option?.name || "")}
+                            data={labelArray}
+                            setAutoCompleteOptionsLabel={(option => "")}
+                            getSelectedValue={(e, v) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, label: v?.name } })}
+                            placeholder={"Label"}
                         />
                     </FilterForm>
 
                     <FilterForm>
-                        <CustomDropDown
-                            id="channel-dropdown"
-                            labelText="Distributor"
-                            formControlProps={{
-                                fullWidth: true
-                            }}
-                            labelProps={{ style: { fontFamily: theme.fontFamily.nunitoSansBold } }}
-                            inputProps={{
-                                value: monitor?.filters?.distributor,
-                                onChange: (e) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, distributor: e.target.value } })
-                            }}
-                            data={distributorArray || []}
+                        <AppAutoComplete
+                            setAutoComPleteAction={(value) => ""}
+                            setAutoCompleteOptions={(option => option?.name || "")}
+                            data={distributorArray}
+                            setAutoCompleteOptionsLabel={(option => "")}
+                            getSelectedValue={(e, v) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, distributor: v?.name } })}
+                            placeholder={"Distributor"}
                         />
                     </FilterForm>
 

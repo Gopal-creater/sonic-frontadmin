@@ -358,9 +358,7 @@ export default function EncodeData() {
                             <AppAutoComplete
                                 setAutoComPleteAction={(value) => ""}
                                 setAutoCompleteOptions={(option => option?.name || "")}
-                                // loading={state.loading}
                                 data={distributorArray}
-                                // error={state.error}
                                 setAutoCompleteOptionsLabel={(option => "")}
                                 getSelectedValue={(e, v) => dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, distributor: v?.name } })}
                                 placeholder={"Distributor"}
@@ -371,9 +369,7 @@ export default function EncodeData() {
                             <AppAutoComplete
                                 setAutoComPleteAction={(value) => ""}
                                 setAutoCompleteOptions={(option => option?.name || "")}
-                                // loading={state.loading}
                                 data={labelArray}
-                                // error={state.error}
                                 setAutoCompleteOptionsLabel={(option => "")}
                                 getSelectedValue={(e, v) => dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, label: v?.name } })}
                                 placeholder={"Label"}

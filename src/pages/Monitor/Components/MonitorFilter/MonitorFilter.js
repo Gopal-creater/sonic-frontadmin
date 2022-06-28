@@ -24,7 +24,9 @@ export default function MonitorFilter({ closeDialog, playsBy, actions, dashboard
     const users = useSelector(state => state.user)
 
     React.useEffect(() => {
-        dispatch(getAllCompaniesAction(50, company?.getAllCompanies?.data?.page))
+        if (users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN) {
+            dispatch(getAllCompaniesAction(50, company?.getAllCompanies?.data?.page))
+        }
     }, []);
 
     let distributorArray = Distributor.map((data) => { return { name: data } })
@@ -130,6 +132,7 @@ export default function MonitorFilter({ closeDialog, playsBy, actions, dashboard
                                 disabled: filteredRadioStation?.length === 0 ? true : false
                             }}
                             data={filteredRadioStation || []}
+                            radio={true}
                         />
                     </FilterForm>
 

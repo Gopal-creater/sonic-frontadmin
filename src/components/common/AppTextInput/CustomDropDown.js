@@ -11,6 +11,7 @@ export default function CustomDropDown({
     inputProps,
     data,
     selectId = false,
+    radio = false,
 }) {
     const plays = useSelector(state => state.monitor);
     const streamReader = useSelector(state => state.streamReader)
@@ -35,7 +36,7 @@ export default function CustomDropDown({
                     );
                 })}
             </StyledSelect>
-            {data?.length === 0 ?
+            {radio && data?.length === 0 ?
                 <span style={{ color: "red", fontSize: 12 }}>
                     No radio station for {plays?.filters?.country || streamReader?.filters?.country}
                 </span> : ""

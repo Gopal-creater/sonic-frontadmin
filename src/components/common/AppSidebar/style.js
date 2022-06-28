@@ -20,6 +20,7 @@ export const NavIcon = styled.img`
 export const SideBarNav = styled(Grid)`
     margin-top: 50px;
     overflow-y: scroll;
+    background-color: red;
 `
 export const MenuContainer = styled(Grid)`
     display:flex ;

@@ -69,6 +69,7 @@ export default function StreamReaderFilter({ closeDialog }) {
                                 disabled: filteredRadioStation?.length === 0 ? true : false
                             }}
                             data={filteredRadioStation || []}
+                            radio={true}
                         />
                     </FilterForm>
                 </FilterItems>

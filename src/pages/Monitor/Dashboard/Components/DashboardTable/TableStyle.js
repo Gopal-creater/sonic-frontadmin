@@ -27,6 +27,10 @@ export const ResizableTable = styled.table`
     minmax(130px, 1fr)
     minmax(130px, 1fr)
     minmax(130px, 1fr)
+    minmax(130px, 1fr)
+    minmax(130px, 1fr)
+    minmax(130px, 1fr)
+    minmax(130px, 1fr)
     minmax(130px, 1fr);
 `
 

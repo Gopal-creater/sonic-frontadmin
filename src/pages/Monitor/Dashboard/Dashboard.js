@@ -49,8 +49,11 @@ export function Dashboard() {
   const createStableTableData = () => {
     let stableTableData = dashboard?.data?.mostRecentPlays?.map((data) => {
       return {
+        company: data?.sonicKey?.company?.name,
+        companyType: data?.sonicKey?.company?.companyType,
         artist: data?.sonicKey?.contentOwner,
         title: data?.sonicKey?.contentFileName,
+        version: data?.sonicKey?.version,
         radioStation: data?.radioStation?.name,
         date: data?.detectedAt,
         time: data?.detectedAt,
@@ -58,12 +61,13 @@ export function Dashboard() {
         country: data?.radioStation?.country,
         sonicKey: data?.sonicKey?.sonicKey,
         isrcCode: data?.sonicKey?.isrcCode,
-        version: data?.sonicKey?.version,
         distributor: data?.sonicKey?.distributor,
         label: data?.sonicKey?.label,
         iswc: data?.sonicKey?.iswcCode,
         tuneCode: data?.sonicKey?.tuneCode,
-        modal: data?.sonicKey
+        modal: data?.sonicKey,
+        trackId: data?.sonicKey?.track,
+        fileType: data?.sonicKey?.contentType
       }
     })
     return stableTableData

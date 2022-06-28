@@ -1407,20 +1407,24 @@ export const countries = [
 
 
 export const playsTableHeads = [
+  { title: "Company", orderBy: "company", sortBy: "sonicKey.company.name", isAscending: null, isActive: false },
+  { title: "Company Type", orderBy: "companyType", sortBy: "sonicKey.company.companyType", isAscending: null, isActive: false },
   { title: "ARTIST", orderBy: "artist", sortBy: "sonicKey.contentOwner", isAscending: null, isActive: false },
   { title: "TITLE", orderBy: "title", sortBy: "sonicKey.contentName", isAscending: null, isActive: false },
+  { title: "VERSION", orderBy: "version", sortBy: "sonicKey.version", isAscending: null, isActive: false },
+  { title: "Track Id", orderBy: "trackId", sortBy: "sonicKey.track", isAscending: null, isActive: false },
   { title: "RADIO STATION", orderBy: "radioStation", sortBy: "radioStation.name", isAscending: null, isActive: false },
   { title: "DATE", orderBy: "date", sortBy: "detectedAt", isAscending: null, isActive: false },
   { title: "TIME", orderBy: "time", sortBy: "detectedAt", isAscending: null, isActive: false },
   { title: "DURATION", orderBy: "duration", sortBy: "sonicKey.contentDuration", isAscending: null, isActive: false },
   { title: "COUNTRY", orderBy: "country", sortBy: "radioStation.country", isAscending: null, isActive: false },
-  { title: "SONICKEY", orderBy: "sonicKey", sortBy: "sonicKey.sonicKey", isAscending: null, isActive: false },
   { title: "ISRC", orderBy: "isrcCode", sortBy: "sonicKey.isrcCode", isAscending: null, isActive: false },
-  { title: "VERSION", orderBy: "version", sortBy: "sonicKey.version", isAscending: null, isActive: false },
-  { title: "DISTRIBUTOR", orderBy: "distributor", sortBy: "sonicKey.distributor", isAscending: null, isActive: false },
-  { title: "LABEL", orderBy: "label", sortBy: "sonicKey.label", isAscending: null, isActive: false },
   { title: "ISWC", orderBy: "iswc", sortBy: "sonicKey.iswcCode", isAscending: null, isActive: false },
   { title: "TUNE CODE", orderBy: "tuneCode", sortBy: "sonicKey.tuneCode", isAscending: null, isActive: false },
+  { title: "LABEL", orderBy: "label", sortBy: "sonicKey.label", isAscending: null, isActive: false },
+  { title: "DISTRIBUTOR", orderBy: "distributor", sortBy: "sonicKey.distributor", isAscending: null, isActive: false },
+  { title: "File Type", orderBy: "contentType", sortBy: "sonicKey.contentType", isAscending: null, isActive: false },
+  { title: "SONICKEY", orderBy: "sonicKey", sortBy: "sonicKey.sonicKey", isAscending: null, isActive: false },
 ]
 
 export const streamReaderTableHeads = [

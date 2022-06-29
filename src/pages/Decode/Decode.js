@@ -88,7 +88,7 @@ export default function Decode() {
               fontFamily={theme.fontFamily.nunitoSansBlack}
               style={{ textAlign: "center", zIndex: 1 }}
             >
-              Decoding of  in progress
+              Decoding of {values?.name} in progress
             </H4>
           </TitleContainer>
           <H5

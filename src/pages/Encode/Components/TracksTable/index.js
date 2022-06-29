@@ -20,6 +20,7 @@ import { downloadAnyFile } from '../../../../services/https/resources/EncodeApi/
 import { SelectedColumn } from '../../../../components/common/Columns/component/SelectedColumn';
 import CustomToolTip from '../../../../components/common/CustomToolTip';
 import { useNavigate } from 'react-router-dom';
+import SkCount from '../SkCount';
 
 export default function TracksTable({ data, tableHeads, trackSorting }) {
     const [state, setState] = React.useState({
@@ -228,6 +229,11 @@ export default function TracksTable({ data, tableHeads, trackSorting }) {
                                                     </StyledTableData>
                                                 </CustomToolTip>
                                             } */}
+                                            {
+                                                <StyledTableData >
+                                                    <SkCount />
+                                                </StyledTableData>
+                                            }
                                             {
                                                 SelectedColumn("ACTION") &&
                                                 <StyledTableData >

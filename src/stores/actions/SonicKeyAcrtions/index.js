@@ -38,7 +38,7 @@ export const getAllSonickeysActions = (limit, page) => {
     if (sonicKeyData?.artist) {
         params.append("contentOwner", `/${sonicKeyData?.artist}/i`);
     }
-    if (sonicKeyData?.track) {
+    if (sonicKeyData?.trackId) {
         params.append("track", sonicKeyData?.trackId);
     }
     if (sonicKeyData?.title) {

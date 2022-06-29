@@ -8,8 +8,11 @@ import sonickeyActive from "../../../assets/images/sonickey-teal.png";
 import { NavLink, useLocation } from 'react-router-dom';
 import hoverKey from "../../../assets/images/key-logo.png"
 import theme from '../../../theme';
+import { useSelector } from 'react-redux';
+import { userRoles } from '../../../constants/constants';
 
 export default function Menu({ menu }) {
+    const users = useSelector(state => state.user)
     const [subMenu, setSubMenu] = React.useState(false)
 
     const location = useLocation()
@@ -17,25 +20,35 @@ export default function Menu({ menu }) {
 
     const showSubMenu = () => setSubMenu(!subMenu)
 
+    const SubMenus = () => {
+        const menus = menu?.subPath?.filter((itm) => {
+            if (users?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN) {
+                return itm?.title !== "Companies";
+            }
+            return itm
+        })
+        return menus
+    }
+
     return (
         <>
             <MenuContainer>
                 <NavLink
-                    to={menu?.subPath ? location.pathname : menu?.path}
-                    onClick={menu?.subPath && showSubMenu}
-                    className={({ isActive }) => isActive && !menu?.subPath ? classes.activeSideBarLink : classes.link}
+                    to={SubMenus() ? location.pathname : menu?.path}
+                    onClick={SubMenus() && showSubMenu}
+                    className={({ isActive }) => isActive && !SubMenus() ? classes.activeSideBarLink : classes.link}
                 >
                     <NavIcon src={sonickeyGrey} width="15px" height="15px" className={classes.sideBarLinkIcon} />
                     <SideBarLabel>
                         {menu.title}
                     </SideBarLabel>
                     <Grid>
-                        {menu?.subPath && subMenu ? <ArrowDropUpIcon /> : menu?.subPath ? <ArrowDropDownIcon /> : null}
+                        {SubMenus() && subMenu ? <ArrowDropUpIcon /> : SubMenus() ? <ArrowDropDownIcon /> : null}
                     </Grid>
                 </NavLink>
             </MenuContainer>
             {
-                subMenu && menu?.subPath?.map((item, index) => {
+                subMenu && SubMenus()?.map((item, index) => {
                     return (
                         <NavLink
                             className={({ isActive }) => isActive ? classes.activeSideBarLink : classes.link}

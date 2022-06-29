@@ -19,7 +19,7 @@ export const NavIcon = styled.img`
 //SubMenu
 export const SideBarNav = styled(Grid)`
     margin-top: 50px;
-    height:350px;
+    height:450px;
     overflow:auto;
 `
 export const MenuContainer = styled(Grid)`

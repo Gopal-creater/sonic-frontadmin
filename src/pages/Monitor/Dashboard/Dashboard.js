@@ -22,6 +22,7 @@ import Slider from "react-slick";
 import "./Dashboard.css"
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import { userRoles } from "../../../constants/constants";
 
 export function Dashboard() {
   const dispatch = useDispatch()
@@ -29,6 +30,7 @@ export function Dashboard() {
   const dashboard = useSelector(state => state.dashboard)
   const monitor = useSelector(state => state.monitor)
   const radioStation = useSelector(state => state.radioStations)
+  const users = useSelector(state => state.user)
   const dashboardTableRef = useRef();
   const carousel = useRef(null)
 
@@ -168,16 +170,17 @@ export function Dashboard() {
           ref={carousel}
           {...carouselSetting}
         >
-          <Stats
-            imgSrc={radio}
-            title={"Countries"}
-            ownerShipTitle="In"
-            loading={dashboard?.loading}
-            data={dashboard?.data?.myCountriesCount || "0"}
-            error={dashboard?.error}
-            pageLink="/monitor/countries"
-            helpText={helpText.countries}
-          />
+          {users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
+            <Stats
+              imgSrc={radio}
+              title={"Countries"}
+              ownerShipTitle="In"
+              loading={dashboard?.loading}
+              data={dashboard?.data?.myCountriesCount || "0"}
+              error={dashboard?.error}
+              pageLink="/monitor/countries"
+              helpText={helpText.countries}
+            />}
           <Stats
             imgSrc={radio}
             title={"Companies"}

@@ -168,14 +168,32 @@ export function Dashboard() {
           ref={carousel}
           {...carouselSetting}
         >
-
+          <Stats
+            imgSrc={radio}
+            title={"Countries"}
+            ownerShipTitle="In"
+            loading={dashboard?.loading}
+            data={dashboard?.data?.myCountriesCount || "0"}
+            error={dashboard?.error}
+            pageLink="/monitor/countries"
+            helpText={helpText.countries}
+          />
+          <Stats
+            imgSrc={radio}
+            title={"Companies"}
+            loading={dashboard?.loading}
+            data={dashboard?.data?.myCompaniesCount || "0"}
+            error={dashboard?.error}
+            pageLink="/monitor/companies"
+            helpText={helpText.companies}
+          />
           <Stats
             imgSrc={radio}
             title={"My Plays"}
             loading={dashboard?.loading}
             data={dashboard?.data?.myPlaysCount || "0"}
             error={dashboard?.error}
-            pageLink="/plays"
+            pageLink="/monitor/plays"
             helpText={helpText.plays}
           />
           <Stats
@@ -185,7 +203,7 @@ export function Dashboard() {
             loading={dashboard?.loading}
             data={dashboard?.data?.myTracksCount || "0"}
             error={dashboard?.error}
-            pageLink="/tracks"
+            pageLink="/monitor/tracks"
             helpText={helpText.tracks}
           />
           <Stats
@@ -195,7 +213,7 @@ export function Dashboard() {
             loading={dashboard?.loading}
             data={dashboard?.data?.myArtistsCount || "0"}
             error={dashboard?.error}
-            pageLink="/artists"
+            pageLink="/monitor/artists"
             helpText={helpText.artists}
           />
           <Stats
@@ -205,18 +223,8 @@ export function Dashboard() {
             loading={dashboard?.loading}
             data={dashboard?.data?.myRadioStationCount || "0"}
             error={dashboard?.error}
-            pageLink="/radio-stations"
+            pageLink="/monitor/radio-stations"
             helpText={helpText.radioStation}
-          />
-          <Stats
-            imgSrc={radio}
-            title={"Countries"}
-            ownerShipTitle="In"
-            loading={dashboard?.loading}
-            data={dashboard?.data?.myCountriesCount || "0"}
-            error={dashboard?.error}
-            pageLink="/countries"
-            helpText={helpText.countries}
           />
         </Slider>
 

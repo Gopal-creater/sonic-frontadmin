@@ -1,4 +1,5 @@
 export const helpText = {
+  companies: "",
   plays:
     "A Play is when a Track is detected as having been played on any channel e.g. On the Radio. If the same track is detected twice, then this will be a count of 2 Plays.",
   tracks:

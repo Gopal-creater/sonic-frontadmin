@@ -105,25 +105,33 @@ export default function SonicKeyFilter({ closeDialog }) {
                         />
                     </FilterForm>
 
-                    <FilterForm>
+                    <FilterForm className='mt-3'>
                         <AppAutoComplete
-                            setAutoComPleteAction={(value) => ""}
+                            setAutoComPleteAction={() => { }}
                             setAutoCompleteOptions={(option => option?.name || "")}
                             data={labelArray}
-                            setAutoCompleteOptionsLabel={(option => "")}
-                            getSelectedValue={(e, v) => dispatch({ type: actionTypes.SONIC_KEY_FILTERS, data: { ...sonickey?.filters, label: v?.name } })}
+                            setAutoCompleteOptionsLabel={() => { }}
+                            getSelectedValue={(e, v) => dispatch({ type: actionTypes.SONIC_KEY_FILTERS, data: { ...sonickey?.filters, label: v } })}
                             placeholder={"Label"}
+                            hideSearchIcon={true}
+                            value={sonickey?.filters?.label}
+                            color={theme.colors.secondary.grey}
+                            fontFamily={theme.fontFamily.nunitoSansBold}
                         />
                     </FilterForm>
 
-                    <FilterForm>
+                    <FilterForm className='mt-3'>
                         <AppAutoComplete
-                            setAutoComPleteAction={(value) => ""}
+                            setAutoComPleteAction={() => { }}
                             setAutoCompleteOptions={(option => option?.name || "")}
                             data={distributorArray}
-                            setAutoCompleteOptionsLabel={(option => "")}
-                            getSelectedValue={(e, v) => dispatch({ type: actionTypes.SONIC_KEY_FILTERS, data: { ...sonickey?.filters, distributor: v?.name } })}
+                            setAutoCompleteOptionsLabel={() => { }}
+                            getSelectedValue={(e, v) => dispatch({ type: actionTypes.SONIC_KEY_FILTERS, data: { ...sonickey?.filters, distributor: v } })}
                             placeholder={"Distributor"}
+                            hideSearchIcon={true}
+                            value={sonickey?.filters?.distributor}
+                            color={theme.colors.secondary.grey}
+                            fontFamily={theme.fontFamily.nunitoSansBold}
                         />
                     </FilterForm>
                     {users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&

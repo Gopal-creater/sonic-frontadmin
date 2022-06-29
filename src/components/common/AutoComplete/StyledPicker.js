@@ -67,9 +67,9 @@ export const AutocompleteTextfield = styled(TextField)`
 
     //for textInput
     & .MuiInput-root{
-        color: ${theme.colors.primary.navy};
-        font-family:${theme.fontFamily.nunitoSansRegular};
-        font-size: ${theme.fontSize.h4};
+        color: ${(props) => props.color || theme.colors.primary.navy};
+        font-family:${(props) => props.fontFamily || theme.fontFamily.nunitoSansRegular};
+        font-size: ${(props) => props.fontSize || theme.fontSize.h4};
         :hover {
             color:${theme.colors.secondary.mediumNavy};
         }

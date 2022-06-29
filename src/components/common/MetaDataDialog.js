@@ -65,8 +65,8 @@ const MetaDataDailog = (props) => {
             isrcCode: "",
             iswcCode: "",
             tuneCode: "",
-            label: "",
-            distributor: "",
+            label: { name: "" },
+            distributor: { name: "" },
             contentQuality: "",
             contentDescription: "",
             additionalMetadata: "",
@@ -87,8 +87,8 @@ const MetaDataDailog = (props) => {
                 isrcCode: props?.sonicKey?.isrcCode || "",
                 iswcCode: props?.sonicKey?.iswcCode || "",
                 tuneCode: props?.sonicKey?.tuneCode || "",
-                label: props?.sonicKey?.label || "",
-                distributor: props?.sonicKey?.distributor || "",
+                label: { name: props?.sonicKey?.label || "" },
+                distributor: { name: props?.sonicKey?.distributor || "" },
                 contentQuality: props?.sonicKey?.contentQuality || "",
                 contentDescription: props?.sonicKey?.contentDescription || "",
                 additionalMetadata: JSON.stringify(props?.sonicKey?.additionalMetadata) || "",
@@ -124,7 +124,7 @@ const MetaDataDailog = (props) => {
             10,
         ));
         props.setOpenTable(false)
-        navigate("/plays")
+        navigate("/monitor/plays")
     }
 
     const updateSonicKey = () => {
@@ -141,8 +141,8 @@ const MetaDataDailog = (props) => {
             isrcCode: values?.updatingSonicKey?.isrcCode,
             iswcCode: values?.updatingSonicKey?.iswcCode,
             tuneCode: values?.updatingSonicKey?.tuneCode,
-            label: values?.updatingSonicKey?.label,
-            distributor: values?.updatingSonicKey?.distributor,
+            label: values?.updatingSonicKey?.label?.name,
+            distributor: values?.updatingSonicKey?.distributor?.name,
             contentQuality: values?.updatingSonicKey?.contentQuality,
             contentDescription: values?.updatingSonicKey?.contentDescription,
             additionalMetadata: values?.updatingSonicKey?.additionalMetadata && JSON.parse(values?.updatingSonicKey?.additionalMetadata),
@@ -361,12 +361,17 @@ const MetaDataDailog = (props) => {
                                     {
                                         values?.switchEdit ?
                                             <AppAutoComplete
-                                                setAutoComPleteAction={(value) => ""}
+                                                setAutoComPleteAction={() => { }}
                                                 setAutoCompleteOptions={(option => option?.name || "")}
                                                 data={labelArray}
-                                                setAutoCompleteOptionsLabel={(option => "")}
-                                                getSelectedValue={(e, v) => setValues({ ...values, updatingSonicKey: { ...values?.updatingSonicKey, label: v?.name } })}
+                                                setAutoCompleteOptionsLabel={() => { }}
+                                                getSelectedValue={(e, v) => setValues({ ...values, updatingSonicKey: { ...values?.updatingSonicKey, label: v } })}
                                                 placeholder={"Label"}
+                                                hideSearchIcon={true}
+                                                value={values?.updatingSonicKey?.label}
+                                                color={theme.colors.secondary.grey}
+                                                fontFamily={theme.fontFamily.nunitoSansBold}
+                                                fontSize={theme.fontSize.h5}
                                             />
                                             :
                                             values?.sonicKey?.label || "---"
@@ -380,12 +385,17 @@ const MetaDataDailog = (props) => {
                                     {
                                         values?.switchEdit ?
                                             <AppAutoComplete
-                                                setAutoComPleteAction={(value) => ""}
+                                                setAutoComPleteAction={() => { }}
                                                 setAutoCompleteOptions={(option => option?.name || "")}
                                                 data={distributorArray}
-                                                setAutoCompleteOptionsLabel={(option => "")}
-                                                getSelectedValue={(e, v) => setValues({ ...values, updatingSonicKey: { ...values?.updatingSonicKey, distributor: v?.name } })}
+                                                setAutoCompleteOptionsLabel={() => { }}
+                                                getSelectedValue={(e, v) => setValues({ ...values, updatingSonicKey: { ...values?.updatingSonicKey, distributor: v } })}
                                                 placeholder={"Distributor"}
+                                                hideSearchIcon={true}
+                                                value={values?.updatingSonicKey?.distributor}
+                                                color={theme.colors.secondary.grey}
+                                                fontFamily={theme.fontFamily.nunitoSansBold}
+                                                fontSize={theme.fontSize.h5}
                                             />
                                             :
                                             values?.sonicKey?.distributor || "---"

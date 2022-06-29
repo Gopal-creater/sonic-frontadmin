@@ -4,17 +4,15 @@ import { useTheme } from 'styled-components';
 import CommonDataLoadErrorSuccess from '../../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess';
 import FilterComponent from '../../../components/common/FilterComponent/FilterComponent';
 import { H1, H4 } from '../../../StyledComponents/StyledHeadings';
-import { TrackContainer } from './Styles';
 import TracksTable from './Component/TracksTable';
 import PaginationCount from '../../../components/common/Pagination/PaginationCount';
 import CustomPagination from '../../../components/common/Pagination/CustomPagination';
 import { useDispatch, useSelector } from 'react-redux';
-import { log } from '../../../utils/app.debug';
 import * as actionTypes from "../../../stores/actions/actionTypes"
 import { getMonitorExportAction, getMonitorListAction } from '../../../stores/actions/monitorActions/monitorActions';
 import MonitorFilter from '../Components/MonitorFilter/MonitorFilter';
 import { trackTableHeads } from '../../../constants/constants';
-import Columns from '../../../components/common/Columns/Columns';
+import { MainContainer } from '../../../StyledComponents/StyledPageContainer';
 
 export default function Tracks() {
     const theme = useTheme()
@@ -106,7 +104,7 @@ export default function Tracks() {
     // log("Track Table Heads", state.trackTableHeads)
 
     return (
-        <TrackContainer>
+        <MainContainer>
             <Grid container justifyContent='space-between' alignItems='center'>
                 <Grid item>
                     <H1 fontFamily={theme.fontFamily.nunitoSansBold}>My Tracks</H1>
@@ -166,6 +164,6 @@ export default function Tracks() {
                     </Grid>
                 </>
             </CommonDataLoadErrorSuccess>
-        </TrackContainer >
+        </MainContainer >
     );
 }

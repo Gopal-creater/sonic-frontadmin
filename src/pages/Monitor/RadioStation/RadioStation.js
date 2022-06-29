@@ -8,12 +8,12 @@ import PaginationCount from '../../../components/common/Pagination/PaginationCou
 import CustomPagination from '../../../components/common/Pagination/CustomPagination';
 import { useDispatch, useSelector } from 'react-redux';
 import { log } from '../../../utils/app.debug';
-import { RadioStationContainer } from './Styles';
 import RadioStationTable from './components/RadioStationTable';
 import * as actionTypes from "../../../stores/actions/actionTypes";
 import { getMonitorExportAction, getMonitorListAction } from '../../../stores/actions/monitorActions/monitorActions';
 import MonitorFilter from '../Components/MonitorFilter/MonitorFilter';
 import { radioStationTableHeads } from '../../../constants/constants';
+import { MainContainer } from '../../../StyledComponents/StyledPageContainer';
 
 export default function RadioStations() {
     const theme = useTheme()
@@ -112,7 +112,7 @@ export default function RadioStations() {
     log("RADIO Station data monitor", monitor)
 
     return (
-        <RadioStationContainer>
+        <MainContainer>
             <H1 fontFamily={theme.fontFamily.nunitoSansBold}>Radio Stations</H1>
             <PaginationCount
                 heading={true}
@@ -169,6 +169,6 @@ export default function RadioStations() {
                     </Grid>
                 </>
             </CommonDataLoadErrorSuccess>
-        </RadioStationContainer>
+        </MainContainer>
     );
 }

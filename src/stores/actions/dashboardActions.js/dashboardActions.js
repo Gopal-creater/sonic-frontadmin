@@ -69,7 +69,7 @@ export const getMonitorDashboardDataAction = (startDate, endDate, limit = 10, so
         }
     }
 
-    if (monitorFilters?.company) params.append("relation_company._id", monitorFilters?.company);
+    if (monitorFilters?.company) params.append("company", monitorFilters?.company);
     if (monitorFilters?.user) {
         additionalFilter.$or.push({ "relation_owner._id": monitorFilters?.user }, { "createdBy": monitorFilters?.user })
     }

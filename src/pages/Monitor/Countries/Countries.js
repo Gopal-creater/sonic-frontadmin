@@ -1,21 +1,20 @@
 import { Grid } from '@material-ui/core';
 import React, { useEffect, useRef } from 'react';
-import { H1, H4, H2 } from '../../../StyledComponents/StyledHeadings';
+import { H1 } from '../../../StyledComponents/StyledHeadings';
 import { useTheme } from 'styled-components';
 import FilterComponent from '../../../components/common/FilterComponent/FilterComponent';
 import { useDispatch, useSelector } from 'react-redux';
 import * as actionTypes from "../../../stores/actions/actionTypes";
-// import PlaysFilter from '../Plays/components/PlaysFilter';
 import PaginationCount from '../../../components/common/Pagination/PaginationCount';
 import { log } from '../../../utils/app.debug';
 import CommonDataLoadErrorSuccess from '../../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess';
 import CountriesTable from './Components/CountriesTable';
 import CustomPagination from '../../../components/common/Pagination/CustomPagination';
-// import CountriesFilterModal from './Components/CountriesFilterModal';
 import { getMonitorExportAction, getMonitorListAction } from '../../../stores/actions/monitorActions/monitorActions';
 import MonitorFilter from '../Components/MonitorFilter/MonitorFilter';
 import { useReactToPrint } from 'react-to-print';
 import { countryTableHeads } from '../../../constants/constants';
+import { MainContainer } from '../../../StyledComponents/StyledPageContainer';
 
 export default function Countries() {
     const theme = useTheme();
@@ -116,7 +115,7 @@ export default function Countries() {
     }
 
     return (
-        <Grid className="countries-container" style={{ backgroundColor: 'white', padding: '2% 2.5%' }} ref={countriesTableRef}>
+        <MainContainer ref={countriesTableRef}>
             <Grid container justifyContent='space-between'>
                 <Grid>
                     <H1>Countries</H1>
@@ -185,6 +184,6 @@ export default function Countries() {
                     </Grid>
                 </>
             </CommonDataLoadErrorSuccess>
-        </Grid>
+        </MainContainer>
     );
 }

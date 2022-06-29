@@ -13,8 +13,8 @@ export const monitorInitialState = {
         artist: "",
         radioStation: "",
         song: "",
-        label: "",
-        distributor: "",
+        label: {},
+        distributor: {},
         encodedStartDate: "",
         encodedEndDate: "",
         timezone: "GMT",
@@ -24,9 +24,7 @@ export const monitorInitialState = {
     track: {
         error: null,
         loading: false,
-        data: {
-
-        }
+        data: {}
     },
     plays: {
         error: null,
@@ -46,9 +44,12 @@ export const monitorInitialState = {
     country: {
         error: null,
         loading: false,
-        data: {
-
-        }
+        data: {}
+    },
+    companies: {
+        error: null,
+        loading: false,
+        data: {}
     },
     columns: [],
     searchedColumn: [],
@@ -165,7 +166,6 @@ const monitorReducer = (state = monitorInitialState, action) =>
                 draft.artist.error = action.data
                 break
 
-
             //For country
             case actionTypes.SET_COUNTRIES_LOADING:
                 draft.country.loading = true
@@ -182,6 +182,24 @@ const monitorReducer = (state = monitorInitialState, action) =>
                 draft.country.loading = false
                 draft.country.error = action.data
                 break
+
+            //For companies
+            case actionTypes.SET_MONITOR_COMPANIES_LOADING:
+                draft.companies.loading = true
+                draft.companies.error = null
+                break
+
+            case actionTypes.SET_MONITOR_COMPANIES_SUCCESS:
+                draft.companies.loading = false
+                draft.companies.error = null
+                draft.companies.data = action.data
+                break
+
+            case actionTypes.SET_MONITOR_COMPANIES_ERROR:
+                draft.companies.loading = false
+                draft.companies.error = action.data
+                break
+
             default:
                 break
         }

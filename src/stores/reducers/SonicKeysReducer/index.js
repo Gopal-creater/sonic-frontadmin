@@ -13,8 +13,8 @@ const initialState = {
         artist: "",
         trackId: "",
         title: "",
-        label: "",
-        distributor: "",
+        label: {},
+        distributor: {},
         company: "",
         user: ""
     },

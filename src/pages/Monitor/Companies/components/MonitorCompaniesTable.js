@@ -1,14 +1,12 @@
-import { Grid, Table, TableBody, TableContainer, TableHead, TableRow } from '@material-ui/core';
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useTheme } from 'styled-components';
-import { AlternateStyledTableData, StyledTableData, StyledTableHead, StyledTableRow, StyledAlternateTableRow } from '../../../../StyledComponents/StyledTable/StyledTable';
+import React from 'react'
+import { Grid, Table, TableBody, TableContainer, TableHead, TableRow } from '@material-ui/core'
+import { StyledTableData, StyledTableHead, StyledTableRow } from '../../../../StyledComponents/StyledTable/StyledTable'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import * as actionTypes from "../../../../stores/actions/actionTypes"
-import { log } from '../../../../utils/app.debug';
-import { useNavigate } from 'react-router-dom';
+import theme from '../../../../theme'
 
-export default function TracksTable({ data, trackTableHeads, onTrackSorting }) {
-    const theme = useTheme()
+export default function MonitorCompaniesTable({ data, companiesTableHeads, onCompaniesSorting }) {
     const dispatch = useDispatch()
     const monitor = useSelector(state => state.monitor)
     const navigate = useNavigate()
@@ -16,29 +14,29 @@ export default function TracksTable({ data, trackTableHeads, onTrackSorting }) {
     const sorting = (sortBy, isAscending, isActive) => {
         if (isActive) {
             if (isAscending === true) {
-                onTrackSorting(sortBy, false, false)
+                onCompaniesSorting(sortBy, false, false)
             }
             else if (isAscending === false) {
-                onTrackSorting(sortBy, true, false)
+                onCompaniesSorting(sortBy, true, false)
             }
             else if (isAscending === null) {
-                onTrackSorting(sortBy, true, false)
+                onCompaniesSorting(sortBy, true, false)
             }
         } else {
             if (isAscending === true) {
-                onTrackSorting(sortBy, false, true)
+                onCompaniesSorting(sortBy, false, true)
             }
             else if (isAscending === false) {
-                onTrackSorting(sortBy, true, true)
+                onCompaniesSorting(sortBy, true, true)
             }
             else if (isAscending === null) {
-                onTrackSorting(sortBy, true, true)
+                onCompaniesSorting(sortBy, true, true)
             }
         }
     }
 
-    const onPlaysClick = (trackName) => {
-        dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, song: trackName } })
+    const onPlaysClick = (company) => {
+        dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, company: company } })
         navigate("/monitor/plays")
     }
 
@@ -49,7 +47,7 @@ export default function TracksTable({ data, trackTableHeads, onTrackSorting }) {
                     <TableHead>
                         <TableRow>
                             {
-                                trackTableHeads?.map((data, index) => {
+                                companiesTableHeads?.map((data, index) => {
                                     return (
                                         <StyledTableHead
                                             key={index}
@@ -66,16 +64,15 @@ export default function TracksTable({ data, trackTableHeads, onTrackSorting }) {
                         {
                             data?.length === 0 ?
                                 <TableRow key={0}>
-                                    <StyledTableData colSpan={4} style={{ textAlign: "center" }}>
+                                    <StyledTableData colSpan={5} style={{ textAlign: "center" }}>
                                         No Data
                                     </StyledTableData>
                                 </TableRow> :
                                 data?.map((row, index) => {
                                     return (
-                                        <StyledTableRow
-                                            key={index}
+                                        <StyledTableRow key={index}
+                                            onClick={() => onPlaysClick(row?.comID)}
                                             style={{ cursor: "pointer" }}
-                                            onClick={() => onPlaysClick(row?.trackName)}
                                             bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}
                                         >
                                             <StyledTableData
@@ -85,13 +82,20 @@ export default function TracksTable({ data, trackTableHeads, onTrackSorting }) {
                                                     fontFamily: theme.fontFamily.nunitoSansBold
                                                 }}
                                             >
-                                                {(row?.trackName || "---")}
+                                                {row?.companyName || "---"}
                                             </StyledTableData>
-                                            <StyledTableData >
-                                                {(row?.plays || "---")}
+                                            <StyledTableData
+                                                style={{
+                                                    color: theme.colors.primary.navy,
+                                                    fontSize: theme.fontSize.h4,
+                                                    fontFamily: theme.fontFamily.nunitoSansBold
+                                                }}
+                                            >
+                                                {row?.companyType || "---"}
                                             </StyledTableData>
-                                            <StyledTableData >{(row?.radioStation || "---")}</StyledTableData>
-                                            <StyledTableData >{(row?.country || "---")}</StyledTableData>
+                                            <StyledTableData >{row?.artist || "---"}</StyledTableData>
+                                            <StyledTableData >{row?.plays || "---"}</StyledTableData>
+                                            <StyledTableData>{row?.uniquePlaysCount || "---"}</StyledTableData>
                                         </StyledTableRow>
                                     )
                                 })}
@@ -99,5 +103,5 @@ export default function TracksTable({ data, trackTableHeads, onTrackSorting }) {
                 </Table>
             </TableContainer>
         </Grid>
-    );
+    )
 }

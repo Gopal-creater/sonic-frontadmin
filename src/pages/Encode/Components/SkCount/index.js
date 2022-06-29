@@ -1,8 +1,10 @@
 import { CircularProgress } from '@material-ui/core'
 import React from 'react'
+import { AppWebRequest } from '../../../../services/https/NetworkManager'
 import theme from '../../../../theme'
+import { log } from '../../../../utils/app.debug'
 
-export default function SkCount() {
+export default function SkCount({ trackID }) {
     const [state, setState] = React.useState({
         loading: true,
         data: "",
@@ -10,7 +12,16 @@ export default function SkCount() {
     })
 
     React.useEffect(() => {
-
+        let param = {
+            track: trackID
+        }
+        AppWebRequest("sonic-keys/count", "get", { params: param }).then((res) => {
+            log("skcount response", res)
+            setState({ ...state, data: res, loading: false })
+        }).catch((err) => {
+            log("skcount response", err)
+            setState({ ...state, error: "error", loading: false })
+        })
     }, [])
 
     if (state.error) {

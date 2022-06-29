@@ -134,10 +134,10 @@ export default function TracksTable({ data, tableHeads, trackSorting }) {
                                         return (
                                             <StyledTableHead
                                                 key={index}
-                                                onClick={() => data?.title !== "ACTION" && sorting(data?.sortBy, data?.isAscending, data?.isActive)}
+                                                onClick={() => data?.title !== "ACTION" && data?.title !== "SK COUNT" && sorting(data?.sortBy, data?.isAscending, data?.isActive)}
                                             >
                                                 {data?.title}
-                                                {data?.title !== "ACTION" && <i className="fa fa-sort" style={{ marginLeft: "5px" }}></i>}
+                                                {data?.title !== "ACTION" && data?.title !== "SK COUNT" && <i className="fa fa-sort" style={{ marginLeft: "5px" }}></i>}
                                             </StyledTableHead>
                                         )
                                     }
@@ -231,7 +231,7 @@ export default function TracksTable({ data, tableHeads, trackSorting }) {
                                             } */}
                                             {
                                                 <StyledTableData >
-                                                    <SkCount />
+                                                    <SkCount trackID={row?._id} />
                                                 </StyledTableData>
                                             }
                                             {

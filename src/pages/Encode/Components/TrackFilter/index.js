@@ -10,6 +10,7 @@ import * as actionTypes from "../../../../stores/actions/actionTypes"
 import CustomDropDown from '../../../../components/common/AppTextInput/CustomDropDown';
 import theme from '../../../../theme';
 import { Distributor, Labels, userRoles } from '../../../../constants/constants';
+import AppAutoComplete from '../../../../components/common/AutoComplete/AppAutoComplete';
 
 export default function TrackFilter({ closeDialog }) {
     const encode = useSelector(state => state.encode)
@@ -44,19 +45,14 @@ export default function TrackFilter({ closeDialog }) {
                         value={encode?.tracks?.trackFilters?.id}
                         onChange={(e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, id: e.target.value } })}
                     />
-                    <Grid className="mt-2">
-                        <CustomDropDown
-                            id="channel-dropdown"
-                            labelText="Distributor"
-                            formControlProps={{
-                                fullWidth: true
-                            }}
-                            labelProps={{ style: { fontFamily: theme.fontFamily.nunitoSansRegular } }}
-                            inputProps={{
-                                value: encode?.tracks?.trackFilters?.distributor,
-                                onChange: (e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, distributor: e.target.value } })
-                            }}
-                            data={distributorArray || []}
+                    <Grid className="mt-4">
+                        <AppAutoComplete
+                            setAutoComPleteAction={(value) => ""}
+                            setAutoCompleteOptions={(option => option?.name || "")}
+                            data={distributorArray}
+                            setAutoCompleteOptionsLabel={(option => "")}
+                            getSelectedValue={(e, v) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, distributor: v?.name } })}
+                            placeholder={"Distributor"}
                         />
                     </Grid>
                     <StyledTextField
@@ -76,20 +72,14 @@ export default function TrackFilter({ closeDialog }) {
                         onChange={(e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, title: e.target.value } })}
                     />
 
-                    <Grid className="mt-2">
-                        <CustomDropDown
-                            id="channel-dropdown"
-                            className="mt-1"
-                            labelText="Label"
-                            formControlProps={{
-                                fullWidth: true
-                            }}
-                            labelProps={{ style: { fontFamily: theme.fontFamily.nunitoSansRegular } }}
-                            inputProps={{
-                                value: encode?.tracks?.trackFilters?.label,
-                                onChange: (e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, label: e.target.value } })
-                            }}
-                            data={labelArray || []}
+                    <Grid className="mt-4">
+                        <AppAutoComplete
+                            setAutoComPleteAction={(value) => ""}
+                            setAutoCompleteOptions={(option => option?.name || "")}
+                            data={labelArray}
+                            setAutoCompleteOptionsLabel={(option => "")}
+                            getSelectedValue={(e, v) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, label: v?.name } })}
+                            placeholder={"Label"}
                         />
                     </Grid>
 

@@ -3,25 +3,33 @@ import React from 'react';
 import { ControlPoint, Search } from '@material-ui/icons';
 import { AutocompleteTextfield, StyledAutocomplete } from './StyledPicker';
 import theme from '../../../theme';
-import { Grid } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
+import { createFilterOptions } from '@material-ui/lab/Autocomplete'
+import AppButton from '../AppButton/AppButton';
 
 export default function AppAutoComplete(props) {
+    const filterOptions = createFilterOptions({
+        limit: 10,
+    });
     return (
         <StyledAutocomplete
             {...props}
+            filterOptions={filterOptions}
             id="combo-box-demo"
             options={props.data || []}
             noOptionsText={props.error ? props.error : props.loading ? "Loading..." : props?.data === undefined ? "Start typing..." : props?.data?.length === 0 && "No Data"}
             getOptionLabel={(option) => props?.setAutoCompleteOptions(option)}
             getOptionSelected={(option, value) => option.id === value.id}
             renderOption={(option) => (
-                <Grid container alignItems='center' style={{ margin: 0, borderBottom: `1px solid ${theme.colors.secondary.lightGrey}`, padding: '5px 0px' }}>
+                <Grid wrap='nowrap' container alignItems='center' style={{ margin: 0, borderBottom: `1px solid ${theme.colors.secondary.lightGrey}`, padding: '5px 0px' }}>
                     <Grid item>
                         <ControlPoint fontSize='small' />
                     </Grid>
                     <Grid item style={{ marginLeft: 10, fontSize: '17px' }}>
-                        <Grid>{props?.setAutoCompleteOptions(option)}</Grid>
-                        <Grid style={{ fontSize: '13px' }}>{props?.setAutoCompleteOptionsLabel(option)}</Grid>
+                        <Grid>
+                            {props?.setAutoCompleteOptions(option)}
+                        </Grid>
+                        <Grid style={{ fontSize: '13px', }}>{props?.setAutoCompleteOptionsLabel(option)}</Grid>
                     </Grid>
                 </Grid>
             )}

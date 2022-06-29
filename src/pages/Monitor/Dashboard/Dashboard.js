@@ -170,26 +170,26 @@ export function Dashboard() {
           ref={carousel}
           {...carouselSetting}
         >
+          <Stats
+            imgSrc={radio}
+            title={"Countries"}
+            ownerShipTitle="In"
+            loading={dashboard?.loading}
+            data={dashboard?.data?.myCountriesCount || "0"}
+            error={dashboard?.error}
+            pageLink="/monitor/countries"
+            helpText={helpText.countries}
+          />
           {users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
             <Stats
               imgSrc={radio}
-              title={"Countries"}
-              ownerShipTitle="In"
+              title={"Companies"}
               loading={dashboard?.loading}
-              data={dashboard?.data?.myCountriesCount || "0"}
+              data={dashboard?.data?.myCompaniesCount || "0"}
               error={dashboard?.error}
-              pageLink="/monitor/countries"
-              helpText={helpText.countries}
+              pageLink="/monitor/companies"
+              helpText={helpText.companies}
             />}
-          <Stats
-            imgSrc={radio}
-            title={"Companies"}
-            loading={dashboard?.loading}
-            data={dashboard?.data?.myCompaniesCount || "0"}
-            error={dashboard?.error}
-            pageLink="/monitor/companies"
-            helpText={helpText.companies}
-          />
           <Stats
             imgSrc={radio}
             title={"My Plays"}

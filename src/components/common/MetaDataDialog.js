@@ -22,6 +22,7 @@ import { useNavigate } from 'react-router-dom';
 import { Distributor, Labels } from "../../constants/constants";
 import CustomDropDown from "./AppTextInput/CustomDropDown";
 import { editSonicMetaData } from "../../services/https/resources/SonicKeys/SonicKeys.api";
+import AppAutoComplete from "./AutoComplete/AppAutoComplete";
 
 const useStyles = makeStyles({
     dialogPaper: {
@@ -359,20 +360,15 @@ const MetaDataDailog = (props) => {
                                 <TableCell className={classes.tableCellTwo}>
                                     {
                                         values?.switchEdit ?
-                                            <CustomDropDown
-                                                id="label-dropdown"
-                                                labelText="Label"
-                                                formControlProps={{
-                                                    fullWidth: true
-                                                }}
-                                                labelProps={{ style: { fontFamily: theme.fontFamily.nunitoSansRegular, fontSize: theme.fontSize.h5 } }}
-                                                inputProps={{
-                                                    style: { fontSize: theme.fontSize.h5, fontFamily: theme.fontFamily.nunitoSansBold },
-                                                    value: values?.updatingSonicKey?.label,
-                                                    onChange: (e) => setValues({ ...values, updatingSonicKey: { ...values?.updatingSonicKey, label: e.target.value } })
-                                                }}
-                                                data={labelArray || []}
-                                            /> :
+                                            <AppAutoComplete
+                                                setAutoComPleteAction={(value) => ""}
+                                                setAutoCompleteOptions={(option => option?.name || "")}
+                                                data={labelArray}
+                                                setAutoCompleteOptionsLabel={(option => "")}
+                                                getSelectedValue={(e, v) => setValues({ ...values, updatingSonicKey: { ...values?.updatingSonicKey, label: v?.name } })}
+                                                placeholder={"Label"}
+                                            />
+                                            :
                                             values?.sonicKey?.label || "---"
                                     }
                                 </TableCell>
@@ -383,20 +379,15 @@ const MetaDataDailog = (props) => {
                                 <TableCell className={classes.tableCellTwo}>
                                     {
                                         values?.switchEdit ?
-                                            <CustomDropDown
-                                                id="channel-dropdown"
-                                                labelText="Distributor"
-                                                formControlProps={{
-                                                    fullWidth: true
-                                                }}
-                                                labelProps={{ style: { fontFamily: theme.fontFamily.nunitoSansRegular, fontSize: theme.fontSize.h5 } }}
-                                                inputProps={{
-                                                    style: { fontSize: theme.fontSize.h5, fontFamily: theme.fontFamily.nunitoSansBold },
-                                                    value: values?.updatingSonicKey?.distributor,
-                                                    onChange: (e) => setValues({ ...values, updatingSonicKey: { ...values?.updatingSonicKey, distributor: e.target.value } })
-                                                }}
-                                                data={distributorArray || []}
-                                            /> :
+                                            <AppAutoComplete
+                                                setAutoComPleteAction={(value) => ""}
+                                                setAutoCompleteOptions={(option => option?.name || "")}
+                                                data={distributorArray}
+                                                setAutoCompleteOptionsLabel={(option => "")}
+                                                getSelectedValue={(e, v) => setValues({ ...values, updatingSonicKey: { ...values?.updatingSonicKey, distributor: v?.name } })}
+                                                placeholder={"Distributor"}
+                                            />
+                                            :
                                             values?.sonicKey?.distributor || "---"
                                     }
                                 </TableCell>

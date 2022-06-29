@@ -1,7 +1,7 @@
 import { Grid, Table, TableBody, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import React from 'react';
 import { useTheme } from 'styled-components';
-import { AlternateStyledTableData, StyledTableData, StyledTableHead, StyledAlternateTableRow, StyledTableRow } from '../../../../StyledComponents/StyledTable/StyledTable';
+import { StyledTableData, StyledTableHead, StyledTableRow } from '../../../../StyledComponents/StyledTable/StyledTable';
 import { useDispatch, useSelector } from 'react-redux';
 import * as actionTypes from "../../../../stores/actions/actionTypes"
 import { useNavigate } from 'react-router-dom';
@@ -38,7 +38,7 @@ export default function ArtistTable({ data, artistTableHeads, onArtistSorting })
 
     const onPlaysClick = (artistName) => {
         dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, artist: artistName } })
-        navigate("/plays")
+        navigate("/monitor/plays")
     }
 
     return (

@@ -38,7 +38,7 @@ export default function CountriesTable({ data, countriesTableHeads, onCountriesS
 
     const onPlaysClick = (countryName) => {
         dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, country: countryName } })
-        navigate("/plays")
+        navigate("/monitor/plays")
     }
 
     return (

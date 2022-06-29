@@ -4,7 +4,6 @@ import { useTheme } from 'styled-components';
 import PaginationCount from '../../../components/common/Pagination/PaginationCount';
 import { H1 } from '../../../StyledComponents/StyledHeadings';
 import FilterComponent from "../../../components/common/FilterComponent/FilterComponent"
-import { ArtistContainer } from './Styles';
 import CustomPagination from '../../../components/common/Pagination/CustomPagination';
 import CommonDataLoadErrorSuccess from '../../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess';
 import ArtistTable from './components/ArtistTable';
@@ -14,6 +13,7 @@ import { log } from '../../../utils/app.debug';
 import { getMonitorExportAction, getMonitorListAction } from '../../../stores/actions/monitorActions/monitorActions';
 import MonitorFilter from '../Components/MonitorFilter/MonitorFilter';
 import { artistTableHeads } from '../../../constants/constants';
+import { MainContainer } from '../../../StyledComponents/StyledPageContainer';
 
 export default function Artists() {
     const theme = useTheme()
@@ -77,7 +77,6 @@ export default function Artists() {
     }
 
     const artistSorting = (sortBy, isAscending, isActive) => {
-        // log("sortBy, isAscending, isActive", sortBy, isAscending, isActive)
         var newArtistTableHeads = state.artistTableHeads.map((data, i) => {
             if (data.sortBy === sortBy) {
                 data.isActive = isActive
@@ -105,7 +104,7 @@ export default function Artists() {
     log("Monitor Artist:", monitor)
 
     return (
-        <ArtistContainer>
+        <MainContainer>
             <H1 fontFamily={theme.fontFamily.nunitoSansBold}>My Artist</H1>
             <PaginationCount
                 heading={true}
@@ -153,6 +152,6 @@ export default function Artists() {
                     </Grid>
                 </Grid>
             </CommonDataLoadErrorSuccess>
-        </ArtistContainer>
+        </MainContainer>
     );
 }

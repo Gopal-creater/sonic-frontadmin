@@ -7,11 +7,12 @@ export const routeList = [
         // path: "/dashboard",
         title: "Monitor",
         subPath: [
-            { path: "/plays", title: "My Plays" },
-            { path: "/tracks", title: "My Tracks" },
-            { path: "/artists", title: "My Artists" },
-            { path: "/radio-stations", title: "Radio Stations" },
-            { path: "/countries", title: "Countries" },
+            { path: "/monitor/plays", title: "My Plays" },
+            { path: "/monitor/tracks", title: "My Tracks" },
+            { path: "/monitor/artists", title: "My Artists" },
+            { path: "/monitor/radio-stations", title: "Radio Stations" },
+            { path: "/monitor/countries", title: "Countries" },
+            { path: "/monitor/companies", title: "Companies" },
         ]
     },
     { path: "/streamreader", title: "StreamReader" },

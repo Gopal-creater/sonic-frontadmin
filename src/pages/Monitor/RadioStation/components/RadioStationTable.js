@@ -38,7 +38,7 @@ export default function RadioStationTable({ data, radioStationTableHeads, onRadi
 
     const onPlaysClick = (radioStationName) => {
         dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, radioStation: radioStationName } })
-        navigate("/plays")
+        navigate("/monitor/plays")
     }
 
     return (

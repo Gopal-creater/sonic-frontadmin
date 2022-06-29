@@ -124,7 +124,7 @@ const MetaDataDailog = (props) => {
             10,
         ));
         props.setOpenTable(false)
-        navigate("/plays")
+        navigate("/monitor/plays")
     }
 
     const updateSonicKey = () => {

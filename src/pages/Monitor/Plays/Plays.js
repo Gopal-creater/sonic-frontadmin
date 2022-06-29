@@ -9,10 +9,10 @@ import PaginationCount from '../../../components/common/Pagination/PaginationCou
 import CommonDataLoadErrorSuccess from '../../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess';
 import PlaysTable from './components/PlaysTable';
 import CustomPagination from '../../../components/common/Pagination/CustomPagination';
-import { log } from '../../../utils/app.debug';
 import { getMonitorExportAction, getMonitorListAction } from '../../../stores/actions/monitorActions/monitorActions';
 import MonitorFilter from '../Components/MonitorFilter/MonitorFilter';
 import { playsTableHeads } from '../../../constants/constants';
+import { MainContainer } from '../../../StyledComponents/StyledPageContainer';
 
 export default function Plays() {
     const dispatch = useDispatch();
@@ -92,7 +92,6 @@ export default function Plays() {
     }
 
     const playsSorting = (sortBy, isAscending, isActive) => {
-        // log("sortBy, isAscending, isActive", sortBy, isAscending, isActive)
         var newPlaysTableHeads = state.playsTableHeads.map((data, i) => {
             if (data.sortBy === sortBy) {
                 data.isActive = isActive
@@ -118,7 +117,7 @@ export default function Plays() {
     }
 
     return (
-        <Grid className="plays-container">
+        <MainContainer>
             <Grid container justifyContent="space-between" className="plays-title-container">
                 <Grid>
                     <H1>My Plays</H1>
@@ -171,6 +170,6 @@ export default function Plays() {
                     </Grid>
                 </Grid>
             </CommonDataLoadErrorSuccess>
-        </Grid>
+        </MainContainer>
     )
 }

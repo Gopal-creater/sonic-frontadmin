@@ -13,6 +13,7 @@ export default function AppAutoComplete(props) {
             options={props.data || []}
             noOptionsText={props.error ? props.error : props.loading ? "Loading..." : props?.data === undefined ? "Start typing..." : props?.data?.length === 0 && "No Data"}
             getOptionLabel={(option) => props?.setAutoCompleteOptions(option)}
+            getOptionSelected={(option, value) => option.id === value.id}
             renderOption={(option) => (
                 <Grid container alignItems='center' style={{ margin: 0, borderBottom: `1px solid ${theme.colors.secondary.lightGrey}`, padding: '5px 0px' }}>
                     <Grid item>

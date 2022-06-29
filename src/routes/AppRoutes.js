@@ -31,6 +31,7 @@ import Profile from "../pages/Profile/Profile";
 import SonicStreamReader from "../pages/StreamReader/SonicStreamReader";
 import SonicStreamDetail from "../pages/StreamReader/SonicStreamDetail";
 import * as actionTypes from '../stores/actions/actionTypes';
+import MonitorCompanies from "../pages/Monitor/Companies";
 
 export default function AppRoutes() {
   const user = useSelector(state => state.user)
@@ -79,12 +80,12 @@ export default function AppRoutes() {
             {/* Public routes */}
             <Route path="/licences" element={<Licences />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/radio-stations" element={<RadioStations />} />
+            <Route path="/monitor/radio-stations" element={<RadioStations />} />
             <Route path="/sonicstreamdetail/:id" element={<SonicStreamDetail />} />
-            <Route path="/plays" element={<Plays />} />
-            <Route path="/tracks" element={<Tracks />} />
-            <Route path="/artists" element={<Artists />} />
-            <Route path="/countries" element={<Countries />} />
+            <Route path="/monitor/plays" element={<Plays />} />
+            <Route path="/monitor/tracks" element={<Tracks />} />
+            <Route path="/monitor/artists" element={<Artists />} />
+            <Route path="/monitor/countries" element={<Countries />} />
             <Route path="/encoded-tracks" element={<SonicKey />} />
             <Route path="/streamreader" element={<SonicStreamReader />} />
             <Route path="/profile" element={<Profile />} />
@@ -103,6 +104,7 @@ export default function AppRoutes() {
               <Route path="/companies" element={<Companies />} />
               <Route path="/create-company" element={<CreateNewCompany />} />
               <Route path="/add-licences" element={<AddLicence />} />
+              <Route path="/monitor/companies" element={<MonitorCompanies />} />
             </Route>
 
             <Route element={<RoleAuth allowedRoles={[userRoles.COMPANY_ADMIN, userRoles.COMPANY_USER, userRoles.PORTAL_USER, userRoles.PARTNER_USER]} />}>

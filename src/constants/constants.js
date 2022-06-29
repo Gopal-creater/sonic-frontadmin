@@ -1479,6 +1479,14 @@ export const countryTableHeads = [
   { title: "RADIO STATIONS", sortBy: "radioStationCount", isAscending: null, isActive: false },
 ]
 
+export const monitorCompaniesTableHeads = [
+  { title: "COMPANY", sortBy: "company.name", isAscending: null, isActive: false },
+  { title: "COMPANY TYPE", sortBy: "company.companyType", isAscending: null, isActive: false },
+  { title: "PLAYS", sortBy: "playsCount", isAscending: null, isActive: false },
+  { title: "TRACKS", sortBy: "uniquePlaysCount", isAscending: null, isActive: false },
+  { title: "ARTISTS", sortBy: "artistsCount", isAscending: null, isActive: false },
+]
+
 export const licenseTableHeads = [
   { title: "ACCOUNT NAME" },
   { title: "MAX USES ENCODE" },

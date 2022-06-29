@@ -9,7 +9,7 @@ import AppButton from '../AppButton/AppButton';
 
 export default function AppAutoComplete(props) {
     const filterOptions = createFilterOptions({
-        limit: 10,
+        limit: 30,
     });
     return (
         <StyledAutocomplete

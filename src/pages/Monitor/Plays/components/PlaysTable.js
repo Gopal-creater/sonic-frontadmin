@@ -141,90 +141,124 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                         {data?.map((row, index) => {
                             return (
                                 <StyledTableRow key={index}>
+                                    {SelectedColumn("COMPANY") &&
+                                        <CustomToolTip title={row?.artist || "---"} placement={"bottom-start"}>
+                                            <AlternateDataColumn
+                                                style={{
+                                                    color: theme.colors.primary.navy,
+                                                    fontSize: theme.fontSize.h4,
+                                                    fontFamily: theme.fontFamily.nunitoSansMediumBold,
+                                                    position: "sticky",
+                                                    left: 0,
+                                                    background: theme.colors.secondary.tableColor
+                                                }}
+                                            >
+                                                {row?.modal?.company?.name || "---"}
+                                            </AlternateDataColumn>
+                                        </CustomToolTip>
+                                    }
 
-                                    <CustomToolTip title={row?.artist || "---"} placement={"bottom-start"}>
-                                        <AlternateDataColumn
-                                            style={{
-                                                color: theme.colors.primary.navy,
-                                                fontSize: theme.fontSize.h4,
-                                                fontFamily: theme.fontFamily.nunitoSansMediumBold,
-                                                position: "sticky",
-                                                left: 0,
-                                                background: theme.colors.secondary.tableColor
-                                            }}
-                                        >
-                                            {row?.modal?.company?.name || "---"}
-                                        </AlternateDataColumn>
-                                    </CustomToolTip>
+                                    {SelectedColumn("COMPANY TYPE") &&
+                                        <CustomToolTip title={row?.title || "---"} placement={"bottom-start"}>
+                                            <AlternateDataColumn
+                                                style={{
+                                                    color: theme.colors.primary.graphite,
+                                                    fontSize: theme.fontSize.h4,
+                                                    fontFamily: theme.fontFamily.nunitoSansMediumBold,
+                                                    position: "sticky",
+                                                    left: "130px",
+                                                    background: theme.colors.secondary.tableColor
+                                                }}
+                                            >
+                                                {row?.modal?.company?.companyType || "---"}
+                                            </AlternateDataColumn>
+                                        </CustomToolTip>
+                                    }
 
-                                    <CustomToolTip title={row?.title || "---"} placement={"bottom-start"}>
-                                        <AlternateDataColumn
-                                            style={{
-                                                color: theme.colors.primary.graphite,
-                                                fontSize: theme.fontSize.h4,
-                                                fontFamily: theme.fontFamily.nunitoSansMediumBold,
-                                                position: "sticky",
-                                                left: "130px",
-                                                background: theme.colors.secondary.tableColor
-                                            }}
-                                        >
-                                            {row?.modal?.company?.companyType || "---"}
-                                        </AlternateDataColumn>
-                                    </CustomToolTip>
+                                    {SelectedColumn("ARTIST") &&
+                                        <AlternateDataColumn>{row?.artist || "---"}</AlternateDataColumn>
+                                    }
 
-                                    <AlternateDataColumn>{row?.artist || "---"}</AlternateDataColumn>
-
-                                    <AlternateDataColumn>{row?.title || "---"}</AlternateDataColumn>
+                                    {SelectedColumn("TITLE") &&
+                                        <AlternateDataColumn>{row?.title || "---"}</AlternateDataColumn>
+                                    }
 
                                     {SelectedColumn("VERSION") &&
                                         <AlternateDataColumn>{row?.version || "---"}</AlternateDataColumn>
                                     }
 
-                                    <AlternateDataColumn>{row?.trackId || "---"}</AlternateDataColumn>
+                                    {SelectedColumn("TRACK ID") &&
+                                        <AlternateDataColumn>{row?.trackId?._id || "---"}</AlternateDataColumn>
+                                    }
 
-                                    <AlternateDataColumn>{row?.radioStation || "---"}</AlternateDataColumn>
+                                    {SelectedColumn("RADIO STATION") &&
+                                        <AlternateDataColumn>{row?.radioStation || "---"}</AlternateDataColumn>
+                                    }
 
-                                    <AlternateDataColumn>{moment(row?.date).utc().format("DD/MM/YYYY") || "---"}</AlternateDataColumn>
+                                    {SelectedColumn("DATE") &&
+                                        <AlternateDataColumn>{moment(row?.date).utc().format("DD/MM/YYYY") || "---"}</AlternateDataColumn>
+                                    }
 
-                                    <AlternateDataColumn>
-                                        {monitor?.filters?.timezone === "GMT" ? moment(row?.time).utc().format("HH:mm:ss") : moment(row?.time).format("HH:mm:ss") || "---"}
-                                    </AlternateDataColumn>
+                                    {SelectedColumn("TIME") &&
+                                        <AlternateDataColumn>
+                                            {monitor?.filters?.timezone === "GMT" ? moment(row?.time).utc().format("HH:mm:ss") : moment(row?.time).format("HH:mm:ss") || "---"}
+                                        </AlternateDataColumn>
+                                    }
 
-                                    <AlternateDataColumn>{moment.utc(row?.duration * 1000).format("mm:ss") || "---"}</AlternateDataColumn>
+                                    {SelectedColumn("DURATION") &&
+                                        <AlternateDataColumn>{moment.utc(row?.duration * 1000).format("mm:ss") || "---"}</AlternateDataColumn>
+                                    }
 
-                                    <AlternateDataColumn>{row?.country || "---"}</AlternateDataColumn>
+                                    {SelectedColumn("COUNTRY") &&
+                                        <AlternateDataColumn>{row?.country || "---"}</AlternateDataColumn>
+                                    }
 
-                                    <AlternateDataColumn
-                                        style={{
-                                            color: theme.colors.primary.graphite,
-                                            fontSize: theme.fontSize.h5,
-                                            fontFamily: theme.fontFamily.nunitoSansMediumBold
-                                        }}
-                                    >
-                                        {row?.isrcCode || "---"}
-                                    </AlternateDataColumn>
 
-                                    <AlternateDataColumn>{row?.iswc || "---"}</AlternateDataColumn>
+                                    {SelectedColumn("ISRC") &&
+                                        <AlternateDataColumn
+                                            style={{
+                                                color: theme.colors.primary.graphite,
+                                                fontSize: theme.fontSize.h5,
+                                                fontFamily: theme.fontFamily.nunitoSansMediumBold
+                                            }}
+                                        >
+                                            {row?.isrcCode || "---"}
+                                        </AlternateDataColumn>
+                                    }
 
-                                    <AlternateDataColumn>{row?.tuneCode || "---"}</AlternateDataColumn>
+                                    {SelectedColumn("ISWC") &&
+                                        <AlternateDataColumn>{row?.iswc || "---"}</AlternateDataColumn>
+                                    }
 
-                                    <AlternateDataColumn>{row?.label || "---"}</AlternateDataColumn>
+                                    {SelectedColumn("TUNE CODE") &&
+                                        <AlternateDataColumn>{row?.tuneCode || "---"}</AlternateDataColumn>
+                                    }
 
-                                    <AlternateDataColumn>{row?.distributor || "---"}</AlternateDataColumn>
+                                    {SelectedColumn("LABEL") &&
+                                        <AlternateDataColumn>{row?.label || "---"}</AlternateDataColumn>
+                                    }
 
-                                    <AlternateDataColumn>{row?.fileType || "---"}</AlternateDataColumn>
+                                    {SelectedColumn("DISTRIBUTOR") &&
+                                        <AlternateDataColumn>{row?.distributor || "---"}</AlternateDataColumn>
+                                    }
 
-                                    <AlternateDataColumn
-                                        style={{
-                                            color: theme.colors.primary.navy,
-                                            fontSize: theme.fontSize.h5,
-                                            fontFamily: theme.fontFamily.nunitoSansMediumBold,
-                                            cursor: 'pointer'
-                                        }}
-                                        onClick={() => setState({ ...state, sonicKeyModal: true, selectedSonicKey: row?.modal })}
-                                    >
-                                        {row?.sonicKey || "---"}
-                                    </AlternateDataColumn>
+                                    {SelectedColumn("FILE TYPE") &&
+                                        <AlternateDataColumn>{row?.fileType || "---"}</AlternateDataColumn>
+                                    }
+
+                                    {SelectedColumn("SONICKEY") &&
+                                        <AlternateDataColumn
+                                            style={{
+                                                color: theme.colors.primary.navy,
+                                                fontSize: theme.fontSize.h5,
+                                                fontFamily: theme.fontFamily.nunitoSansMediumBold,
+                                                cursor: 'pointer'
+                                            }}
+                                            onClick={() => setState({ ...state, sonicKeyModal: true, selectedSonicKey: row?.modal })}
+                                        >
+                                            {row?.sonicKey || "---"}
+                                        </AlternateDataColumn>
+                                    }
                                 </StyledTableRow>
                             )
                         })}

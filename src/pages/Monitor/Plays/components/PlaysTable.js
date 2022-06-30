@@ -5,7 +5,6 @@ import { AlternateDataColumn, ResizableTable, StyledTableBody, StyledTableHead, 
 import MetaDataDialog from "../../../../components/common/MetaDataDialog";
 import { useSelector } from 'react-redux';
 import CustomToolTip from '../../../../components/common/CustomToolTip';
-import { SelectedColumn } from '../../../../components/common/Columns/component/SelectedColumn';
 
 const createHeaders = (headers) => {
     return headers.map((item) => ({
@@ -110,38 +109,35 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                     <StyledTableHead>
                         <StyledTableRow>
                             {columns.map(({ ref, text, sortBy, isAscending, isActive }, index) => {
-                                const isChecked = SelectedColumn(text);
-                                if (isChecked) {
-                                    return (
-                                        <StyledTableHeadColumn
-                                            key={index}
-                                            ref={ref}
-                                            onClick={() => sorting(sortBy, isAscending, isActive)}
-                                            style={{
-                                                position: index === 0 || index === 1 ? "sticky" : "",
-                                                left: index === 0 ? 0 : index === 1 ? "130px" : "",
-                                                background: index === 0 || index === 1 ? "white" : "",
-                                                zIndex: index === 0 || index === 1 ? 1 : ""
-                                            }}
-                                        >
-                                            {text}
-                                            <i className="fa fa-sort" style={{ marginLeft: "5px" }}></i>
-                                            {
-                                                index === 0 || index === 1 ?
-                                                    "" :
-                                                    <TableResizer onMouseDown={() => setState({ ...state, activeColumnIndex: index })} style={{ height: state.tableHeight }} />
-                                            }
-                                        </StyledTableHeadColumn>
-                                    )
-                                }
+                                return (
+                                    <StyledTableHeadColumn
+                                        key={index}
+                                        ref={ref}
+                                        onClick={() => sorting(sortBy, isAscending, isActive)}
+                                        style={{
+                                            position: index === 0 || index === 1 ? "sticky" : "",
+                                            left: index === 0 ? 0 : index === 1 ? "130px" : "",
+                                            background: index === 0 || index === 1 ? "white" : "",
+                                            zIndex: index === 0 || index === 1 ? 1 : ""
+                                        }}
+                                    >
+                                        {text}
+                                        <i className="fa fa-sort" style={{ marginLeft: "5px" }}></i>
+                                        {
+                                            index === 0 || index === 1 ?
+                                                "" :
+                                                <TableResizer onMouseDown={() => setState({ ...state, activeColumnIndex: index })} style={{ height: state.tableHeight }} />
+                                        }
+                                    </StyledTableHeadColumn>
+                                )
                             })}
                         </StyledTableRow>
                     </StyledTableHead>
                     <StyledTableBody>
                         {data?.map((row, index) => {
-                            return (
-                                <StyledTableRow key={index}>
-                                    {SelectedColumn("COMPANY") &&
+                            if (index % 2 !== 0) {
+                                return (
+                                    <StyledTableRow key={index}>
                                         <CustomToolTip title={row?.artist || "---"} placement={"bottom-start"}>
                                             <AlternateDataColumn
                                                 style={{
@@ -156,9 +152,7 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                                                 {row?.modal?.company?.name || "---"}
                                             </AlternateDataColumn>
                                         </CustomToolTip>
-                                    }
 
-                                    {SelectedColumn("COMPANY TYPE") &&
                                         <CustomToolTip title={row?.title || "---"} placement={"bottom-start"}>
                                             <AlternateDataColumn
                                                 style={{
@@ -173,48 +167,27 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                                                 {row?.modal?.company?.companyType || "---"}
                                             </AlternateDataColumn>
                                         </CustomToolTip>
-                                    }
 
-                                    {SelectedColumn("ARTIST") &&
                                         <AlternateDataColumn>{row?.artist || "---"}</AlternateDataColumn>
-                                    }
 
-                                    {SelectedColumn("TITLE") &&
                                         <AlternateDataColumn>{row?.title || "---"}</AlternateDataColumn>
-                                    }
 
-                                    {SelectedColumn("VERSION") &&
                                         <AlternateDataColumn>{row?.version || "---"}</AlternateDataColumn>
-                                    }
 
-                                    {SelectedColumn("TRACK ID") &&
                                         <AlternateDataColumn>{row?.trackId?._id || "---"}</AlternateDataColumn>
-                                    }
 
-                                    {SelectedColumn("RADIO STATION") &&
                                         <AlternateDataColumn>{row?.radioStation || "---"}</AlternateDataColumn>
-                                    }
 
-                                    {SelectedColumn("DATE") &&
                                         <AlternateDataColumn>{moment(row?.date).utc().format("DD/MM/YYYY") || "---"}</AlternateDataColumn>
-                                    }
 
-                                    {SelectedColumn("TIME") &&
                                         <AlternateDataColumn>
                                             {monitor?.filters?.timezone === "GMT" ? moment(row?.time).utc().format("HH:mm:ss") : moment(row?.time).format("HH:mm:ss") || "---"}
                                         </AlternateDataColumn>
-                                    }
 
-                                    {SelectedColumn("DURATION") &&
                                         <AlternateDataColumn>{moment.utc(row?.duration * 1000).format("mm:ss") || "---"}</AlternateDataColumn>
-                                    }
 
-                                    {SelectedColumn("COUNTRY") &&
                                         <AlternateDataColumn>{row?.country || "---"}</AlternateDataColumn>
-                                    }
 
-
-                                    {SelectedColumn("ISRC") &&
                                         <AlternateDataColumn
                                             style={{
                                                 color: theme.colors.primary.graphite,
@@ -224,29 +197,17 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                                         >
                                             {row?.isrcCode || "---"}
                                         </AlternateDataColumn>
-                                    }
 
-                                    {SelectedColumn("ISWC") &&
                                         <AlternateDataColumn>{row?.iswc || "---"}</AlternateDataColumn>
-                                    }
 
-                                    {SelectedColumn("TUNE CODE") &&
                                         <AlternateDataColumn>{row?.tuneCode || "---"}</AlternateDataColumn>
-                                    }
 
-                                    {SelectedColumn("LABEL") &&
                                         <AlternateDataColumn>{row?.label || "---"}</AlternateDataColumn>
-                                    }
 
-                                    {SelectedColumn("DISTRIBUTOR") &&
                                         <AlternateDataColumn>{row?.distributor || "---"}</AlternateDataColumn>
-                                    }
 
-                                    {SelectedColumn("FILE TYPE") &&
                                         <AlternateDataColumn>{row?.fileType || "---"}</AlternateDataColumn>
-                                    }
 
-                                    {SelectedColumn("SONICKEY") &&
                                         <AlternateDataColumn
                                             style={{
                                                 color: theme.colors.primary.navy,
@@ -258,7 +219,97 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                                         >
                                             {row?.sonicKey || "---"}
                                         </AlternateDataColumn>
-                                    }
+
+                                    </StyledTableRow>
+                                )
+                            }
+                            return (
+                                <StyledTableRow key={index}>
+                                    <CustomToolTip title={row?.modal?.company?.name || "---"} placement={"bottom-start"}>
+                                        <TableDataColumn
+                                            style={{
+                                                color: theme.colors.primary.navy,
+                                                fontSize: theme.fontSize.h4,
+                                                fontFamily: theme.fontFamily.nunitoSansMediumBold,
+                                                position: "sticky",
+                                                width: "130px",
+                                                left: 0,
+                                                background: "white"
+                                            }}
+                                        >
+                                            {row?.modal?.company?.name || "---"}
+                                        </TableDataColumn>
+                                    </CustomToolTip>
+
+                                    <CustomToolTip title={row?.modal?.company?.companyType || "---"} placement={"bottom-start"}>
+                                        <TableDataColumn
+                                            style={{
+                                                color: theme.colors.primary.graphite,
+                                                fontSize: theme.fontSize.h4,
+                                                fontFamily: theme.fontFamily.nunitoSansMediumBold,
+                                                position: "sticky",
+                                                width: "130px",
+                                                left: "130px",
+                                                background: "white"
+                                            }}
+                                        >
+                                            {row?.modal?.company?.companyType || "---"}
+                                        </TableDataColumn>
+                                    </CustomToolTip>
+
+                                    <TableDataColumn>{row?.artist || "---"}</TableDataColumn>
+
+                                    <TableDataColumn>{row?.title || "---"}</TableDataColumn>
+
+                                    <TableDataColumn>{row?.version || "---"}</TableDataColumn>
+
+                                    <TableDataColumn>{row?.trackId?._id || "---"}</TableDataColumn>
+
+                                    <TableDataColumn>{row?.radioStation || "---"}</TableDataColumn>
+
+                                    <TableDataColumn>{moment(row?.date).utc().format("DD/MM/YYYY") || "---"}</TableDataColumn>
+
+                                    <TableDataColumn>
+                                        {monitor?.filters?.timezone === "GMT" ? moment(row?.time).utc().format("HH:mm:ss") : moment(row?.time).format("HH:mm:ss") || "---"}
+                                    </TableDataColumn>
+
+                                    <TableDataColumn>{moment.utc(row?.duration * 1000).format("mm:ss") || "---"}</TableDataColumn>
+
+                                    <TableDataColumn>{row?.country || "---"}</TableDataColumn>
+
+                                    <TableDataColumn
+                                        style={{
+                                            color: theme.colors.primary.graphite,
+                                            fontSize: theme.fontSize.h5,
+                                            fontFamily: theme.fontFamily.nunitoSansMediumBold
+                                        }}
+                                    >
+                                        {row?.isrcCode || "---"}
+                                    </TableDataColumn>
+
+                                    <TableDataColumn>{row?.iswc || "---"}</TableDataColumn>
+
+                                    <TableDataColumn>{row?.tuneCode || "---"}</TableDataColumn>
+
+                                    <TableDataColumn>{row?.label || "---"}</TableDataColumn>
+
+                                    <TableDataColumn>{row?.distributor || "---"}</TableDataColumn>
+
+                                    <TableDataColumn>{row?.fileType || "---"}</TableDataColumn>
+
+
+                                    <TableDataColumn
+                                        style={{
+                                            color: theme.colors.primary.navy,
+                                            fontSize: theme.fontSize.h5,
+                                            fontFamily: theme.fontFamily.nunitoSansMediumBold,
+                                            cursor: 'pointer'
+                                        }}
+                                        onClick={() => setState({ ...state, sonicKeyModal: true, selectedSonicKey: row?.modal })}
+                                    >
+                                        {row?.sonicKey || "---"}
+                                    </TableDataColumn>
+
                                 </StyledTableRow>
                             )
                         })}

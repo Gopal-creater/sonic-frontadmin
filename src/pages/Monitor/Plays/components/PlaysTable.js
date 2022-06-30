@@ -5,6 +5,7 @@ import { AlternateDataColumn, ResizableTable, StyledTableBody, StyledTableHead, 
 import MetaDataDialog from "../../../../components/common/MetaDataDialog";
 import { useSelector } from 'react-redux';
 import CustomToolTip from '../../../../components/common/CustomToolTip';
+import { SelectedColumn } from '../../../../components/common/Columns/component/SelectedColumn';
 
 const createHeaders = (headers) => {
     return headers.map((item) => ({
@@ -109,175 +110,91 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                     <StyledTableHead>
                         <StyledTableRow>
                             {columns.map(({ ref, text, sortBy, isAscending, isActive }, index) => {
-                                return (
-                                    <StyledTableHeadColumn
-                                        key={index}
-                                        ref={ref}
-                                        onClick={() => sorting(sortBy, isAscending, isActive)}
-                                        style={{
-                                            position: index === 0 || index === 1 ? "sticky" : "",
-                                            left: index === 0 ? 0 : index === 1 ? "130px" : "",
-                                            background: index === 0 || index === 1 ? "white" : "",
-                                            zIndex: index === 0 || index === 1 ? 1 : ""
-                                        }}
-                                    >
-                                        {text}
-                                        <i className="fa fa-sort" style={{ marginLeft: "5px" }}></i>
-                                        {
-                                            index === 0 || index === 1 ?
-                                                "" :
-                                                <TableResizer onMouseDown={() => setState({ ...state, activeColumnIndex: index })} style={{ height: state.tableHeight }} />
-                                        }
-                                    </StyledTableHeadColumn>
-                                )
+                                const isChecked = SelectedColumn(text);
+                                if (isChecked) {
+                                    return (
+                                        <StyledTableHeadColumn
+                                            key={index}
+                                            ref={ref}
+                                            onClick={() => sorting(sortBy, isAscending, isActive)}
+                                            style={{
+                                                position: index === 0 || index === 1 ? "sticky" : "",
+                                                left: index === 0 ? 0 : index === 1 ? "130px" : "",
+                                                background: index === 0 || index === 1 ? "white" : "",
+                                                zIndex: index === 0 || index === 1 ? 1 : ""
+                                            }}
+                                        >
+                                            {text}
+                                            <i className="fa fa-sort" style={{ marginLeft: "5px" }}></i>
+                                            {
+                                                index === 0 || index === 1 ?
+                                                    "" :
+                                                    <TableResizer onMouseDown={() => setState({ ...state, activeColumnIndex: index })} style={{ height: state.tableHeight }} />
+                                            }
+                                        </StyledTableHeadColumn>
+                                    )
+                                }
                             })}
                         </StyledTableRow>
                     </StyledTableHead>
                     <StyledTableBody>
                         {data?.map((row, index) => {
-                            if (index % 2 !== 0) {
-                                return (
-                                    <StyledTableRow key={index}>
-                                        <CustomToolTip title={row?.artist || "---"} placement={"bottom-start"}>
-                                            <AlternateDataColumn
-                                                style={{
-                                                    color: theme.colors.primary.navy,
-                                                    fontSize: theme.fontSize.h4,
-                                                    fontFamily: theme.fontFamily.nunitoSansMediumBold,
-                                                    position: "sticky",
-                                                    left: 0,
-                                                    background: theme.colors.secondary.tableColor
-                                                }}
-                                            >
-                                                {row?.modal?.company?.name || "---"}
-                                            </AlternateDataColumn>
-                                        </CustomToolTip>
-
-                                        <CustomToolTip title={row?.title || "---"} placement={"bottom-start"}>
-                                            <AlternateDataColumn
-                                                style={{
-                                                    color: theme.colors.primary.graphite,
-                                                    fontSize: theme.fontSize.h4,
-                                                    fontFamily: theme.fontFamily.nunitoSansMediumBold,
-                                                    position: "sticky",
-                                                    left: "130px",
-                                                    background: theme.colors.secondary.tableColor
-                                                }}
-                                            >
-                                                {row?.modal?.company?.companyType || "---"}
-                                            </AlternateDataColumn>
-                                        </CustomToolTip>
-
-                                        <AlternateDataColumn>{row?.artist || "---"}</AlternateDataColumn>
-
-                                        <AlternateDataColumn>{row?.title || "---"}</AlternateDataColumn>
-
-                                        <AlternateDataColumn>{row?.version || "---"}</AlternateDataColumn>
-
-                                        <AlternateDataColumn>{row?.trackId || "---"}</AlternateDataColumn>
-
-                                        <AlternateDataColumn>{row?.radioStation || "---"}</AlternateDataColumn>
-
-                                        <AlternateDataColumn>{moment(row?.date).utc().format("DD/MM/YYYY") || "---"}</AlternateDataColumn>
-
-                                        <AlternateDataColumn>
-                                            {monitor?.filters?.timezone === "GMT" ? moment(row?.time).utc().format("HH:mm:ss") : moment(row?.time).format("HH:mm:ss") || "---"}
-                                        </AlternateDataColumn>
-
-                                        <AlternateDataColumn>{moment.utc(row?.duration * 1000).format("mm:ss") || "---"}</AlternateDataColumn>
-
-                                        <AlternateDataColumn>{row?.country || "---"}</AlternateDataColumn>
-
-                                        <AlternateDataColumn
-                                            style={{
-                                                color: theme.colors.primary.graphite,
-                                                fontSize: theme.fontSize.h5,
-                                                fontFamily: theme.fontFamily.nunitoSansMediumBold
-                                            }}
-                                        >
-                                            {row?.isrcCode || "---"}
-                                        </AlternateDataColumn>
-
-                                        <AlternateDataColumn>{row?.iswc || "---"}</AlternateDataColumn>
-
-                                        <AlternateDataColumn>{row?.tuneCode || "---"}</AlternateDataColumn>
-
-                                        <AlternateDataColumn>{row?.label || "---"}</AlternateDataColumn>
-
-                                        <AlternateDataColumn>{row?.distributor || "---"}</AlternateDataColumn>
-
-                                        <AlternateDataColumn>{row?.fileType || "---"}</AlternateDataColumn>
-
-                                        <AlternateDataColumn
-                                            style={{
-                                                color: theme.colors.primary.navy,
-                                                fontSize: theme.fontSize.h5,
-                                                fontFamily: theme.fontFamily.nunitoSansMediumBold,
-                                                cursor: 'pointer'
-                                            }}
-                                            onClick={() => setState({ ...state, sonicKeyModal: true, selectedSonicKey: row?.modal })}
-                                        >
-                                            {row?.sonicKey || "---"}
-                                        </AlternateDataColumn>
-
-                                    </StyledTableRow>
-                                )
-                            }
                             return (
                                 <StyledTableRow key={index}>
-                                    <CustomToolTip title={row?.modal?.company?.name || "---"} placement={"bottom-start"}>
-                                        <TableDataColumn
+
+                                    <CustomToolTip title={row?.artist || "---"} placement={"bottom-start"}>
+                                        <AlternateDataColumn
                                             style={{
                                                 color: theme.colors.primary.navy,
                                                 fontSize: theme.fontSize.h4,
                                                 fontFamily: theme.fontFamily.nunitoSansMediumBold,
                                                 position: "sticky",
-                                                width: "130px",
                                                 left: 0,
-                                                background: "white"
+                                                background: theme.colors.secondary.tableColor
                                             }}
                                         >
                                             {row?.modal?.company?.name || "---"}
-                                        </TableDataColumn>
+                                        </AlternateDataColumn>
                                     </CustomToolTip>
 
-                                    <CustomToolTip title={row?.modal?.company?.companyType || "---"} placement={"bottom-start"}>
-                                        <TableDataColumn
+                                    <CustomToolTip title={row?.title || "---"} placement={"bottom-start"}>
+                                        <AlternateDataColumn
                                             style={{
                                                 color: theme.colors.primary.graphite,
                                                 fontSize: theme.fontSize.h4,
                                                 fontFamily: theme.fontFamily.nunitoSansMediumBold,
                                                 position: "sticky",
-                                                width: "130px",
                                                 left: "130px",
-                                                background: "white"
+                                                background: theme.colors.secondary.tableColor
                                             }}
                                         >
                                             {row?.modal?.company?.companyType || "---"}
-                                        </TableDataColumn>
+                                        </AlternateDataColumn>
                                     </CustomToolTip>
 
-                                    <TableDataColumn>{row?.artist || "---"}</TableDataColumn>
+                                    <AlternateDataColumn>{row?.artist || "---"}</AlternateDataColumn>
 
-                                    <TableDataColumn>{row?.title || "---"}</TableDataColumn>
+                                    <AlternateDataColumn>{row?.title || "---"}</AlternateDataColumn>
 
-                                    <TableDataColumn>{row?.version || "---"}</TableDataColumn>
+                                    {SelectedColumn("VERSION") &&
+                                        <AlternateDataColumn>{row?.version || "---"}</AlternateDataColumn>
+                                    }
 
-                                    <TableDataColumn>{row?.trackId || "---"}</TableDataColumn>
+                                    <AlternateDataColumn>{row?.trackId || "---"}</AlternateDataColumn>
 
-                                    <TableDataColumn>{row?.radioStation || "---"}</TableDataColumn>
+                                    <AlternateDataColumn>{row?.radioStation || "---"}</AlternateDataColumn>
 
-                                    <TableDataColumn>{moment(row?.date).utc().format("DD/MM/YYYY") || "---"}</TableDataColumn>
+                                    <AlternateDataColumn>{moment(row?.date).utc().format("DD/MM/YYYY") || "---"}</AlternateDataColumn>
 
-                                    <TableDataColumn>
+                                    <AlternateDataColumn>
                                         {monitor?.filters?.timezone === "GMT" ? moment(row?.time).utc().format("HH:mm:ss") : moment(row?.time).format("HH:mm:ss") || "---"}
-                                    </TableDataColumn>
+                                    </AlternateDataColumn>
 
-                                    <TableDataColumn>{moment.utc(row?.duration * 1000).format("mm:ss") || "---"}</TableDataColumn>
+                                    <AlternateDataColumn>{moment.utc(row?.duration * 1000).format("mm:ss") || "---"}</AlternateDataColumn>
 
-                                    <TableDataColumn>{row?.country || "---"}</TableDataColumn>
+                                    <AlternateDataColumn>{row?.country || "---"}</AlternateDataColumn>
 
-                                    <TableDataColumn
+                                    <AlternateDataColumn
                                         style={{
                                             color: theme.colors.primary.graphite,
                                             fontSize: theme.fontSize.h5,
@@ -285,20 +202,19 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                                         }}
                                     >
                                         {row?.isrcCode || "---"}
-                                    </TableDataColumn>
+                                    </AlternateDataColumn>
 
-                                    <TableDataColumn>{row?.iswc || "---"}</TableDataColumn>
+                                    <AlternateDataColumn>{row?.iswc || "---"}</AlternateDataColumn>
 
-                                    <TableDataColumn>{row?.tuneCode || "---"}</TableDataColumn>
+                                    <AlternateDataColumn>{row?.tuneCode || "---"}</AlternateDataColumn>
 
-                                    <TableDataColumn>{row?.label || "---"}</TableDataColumn>
+                                    <AlternateDataColumn>{row?.label || "---"}</AlternateDataColumn>
 
-                                    <TableDataColumn>{row?.distributor || "---"}</TableDataColumn>
+                                    <AlternateDataColumn>{row?.distributor || "---"}</AlternateDataColumn>
 
-                                    <TableDataColumn>{row?.fileType || "---"}</TableDataColumn>
+                                    <AlternateDataColumn>{row?.fileType || "---"}</AlternateDataColumn>
 
-
-                                    <TableDataColumn
+                                    <AlternateDataColumn
                                         style={{
                                             color: theme.colors.primary.navy,
                                             fontSize: theme.fontSize.h5,
@@ -308,8 +224,7 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                                         onClick={() => setState({ ...state, sonicKeyModal: true, selectedSonicKey: row?.modal })}
                                     >
                                         {row?.sonicKey || "---"}
-                                    </TableDataColumn>
-
+                                    </AlternateDataColumn>
                                 </StyledTableRow>
                             )
                         })}

@@ -1407,12 +1407,12 @@ export const countries = [
 
 
 export const playsTableHeads = [
-  { title: "Company", orderBy: "company", sortBy: "sonicKey.company.name", isAscending: null, isActive: false },
-  { title: "Company Type", orderBy: "companyType", sortBy: "sonicKey.company.companyType", isAscending: null, isActive: false },
+  { title: "COMPANY", orderBy: "company", sortBy: "sonicKey.company.name", isAscending: null, isActive: false },
+  { title: "COMPANY TYPE", orderBy: "companyType", sortBy: "sonicKey.company.companyType", isAscending: null, isActive: false },
   { title: "ARTIST", orderBy: "artist", sortBy: "sonicKey.contentOwner", isAscending: null, isActive: false },
   { title: "TITLE", orderBy: "title", sortBy: "sonicKey.contentName", isAscending: null, isActive: false },
   { title: "VERSION", orderBy: "version", sortBy: "sonicKey.version", isAscending: null, isActive: false },
-  { title: "Track Id", orderBy: "trackId", sortBy: "sonicKey.track", isAscending: null, isActive: false },
+  { title: "TRACK ID", orderBy: "trackId", sortBy: "sonicKey.track", isAscending: null, isActive: false },
   { title: "RADIO STATION", orderBy: "radioStation", sortBy: "radioStation.name", isAscending: null, isActive: false },
   { title: "DATE", orderBy: "date", sortBy: "detectedAt", isAscending: null, isActive: false },
   { title: "TIME", orderBy: "time", sortBy: "detectedAt", isAscending: null, isActive: false },
@@ -1423,7 +1423,7 @@ export const playsTableHeads = [
   { title: "TUNE CODE", orderBy: "tuneCode", sortBy: "sonicKey.tuneCode", isAscending: null, isActive: false },
   { title: "LABEL", orderBy: "label", sortBy: "sonicKey.label", isAscending: null, isActive: false },
   { title: "DISTRIBUTOR", orderBy: "distributor", sortBy: "sonicKey.distributor", isAscending: null, isActive: false },
-  { title: "File Type", orderBy: "contentType", sortBy: "sonicKey.contentType", isAscending: null, isActive: false },
+  { title: "FILE TYPE", orderBy: "contentType", sortBy: "sonicKey.contentType", isAscending: null, isActive: false },
   { title: "SONICKEY", orderBy: "sonicKey", sortBy: "sonicKey.sonicKey", isAscending: null, isActive: false },
 ]
 

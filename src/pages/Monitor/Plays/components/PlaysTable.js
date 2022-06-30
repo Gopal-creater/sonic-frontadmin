@@ -174,7 +174,7 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
 
                                         <AlternateDataColumn>{row?.version || "---"}</AlternateDataColumn>
 
-                                        <AlternateDataColumn>{row?.trackId || "---"}</AlternateDataColumn>
+                                        <AlternateDataColumn>{row?.trackId?._id || "---"}</AlternateDataColumn>
 
                                         <AlternateDataColumn>{row?.radioStation || "---"}</AlternateDataColumn>
 
@@ -263,7 +263,7 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
 
                                     <TableDataColumn>{row?.version || "---"}</TableDataColumn>
 
-                                    <TableDataColumn>{row?.trackId || "---"}</TableDataColumn>
+                                    <TableDataColumn>{row?.trackId?._id || "---"}</TableDataColumn>
 
                                     <TableDataColumn>{row?.radioStation || "---"}</TableDataColumn>
 

@@ -213,7 +213,7 @@ export default function DashboardTable({ data }) {
                                                 </TableDataColumn>
 
                                                 <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
-                                                    {row?.trackId || "---"}
+                                                    {row?.trackId?._id || "---"}
                                                 </TableDataColumn>
 
                                                 <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>

@@ -302,7 +302,7 @@ const MetaDataDailog = (props) => {
                                 <TableCell className={classes.tableCellOne}>ISRC</TableCell>
                                 <TableCell className={classes.tableCellTwo}>
                                     {
-                                        values?.switchEdit && (values?.sonicKey?.contentType === "Music" || values?.updatingSonicKey?.contentType === "Music") ?
+                                        values?.switchEdit ?
                                             <TextField
                                                 id="isrcInput"
                                                 fullWidth
@@ -321,7 +321,7 @@ const MetaDataDailog = (props) => {
                                 <TableCell className={classes.tableCellOne}>ISWC</TableCell>
                                 <TableCell className={classes.tableCellTwo}>
                                     {
-                                        values?.switchEdit && (values?.sonicKey?.contentType === "Music" || values?.updatingSonicKey?.contentType === "Music") ?
+                                        values?.switchEdit ?
                                             <TextField
                                                 id="iswcInput"
                                                 fullWidth
@@ -340,14 +340,14 @@ const MetaDataDailog = (props) => {
                                 <TableCell className={classes.tableCellOne}>TUNE CODE</TableCell>
                                 <TableCell className={classes.tableCellTwo}>
                                     {
-                                        values?.switchEdit && (values?.sonicKey?.contentType === "Music" || values?.updatingSonicKey?.contentType === "Music") ?
+                                        values?.switchEdit ?
                                             <TextField
                                                 id="tuneInput"
                                                 fullWidth
                                                 placeholder="Edit tunecode"
                                                 inputProps={{ className: classes.textInput }}
                                                 value={values?.updatingSonicKey?.tuneCode}
-                                                onChange={(e) => setValues({ ...values, updatingSonicKey: { ...values?.updatingSonicKey, tun: e.target.value } })}
+                                                onChange={(e) => setValues({ ...values, updatingSonicKey: { ...values?.updatingSonicKey, tuneCode: e.target.value } })}
                                             />
                                             :
                                             values?.sonicKey?.tuneCode ? values?.sonicKey?.tuneCode : 'Not Specified'

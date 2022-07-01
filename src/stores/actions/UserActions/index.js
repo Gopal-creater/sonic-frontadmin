@@ -4,11 +4,26 @@ import * as actionTypes from "../actionTypes"
 import store from "../..";
 import { userRoles } from "../../../constants/constants";
 import { getRoleWiseID } from "../../../services/https/AuthHelper";
+import { logout } from "../session";
 
 export const getUserProfileAction = () => {
     return (dispatch) => {
         dispatch({ type: actionTypes.GET_USERPROFILE_LOADING })
         getUserProfile().then((response) => {
+            if (response?.userRole === userRoles.PARTNER_ADMIN || response?.userRole === userRoles.PARTNER_USER) {
+                if (!response?.partner?.enabled) {
+                    cogoToast.error("Partner is suspended, please contact admin.")
+                    dispatch(logout())
+                    return
+                }
+            }
+            else if (response?.userRole === userRoles.COMPANY_ADMIN || response?.userRole === userRoles.COMPANY_USER) {
+                if (!response?.company?.enabled) {
+                    cogoToast.error("Company is suspended, please contact admin.")
+                    dispatch(logout())
+                    return
+                }
+            }
             dispatch({ type: actionTypes.GET_USERPROFILE_DATA, data: response })
         }).catch((err) => {
             dispatch({ type: actionTypes.GET_USERPROFILE_ERROR, data: err?.message })

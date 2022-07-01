@@ -2,13 +2,10 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography } from "@material-ui/core";
 import Icon from "../../../assets/images/icon-fail-graphic.png";
+import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
 
 const useStyles = makeStyles((theme) => ({
   failedContainer: {
-    marginBottom: 40,
-    backgroundColor: "white",
-    padding: "2% 2.5%",
-    boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
     display: "flex",
     justifyContent: "space-between",
   },
@@ -59,7 +56,7 @@ export default function FailedFileSelection({ title, audioName }) {
   const classes = useStyles();
 
   return (
-    <Grid container className={classes.failedContainer}>
+    <MainContainer container className={classes.failedContainer}>
       <Grid item className={classes.details}>
         <div>
           <Typography className={classes.heading}>Ooops!</Typography>
@@ -85,6 +82,6 @@ export default function FailedFileSelection({ title, audioName }) {
         <img src={Icon} alt="Failed" style={{ height: 130, width: 130 }} />
         <Typography className={classes.failed}>{title} failed</Typography>
       </Grid>
-    </Grid>
+    </MainContainer>
   );
 }

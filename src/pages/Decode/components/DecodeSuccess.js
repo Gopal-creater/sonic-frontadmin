@@ -1,81 +1,44 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import VisibilityOutlinedIcon from "@material-ui/icons/Visibility";
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Table, TableBody, TableContainer, TableHead, TableRow, Typography } from '@material-ui/core';
+import axios from 'axios';
+import cogoToast from 'cogo-toast';
+import { format } from 'date-fns';
+import fileDownload from 'js-file-download';
 import Icon from "../../../assets/images/icon-success-graphic.png";
-import MetaDataDialog from "../../../components/common/MetaDataDialog";
+import { sonicKeyTableHeads } from "../../../constants/constants";
+import MetaDataDailog from "../../../components/common/MetaDataDialog";
+import DownloadProgressModal from "../../Encode/Components/DownloadProgressModal";
+import { log } from "../../../utils/app.debug";
+import { StyledTableData, StyledTableHead, StyledTableRow } from "../../../StyledComponents/StyledTable/StyledTable";
+import TableMenu from "../../../components/common/Table/components/TableMenu";
+import { ActionMenuItem } from "../../../components/common/Table/TableStyled";
+import CustomToolTip from "../../../components/common/CustomToolTip";
+import theme from "../../../theme";
+import { downloadAnyFile } from "../../../services/https/resources/EncodeApi/encodeApi";
+import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
 
 const useStyles = makeStyles((theme) => ({
-  successContainer: {
-    marginBottom: 40,
-    backgroundColor: "white",
-    padding: "2% 2.5%",
-    boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-  },
   header: {
     display: "flex",
     justifyContent: "space-between",
+    marginBottom: "40px"
   },
   heading: {
-    fontSize: 30,
+    fontSize: '30px',
     fontFamily: 'NunitoSans-Bold',
-    color: "#343F84",
+    color: "#393F5B",
   },
   subHeading: {
-    fontSize: 18,
+    fontSize: '18px',
     fontFamily: 'NunitoSans-Regular',
     color: "#00A19A",
   },
   found: {
     padding: "30px 0px 0px 0px",
-    fontSize: 18,
+    fontSize: '18px',
     fontFamily: 'NunitoSans-Regular',
     color: "#393F5B",
-  },
-
-  //TABLE
-  table: {
-    minWidth: 700,
-    marginTop: 30,
-    width: "100%",
-  },
-  tableHead: {
-    color: "#ACACAC",
-    fontSize: 12,
-    fontFamily: 'NunitoSans-Bold',
-  },
-  tableRow: {
-    "&:hover": {
-      boxShadow: "0 14px 28px rgba(0,0,0,0.25), 0 1px 5px rgba(0,0,0,0.22)",
-    },
-  },
-  key: {
-    color: "#343F84",
-    fontSize: 18,
-    fontFamily: 'NunitoSans-Bold',
-    paddingTop: 25,
-    paddingBottom: 25,
-  },
-  tableCellColor: {
-    color: "#343F84",
-    fontSize: 14,
-    fontFamily: 'NunitoSans-Bold',
-  },
-  tableCellIcon: {
-    display: "flex",
-    alignItems: "center",
-    cursor: "pointer"
-  },
-  tableCellNormalText: {
-    fontSize: 14,
-    fontFamily: 'NunitoSans-Bold',
-    color: "#757575",
   },
   failedIcon: {
     backgroundColor: "#E5F5F4",
@@ -89,28 +52,20 @@ const useStyles = makeStyles((theme) => ({
   },
   failed: {
     marginTop: 10,
-    fontSize: 22,
+    fontSize: '22px',
     fontFamily: 'NunitoSans-ExtraBold',
     color: "#393F5B",
   },
 }));
 
-const tableHead = [
-  "SONICKEY",
-  "FILE TYPE",
-  "ORIGINAL FILENAME",
-  "FREQUENCY",
-  "OWNER",
-  "ACTION",
-];
-
 export default function DecodeSuccess(props) {
   const classes = useStyles();
-
   const [values, setValues] = useState({
     openTable: false,
     selectedSonicKey: {},
-    sonickeys: props?.decodeKeys
+    sonickeys: props?.decodeKeys,
+    openDownloadingModal: false,
+    percentComplete: "0"
   })
 
   React.useEffect(() => {
@@ -121,8 +76,33 @@ export default function DecodeSuccess(props) {
     setValues({ ...values, openTable: true, selectedSonicKey: data })
   };
 
+  const download = (sonickey) => {
+    setValues({ ...values, openDownloadingModal: true })
+    downloadAnyFile(sonickey?.s3FileMeta?.Key).then((response) => {
+      axios({
+        url: response,
+        responseType: 'blob',
+        onDownloadProgress: function (progressEvent) {
+          let percent = Math.floor(progressEvent?.loaded / progressEvent?.total * 100)
+          setValues({ ...values, percentComplete: percent, openDownloadingModal: true })
+        }
+      }).then(res => {
+        fileDownload(res.data, sonickey?.originalFileName);
+        setValues({ ...values, openDownloadingModal: false })
+      }).catch(error => {
+        log("Download error", error)
+        cogoToast.error(error?.message)
+        setValues({ ...values, openDownloadingModal: false })
+      });
+    }).catch((error) => {
+      log("Download error", error)
+      cogoToast.error(error?.message)
+      setValues({ ...values, openDownloadingModal: false })
+    })
+  }
+
   return (
-    <Grid className={classes.successContainer}>
+    <MainContainer>
       <Grid container className={classes.header}>
         <Grid item>
           <Typography className={classes.heading}>Well done!</Typography>
@@ -139,48 +119,61 @@ export default function DecodeSuccess(props) {
         </Grid>
       </Grid>
 
-      <TableContainer>
-        <Table className={classes.table} aria-label="simple table">
+      <TableContainer style={{ padding: '0rem 1rem 1rem 1rem' }}>
+        <Table>
           <TableHead>
             <TableRow>
-              {tableHead.map((head, index) => (
-                <TableCell className={classes.tableHead} key={index}>
-                  {head}
-                </TableCell>
+              {sonicKeyTableHeads.map((data, index) => (
+                <StyledTableHead align='left' key={index}>
+                  {data?.title}
+                </StyledTableHead>
               ))}
             </TableRow>
           </TableHead>
           <TableBody>
-            {values?.sonickeys?.data?.map((data) => (
-              <TableRow className={classes.tableRow} key={data._id}>
-                <TableCell className={classes.key}>{data?.sonicKey}</TableCell>
-                <TableCell className={classes.tableCellNormalText}>
-                  {data?.contentFileType}
-                </TableCell>
-                <TableCell className={classes.tableCellNormalText}>
-                  {data?.originalFileName || data?.contentFileName}
-                </TableCell>
-                <TableCell className={classes.tableCellNormalText}>
-                  {data?.contentSamplingFrequency}
-                </TableCell>
-                <TableCell className={classes.tableCellNormalText}>
-                  {data?.contentOwner}
-                </TableCell>
-                <TableCell className={classes.tableCellColor}>
-                  <div
-                    className={classes.tableCellIcon}
-                    onClick={() => handleClickOpenTable(data)}
-                  >
-                    <VisibilityOutlinedIcon fontSize="small" />
-                    &nbsp;View
-                  </div>
-                </TableCell>
-              </TableRow>
+            {values?.sonickeys?.data?.map((data, index) => (
+              <StyledTableRow key={index} bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
+                <CustomToolTip title={data?.track?._id}>
+                  <StyledTableData>{data?.track?._id || "---"}</StyledTableData>
+                </CustomToolTip>
+
+                <CustomToolTip title={data?.sonicKey || "---"}>
+                  <StyledTableData>{data?.sonicKey || "---"}</StyledTableData>
+                </CustomToolTip>
+
+                <CustomToolTip title={data?.contentName || "---"}>
+                  <StyledTableData>{data?.contentName || "---"}</StyledTableData>
+                </CustomToolTip>
+
+                <StyledTableData>{data?.version || "---"}</StyledTableData>
+
+                <CustomToolTip title={data?.contentOwner || "---"}>
+                  <StyledTableData>{data?.contentOwner || "---"}</StyledTableData>
+                </CustomToolTip>
+
+                <CustomToolTip title={data?.distributor || "---"}>
+                  <StyledTableData>{data?.distributor || "---"}</StyledTableData>
+                </CustomToolTip>
+
+                <CustomToolTip title={data?.contentDescription || "---"}>
+                  <StyledTableData>{data?.contentDescription || "---"}</StyledTableData>
+                </CustomToolTip>
+
+                <StyledTableData>{format(new Date(data?.createdAt), 'dd/MM/yyyy') || "---"}</StyledTableData>
+
+                <StyledTableData>
+                  <TableMenu>
+                    <ActionMenuItem onClick={() => handleClickOpenTable(data)}>View / Edit</ActionMenuItem>
+                    <ActionMenuItem onClick={() => download(data)}>Download</ActionMenuItem>
+                  </TableMenu>
+                </StyledTableData>
+              </StyledTableRow>
             ))}
           </TableBody>
         </Table>
+
         {values?.openTable &&
-          <MetaDataDialog
+          <MetaDataDailog
             sonicKey={values?.selectedSonicKey}
             open={true}
             setOpenTable={(flag) => { setValues({ ...values, openTable: flag }) }}
@@ -194,7 +187,9 @@ export default function DecodeSuccess(props) {
               setValues({ ...values, selectedSonicKey: newData, soincKeys: { ...values?.sonickeys, data: newSonicData } })
             }}
           />}
+
+        <DownloadProgressModal open={values.openDownloadingModal} percentage={values.percentComplete} />
       </TableContainer>
-    </Grid>
+    </MainContainer>
   );
 }

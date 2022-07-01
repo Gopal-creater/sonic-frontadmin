@@ -1425,6 +1425,7 @@ export const playsTableHeads = [
   { title: "DISTRIBUTOR", orderBy: "distributor", sortBy: "sonicKey.distributor", isAscending: null, isActive: false },
   { title: "FILE TYPE", orderBy: "contentType", sortBy: "sonicKey.contentType", isAscending: null, isActive: false },
   { title: "SONICKEY", orderBy: "sonicKey", sortBy: "sonicKey.sonicKey", isAscending: null, isActive: false },
+  { title: "ACTION", orderBy: "", sortBy: "", isAscending: null, isActive: false },
 ]
 
 export const streamReaderTableHeads = [

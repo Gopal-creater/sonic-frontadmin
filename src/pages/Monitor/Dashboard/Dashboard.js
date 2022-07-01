@@ -69,7 +69,7 @@ export function Dashboard() {
         tuneCode: data?.sonicKey?.tuneCode,
         modal: data?.sonicKey,
         trackId: data?.sonicKey?.track,
-        fileType: data?.sonicKey?.contentType
+        fileType: data?.sonicKey?.contentFileType
       }
     })
     return stableTableData

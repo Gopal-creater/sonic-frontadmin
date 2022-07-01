@@ -61,7 +61,7 @@ export default function Plays() {
                 tuneCode: data?.sonicKey?.tuneCode,
                 modal: data?.sonicKey,
                 trackId: data?.sonicKey?.track,
-                fileType: data?.sonicKey?.contentType
+                fileType: data?.sonicKey?.contentFileType
             }
         })
         return stableTableData

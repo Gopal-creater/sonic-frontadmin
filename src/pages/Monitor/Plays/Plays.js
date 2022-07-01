@@ -13,7 +13,6 @@ import { getMonitorExportAction, getMonitorListAction } from '../../../stores/ac
 import MonitorFilter from '../Components/MonitorFilter/MonitorFilter';
 import { playsTableHeads } from '../../../constants/constants';
 import { MainContainer } from '../../../StyledComponents/StyledPageContainer';
-import Columns from '../../../components/common/Columns/Columns';
 
 export default function Plays() {
     const dispatch = useDispatch();
@@ -119,7 +118,7 @@ export default function Plays() {
 
     return (
         <MainContainer>
-            <Grid container justifyContent="space-between" alignItems="center" className="plays-title-container">
+            <Grid container justifyContent="space-between" className="plays-title-container">
                 <Grid>
                     <H1>My Plays</H1>
                     <PaginationCount
@@ -129,9 +128,6 @@ export default function Plays() {
                         end={monitor?.plays?.data?.docs?.length}
                         total={monitor?.plays?.data?.totalDocs}
                     />
-                </Grid>
-                <Grid>
-                    <Columns columns={playsTableHeads} />
                 </Grid>
             </Grid>
 

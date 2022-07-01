@@ -42,7 +42,12 @@ export default function SignIn() {
                 setValues({ ...values, loginLoading: false });
             })
             .catch((err) => {
-                cogoToast.error(err.message);
+                if (err?.message === "User is disabled.") {
+                    cogoToast.error("User is suspended, please contact admin.")
+                }
+                else {
+                    cogoToast.error(err.message);
+                }
                 setValues({ ...values, loginLoading: false });
             });
     }

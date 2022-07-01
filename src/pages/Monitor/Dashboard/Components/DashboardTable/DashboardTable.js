@@ -5,7 +5,7 @@ import {
 } from './TableStyle';
 import { useRef } from "react";
 import { log } from '../../../../../utils/app.debug';
-import { playsTableHeads } from '../../../../../constants/constants';
+import { playsTableHeads, userRoles } from '../../../../../constants/constants';
 import { useTheme } from 'styled-components';
 import moment from 'moment';
 import MetaDataDialog from '../../../../../components/common/MetaDataDialog';
@@ -34,6 +34,8 @@ const createHeaders = (headers) => {
 export default function DashboardTable({ data }) {
     log("Dashboard Table Data", data)
 
+    const user = useSelector(state => state.user)
+    const monitor = useSelector(state => state.monitor)
     const theme = useTheme()
 
     const [state, setState] = React.useState({
@@ -52,9 +54,16 @@ export default function DashboardTable({ data }) {
 
     const [sortOrder, setSortOrder] = React.useState("ASC")
 
-    const monitor = useSelector(state => state.monitor)
+    const getStableTableColumnHead = () => {
+        let tableHead = playsTableHeads;
+        if (user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN) {
+            return tableHead.filter((itm) => (itm?.title !== "COMPANY" && itm?.title !== "COMPANY TYPE"))
+        }
+        return tableHead
+    }
+
     const tableElement = useRef(null)
-    const columns = createHeaders(playsTableHeads)
+    const columns = createHeaders(getStableTableColumnHead())
 
     const mouseMove = React.useCallback(
         (e) => {
@@ -143,7 +152,7 @@ export default function DashboardTable({ data }) {
                         No Data
                     </ResizableTable>
                     :
-                    <ResizableTable ref={tableElement}>
+                    <ResizableTable length={getStableTableColumnHead().length} ref={tableElement}>
                         <StyledTableHead>
                             <StyledTableRow>
                                 {columns.map(({ ref, text, orderBy }, index) => {
@@ -182,47 +191,71 @@ export default function DashboardTable({ data }) {
                                     state.data?.map((row, index) => {
                                         return (
                                             <StyledTableRow key={index}>
-                                                <CustomToolTip title={row?.modal?.company?.name || "---"} placement={"bottom-start"}>
+                                                {user?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
+                                                    <CustomToolTip title={row?.modal?.company?.name || "---"} placement={"bottom-start"}>
+                                                        <TableDataColumn
+                                                            style={{
+                                                                color: theme.colors.primary.navy,
+                                                                fontSize: theme.fontSize.h4,
+                                                                fontFamily: theme.fontFamily.nunitoSansMediumBold,
+                                                                position: "sticky",
+                                                                width: "130px",
+                                                                left: 0,
+                                                            }}
+                                                            bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}
+                                                        >
+                                                            {row?.modal?.company?.name || "---"}
+                                                        </TableDataColumn>
+                                                    </CustomToolTip>
+                                                }
+
+                                                {user?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
+                                                    <CustomToolTip title={row?.modal?.company?.companyType || "---"} placement={"bottom-start"}>
+                                                        <TableDataColumn
+                                                            style={{
+                                                                color: theme.colors.primary.graphite,
+                                                                fontSize: theme.fontSize.h4,
+                                                                fontFamily: theme.fontFamily.nunitoSansMediumBold,
+                                                                position: "sticky",
+                                                                width: "130px",
+                                                                left: "130px",
+                                                            }}
+                                                            bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}
+                                                        >
+                                                            {row?.modal?.company?.companyType || "---"}
+                                                        </TableDataColumn>
+                                                    </CustomToolTip>
+                                                }
+
+                                                <CustomToolTip title={row?.artist || "---"} placement={"bottom-start"}>
                                                     <TableDataColumn
                                                         style={{
-                                                            color: theme.colors.primary.navy,
-                                                            fontSize: theme.fontSize.h4,
-                                                            fontFamily: theme.fontFamily.nunitoSansMediumBold,
-                                                            position: "sticky",
-                                                            // backgroundColor: "yellow",
-                                                            width: "130px",
-                                                            left: 0,
+                                                            color: user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN && theme.colors.primary.navy,
+                                                            fontSize: user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN && theme.fontSize.h4,
+                                                            fontFamily: user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN && theme.fontFamily.nunitoSansMediumBold,
+                                                            position: user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN ? "sticky" : "",
+                                                            left: user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN ? "0" : "",
                                                         }}
                                                         bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}
                                                     >
-                                                        {row?.modal?.company?.name || "---"}
+                                                        {row?.artist || "---"}
                                                     </TableDataColumn>
                                                 </CustomToolTip>
 
-                                                <CustomToolTip title={row?.modal?.company?.companyType || "---"} placement={"bottom-start"}>
+                                                <CustomToolTip title={row?.title || "---"} placement={"bottom-start"}>
                                                     <TableDataColumn
                                                         style={{
-                                                            color: theme.colors.primary.graphite,
-                                                            fontSize: theme.fontSize.h4,
-                                                            // backgroundColor: "red",
-                                                            fontFamily: theme.fontFamily.nunitoSansMediumBold,
-                                                            position: "sticky",
-                                                            width: "130px",
-                                                            left: "130px",
+                                                            color: user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN && theme.colors.primary.navy,
+                                                            fontSize: user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN && theme.fontSize.h4,
+                                                            fontFamily: user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN && theme.fontFamily.nunitoSansMediumBold,
+                                                            position: user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN ? "sticky" : "",
+                                                            left: user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN ? "130px" : "",
                                                         }}
                                                         bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}
                                                     >
-                                                        {row?.modal?.company?.companyType || "---"}
+                                                        {row?.title || "---"}
                                                     </TableDataColumn>
                                                 </CustomToolTip>
-
-                                                <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
-                                                    {row?.artist || "---"}
-                                                </TableDataColumn>
-
-                                                <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
-                                                    {row?.title || "---"}
-                                                </TableDataColumn>
 
                                                 <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
                                                     {row?.version || "---"}

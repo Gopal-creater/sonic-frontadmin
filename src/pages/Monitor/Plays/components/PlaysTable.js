@@ -6,6 +6,10 @@ import MetaDataDialog from "../../../../components/common/MetaDataDialog";
 import { useSelector } from 'react-redux';
 import CustomToolTip from '../../../../components/common/CustomToolTip';
 import { userRoles } from '../../../../constants/constants';
+import TableMenu from '../../../../components/common/Table/components/TableMenu';
+import { ActionMenuItem } from '../../../../components/common/Table/TableStyled';
+import PlaysMetaData from '../../../../components/common/PlaysMetaData';
+import { log } from '../../../../utils/app.debug';
 
 const createHeaders = (headers) => {
     return headers.map((item) => ({
@@ -138,10 +142,11 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                     </StyledTableHead>
                     <StyledTableBody>
                         {data?.map((row, index) => {
+                            log("row data hai ye", row)
                             return (
                                 <StyledTableRow key={index}>
                                     {user?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
-                                        <CustomToolTip title={row?.modal?.company?.name || "---"} placement={"bottom-start"}>
+                                        <CustomToolTip title={row?.company || "---"} placement={"bottom-start"}>
                                             <TableDataColumn
                                                 style={{
                                                     color: theme.colors.primary.navy,
@@ -152,13 +157,13 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                                                 }}
                                                 bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}
                                             >
-                                                {row?.modal?.company?.name || "---"}
+                                                {row?.company || "---"}
                                             </TableDataColumn>
                                         </CustomToolTip>
                                     }
 
                                     {user?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
-                                        <CustomToolTip title={row?.modal?.company?.companyType || "---"} placement={"bottom-start"}>
+                                        <CustomToolTip title={row?.companyType || "---"} placement={"bottom-start"}>
                                             <TableDataColumn
                                                 style={{
                                                     color: theme.colors.primary.graphite,
@@ -169,7 +174,7 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                                                 }}
                                                 bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}
                                             >
-                                                {row?.modal?.company?.companyType || "---"}
+                                                {row?.companyType || "---"}
                                             </TableDataColumn>
                                         </CustomToolTip>
                                     }
@@ -205,14 +210,6 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                                     </CustomToolTip>
 
                                     <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
-                                        {row?.version || "---"}
-                                    </TableDataColumn>
-
-                                    <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
-                                        {row?.trackId?._id || "---"}
-                                    </TableDataColumn>
-
-                                    <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
                                         {row?.radioStation || "---"}
                                     </TableDataColumn>
 
@@ -230,6 +227,39 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
 
                                     <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
                                         {row?.country || "---"}
+                                    </TableDataColumn>
+
+                                    <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
+                                        {row?.trackId?._id || "---"}
+                                    </TableDataColumn>
+
+                                    <TableDataColumn
+                                        bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}
+                                        style={{
+                                            color: theme.colors.primary.navy,
+                                            fontSize: theme.fontSize.h5,
+                                            fontFamily: theme.fontFamily.nunitoSansMediumBold,
+                                            cursor: 'pointer'
+                                        }}
+
+                                    >
+                                        {row?.sonicKey || "---"}
+                                    </TableDataColumn>
+
+                                    {/* <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
+                                        {0}
+                                    </TableDataColumn> */}
+
+                                    <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
+                                        {row?.version || "---"}
+                                    </TableDataColumn>
+
+                                    <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
+                                        {row?.distributor || "---"}
+                                    </TableDataColumn>
+
+                                    <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
+                                        {row?.label || "---"}
                                     </TableDataColumn>
 
                                     <TableDataColumn
@@ -252,28 +282,17 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                                     </TableDataColumn>
 
                                     <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
-                                        {row?.label || "---"}
-                                    </TableDataColumn>
-
-                                    <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
-                                        {row?.distributor || "---"}
+                                        {row?.description || "---"}
                                     </TableDataColumn>
 
                                     <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
                                         {row?.fileType || "---"}
                                     </TableDataColumn>
 
-                                    <TableDataColumn
-                                        style={{
-                                            color: theme.colors.primary.navy,
-                                            fontSize: theme.fontSize.h5,
-                                            fontFamily: theme.fontFamily.nunitoSansMediumBold,
-                                            cursor: 'pointer'
-                                        }}
-                                        bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}
-                                        onClick={() => setState({ ...state, sonicKeyModal: true, selectedSonicKey: row?.modal })}
-                                    >
-                                        {row?.sonicKey || "---"}
+                                    <TableDataColumn>
+                                        <TableMenu>
+                                            <ActionMenuItem onClick={() => setState({ ...state, sonicKeyModal: true, selectedSonicKey: row?.modal })}>View</ActionMenuItem>
+                                        </TableMenu>
                                     </TableDataColumn>
 
                                 </StyledTableRow>
@@ -283,8 +302,8 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                     </StyledTableBody>
 
                     {state?.sonicKeyModal && (
-                        <MetaDataDialog
-                            sonicKey={state?.selectedSonicKey}
+                        <PlaysMetaData
+                            playsData={state?.selectedSonicKey}
                             open={true}
                             setOpenTable={(flag) => setState({ ...state, sonicKeyModal: flag })}
                         />

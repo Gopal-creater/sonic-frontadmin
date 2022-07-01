@@ -67,9 +67,10 @@ export function Dashboard() {
         label: data?.sonicKey?.label,
         iswc: data?.sonicKey?.iswcCode,
         tuneCode: data?.sonicKey?.tuneCode,
-        modal: data?.sonicKey,
+        modal: data,
         trackId: data?.sonicKey?.track,
-        fileType: data?.sonicKey?.contentFileType
+        fileType: data?.sonicKey?.contentFileType,
+        description: data?.sonicKey?.contentDescription,
       }
     })
     return stableTableData

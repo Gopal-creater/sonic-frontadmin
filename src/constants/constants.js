@@ -1411,20 +1411,22 @@ export const playsTableHeads = [
   { title: "COMPANY TYPE", orderBy: "companyType", sortBy: "sonicKey.company.companyType", isAscending: null, isActive: false },
   { title: "ARTIST", orderBy: "artist", sortBy: "sonicKey.contentOwner", isAscending: null, isActive: false },
   { title: "TITLE", orderBy: "title", sortBy: "sonicKey.contentName", isAscending: null, isActive: false },
-  { title: "VERSION", orderBy: "version", sortBy: "sonicKey.version", isAscending: null, isActive: false },
-  { title: "TRACK ID", orderBy: "trackId", sortBy: "sonicKey.track", isAscending: null, isActive: false },
   { title: "RADIO STATION", orderBy: "radioStation", sortBy: "radioStation.name", isAscending: null, isActive: false },
   { title: "DATE", orderBy: "date", sortBy: "detectedAt", isAscending: null, isActive: false },
   { title: "TIME", orderBy: "time", sortBy: "detectedAt", isAscending: null, isActive: false },
   { title: "DURATION", orderBy: "duration", sortBy: "sonicKey.contentDuration", isAscending: null, isActive: false },
   { title: "COUNTRY", orderBy: "country", sortBy: "radioStation.country", isAscending: null, isActive: false },
+  { title: "TRACK ID", orderBy: "trackId", sortBy: "sonicKey.track", isAscending: null, isActive: false },
+  { title: "SONICKEY", orderBy: "sonicKey", sortBy: "sonicKey.sonicKey", isAscending: null, isActive: false },
+  // { title: "SK/SID", orderBy: "", sortBy: "", isAscending: null, isActive: false },
+  { title: "VERSION", orderBy: "version", sortBy: "sonicKey.version", isAscending: null, isActive: false },
+  { title: "DISTRIBUTOR", orderBy: "distributor", sortBy: "sonicKey.distributor", isAscending: null, isActive: false },
+  { title: "LABEL", orderBy: "label", sortBy: "sonicKey.label", isAscending: null, isActive: false },
   { title: "ISRC", orderBy: "isrcCode", sortBy: "sonicKey.isrcCode", isAscending: null, isActive: false },
   { title: "ISWC", orderBy: "iswc", sortBy: "sonicKey.iswcCode", isAscending: null, isActive: false },
   { title: "TUNE CODE", orderBy: "tuneCode", sortBy: "sonicKey.tuneCode", isAscending: null, isActive: false },
-  { title: "LABEL", orderBy: "label", sortBy: "sonicKey.label", isAscending: null, isActive: false },
-  { title: "DISTRIBUTOR", orderBy: "distributor", sortBy: "sonicKey.distributor", isAscending: null, isActive: false },
+  { title: "DESCRIPTION", orderBy: "", sortBy: "", isAscending: null, isActive: false },
   { title: "FILE TYPE", orderBy: "contentType", sortBy: "sonicKey.contentType", isAscending: null, isActive: false },
-  { title: "SONICKEY", orderBy: "sonicKey", sortBy: "sonicKey.sonicKey", isAscending: null, isActive: false },
   { title: "ACTION", orderBy: "", sortBy: "", isAscending: null, isActive: false },
 ]
 
@@ -1450,7 +1452,7 @@ export const sonicStreamDetailsTableHeads = [
 ]
 
 export const trackTableHeads = [
-  { title: "TRACK NAME", sortBy: "trackName", isAscending: null, isActive: false },
+  { title: "TITLE", sortBy: "trackName", isAscending: null, isActive: false },
   { title: "PLAYS", sortBy: "playsCount", isAscending: null, isActive: false },
   { title: "RADIO STATION", sortBy: "radioStationCount", isAscending: null, isActive: false },
   { title: "COUNTRY", sortBy: "countriesCount", isAscending: null, isActive: false },
@@ -1469,7 +1471,7 @@ export const artistTableHeads = [
   { title: "PLAYS", sortBy: "playsCount", isAscending: null, isActive: false },
   { title: "TRACKS", sortBy: "uniquePlaysCount", isAscending: null, isActive: false },
   { title: "RADIO STATION", sortBy: "radioStationCount", isAscending: null, isActive: false },
-  { title: "COUNTRY", sortBy: "countriesCount", isAscending: null, isActive: false },
+  { title: "COUNTRIES", sortBy: "countriesCount", isAscending: null, isActive: false },
 ]
 
 export const countryTableHeads = [

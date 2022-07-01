@@ -1,28 +1,29 @@
-import { Grid, TableCell } from '@material-ui/core'
+import { Grid, TableCell, TableRow } from '@material-ui/core'
 import React from 'react'
-import { H6 } from '../../StyledComponents/StyledHeadings'
+import { H3, H4, H6 } from '../../StyledComponents/StyledHeadings'
 import theme from '../../theme'
 import AppButton from './AppButton/AppButton'
 import PopUp from './PopUp'
 import CloseIcon from '@material-ui/icons/Close';
+import { Table } from 'react-bootstrap'
+import moment from 'moment'
+import { log } from '../../utils/app.debug'
 
 function PlaysMetaData(props) {
+
     const [state, setState] = React.useState({
-        tableHeight: "auto",
-        activeColumnIndex: null,
-        data: data || [],
-        sonicKeyModal: false,
-        selectedSonicKey: {},
-        openViewTrackPopUp: false,
+        playsData: props.playsData,
         selectedTrack: null,
     })
 
+    log("data of plays", state.playsData)
+
     const closePopUp = () => {
-        setState({ ...state, openViewTrackPopUp: false, selectedTrack: null })
+        props.setOpenTable(false)
     }
 
     return (
-        <PopUp key="view track popup" open={state.openViewTrackPopUp} maxWidth="sm" fullWidth>
+        <PopUp open={true} maxWidth="sm" fullWidth>
             <Grid style={{ padding: "30px" }}>
                 <Grid container justifyContent='space-between'>
                     <Grid >
@@ -33,89 +34,85 @@ function PlaysMetaData(props) {
                 </Grid>
 
                 <Grid style={{ height: "300px", marginTop: "20px", overflow: "auto" }}>
-                    {state.data?.map((row, index) => {
-                        return (
-                            <Table key={index}>
-                                <TableRow>
-                                    <TCell cell1={true}>COMPANY</TCell>
-                                    <TCell cell1={false}>{row?.modal?.company?.name || "---"}</TCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TCell cell1={true}>COMPANY TYPE</TCell>
-                                    <TCell cell1={false}>{row?.modal?.company?.companyType || "---"}</TCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TCell cell1={true}>ARTIST</TCell>
-                                    <TCell cell1={false}>{row?.artist || "---"}</TCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TCell cell1={true}>TITLE</TCell>
-                                    <TCell cell1={false}>{row?.title || "---"}</TCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TCell cell1={true}>RADIO STATION</TCell>
-                                    <TCell cell1={false}>{row?.radioStation || "---"}</TCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TCell cell1={true}>DATE</TCell>
-                                    <TCell cell1={false}>{moment(row?.date).utc().format("DD/MM/YYYY") || "---"}</TCell>
-                                </TableRow>
-                                <TableRow>
+                    <Table>
+                        <TableRow>
+                            <TCell cell1={true}>COMPANY</TCell>
+                            <TCell cell1={false}>{state?.playsData?.modal?.company?.name || "---"}</TCell>
+                        </TableRow>
+                        <TableRow>
+                            <TCell cell1={true}>COMPANY TYPE</TCell>
+                            <TCell cell1={false}>{state?.playsData?.modal?.company?.companyType || "---"}</TCell>
+                        </TableRow>
+                        <TableRow>
+                            <TCell cell1={true}>ARTIST</TCell>
+                            <TCell cell1={false}>{state?.playsData?.artist || "---"}</TCell>
+                        </TableRow>
+                        <TableRow>
+                            <TCell cell1={true}>TITLE</TCell>
+                            <TCell cell1={false}>{state?.playsData?.title || "---"}</TCell>
+                        </TableRow>
+                        <TableRow>
+                            <TCell cell1={true}>RADIO STATION</TCell>
+                            <TCell cell1={false}>{state?.playsData?.radioStation || "---"}</TCell>
+                        </TableRow>
+                        <TableRow>
+                            <TCell cell1={true}>DATE</TCell>
+                            <TCell cell1={false}>{moment(state?.playsData?.date).utc().format("DD/MM/YYYY") || "---"}</TCell>
+                        </TableRow>
+                        {/* <TableRow>
                                     <TCell cell1={true}>TIME</TCell>
-                                    <TCell cell1={false}>{monitor?.filters?.timezone === "GMT" ? moment(row?.time).utc().format("HH:mm:ss") : moment(row?.time).format("HH:mm:ss") || "---"}</TCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TCell cell1={true}>DURATION</TCell>
-                                    <TCell cell1={false}>{moment.utc(row?.duration * 1000).format("mm:ss") || "---"}</TCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TCell cell1={true}>COUNTRY</TCell>
-                                    <TCell cell1={false}>{row?.country || "---"}</TCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TCell cell1={true}>TRACK ID</TCell>
-                                    <TCell cell1={false}>{row?.trackId || "---"}</TCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TCell cell1={true}>SONICKEY</TCell>
-                                    <TCell cell1={false}>{row?.sonicKey || "---"}</TCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TCell cell1={true}>SK/SID</TCell>
-                                    <TCell cell1={false}>{row || "---"}</TCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TCell cell1={true}>VERSION</TCell>
-                                    <TCell cell1={false}>{row?.version || "---"}</TCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TCell cell1={true}>DISTRIBUTOR</TCell>
-                                    <TCell cell1={false}>{row?.distributor || "---"}</TCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TCell cell1={true}>LABEL</TCell>
-                                    <TCell cell1={false}>{row?.label || "---"}</TCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TCell cell1={true}>ISRC</TCell>
-                                    <TCell cell1={false}>{row?.isrcCode || "---"}</TCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TCell cell1={true}>ISWC</TCell>
-                                    <TCell cell1={false}>{row?.iswc || "---"}</TCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TCell cell1={true}>TUNE CODE</TCell>
-                                    <TCell cell1={false}>{row?.tuneCode || "---"}</TCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TCell cell1={true}>FILE TYPE</TCell>
-                                    <TCell cell1={false}>{row?.fileType || "---"}</TCell>
-                                </TableRow>
+                                    <TCell cell1={false}>{monitor?.filters?.timezone === "GMT" ? moment(state?.playsData?.time).utc().format("HH:mm:ss") : moment(state?.playsData?.time).format("HH:mm:ss") || "---"}</TCell>
+                                </TableRow> */}
+                        <TableRow>
+                            <TCell cell1={true}>DURATION</TCell>
+                            <TCell cell1={false}>{moment.utc(state?.playsData?.duration * 1000).format("mm:ss") || "---"}</TCell>
+                        </TableRow>
+                        <TableRow>
+                            <TCell cell1={true}>COUNTRY</TCell>
+                            <TCell cell1={false}>{state?.playsData?.country || "---"}</TCell>
+                        </TableRow>
+                        <TableRow>
+                            <TCell cell1={true}>TRACK ID</TCell>
+                            <TCell cell1={false}>{state?.playsData?.trackId || "---"}</TCell>
+                        </TableRow>
+                        <TableRow>
+                            <TCell cell1={true}>SONICKEY</TCell>
+                            <TCell cell1={false}>{state?.playsData?.sonicKey || "---"}</TCell>
+                        </TableRow>
+                        <TableRow>
+                            <TCell cell1={true}>SK/SID</TCell>
+                            <TCell cell1={false}>{"---"}</TCell>
+                        </TableRow>
+                        <TableRow>
+                            <TCell cell1={true}>VERSION</TCell>
+                            <TCell cell1={false}>{state?.playsData?.version || "---"}</TCell>
+                        </TableRow>
+                        <TableRow>
+                            <TCell cell1={true}>DISTRIBUTOR</TCell>
+                            <TCell cell1={false}>{state?.playsData?.distributor || "---"}</TCell>
+                        </TableRow>
+                        <TableRow>
+                            <TCell cell1={true}>LABEL</TCell>
+                            <TCell cell1={false}>{state?.playsData?.label || "---"}</TCell>
+                        </TableRow>
+                        <TableRow>
+                            <TCell cell1={true}>ISRC</TCell>
+                            <TCell cell1={false}>{state?.playsData?.isrcCode || "---"}</TCell>
+                        </TableRow>
+                        <TableRow>
+                            <TCell cell1={true}>ISWC</TCell>
+                            <TCell cell1={false}>{state?.playsData?.iswc || "---"}</TCell>
+                        </TableRow>
+                        <TableRow>
+                            <TCell cell1={true}>TUNE CODE</TCell>
+                            <TCell cell1={false}>{state?.playsData?.tuneCode || "---"}</TCell>
+                        </TableRow>
+                        <TableRow>
+                            <TCell cell1={true}>FILE TYPE</TCell>
+                            <TCell cell1={false}>{state?.playsData?.fileType || "---"}</TCell>
+                        </TableRow>
 
-                            </Table>
-                        )
-                    })}
+                    </Table>
                 </Grid>
 
                 <Grid container justifyContent='flex-end' className='mt-2'>

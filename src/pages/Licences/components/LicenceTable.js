@@ -39,14 +39,14 @@ export default function LicenceTable({ data, licenseTableHead }) {
                     <TableBody>
                         {data?.length === 0 ?
                             <TableRow key={0}>
-                                <StyledTableData colSpan={user?.userProfile?.data?.userRole === "PartnerAdmin" ? 10 : 9} style={{ textAlign: "center" }}>
+                                <StyledTableData colSpan={user?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN ? 10 : 9} style={{ textAlign: "center" }}>
                                     No Data
                                 </StyledTableData>
                             </TableRow> :
                             data.map((data, index) => {
                                 return (
                                     <StyledTableRow key={index} bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
-                                        {SelectedColumn("ACCOUNT NAME") && user?.userProfile?.data?.userRole === "PartnerAdmin" &&
+                                        {SelectedColumn("ACCOUNT NAME") && user?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
                                             <CustomToolTip title={data?.company?.name || data?.users?.map(u => u.username) || "---"}>
                                                 <StyledTableData
                                                     style={{

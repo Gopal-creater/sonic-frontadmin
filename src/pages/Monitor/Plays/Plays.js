@@ -11,12 +11,14 @@ import PlaysTable from './components/PlaysTable';
 import CustomPagination from '../../../components/common/Pagination/CustomPagination';
 import { getMonitorExportAction, getMonitorListAction } from '../../../stores/actions/monitorActions/monitorActions';
 import MonitorFilter from '../Components/MonitorFilter/MonitorFilter';
-import { playsTableHeads } from '../../../constants/constants';
+import { playsTableHeads, userRoles } from '../../../constants/constants';
 import { MainContainer } from '../../../StyledComponents/StyledPageContainer';
+import Columns from '../../../components/common/Columns/Columns';
 
 export default function Plays() {
     const dispatch = useDispatch();
     const monitor = useSelector(state => state.monitor);
+    const user = useSelector(state => state.user)
     const [state, setState] = React.useState({
         playsTableHeads: playsTableHeads,
         currentSortBy: "",
@@ -64,6 +66,14 @@ export default function Plays() {
             }
         })
         return stableTableData
+    }
+
+    const getStableTableColumnHead = () => {
+        let tableHead = state.playsTableHeads;
+        if (user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN) {
+            return tableHead.filter((itm) => (itm?.title !== "COMPANY" && itm?.title !== "COMPANY TYPE"))
+        }
+        return tableHead
     }
 
     const handleExport = (format) => {
@@ -118,8 +128,8 @@ export default function Plays() {
 
     return (
         <MainContainer>
-            <Grid container justifyContent="space-between" className="plays-title-container">
-                <Grid>
+            <Grid container alignItems='center' justifyContent="space-between" className="plays-title-container">
+                <Grid item>
                     <H1>My Plays</H1>
                     <PaginationCount
                         heading={true}
@@ -149,7 +159,7 @@ export default function Plays() {
             >
                 <PlaysTable
                     data={createStableTableData()}
-                    playsTableHeads={state.playsTableHeads}
+                    playsTableHeads={getStableTableColumnHead()}
                     onPlaysSorting={(sortBy, isAscending, isActive) => playsSorting(sortBy, isAscending, isActive)}
                 />
                 <Grid container justifyContent="space-between" alignItems="center" style={{ marginTop: "30px" }}>

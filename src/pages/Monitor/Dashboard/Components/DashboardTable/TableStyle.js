@@ -13,7 +13,8 @@ export const ResizableTable = styled.table`
     display: grid;
     overflow: auto;
     overflow-y: hidden;
-    grid-template-columns: 
+    grid-template-columns: ${props => `repeat(${props.length}, minmax(130px, 1fr))`};
+    /* minmax(130px, 1fr)
     minmax(130px, 1fr)
     minmax(130px, 1fr)
     minmax(130px, 1fr)
@@ -30,8 +31,7 @@ export const ResizableTable = styled.table`
     minmax(130px, 1fr)
     minmax(130px, 1fr)
     minmax(130px, 1fr)
-    minmax(130px, 1fr)
-    minmax(130px, 1fr);
+    minmax(130px, 1fr); */
 `
 
 export const StyledTableHead = styled.thead`

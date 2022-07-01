@@ -5,6 +5,7 @@ import { AlternateDataColumn, ResizableTable, StyledTableBody, StyledTableHead, 
 import MetaDataDialog from "../../../../components/common/MetaDataDialog";
 import { useSelector } from 'react-redux';
 import CustomToolTip from '../../../../components/common/CustomToolTip';
+import { userRoles } from '../../../../constants/constants';
 
 const createHeaders = (headers) => {
     return headers.map((item) => ({
@@ -23,10 +24,12 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
         activeColumnIndex: null,
         sonicKeyModal: false,
         selectedSonicKey: {},
+        columnsCount: playsTableHeads.length,
     })
     const tableElement = React.useRef(null)
     const columns = createHeaders(playsTableHeads)
     const monitor = useSelector(state => state.monitor)
+    const user = useSelector(state => state.user)
 
     const mouseMove = React.useCallback(
         (e) => {
@@ -105,7 +108,7 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                     No Data
                 </ResizableTable>
                 :
-                <ResizableTable ref={tableElement}>
+                <ResizableTable length={state.columnsCount} ref={tableElement}>
                     <StyledTableHead>
                         <StyledTableRow>
                             {columns.map(({ ref, text, sortBy, isAscending, isActive }, index) => {
@@ -135,147 +138,99 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                     </StyledTableHead>
                     <StyledTableBody>
                         {data?.map((row, index) => {
-                            if (index % 2 !== 0) {
-                                return (
-                                    <StyledTableRow key={index}>
-                                        <CustomToolTip title={row?.artist || "---"} placement={"bottom-start"}>
-                                            <AlternateDataColumn
+                            return (
+                                <StyledTableRow key={index}>
+                                    {user?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
+                                        <CustomToolTip title={row?.modal?.company?.name || "---"} placement={"bottom-start"}>
+                                            <TableDataColumn
                                                 style={{
                                                     color: theme.colors.primary.navy,
                                                     fontSize: theme.fontSize.h4,
                                                     fontFamily: theme.fontFamily.nunitoSansMediumBold,
                                                     position: "sticky",
                                                     left: 0,
-                                                    background: theme.colors.secondary.tableColor
                                                 }}
+                                                bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}
                                             >
                                                 {row?.modal?.company?.name || "---"}
-                                            </AlternateDataColumn>
+                                            </TableDataColumn>
                                         </CustomToolTip>
+                                    }
 
-                                        <CustomToolTip title={row?.title || "---"} placement={"bottom-start"}>
-                                            <AlternateDataColumn
+                                    {user?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
+                                        <CustomToolTip title={row?.modal?.company?.companyType || "---"} placement={"bottom-start"}>
+                                            <TableDataColumn
                                                 style={{
                                                     color: theme.colors.primary.graphite,
                                                     fontSize: theme.fontSize.h4,
                                                     fontFamily: theme.fontFamily.nunitoSansMediumBold,
                                                     position: "sticky",
                                                     left: "130px",
-                                                    background: theme.colors.secondary.tableColor
                                                 }}
+                                                bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}
                                             >
                                                 {row?.modal?.company?.companyType || "---"}
-                                            </AlternateDataColumn>
+                                            </TableDataColumn>
                                         </CustomToolTip>
+                                    }
 
-                                        <AlternateDataColumn>{row?.artist || "---"}</AlternateDataColumn>
-
-                                        <AlternateDataColumn>{row?.title || "---"}</AlternateDataColumn>
-
-                                        <AlternateDataColumn>{row?.version || "---"}</AlternateDataColumn>
-
-                                        <AlternateDataColumn>{row?.trackId?._id || "---"}</AlternateDataColumn>
-
-                                        <AlternateDataColumn>{row?.radioStation || "---"}</AlternateDataColumn>
-
-                                        <AlternateDataColumn>{moment(row?.date).utc().format("DD/MM/YYYY") || "---"}</AlternateDataColumn>
-
-                                        <AlternateDataColumn>
-                                            {monitor?.filters?.timezone === "GMT" ? moment(row?.time).utc().format("HH:mm:ss") : moment(row?.time).format("HH:mm:ss") || "---"}
-                                        </AlternateDataColumn>
-
-                                        <AlternateDataColumn>{moment.utc(row?.duration * 1000).format("mm:ss") || "---"}</AlternateDataColumn>
-
-                                        <AlternateDataColumn>{row?.country || "---"}</AlternateDataColumn>
-
-                                        <AlternateDataColumn
-                                            style={{
-                                                color: theme.colors.primary.graphite,
-                                                fontSize: theme.fontSize.h5,
-                                                fontFamily: theme.fontFamily.nunitoSansMediumBold
-                                            }}
-                                        >
-                                            {row?.isrcCode || "---"}
-                                        </AlternateDataColumn>
-
-                                        <AlternateDataColumn>{row?.iswc || "---"}</AlternateDataColumn>
-
-                                        <AlternateDataColumn>{row?.tuneCode || "---"}</AlternateDataColumn>
-
-                                        <AlternateDataColumn>{row?.label || "---"}</AlternateDataColumn>
-
-                                        <AlternateDataColumn>{row?.distributor || "---"}</AlternateDataColumn>
-
-                                        <AlternateDataColumn>{row?.fileType || "---"}</AlternateDataColumn>
-
-                                        <AlternateDataColumn
-                                            style={{
-                                                color: theme.colors.primary.navy,
-                                                fontSize: theme.fontSize.h5,
-                                                fontFamily: theme.fontFamily.nunitoSansMediumBold,
-                                                cursor: 'pointer'
-                                            }}
-                                            onClick={() => setState({ ...state, sonicKeyModal: true, selectedSonicKey: row?.modal })}
-                                        >
-                                            {row?.sonicKey || "---"}
-                                        </AlternateDataColumn>
-
-                                    </StyledTableRow>
-                                )
-                            }
-                            return (
-                                <StyledTableRow key={index}>
-                                    <CustomToolTip title={row?.modal?.company?.name || "---"} placement={"bottom-start"}>
+                                    <CustomToolTip title={row?.artist || "---"} placement={"bottom-start"}>
                                         <TableDataColumn
                                             style={{
-                                                color: theme.colors.primary.navy,
-                                                fontSize: theme.fontSize.h4,
-                                                fontFamily: theme.fontFamily.nunitoSansMediumBold,
-                                                position: "sticky",
-                                                width: "130px",
-                                                left: 0,
-                                                background: "white"
+                                                color: user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN && theme.colors.primary.navy,
+                                                fontSize: user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN && theme.fontSize.h4,
+                                                fontFamily: user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN && theme.fontFamily.nunitoSansMediumBold,
+                                                position: user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN ? "sticky" : "",
+                                                left: user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN ? "0" : "",
                                             }}
+                                            bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}
                                         >
-                                            {row?.modal?.company?.name || "---"}
+                                            {row?.artist || "---"}
                                         </TableDataColumn>
                                     </CustomToolTip>
 
-                                    <CustomToolTip title={row?.modal?.company?.companyType || "---"} placement={"bottom-start"}>
+                                    <CustomToolTip title={row?.title || "---"} placement={"bottom-start"}>
                                         <TableDataColumn
                                             style={{
-                                                color: theme.colors.primary.graphite,
-                                                fontSize: theme.fontSize.h4,
-                                                fontFamily: theme.fontFamily.nunitoSansMediumBold,
-                                                position: "sticky",
-                                                width: "130px",
-                                                left: "130px",
-                                                background: "white"
+                                                color: user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN && theme.colors.primary.navy,
+                                                fontSize: user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN && theme.fontSize.h4,
+                                                fontFamily: user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN && theme.fontFamily.nunitoSansMediumBold,
+                                                position: user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN ? "sticky" : "",
+                                                left: user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN ? "130px" : "",
                                             }}
+                                            bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}
                                         >
-                                            {row?.modal?.company?.companyType || "---"}
+                                            {row?.title || "---"}
                                         </TableDataColumn>
                                     </CustomToolTip>
 
-                                    <TableDataColumn>{row?.artist || "---"}</TableDataColumn>
+                                    <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
+                                        {row?.version || "---"}
+                                    </TableDataColumn>
 
-                                    <TableDataColumn>{row?.title || "---"}</TableDataColumn>
+                                    <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
+                                        {row?.trackId?._id || "---"}
+                                    </TableDataColumn>
 
-                                    <TableDataColumn>{row?.version || "---"}</TableDataColumn>
+                                    <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
+                                        {row?.radioStation || "---"}
+                                    </TableDataColumn>
 
-                                    <TableDataColumn>{row?.trackId?._id || "---"}</TableDataColumn>
+                                    <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
+                                        {moment(row?.date).utc().format("DD/MM/YYYY") || "---"}
+                                    </TableDataColumn>
 
-                                    <TableDataColumn>{row?.radioStation || "---"}</TableDataColumn>
-
-                                    <TableDataColumn>{moment(row?.date).utc().format("DD/MM/YYYY") || "---"}</TableDataColumn>
-
-                                    <TableDataColumn>
+                                    <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
                                         {monitor?.filters?.timezone === "GMT" ? moment(row?.time).utc().format("HH:mm:ss") : moment(row?.time).format("HH:mm:ss") || "---"}
                                     </TableDataColumn>
 
-                                    <TableDataColumn>{moment.utc(row?.duration * 1000).format("mm:ss") || "---"}</TableDataColumn>
+                                    <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
+                                        {moment.utc(row?.duration * 1000).format("mm:ss") || "---"}
+                                    </TableDataColumn>
 
-                                    <TableDataColumn>{row?.country || "---"}</TableDataColumn>
+                                    <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
+                                        {row?.country || "---"}
+                                    </TableDataColumn>
 
                                     <TableDataColumn
                                         style={{
@@ -283,20 +238,30 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                                             fontSize: theme.fontSize.h5,
                                             fontFamily: theme.fontFamily.nunitoSansMediumBold
                                         }}
+                                        bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}
                                     >
                                         {row?.isrcCode || "---"}
                                     </TableDataColumn>
 
-                                    <TableDataColumn>{row?.iswc || "---"}</TableDataColumn>
+                                    <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
+                                        {row?.iswc || "---"}
+                                    </TableDataColumn>
 
-                                    <TableDataColumn>{row?.tuneCode || "---"}</TableDataColumn>
+                                    <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
+                                        {row?.tuneCode || "---"}
+                                    </TableDataColumn>
 
-                                    <TableDataColumn>{row?.label || "---"}</TableDataColumn>
+                                    <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
+                                        {row?.label || "---"}
+                                    </TableDataColumn>
 
-                                    <TableDataColumn>{row?.distributor || "---"}</TableDataColumn>
+                                    <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
+                                        {row?.distributor || "---"}
+                                    </TableDataColumn>
 
-                                    <TableDataColumn>{row?.fileType || "---"}</TableDataColumn>
-
+                                    <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
+                                        {row?.fileType || "---"}
+                                    </TableDataColumn>
 
                                     <TableDataColumn
                                         style={{
@@ -305,6 +270,7 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                                             fontFamily: theme.fontFamily.nunitoSansMediumBold,
                                             cursor: 'pointer'
                                         }}
+                                        bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}
                                         onClick={() => setState({ ...state, sonicKeyModal: true, selectedSonicKey: row?.modal })}
                                     >
                                         {row?.sonicKey || "---"}
@@ -312,7 +278,8 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
 
                                 </StyledTableRow>
                             )
-                        })}
+                        }
+                        )}
                     </StyledTableBody>
 
                     {state?.sonicKeyModal && (

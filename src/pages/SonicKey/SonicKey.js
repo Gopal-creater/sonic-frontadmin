@@ -25,12 +25,16 @@ export default function SonicKey() {
 
     return (
         <MainContainer>
-            <Grid container justifyContent="space-between" alignItems="center">
+            <Grid container justifyContent="space-between" >
                 <Grid item>
-                    <H1>Encoded Tracks {sonickey?.getSonicKeys?.data?.totalDocs}</H1>
-                    <H4 fontFamily={theme.fontFamily.nunitoSansRegular} color={theme.colors.primary.teal}>
-                        Browse your encoded tracks
-                    </H4>
+                    <H1>Encoded Tracks</H1>
+                    <PaginationCount
+                        name="encoded tracks"
+                        heading={true}
+                        total={sonickey?.getSonicKeys?.data?.totalDocs}
+                        start={sonickey?.getSonicKeys?.data?.offset}
+                        end={sonickey?.getSonicKeys?.data?.docs?.length}
+                    />
                 </Grid>
                 <Grid item>
                     <Columns columns={sonicKeyTableHeads} />

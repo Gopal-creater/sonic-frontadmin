@@ -268,41 +268,29 @@ export default function TracksTable({ data, tableHeads, trackSorting }) {
 
                     <Grid style={{ height: "300px", marginTop: "20px", overflow: "auto" }}>
                         <Table>
-                            {user?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
-                                <TableRow>
-                                    <TCell cell1={true}>COMPANY</TCell>
-                                    <TCell cell1={false}>{state?.selectedTrack?.company?.name || "---"}</TCell>
-                                </TableRow>
-                            }
-                            {user?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
-                                <TableRow>
-                                    <TCell cell1={true}>COMPANY TYPE</TCell>
-                                    <TCell cell1={false}>{state?.selectedTrack?.company?.companyType || "---"}</TCell>
-                                </TableRow>
-                            }
                             <TableRow>
-                                <TCell cell1={true}>ARTIST</TCell>
-                                <TCell cell1={false}>{state?.selectedTrack?.trackMetaData?.contentOwner || "---"}</TCell>
+                                <TCell cell1={true}>TRACK ID</TCell>
+                                <TCell cell1={false}>{state?.selectedTrack?._id || "---"}</TCell>
                             </TableRow>
                             <TableRow>
                                 <TCell cell1={true}>TITLE</TCell>
                                 <TCell cell1={false}>{state?.selectedTrack?.trackMetaData?.contentName || "---"}</TCell>
                             </TableRow>
                             <TableRow>
-                                <TCell cell1={true}>TRACK ID</TCell>
-                                <TCell cell1={false}>{state?.selectedTrack?._id || "---"}</TCell>
+                                <TCell cell1={true}>AUDIO FILE NAME</TCell>
+                                <TCell cell1={false}>{state?.selectedTrack?.originalFileName || "---"}</TCell>
                             </TableRow>
                             <TableRow>
                                 <TCell cell1={true}>VERSION</TCell>
                                 <TCell cell1={false}>{state?.selectedTrack?.trackMetaData?.version || "---"}</TCell>
                             </TableRow>
                             <TableRow>
-                                <TCell cell1={true}>DISTRIBUTOR</TCell>
-                                <TCell cell1={false}>{state?.selectedTrack?.trackMetaData?.distributor || "---"}</TCell>
+                                <TCell cell1={true}>ARTIST</TCell>
+                                <TCell cell1={false}>{state?.selectedTrack?.trackMetaData?.contentOwner || "---"}</TCell>
                             </TableRow>
                             <TableRow>
-                                <TCell cell1={true}>LABEL</TCell>
-                                <TCell cell1={false}>{state?.selectedTrack?.trackMetaData?.label || "---"}</TCell>
+                                <TCell cell1={true}>MUSIC TYPE(MUSIC, VIDEO, AUDIO)</TCell>
+                                <TCell cell1={false}>{state?.selectedTrack?.trackMetaData?.contentType || "---"}</TCell>
                             </TableRow>
                             <TableRow>
                                 <TCell cell1={true}>ISRC</TCell>
@@ -317,24 +305,44 @@ export default function TracksTable({ data, tableHeads, trackSorting }) {
                                 <TCell cell1={false}>{state?.selectedTrack?.trackMetaData?.tuneCode || "---"}</TCell>
                             </TableRow>
                             <TableRow>
-                                <TCell cell1={true}>DESCRIPTION</TCell>
-                                <TCell cell1={false}>{state?.selectedTrack?.trackMetaData?.contentDescription || "---"}</TCell>
+                                <TCell cell1={true}>LABEL</TCell>
+                                <TCell cell1={false}>{state?.selectedTrack?.trackMetaData?.label || "---"}</TCell>
+                            </TableRow>
+                            <TableRow>
+                                <TCell cell1={true}>DISTRIBUTOR</TCell>
+                                <TCell cell1={false}>{state?.selectedTrack?.trackMetaData?.distributor || "---"}</TCell>
                             </TableRow>
                             <TableRow>
                                 <TCell cell1={true}>FILE TYPE</TCell>
                                 <TCell cell1={false}>{state?.selectedTrack?.trackMetaData?.contentFileType || "---"}</TCell>
                             </TableRow>
                             <TableRow>
-                                <TCell cell1={true}>ORIGINAL FILENAME</TCell>
-                                <TCell cell1={false}>{state?.selectedTrack?.originalFileName || "---"}</TCell>
+                                <TCell cell1={true}>AUDIO LENGTH</TCell>
+                                <TCell cell1={false}>{moment.utc(state?.selectedTrack?.trackMetaData?.contentDuration * 1000).format("mm:ss") || "---"}</TCell>
                             </TableRow>
                             <TableRow>
-                                <TCell cell1={true}>ENCODED DATE</TCell>
-                                <TCell cell1={false}>{moment(state?.selectedTrack?.createdAt).format("DD/MM/YYYY") || "---"}</TCell>
+                                <TCell cell1={true}>AUDIO SIZE(in MB)</TCell>
+                                <TCell cell1={false}>{(state?.selectedTrack?.trackMetaData?.contentSize / 1024).toFixed(3) || "---"}</TCell>
                             </TableRow>
                             <TableRow>
-                                <TCell cell1={true}>SYSTEM/PARTNER ID</TCell>
-                                <TCell cell1={false}>{state?.selectedTrack?.owner?._id || state?.selectedTrack?.company?._id || state?.selectedTrack?.partner?._id || "---"}</TCell>
+                                <TCell cell1={true}>UNDERLYING ENCODING OF FILE</TCell>
+                                <TCell cell1={false}>{state?.selectedTrack?.trackMetaData?.contentEncoding || "---"}</TCell>
+                            </TableRow>
+                            <TableRow>
+                                <TCell cell1={true}>SAMPLING FREQUENCY</TCell>
+                                <TCell cell1={false}>{state?.selectedTrack?.trackMetaData?.contentSamplingFrequency || "---"}</TCell>
+                            </TableRow>
+                            <TableRow>
+                                <TCell cell1={true}>QUALITY GRADE</TCell>
+                                <TCell cell1={false}>{state?.selectedTrack?.trackMetaData?.contentQuality || "---"}</TCell>
+                            </TableRow>
+                            <TableRow>
+                                <TCell cell1={true}>DESCRIPTION</TCell>
+                                <TCell cell1={false}>{state?.selectedTrack?.trackMetaData?.contentDescription || "---"}</TCell>
+                            </TableRow>
+                            <TableRow>
+                                <TCell cell1={true}>ADDITIONAL METADATA</TCell>
+                                <TCell cell1={false}>{JSON.stringify(state?.selectedTrack?.trackMetaData?.additionalMetadata) || "---"}</TCell>
                             </TableRow>
                         </Table>
                     </Grid>

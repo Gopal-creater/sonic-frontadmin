@@ -100,11 +100,23 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
             }
         }
     }
-    log("COLUMNS", monitor.columns)
 
-    // const FixedColumn = () => {
-    //     if(monitor.columns.includes)
-    // }
+    const FixedColumn = () => {
+        if (user?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN) {
+            if (monitor.columns.includes("COMPANY")) {
+                return true
+            } else {
+                return false
+            }
+        } else {
+            if (monitor.columns.includes("ARTIST")) {
+                return true
+            } else {
+                return false
+            }
+        }
+    }
+    log("COLUMNS", FixedColumn())
 
     return (
         <TableWrapper>
@@ -129,7 +141,7 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                                             onClick={() => text !== "ACTION" && sorting(sortBy, isAscending, isActive)}
                                             style={{
                                                 position: index === 0 || index === 1 ? "sticky" : "",
-                                                left: index === 0 ? 0 : index === 1 ? "130px" : "",
+                                                left: index === 0 ? 0 : index === 1 ? FixedColumn() ? "130px" : "0px" : "",
                                                 background: index === 0 || index === 1 ? "white" : "",
                                                 zIndex: index === 0 || index === 1 ? 1 : ""
                                             }}
@@ -148,17 +160,16 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                     </StyledTableHead>
                     <StyledTableBody>
                         {data?.map((row, index) => {
-                            log("row data hai ye", row)
                             return (
                                 <StyledTableRow key={index}>
-                                    {user?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
+                                    {SelectedColumn("COMPANY") && user?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
                                         <CustomToolTip title={row?.company || "---"} placement={"bottom-start"}>
                                             <TableDataColumn
                                                 style={{
                                                     color: theme.colors.primary.navy,
                                                     fontSize: theme.fontSize.h4,
                                                     fontFamily: theme.fontFamily.nunitoSansMediumBold,
-                                                    position: "sticky",
+                                                    position: FixedColumn() ? "sticky" : "",
                                                     left: 0,
                                                 }}
                                                 bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}
@@ -168,7 +179,7 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                                         </CustomToolTip>
                                     }
 
-                                    {user?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
+                                    {SelectedColumn("COMPANY TYPE") && user?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
                                         <CustomToolTip title={row?.companyType || "---"} placement={"bottom-start"}>
                                             <TableDataColumn
                                                 style={{
@@ -176,7 +187,7 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                                                     fontSize: theme.fontSize.h4,
                                                     fontFamily: theme.fontFamily.nunitoSansMediumBold,
                                                     position: "sticky",
-                                                    left: "130px",
+                                                    left: FixedColumn() ? "130px" : "0px",
                                                 }}
                                                 bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}
                                             >
@@ -192,8 +203,8 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                                                     color: user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN && theme.colors.primary.navy,
                                                     fontSize: user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN && theme.fontSize.h4,
                                                     fontFamily: user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN && theme.fontFamily.nunitoSansMediumBold,
-                                                    position: user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN ? "sticky" : "",
-                                                    left: user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN ? "0" : "",
+                                                    position: user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN && FixedColumn() ? "sticky" : "",
+                                                    left: user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN && "0",
                                                 }}
                                                 bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}
                                             >
@@ -210,7 +221,7 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                                                     fontSize: user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN && theme.fontSize.h4,
                                                     fontFamily: user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN && theme.fontFamily.nunitoSansMediumBold,
                                                     position: user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN ? "sticky" : "",
-                                                    left: user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN ? "130px" : "",
+                                                    left: user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN ? FixedColumn() ? "130px" : "0px" : "",
                                                 }}
                                                 bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}
                                             >

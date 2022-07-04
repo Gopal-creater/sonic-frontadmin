@@ -116,7 +116,6 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
             }
         }
     }
-    log("COLUMNS", FixedColumn())
 
     return (
         <TableWrapper>

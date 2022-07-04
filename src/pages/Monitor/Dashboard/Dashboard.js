@@ -22,7 +22,8 @@ import Slider from "react-slick";
 import "./Dashboard.css"
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import { userRoles } from "../../../constants/constants";
+import { playsTableHeads, userRoles } from "../../../constants/constants";
+import Columns from "../../../components/common/Columns/Columns";
 
 export function Dashboard() {
   const dispatch = useDispatch()
@@ -142,6 +143,14 @@ export function Dashboard() {
     carousel.current.slickNext()
   }
 
+  const getStableTableColumnHead = () => {
+    let tableHead = playsTableHeads;
+    if (users?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN) {
+      return tableHead.filter((itm) => (itm?.title !== "COMPANY" && itm?.title !== "COMPANY TYPE"))
+    }
+    return tableHead
+  }
+
   log("Dashboard", dashboard)
   log("Radios", radioStation)
   log(" monitor filter data titltle", monitor.filters)
@@ -242,8 +251,16 @@ export function Dashboard() {
         </ButtonContainer>
       </CardContainer>
 
-      <TableContainer >
-        <H3>10 Most Recent Plays</H3>
+      <TableContainer>
+        <Grid container alignItems='center' justifyContent="space-between">
+          <Grid item>
+            <H3>10 Most Recent Plays</H3>
+          </Grid>
+          <Grid item>
+            <Columns columns={getStableTableColumnHead()} />
+          </Grid>
+        </Grid>
+
         <CommonDataLoadErrorSuccess
           error={dashboard?.error}
           loading={dashboard?.loading}
@@ -253,6 +270,7 @@ export function Dashboard() {
         >
           <DashboardTable
             data={createStableTableData()}
+            stableTableHead={getStableTableColumnHead()}
           />
         </CommonDataLoadErrorSuccess>
       </TableContainer>

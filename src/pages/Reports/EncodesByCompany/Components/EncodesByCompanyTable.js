@@ -3,7 +3,6 @@ import React from 'react'
 import { StyledTableData, StyledTableHead, StyledTableRow } from '../../../../StyledComponents/StyledTable/StyledTable'
 import theme from '../../../../theme'
 import { log } from '../../../../utils/app.debug'
-import CompanyEncodes from './CompanyEncodes'
 
 export default function EncodesByCompanyTable({ data, encodesByCompanyTableHeads }) {
     log("Encodes by company table", data)
@@ -42,7 +41,7 @@ export default function EncodesByCompanyTable({ data, encodesByCompanyTableHeads
                                         </StyledTableData>
 
                                         <StyledTableData>
-                                            <CompanyEncodes companyId={data?._id} />
+                                            {"---"}
                                         </StyledTableData>
                                     </StyledTableRow>
                                 )

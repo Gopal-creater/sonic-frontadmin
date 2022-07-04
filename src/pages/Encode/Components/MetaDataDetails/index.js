@@ -366,14 +366,28 @@ export default function EncodeData() {
                         </Grid>
 
                         <Grid style={{ marginTop: "35px" }}>
-                            <AppAutoComplete
-                                setAutoComPleteAction={(value) => ""}
-                                setAutoCompleteOptions={(option => option?.name || "")}
-                                data={labelArray}
-                                setAutoCompleteOptionsLabel={(option => "")}
-                                getSelectedValue={(e, v) => dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, label: v?.name } })}
-                                placeholder={"Label"}
-                            />
+                            {encodeReducer?.metaData?.encodeFromExistingFile === true ?
+                                <StyledTextField
+                                    disabled={true}
+                                    variant={"filled"}
+                                    fullWidth
+                                    multiline
+                                    placeholder="Label"
+                                    id="standard-basic"
+                                    label="Label"
+                                    className="mt-3"
+                                    value={encodeReducer?.metaData?.label} />
+                                :
+                                <AppAutoComplete
+                                    setAutoComPleteAction={(value) => ""}
+                                    setAutoCompleteOptions={(option => option?.name || "")}
+                                    data={labelArray}
+                                    setAutoCompleteOptionsLabel={(option => "")}
+                                    getSelectedValue={(e, v) => dispatch({ type: actionTypes.SET_METADATA, data: { ...encodeReducer.metaData, label: v?.name } })}
+                                    placeholder={"Label"}
+                                />
+                            }
+
                         </Grid>
 
                         <StyledTextField

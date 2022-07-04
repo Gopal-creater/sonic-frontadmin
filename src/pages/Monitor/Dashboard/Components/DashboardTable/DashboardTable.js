@@ -11,8 +11,17 @@ import moment from 'moment';
 import MetaDataDialog from '../../../../../components/common/MetaDataDialog';
 import { useSelector } from 'react-redux';
 import CustomToolTip from '../../../../../components/common/CustomToolTip';
-import { TableRow } from '@material-ui/core';
+import { Grid, TableCell, TableRow } from '@material-ui/core';
 import { StyledTableData } from '../../../../../StyledComponents/StyledTable/StyledTable';
+import TableMenu from '../../../../../components/common/Table/components/TableMenu';
+import { ActionMenuItem } from '../../../../../components/common/Table/TableStyled';
+import PopUp from '../../../../../components/common/PopUp';
+import { H3, H4, H6 } from '../../../../../StyledComponents/StyledHeadings';
+import { Table } from 'react-bootstrap';
+import AppButton from '../../../../../components/common/AppButton/AppButton';
+import theme from '../../../../../theme';
+import CloseIcon from '@material-ui/icons/Close';
+import PlaysMetaData from '../../../../../components/common/PlaysMetaData';
 
 const createHeaders = (headers) => {
     return headers.map((item) => ({
@@ -35,7 +44,13 @@ export default function DashboardTable({ data }) {
         data: data || [],
         sonicKeyModal: false,
         selectedSonicKey: {},
+        openViewTrackPopUp: false,
+        selectedTrack: null,
     })
+
+    const closePopUp = () => {
+        setState({ ...state, openViewTrackPopUp: false, selectedTrack: null })
+    }
 
     const [sortOrder, setSortOrder] = React.useState("ASC")
 
@@ -124,6 +139,7 @@ export default function DashboardTable({ data }) {
             setSortOrder("ASC")
         }
     }
+    log("state ", state?.data)
 
     return (
         <TableWrapper>
@@ -176,7 +192,7 @@ export default function DashboardTable({ data }) {
                                         return (
                                             <StyledTableRow key={index}>
                                                 {user?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
-                                                    <CustomToolTip title={row?.modal?.company?.name || "---"} placement={"bottom-start"}>
+                                                    <CustomToolTip title={row?.company || "---"} placement={"bottom-start"}>
                                                         <TableDataColumn
                                                             style={{
                                                                 color: theme.colors.primary.navy,
@@ -188,13 +204,13 @@ export default function DashboardTable({ data }) {
                                                             }}
                                                             bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}
                                                         >
-                                                            {row?.modal?.company?.name || "---"}
+                                                            {row?.company || "---"}
                                                         </TableDataColumn>
                                                     </CustomToolTip>
                                                 }
 
                                                 {user?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
-                                                    <CustomToolTip title={row?.modal?.company?.companyType || "---"} placement={"bottom-start"}>
+                                                    <CustomToolTip title={row?.companyType || "---"} placement={"bottom-start"}>
                                                         <TableDataColumn
                                                             style={{
                                                                 color: theme.colors.primary.graphite,
@@ -206,7 +222,7 @@ export default function DashboardTable({ data }) {
                                                             }}
                                                             bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}
                                                         >
-                                                            {row?.modal?.company?.companyType || "---"}
+                                                            {row?.companyType || "---"}
                                                         </TableDataColumn>
                                                     </CustomToolTip>
                                                 }
@@ -242,14 +258,6 @@ export default function DashboardTable({ data }) {
                                                 </CustomToolTip>
 
                                                 <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
-                                                    {row?.version || "---"}
-                                                </TableDataColumn>
-
-                                                <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
-                                                    {row?.trackId?._id || "---"}
-                                                </TableDataColumn>
-
-                                                <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
                                                     {row?.radioStation || "---"}
                                                 </TableDataColumn>
 
@@ -267,6 +275,39 @@ export default function DashboardTable({ data }) {
 
                                                 <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
                                                     {row?.country || "---"}
+                                                </TableDataColumn>
+
+                                                <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
+                                                    {row?.trackId?._id || "---"}
+                                                </TableDataColumn>
+
+                                                <TableDataColumn
+                                                    bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}
+                                                    style={{
+                                                        color: theme.colors.primary.navy,
+                                                        fontSize: theme.fontSize.h5,
+                                                        fontFamily: theme.fontFamily.nunitoSansMediumBold,
+                                                        cursor: 'pointer'
+                                                    }}
+
+                                                >
+                                                    {row?.sonicKey || "---"}
+                                                </TableDataColumn>
+
+                                                {/* <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
+                                                    {0}
+                                                </TableDataColumn> */}
+
+                                                <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
+                                                    {row?.version || "---"}
+                                                </TableDataColumn>
+
+                                                <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
+                                                    {row?.distributor || "---"}
+                                                </TableDataColumn>
+
+                                                <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
+                                                    {row?.label || "---"}
                                                 </TableDataColumn>
 
                                                 <TableDataColumn
@@ -289,28 +330,17 @@ export default function DashboardTable({ data }) {
                                                 </TableDataColumn>
 
                                                 <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
-                                                    {row?.label || "---"}
-                                                </TableDataColumn>
-
-                                                <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
-                                                    {row?.distributor || "---"}
+                                                    {row?.description || "---"}
                                                 </TableDataColumn>
 
                                                 <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
                                                     {row?.fileType || "---"}
                                                 </TableDataColumn>
 
-                                                <TableDataColumn
-                                                    bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}
-                                                    style={{
-                                                        color: theme.colors.primary.navy,
-                                                        fontSize: theme.fontSize.h5,
-                                                        fontFamily: theme.fontFamily.nunitoSansMediumBold,
-                                                        cursor: 'pointer'
-                                                    }}
-                                                    onClick={() => setState({ ...state, sonicKeyModal: true, selectedSonicKey: row?.modal })}
-                                                >
-                                                    {row?.sonicKey || "---"}
+                                                <TableDataColumn>
+                                                    <TableMenu>
+                                                        <ActionMenuItem onClick={() => setState({ ...state, sonicKeyModal: true, selectedSonicKey: row?.modal })}>View</ActionMenuItem>
+                                                    </TableMenu>
                                                 </TableDataColumn>
 
                                             </StyledTableRow>
@@ -319,8 +349,8 @@ export default function DashboardTable({ data }) {
                         </StyledTableBody>
 
                         {state?.sonicKeyModal && (
-                            <MetaDataDialog
-                                sonicKey={state?.selectedSonicKey}
+                            <PlaysMetaData
+                                playsData={state?.selectedSonicKey}
                                 open={true}
                                 setOpenTable={(flag) => setState({ ...state, sonicKeyModal: flag })}
                             />
@@ -330,3 +360,4 @@ export default function DashboardTable({ data }) {
         </TableWrapper >
     );
 }
+

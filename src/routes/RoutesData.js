@@ -15,5 +15,11 @@ export const routeList = [
             { path: "/monitor/countries", title: "Countries" },
         ]
     },
+    {
+        title: "Reports",
+        subPath: [
+            { path: "/reports/encodes-by-company", title: "Encodes by company" },
+        ]
+    },
     { path: "/streamreader", title: "StreamReader" },
 ]

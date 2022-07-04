@@ -27,7 +27,7 @@ export default function SonicKey() {
         <MainContainer>
             <Grid container justifyContent="space-between" alignItems="center">
                 <Grid item>
-                    <H1>Encoded Tracks</H1>
+                    <H1>Encoded Tracks {sonickey?.getSonicKeys?.data?.totalDocs}</H1>
                     <H4 fontFamily={theme.fontFamily.nunitoSansRegular} color={theme.colors.primary.teal}>
                         Browse your encoded tracks
                     </H4>

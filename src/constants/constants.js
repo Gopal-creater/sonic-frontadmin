@@ -1552,6 +1552,11 @@ export const tracksTableHeads = [
   { title: "ACTION", sortBy: "", isAscending: null, isActive: false },
 ]
 
+export const encodesByCompanyTableHeads = [
+  { title: "COMPANY", sortBy: "company", isAscending: null, isActive: false },
+  { title: "ENCODES", sortBy: "encodes", isAscending: null, isActive: false }
+]
+
 //Dropdown values
 export const channel = [
   { name: "ALL" },

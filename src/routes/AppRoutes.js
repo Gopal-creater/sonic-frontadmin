@@ -32,6 +32,7 @@ import SonicStreamReader from "../pages/StreamReader/SonicStreamReader";
 import SonicStreamDetail from "../pages/StreamReader/SonicStreamDetail";
 import * as actionTypes from '../stores/actions/actionTypes';
 import MonitorCompanies from "../pages/Monitor/Companies";
+import EncodesByCompany from "../pages/Reports/EncodesByCompany";
 
 export default function AppRoutes() {
   const user = useSelector(state => state.user)
@@ -105,6 +106,7 @@ export default function AppRoutes() {
               <Route path="/create-company" element={<CreateNewCompany />} />
               <Route path="/add-licences" element={<AddLicence />} />
               <Route path="/monitor/companies" element={<MonitorCompanies />} />
+              <Route path="/reports/encodes-by-company" element={<EncodesByCompany />} />
             </Route>
 
             <Route element={<RoleAuth allowedRoles={[userRoles.COMPANY_ADMIN, userRoles.COMPANY_USER, userRoles.PORTAL_USER, userRoles.PARTNER_USER]} />}>

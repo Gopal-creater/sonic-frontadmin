@@ -83,6 +83,11 @@ const userRed = (state = initialState, action) =>
                         if (menu.urlName === "User Profile") return
                         return menu
                     })
+
+                    draft.sideBarData = draft.sideBarData.filter((item) => {
+                        if (item.path === "/encode" || item.path === "/decode") return
+                        return item
+                    })
                 }
 
                 if (action.data.userRole === userRoles.COMPANY_USER ||
@@ -95,11 +100,12 @@ const userRed = (state = initialState, action) =>
                     })
                 }
 
-                if (action.data.userRole === userRoles.PARTNER_ADMIN) {
+                if (action.data.userRole !== userRoles.PARTNER_ADMIN) {
                     draft.sideBarData = draft.sideBarData.filter((item) => {
-                        if (item.path === "/encode" || item.path === "/decode") return
+                        if (item.title === "Reports") return
                         return item
                     })
+                    console.log("SidebarData", draft.sideBarData)
                 }
                 break;
 

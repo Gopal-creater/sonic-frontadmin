@@ -6,6 +6,7 @@ import MetaDataDialog from "../../../../components/common/MetaDataDialog";
 import { useSelector } from 'react-redux';
 import CustomToolTip from '../../../../components/common/CustomToolTip';
 import { userRoles } from '../../../../constants/constants';
+import { SelectedColumn } from '../../../../components/common/Columns/component/SelectedColumn';
 
 const createHeaders = (headers) => {
     return headers.map((item) => ({
@@ -24,7 +25,6 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
         activeColumnIndex: null,
         sonicKeyModal: false,
         selectedSonicKey: {},
-        columnsCount: playsTableHeads.length,
     })
     const tableElement = React.useRef(null)
     const columns = createHeaders(playsTableHeads)
@@ -108,31 +108,33 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                     No Data
                 </ResizableTable>
                 :
-                <ResizableTable length={state.columnsCount} ref={tableElement}>
+                <ResizableTable length={monitor?.columns?.length} ref={tableElement}>
                     <StyledTableHead>
                         <StyledTableRow>
                             {columns.map(({ ref, text, sortBy, isAscending, isActive }, index) => {
-                                return (
-                                    <StyledTableHeadColumn
-                                        key={index}
-                                        ref={ref}
-                                        onClick={() => sorting(sortBy, isAscending, isActive)}
-                                        style={{
-                                            position: index === 0 || index === 1 ? "sticky" : "",
-                                            left: index === 0 ? 0 : index === 1 ? "130px" : "",
-                                            background: index === 0 || index === 1 ? "white" : "",
-                                            zIndex: index === 0 || index === 1 ? 1 : ""
-                                        }}
-                                    >
-                                        {text}
-                                        <i className="fa fa-sort" style={{ marginLeft: "5px" }}></i>
-                                        {
-                                            index === 0 || index === 1 ?
-                                                "" :
-                                                <TableResizer onMouseDown={() => setState({ ...state, activeColumnIndex: index })} style={{ height: state.tableHeight }} />
-                                        }
-                                    </StyledTableHeadColumn>
-                                )
+                                const isChecked = SelectedColumn(text);
+                                if (isChecked)
+                                    return (
+                                        <StyledTableHeadColumn
+                                            key={index}
+                                            ref={ref}
+                                            onClick={() => sorting(sortBy, isAscending, isActive)}
+                                            style={{
+                                                position: index === 0 || index === 1 ? "sticky" : "",
+                                                left: index === 0 ? 0 : index === 1 ? "130px" : "",
+                                                background: index === 0 || index === 1 ? "white" : "",
+                                                zIndex: index === 0 || index === 1 ? 1 : ""
+                                            }}
+                                        >
+                                            {text}
+                                            <i className="fa fa-sort" style={{ marginLeft: "5px" }}></i>
+                                            {
+                                                index === 0 || index === 1 ?
+                                                    "" :
+                                                    <TableResizer onMouseDown={() => setState({ ...state, activeColumnIndex: index })} style={{ height: state.tableHeight }} />
+                                            }
+                                        </StyledTableHeadColumn>
+                                    )
                             })}
                         </StyledTableRow>
                     </StyledTableHead>

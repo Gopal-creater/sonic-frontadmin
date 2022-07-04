@@ -80,7 +80,7 @@ export default function SonicKeyTable({ data, sonicKeyTableHead }) {
                     <TableBody>
                         {data?.docs?.length === 0 ?
                             <TableRow key={0}>
-                                <StyledTableData colSpan={8} style={{ textAlign: "center" }}>
+                                <StyledTableData colSpan={9} style={{ textAlign: "center" }}>
                                     No Data
                                 </StyledTableData>
                             </TableRow> :

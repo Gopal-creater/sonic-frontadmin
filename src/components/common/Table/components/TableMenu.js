@@ -15,6 +15,7 @@ const useStyles = makeStyles(() => ({
     menu: {
         marginTop: '10px',
         "& .MuiPaper-root": {
+            padding: '5px 0px',
             borderRadius: '0px',
             boxShadow: 'none',
             border: `2px solid ${theme.colors.primary.navy}`,

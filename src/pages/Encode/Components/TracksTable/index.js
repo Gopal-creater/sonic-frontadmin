@@ -123,7 +123,7 @@ export default function TracksTable({ data, tableHeads, trackSorting }) {
 
     return (
         <Grid>
-            <TableContainer >
+            <TableContainer style={{ padding: '0rem 1rem 1rem 1rem' }}>
                 <Table aria-label="customized table" style={{ minWidth: "1200px" }}>
                     <TableHead>
                         <TableRow>

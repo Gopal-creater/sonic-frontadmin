@@ -131,44 +131,50 @@ export default function DecodeSuccess(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {values?.sonickeys?.data?.map((data, index) => (
-              <StyledTableRow key={index} bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
-                <CustomToolTip title={data?.track?._id}>
-                  <StyledTableData>{data?.track?._id || "---"}</StyledTableData>
-                </CustomToolTip>
-
-                <CustomToolTip title={data?.sonicKey || "---"}>
-                  <StyledTableData>{data?.sonicKey || "---"}</StyledTableData>
-                </CustomToolTip>
-
-                <CustomToolTip title={data?.contentName || "---"}>
-                  <StyledTableData>{data?.contentName || "---"}</StyledTableData>
-                </CustomToolTip>
-
-                <StyledTableData>{data?.version || "---"}</StyledTableData>
-
-                <CustomToolTip title={data?.contentOwner || "---"}>
-                  <StyledTableData>{data?.contentOwner || "---"}</StyledTableData>
-                </CustomToolTip>
-
-                <CustomToolTip title={data?.distributor || "---"}>
-                  <StyledTableData>{data?.distributor || "---"}</StyledTableData>
-                </CustomToolTip>
-
-                <CustomToolTip title={data?.contentDescription || "---"}>
-                  <StyledTableData>{data?.contentDescription || "---"}</StyledTableData>
-                </CustomToolTip>
-
-                <StyledTableData>{format(new Date(data?.createdAt), 'dd/MM/yyyy') || "---"}</StyledTableData>
-
-                <StyledTableData>
-                  <TableMenu>
-                    <ActionMenuItem onClick={() => handleClickOpenTable(data)}>View / Edit</ActionMenuItem>
-                    <ActionMenuItem onClick={() => download(data)}>Download</ActionMenuItem>
-                  </TableMenu>
+            {values?.sonickeys?.data?.length === 0 ?
+              <TableRow key={0}>
+                <StyledTableData colSpan={9} style={{ textAlign: "center" }}>
+                  No Data
                 </StyledTableData>
-              </StyledTableRow>
-            ))}
+              </TableRow> :
+              values?.sonickeys?.data?.map((data, index) => (
+                <StyledTableRow key={index} bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
+                  <CustomToolTip title={data?.track?._id}>
+                    <StyledTableData>{data?.track?._id || "---"}</StyledTableData>
+                  </CustomToolTip>
+
+                  <CustomToolTip title={data?.sonicKey || "---"}>
+                    <StyledTableData>{data?.sonicKey || "---"}</StyledTableData>
+                  </CustomToolTip>
+
+                  <CustomToolTip title={data?.contentName || "---"}>
+                    <StyledTableData>{data?.contentName || "---"}</StyledTableData>
+                  </CustomToolTip>
+
+                  <StyledTableData>{data?.version || "---"}</StyledTableData>
+
+                  <CustomToolTip title={data?.contentOwner || "---"}>
+                    <StyledTableData>{data?.contentOwner || "---"}</StyledTableData>
+                  </CustomToolTip>
+
+                  <CustomToolTip title={data?.distributor || "---"}>
+                    <StyledTableData>{data?.distributor || "---"}</StyledTableData>
+                  </CustomToolTip>
+
+                  <CustomToolTip title={data?.contentDescription || "---"}>
+                    <StyledTableData>{data?.contentDescription || "---"}</StyledTableData>
+                  </CustomToolTip>
+
+                  <StyledTableData>{format(new Date(data?.createdAt), 'dd/MM/yyyy') || "---"}</StyledTableData>
+
+                  <StyledTableData>
+                    <TableMenu>
+                      <ActionMenuItem onClick={() => handleClickOpenTable(data)}>View</ActionMenuItem>
+                      <ActionMenuItem onClick={() => download(data)}>Download</ActionMenuItem>
+                    </TableMenu>
+                  </StyledTableData>
+                </StyledTableRow>
+              ))}
           </TableBody>
         </Table>
 
@@ -184,8 +190,9 @@ export default function DecodeSuccess(props) {
                 }
                 return data
               })
-              setValues({ ...values, selectedSonicKey: newData, soincKeys: { ...values?.sonickeys, data: newSonicData } })
+              setValues({ ...values, selectedSonicKey: newData, sonickeys: { ...values?.sonickeys, data: newSonicData } })
             }}
+          // enableEditMode={true}
           />}
 
         <DownloadProgressModal open={values.openDownloadingModal} percentage={values.percentComplete} />

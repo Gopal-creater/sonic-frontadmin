@@ -104,10 +104,8 @@ export default function Plays() {
     }
 
     const playsSorting = (sortBy, isAscending, isActive) => {
-        var newPlaysTableHeads = state.playsTableHeads.map((data, i) => {
+        var newPlaysTableHeads = state.playsTableHeads.map((data) => {
             if (data.sortBy === sortBy) {
-                data.isActive = isActive
-                data.isAscending = isAscending
                 dispatch(getMonitorListAction(
                     actions,
                     monitor?.dates?.startDate,
@@ -118,11 +116,9 @@ export default function Plays() {
                     sortBy,
                     isAscending
                 ))
-                return data
+                return { ...data, isActive: isActive, isAscending: isAscending }
             }
-            data.isActive = false
-            data.isAscending = null
-            return data
+            return { ...data, isActive: false, isAscending: null }
         })
 
         return setState({ ...state, playsTableHeads: newPlaysTableHeads, currentSortBy: sortBy, currentIsAscending: isAscending })
@@ -140,6 +136,9 @@ export default function Plays() {
                         end={monitor?.plays?.data?.docs?.length}
                         total={monitor?.plays?.data?.totalDocs}
                     />
+                </Grid>
+                <Grid item>
+                    <Columns columns={getStableTableColumnHead()} />
                 </Grid>
             </Grid>
 

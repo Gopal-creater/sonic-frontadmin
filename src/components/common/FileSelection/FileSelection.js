@@ -8,6 +8,7 @@ import Communication from "../../../services/https/Communication";
 import { H1, H4, H6 } from "../../../StyledComponents/StyledHeadings";
 import theme from "../../../theme";
 import AppButton from "../AppButton/AppButton";
+import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
 
 const useStyles = makeStyles(() => ({
   EncodeDecodeContainer: {
@@ -236,7 +237,7 @@ export default function FileSelection({ prop }) {
   };
 
   return (
-    <Grid className={classes.EncodeDecodeContainer}>
+    <MainContainer>
       <Grid item style={{ display: 'flex', justifyContent: 'space-between' }}>
         <div>
           <H1>{prop?.title} SonicKeys</H1>
@@ -296,6 +297,6 @@ export default function FileSelection({ prop }) {
           )}
         </div>
       </Grid>
-    </Grid>
+    </MainContainer>
   );
 }

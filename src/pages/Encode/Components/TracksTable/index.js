@@ -21,6 +21,7 @@ import { SelectedColumn } from '../../../../components/common/Columns/component/
 import CustomToolTip from '../../../../components/common/CustomToolTip';
 import { useNavigate } from 'react-router-dom';
 import SkCount from '../SkCount';
+import { userRoles } from '../../../../constants/constants'
 
 export default function TracksTable({ data, tableHeads, trackSorting }) {
     const [state, setState] = React.useState({
@@ -35,6 +36,7 @@ export default function TracksTable({ data, tableHeads, trackSorting }) {
     const sonickey = useSelector(state => state.sonickey)
     const navigation = useNavigate()
 
+    const user = useSelector(state => state.user)
     const dispatch = useDispatch()
 
     const encodeAgain = (track) => {
@@ -120,6 +122,8 @@ export default function TracksTable({ data, tableHeads, trackSorting }) {
         dispatch({ type: actionTypes.SONIC_KEY_FILTERS, data: { ...sonickey?.filters, trackId: track?._id } })
         navigation("/encoded-tracks")
     }
+
+    log("selected track encode: ", state?.selectedTrack)
 
     return (
         <Grid>
@@ -264,37 +268,65 @@ export default function TracksTable({ data, tableHeads, trackSorting }) {
 
                     <Grid style={{ height: "300px", marginTop: "20px", overflow: "auto" }}>
                         <Table>
+                            {user?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
+                                <TableRow>
+                                    <TCell cell1={true}>COMPANY</TCell>
+                                    <TCell cell1={false}>{state?.selectedTrack?.company?.name || "---"}</TCell>
+                                </TableRow>
+                            }
+                            {user?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
+                                <TableRow>
+                                    <TCell cell1={true}>COMPANY TYPE</TCell>
+                                    <TCell cell1={false}>{state?.selectedTrack?.company?.companyType || "---"}</TCell>
+                                </TableRow>
+                            }
                             <TableRow>
-                                <TCell cell1={true}>TRACK ID</TCell>
-                                <TCell cell1={false}>{state?.selectedTrack?._id || "---"}</TCell>
+                                <TCell cell1={true}>ARTIST</TCell>
+                                <TCell cell1={false}>{state?.selectedTrack?.trackMetaData?.contentOwner || "---"}</TCell>
                             </TableRow>
                             <TableRow>
                                 <TCell cell1={true}>TITLE</TCell>
                                 <TCell cell1={false}>{state?.selectedTrack?.trackMetaData?.contentName || "---"}</TCell>
                             </TableRow>
                             <TableRow>
-                                <TCell cell1={true}>ORIGINAL FILENAME</TCell>
-                                <TCell cell1={false}>{state?.selectedTrack?.originalFileName || "---"}</TCell>
+                                <TCell cell1={true}>TRACK ID</TCell>
+                                <TCell cell1={false}>{state?.selectedTrack?._id || "---"}</TCell>
                             </TableRow>
                             <TableRow>
                                 <TCell cell1={true}>VERSION</TCell>
                                 <TCell cell1={false}>{state?.selectedTrack?.trackMetaData?.version || "---"}</TCell>
                             </TableRow>
                             <TableRow>
-                                <TCell cell1={true}>LABEL</TCell>
-                                <TCell cell1={false}>{state?.selectedTrack?.trackMetaData?.label || "---"}</TCell>
-                            </TableRow>
-                            <TableRow>
-                                <TCell cell1={true}>ARTIST</TCell>
-                                <TCell cell1={false}>{state?.selectedTrack?.trackMetaData?.contentOwner || "---"}</TCell>
-                            </TableRow>
-                            <TableRow>
                                 <TCell cell1={true}>DISTRIBUTOR</TCell>
                                 <TCell cell1={false}>{state?.selectedTrack?.trackMetaData?.distributor || "---"}</TCell>
                             </TableRow>
                             <TableRow>
+                                <TCell cell1={true}>LABEL</TCell>
+                                <TCell cell1={false}>{state?.selectedTrack?.trackMetaData?.label || "---"}</TCell>
+                            </TableRow>
+                            <TableRow>
+                                <TCell cell1={true}>ISRC</TCell>
+                                <TCell cell1={false}>{state?.selectedTrack?.trackMetaData?.isrcCode || "---"}</TCell>
+                            </TableRow>
+                            <TableRow>
+                                <TCell cell1={true}>ISWC</TCell>
+                                <TCell cell1={false}>{state?.selectedTrack?.trackMetaData?.iswcCode || "---"}</TCell>
+                            </TableRow>
+                            <TableRow>
+                                <TCell cell1={true}>TUNE CODE</TCell>
+                                <TCell cell1={false}>{state?.selectedTrack?.trackMetaData?.tuneCode || "---"}</TCell>
+                            </TableRow>
+                            <TableRow>
+                                <TCell cell1={true}>DESCRIPTION</TCell>
+                                <TCell cell1={false}>{state?.selectedTrack?.trackMetaData?.contentDescription || "---"}</TCell>
+                            </TableRow>
+                            <TableRow>
                                 <TCell cell1={true}>FILE TYPE</TCell>
                                 <TCell cell1={false}>{state?.selectedTrack?.trackMetaData?.contentFileType || "---"}</TCell>
+                            </TableRow>
+                            <TableRow>
+                                <TCell cell1={true}>ORIGINAL FILENAME</TCell>
+                                <TCell cell1={false}>{state?.selectedTrack?.originalFileName || "---"}</TCell>
                             </TableRow>
                             <TableRow>
                                 <TCell cell1={true}>ENCODED DATE</TCell>

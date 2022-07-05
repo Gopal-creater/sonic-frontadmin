@@ -122,7 +122,7 @@ export const getCompanyEncodesAction = (limit = 10, page = 1, sortBy, isAscendin
     if (userRoleWiseId?.partner) params.append("partner", userRoleWiseId?.partner)
     if (userRoleWiseId?.owner) params.append("owner", userRoleWiseId?.owner)
 
-    if (companyEncodes?.filters?.company) params.append("_id", companyEncodes?.filters?.company);
+    if (companyEncodes?.filters?.company?._id) params.append("_id", companyEncodes?.filters?.company?._id);
 
     if (sortBy) {
         isAscending ? params.append("sort", sortBy) : params.append("sort", `-${sortBy}`)
@@ -153,7 +153,7 @@ export const getCompanyEncodesExportsAction = (format, limit = 10, page = 1, sor
     if (userRoleWiseId?.partner) params.append("partner", userRoleWiseId?.partner)
     if (userRoleWiseId?.owner) params.append("owner", userRoleWiseId?.owner)
 
-    if (companyEncodes?.filters?.company) params.append("_id", companyEncodes?.filters?.company);
+    if (companyEncodes?.filters?.company?._id) params.append("_id", companyEncodes?.filters?.company?._id);
 
     if (sortBy) {
         isAscending ? params.append("sort", sortBy) : params.append("sort", `-${sortBy}`)

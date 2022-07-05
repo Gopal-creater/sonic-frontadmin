@@ -27,12 +27,11 @@ export default function CompanyEncodesFilter({ closeDialog }) {
     }
 
     const handleAutoCompleteSelectedValue = (v) => {
-        log("selected company", v)
-        dispatch({ type: actionTypes.SET_COMPANYENCODES_FILTERS, data: { ...companyEncodes?.filters, company: v?._id } })
+        dispatch({ type: actionTypes.SET_COMPANYENCODES_FILTERS, data: { ...companyEncodes?.filters, company: v } })
     }
 
     const resetFilters = () => {
-        dispatch({ type: actionTypes.SET_COMPANYENCODES_FILTERS, data: { ...companyEncodes?.filters, company: "" } })
+        dispatch({ type: actionTypes.SET_COMPANYENCODES_FILTERS, data: { ...companyEncodes?.filters, company: {} } })
         setState({ ...state, autoCompleteValue: "" })
     }
 
@@ -50,8 +49,7 @@ export default function CompanyEncodesFilter({ closeDialog }) {
             <form onSubmit={handleFilter}>
                 <Grid style={{ padding: "0px 20px 0px 20px" }}>
                     <AppAutoComplete
-                        setTextFieldValue={typedValue => setState({ ...state, autoCompleteValue: typedValue })}
-                        textFieldValue={state.autoCompleteValue}
+                        value={companyEncodes?.filters?.company}
                         setAutoComPleteAction={(value) => {
                             dispatch(getCompanySearchAction(value, 50))
                         }}

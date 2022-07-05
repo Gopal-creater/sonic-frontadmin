@@ -7,7 +7,7 @@ const initialState = {
               key: "",
               type: "",
               status: "",
-              company: "",
+              company: {},
               user: "",
               renewalStartDate: "",
               renewalEndDate: "",

@@ -105,7 +105,6 @@ const userRed = (state = initialState, action) =>
                         if (item.title === "Reports") return
                         return item
                     })
-                    console.log("SidebarData", draft.sideBarData)
                 }
                 break;
 

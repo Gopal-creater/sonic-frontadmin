@@ -36,7 +36,7 @@ export default function UsersFilter({ closeDialog }) {
                     <FilterForm>
                         <StyledTextField
                             fullWidth
-                            label="User name"
+                            label="User Name"
                             value={users?.filters?.username}
                             onChange={(e) => dispatch({ type: actionTypes.SET_USERS_FILTERS, data: { ...users?.filters, username: e.target.value } })}
                             InputLabelProps={{
@@ -65,7 +65,7 @@ export default function UsersFilter({ closeDialog }) {
                         <FilterForm>
                             <CustomDropDown
                                 id="account-type"
-                                labelText="Account type"
+                                labelText="Account Type"
                                 formControlProps={{
                                     fullWidth: true
                                 }}
@@ -81,7 +81,7 @@ export default function UsersFilter({ closeDialog }) {
                         <FilterForm>
                             <StyledTextField
                                 fullWidth
-                                label="Account name"
+                                label="Account Name"
                                 value={users?.filters?.accountName}
                                 onChange={(e) => dispatch({ type: actionTypes.SET_USERS_FILTERS, data: { ...users?.filters, accountName: e.target.value } })}
                                 InputLabelProps={{
@@ -96,7 +96,7 @@ export default function UsersFilter({ closeDialog }) {
                     <FilterForm>
                         <CustomDropDown
                             id="user-type"
-                            labelText="User type"
+                            labelText="User Type"
                             formControlProps={{
                                 fullWidth: true
                             }}

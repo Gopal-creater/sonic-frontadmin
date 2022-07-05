@@ -10,20 +10,14 @@ import { StyledTextField } from '../../../StyledComponents/StyledAppTextInput/St
 import { channel, Distributor, Labels, userRoles } from '../../../constants/constants';
 import * as actionTypes from '../../../stores/actions/actionTypes';
 import { getAllSonickeysActions } from '../../../stores/actions/SonicKeyAcrtions';
-import { getAllCompaniesAction } from '../../../stores/actions/CompanyActions';
 import AppAutoComplete from '../../../components/common/AutoComplete/AppAutoComplete';
+import { getCompanyNameAction } from '../../../stores/actions/picker/titlePicker.action';
 
 export default function SonicKeyFilter({ closeDialog }) {
     const dispatch = useDispatch();
     const sonickey = useSelector(state => state.sonickey)
     const users = useSelector(state => state.user)
     const company = useSelector(state => state.company)
-
-    React.useEffect(() => {
-        if (users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN) {
-            dispatch(getAllCompaniesAction(50, company?.getAllCompanies?.data?.page))
-        }
-    }, []);
 
     const handleFilter = (e) => {
         e.preventDefault();
@@ -33,7 +27,6 @@ export default function SonicKeyFilter({ closeDialog }) {
 
     let distributorArray = Distributor.map((data) => { return { name: data } })
     let labelArray = Labels.map((data) => { return { name: data } })
-    let companyName = company?.getAllCompanies?.data?.docs?.map((data) => { return { id: data?._id, name: data?.name } })
 
     return (
         <FilterContainer>
@@ -105,7 +98,7 @@ export default function SonicKeyFilter({ closeDialog }) {
                         />
                     </FilterForm>
 
-                    <FilterForm className='mt-3'>
+                    <FilterForm style={{ marginTop: '20px' }}>
                         <AppAutoComplete
                             setAutoComPleteAction={() => { }}
                             setAutoCompleteOptions={(option => option?.name || "")}
@@ -113,14 +106,13 @@ export default function SonicKeyFilter({ closeDialog }) {
                             setAutoCompleteOptionsLabel={() => { }}
                             getSelectedValue={(e, v) => dispatch({ type: actionTypes.SONIC_KEY_FILTERS, data: { ...sonickey?.filters, label: v } })}
                             placeholder={"Label"}
-                            hideSearchIcon={true}
                             value={sonickey?.filters?.label}
                             color={theme.colors.secondary.grey}
                             fontFamily={theme.fontFamily.nunitoSansBold}
                         />
                     </FilterForm>
 
-                    <FilterForm className='mt-3'>
+                    <FilterForm style={{ marginTop: '20px' }}>
                         <AppAutoComplete
                             setAutoComPleteAction={() => { }}
                             setAutoCompleteOptions={(option => option?.name || "")}
@@ -128,27 +120,25 @@ export default function SonicKeyFilter({ closeDialog }) {
                             setAutoCompleteOptionsLabel={() => { }}
                             getSelectedValue={(e, v) => dispatch({ type: actionTypes.SONIC_KEY_FILTERS, data: { ...sonickey?.filters, distributor: v } })}
                             placeholder={"Distributor"}
-                            hideSearchIcon={true}
                             value={sonickey?.filters?.distributor}
                             color={theme.colors.secondary.grey}
                             fontFamily={theme.fontFamily.nunitoSansBold}
                         />
                     </FilterForm>
                     {users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
-                        <FilterForm>
-                            <CustomDropDown
-                                id="company-dropdown"
-                                labelText="Company Name"
-                                formControlProps={{
-                                    fullWidth: true
-                                }}
-                                labelProps={{ style: { fontFamily: theme.fontFamily.nunitoSansBold } }}
-                                inputProps={{
-                                    value: sonickey?.filters?.company,
-                                    onChange: (e) => dispatch({ type: actionTypes.SONIC_KEY_FILTERS, data: { ...sonickey?.filters, company: e.target.value } })
-                                }}
-                                data={companyName || []}
-                                selectId={true}
+                        <FilterForm style={{ marginTop: '20px' }}>
+                            <AppAutoComplete
+                                setAutoComPleteAction={(value) => dispatch(getCompanyNameAction(value))}
+                                setAutoCompleteOptions={(option => option?.name || "")}
+                                setAutoCompleteOptionsLabel={(option => option?._id || "")}
+                                loading={company?.companySearch?.loading}
+                                data={company?.companySearch?.data?.docs}
+                                error={company?.companySearch?.error}
+                                getSelectedValue={(e, v) => dispatch({ type: actionTypes.SONIC_KEY_FILTERS, data: { ...sonickey?.filters, company: v } })}
+                                placeholder={"Company Name"}
+                                value={sonickey?.filters?.company}
+                                color={theme.colors.secondary.grey}
+                                fontFamily={theme.fontFamily.nunitoSansBold}
                             />
                         </FilterForm>
                     }

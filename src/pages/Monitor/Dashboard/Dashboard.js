@@ -252,7 +252,7 @@ export function Dashboard() {
       </CardContainer>
 
       <TableContainer>
-        <Grid container alignItems='center' justifyContent="space-between">
+        <Grid container justifyContent="space-between">
           <Grid item>
             <H3>10 Most Recent Plays</H3>
           </Grid>

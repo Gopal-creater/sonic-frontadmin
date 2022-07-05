@@ -24,7 +24,7 @@ export default function SonicStreamReader() {
 
     return (
         <MainContainer>
-            <Grid container justifyContent="space-between" alignItems="center">
+            <Grid container justifyContent="space-between">
                 <Grid item>
                     <H1>Sonic StreamReader</H1>
                     <H4 color={theme.colors.primary.teal} fontFamily={theme.fontFamily.nunitoSansRegular}>

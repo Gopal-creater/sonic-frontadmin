@@ -39,7 +39,7 @@ export default function Users() {
 
     return (
         <MainContainer>
-            <Grid container justifyContent="space-between" alignItems="center">
+            <Grid container justifyContent="space-between">
                 <Grid item>
                     <H1>Users</H1>
                     <H4 fontFamily={theme.fontFamily.nunitoSansRegular} color={theme.colors.primary.teal}>

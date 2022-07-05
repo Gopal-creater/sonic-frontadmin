@@ -126,7 +126,7 @@ export default function Plays() {
 
     return (
         <MainContainer>
-            <Grid container alignItems='center' justifyContent="space-between" className="plays-title-container">
+            <Grid container justifyContent="space-between" className="plays-title-container">
                 <Grid item>
                     <H1>My Plays</H1>
                     <PaginationCount

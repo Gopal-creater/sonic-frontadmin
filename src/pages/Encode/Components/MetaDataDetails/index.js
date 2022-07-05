@@ -31,7 +31,7 @@ import AppAutoComplete from '../../../../components/common/AutoComplete/AppAutoC
 import IconButton from '@material-ui/core/IconButton';
 import { Distributor, Labels } from '../../../../constants/constants'
 import ArrowDownwardOutlinedIcon from '@material-ui/icons/ArrowDownwardOutlined';
-import Communication from '../../../../services/https/Communication'
+import DownloadIcon from "../../../../assets/images/download.png";
 import axios from 'axios'
 import { downloadAnyFile } from '../../../../services/https/resources/EncodeApi/encodeApi'
 import DownloadProgressModal from '../DownloadProgressModal'
@@ -40,8 +40,6 @@ import fileDownload from 'js-file-download'
 export default function EncodeData() {
     const encodeReducer = useSelector(state => state.encode)
     const dispatch = useDispatch()
-
-    log("Encode reducer", encodeReducer)
 
     let labelArray = Labels.map((data) => { return { name: data } })
     let distributorArray = Distributor.map((data) => { return { name: data } })
@@ -99,9 +97,11 @@ export default function EncodeData() {
         return true;
     }
 
+    log("Encode reducer", encodeReducer)
+
     const downloadEncodedFile = () => {
         setState({ ...state, openDownloadingModal: true })
-        downloadAnyFile(encodeReducer?.data?.s3FileMeta?.key).then((response) => {
+        downloadAnyFile(encodeReducer?.data?.s3FileMeta?.Key).then((response) => {
             axios({
                 url: response,
                 responseType: 'blob',
@@ -110,25 +110,37 @@ export default function EncodeData() {
                     setState({ ...state, percentComplete: percent, openDownloadingModal: true })
                 }
             }).then(res => {
-                fileDownload(res.data,);
+                fileDownload(res.data, encodeReducer?.data?.originalFileName);
                 setState({ ...state, openDownloadingModal: false })
+
+                dispatch({ type: actionTypes.CLEAR_SELECTED_FILE })
+                dispatch({ type: actionTypes.CLOSE_SUCCESS_POPUP })
+                dispatch({ type: actionTypes.CLOSE_ERROR_POPUP })
+                dispatch(getTracksAction(encodeReducer?.tracks.startDate, encodeReducer?.tracks?.endDate, encodeReducer?.tracks?.data?.page || 1, "10"))
             }).catch(error => {
                 log("Download error", error)
                 cogoToast.error(error?.message)
                 setState({ ...state, openDownloadingModal: false })
+
+                dispatch({ type: actionTypes.CLEAR_SELECTED_FILE })
+                dispatch({ type: actionTypes.CLOSE_SUCCESS_POPUP })
+                dispatch({ type: actionTypes.CLOSE_ERROR_POPUP })
+                dispatch(getTracksAction(encodeReducer?.tracks.startDate, encodeReducer?.tracks?.endDate, encodeReducer?.tracks?.data?.page || 1, "10"))
             });
         }).catch((error) => {
             log("Download error", error)
             cogoToast.error(error?.message)
             setState({ ...state, openDownloadingModal: false })
+
+            dispatch({ type: actionTypes.CLEAR_SELECTED_FILE })
+            dispatch({ type: actionTypes.CLOSE_SUCCESS_POPUP })
+            dispatch({ type: actionTypes.CLOSE_ERROR_POPUP })
+            dispatch(getTracksAction(encodeReducer?.tracks.startDate, encodeReducer?.tracks?.endDate, encodeReducer?.tracks?.data?.page || 1, "10"))
         })
-        dispatch({ type: actionTypes.CLEAR_SELECTED_FILE })
-        dispatch({ type: actionTypes.CLOSE_SUCCESS_POPUP })
-        dispatch({ type: actionTypes.CLOSE_ERROR_POPUP })
-        dispatch(getTracksAction(encodeReducer?.tracks.startDate, encodeReducer?.tracks?.endDate, encodeReducer?.tracks?.data?.page || 1, "10"))
     }
 
     log("encode success", encodeReducer?.data)
+    log("state", state)
 
     return (
         <EncodeContainer>
@@ -594,7 +606,7 @@ export default function EncodeData() {
                         </AppButton>
                     </Grid>
                     <AppButton
-                        startIcon={<ArrowDownwardOutlinedIcon />}
+                        startIcon={<img src={DownloadIcon} />}
                         style={{ padding: "0px" }}
                         variant={"none"}
                         onClick={() => downloadEncodedFile()}

@@ -43,7 +43,7 @@ const initialState = {
             endDate: new Date(),
         },
         filters: {
-            company: ""
+            company: {}
         },
     }
 };

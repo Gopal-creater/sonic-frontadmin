@@ -68,7 +68,7 @@ export default function EncodesByCompanyTable({ data, encodesByCompanyTableHeads
                                         </StyledTableData>
 
                                         <StyledTableData>
-                                            {data?.encodesCount || "---"}
+                                            {data?.encodesCount || 0}
                                         </StyledTableData>
                                     </StyledTableRow>
                                 )

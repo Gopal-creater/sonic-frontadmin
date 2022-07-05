@@ -31,7 +31,7 @@ import AppAutoComplete from '../../../../components/common/AutoComplete/AppAutoC
 import IconButton from '@material-ui/core/IconButton';
 import { Distributor, Labels } from '../../../../constants/constants'
 import ArrowDownwardOutlinedIcon from '@material-ui/icons/ArrowDownwardOutlined';
-import Communication from '../../../../services/https/Communication'
+import DownloadIcon from "../../../../assets/images/download.png";
 import axios from 'axios'
 import { downloadAnyFile } from '../../../../services/https/resources/EncodeApi/encodeApi'
 import DownloadProgressModal from '../DownloadProgressModal'
@@ -594,7 +594,7 @@ export default function EncodeData() {
                         </AppButton>
                     </Grid>
                     <AppButton
-                        startIcon={<ArrowDownwardOutlinedIcon />}
+                        startIcon={<img src={DownloadIcon} />}
                         style={{ padding: "0px" }}
                         variant={"none"}
                         onClick={() => downloadEncodedFile()}

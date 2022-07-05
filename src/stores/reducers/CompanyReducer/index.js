@@ -33,6 +33,18 @@ const initialState = {
         loading: false,
         data: {},
         error: null,
+    },
+    companyEncodes: {
+        loading: false,
+        data: {},
+        error: null,
+        dates: {
+            startDate: new Date().setMonth(new Date().getMonth() - 1),
+            endDate: new Date(),
+        },
+        filters: {
+            company: ""
+        },
     }
 };
 
@@ -123,6 +135,35 @@ const companyReducer = (state = initialState, action) =>
             case actionTypes.SET_SEARCH_COMPANY_ERROR:
                 draft.companySearch.loading = false;
                 draft.companySearch.error = action.data;
+                break;
+
+
+            //For Company Encodes
+            case actionTypes.GET_COMPANY_ENCODES_LOADING:
+                draft.companyEncodes.loading = true;
+                draft.companyEncodes.error = null;
+                draft.companyEncodes.data = {};
+                break;
+
+            case actionTypes.GET_COMPANY_ENCODES_DATA:
+                draft.companyEncodes.loading = false;
+                draft.companyEncodes.error = null;
+                draft.companyEncodes.data = action.data;
+                break
+
+            case actionTypes.GET_COMPANY_ENCODES_ERROR:
+                draft.companyEncodes.loading = false;
+                draft.companyEncodes.error = action.data;
+                draft.companyEncodes.data = {};
+                break
+
+            //For Company Encodes Dates
+            case actionTypes.SET_COMPANYENCODES_DATES:
+                draft.companyEncodes.dates = action.data
+                break
+
+            case actionTypes.SET_COMPANYENCODES_FILTERS:
+                draft.companyEncodes.filters = action.data
                 break;
 
             default:

@@ -30,10 +30,18 @@ import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import AppAutoComplete from '../../../../components/common/AutoComplete/AppAutoComplete'
 import IconButton from '@material-ui/core/IconButton';
 import { Distributor, Labels } from '../../../../constants/constants'
+import ArrowDownwardOutlinedIcon from '@material-ui/icons/ArrowDownwardOutlined';
+import Communication from '../../../../services/https/Communication'
+import axios from 'axios'
+import { downloadAnyFile } from '../../../../services/https/resources/EncodeApi/encodeApi'
+import DownloadProgressModal from '../DownloadProgressModal'
+import fileDownload from 'js-file-download'
 
 export default function EncodeData() {
     const encodeReducer = useSelector(state => state.encode)
     const dispatch = useDispatch()
+
+    log("Encode reducer", encodeReducer)
 
     let labelArray = Labels.map((data) => { return { name: data } })
     let distributorArray = Distributor.map((data) => { return { name: data } })
@@ -41,7 +49,9 @@ export default function EncodeData() {
     const [state, setState] = React.useState({
         copyMetaData: false,
         autoCompleteValue: null,
-        displaySelectedTrack: false
+        displaySelectedTrack: false,
+        openDownloadingModal: false,
+        percentComplete: ""
     })
 
     React.useEffect(() => {
@@ -89,7 +99,36 @@ export default function EncodeData() {
         return true;
     }
 
-    log("encode metadata", encodeReducer?.metaData)
+    const downloadEncodedFile = () => {
+        setState({ ...state, openDownloadingModal: true })
+        downloadAnyFile(encodeReducer?.data?.s3FileMeta?.key).then((response) => {
+            axios({
+                url: response,
+                responseType: 'blob',
+                onDownloadProgress: function (progressEvent) {
+                    let percent = Math.floor(progressEvent?.loaded / progressEvent?.total * 100)
+                    setState({ ...state, percentComplete: percent, openDownloadingModal: true })
+                }
+            }).then(res => {
+                fileDownload(res.data,);
+                setState({ ...state, openDownloadingModal: false })
+            }).catch(error => {
+                log("Download error", error)
+                cogoToast.error(error?.message)
+                setState({ ...state, openDownloadingModal: false })
+            });
+        }).catch((error) => {
+            log("Download error", error)
+            cogoToast.error(error?.message)
+            setState({ ...state, openDownloadingModal: false })
+        })
+        dispatch({ type: actionTypes.CLEAR_SELECTED_FILE })
+        dispatch({ type: actionTypes.CLOSE_SUCCESS_POPUP })
+        dispatch({ type: actionTypes.CLOSE_ERROR_POPUP })
+        dispatch(getTracksAction(encodeReducer?.tracks.startDate, encodeReducer?.tracks?.endDate, encodeReducer?.tracks?.data?.page || 1, "10"))
+    }
+
+    log("encode success", encodeReducer?.data)
 
     return (
         <EncodeContainer>
@@ -554,6 +593,14 @@ export default function EncodeData() {
                             Encode another file
                         </AppButton>
                     </Grid>
+                    <AppButton
+                        startIcon={<ArrowDownwardOutlinedIcon />}
+                        style={{ padding: "0px" }}
+                        variant={"none"}
+                        onClick={() => downloadEncodedFile()}
+                    >
+                        Download
+                    </AppButton>
                 </PopUpContainer>
             </PopUp>
 
@@ -596,6 +643,8 @@ export default function EncodeData() {
                     </Grid>
                 </PopUpContainer>
             </PopUp>
+
+            <DownloadProgressModal open={state.openDownloadingModal} percentage={state.percentComplete} />
         </EncodeContainer >
     )
 }

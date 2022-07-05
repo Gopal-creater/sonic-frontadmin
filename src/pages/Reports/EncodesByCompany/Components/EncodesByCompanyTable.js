@@ -4,8 +4,31 @@ import { StyledTableData, StyledTableHead, StyledTableRow } from '../../../../St
 import theme from '../../../../theme'
 import { log } from '../../../../utils/app.debug'
 
-export default function EncodesByCompanyTable({ data, encodesByCompanyTableHeads }) {
-    log("Encodes by company table", data)
+export default function EncodesByCompanyTable({ data, encodesByCompanyTableHeads, companyEncodesSorting }) {
+    const sorting = (sortBy, isAscending, isActive) => {
+        if (isActive) {
+            if (isAscending === true) {
+                companyEncodesSorting(sortBy, false, false)
+            }
+            else if (isAscending === false) {
+                companyEncodesSorting(sortBy, true, false)
+            }
+            else if (isAscending === null) {
+                companyEncodesSorting(sortBy, true, false)
+            }
+        } else {
+            if (isAscending === true) {
+                companyEncodesSorting(sortBy, false, true)
+            }
+            else if (isAscending === false) {
+                companyEncodesSorting(sortBy, true, true)
+            }
+            else if (isAscending === null) {
+                companyEncodesSorting(sortBy, true, true)
+            }
+        }
+    }
+
     return (
         <Grid>
             <TableContainer style={{ padding: '0rem 1rem 1rem 1rem' }}>
@@ -15,8 +38,12 @@ export default function EncodesByCompanyTable({ data, encodesByCompanyTableHeads
                             {
                                 encodesByCompanyTableHeads?.map((data, index) => {
                                     return (
-                                        <StyledTableHead align='left' key={index}>
-                                            {data?.title}
+                                        <StyledTableHead
+                                            align='left'
+                                            key={index}
+                                            onClick={() => sorting(data?.sortBy, data?.isAscending, data?.isActive)}
+                                        >
+                                            {data?.title}<i className="fa fa-sort" style={{ marginLeft: "5px" }}></i>
                                         </StyledTableHead>
                                     )
 
@@ -41,7 +68,7 @@ export default function EncodesByCompanyTable({ data, encodesByCompanyTableHeads
                                         </StyledTableData>
 
                                         <StyledTableData>
-                                            {"---"}
+                                            {data?.encodesCount || "---"}
                                         </StyledTableData>
                                     </StyledTableRow>
                                 )

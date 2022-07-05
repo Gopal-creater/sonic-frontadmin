@@ -1553,8 +1553,8 @@ export const tracksTableHeads = [
 ]
 
 export const encodesByCompanyTableHeads = [
-  { title: "COMPANY", sortBy: "company", isAscending: null, isActive: false },
-  { title: "ENCODES", sortBy: "encodes", isAscending: null, isActive: false }
+  { title: "COMPANY", sortBy: "name", isAscending: null, isActive: false },
+  { title: "ENCODES", sortBy: "encodesCount", isAscending: null, isActive: false }
 ]
 
 //Dropdown values

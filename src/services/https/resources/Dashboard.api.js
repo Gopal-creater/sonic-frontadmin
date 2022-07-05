@@ -13,9 +13,8 @@ export const getMostPlayedStationsData = (params) => {
     return AppWebRequest(`detections/owners/${getUserId()}/radioStations/top-radiostations-with-plays-details`, 'get', { params: params })
 }
 
-
-export const exportDashboardData = (fileFormat, params) => {
-    return AppWebRequest(`/detections/export/dashboard-plays-view/${fileFormat}`, 'get', { params: params, responseType: "blob" });
+export const exportDashboardData = (format, params) => {
+    return AppWebRequest(`/detections/export/dashboard-plays-view/${format}`, 'get', { params: params, responseType: "blob" });
 }
 
 export const exportPlaysData = (sonicKey, format, params) => {

@@ -76,7 +76,7 @@ export const getMonitorListAction = (actions, startDate, endDate, page, limit, p
 
     if (monitorFilters?.company?._id) params.append("company", monitorFilters?.company?._id);
     if (monitorFilters?.user) {
-        additionalFilter.$or.push({ "relation_sonicKey.createdBy": monitorFilters?.user })
+        additionalFilter.$or.push({ "relation_owner._id": monitorFilters?.user }, { "createdBy": monitorFilters?.user })
     }
 
     if (additionalFilter.$or.length !== 0) params.append("relation_filter", JSON.stringify(additionalFilter));
@@ -163,7 +163,7 @@ export const getMonitorExportAction = (startDate, endDate, format, limit = 2000,
 
     if (monitorFilters?.company?._id) params.append("company", monitorFilters?.company?._id);
     if (monitorFilters?.user) {
-        additionalFilter.$or.push({ "createdBy": monitorFilters?.user })
+        additionalFilter.$or.push({ "relation_owner._id": monitorFilters?.user }, { "createdBy": monitorFilters?.user })
     }
 
     if (additionalFilter.$or.length !== 0) params.append("relation_filter", JSON.stringify(additionalFilter));

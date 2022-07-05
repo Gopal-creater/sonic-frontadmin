@@ -28,7 +28,7 @@ export default function EncodesByCompany() {
     }, [companyEncodes?.dates?.startDate, companyEncodes?.dates?.endDate]);
 
     const handleExport = (format) => {
-        dispatch(getCompanyEncodesExportsAction(format, 2000, companyEncodes?.data?.page, state?.currentSortBy, state?.currentIsAscending))
+        dispatch(getCompanyEncodesExportsAction(format, 2000, 1, state?.currentSortBy, state?.currentIsAscending))
     }
 
     const companyEncodesSorting = (sortBy, isAscending, isActive) => {

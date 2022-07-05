@@ -52,11 +52,11 @@ export const getMonitorDashboardDataAction = (startDate, endDate, limit = 10, so
     if (monitorFilters?.song) {
         params.append("relation_sonicKey.originalFileName", `/${monitorFilters?.song}/i`);
     }
-    if (monitorFilters?.label) {
-        params.append("relation_sonicKey.label", `/${monitorFilters?.label}/i`);
+    if (monitorFilters?.label?.name) {
+        params.append("relation_sonicKey.label", monitorFilters?.label?.name);
     }
-    if (monitorFilters?.distributor) {
-        params.append("relation_sonicKey.distributor", `/${monitorFilters?.distributor}/i`);
+    if (monitorFilters?.distributor?.name) {
+        params.append("relation_sonicKey.distributor", monitorFilters?.distributor?.name);
     }
     if (monitorFilters?.encodedStartDate) {
         let startOfEncodedDate = moment(monitorFilters?.encodedStartDate).startOf("days").toISOString()
@@ -69,7 +69,7 @@ export const getMonitorDashboardDataAction = (startDate, endDate, limit = 10, so
         }
     }
 
-    if (monitorFilters?.company) params.append("company", monitorFilters?.company);
+    if (monitorFilters?.company?._id) params.append("company", monitorFilters?.company?._id);
     if (monitorFilters?.user) {
         additionalFilter.$or.push({ "relation_owner._id": monitorFilters?.user }, { "createdBy": monitorFilters?.user })
     }
@@ -134,11 +134,11 @@ export const getMonitorDashboardExportAction = (format, startDate, endDate, limi
     if (monitorFilters?.song) {
         params.append("relation_sonicKey.originalFileName", `/${monitorFilters?.song}/i`);
     }
-    if (monitorFilters?.label) {
-        params.append("relation_sonicKey.label", `/${monitorFilters?.label}/i`);
+    if (monitorFilters?.label?.name) {
+        params.append("relation_sonicKey.label", monitorFilters?.label?.name);
     }
-    if (monitorFilters?.distributor) {
-        params.append("relation_sonicKey.distributor", `/${monitorFilters?.distributor}/i`);
+    if (monitorFilters?.distributor?.name) {
+        params.append("relation_sonicKey.distributor", monitorFilters?.distributor?.name);
     }
     if (monitorFilters?.encodedStartDate) {
         let startOfEncodedDate = moment(monitorFilters?.encodedStartDate).startOf("days").toISOString()
@@ -151,7 +151,7 @@ export const getMonitorDashboardExportAction = (format, startDate, endDate, limi
         }
     }
 
-    if (monitorFilters?.company) params.append("relation_company._id", monitorFilters?.company);
+    if (monitorFilters?.company?._id) params.append("company", monitorFilters?.company?._id);
     if (monitorFilters?.user) {
         additionalFilter.$or.push({ "relation_owner._id": monitorFilters?.user }, { "createdBy": monitorFilters?.user })
     }

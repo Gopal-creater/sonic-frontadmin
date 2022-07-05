@@ -60,8 +60,8 @@ export const fetchLicenceKeys = (limit, page) => {
         params.append("suspended", licenseFilter?.status === "Active" ? false : true)
     }
 
-    if (licenseFilter?.company) {
-        params.append("company", licenseFilter?.company);
+    if (licenseFilter?.company?._id) {
+        params.append("company", licenseFilter?.company?._id);
     }
 
     if (licenseFilter?.user) {

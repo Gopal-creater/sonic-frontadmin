@@ -50,7 +50,7 @@ export const getAllSonickeysActions = (limit, page) => {
     if (sonicKeyData?.distributor?.name) {
         params.append("distributor", sonicKeyData?.distributor?.name);
     }
-    if (sonicKeyData?.company) params.append("relation_company._id", sonicKeyData?.company);
+    if (sonicKeyData?.company?._id) params.append("relation_company._id", sonicKeyData?.company?._id);
     if (sonicKeyData?.user) {
         additionalFilter.$or.push({ "relation_owner._id": sonicKeyData?.user }, { "createdBy": sonicKeyData?.user })
     }

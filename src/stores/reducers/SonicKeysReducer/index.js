@@ -15,7 +15,7 @@ const initialState = {
         title: "",
         label: {},
         distributor: {},
-        company: "",
+        company: {},
         user: ""
     },
 };

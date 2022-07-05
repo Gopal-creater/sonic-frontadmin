@@ -12,10 +12,13 @@ import AppButton from '../../../components/common/AppButton/AppButton';
 import { StyledTextField } from '../../../StyledComponents/StyledAppTextInput/StyledAppTextInput';
 import { fetchLicenceKeys } from '../../../stores/actions/licenceKey';
 import { licenseType, status } from '../../../constants/constants';
+import AppAutoComplete from '../../../components/common/AutoComplete/AppAutoComplete';
+import { getCompanyNameAction } from '../../../stores/actions/picker/titlePicker.action';
 
 export default function LicenseFilter({ closeDialog }) {
     const dispatch = useDispatch();
     const license = useSelector(state => state.licenceKey);
+    const company = useSelector(state => state.company)
 
     const handleFilter = (e) => {
         e.preventDefault();
@@ -38,7 +41,7 @@ export default function LicenseFilter({ closeDialog }) {
                     <FilterForm>
                         <StyledTextField
                             fullWidth
-                            label="License name"
+                            label="License Name"
                             value={license?.filters?.name}
                             onChange={(e) => dispatch({ type: actionTypes.LIC_KEY_FILTER, data: { ...license?.filters, name: e.target.value } })}
                             InputLabelProps={{
@@ -66,7 +69,7 @@ export default function LicenseFilter({ closeDialog }) {
                     <FilterForm>
                         <CustomDropDown
                             id="account-type"
-                            labelText="Account type"
+                            labelText="Account Type"
                             formControlProps={{
                                 fullWidth: true
                             }}
@@ -95,17 +98,19 @@ export default function LicenseFilter({ closeDialog }) {
                         />
                     </FilterForm>
 
-                    <FilterForm>
-                        <StyledTextField
-                            fullWidth
-                            label="Company"
+                    <FilterForm style={{ marginTop: '20px' }}>
+                        <AppAutoComplete
+                            setAutoComPleteAction={(value) => dispatch(getCompanyNameAction(value))}
+                            setAutoCompleteOptions={(option => option?.name || "")}
+                            setAutoCompleteOptionsLabel={(option => option?._id || "")}
+                            loading={company?.companySearch?.loading}
+                            data={company?.companySearch?.data?.docs}
+                            error={company?.companySearch?.error}
+                            getSelectedValue={(e, v) => dispatch({ type: actionTypes.LIC_KEY_FILTER, data: { ...license?.filters, company: v } })}
+                            placeholder={"Company Name"}
                             value={license?.filters?.company}
-                            onChange={(e) => dispatch({ type: actionTypes.LIC_KEY_FILTER, data: { ...license?.filters, company: e.target.value } })}
-                            InputLabelProps={{
-                                style: {
-                                    fontFamily: theme.fontFamily.nunitoSansBold
-                                }
-                            }}
+                            color={theme.colors.secondary.grey}
+                            fontFamily={theme.fontFamily.nunitoSansBold}
                         />
                     </FilterForm>
 

@@ -38,7 +38,7 @@ export default function CompanyFilter({ closeDialog }) {
                     <FilterForm>
                         <StyledTextField
                             fullWidth
-                            label="Company name"
+                            label="Company Name"
                             value={company?.filters?.companyName}
                             onChange={(e) => dispatch({ type: actionTypes.SET_COMPANIES_FILTERS, data: { ...company?.filters, companyName: e.target.value } })}
                             InputLabelProps={{
@@ -52,7 +52,7 @@ export default function CompanyFilter({ closeDialog }) {
                     <FilterForm>
                         <CustomDropDown
                             id="company-type"
-                            labelText="Company type"
+                            labelText="Company Type"
                             formControlProps={{
                                 fullWidth: true
                             }}

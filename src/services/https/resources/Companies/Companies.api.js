@@ -17,5 +17,5 @@ export const getCompanyEncodes = (params) => {
 }
 
 export const getCompanyEncodesExports = (format, params) => {
-    return AppWebRequest(`/companies/export/encodes-by-companies/${format}`, "get", { params: params })
+    return AppWebRequest(`/companies/export/encodes-by-companies/${format}`, "get", { params: params, responseType: "blob" })
 }

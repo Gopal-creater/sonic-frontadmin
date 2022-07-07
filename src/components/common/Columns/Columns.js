@@ -65,6 +65,8 @@ export default function Columns({ columns }) {
             .replace(/^[^ ]/g, match => (match.toUpperCase()));
     }
 
+    const columnSelector = filterColumns?.searchedColumn?.filter((itm) => itm?.title !== "ACTION");
+
     return (
         <Grid>
             <AppButton
@@ -116,7 +118,7 @@ export default function Columns({ columns }) {
                         </div>
                         :
                         filterColumns?.searchedColumn?.length > 0 ?
-                            filterColumns?.searchedColumn?.map((col, index) => {
+                            columnSelector?.map((col, index) => {
                                 const isChecked = selectedColumn(col?.title);
                                 return (
                                     <ColumnMenuItem key={index}>
@@ -128,7 +130,7 @@ export default function Columns({ columns }) {
                                                     onChange={(e) => handleColumns(e, col?.title)}
                                                 />
                                             }
-                                            label={formatString(col?.title)}
+                                            label={col?.title !== "ISRC" && col?.title !== "ISWC" ? formatString(col?.title) : col?.title}
                                         />
                                     </ColumnMenuItem>
                                 )

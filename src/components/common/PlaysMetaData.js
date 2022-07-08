@@ -10,6 +10,7 @@ import moment from 'moment'
 import { log } from '../../utils/app.debug'
 import { userRoles } from '../../constants/constants'
 import { useSelector } from 'react-redux'
+import { getSKSIDFromDetectionOrigin } from '../../utils/HelperMethods'
 
 function PlaysMetaData(props) {
 
@@ -86,10 +87,10 @@ function PlaysMetaData(props) {
                             <TCell cell1={true}>SONICKEY</TCell>
                             <TCell cell1={false}>{state?.playsData?.sonicKey?.sonicKey || "---"}</TCell>
                         </TableRow>
-                        {/* <TableRow>
+                        <TableRow>
                             <TCell cell1={true}>SK/SID</TCell>
-                            <TCell cell1={false}>{"---"}</TCell>
-                        </TableRow> */}
+                            <TCell cell1={false}>{getSKSIDFromDetectionOrigin(state?.playsData?.detectionOrigins)}</TCell>
+                        </TableRow>
                         <TableRow>
                             <TCell cell1={true}>VERSION</TCell>
                             <TCell cell1={false}>{state?.playsData?.sonicKey?.track?.version || "---"}</TCell>

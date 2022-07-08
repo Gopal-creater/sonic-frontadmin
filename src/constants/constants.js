@@ -1418,7 +1418,7 @@ export const playsTableHeads = [
   { title: "COUNTRY", orderBy: "country", sortBy: "radioStation.country", isAscending: null, isActive: false },
   { title: "TRACK ID", orderBy: "trackId", sortBy: "sonicKey.track", isAscending: null, isActive: false },
   { title: "SONICKEY", orderBy: "sonicKey", sortBy: "sonicKey.sonicKey", isAscending: null, isActive: false },
-  // { title: "SK/SID", orderBy: "", sortBy: "", isAscending: null, isActive: false },
+  { title: "SK/SID", orderBy: "", sortBy: "", isAscending: null, isActive: false },
   { title: "VERSION", orderBy: "version", sortBy: "sonicKey.version", isAscending: null, isActive: false },
   { title: "DISTRIBUTOR", orderBy: "distributor", sortBy: "sonicKey.distributor", isAscending: null, isActive: false },
   { title: "LABEL", orderBy: "label", sortBy: "sonicKey.label", isAscending: null, isActive: false },
@@ -1564,6 +1564,17 @@ export const channel = [
   { name: "PORTAL" },
   { name: "MOBILE" },
 ]
+
+export const detectionOrigins = {
+  SONICKEY: {
+    name: "SONICKEY",
+    shortName: "SK"
+  },
+  FINGERPRINT: {
+    name: "FINGERPRINT",
+    shortName: "SID"
+  }
+}
 
 export const accountType = [
   { name: "Partner" },

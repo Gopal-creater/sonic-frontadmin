@@ -86,13 +86,13 @@ export default function ArtistTable({ data, artistTableHeads, onArtistSorting })
                                                 {row?.artistName || "---"}
                                             </StyledTableData>
                                             <StyledTableData >
-                                                {row?.plays || "---"}
+                                                {row?.plays || "0"}
                                             </StyledTableData>
                                             <StyledTableData>
-                                                {row?.uniquePlaysCount || "---"}
+                                                {row?.uniquePlaysCount || "0"}
                                             </StyledTableData>
-                                            <StyledTableData >{row?.radioStation || "---"}</StyledTableData>
-                                            <StyledTableData >{row?.country || "---"}</StyledTableData>
+                                            <StyledTableData >{row?.radioStation || "0"}</StyledTableData>
+                                            <StyledTableData >{row?.country || "0"}</StyledTableData>
                                         </StyledTableRow>
                                     )
                                 })}

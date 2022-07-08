@@ -87,9 +87,9 @@ export default function RadioStationTable({ data, radioStationTableHeads, onRadi
                                                 {row?.radioStation || "---"}
                                             </StyledTableData>
                                             <StyledTableData >{`${row?.country}` || "---"}</StyledTableData>
-                                            <StyledTableData >{`${row?.playsCount}` || "---"}</StyledTableData>
-                                            <StyledTableData >{`${row?.uniquePlays}` || "---"}</StyledTableData>
-                                            <StyledTableData >{`${row?.artistsCount}` || "---"}</StyledTableData>
+                                            <StyledTableData >{`${row?.playsCount}` || "0"}</StyledTableData>
+                                            <StyledTableData >{`${row?.uniquePlays}` || "0"}</StyledTableData>
+                                            <StyledTableData >{`${row?.artistsCount}` || "0"}</StyledTableData>
                                         </StyledTableRow>
                                     )
                                 })}

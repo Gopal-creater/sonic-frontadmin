@@ -23,6 +23,7 @@ import theme from '../../../../../theme';
 import CloseIcon from '@material-ui/icons/Close';
 import PlaysMetaData from '../../../../../components/common/PlaysMetaData';
 import { SelectedColumn } from '../../../../../components/common/Columns/component/SelectedColumn';
+import { getSKSIDFromDetectionOrigin } from '../../../../../utils/HelperMethods';
 
 const createHeaders = (headers) => {
     return headers.map((item) => ({
@@ -320,9 +321,11 @@ export default function DashboardTable({ data, stableTableHead }) {
                                                     </TableDataColumn>
                                                 }
 
-                                                {/* <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
-                                        {0}
-                                    </TableDataColumn> */}
+                                                {SelectedColumn("SK/SID") &&
+                                                    <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
+                                                        {getSKSIDFromDetectionOrigin(row?.detectionOrigins)}
+                                                    </TableDataColumn>
+                                                }
 
                                                 {SelectedColumn("VERSION") &&
                                                     <TableDataColumn bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>

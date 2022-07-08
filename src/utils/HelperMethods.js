@@ -2,6 +2,7 @@ import { format } from "date-fns";
 import { log } from "./app.debug";
 
 import moment from "moment";
+import { detectionOrigins } from "../constants/constants";
 
 export function todayRange() {
   let today = moment().startOf("day").format("YYYY-MM-DD")
@@ -35,3 +36,15 @@ export function yearRange() {
   return `${today},${yearBack}`;
 }
 
+export const getSKSIDFromDetectionOrigin = (detectionOriginsArr) => {
+  var skSid = []
+  if (detectionOriginsArr && detectionOriginsArr?.length > 0) {
+    detectionOriginsArr.forEach(origin => {
+      if (origin === detectionOrigins.SONICKEY.name) skSid.push(detectionOrigins.SONICKEY.shortName)
+      if (origin === detectionOrigins.FINGERPRINT.name) skSid.push(detectionOrigins.FINGERPRINT.shortName)
+    });
+  } else {
+    skSid = [detectionOrigins.SONICKEY.shortName]
+  }
+  return skSid.join(", ")
+}

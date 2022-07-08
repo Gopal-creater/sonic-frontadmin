@@ -88,10 +88,10 @@ export default function TracksTable({ data, trackTableHeads, onTrackSorting }) {
                                                 {(row?.trackName || "---")}
                                             </StyledTableData>
                                             <StyledTableData >
-                                                {(row?.plays || "---")}
+                                                {(row?.plays || "0")}
                                             </StyledTableData>
-                                            <StyledTableData >{(row?.radioStation || "---")}</StyledTableData>
-                                            <StyledTableData >{(row?.country || "---")}</StyledTableData>
+                                            <StyledTableData >{(row?.radioStation || "0")}</StyledTableData>
+                                            <StyledTableData >{(row?.country || "0")}</StyledTableData>
                                         </StyledTableRow>
                                     )
                                 })}

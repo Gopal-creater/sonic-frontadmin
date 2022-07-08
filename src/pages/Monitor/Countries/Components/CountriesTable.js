@@ -89,10 +89,10 @@ export default function CountriesTable({ data, countriesTableHeads, onCountriesS
                                             >
                                                 {row.country}
                                             </StyledTableData>
-                                            <StyledTableData align="center">{row.plays}</StyledTableData>
-                                            <StyledTableData align="center">{row.tracks}</StyledTableData>
-                                            <StyledTableData align="center">{row.artists}</StyledTableData>
-                                            <StyledTableData align="center">{row.radioStations}</StyledTableData>
+                                            <StyledTableData align="center">{row.plays || "0"}</StyledTableData>
+                                            <StyledTableData align="center">{row.tracks || "0"}</StyledTableData>
+                                            <StyledTableData align="center">{row.artists || "0"}</StyledTableData>
+                                            <StyledTableData align="center">{row.radioStations || "0"}</StyledTableData>
 
                                         </StyledTableRow>
                                     )

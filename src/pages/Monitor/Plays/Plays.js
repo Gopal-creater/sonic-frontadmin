@@ -64,7 +64,7 @@ export default function Plays() {
                 trackId: data?.sonicKey?.track,
                 fileType: data?.sonicKey?.contentFileType,
                 description: data?.sonicKey?.contentDescription,
-
+                detectionOrigins: data?.detectionOrigins
             }
         })
         return stableTableData

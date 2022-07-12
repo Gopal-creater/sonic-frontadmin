@@ -4,12 +4,35 @@ import FilterDialog from './components/FilterDialog';
 import { Container } from './Filter.styled';
 import AppButton from '../AppButton/AppButton';
 
-export default function FilterCreate({ filterComponent, openFilter = true, createComponent, btnTitle }) {
-
+export default function FilterCreate({
+    subscribedStation,
+    openSubscribed = true,
+    filterComponent,
+    openFilter = true,
+    createComponent,
+    btnTitle
+}) {
     return (
         <Container container>
             <Grid item></Grid>
             <Grid item container justifyContent='flex-end' xs={12} sm={6} md={6}>
+                <Grid item>
+                    {subscribedStation && openSubscribed ? (
+                        <FilterDialog title={"Subscribe"}>
+                            {({ close }) => {
+                                var componentInsideDialogMoreProps = React.cloneElement(
+                                    subscribedStation,
+                                    { closeDialog: close }
+                                );
+                                return (
+                                    <Grid>
+                                        {componentInsideDialogMoreProps}
+                                    </Grid>
+                                );
+                            }}
+                        </FilterDialog>
+                    ) : null}
+                </Grid>
                 <Grid item>
                     {filterComponent && openFilter ? (
                         <FilterDialog>

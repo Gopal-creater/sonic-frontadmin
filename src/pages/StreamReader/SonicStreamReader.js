@@ -13,6 +13,7 @@ import { MainContainer } from "../../StyledComponents/StyledPageContainer";
 import theme from "../../theme";
 import StreamReaderFilter from "./components/StreamReaderFilter";
 import StreamReaderTable from "./components/StreamReaderTable";
+import SubscribeStation from "./components/SubscribedStation";
 
 export default function SonicStreamReader() {
     const dispatch = useDispatch();
@@ -37,6 +38,7 @@ export default function SonicStreamReader() {
             </Grid>
 
             <FilterCreate
+                subscribedStation={<SubscribeStation />}
                 filterComponent={<StreamReaderFilter />}
             />
 

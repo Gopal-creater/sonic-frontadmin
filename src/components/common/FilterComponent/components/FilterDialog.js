@@ -19,6 +19,7 @@ export default function CustomDialog({
     open,
     onClose,
     children,
+    title,
     ...props
 }) {
     const [isOpen, setIsOpen] = React.useState(open || false);
@@ -38,16 +39,16 @@ export default function CustomDialog({
                 <AppButton
                     variant="none"
                     fontSize={theme.fontSize.h4}
-                    startIcon={<TuneRounded />}
+                    startIcon={!title && <TuneRounded />}
                 >
-                    Filter
+                    {title || "Filter"}
                 </AppButton>
             </FilterExport>
             <MUIDialog
                 fullWidth
                 className={classes.root}
                 open={isOpen}
-                maxWidth="sm"
+                maxWidth={title ? "md" : "sm"}
                 // onClose={handleClose}
                 aria-labelledby="alert-dialog-slide-title"
                 aria-describedby="alert-dialog-slide-description"

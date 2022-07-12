@@ -21,6 +21,16 @@ export const FilterItems = styled(Grid)`
     }
 `
 
+export const SubscribeItems = styled(Grid)`
+    padding: 0px 20px 0px 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 100px;
+    grid-gap: 20px;
+    @media (max-width: 600px) {
+        grid-template-columns: 1fr;
+    }
+`
+
 export const FilterForm = styled(FormControl)`
     width: 100%;
 `

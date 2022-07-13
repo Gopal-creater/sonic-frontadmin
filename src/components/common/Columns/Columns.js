@@ -130,7 +130,7 @@ export default function Columns({ columns }) {
                                                     onChange={(e) => handleColumns(e, col?.title)}
                                                 />
                                             }
-                                            label={col?.title !== "ISRC" && col?.title !== "ISWC" && col.title !== "SK/SID" ? formatString(col?.title) : col?.title}
+                                            label={col?.title === "SK COUNT" ? "SK Count" : col?.title !== "ISRC" && col?.title !== "ISWC" && col.title !== "SK/SID" ? formatString(col?.title) : col?.title}
                                         />
                                     </ColumnMenuItem>
                                 )

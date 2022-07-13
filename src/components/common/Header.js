@@ -6,6 +6,7 @@ import LogoWithTextImg from "../../assets/images/Logo-colour-simple.png";
 // import KeyImg from "../../assets/images/key-logo.png";
 import SecondaryMenu from "./SecondaryMenu";
 import { Container } from "@material-ui/core";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -24,11 +25,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 export default function Header() {
   const classes = useStyles();
+  const navigate = useNavigate()
   return (
     <AppBar position="sticky" className={classes.appBar} elevation={0}>
       <Container maxWidth="xl" className={classes.container}>
         <Toolbar className={classes.toolBar}>
-          <img alt="logo" src={LogoWithTextImg} style={{ width: 80 }} />
+          <img alt="logo" src={LogoWithTextImg} style={{ width: 80, cursor: "pointer" }} onClick={() => navigate("/dashboard")} />
           <div style={{ flexGrow: 1 }} />
           <SecondaryMenu />
         </Toolbar>

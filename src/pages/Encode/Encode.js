@@ -140,7 +140,7 @@ export default function Encode() {
                         <FileContainer>
                             <FileSelectionContainer container>
                                 <NewFileSelectionContainer item lg sm={12}>
-                                    <H2 fontFamily={theme.fontFamily.nunitoSansMediumBold}>Encode new file with sonickey</H2>
+                                    <H2 fontFamily={theme.fontFamily.nunitoSansMediumBold}>Encode new file with SonicKey</H2>
                                     <H5 fontFamily={theme.fontFamily.nunitoSansBold} color={theme.colors.secondary.lightNavy}>
                                         Copy MetaData from existing track if needed.
                                     </H5>

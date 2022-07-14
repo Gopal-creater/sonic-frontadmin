@@ -20,7 +20,7 @@ export default function SonicStreamReader() {
     const streamReader = useSelector(state => state.streamReader);
 
     React.useEffect(() => {
-        dispatch(fetchRadioMonitorsActions(5, streamReader?.stations?.data?.page, "", ""));
+        dispatch(fetchRadioMonitorsActions(10, streamReader?.stations?.data?.page, "", ""));
     }, [])
 
     return (

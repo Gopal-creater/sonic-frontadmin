@@ -1,6 +1,6 @@
 import cogoToast from "cogo-toast";
 import { getRoleWiseID } from "../../services/https/AuthHelper";
-import { fetchRadioMonitors, getRadioMonitorsPlaysCount, getSonicStreamDetails } from "../../services/https/resources/StreamReader.api";
+import { fetchSubscribedRadioMonitors, getRadioMonitorsPlaysCount, getSonicStreamDetails } from "../../services/https/resources/StreamReader.api";
 import { log } from "../../utils/app.debug";
 import * as actionTypes from "./actionTypes";
 
@@ -19,7 +19,8 @@ export const fetchRadioMonitorsActions = (limit, page, country, radiostations) =
 
     return dispatch => {
         dispatch({ type: actionTypes.FETCH_RADIOMONITORS_LOADING })
-        fetchRadioMonitors(params).then((res) => {
+        fetchSubscribedRadioMonitors(params).then((res) => {
+            log("Radio Monitor response", res);
             dispatch({ type: actionTypes.FETCH_RADIOMONITORS_SUCCESS, data: res })
         }).catch((err) => {
             log("Radio Monitor Error", err);

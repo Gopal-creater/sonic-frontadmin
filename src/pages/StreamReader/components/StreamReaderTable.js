@@ -61,12 +61,12 @@ export default function StreamReaderTable({ data, tableHeads }) {
                                                         fontFamily: theme.fontFamily.nunitoSansMediumBold
                                                     }}
                                                 >
-                                                    {row?.name || "---"}
+                                                    {row?.radio?.name || "---"}
                                                 </StyledTableData>
                                             }
                                             {
                                                 SelectedColumn("RADIO URL") &&
-                                                <StyledTableData >{row?.website || "---"}</StyledTableData>
+                                                <StyledTableData >{row?.radio?.website || "---"}</StyledTableData>
                                             }
                                             {
                                                 SelectedColumn("ADDED DATE") &&
@@ -74,22 +74,22 @@ export default function StreamReaderTable({ data, tableHeads }) {
                                             }
                                             {
                                                 SelectedColumn("PLAYS") &&
-                                                <StyledTableData ><RadioPlays radioId={row?._id} key={row?._id} /></StyledTableData>
+                                                <StyledTableData ><RadioPlays radioId={row?.radio?._id} key={row?.radio?._id} /></StyledTableData>
                                             }
                                             {
                                                 SelectedColumn("STATUS") &&
                                                 <StyledTableData>
-                                                    {row?.isStreamStarted === true && (
+                                                    {row?.radio?.isStreamStarted === true && (
                                                         <Badge style={{ background: "rgb(229, 245, 244)", color: "rgb(72, 187, 183)", padding: 5, fontWeight: "lighter" }}>
                                                             LISTENING
                                                         </Badge>
                                                     )}
-                                                    {row?.isStreamStarted === false && row?.error === null && (
+                                                    {row?.radio?.isStreamStarted === false && row?.radio?.error === null && (
                                                         <Badge style={{ background: "rgb(244, 237, 151)", color: "rgb(183, 170, 53)", padding: 5 }}>
                                                             NOT LISTENING
                                                         </Badge>
                                                     )}
-                                                    {row?.isStreamStarted === false && row?.error !== null && (
+                                                    {row?.radio?.isStreamStarted === false && row?.radio?.error !== null && (
                                                         <Badge style={{ background: "rgb(242, 125, 162)", color: "rgb(130, 24, 13)", padding: 5 }}>
                                                             ERROR
                                                         </Badge>
@@ -100,7 +100,7 @@ export default function StreamReaderTable({ data, tableHeads }) {
                                                 SelectedColumn("ACTION") &&
                                                 <StyledTableData >
                                                     <TableMenu>
-                                                        <ActionMenuItem onClick={() => navigate(`/sonicstreamdetail/${row?._id}`, { state: row })}>View Details</ActionMenuItem>
+                                                        <ActionMenuItem onClick={() => navigate(`/sonicstreamdetail/${row?.radio?._id}`, { state: row })}>View Details</ActionMenuItem>
                                                     </TableMenu>
                                                 </StyledTableData>
                                             }

@@ -1,7 +1,6 @@
-import { Grid, Tooltip } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import styled from "styled-components";
 import theme from "../../../../../theme";
-import ReactTooltip from 'react-tooltip';
 
 export const Title = styled.h3(({ color, fontSize, fontFamily }) => ({
     "color": color || theme.colors.primary.graphite,
@@ -31,11 +30,9 @@ export const DataContainer = styled.span`
 
 export const StatsContainer = styled(Grid)`
     background-color:${theme.colors.secondary.lightTeal};
-    margin-top:5px;
     padding:15px;
-    min-height:140px;
-    min-width: 100%; 
     cursor: pointer;
+    height:100%;
     :hover{
         background-color:white;
         box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);

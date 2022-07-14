@@ -5,6 +5,7 @@ import theme from "../../../theme";
 export const CardContainer = styled.div`
     margin-top:25px;
     display: flex;
+    width:100%
 `
 
 export const TableContainer = styled(Grid)`
@@ -18,7 +19,7 @@ export const ButtonContainer = styled(Grid)`
     flex-direction:row;
     justify-content:flex-end;
     align-items:center ;
-    width:90px ;
+    width:80px ;
 `
 
 export const StyledIconButton = styled(IconButton)(({ ...props }) => (

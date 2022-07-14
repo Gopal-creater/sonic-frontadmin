@@ -20,7 +20,7 @@ export default function Stats(
                 <img src={imgSrc} alt="Status image" width={50} height={50} />
             </Grid>
 
-            <Grid item xs={8} container flexDirection="column" alignContent='space-between'>
+            <Grid item container xs={8} flexDirection="column" alignContent='space-between'>
                 <Grid item container justifyContent='flex-end'>
                     <OwnershipTitleContainer>{ownerShipTitle || ""}</OwnershipTitleContainer>
                     {

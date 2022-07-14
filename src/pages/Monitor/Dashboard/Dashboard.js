@@ -88,50 +88,48 @@ export function Dashboard() {
   }
 
   const carouselSetting = {
-    slidesToShow: 4.99,
-    slidesToScroll: 1,
-    speed: 300,
-    arrows: false,
-    infinite: true,
-    centerPadding: 0,
-
+    infinite: false,
+    speed: 500,
+    slidesToShow: 5,
+    slidesToScroll: 5,
+    initialSlide: 0,
     responsive: [
       {
         breakpoint: 1750,
         settings: {
-          slidesToShow: 4.99,
-          slidesToScroll: 1
+          slidesToShow: 4,
+          slidesToScroll: 4
         },
       },
       {
         breakpoint: 1470,
         settings: {
-          slidesToShow: 3.99,
-          slidesToScroll: 1
+          slidesToShow: 4,
+          slidesToScroll: 4
         },
       },
       {
         breakpoint: 1200,
         settings: {
-          slidesToShow: 2.99,
-          slidesToScroll: 1
+          slidesToShow: 3,
+          slidesToScroll: 3
         },
       },
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 1.99,
-          slidesToScroll: 1,
+          slidesToShow: 2,
+          slidesToScroll: 2,
         },
       },
       {
         breakpoint: 800,
         settings: {
-          slidesToShow: 0.99,
+          slidesToShow: 1,
           slidesToScroll: 1,
         },
       }
-    ],
+    ]
   }
 
   const handleCarouselLeftClick = (e) => {
@@ -151,10 +149,6 @@ export function Dashboard() {
     }
     return tableHead
   }
-
-  log("Dashboard", dashboard)
-  log("Radios", radioStation)
-  log(" monitor filter data titltle", monitor.filters)
 
   return (
     <Grid ref={dashboardTableRef}>
@@ -181,16 +175,6 @@ export function Dashboard() {
           ref={carousel}
           {...carouselSetting}
         >
-          <Stats
-            imgSrc={radio}
-            title={"Countries"}
-            ownerShipTitle="In"
-            loading={dashboard?.loading}
-            data={dashboard?.data?.myCountriesCount || "0"}
-            error={dashboard?.error}
-            pageLink="/monitor/countries"
-            helpText={helpText.countries}
-          />
           {users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
             <Stats
               imgSrc={radio}
@@ -240,6 +224,18 @@ export function Dashboard() {
             pageLink="/monitor/radio-stations"
             helpText={helpText.radioStation}
           />
+
+          <Stats
+            imgSrc={radio}
+            title={"Countries"}
+            ownerShipTitle="In"
+            loading={dashboard?.loading}
+            data={dashboard?.data?.myCountriesCount || "0"}
+            error={dashboard?.error}
+            pageLink="/monitor/countries"
+            helpText={helpText.countries}
+          />
+          <div style={{ width: "10px !important" }}></div>
         </Slider>
 
         <ButtonContainer>

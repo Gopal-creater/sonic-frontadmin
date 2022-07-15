@@ -11,7 +11,7 @@ import { fetchRadioMonitorsActions } from '../../../stores/actions/streamReader.
 import { log } from '../../../utils/app.debug';
 import AppAutoComplete from '../../../components/common/AutoComplete/AppAutoComplete';
 import theme from '../../../theme';
-import { Grid, Table, TableBody, TableContainer, TableHead, TableRow } from '@material-ui/core';
+import { Table, TableBody, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import AppCheckBox from '../../../components/common/AppCheckBox';
 import { StyledTableData, StyledTableHead } from '../../../StyledComponents/StyledTable/StyledTable';
 import Spinner from "react-bootstrap/Spinner";
@@ -71,8 +71,8 @@ export default function SubscribeStation({ closeDialog }) {
                 </div>
             </FilterHeader>
             <form onSubmit={handleFilter} style={{ height: "88%" }}>
-                <Grid container direction='column' justifyContent='space-between' style={{ height: "100%" }}>
-                    <Grid item>
+                <div style={{ height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                    <div style={{ height: "50%" }}>
                         <SubscribeItems container>
                             <FilterForm>
                                 <CustomDropDown
@@ -115,10 +115,10 @@ export default function SubscribeStation({ closeDialog }) {
                             </FilterForm>
                         </SubscribeItems>
 
-                        <TableContainer style={{ padding: '0rem 1.2rem 1rem 1.2rem', marginTop: 30 }}>
+                        <TableContainer style={{ padding: '0rem 1.2rem 1rem 1.2rem', marginTop: 30, height: '140%' }}>
                             <Table size="small">
                                 <TableHead style={{ backgroundColor: theme.colors.secondary.lightGrey }}>
-                                    <TableRow>
+                                    <TableRow style={{ position: 'sticky' }}>
                                         <StyledTableHead>Select Station</StyledTableHead>
                                         <StyledTableHead>Radio Station</StyledTableHead>
                                     </TableRow>
@@ -126,7 +126,7 @@ export default function SubscribeStation({ closeDialog }) {
                                 <TableBody>
                                     {
                                         state?.searchedRadioList?.data?.length === 0 ?
-                                            <TableRow index={1} >
+                                            <TableRow index={1} style={{ padding: "0px" }}>
                                                 <StyledTableData colspan={2} style={{ textAlign: "center" }}>No Data</StyledTableData>
                                             </TableRow>
                                             :
@@ -147,20 +147,18 @@ export default function SubscribeStation({ closeDialog }) {
                                 </TableBody>
                             </Table>
                         </TableContainer>
-                    </Grid>
+                    </div>
 
-                    <Grid item>
-                        <SubscribeButton style={{ paddingRight: 20 }}>
-                            <AppButton variant="outline" className="mx-3" onClick={() => closeDialog?.()}>
-                                Cancel
-                            </AppButton>
-                            <AppButton variant="fill" type="submit">
-                                Subscribe Stations
-                            </AppButton>
-                        </SubscribeButton>
-                    </Grid>
-                </Grid>
+                    <SubscribeButton style={{ paddingRight: 20 }}>
+                        <AppButton variant="outline" className="mx-3" onClick={() => closeDialog?.()}>
+                            Cancel
+                        </AppButton>
+                        <AppButton variant="fill" type="submit">
+                            Subscribe Stations
+                        </AppButton>
+                    </SubscribeButton>
+                </div>
             </form>
-        </SubscribeContainer>
+        </SubscribeContainer >
     )
 }

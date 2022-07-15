@@ -49,8 +49,7 @@ export const SubscribeItems = styled(Grid)`
 `
 
 export const SubscribeButton = styled(Grid)`
-    padding-right: 30px;
-    margin-top: 50px;
+    padding: 15px 30px;
     display: flex;
     justify-content: flex-end;
 `

@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 export const FilterContainer = styled(Grid)`
     padding: 20px 10px;
-    height:90vh
 `
 
 export const FilterHeader = styled(Grid)`
@@ -22,6 +21,23 @@ export const FilterItems = styled(Grid)`
     }
 `
 
+export const FilterForm = styled(FormControl)`
+    width: 100%;
+`
+
+export const FilterButton = styled(Grid)`
+    padding-right: 30px;
+    margin-top: 50px;
+    display: flex;
+    justify-content: flex-end;
+`
+
+//Subscribe Stations
+export const SubscribeContainer = styled(Grid)`
+    padding: 20px 10px;
+    height: 90vh;
+`
+
 export const SubscribeItems = styled(Grid)`
     padding: 0px 20px 0px 20px;
     display: grid;
@@ -32,11 +48,7 @@ export const SubscribeItems = styled(Grid)`
     }
 `
 
-export const FilterForm = styled(FormControl)`
-    width: 100%;
-`
-
-export const FilterButton = styled(Grid)`
+export const SubscribeButton = styled(Grid)`
     padding-right: 30px;
     margin-top: 50px;
     display: flex;

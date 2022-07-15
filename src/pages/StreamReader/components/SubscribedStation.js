@@ -50,7 +50,8 @@ export default function SubscribeStation({ closeDialog }) {
         radioList[selectedRadioIndex].checked = !radio?.checked
 
         if (radio?.checked) selectedRadioList?.push({ radio: radio?._id })
-        if (!radio?.checked) selectedRadioList?.pop({ radio: radio?._id })
+        if (!radio?.checked) selectedRadioList = selectedRadioList?.filter((item) => item.radio !== radio._id)
+
         setState({
             ...state,
             searchedRadioList: { loading: false, data: radioList },
@@ -103,7 +104,7 @@ export default function SubscribeStation({ closeDialog }) {
                     </FilterForm>
 
                     <FilterForm style={{ marginTop: 10 }}>
-                        <AppButton style={{ width: "90px", height: "40px" }} variant="fill" onClick={searchRadioStation}>
+                        <AppButton style={{ width: "100px", height: "40px" }} variant="fill" onClick={searchRadioStation}>
                             {
                                 state.searchedRadioList.loading ?
                                     <Spinner animation="border" role="status" size="sm" />
@@ -146,7 +147,7 @@ export default function SubscribeStation({ closeDialog }) {
                     </Table>
                 </TableContainer>
 
-                <FilterButton style={{ paddingRight: 20 }}>
+                <FilterButton style={{ paddingRight: 20, paddingBottom: 20 }}>
                     <AppButton variant="outline" className="mx-3" onClick={() => closeDialog?.()}>
                         Cancel
                     </AppButton>

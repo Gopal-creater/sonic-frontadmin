@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 export const FilterContainer = styled(Grid)`
     padding: 20px 10px;
+    height:90vh
 `
 
 export const FilterHeader = styled(Grid)`

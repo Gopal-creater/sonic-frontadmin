@@ -14,19 +14,19 @@ import theme from '../../../theme';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import AppCheckBox from '../../../components/common/AppCheckBox';
 import { StyledTableData, StyledTableHead, StyledTableRow } from '../../../StyledComponents/StyledTable/StyledTable';
+import Spinner from "react-bootstrap/Spinner";
 
 export default function SubscribeStation({ closeDialog }) {
     const dispatch = useDispatch();
     const radioStations = useSelector(state => state.radioStations)
     const streamReader = useSelector(state => state.streamReader)
 
-    const filteredRadioStation = radioStations.data?.filter((data) => {
-        if (streamReader.filters.country === "") {
-            return data
-        }
-        if (data.country === streamReader.filters.country) {
-            return data
-        }
+    const [state, setState] = React.useState({
+        searchedRadioList: {
+            loading: false,
+            data: []
+        },
+        selectedRadioList: []
     })
 
     const handleFilter = (e) => {
@@ -34,6 +34,31 @@ export default function SubscribeStation({ closeDialog }) {
         dispatch(fetchRadioMonitorsActions(5, 1, streamReader?.filters?.country, streamReader?.filters?.radioStation));
         closeDialog?.();
     }
+
+    const searchRadioStation = async () => {
+        setState({ ...state, searchedRadioList: { loading: true, data: [] } })
+        const searchedRadioStations = await Promise.all(radioStations?.data?.filter((radio) => streamReader?.filters?.country === radio?.country)?.map(radio => ({ ...radio, checked: false })))
+        setState({
+            ...state, searchedRadioList: { loading: false, data: searchedRadioStations }
+        })
+    }
+
+    const onAppCheckBoxChange = (radio) => {
+        let radioList = state?.searchedRadioList?.data
+        let selectedRadioList = state?.selectedRadioList
+        const selectedRadioIndex = radioList?.findIndex(obj => obj?._id === radio?._id)
+        radioList[selectedRadioIndex].checked = !radio?.checked
+
+        if (radio?.checked) selectedRadioList?.push({ radio: radio?._id })
+        if (!radio?.checked) selectedRadioList?.pop({ radio: radio?._id })
+        setState({
+            ...state,
+            searchedRadioList: { loading: false, data: radioList },
+            selectedRadioList: selectedRadioList
+        })
+    }
+
+    log("State", state)
 
     return (
         <FilterContainer>
@@ -78,42 +103,45 @@ export default function SubscribeStation({ closeDialog }) {
                     </FilterForm>
 
                     <FilterForm style={{ marginTop: 10 }}>
-                        <AppButton variant="fill" onClick={() => { }}>
-                            Search
+                        <AppButton style={{ width: "90px", height: "40px" }} variant="fill" onClick={searchRadioStation}>
+                            {
+                                state.searchedRadioList.loading ?
+                                    <Spinner animation="border" role="status" size="sm" />
+                                    : "Search"
+                            }
                         </AppButton>
                     </FilterForm>
-
-                    {/* <FilterForm>
-                        <CustomDropDown
-                            id="radioStation"
-                            labelText="Radio Station"
-                            formControlProps={{
-                                fullWidth: true
-                            }}
-                            inputProps={{
-                                value: streamReader?.filters?.radioStation,
-                                onChange: (e) => dispatch({ type: actionTypes.FETCH_RADIOMONITORS_FILTERS, data: { ...streamReader?.filters, radioStation: e.target.value } }),
-                                disabled: filteredRadioStation?.length === 0 ? true : false
-                            }}
-                            data={filteredRadioStation || []}
-                            radio={true}
-                        />
-                    </FilterForm> */}
                 </SubscribeItems>
 
-                <TableContainer style={{ padding: '0rem 1.2rem 1rem 1.2rem', marginTop: 10 }}>
-                    <Table>
-                        <TableHead>
+                <TableContainer style={{ padding: '0rem 1.2rem 1rem 1.2rem', marginTop: 30 }}>
+                    <Table size="small">
+                        <TableHead style={{ backgroundColor: theme.colors.secondary.lightGrey }}>
                             <TableRow>
                                 <StyledTableHead>Select Station</StyledTableHead>
                                 <StyledTableHead>Radio Station</StyledTableHead>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            <StyledTableRow>
-                                <StyledTableData><AppCheckBox /></StyledTableData>
-                                <StyledTableData>Radio name</StyledTableData>
-                            </StyledTableRow>
+                            {
+                                state?.searchedRadioList?.data?.length === 0 ?
+                                    <TableRow index={1} >
+                                        <StyledTableData colspan={2} style={{ textAlign: "center" }}>No Data</StyledTableData>
+                                    </TableRow>
+                                    :
+                                    state?.searchedRadioList?.data?.map((radio, index) => {
+                                        return (
+                                            <TableRow style={{ padding: "0px" }} index={index} >
+                                                <StyledTableData>
+                                                    <AppCheckBox
+                                                        onChange={() => onAppCheckBoxChange(radio)}
+                                                        value={radio?.checked}
+                                                    />
+                                                </StyledTableData>
+                                                <StyledTableData>{radio?.name}</StyledTableData>
+                                            </TableRow>
+                                        )
+                                    })
+                            }
                         </TableBody>
                     </Table>
                 </TableContainer>

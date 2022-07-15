@@ -1,5 +1,5 @@
 import cogoToast from "cogo-toast";
-import { getRoleWiseID } from "../../services/https/AuthHelper";
+import { getRoleWiseID, getUserId } from "../../services/https/AuthHelper";
 import { fetchSubscribedRadioMonitors, getRadioMonitorsPlaysCount, getSonicStreamDetails } from "../../services/https/resources/StreamReader.api";
 import { log } from "../../utils/app.debug";
 import * as actionTypes from "./actionTypes";
@@ -9,6 +9,20 @@ export const fetchRadioMonitorsActions = (limit, page, country, radiostations) =
     params.append("limit", limit);
     params.append("page", page);
     params.append("skip", page > 1 ? (page - 1) * limit : 0)
+    let userRoleWiseId = getRoleWiseID()
+    let additionalFilter = { $or: [] }
+
+    if (userRoleWiseId?.partner) {
+        additionalFilter = {
+            $or: [{ "company.partner": userRoleWiseId?.partner }, { "owner.partner": userRoleWiseId?.partner }, { "owner._id": getUserId() }, { "partner._id": userRoleWiseId?.partner }]
+        }
+    }
+    if (userRoleWiseId?.company) {
+        additionalFilter = {
+            $or: [{ "company._id": userRoleWiseId?.company }, { "owner._id": getUserId() }, { "owner.company": userRoleWiseId?.company }]
+        }
+    }
+    if (userRoleWiseId?.owner) params.append("owner", userRoleWiseId?.owner)
 
     if (country) {
         params.append('country', country);
@@ -16,6 +30,8 @@ export const fetchRadioMonitorsActions = (limit, page, country, radiostations) =
     if (radiostations) {
         params.append('name', radiostations);
     }
+
+    if (additionalFilter.$or.length !== 0) params.append("relation_filter", JSON.stringify(additionalFilter));
 
     return dispatch => {
         dispatch({ type: actionTypes.FETCH_RADIOMONITORS_LOADING })

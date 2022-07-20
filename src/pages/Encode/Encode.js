@@ -26,6 +26,7 @@ import { getRoleWiseID } from '../../services/https/AuthHelper';
 import * as mm from "music-metadata-browser";
 import cogoToast from 'cogo-toast';
 import TrackFilter from './Components/TrackFilter';
+import CustomToolTip from '../../components/common/CustomToolTip';
 
 export default function Encode() {
     const [state, setState] = React.useState({
@@ -175,7 +176,9 @@ export default function Encode() {
                                             helperText="Search your company records"
                                         />
                                         <Grid container justifyContent='flex-end' style={{ marginRight: "-30px" }}>
-                                            <HelpOutlineOutlinedIcon style={{ color: theme.colors.secondary.lightNavy, fontSize: "15px" }} />
+                                            <CustomToolTip title={"Use this when you want to encode a track multiple times, each with a unique SonicKey' to share with different distributors. Saves time inputting data respectively."} placement={"bottom-end"} arrow marginTop={"30px"}>
+                                                <HelpOutlineOutlinedIcon style={{ color: theme.colors.secondary.lightNavy, fontSize: "15px" }} />
+                                            </CustomToolTip>
                                         </Grid>
                                     </AppAutoCompleteContainer>
                                 </ExistingFileSelectionContainer>

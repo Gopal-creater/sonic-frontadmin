@@ -1,8 +1,8 @@
 export const routeList = [
-    { path: "/dashboard", title: "Dashboard" },
-    { path: "/encode", title: "Encode" },
-    { path: "/decode", title: "Decode" },
-    { path: "/encoded-tracks", title: "Encoded Tracks" },
+    { path: "/dashboard", title: "Dashboard", helperText: "A complete overview of how your music is performing." },
+    { path: "/encode", title: "Encode", helperText: "Upload your audio file here, manage its metadata and let the tracking begin." },
+    { path: "/decode", title: "Decode", helperText: "Use this section to double-check if your audio file has already been encoded." },
+    { path: "/encoded-tracks", title: "Encoded Tracks", helperText: "A register of all your encoded tracks." },
     {
         // path: "/dashboard",
         title: "Monitor",

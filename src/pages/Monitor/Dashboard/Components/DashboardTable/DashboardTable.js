@@ -5,25 +5,19 @@ import {
 } from './TableStyle';
 import { useRef } from "react";
 import { log } from '../../../../../utils/app.debug';
-import { playsTableHeads, userRoles } from '../../../../../constants/constants';
+import { userRoles } from '../../../../../constants/constants';
 import { useTheme } from 'styled-components';
 import moment from 'moment';
-import MetaDataDialog from '../../../../../components/common/MetaDataDialog';
 import { useSelector } from 'react-redux';
 import CustomToolTip from '../../../../../components/common/CustomToolTip';
-import { Grid, TableCell, TableRow } from '@material-ui/core';
+import { TableRow } from '@material-ui/core';
 import { StyledTableData } from '../../../../../StyledComponents/StyledTable/StyledTable';
 import TableMenu from '../../../../../components/common/Table/components/TableMenu';
 import { ActionMenuItem } from '../../../../../components/common/Table/TableStyled';
-import PopUp from '../../../../../components/common/PopUp';
-import { H3, H4, H6 } from '../../../../../StyledComponents/StyledHeadings';
-import { Table } from 'react-bootstrap';
-import AppButton from '../../../../../components/common/AppButton/AppButton';
-import theme from '../../../../../theme';
-import CloseIcon from '@material-ui/icons/Close';
 import PlaysMetaData from '../../../../../components/common/PlaysMetaData';
 import { SelectedColumn } from '../../../../../components/common/Columns/component/SelectedColumn';
 import { getSKSIDFromDetectionOrigin } from '../../../../../utils/HelperMethods';
+import HelpOutline from '@material-ui/icons/HelpOutline';
 
 const createHeaders = (headers) => {
     return headers.map((item) => ({
@@ -180,6 +174,11 @@ export default function DashboardTable({ data, stableTableHead }) {
                                             >
                                                 {text}
                                                 {text !== "ACTION" && <i className="fa fa-sort" style={{ marginLeft: "5px" }}></i>}
+                                                {text === "SK/SID" &&
+                                                    <CustomToolTip title={"Indicates method of detection, SK = SonicKey, SID = SonicProfile, SK/SID = Both SonicKey and SonicID."} placement={"bottom-end"} arrow marginTop={"25px"}>
+                                                        <HelpOutline style={{ fontSize: "13px", marginLeft: 5 }} />
+                                                    </CustomToolTip>
+                                                }
                                                 {
                                                     index === 0 || index === 1 ?
                                                         "" :

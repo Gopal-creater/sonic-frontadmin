@@ -38,7 +38,7 @@ export default function SonicStreamReader() {
             </Grid>
 
             <FilterCreate
-                subscribedStation={<SubscribeStation />}
+                // subscribedStation={<SubscribeStation />}
                 filterComponent={<StreamReaderFilter />}
             />
 

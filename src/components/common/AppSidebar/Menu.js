@@ -10,6 +10,8 @@ import hoverKey from "../../../assets/images/key-logo.png"
 import theme from '../../../theme';
 import { useSelector } from 'react-redux';
 import { userRoles } from '../../../constants/constants';
+import CustomToolTip from '../CustomToolTip';
+import HelpOutline from '@material-ui/icons/HelpOutline';
 
 export default function Menu({ menu }) {
     const users = useSelector(state => state.user)
@@ -41,6 +43,11 @@ export default function Menu({ menu }) {
                     <NavIcon src={sonickeyGrey} width="15px" height="15px" className={classes.sideBarLinkIcon} />
                     <SideBarLabel>
                         {menu.title}
+                        {menu?.helperText &&
+                            <CustomToolTip title={menu.helperText} placement={"bottom-start"} arrow marginTop={"25px"}>
+                                <HelpOutline style={{ fontSize: "12px", marginLeft: 5 }} />
+                            </CustomToolTip>
+                        }
                     </SideBarLabel>
                     <Grid>
                         {SubMenus() && subMenu ? <ArrowDropUpIcon /> : SubMenus() ? <ArrowDropDownIcon /> : null}

@@ -8,9 +8,9 @@ import { userRoles } from '../../../../constants/constants';
 import TableMenu from '../../../../components/common/Table/components/TableMenu';
 import { ActionMenuItem } from '../../../../components/common/Table/TableStyled';
 import PlaysMetaData from '../../../../components/common/PlaysMetaData';
-import { log } from '../../../../utils/app.debug';
 import { SelectedColumn } from '../../../../components/common/Columns/component/SelectedColumn';
 import { getSKSIDFromDetectionOrigin } from '../../../../utils/HelperMethods';
+import HelpOutline from '@material-ui/icons/HelpOutline';
 
 const createHeaders = (headers) => {
     return headers.map((item) => ({
@@ -148,6 +148,11 @@ export default function PlaysTable({ data, playsTableHeads, onPlaysSorting }) {
                                         >
                                             {text}
                                             {text !== "ACTION" && <i className="fa fa-sort" style={{ marginLeft: "5px" }}></i>}
+                                            {text === "SK/SID" &&
+                                                <CustomToolTip title={"Indicates method of detection, SK = SonicKey, SID = SonicProfile, SK/SID = Both SonicKey and SonicID."} placement={"bottom-end"} arrow marginTop={"25px"}>
+                                                    <HelpOutline style={{ fontSize: "13px", marginLeft: 5 }} />
+                                                </CustomToolTip>
+                                            }
                                             {
                                                 index === 0 || index === 1 ?
                                                     "" :

@@ -1,12 +1,12 @@
 import React from 'react'
 import theme from '../../../theme';
 import AppButton from '../AppButton/AppButton';
-import { FormContainer, FileInput, DragDopLabel, DragFileElement } from './DragDropFileStyle'
+import { FormContainer, FileInput, DragDopLabel } from './DragDropFileStyle'
 import iconAddSound from "../../../assets/images/icon-add-sound.png"
-import { H3, H4 } from '../../../StyledComponents/StyledHeadings';
-import { log } from '../../../utils/app.debug';
+import { H4 } from '../../../StyledComponents/StyledHeadings';
 import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
 import { Grid } from '@material-ui/core';
+import CustomToolTip from '../CustomToolTip';
 
 export default function DragDropFile({ handleFiles }) {
     const [state, setState] = React.useState({
@@ -87,7 +87,9 @@ export default function DragDropFile({ handleFiles }) {
                         </H4>
                 }
                 <Grid container justifyContent='flex-end' style={{ marginTop: "-10px" }}>
-                    <HelpOutlineOutlinedIcon style={{ color: theme.colors.secondary.lightNavy, fontSize: "15px" }} />
+                    <CustomToolTip title={"For encoding a new audio file for the first time with its own specific metadata or encoding a new file and you want to use the same metadata input for a previous file. Helpful when encoding multiple versions."} placement={"bottom-end"} arrow marginTop={"30px"}>
+                        <HelpOutlineOutlinedIcon style={{ color: theme.colors.secondary.lightNavy, fontSize: "15px" }} />
+                    </CustomToolTip>
                 </Grid>
             </DragDopLabel>
         </FormContainer>

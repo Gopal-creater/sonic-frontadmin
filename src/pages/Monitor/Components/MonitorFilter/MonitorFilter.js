@@ -228,7 +228,7 @@ export default function MonitorFilter({ closeDialog, playsBy, actions, dashboard
                 </FilterItems>
 
                 <FormControl>
-                    <Grid style={{ display: 'flex', margin: "30px 30px 0px 20px" }}>
+                    <Grid style={{ display: 'flex', margin: "30px 30px 0px 0px" }}>
                         <CustomDatePicker
                             selected={monitor?.filters?.encodedStartDate}
                             onChange={(date) => dispatch({ type: actionTypes.SET_MONITOR_FILTERS, data: { ...monitor?.filters, encodedStartDate: date } })}

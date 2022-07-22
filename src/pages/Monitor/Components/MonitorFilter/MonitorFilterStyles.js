@@ -11,6 +11,7 @@ export const FilterHeader = styled(Grid)`
 `
 
 export const FilterItems = styled(Grid)`
+    margin-top: 10px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 20px;
@@ -24,7 +25,7 @@ export const FilterForm = styled(FormControl)`
 `
 
 export const FilterButton = styled(Grid)`
-    margin-top: 50px;
+    margin-top: 30px;
     display: flex;
     justify-content: flex-end;
 `

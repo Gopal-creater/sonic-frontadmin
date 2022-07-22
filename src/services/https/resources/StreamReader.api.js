@@ -1,7 +1,7 @@
 import { AppWebRequest } from "../NetworkManager";
 
 export const fetchSubscribedRadioMonitors = (params) => {
-    return AppWebRequest(`/radiomonitors-subscription`, "get", { params: params });
+    return AppWebRequest(`/radiostations`, "get", { params: params });
 }
 
 export const getRadioMonitorsPlaysCount = (params) => {

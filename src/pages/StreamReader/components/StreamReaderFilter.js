@@ -25,7 +25,7 @@ export default function StreamReaderFilter({ closeDialog }) {
 
     const handleFilter = (e) => {
         e.preventDefault();
-        dispatch(fetchRadioMonitorsActions(5, 1, streamReader?.filters?.country, streamReader?.filters?.radioStation));
+        dispatch(fetchRadioMonitorsActions(10, 1));
         closeDialog?.();
     }
 

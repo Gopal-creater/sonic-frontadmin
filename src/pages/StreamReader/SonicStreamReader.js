@@ -11,6 +11,7 @@ import { fetchRadioMonitorsActions } from "../../stores/actions/streamReader.act
 import { H1, H4 } from "../../StyledComponents/StyledHeadings";
 import { MainContainer } from "../../StyledComponents/StyledPageContainer";
 import theme from "../../theme";
+import { log } from "../../utils/app.debug";
 import StreamReaderFilter from "./components/StreamReaderFilter";
 import StreamReaderTable from "./components/StreamReaderTable";
 import SubscribeStation from "./components/SubscribedStation";
@@ -19,8 +20,10 @@ export default function SonicStreamReader() {
     const dispatch = useDispatch();
     const streamReader = useSelector(state => state.streamReader);
 
+    log("Stream Reader", streamReader)
+
     React.useEffect(() => {
-        dispatch(fetchRadioMonitorsActions(10, streamReader?.stations?.data?.page, "", ""));
+        dispatch(fetchRadioMonitorsActions(10, streamReader?.stations?.data?.page));
     }, [])
 
     return (
@@ -61,7 +64,7 @@ export default function SonicStreamReader() {
                         <CustomPagination
                             count={streamReader?.stations?.data?.totalPages}
                             page={streamReader?.stations?.data?.page}
-                            onChange={(e, value) => dispatch(fetchRadioMonitorsActions(5, value))}
+                            onChange={(e, value) => dispatch(fetchRadioMonitorsActions(10, value))}
                         />
                     </Grid>
                 </Grid>

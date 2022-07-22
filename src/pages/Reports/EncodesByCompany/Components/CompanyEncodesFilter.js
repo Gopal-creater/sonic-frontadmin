@@ -47,7 +47,7 @@ export default function CompanyEncodesFilter({ closeDialog }) {
             </FilterHeader>
 
             <form onSubmit={handleFilter}>
-                <Grid style={{ padding: "0px 20px 0px 20px" }}>
+                <Grid style={{ marginTop: "10px" }}>
                     <AppAutoComplete
                         value={companyEncodes?.filters?.company}
                         setAutoComPleteAction={(value) => {

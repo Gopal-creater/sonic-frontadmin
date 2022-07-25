@@ -212,7 +212,7 @@ const MetaDataDailog = (props) => {
                         <TableBody>
                             <TableRow>
                                 <TableCell className={classes.tableCellOne}>TRACK ID</TableCell>
-                                <TableCell className={classes.tableCellTwo}>{values?.sonicKey?.track?._id || "---"}</TableCell>
+                                <TableCell className={classes.tableCellTwo}>{values?.sonicKey?.track || "---"}</TableCell>
                             </TableRow>
 
                             <TableRow>

@@ -139,8 +139,8 @@ export default function DecodeSuccess(props) {
               </TableRow> :
               values?.sonickeys?.data?.map((data, index) => (
                 <StyledTableRow key={index} bgColor={index % 2 !== 0 && theme.colors.secondary.tableColor}>
-                  <CustomToolTip title={data?.track?._id}>
-                    <StyledTableData>{data?.track?._id || "---"}</StyledTableData>
+                  <CustomToolTip title={data?.track}>
+                    <StyledTableData>{data?.track || "---"}</StyledTableData>
                   </CustomToolTip>
 
                   <CustomToolTip title={data?.sonicKey || "---"}>

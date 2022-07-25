@@ -32,12 +32,12 @@ export default function SonicStreamDetail() {
           <H4 color={theme.colors.primary.teal} fontFamily={theme.fontFamily.nunitoSansRegular}>
             Found {streamReader?.streamDetails?.data?.docs?.length || 0} SonicKeys in{" "}
             {state?.name} radio station {" "}
-            {state?.isStreamStarted === true && (
-              <Badge style={{ background: "rgb(229, 245, 244)", color: "rgb(72, 187, 183)", padding: 5, fontWeight: "lighter" }}>
-                LISTENING
-              </Badge>
-            )}
-            {state?.isStreamStarted === false && state?.error === null && (
+            {/* {state?.isStreamStarted === true && ( */}
+            <Badge style={{ background: "rgb(229, 245, 244)", color: "rgb(72, 187, 183)", padding: 5, fontWeight: "lighter" }}>
+              LISTENING
+            </Badge>
+            {/* )} */}
+            {/* {state?.isStreamStarted === false && state?.error === null && (
               <Badge style={{ background: "rgb(244, 237, 151)", color: "rgb(183, 170, 53)", padding: 5 }}>
                 NOT LISTENING
               </Badge>
@@ -46,7 +46,7 @@ export default function SonicStreamDetail() {
               <Badge style={{ background: "rgb(242, 125, 162)", color: "rgb(130, 24, 13)", padding: 5 }}>
                 ERROR
               </Badge>
-            )}
+            )} */}
           </H4>
         </Grid>
         <Grid item>

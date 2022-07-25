@@ -10,10 +10,11 @@ export const fetchRadioMonitorsActions = (limit = 10, page) => {
     params.append("limit", limit);
     params.append("page", page);
     params.append("skip", page > 1 ? (page - 1) * limit : 0)
+    params.append("shortListed", true)
+    params.append("sort", "name")
 
     const radioMonitorStore = store.getState().streamReader
 
-    params.append("shortListed", true)
     if (radioMonitorStore.filters.country) {
         params.append('country', radioMonitorStore.filters.country);
     }

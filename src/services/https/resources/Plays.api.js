@@ -9,7 +9,8 @@ export const getAllRadioStations = (limit) => {
     return AppWebRequest('/radiostations', 'get', {
         params: {
             shortListed: true,
-            limit: limit || 2500
+            limit: limit || 2500,
+            sort: "name"
         }
     })
 }

@@ -71,7 +71,7 @@ export default function AddNewUser({ license, setLicense }) {
                             <CloseOutlined onClick={() => setState({ ...state, open: false })} />
                         </div>
                     </FilterHeader>
-                    <DialogContent>
+                    <DialogContent style={{ padding: 0 }}>
                         <AppAutoComplete
                             setAutoComPleteAction={(value) => dispatch(getUsersNameAction(value))}
                             setAutoCompleteOptions={(option) => option?.username || ""}

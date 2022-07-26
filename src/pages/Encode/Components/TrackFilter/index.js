@@ -45,7 +45,7 @@ export default function TrackFilter({ closeDialog }) {
                         value={encode?.tracks?.trackFilters?.id}
                         onChange={(e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, id: e.target.value } })}
                     />
-                    <Grid className="mt-4">
+                    <Grid style={{ marginTop: 35 }}>
                         <AppAutoComplete
                             setAutoComPleteAction={(value) => ""}
                             setAutoCompleteOptions={(option => option?.name || "")}
@@ -55,13 +55,15 @@ export default function TrackFilter({ closeDialog }) {
                             placeholder={"Distributor"}
                         />
                     </Grid>
-                    <StyledTextField
-                        id=""
-                        label="Artist"
-                        className="mt-2"
-                        value={encode?.tracks?.trackFilters?.artist}
-                        onChange={(e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, artist: e.target.value } })}
-                    />
+                    <Grid style={{ marginTop: 10 }}>
+                        <StyledTextField
+                            id=""
+                            label="Artist"
+                            className="mt-2"
+                            value={encode?.tracks?.trackFilters?.artist}
+                            onChange={(e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, artist: e.target.value } })}
+                        />
+                    </Grid>
                 </Grid>
                 <Grid item xs={6}>
                     <StyledTextField
@@ -72,7 +74,7 @@ export default function TrackFilter({ closeDialog }) {
                         onChange={(e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, title: e.target.value } })}
                     />
 
-                    <Grid className="mt-4">
+                    <Grid style={{ marginTop: 35 }}>
                         <AppAutoComplete
                             setAutoComPleteAction={(value) => ""}
                             setAutoCompleteOptions={(option => option?.name || "")}
@@ -84,22 +86,26 @@ export default function TrackFilter({ closeDialog }) {
                     </Grid>
 
                     {users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
-                        <StyledTextField
-                            id=""
-                            label="Company"
-                            className="mt-2"
-                            value={encode?.tracks?.trackFilters?.company}
-                            onChange={(e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, company: e.target.value } })}
-                        />
+                        <Grid style={{ marginTop: 10 }}>
+                            <StyledTextField
+                                id=""
+                                label="Company"
+                                className="mt-2"
+                                value={encode?.tracks?.trackFilters?.company}
+                                onChange={(e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, company: e.target.value } })}
+                            />
+                        </Grid>
                     }
                     {(users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN || users?.userProfile?.data?.userRole === userRoles.COMPANY_ADMIN) &&
-                        <StyledTextField
-                            id=""
-                            label="User"
-                            className="mt-2"
-                            value={encode?.tracks?.trackFilters?.user}
-                            onChange={(e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, user: e.target.value } })}
-                        />
+                        <Grid style={{ marginTop: 10 }}>
+                            <StyledTextField
+                                id=""
+                                label="User"
+                                className="mt-2"
+                                value={encode?.tracks?.trackFilters?.user}
+                                onChange={(e) => dispatch({ type: actionTypes.SET_ENCODE_TRACKS_FILTER, data: { ...encode?.tracks?.trackFilters, user: e.target.value } })}
+                            />
+                        </Grid>
                     }
                 </Grid>
             </Grid>

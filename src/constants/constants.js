@@ -1624,7 +1624,7 @@ export const companyType = [
   { name: "PRO (Public Rights Organisation)" },
   { name: "Production Library" },
   { name: "Publisher" },
-  { name: "Rights Holder ?" },
+  { name: "Rights Holder" },
   { name: "Song Writer" },
   { name: "Sub Publisher" },
 ]

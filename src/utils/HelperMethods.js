@@ -48,3 +48,12 @@ export const getSKSIDFromDetectionOrigin = (detectionOriginsArr) => {
   }
   return skSid.join(", ")
 }
+
+export const isJsonObject = (str) => {
+  try {
+    JSON.parse(str);
+  } catch (e) {
+    return false;
+  }
+  return true;
+}

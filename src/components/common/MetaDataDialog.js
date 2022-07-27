@@ -23,6 +23,7 @@ import { Distributor, Labels } from "../../constants/constants";
 import CustomDropDown from "./AppTextInput/CustomDropDown";
 import { editSonicMetaData } from "../../services/https/resources/SonicKeys/SonicKeys.api";
 import AppAutoComplete from "./AutoComplete/AppAutoComplete";
+import { isJsonObject } from "../../utils/HelperMethods";
 
 const useStyles = makeStyles({
     dialogPaper: {
@@ -131,7 +132,9 @@ const MetaDataDailog = (props) => {
         if (values?.updateSonicKeyLoading) {
             return
         }
-        // if (!values.updatingSonicKey.distributor) return cogoToast.error("Distributor is required")
+
+        if (values?.updatingSonicKey?.additionalMetadata && !isJsonObject(values?.updatingSonicKey?.additionalMetadata)) return cogoToast.error("Additional MetaData must be in JSON format")
+
         setValues({ ...values, updateSonicKeyLoading: true })
         let payload = {
             contentName: values?.updatingSonicKey?.contentName,
@@ -142,7 +145,7 @@ const MetaDataDailog = (props) => {
             iswcCode: values?.updatingSonicKey?.iswcCode,
             tuneCode: values?.updatingSonicKey?.tuneCode,
             label: values?.updatingSonicKey?.label?.name,
-            distributor: values?.updatingSonicKey?.distributor?.name,
+            distributor: values?.updatingSonicKey?.distributor?.name || undefined,
             contentQuality: values?.updatingSonicKey?.contentQuality,
             contentDescription: values?.updatingSonicKey?.contentDescription,
             additionalMetadata: values?.updatingSonicKey?.additionalMetadata && JSON.parse(values?.updatingSonicKey?.additionalMetadata),
@@ -212,7 +215,7 @@ const MetaDataDailog = (props) => {
                         <TableBody>
                             <TableRow>
                                 <TableCell className={classes.tableCellOne}>TRACK ID</TableCell>
-                                <TableCell className={classes.tableCellTwo}>{values?.sonicKey?.track || "---"}</TableCell>
+                                <TableCell className={classes.tableCellTwo}>{values?.sonicKey?.track?._id || "---"}</TableCell>
                             </TableRow>
 
                             <TableRow>

@@ -31,8 +31,14 @@ function PlaysMetaData(props) {
             <Grid style={{ padding: "30px" }}>
                 <Grid container justifyContent='space-between'>
                     <Grid >
-                        <H3 fontFamily={theme.fontFamily.nunitoSansMediumBold}>{state?.playsData?.sonicKey?.track?.trackMetaData?.contentName || state?.playsData?.sonicKey?.track?.title || "---"}</H3>
-                        <H4 color={theme.colors.primary.teal}>by {state?.playsData?.sonicKey?.track?.trackMetaData?.contentOwner || state?.playsData?.sonicKey?.track?.artist || "---"}</H4>
+                        <H3 fontFamily={theme.fontFamily.nunitoSansMediumBold}>
+                            {state?.playsData?.sonicKey?.track?.trackMetaData?.contentName || state?.playsData?.sonicKey?.track?.title ||
+                                state?.playsData?.sonicKey?.contentName || "---"}
+                        </H3>
+                        <H4 color={theme.colors.primary.teal}>
+                            by {state?.playsData?.sonicKey?.track?.trackMetaData?.contentOwner || state?.playsData?.sonicKey?.track?.artist ||
+                                state?.playsData?.sonicKey?.contentOwner || "---"}
+                        </H4>
                     </Grid>
                     <CloseIcon onClick={closePopUp} style={{ cursor: "pointer" }} />
                 </Grid>
@@ -53,11 +59,11 @@ function PlaysMetaData(props) {
                         }
                         <TableRow>
                             <TCell cell1={true}>ARTIST</TCell>
-                            <TCell cell1={false}>{state?.playsData?.sonicKey?.track?.artist || "---"}</TCell>
+                            <TCell cell1={false}>{state?.playsData?.sonicKey?.track?.artist || state?.playsData?.sonicKey?.contentOwner || "---"}</TCell>
                         </TableRow>
                         <TableRow>
                             <TCell cell1={true}>TITLE</TCell>
-                            <TCell cell1={false}>{state?.playsData?.sonicKey?.track?.trackMetaData?.contentFileName || "---"}</TCell>
+                            <TCell cell1={false}>{state?.playsData?.sonicKey?.track?.trackMetaData?.contentName || state?.playsData?.sonicKey?.contentName || "---"}</TCell>
                         </TableRow>
                         <TableRow>
                             <TCell cell1={true}>RADIO STATION</TCell>
@@ -93,7 +99,7 @@ function PlaysMetaData(props) {
                         </TableRow>
                         <TableRow>
                             <TCell cell1={true}>VERSION</TCell>
-                            <TCell cell1={false}>{state?.playsData?.sonicKey?.track?.version || "---"}</TCell>
+                            <TCell cell1={false}>{state?.playsData?.sonicKey?.track?.version || state?.playsData?.sonicKey?.version || "---"}</TCell>
                         </TableRow>
                         <TableRow>
                             <TCell cell1={true}>DISTRIBUTOR</TCell>
@@ -121,7 +127,7 @@ function PlaysMetaData(props) {
                         </TableRow>
                         <TableRow>
                             <TCell cell1={true}>FILE TYPE</TCell>
-                            <TCell cell1={false}>{state?.playsData?.sonicKey?.track?.fileType || "---"}</TCell>
+                            <TCell cell1={false}>{state?.playsData?.sonicKey?.track?.fileType || state?.playsData?.sonicKey?.contentFileType || "---"}</TCell>
                         </TableRow>
 
                     </Table>

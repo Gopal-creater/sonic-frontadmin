@@ -47,7 +47,7 @@ export default function Plays() {
                 company: data?.sonicKey?.company?.name,
                 companyType: data?.sonicKey?.company?.companyType,
                 artist: data?.sonicKey?.contentOwner,
-                title: data?.sonicKey?.contentFileName,
+                title: data?.sonicKey?.contentName,
                 version: data?.sonicKey?.version,
                 radioStation: data?.radioStation?.name,
                 date: data?.detectedAt,

@@ -556,7 +556,7 @@ export default function EncodeData() {
                     <H5
                         style={{ textAlign: "center", padding: "25px" }}
                     >
-                        Depending on your internet connection and a size of an audio file, encoding may take longer at times
+                        The speed of your internet connection and the size of the audio file may affect encoding and decoding times. 
                     </H5>
                     <Grid container justifyContent='center'>
                         <img src={sonic_preloader} alt="sonic preloader" />

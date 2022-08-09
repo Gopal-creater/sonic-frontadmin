@@ -183,6 +183,7 @@ export default function SignIn() {
                         disabled={values.loginLoading}
                         onClick={() => {
                             dispatch({ type: "SIGN-UP", data: true });
+                            window.open('https://sonicdata.com/try-sonic-key/', '_blank');
                         }}
                         variant={"outline"}
                         style={{ padding: "8px 5px 8px 5px", width: "110px" }}

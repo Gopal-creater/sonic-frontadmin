@@ -370,7 +370,7 @@ const MetaDataDailog = (props) => {
                                                 setAutoCompleteOptionsLabel={() => { }}
                                                 getSelectedValue={(e, v) => setValues({ ...values, updatingSonicKey: { ...values?.updatingSonicKey, label: v } })}
                                                 placeholder={"Label"}
-                                                hideSearchIcon={true}
+                                                // hideSearchIcon={true}
                                                 value={values?.updatingSonicKey?.label}
                                                 color={theme.colors.secondary.grey}
                                                 fontFamily={theme.fontFamily.nunitoSansBold}
@@ -394,7 +394,7 @@ const MetaDataDailog = (props) => {
                                                 setAutoCompleteOptionsLabel={() => { }}
                                                 getSelectedValue={(e, v) => setValues({ ...values, updatingSonicKey: { ...values?.updatingSonicKey, distributor: v } })}
                                                 placeholder={"Distributor"}
-                                                hideSearchIcon={true}
+                                                // hideSearchIcon={true}
                                                 value={values?.updatingSonicKey?.distributor}
                                                 color={theme.colors.secondary.grey}
                                                 fontFamily={theme.fontFamily.nunitoSansBold}

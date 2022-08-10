@@ -5,19 +5,21 @@ import { AutocompleteTextfield, StyledAutocomplete } from './StyledPicker';
 import theme from '../../../theme';
 import { Grid, Typography } from '@material-ui/core';
 import { createFilterOptions } from '@material-ui/lab/Autocomplete'
-import AppButton from '../AppButton/AppButton';
+import { log } from '../../../utils/app.debug';
 
 export default function AppAutoComplete(props) {
     const filterOptions = createFilterOptions({
-        limit: 30,
+        limit: 5000,
     });
+
+    log("props",props)
     return (
         <StyledAutocomplete
             {...props}
             filterOptions={filterOptions}
             id="combo-box-demo"
             options={props.data || []}
-            noOptionsText={props.error ? props.error : props.loading ? "Loading..." : props?.data === undefined ? "Start typing..." : props?.data?.length === 0 && "No Data"}
+            noOptionsText={props?.error ? props?.error : props.loading ? "Loading..." : props?.data === undefined ? "Start typing..." : "No Data"}
             getOptionLabel={(option) => props?.setAutoCompleteOptions(option)}
             getOptionSelected={(option, value) => option.id === value.id}
             renderOption={(option) => (

@@ -1,7 +1,10 @@
-
 # Sonic Main Portal
 
 This repo is all about sonic main portal to get started with new wireframe.
+
+```bash
+Development Branch is 'dev'
+```
 
 ## Run Locally
 
@@ -29,9 +32,6 @@ Start the server
   npm run start
 ```
 
-  
 ## Authors
 
 - [@arbadevstudio](https://github.com/orgs/arbadevstudio)
-
-  

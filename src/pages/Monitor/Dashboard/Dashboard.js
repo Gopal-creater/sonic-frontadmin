@@ -1,53 +1,73 @@
 import { Grid } from "@material-ui/core";
 import React, { useRef } from "react";
-import { log } from "../../../utils/app.debug";
 import { useDispatch, useSelector } from "react-redux";
-import * as actionTypes from "../../../stores/actions/actionTypes"
+import * as actionTypes from "../../../stores/actions/actionTypes";
 import WelcomeBack from "./Components/WelcomeBack/WelcomeBack";
 import Stats from "./Components/Stats/Stats";
-import radio from "../../../assets/icons/icon-teal-radio.png"
+import radio from "../../../assets/icons/icon-teal-radio.png";
 import FilterComponent from "../../../components/common/FilterComponent/FilterComponent";
-import { H3 } from "../../../StyledComponents/StyledHeadings";
 import CommonDataLoadErrorSuccess from "../../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess";
-import DashboardTable from "./Components/DashboardTable/DashboardTable";
-import { ButtonContainer, CardContainer, StyledIconButton, TableContainer } from "./DashboardStyles";
-import { getMonitorDashboardDataAction, getMonitorDashboardExportAction } from "../../../stores/actions/dashboardActions.js/dashboardActions";
+import {
+  ButtonContainer,
+  CardContainer,
+  StyledIconButton,
+  TableContainer,
+} from "./DashboardStyles";
+import {
+  getMonitorDashboardDataAction,
+  getMonitorDashboardExportAction,
+} from "../../../stores/actions/dashboardActions.js/dashboardActions";
 import MonitorFilter from "../Components/MonitorFilter/MonitorFilter";
-import { getMonitorExportAction } from "../../../stores/actions/monitorActions/monitorActions";
-import { useReactToPrint } from 'react-to-print';
+import { useReactToPrint } from "react-to-print";
 import { helpText } from "./Constants";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import "./Dashboard.css"
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import { playsTableHeads, userRoles } from "../../../constants/constants";
-import Columns from "../../../components/common/Columns/Columns";
+import "./Dashboard.css";
+import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import { userRoles } from "../../../constants/constants";
+import AppTable from "../../../components/common/AppTable";
+import { getSKSIDFromDetectionOrigin } from "../../../utils/HelperMethods";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import { useTheme } from "styled-components";
+import PlaysMetaData from "../../../components/common/PlaysMetaData";
+import Tooltip from "@material-ui/core/Tooltip";
 
 export function Dashboard() {
-  const dispatch = useDispatch()
+  const theme = useTheme();
+  const dispatch = useDispatch();
 
-  const dashboard = useSelector(state => state.dashboard)
-  const monitor = useSelector(state => state.monitor)
-  const radioStation = useSelector(state => state.radioStations)
-  const users = useSelector(state => state.user)
+  const dashboard = useSelector((state) => state.dashboard);
+  const monitor = useSelector((state) => state.monitor);
+  const radioStation = useSelector((state) => state.radioStations);
+  const users = useSelector((state) => state.user);
   const dashboardTableRef = useRef();
-  const carousel = useRef(null)
+  const carousel = useRef(null);
 
   const handlePrintToPdf = useReactToPrint({
     content: () => dashboardTableRef.current,
   });
 
+  const [state, setState] = React.useState({
+    sonicKeyModal: false,
+    selectedSonicKey: {},
+  });
+
   React.useEffect(() => {
-    dispatch(getMonitorDashboardDataAction(monitor?.dates?.startDate, monitor?.dates?.endDate))
-  }, [monitor?.dates?.startDate, monitor?.dates?.endDate])
+    dispatch(
+      getMonitorDashboardDataAction(
+        monitor?.dates?.startDate,
+        monitor?.dates?.endDate
+      )
+    );
+  }, [monitor?.dates?.startDate, monitor?.dates?.endDate]);
 
   const actions = {
     loading: actionTypes.SET_DASHBOARD_LOADING,
     success: actionTypes.SET_DASHBOARD_SUCCESS,
-    error: actionTypes.SET_DASHBOARD_ERROR
-  }
+    error: actionTypes.SET_DASHBOARD_ERROR,
+  };
 
   const createStableTableData = () => {
     let stableTableData = dashboard?.data?.mostRecentPlays?.map((data) => {
@@ -66,26 +86,32 @@ export function Dashboard() {
         isrcCode: data?.sonicKey?.isrcCode,
         distributor: data?.sonicKey?.distributor,
         label: data?.sonicKey?.label,
-        iswc: data?.sonicKey?.iswcCode,
+        iswcCode: data?.sonicKey?.iswcCode,
         tuneCode: data?.sonicKey?.tuneCode,
         modal: data,
-        trackId: data?.sonicKey?.track,
+        trackId: data?.sonicKey?.track?._id,
         fileType: data?.sonicKey?.contentFileType,
         description: data?.sonicKey?.contentDescription,
         detectionOrigins: data?.detectionOrigins,
-      }
-    })
-    return stableTableData
-  }
-
+      };
+    });
+    return stableTableData;
+  };
 
   const handleDashboardExport = (format) => {
-    if (format === 'pdf') {
+    if (format === "pdf") {
       handlePrintToPdf();
     } else {
-      dispatch(getMonitorDashboardExportAction(format, monitor?.dates?.startDate, monitor?.dates?.endDate, 2000))
+      dispatch(
+        getMonitorDashboardExportAction(
+          format,
+          monitor?.dates?.startDate,
+          monitor?.dates?.endDate,
+          2000
+        )
+      );
     }
-  }
+  };
 
   const carouselSetting = {
     infinite: false,
@@ -98,21 +124,21 @@ export function Dashboard() {
         breakpoint: 1750,
         settings: {
           slidesToShow: 4,
-          slidesToScroll: 4
+          slidesToScroll: 4,
         },
       },
       {
         breakpoint: 1470,
         settings: {
           slidesToShow: 4,
-          slidesToScroll: 4
+          slidesToScroll: 4,
         },
       },
       {
         breakpoint: 1200,
         settings: {
           slidesToShow: 3,
-          slidesToScroll: 3
+          slidesToScroll: 3,
         },
       },
       {
@@ -128,31 +154,238 @@ export function Dashboard() {
           slidesToShow: 1,
           slidesToScroll: 1,
         },
-      }
-    ]
-  }
+      },
+    ],
+  };
 
   const handleCarouselLeftClick = (e) => {
-    e.preventDefault()
-    carousel.current.slickPrev()
-  }
+    e.preventDefault();
+    carousel.current.slickPrev();
+  };
 
   const handleCarouselRightClick = (e) => {
-    e.preventDefault()
-    carousel.current.slickNext()
-  }
+    e.preventDefault();
+    carousel.current.slickNext();
+  };
+
+  let columns = [
+    {
+      name: "company",
+      label: "COMPANY",
+      options: {
+        customBodyRender: (value) => {
+          return value || "--";
+        },
+      },
+    },
+    {
+      name: "companyType",
+      label: "COMPANY TYPE",
+      options: {
+        customBodyRender: (value) => {
+          return value || "--";
+        },
+      },
+    },
+    {
+      name: "artist",
+      label: "ARTIST",
+      options: {
+        customBodyRender: (value) => {
+          return value || "--";
+        },
+      },
+    },
+    {
+      name: "title",
+      label: "TITLE",
+      options: {
+        customBodyRender: (value) => {
+          return value || "--";
+        },
+      },
+    },
+    {
+      name: "radioStation",
+      label: "RADIO STATION",
+      options: {
+        customBodyRender: (value) => {
+          return value || "--";
+        },
+      },
+    },
+    {
+      name: "date",
+      label: "DATE",
+      options: {
+        customBodyRender: (value) => {
+          return value || "--";
+        },
+      },
+    },
+    {
+      name: "time",
+      label: "TIME",
+      options: {
+        customBodyRender: (value) => {
+          return value || "--";
+        },
+      },
+    },
+    {
+      name: "duration",
+      label: "DURATION",
+      options: {
+        customBodyRender: (value) => {
+          return value || "--";
+        },
+      },
+    },
+    {
+      name: "country",
+      label: "COUNTRY",
+      options: {
+        customBodyRender: (value) => {
+          return value || "--";
+        },
+      },
+    },
+    {
+      name: "trackId",
+      label: "TRACK ID",
+      options: {
+        customBodyRender: (value) => {
+          return value || "--";
+        },
+      },
+    },
+    {
+      name: "sonicKey",
+      label: "SONICKEY",
+      options: {
+        customBodyRender: (value) => {
+          return value || "--";
+        },
+      },
+    },
+    {
+      name: "detectionOrigins",
+      label: "SK/SID",
+      options: {
+        filter: false,
+        customBodyRender: (value) => {
+          return getSKSIDFromDetectionOrigin(value);
+        },
+      },
+    },
+    {
+      name: "version",
+      label: "VERSION",
+      options: {
+        customBodyRender: (value) => {
+          return value || "--";
+        },
+      },
+    },
+    {
+      name: "distributor",
+      label: "DISTRIBUTOR",
+      options: {
+        customBodyRender: (value) => {
+          return value || "--";
+        },
+      },
+    },
+    {
+      name: "label",
+      label: "LABEL",
+      options: {
+        customBodyRender: (value) => {
+          return value || "--";
+        },
+      },
+    },
+    {
+      name: "isrcCode",
+      label: "ISRC",
+      options: {
+        customBodyRender: (value) => {
+          return value || "--";
+        },
+      },
+    },
+    {
+      name: "iswcCode",
+      label: "ISWC",
+      options: {
+        customBodyRender: (value) => {
+          return value || "--";
+        },
+      },
+    },
+    {
+      name: "tuneCode",
+      label: "TUNE CODE",
+      options: {
+        customBodyRender: (value) => {
+          return value || "--";
+        },
+      },
+    },
+    {
+      name: "description",
+      label: "DESCRIPTION",
+      options: {
+        customBodyRender: (value) => {
+          return value || "--";
+        },
+      },
+    },
+    {
+      name: "fileType",
+      label: "FILE TYPE",
+      options: {
+        customBodyRender: (value) => {
+          return value || "--";
+        },
+      },
+    },
+    {
+      name: "modal",
+      label: "ACTION",
+      options: {
+        customBodyRender: (value) => {
+          return (
+            <Tooltip title="View">
+              <VisibilityIcon
+                fontSize={"small"}
+                style={{ color: theme.colors.primary.teal, cursor: "pointer" }}
+                onClick={() =>
+                  setState({
+                    ...state,
+                    sonicKeyModal: true,
+                    selectedSonicKey: value,
+                  })
+                }
+              />
+            </Tooltip>
+          );
+        },
+      },
+    },
+  ];
 
   const getStableTableColumnHead = () => {
-    let tableHead = playsTableHeads;
     if (users?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN) {
-      return tableHead.filter((itm) => (itm?.title !== "COMPANY" && itm?.title !== "COMPANY TYPE"))
+      return columns.filter(
+        (itm) => itm?.label !== "COMPANY" && itm?.label !== "COMPANY TYPE"
+      );
     }
-    return tableHead
-  }
+    return columns;
+  };
 
   return (
     <Grid ref={dashboardTableRef}>
-
       <WelcomeBack
         error={radioStation?.error}
         loading={radioStation?.loading}
@@ -161,21 +394,29 @@ export function Dashboard() {
 
       <FilterComponent
         startDate={monitor?.dates?.startDate}
-        onChangeStartDate={(date) => dispatch({ type: actionTypes.SET_MONITOR_DATES, data: { ...monitor.dates, startDate: date } })}
+        onChangeStartDate={(date) =>
+          dispatch({
+            type: actionTypes.SET_MONITOR_DATES,
+            data: { ...monitor.dates, startDate: date },
+          })
+        }
         endDate={monitor?.dates?.endDate}
-        onChangeEndDate={(date) => dispatch({ type: actionTypes.SET_MONITOR_DATES, data: { ...monitor.dates, endDate: date } })}
-        filterComponent={<MonitorFilter open={true} actions={actions} dashboard={true} />}
+        onChangeEndDate={(date) =>
+          dispatch({
+            type: actionTypes.SET_MONITOR_DATES,
+            data: { ...monitor.dates, endDate: date },
+          })
+        }
+        filterComponent={
+          <MonitorFilter open={true} actions={actions} dashboard={true} />
+        }
         exportData={(value) => handleDashboardExport(value)}
         pdf={false}
       />
 
-      <CardContainer >
-        <Slider
-          className="carousel"
-          ref={carousel}
-          {...carouselSetting}
-        >
-          {users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
+      <CardContainer>
+        <Slider className="carousel" ref={carousel} {...carouselSetting}>
+          {users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN && (
             <Stats
               imgSrc={radio}
               title={"Companies"}
@@ -184,7 +425,8 @@ export function Dashboard() {
               error={dashboard?.error}
               pageLink="/monitor/companies"
               helpText={helpText.companies}
-            />}
+            />
+          )}
           <Stats
             imgSrc={radio}
             title={"My Plays"}
@@ -239,38 +481,57 @@ export function Dashboard() {
         </Slider>
 
         <ButtonContainer>
-          <StyledIconButton disableRipple onClick={handleCarouselLeftClick} style={{ marginRight: '10px' }}>
-            <ArrowBackIosIcon style={{ height: '10px', width: '10px' }} />
+          <StyledIconButton
+            disableRipple
+            onClick={handleCarouselLeftClick}
+            style={{ marginRight: "10px" }}
+          >
+            <ArrowBackIosIcon style={{ height: "10px", width: "10px" }} />
           </StyledIconButton>
           <StyledIconButton disableRipple onClick={handleCarouselRightClick}>
-            <ArrowForwardIosIcon style={{ height: '10px', width: '10px' }} />
+            <ArrowForwardIosIcon style={{ height: "10px", width: "10px" }} />
           </StyledIconButton>
         </ButtonContainer>
       </CardContainer>
 
+      {/* Table------------------------------------------------------- */}
       <TableContainer>
-        <Grid container justifyContent="space-between">
-          <Grid item>
-            <H3>10 Most Recent Plays</H3>
-          </Grid>
-          <Grid item>
-            <Columns columns={getStableTableColumnHead()} />
-          </Grid>
-        </Grid>
-
         <CommonDataLoadErrorSuccess
           error={dashboard?.error}
           loading={dashboard?.loading}
           onClickTryAgain={() => {
-            dispatch(getMonitorDashboardDataAction(monitor?.dates?.startDate, monitor?.dates?.endDate))
+            dispatch(
+              getMonitorDashboardDataAction(
+                monitor?.dates?.startDate,
+                monitor?.dates?.endDate
+              )
+            );
           }}
         >
-          <DashboardTable
+          <AppTable
+            title={"10 Most Recent Plays"}
+            columns={getStableTableColumnHead()}
             data={createStableTableData()}
-            stableTableHead={getStableTableColumnHead()}
+            options={{
+              count: dashboard?.data?.mostRecentPlays?.length || 0,
+              customFooter: () => {
+                return null;
+              },
+            }}
           />
         </CommonDataLoadErrorSuccess>
       </TableContainer>
-    </Grid >
+      {/* Table--------------------------------------------------------- */}
+
+      {/* MetaData popup ------------------------------------------------------*/}
+      {state?.sonicKeyModal && (
+        <PlaysMetaData
+          playsData={state?.selectedSonicKey}
+          open={true}
+          setOpenTable={(flag) => setState({ ...state, sonicKeyModal: flag })}
+        />
+      )}
+      {/* MetaData popup ------------------------------------------------------*/}
+    </Grid>
   );
 }

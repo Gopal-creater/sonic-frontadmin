@@ -13,9 +13,12 @@ import cogoToast from "cogo-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Box } from "@material-ui/core";
-import MenuIcon from "@mui/icons-material/Menu";
+
+import MenuIcon from '@material-ui/icons/Menu';
+import { useTheme } from "styled-components";
 
 function SecondaryMenu(props) {
+  const theme=useTheme();
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
@@ -81,8 +84,8 @@ function SecondaryMenu(props) {
           session?.user?.username}
       </Button>
 
-      <Box sx={{ color: "#eb4034" }} className={classes.menuBar}>
-        Menuicon
+      <Box sx={{color:theme.colors.primary.teal}} className={classes.menuBar}>
+        <MenuIcon onClick/>
       </Box>
 
       <Popper
@@ -173,7 +176,7 @@ const useStyles = makeStyles((theme) => ({
   },
   menuBar: {
     display: "none",
-    ["@media (min-width:800px)"]: { display: "flex", justifyContent: "end" },
+    ["@media (max-width:1200px)"]: { display: "flex", justifyContent: "end" },
   },
   menuItem: {
     color: "#757575",

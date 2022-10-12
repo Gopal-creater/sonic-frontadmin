@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
   },
   pagecontent: {
     flexGrow: 1,
-    ["@media (min-width:800px)"]: { marginLeft: "190px" },
+    ["@media (min-width:1200px)"]: { marginLeft: "190px" },
     overflowY: "auto",
   },
 

@@ -8,7 +8,7 @@ justify-content:center;
 flex-wrap:wrap;
 max-width:100%;
 
-@media(max-Width:800px){
+@media(max-Width:1200px){
 display:none;
 }
 `

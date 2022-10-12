@@ -5,17 +5,12 @@ import Toolbar from "@material-ui/core/Toolbar";
 import { Container, Grid } from "@material-ui/core";
 import Footer from "./Footer";
 import Header from "./Header";
-import Wave from "../../assets/images/wave-pages.svg"
+import Wave from "../../assets/images/wave-pages.svg";
 import AppSideBar from "./AppSidebar";
+import { SideBarContainer } from "./AppSidebar/style";
 
 export default function AppLayout({ children }) {
   const classes = useStyles();
-
-  const [showSideBarMenu, setShowSideBarMenu] = React.useState(true)
-
-  const toggleMenu = () => {
-    setShowSideBarMenu(!showSideBarMenu)
-  }
 
   return (
     <div className={classes.root}>
@@ -26,20 +21,14 @@ export default function AppLayout({ children }) {
       <Container maxWidth="xl" className={classes.container}>
         <Toolbar />
         <Grid id="container" className={classes.subContainer}>
-          <Grid
-            item
-            id="sidebarContainer"
-            className={!showSideBarMenu ? classes.hiddenSideBarContainer : classes.sidebarContainer}
-          >
-            <AppSideBar showMenu={showSideBarMenu} toggleMenu={toggleMenu} />
+          <Grid item id="sidebarContainer" className={classes.sidebarContainer}>
+            <SideBarContainer>
+              <AppSideBar />
+            </SideBarContainer>
           </Grid>
 
-          <Grid
-            item
-            id="pageContainer"
-            className={!showSideBarMenu ? classes.widePageContent : classes.pagecontent}
-          >
-            <main >
+          <Grid item id="pageContainer" className={classes.pagecontent}>
+            <main>
               <div style={{ minHeight: "68vh" }}>{children}</div>
             </main>
 
@@ -53,7 +42,6 @@ export default function AppLayout({ children }) {
   );
 }
 
-
 const useStyles = makeStyles((theme) => ({
   root: {
     background: "#f2f2f2",
@@ -62,9 +50,9 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: "3%",
     paddingRight: "3%",
     backgroundImage: `url(${Wave})`,
-    backgroundRepeat: 'no-repeat',
-    backgroundPositionX: 'right',
-    backgroundPositionY: 'top',
+    backgroundRepeat: "no-repeat",
+    backgroundPositionX: "right",
+    backgroundPositionY: "top",
   },
   subContainer: {
     padding: "0% 4%",
@@ -77,17 +65,8 @@ const useStyles = makeStyles((theme) => ({
   },
   pagecontent: {
     flexGrow: 1,
-    marginLeft: "190px",
+    ["@media (min-width:800px)"]: { marginLeft: "190px" },
     overflowY: "auto",
   },
-  hiddenSideBarContainer: {
-    width: "80px",
-    position: "fixed",
-    height: "100%",
-  },
-  widePageContent: {
-    flexGrow: 1,
-    marginLeft: "80px",
-    overflowY: "auto",
-  }
+
 }));

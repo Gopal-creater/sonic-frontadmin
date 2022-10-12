@@ -1,30 +1,22 @@
-import React from 'react'
-import { SideBarContainer, NavIcon, NavIconContainer, SideBarNav } from './style'
-import iconShowMenu from "../../../assets/icons/icon-show-menu.png"
-import iconHideMenu from "../../../assets/icons/icon-hide-menu.png"
-import Menu from './Menu'
-import { useSelector } from 'react-redux'
+import React from "react";
 
-export default function AppSideBar({ showMenu, toggleMenu }) {
-    const user = useSelector(state => state.user)
 
-    return (
-        <SideBarContainer>
-            <NavIconContainer onClick={() => toggleMenu?.()}>
-                {!showMenu ? <NavIcon src={iconShowMenu} width={"65px"} height={"100px"} /> : <NavIcon src={iconHideMenu} width={"30px"} height={"25px"} />}
-            </NavIconContainer>
-            {
-                showMenu ?
-                    <SideBarNav>
-                        {
-                            user?.sideBarData?.map((menu, index) => {
-                                return <Menu menu={menu} key={index} />
-                            })
-                        }
-                    </SideBarNav> :
-                    null
-            }
+import Menu from "./Menu";
+import { useSelector } from "react-redux";
+import {Container, Toolbar } from "@material-ui/core";
 
-        </SideBarContainer>
-    )
+
+export default function AppSideBar() {
+  const user = useSelector((state) => state.user);
+
+  return (
+        
+          <Container maxWidth="xs">
+            {user?.sideBarData?.map((menu, index) => {
+              return <Menu menu={menu} key={index} />;
+            })}
+          </Container>
+        
+      
+  );
 }

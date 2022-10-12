@@ -1,9 +1,16 @@
 import { Grid } from "@material-ui/core";
-import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 //AppSideBar
 export const SideBarContainer = styled(Grid)`
+display: flex;
+justify-content:center;
+flex-wrap:wrap;
+max-width:100%;
+
+@media(max-Width:800px){
+display:none;
+}
 `
 
 export const NavIconContainer = styled(Grid)`
@@ -18,9 +25,7 @@ export const NavIcon = styled.img`
 
 //SubMenu
 export const SideBarNav = styled(Grid)`
-    margin-top: 50px;
-    height:450px;
-    overflow:auto;
+
 `
 export const MenuContainer = styled(Grid)`
     display:flex ;

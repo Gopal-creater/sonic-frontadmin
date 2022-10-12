@@ -12,16 +12,18 @@ import { logout } from "../../stores/actions/session";
 import cogoToast from "cogo-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { Box } from "@material-ui/core";
+import MenuIcon from "@mui/icons-material/Menu";
 
 function SecondaryMenu(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const session = useSelector(state => state.session)
-  const user = useSelector(state => state.user)
+  const session = useSelector((state) => state.session);
+  const user = useSelector((state) => state.user);
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -37,9 +39,8 @@ function SecondaryMenu(props) {
 
   const onPressLogout = async () => {
     try {
-      dispatch(logout())
-      navigate("/")
-
+      dispatch(logout());
+      navigate("/");
     } catch (error) {
       cogoToast.error("Error logging out.");
     }
@@ -72,12 +73,17 @@ function SecondaryMenu(props) {
         aria-haspopup="true"
         endIcon={<ArrowDropDownIcon />}
         onClick={handleToggle}
-        style={{ color: "#7078A8" }}
+        // style={{ color: "#7078A8" }}
         disableFocusRipple
         disableRipple
       >
-        {session?.user?.signInUserSession?.idToken?.payload?.email || session?.user?.username}
+        {session?.user?.signInUserSession?.idToken?.payload?.email ||
+          session?.user?.username}
       </Button>
+
+      <Box sx={{ color: "#eb4034" }} className={classes.menuBar}>
+        Menuicon
+      </Box>
 
       <Popper
         open={open}
@@ -95,7 +101,14 @@ function SecondaryMenu(props) {
                 placement === "bottom" ? "center top" : "center bottom",
             }}
           >
-            <Paper style={{ minWidth: "110px", borderRadius: "0px", boxShadow: "none", border: "1px solid #E0E0E0" }}>
+            <Paper
+              style={{
+                minWidth: "110px",
+                borderRadius: "0px",
+                boxShadow: "none",
+                border: "1px solid #E0E0E0",
+              }}
+            >
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList
                   autoFocusItem={open}
@@ -103,22 +116,20 @@ function SecondaryMenu(props) {
                   onKeyDown={handleListKeyDown}
                 >
                   <div style={{ margin: "10px 15px 10px 20px" }}>
-                    {
-                      user.userMenus?.map((menu, index) => {
-                        return (
-                          <MenuItem
-                            id={index}
-                            onClick={(event) => {
-                              handleClose(event)
-                              navigate(menu.url)
-                            }}
-                            className={classes.menuItem}
-                          >
-                            {menu.urlName}
-                          </MenuItem>
-                        )
-                      })
-                    }
+                    {user.userMenus?.map((menu, index) => {
+                      return (
+                        <MenuItem
+                          id={index}
+                          onClick={(event) => {
+                            handleClose(event);
+                            navigate(menu.url);
+                          }}
+                          className={classes.menuItem}
+                        >
+                          {menu.urlName}
+                        </MenuItem>
+                      );
+                    })}
 
                     <MenuItem
                       onClick={onPressLogout}
@@ -157,8 +168,12 @@ const useStyles = makeStyles((theme) => ({
     },
     "&:hover": {
       backgroundColor: "white",
-      color: "#7078A8 !important"
-    }
+      color: "#7078A8 !important",
+    },
+  },
+  menuBar: {
+    display: "none",
+    ["@media (min-width:800px)"]: { display: "flex", justifyContent: "end" },
   },
   menuItem: {
     color: "#757575",
@@ -170,6 +185,6 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       color: "#7078A8",
       backgroundColor: "white",
-    }
-  }
+    },
+  },
 }));

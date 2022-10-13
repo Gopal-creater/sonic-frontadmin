@@ -3,7 +3,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import LogoWithTextImg from "../../assets/images/Logo-colour-simple.png";
-// import KeyImg from "../../assets/images/key-logo.png";
 import SecondaryMenu from "./SecondaryMenu";
 import { Container } from "@material-ui/core";
 import { useNavigate } from "react-router-dom";

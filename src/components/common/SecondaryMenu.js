@@ -12,15 +12,18 @@ import { logout } from "../../stores/actions/session";
 import cogoToast from "cogo-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Box } from "@material-ui/core";
+import { Box, IconButton, Menu } from "@material-ui/core";
 
-import MenuIcon from '@material-ui/icons/Menu';
+import MenuIcon from "@material-ui/icons/Menu";
 import { useTheme } from "styled-components";
+import { MenuSideContainer } from "./AppSidebar/style";
+import AppSideBar from "./AppSidebar";
 
 function SecondaryMenu(props) {
-  const theme=useTheme();
+  const theme = useTheme();
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [sideBar, setSideBar] = React.useState(true);
   const anchorRef = React.useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -30,6 +33,10 @@ function SecondaryMenu(props) {
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
+  };
+  const toggleSideBar = () => {
+    setSideBar((sideBar) => !sideBar);
+    console.log(sideBar);
   };
 
   const handleClose = (event) => {
@@ -76,7 +83,6 @@ function SecondaryMenu(props) {
         aria-haspopup="true"
         endIcon={<ArrowDropDownIcon />}
         onClick={handleToggle}
-        // style={{ color: "#7078A8" }}
         disableFocusRipple
         disableRipple
       >
@@ -84,10 +90,30 @@ function SecondaryMenu(props) {
           session?.user?.username}
       </Button>
 
-      <Box sx={{color:theme.colors.primary.teal}} className={classes.menuBar}>
-        <MenuIcon onClick/>
-      </Box>
+      <IconButton
+        padding={"10px"}
+        sx={{ color: theme.colors.primary.teal }}
+        className={classes.menuBar}
+        onClick={toggleSideBar}
+      >
+        <MenuIcon />
+      </IconButton>
 
+      <Popper
+        open={sideBar}
+        anchorEl={sideBar}
+        role={undefined}
+        disablePortal
+        transition
+      >
+        <ClickAwayListener onClickAway={toggleSideBar}>
+          <Box onClick={toggleSideBar}>
+          <MenuSideContainer>
+            <AppSideBar />
+          </MenuSideContainer>
+          </Box>
+        </ClickAwayListener>
+      </Popper>
       <Popper
         open={open}
         anchorEl={anchorRef.current}
@@ -175,6 +201,18 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   menuBar: {
+    display: "none",
+    ["@media (max-width:1200px)"]: { display: "flex", justifyContent: "end" },
+  },
+  ShowsideBar: {
+    color: "black",
+    display: "none",
+    backgroundColor: "green",
+    ["@media (max-width:1200px)"]: { display: "flex", justifyContent: "end" },
+  },
+  HidesideBar: {
+    color: "red",
+    width: "0px",
     display: "none",
     ["@media (max-width:1200px)"]: { display: "flex", justifyContent: "end" },
   },

@@ -25,6 +25,7 @@ export default function AppLayout({ children }) {
             <SideBarContainer>
               <AppSideBar />
             </SideBarContainer>
+            
           </Grid>
 
           <Grid item id="pageContainer" className={classes.pagecontent}>

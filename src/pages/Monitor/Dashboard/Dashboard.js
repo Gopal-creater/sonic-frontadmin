@@ -4,15 +4,14 @@ import { useDispatch, useSelector } from "react-redux";
 import * as actionTypes from "../../../stores/actions/actionTypes";
 import WelcomeBack from "./Components/WelcomeBack/WelcomeBack";
 import Stats from "./Components/Stats/Stats";
-import radio from "../../../assets/icons/icon-teal-radio.png";
+import music from "../../../assets/icons/icon-black-music.png";
+import note from "../../../assets/icons/icon-black-musicnote.png";
+import artist from "../../../assets/icons/icon-black-artist.png";
+import radio from "../../../assets/icons/icon-black-radio.png";
+import country from "../../../assets/icons/icon-black-globe.png";
 import FilterComponent from "../../../components/common/FilterComponent/FilterComponent";
 import CommonDataLoadErrorSuccess from "../../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess";
-import {
-  ButtonContainer,
-  CardContainer,
-  StyledIconButton,
-  TableContainer,
-} from "./DashboardStyles";
+import { CardContainer, TableContainer } from "./DashboardStyles";
 import {
   getMonitorDashboardDataAction,
   getMonitorDashboardExportAction,
@@ -22,10 +21,7 @@ import { useReactToPrint } from "react-to-print";
 import { helpText } from "./Constants";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Slider from "react-slick";
 import "./Dashboard.css";
-import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
-import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import { userRoles } from "../../../constants/constants";
 import AppTable from "../../../components/common/AppTable";
 import { getSKSIDFromDetectionOrigin } from "../../../utils/HelperMethods";
@@ -111,61 +107,6 @@ export function Dashboard() {
         )
       );
     }
-  };
-
-  const carouselSetting = {
-    infinite: false,
-    speed: 500,
-    slidesToShow: 5,
-    slidesToScroll: 5,
-    initialSlide: 0,
-    responsive: [
-      {
-        breakpoint: 1750,
-        settings: {
-          slidesToShow: 4,
-          slidesToScroll: 4,
-        },
-      },
-      {
-        breakpoint: 1470,
-        settings: {
-          slidesToShow: 4,
-          slidesToScroll: 4,
-        },
-      },
-      {
-        breakpoint: 1200,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-        },
-      },
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-        },
-      },
-      {
-        breakpoint: 800,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
-  };
-
-  const handleCarouselLeftClick = (e) => {
-    e.preventDefault();
-    carousel.current.slickPrev();
-  };
-
-  const handleCarouselRightClick = (e) => {
-    e.preventDefault();
-    carousel.current.slickNext();
   };
 
   let columns = [
@@ -392,6 +333,7 @@ export function Dashboard() {
         totalRadioStations={radioStation?.data?.length}
       />
 
+      {/* Filter--------------------------------------------------------- */}
       <FilterComponent
         startDate={monitor?.dates?.startDate}
         onChangeStartDate={(date) =>
@@ -413,86 +355,88 @@ export function Dashboard() {
         exportData={(value) => handleDashboardExport(value)}
         pdf={false}
       />
+      {/* Filter--------------------------------------------------------- */}
 
+      {/* Cards-------------------------------------------------------------------- */}
       <CardContainer>
-        <Slider className="carousel" ref={carousel} {...carouselSetting}>
+        <Grid container spacing={4}>
           {users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN && (
+            <Grid item xs={12} sm={6} md={4} style>
+              <Stats
+                imgSrc={radio}
+                title={"Companies"}
+                loading={dashboard?.loading}
+                data={dashboard?.data?.myCompaniesCount || "0"}
+                error={dashboard?.error}
+                pageLink="/monitor/companies"
+                helpText={helpText.companies}
+              />
+            </Grid>
+          )}
+
+          <Grid item xs={12} sm={6} md={4}>
+            <Stats
+              imgSrc={music}
+              title={"My Plays"}
+              loading={dashboard?.loading}
+              data={dashboard?.data?.myPlaysCount || "0"}
+              error={dashboard?.error}
+              pageLink="/monitor/plays"
+              helpText={helpText.plays}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <Stats
+              imgSrc={note}
+              title={"My Tracks"}
+              ownerShipTitle="from"
+              loading={dashboard?.loading}
+              data={dashboard?.data?.myTracksCount || "0"}
+              error={dashboard?.error}
+              pageLink="/monitor/tracks"
+              helpText={helpText.tracks}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <Stats
+              imgSrc={artist}
+              title={"Artists"}
+              ownerShipTitle="by"
+              loading={dashboard?.loading}
+              data={dashboard?.data?.myArtistsCount || "0"}
+              error={dashboard?.error}
+              pageLink="/monitor/artists"
+              helpText={helpText.artists}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
             <Stats
               imgSrc={radio}
-              title={"Companies"}
+              title={"Radio Stations"}
+              ownerShipTitle="At"
               loading={dashboard?.loading}
-              data={dashboard?.data?.myCompaniesCount || "0"}
+              data={dashboard?.data?.myRadioStationCount || "0"}
               error={dashboard?.error}
               pageLink="/monitor/companies"
               helpText={helpText.companies}
             />
-          )}
-          <Stats
-            imgSrc={radio}
-            title={"My Plays"}
-            loading={dashboard?.loading}
-            data={dashboard?.data?.myPlaysCount || "0"}
-            error={dashboard?.error}
-            pageLink="/monitor/plays"
-            helpText={helpText.plays}
-          />
-          <Stats
-            imgSrc={radio}
-            title={"My Tracks"}
-            ownerShipTitle="from"
-            loading={dashboard?.loading}
-            data={dashboard?.data?.myTracksCount || "0"}
-            error={dashboard?.error}
-            pageLink="/monitor/tracks"
-            helpText={helpText.tracks}
-          />
-          <Stats
-            imgSrc={radio}
-            title={"Artists"}
-            ownerShipTitle="by"
-            loading={dashboard?.loading}
-            data={dashboard?.data?.myArtistsCount || "0"}
-            error={dashboard?.error}
-            pageLink="/monitor/artists"
-            helpText={helpText.artists}
-          />
-          <Stats
-            imgSrc={radio}
-            title={"Radio Stations"}
-            ownerShipTitle="At"
-            loading={dashboard?.loading}
-            data={dashboard?.data?.myRadioStationCount || "0"}
-            error={dashboard?.error}
-            pageLink="/monitor/radio-stations"
-            helpText={helpText.radioStation}
-          />
-
-          <Stats
-            imgSrc={radio}
-            title={"Countries"}
-            ownerShipTitle="In"
-            loading={dashboard?.loading}
-            data={dashboard?.data?.myCountriesCount || "0"}
-            error={dashboard?.error}
-            pageLink="/monitor/countries"
-            helpText={helpText.countries}
-          />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <Stats
+              imgSrc={country}
+              title={"Countries"}
+              ownerShipTitle="In"
+              loading={dashboard?.loading}
+              data={dashboard?.data?.myCountriesCount || "0"}
+              error={dashboard?.error}
+              pageLink="/monitor/countries"
+              helpText={helpText.countries}
+            />
+          </Grid>
           <div style={{ width: "10px !important" }}></div>
-        </Slider>
-
-        <ButtonContainer>
-          <StyledIconButton
-            disableRipple
-            onClick={handleCarouselLeftClick}
-            style={{ marginRight: "10px" }}
-          >
-            <ArrowBackIosIcon style={{ height: "10px", width: "10px" }} />
-          </StyledIconButton>
-          <StyledIconButton disableRipple onClick={handleCarouselRightClick}>
-            <ArrowForwardIosIcon style={{ height: "10px", width: "10px" }} />
-          </StyledIconButton>
-        </ButtonContainer>
+        </Grid>
       </CardContainer>
+      {/* Cards-------------------------------------------------------------------- */}
 
       {/* Table------------------------------------------------------- */}
       <TableContainer>

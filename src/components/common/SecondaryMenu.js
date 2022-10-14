@@ -12,19 +12,31 @@ import { logout } from "../../stores/actions/session";
 import cogoToast from "cogo-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { Box, IconButton, Menu } from "@material-ui/core";
+
+import MenuIcon from "@material-ui/icons/Menu";
+import { useTheme } from "styled-components";
+import { MenuSideContainer } from "./AppSidebar/style";
+import AppSideBar from "./AppSidebar";
 
 function SecondaryMenu(props) {
+  const theme = useTheme();
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [sideBar, setSideBar] = React.useState(false);
   const anchorRef = React.useRef(null);
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const session = useSelector(state => state.session)
-  const user = useSelector(state => state.user)
+  const session = useSelector((state) => state.session);
+  const user = useSelector((state) => state.user);
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
+  };
+  const toggleSideBar = () => {
+    setSideBar((sideBar) => !sideBar);
+    console.log(sideBar);
   };
 
   const handleClose = (event) => {
@@ -37,9 +49,8 @@ function SecondaryMenu(props) {
 
   const onPressLogout = async () => {
     try {
-      dispatch(logout())
-      navigate("/")
-
+      dispatch(logout());
+      navigate("/");
     } catch (error) {
       cogoToast.error("Error logging out.");
     }
@@ -72,12 +83,37 @@ function SecondaryMenu(props) {
         aria-haspopup="true"
         endIcon={<ArrowDropDownIcon />}
         onClick={handleToggle}
-        style={{ color: "#7078A8" }}
         disableFocusRipple
         disableRipple
       >
-        {session?.user?.signInUserSession?.idToken?.payload?.email || session?.user?.username}
+        {session?.user?.signInUserSession?.idToken?.payload?.email ||
+          session?.user?.username}
       </Button>
+
+      <IconButton
+        padding={"10px"}
+        sx={{ color: theme.colors.primary.teal }}
+        className={classes.menuBar}
+        onClick={toggleSideBar}
+      >
+        <MenuIcon />
+      </IconButton>
+
+      <Popper
+        open={sideBar}
+        anchorEl={sideBar}
+        role={undefined}
+        disablePortal
+        transition
+      >
+        <ClickAwayListener onClickAway={toggleSideBar}>
+          <Box onClick={toggleSideBar}>
+            <MenuSideContainer>
+              <AppSideBar />
+            </MenuSideContainer>
+          </Box>
+        </ClickAwayListener>
+      </Popper>
 
       <Popper
         open={open}
@@ -95,7 +131,14 @@ function SecondaryMenu(props) {
                 placement === "bottom" ? "center top" : "center bottom",
             }}
           >
-            <Paper style={{ minWidth: "110px", borderRadius: "0px", boxShadow: "none", border: "1px solid #E0E0E0" }}>
+            <Paper
+              style={{
+                minWidth: "110px",
+                borderRadius: "0px",
+                boxShadow: "none",
+                border: "1px solid #E0E0E0",
+              }}
+            >
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList
                   autoFocusItem={open}
@@ -103,22 +146,20 @@ function SecondaryMenu(props) {
                   onKeyDown={handleListKeyDown}
                 >
                   <div style={{ margin: "10px 15px 10px 20px" }}>
-                    {
-                      user.userMenus?.map((menu, index) => {
-                        return (
-                          <MenuItem
-                            id={index}
-                            onClick={(event) => {
-                              handleClose(event)
-                              navigate(menu.url)
-                            }}
-                            className={classes.menuItem}
-                          >
-                            {menu.urlName}
-                          </MenuItem>
-                        )
-                      })
-                    }
+                    {user.userMenus?.map((menu, index) => {
+                      return (
+                        <MenuItem
+                          id={index}
+                          onClick={(event) => {
+                            handleClose(event);
+                            navigate(menu.url);
+                          }}
+                          className={classes.menuItem}
+                        >
+                          {menu.urlName}
+                        </MenuItem>
+                      );
+                    })}
 
                     <MenuItem
                       onClick={onPressLogout}
@@ -157,8 +198,24 @@ const useStyles = makeStyles((theme) => ({
     },
     "&:hover": {
       backgroundColor: "white",
-      color: "#7078A8 !important"
-    }
+      color: "#7078A8 !important",
+    },
+  },
+  menuBar: {
+    display: "none",
+    ["@media (max-width:1200px)"]: { display: "flex", justifyContent: "end" },
+  },
+  ShowsideBar: {
+    color: "black",
+    display: "none",
+    backgroundColor: "green",
+    ["@media (max-width:1200px)"]: { display: "flex", justifyContent: "end" },
+  },
+  HidesideBar: {
+    color: "red",
+    width: "0px",
+    display: "none",
+    ["@media (max-width:1200px)"]: { display: "flex", justifyContent: "end" },
   },
   menuItem: {
     color: "#757575",
@@ -170,6 +227,6 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       color: "#7078A8",
       backgroundColor: "white",
-    }
-  }
+    },
+  },
 }));

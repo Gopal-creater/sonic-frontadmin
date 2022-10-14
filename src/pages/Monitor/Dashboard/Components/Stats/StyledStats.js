@@ -4,8 +4,9 @@ import theme from "../../../../../theme";
 
 export const Title = styled.h3(({ color, fontSize, fontFamily }) => ({
     "color": color || theme.colors.primary.graphite,
-    "font-size": fontSize || theme.fontSize.h4,
+    "font-size": fontSize || theme.fontSize.h3,
     "font-family": fontFamily || theme.fontFamily.nunitoSansBold
+    
 }))
 
 export const IconContainer = styled(Grid)`
@@ -26,13 +27,16 @@ export const DataContainer = styled.span`
     font-family:${theme.fontFamily.nunitoSansBlack};
     font-size:45px;
     line-height:1;
+    
 `
 
 export const StatsContainer = styled(Grid)`
-    background-color:${theme.colors.secondary.lightTeal};
-    padding:15px;
+    background-color:white;
+    padding:20px;
     cursor: pointer;
     height:100%;
+    border-radius:10px;
+    
     :hover{
         background-color:white;
         box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -41,4 +45,18 @@ export const StatsContainer = styled(Grid)`
             color:${theme.colors.secondary.lightNavy};
         }
     }
+`
+export const CardContainer = styled(Grid)`
+padding:10px;
+margin-top:-40px;
+
+background-color:${theme.colors.primary.navy};
+border-radius:10px;
+box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+:hover{
+        background-color:${theme.colors.primary.graphite};
+        box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+ 
+    }
+
 `

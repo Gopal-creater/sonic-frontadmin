@@ -20,6 +20,7 @@ import { getSKSIDFromDetectionOrigin } from "../../../utils/HelperMethods";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import { useTheme } from "styled-components";
 import PlaysMetaData from "../../../components/common/PlaysMetaData";
+import Tooltip from "@material-ui/core/Tooltip";
 
 export default function Plays() {
   const theme = useTheme();
@@ -295,17 +296,19 @@ export default function Plays() {
       options: {
         customBodyRender: (value) => {
           return (
-            <VisibilityIcon
-              fontSize={"small"}
-              style={{ color: theme.colors.primary.teal, cursor: "pointer" }}
-              onClick={() =>
-                setState({
-                  ...state,
-                  sonicKeyModal: true,
-                  selectedSonicKey: value,
-                })
-              }
-            />
+            <Tooltip title="View">
+              <VisibilityIcon
+                fontSize={"small"}
+                style={{ color: theme.colors.primary.teal, cursor: "pointer" }}
+                onClick={() =>
+                  setState({
+                    ...state,
+                    sonicKeyModal: true,
+                    selectedSonicKey: value,
+                  })
+                }
+              />
+            </Tooltip>
           );
         },
       },

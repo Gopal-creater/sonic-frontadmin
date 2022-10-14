@@ -17,58 +17,86 @@ import StreamReaderTable from "./components/StreamReaderTable";
 import SubscribeStation from "./components/SubscribedStation";
 
 export default function SonicStreamReader() {
-    const dispatch = useDispatch();
-    const streamReader = useSelector(state => state.streamReader);
+  const dispatch = useDispatch();
+  const streamReader = useSelector((state) => state.streamReader);
 
-    log("Stream Reader", streamReader)
+  log("Stream Reader", streamReader);
 
-    React.useEffect(() => {
-        dispatch(fetchRadioMonitorsActions(10, streamReader?.stations?.data?.page));
-    }, [])
+  React.useEffect(() => {
+    dispatch(fetchRadioMonitorsActions(10, streamReader?.stations?.data?.page));
+  }, []);
 
-    return (
-        <MainContainer>
-            <Grid container justifyContent="space-between">
-                <Grid item>
-                    <H1>Sonic StreamReader</H1>
-                    <H4 color={theme.colors.primary.teal} fontFamily={theme.fontFamily.nunitoSansRegular}>
-                        Currently listening to {streamReader?.stations?.data?.totalDocs || 0} radio stations
-                    </H4>
-                </Grid>
-                <Grid item>
-                    <Columns columns={streamReaderTableHeads} />
-                </Grid>
-            </Grid>
+  return (
+    <MainContainer>
+      {/* Header--------------------------------------------------- */}
+      <Grid container justifyContent="space-between">
+        <Grid item>
+          <H1>Sonic StreamReader</H1>
+          <H4
+            color={theme.colors.primary.teal}
+            fontFamily={theme.fontFamily.nunitoSansRegular}
+          >
+            Currently listening to{" "}
+            {streamReader?.stations?.data?.totalDocs || 0} radio stations
+          </H4>
+        </Grid>
+      </Grid>
+      {/* Header--------------------------------------------------- */}
 
-            <FilterCreate
-                // subscribedStation={<SubscribeStation />}
-                filterComponent={<StreamReaderFilter />}
+      {/* Filter--------------------------------------------- */}
+      <FilterCreate
+        // subscribedStation={<SubscribeStation />}
+        filterComponent={<StreamReaderFilter />}
+      />
+      {/* Filter--------------------------------------------- */}
+
+      <CommonDataLoadErrorSuccess
+        error={streamReader?.stations?.error}
+        loading={streamReader?.stations?.loading}
+        onClickTryAgain={() => dispatch(fetchRadioMonitorsActions())}
+      >
+        {/* Table----------------------------------------------------- */}
+        <StreamReaderTable
+          data={streamReader?.stations?.data}
+          tableHeads={streamReaderTableHeads}
+          paginationCount={
+            <PaginationCount
+              name="stations"
+              total={streamReader?.stations?.data?.totalDocs}
+              start={streamReader?.stations?.data?.offset}
+              end={streamReader?.stations?.data?.docs?.length}
             />
+          }
+        />
+        {/* Table----------------------------------------------------- */}
 
-            <CommonDataLoadErrorSuccess
-                error={streamReader?.stations?.error}
-                loading={streamReader?.stations?.loading}
-                onClickTryAgain={() => dispatch(fetchRadioMonitorsActions())}
-            >
-                <StreamReaderTable data={streamReader?.stations?.data} tableHeads={streamReaderTableHeads} />
-                <Grid container justifyContent="space-between" alignItems="center" style={{ marginTop: "30px" }}>
-                    <Grid item xs={12} sm={4} md={6}>
-                        <PaginationCount
-                            name="stations"
-                            total={streamReader?.stations?.data?.totalDocs}
-                            start={streamReader?.stations?.data?.offset}
-                            end={streamReader?.stations?.data?.docs?.length}
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={8} md={6}>
-                        <CustomPagination
-                            count={streamReader?.stations?.data?.totalPages}
-                            page={streamReader?.stations?.data?.page}
-                            onChange={(e, value) => dispatch(fetchRadioMonitorsActions(10, value))}
-                        />
-                    </Grid>
-                </Grid>
-            </CommonDataLoadErrorSuccess>
-        </MainContainer>
-    );
+        {/* Pagination----------------------------------------------------- */}
+        <Grid
+          container
+          justifyContent="space-between"
+          alignItems="center"
+          style={{ marginTop: "30px" }}
+        >
+          <Grid item xs={12} sm={4} md={6}>
+            <PaginationCount
+              name="stations"
+              total={streamReader?.stations?.data?.totalDocs}
+              start={streamReader?.stations?.data?.offset}
+              end={streamReader?.stations?.data?.docs?.length}
+            />
+          </Grid>
+          <Grid item xs={12} sm={8} md={6}>
+            <CustomPagination
+              count={streamReader?.stations?.data?.totalPages}
+              page={streamReader?.stations?.data?.page}
+              onChange={(e, value) =>
+                dispatch(fetchRadioMonitorsActions(10, value))
+              }
+            />
+          </Grid>
+        </Grid>
+        {/* Pagination----------------------------------------------------- */}
+      </CommonDataLoadErrorSuccess>
+    </MainContainer>
+  );
 }

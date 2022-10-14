@@ -1,73 +1,230 @@
 import React from "react";
-import { Grid } from "@material-ui/core";
+import { Grid, Tooltip } from "@material-ui/core";
 import { fetchLicenceKeys } from "../../stores/actions/licenceKey";
 import { useDispatch, useSelector } from "react-redux";
 import { H1, H4 } from "../../StyledComponents/StyledHeadings";
 import theme from "../../theme";
-import Columns from "../../components/common/Columns/Columns";
-import { licenseTableHeads, userRoles } from "../../constants/constants";
-import { log } from "../../utils/app.debug";
+import { userRoles } from "../../constants/constants";
 import CommonDataLoadErrorSuccess from "../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess";
-import LicenceTable from "./components/LicenceTable";
 import LicenseFilter from "./components/LicenseFilter";
 import { useNavigate } from "react-router-dom";
 import FilterCreate from "../../components/common/FilterComponent/FilterCreate";
 import { MainContainer } from "../../StyledComponents/StyledPageContainer";
 import PaginationCount from "../../components/common/Pagination/PaginationCount";
 import CustomPagination from "../../components/common/Pagination/CustomPagination";
+import AppTable from "../../components/common/AppTable";
+import { format } from "date-fns";
+import VisibilityIcon from "@material-ui/icons/Visibility";
 
 function Licences() {
-  const license = useSelector(state => state.licenceKey)
-  const user = useSelector(state => state.user)
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  log("LIcEnSE..", license)
+  const license = useSelector((state) => state.licenceKey);
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   React.useEffect(() => {
-    dispatch(fetchLicenceKeys(5, license?.getLicenseKey?.data?.page))
+    dispatch(fetchLicenceKeys(5, license?.getLicenseKey?.data?.page));
   }, []);
 
+  let columns = [
+    {
+      name: "accountName",
+      label: "ACCOUNT NAME",
+      options: {
+        customBodyRender: (value) => {
+          return value || "--";
+        },
+      },
+    },
+    {
+      name: "maxUsesEncode",
+      label: "MAX USES ENCODE",
+      options: {
+        customBodyRender: (value) => {
+          return value || "--";
+        },
+      },
+    },
+    {
+      name: "maxUsesMonitor",
+      label: "MAX USES MONITOR",
+      options: {
+        customBodyRender: (value) => {
+          return value || "--";
+        },
+      },
+    },
+    {
+      name: "accountType",
+      label: "ACCOUNT TYPE",
+      options: {
+        customBodyRender: (value) => {
+          return value || "--";
+        },
+      },
+    },
+    {
+      name: "users",
+      label: "USERS",
+      options: {
+        customBodyRender: (value) => {
+          return value || "--";
+        },
+      },
+    },
+    {
+      name: "renewalDate",
+      label: "RENEWAL DATE",
+      options: {
+        customBodyRender: (value) => {
+          return value || "--";
+        },
+      },
+    },
+    {
+      name: "licenseName",
+      label: "LICENSE NAME",
+      options: {
+        customBodyRender: (value) => {
+          return value || "--";
+        },
+      },
+    },
+    {
+      name: "key",
+      label: "KEY",
+      options: {
+        customBodyRender: (value) => {
+          return value || "--";
+        },
+      },
+    },
+    {
+      name: "status",
+      label: "STATUS",
+      options: {
+        customBodyRender: (value) => {
+          return value || "--";
+        },
+      },
+    },
+    {
+      name: "actionData",
+      label: "ACTION",
+      options: {
+        customBodyRender: (value) => {
+          return (
+            <Tooltip title="View Licenses">
+              <VisibilityIcon
+                fontSize={"small"}
+                style={{ color: theme.colors.primary.teal, cursor: "pointer" }}
+                onClick={() =>
+                  navigate(`/edit-licences/${value?._id}`, { state: value })
+                }
+              />
+            </Tooltip>
+          );
+        },
+      },
+    },
+  ];
+
   const getStableTableColumnHead = () => {
-    let tableHead = licenseTableHeads;
-    if (user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN && user?.userProfile?.data?.userRole !== userRoles.COMPANY_ADMIN) {
-      return tableHead.filter((itm) => (itm?.title !== "ACCOUNT NAME" && itm?.title !== "ACTION"))
+    if (
+      user?.userProfile?.data?.userRole !== userRoles.PARTNER_ADMIN &&
+      user?.userProfile?.data?.userRole !== userRoles.COMPANY_ADMIN
+    ) {
+      return columns.filter(
+        (itm) => itm?.label !== "ACCOUNT NAME" && itm?.label !== "ACTION"
+      );
     } else if (user?.userProfile?.data?.userRole === userRoles.COMPANY_ADMIN) {
-      return tableHead.filter((itm) => itm?.title !== "ACCOUNT NAME")
+      return columns.filter((itm) => itm?.label !== "ACCOUNT NAME");
     }
-    return tableHead
-  }
+    return columns;
+  };
+
+  const createStableLicenseTableData = () => {
+    const licenses = license?.getLicenseKey?.data?.docs?.map((row) => ({
+      accountName: row?.company?.name || row?.users?.map((u) => u.username),
+      maxUsesEncode:
+        row?.isUnlimitedEncode === true ? "Unlimited" : row?.encodeUses,
+      maxUsesMonitor:
+        row?.isUnlimitedMonitor === true ? "Unlimited" : row?.monitoringUses,
+      accountType: row?.type,
+      users: row?.users?.length,
+      renewalDate: format(new Date(row?.validity), "dd/MM/yyyy"),
+      licenseName: row?.name,
+      key: row?.key,
+      status: row?.suspended === true ? "SUSPENDED" : "ACTIVE",
+      actionData: row,
+    }));
+    return licenses;
+  };
 
   return (
     <MainContainer>
+      {/* Header------------------------------------------------------- */}
       <Grid container justifyContent="space-between">
         <Grid item>
           <H1>Licenses</H1>
-          <H4 fontFamily={theme.fontFamily.nunitoSansRegular} color={theme.colors.primary.teal}>
+          <H4
+            fontFamily={theme.fontFamily.nunitoSansRegular}
+            color={theme.colors.primary.teal}
+          >
             List of all licenses
           </H4>
         </Grid>
-        <Grid item>
-          <Columns columns={getStableTableColumnHead()} />
-        </Grid>
       </Grid>
+      {/* Header------------------------------------------------------- */}
 
-      {user?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN ?
+      {/* Filter--------------------------------------------------------- */}
+      {user?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN ? (
         <FilterCreate
           filterComponent={<LicenseFilter />}
-          createComponent={() => navigate('/add-licences')}
+          createComponent={() => navigate("/add-licences")}
           btnTitle={"Create new license"}
-        /> :
-        <Grid style={{ margin: '30px 0px' }} />
-      }
+        />
+      ) : (
+        <Grid style={{ margin: "30px 0px" }} />
+      )}
+      {/* Filter--------------------------------------------------------- */}
 
       <CommonDataLoadErrorSuccess
         error={license?.getLicenseKey?.error}
         loading={license?.getLicenseKey?.loading}
         onClickTryAgain={() => dispatch(5, license?.getLicenseKey?.data?.page)}
       >
-        <LicenceTable data={license?.getLicenseKey?.data?.docs || []} licenseTableHead={getStableTableColumnHead()} />
-        {license?.getLicenseKey?.data?.totalDocs <= 5 ? "" :
-          <Grid container justifyContent="space-between" alignItems="center" style={{ marginTop: "30px" }}>
+        {/* Table----------------------------------------------- */}
+        <AppTable
+          title={
+            <PaginationCount
+              name="license"
+              total={license?.getLicenseKey?.data?.totalDocs}
+              start={license?.getLicenseKey?.data?.offset}
+              end={license?.getLicenseKey?.data?.docs?.length}
+            />
+          }
+          columns={getStableTableColumnHead()}
+          data={createStableLicenseTableData()}
+          options={{
+            count: license?.getLicenseKey?.data?.docs?.length || 0,
+            customFooter: () => {
+              return null;
+            },
+          }}
+        />
+        {/* Table----------------------------------------------- */}
+
+        {/* Pagination------------------------------------------- */}
+        {license?.getLicenseKey?.data?.totalDocs <= 5 ? (
+          ""
+        ) : (
+          <Grid
+            container
+            justifyContent="space-between"
+            alignItems="center"
+            style={{ marginTop: "30px" }}
+          >
             <Grid item xs={12} sm={4} md={6}>
               <PaginationCount
                 name="license"
@@ -83,7 +240,9 @@ function Licences() {
                 onChange={(e, value) => dispatch(fetchLicenceKeys(5, value))}
               />
             </Grid>
-          </Grid>}
+          </Grid>
+        )}
+        {/* Pagination------------------------------------------- */}
       </CommonDataLoadErrorSuccess>
     </MainContainer>
   );

@@ -30,19 +30,19 @@ import SonicKey from "../pages/SonicKey/SonicKey";
 import Profile from "../pages/Profile/Profile";
 import SonicStreamReader from "../pages/StreamReader/SonicStreamReader";
 import SonicStreamDetail from "../pages/StreamReader/SonicStreamDetail";
-import * as actionTypes from '../stores/actions/actionTypes';
+import * as actionTypes from "../stores/actions/actionTypes";
 import MonitorCompanies from "../pages/Monitor/Companies";
 import EncodesByCompany from "../pages/Reports/EncodesByCompany";
 
 export default function AppRoutes() {
-  const user = useSelector(state => state.user)
-  const dispatch = useDispatch()
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const location = useLocation();
 
   React.useEffect(() => {
-    dispatch(getUserProfileAction())
-    dispatch(getInitialDatas())
-  }, [])
+    dispatch(getUserProfileAction());
+    dispatch(getInitialDatas());
+  }, []);
 
   React.useEffect(() => {
     if (location.pathname !== "/encoded-tracks") {
@@ -57,21 +57,18 @@ export default function AppRoutes() {
           label: "",
           distributor: "",
           company: "",
-          user: ""
-        }
-      })
+          user: "",
+        },
+      });
     }
-  }, [location])
+  }, [location]);
 
   if (user?.userProfile?.error) {
-    dispatch(logout())
-    return null
-  }
-  else if (user?.userProfile?.loading) {
+    dispatch(logout());
+    return null;
+  } else if (user?.userProfile?.loading) {
     return <SonicSpinner title="Fetching user profile..." />;
-  }
-
-  else {
+  } else {
     return (
       <AppLayout>
         <div style={{ width: "100%" }}>
@@ -82,7 +79,10 @@ export default function AppRoutes() {
             <Route path="/licences" element={<Licences />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/monitor/radio-stations" element={<RadioStations />} />
-            <Route path="/sonicstreamdetail/:id" element={<SonicStreamDetail />} />
+            <Route
+              path="/sonicstreamdetail/:id"
+              element={<SonicStreamDetail />}
+            />
             <Route path="/monitor/plays" element={<Plays />} />
             <Route path="/monitor/tracks" element={<Tracks />} />
             <Route path="/monitor/artists" element={<Artists />} />
@@ -93,7 +93,16 @@ export default function AppRoutes() {
             {/* Public routes */}
 
             {/* Routes that are protected */}
-            <Route element={<RoleAuth allowedRoles={[userRoles.PARTNER_ADMIN, userRoles.COMPANY_ADMIN]} />}>
+            <Route
+              element={
+                <RoleAuth
+                  allowedRoles={[
+                    userRoles.PARTNER_ADMIN,
+                    userRoles.COMPANY_ADMIN,
+                  ]}
+                />
+              }
+            >
               <Route path="/user-profile/:id" element={<UserProfile />} />
               <Route path="/create-user" element={<CreateUser />} />
               <Route path="/company-profile/:id" element={<CompanyProfile />} />
@@ -101,15 +110,31 @@ export default function AppRoutes() {
               <Route path="/users" element={<Users />} />
             </Route>
 
-            <Route element={<RoleAuth allowedRoles={[userRoles.PARTNER_ADMIN]} />}>
+            <Route
+              element={<RoleAuth allowedRoles={[userRoles.PARTNER_ADMIN]} />}
+            >
               <Route path="/companies" element={<Companies />} />
               <Route path="/create-company" element={<CreateNewCompany />} />
               <Route path="/add-licences" element={<AddLicence />} />
               <Route path="/monitor/companies" element={<MonitorCompanies />} />
-              <Route path="/reports/encodes-by-company" element={<EncodesByCompany />} />
+              <Route
+                path="/reports/encodes-by-company"
+                element={<EncodesByCompany />}
+              />
             </Route>
 
-            <Route element={<RoleAuth allowedRoles={[userRoles.COMPANY_ADMIN, userRoles.COMPANY_USER, userRoles.PORTAL_USER, userRoles.PARTNER_USER]} />}>
+            <Route
+              element={
+                <RoleAuth
+                  allowedRoles={[
+                    userRoles.COMPANY_ADMIN,
+                    userRoles.COMPANY_USER,
+                    userRoles.PORTAL_USER,
+                    userRoles.PARTNER_USER,
+                  ]}
+                />
+              }
+            >
               <Route path="/encode" element={<Encode />} />
               <Route path="/decode" element={<Decode />} />
             </Route>

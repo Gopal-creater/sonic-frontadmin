@@ -4,8 +4,6 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Toolbar from "@material-ui/core/Toolbar";
 import {
   AppBar,
-  Box,
-  Container,
   Divider,
   Drawer,
   Grid,
@@ -15,18 +13,17 @@ import {
 import MenuIcon from "@material-ui/icons/Menu";
 import CloseIcon from "@material-ui/icons/Close";
 import Footer from "./Footer";
-import Header from "./Header";
-import Wave from "../../assets/images/wave-pages.svg";
 import AppSideBar from "./AppSidebar";
-import { SideBarContainer } from "./AppSidebar/style";
 import { useNavigate } from "react-router-dom";
 import LogoWithTextImg from "../../assets/images/Logo-colour-simple.png";
 import SecondaryMenu from "./SecondaryMenu";
+import { useTheme } from "styled-components";
 
 export default function AppLayout({ children }) {
+  const appTheme = useTheme();
   const classes = useStyles();
   const navigate = useNavigate();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
   const toggleSideBar = () => {
     setOpen((open) => !open);
   };
@@ -34,6 +31,7 @@ export default function AppLayout({ children }) {
   return (
     <div className={classes.root}>
       <CssBaseline />
+      {/* Header------------------------------------------------------- */}
       <AppBar
         position="fixed"
         elevation={0}
@@ -47,19 +45,22 @@ export default function AppLayout({ children }) {
           >
             <MenuIcon />
           </IconButton>
-          <Toolbar>
-            <img
-              alt="logo"
-              src={LogoWithTextImg}
-              style={{ width: 80, cursor: "pointer" }}
-              onClick={() => navigate("/dashboard")}
-            ></img>
-            <div style={{ flexGrow: 2 }}>
-              <SecondaryMenu />
-            </div>
-          </Toolbar>
+
+          <Grid container justifyContent="space-between">
+            <Typography
+              variant="h5"
+              noWrap
+              style={{ color: appTheme.colors.primary.graphite }}
+            >
+              Amazing
+            </Typography>
+            <SecondaryMenu />
+          </Grid>
         </Toolbar>
       </AppBar>
+      {/* Header------------------------------------------------------- */}
+
+      {/* Drawer---------------------------------------------- */}
       <Drawer
         className={classes.drawer}
         classes={{ paper: classes.drawerPaper }}
@@ -68,26 +69,33 @@ export default function AppLayout({ children }) {
         anchor="left"
       >
         <div className={classes.drawerHeader}>
-          <IconButton onClick={toggleSideBar}>
+          <img
+            alt="logo"
+            src={LogoWithTextImg}
+            style={{ width: 50, cursor: "pointer" }}
+            onClick={() => navigate("/dashboard")}
+          />
+          <IconButton
+            onClick={toggleSideBar}
+            style={{ position: "absolute", right: 0 }}
+          >
             <CloseIcon />
           </IconButton>
           <Divider />
         </div>
         <AppSideBar />
       </Drawer>
+      {/* Drawer---------------------------------------------- */}
+
+      {/* Main Body Container------------------------------------------------------- */}
       <Grid item className={open ? classes.contentShift : classes.content}>
-        
-        <main style={{overflow:"auto"}}>
-          {children}
-        </main>
-        
+        <main style={{ overflow: "auto" }}>{children}</main>
+
         <Grid className="pt-4" id="footer">
           <Footer id="footerContainer" />
         </Grid>
       </Grid>
-      {/* <main>
-        <div style={{ minHeight: "68vh" }}>{children}</div>
-      </main> */}
+      {/* Main Body Container------------------------------------------------------- */}
     </div>
   );
 }
@@ -130,16 +138,16 @@ const useStyles = makeStyles((theme) => ({
   drawerHeader: {
     display: "flex",
     alignItems: "center",
+    justifyContent: "center",
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
-    justifyContent: "flex-end",
   },
   content: {
     flexGrow: 1,
-    position:"relative",
-    width:"0px",
-    marginTop:"70px",
+    position: "relative",
+    width: "0px",
+    marginTop: "70px",
     padding: theme.spacing(3),
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
@@ -149,9 +157,9 @@ const useStyles = makeStyles((theme) => ({
   },
   contentShift: {
     flexGrow: 1,
-    position:"relative",
-    width:"0px",
-    marginTop:"70px",
+    position: "relative",
+    width: "0px",
+    marginTop: "70px",
     padding: theme.spacing(3),
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.easeOut,

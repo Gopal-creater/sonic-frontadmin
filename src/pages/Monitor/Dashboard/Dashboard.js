@@ -1,10 +1,10 @@
-import { Grid } from "@material-ui/core";
+import { Box, Grid } from "@material-ui/core";
 import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as actionTypes from "../../../stores/actions/actionTypes";
 import WelcomeBack from "./Components/WelcomeBack/WelcomeBack";
 import Stats from "./Components/Stats/Stats";
-import MusicNoteIcon from '@material-ui/icons/MusicNote';
+import MusicNoteIcon from "@material-ui/icons/MusicNote";
 import music from "../../../assets/icons/icon-black-music.png";
 import note from "../../../assets/icons/icon-black-musicnote.png";
 import artist from "../../../assets/icons/icon-black-artist.png";
@@ -360,9 +360,17 @@ export function Dashboard() {
 
       {/* Cards-------------------------------------------------------------------- */}
       <CardContainer>
-        <Grid container spacing={4}>
+        <Grid
+          container
+          spacing={3}
+          style={{
+            margin: 0,
+            padding: 0,
+            width: "100%",
+          }}
+        >
           {users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN && (
-            <Grid item xs={12} sm={6} md={4} style>
+            <Grid item xs={12} sm={6} md={4}>
               <Stats
                 imgSrc={radio}
                 title={"Companies"}

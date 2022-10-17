@@ -1,16 +1,14 @@
 import { Grid } from "@material-ui/core";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Columns from "../../components/common/Columns/Columns";
 import CommonDataLoadErrorSuccess from "../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess";
 import FilterCreate from "../../components/common/FilterComponent/FilterCreate";
 import CustomPagination from "../../components/common/Pagination/CustomPagination";
 import PaginationCount from "../../components/common/Pagination/PaginationCount";
 import { sonicKeyTableHeads } from "../../constants/constants";
 import { getAllSonickeysActions } from "../../stores/actions/SonicKeyAcrtions";
-import { H1, H4 } from "../../StyledComponents/StyledHeadings";
+import { H1 } from "../../StyledComponents/StyledHeadings";
 import { MainContainer } from "../../StyledComponents/StyledPageContainer";
-import theme from "../../theme";
 import SonicKeyFilter from "./components/SonicKeyFilter";
 import SonicKeyTable from "./components/SonicKeyTable";
 
@@ -34,9 +32,6 @@ export default function SonicKey() {
             start={sonickey?.getSonicKeys?.data?.offset}
             end={sonickey?.getSonicKeys?.data?.docs?.length}
           />
-        </Grid>
-        <Grid item>
-          <Columns columns={sonicKeyTableHeads} />
         </Grid>
       </Grid>
 

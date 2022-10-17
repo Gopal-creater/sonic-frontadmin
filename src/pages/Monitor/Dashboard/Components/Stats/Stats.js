@@ -4,7 +4,6 @@ import {
   CardContainer,
   DataContainer,
   IconContainer,
-  OwnershipTitleContainer,
   StatsContainer,
   Title,
 } from "./StyledStats";
@@ -32,9 +31,7 @@ export default function Stats({
     <StatsContainer container onClick={changePage}>
       <Grid item xs={4} container alignItems="flex-start">
         <CardContainer>
-            <Box>
-          {imgSrc }
-          </Box>
+          <Box>{imgSrc}</Box>
         </CardContainer>
       </Grid>
 
@@ -47,7 +44,9 @@ export default function Stats({
       >
         <Grid item container justifyContent="flex-end">
           <Grid item container justifyContent="flex-end">
-            <Title style={{ textAlign: "end" }}>{title || "---"}</Title>
+            <Title style={{ textAlign: "end", marginRight: "5px" }}>
+              {title || "---"}
+            </Title>
             <Grid>
               <CustomToolTip
                 title={helpText}
@@ -58,7 +57,7 @@ export default function Stats({
                 <IconContainer item>
                   <HelpOutlineIcon
                     style={{
-                      fontSize: "10px",
+                      fontSize: "20px",
                       color: `${theme.colors.primary.graphite} `,
                     }}
                   />

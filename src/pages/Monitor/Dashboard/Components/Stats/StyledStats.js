@@ -2,61 +2,58 @@ import { Grid } from "@material-ui/core";
 import styled from "styled-components";
 import theme from "../../../../../theme";
 
-export const Title = styled.h3(({ color, fontSize, fontFamily }) => ({
-    "color": color || theme.colors.primary.graphite,
-    "font-size": fontSize || theme.fontSize.h3,
-    "font-family": fontFamily || theme.fontFamily.nunitoSansBold
-    
-}))
+export const Title = styled.h4(({ color, fontSize, fontFamily }) => ({
+  color: color || theme.colors.primary.graphite,
+  "font-size": fontSize || theme.fontSize.h4,
+  "font-family": fontFamily || theme.fontFamily.nunitoSansBold,
+}));
 
 export const IconContainer = styled(Grid)`
-position: static;
-width:100%;
-display:flex;
-justify-content:flex-end;
-`
+  position: static;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+`;
 
 export const OwnershipTitleContainer = styled.span`
-    color:${theme.colors.secondary.grey};
-    font-family:${theme.fontFamily.nunitoSansBold};
-    margin-right:10px;
-`
+  color: ${theme.colors.secondary.grey};
+  font-family: ${theme.fontFamily.nunitoSansBold};
+  margin-right: 10px;
+`;
 
 export const DataContainer = styled.span`
-    color:${theme.colors.primary.navy};
-    font-family:${theme.fontFamily.nunitoSansBlack};
-    font-size:45px;
-    line-height:1;
-    
-`
+  color: ${theme.colors.primary.navy};
+  font-family: ${theme.fontFamily.nunitoSansBlack};
+  font-size: 45px;
+  line-height: 1;
+`;
 
 export const StatsContainer = styled(Grid)`
-    background-color:white;
-    padding:20px;
-    cursor: pointer;
-    height:100%;
-    border-radius:10px;
-    
-    :hover{
-        background-color:white;
-        box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  background-color: white;
+  padding: 20px;
+  cursor: pointer;
+  height: 100%;
+  border-radius: 10px;
 
-        ${DataContainer},${OwnershipTitleContainer},${Title} {
-            color:${theme.colors.secondary.lightNavy};
-        }
+  :hover {
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+    ${DataContainer},${OwnershipTitleContainer},${Title} {
+      color: ${theme.colors.secondary.lightNavy};
     }
-`
+  }
+`;
 export const CardContainer = styled(Grid)`
-padding:10px;
-margin-top:-40px;
+  padding: 10px;
+  margin-top: -30px;
 
-background-color:${theme.colors.primary.navy};
-border-radius:10px;
-box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-:hover{
-        background-color:${theme.colors.primary.graphite};
-        box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
- 
-    }
 
-`
+  background-color: ${theme.colors.primary.navy};
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  :hover {
+    background-color: ${theme.colors.primary.graphite};
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+`;

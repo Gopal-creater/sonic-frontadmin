@@ -5,11 +5,11 @@ import * as actionTypes from "../../../stores/actions/actionTypes";
 import WelcomeBack from "./Components/WelcomeBack/WelcomeBack";
 import Stats from "./Components/Stats/Stats";
 import MusicNoteIcon from "@material-ui/icons/MusicNote";
-import music from "../../../assets/icons/icon-black-music.png";
-import note from "../../../assets/icons/icon-black-musicnote.png";
-import artist from "../../../assets/icons/icon-black-artist.png";
-import radio from "../../../assets/icons/icon-black-radio.png";
-import country from "../../../assets/icons/icon-black-globe.png";
+import PublicIcon from "@material-ui/icons/Public";
+import RadioIcon from "@material-ui/icons/Radio";
+import AlbumIcon from "@material-ui/icons/Album";
+import PersonIcon from "@material-ui/icons/Person";
+import BusinessIcon from "@material-ui/icons/Business";
 import FilterComponent from "../../../components/common/FilterComponent/FilterComponent";
 import CommonDataLoadErrorSuccess from "../../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess";
 import { CardContainer, TableContainer } from "./DashboardStyles";
@@ -372,7 +372,9 @@ export function Dashboard() {
           {users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN && (
             <Grid item xs={12} sm={6} md={4}>
               <Stats
-                imgSrc={radio}
+                imgSrc={
+                  <BusinessIcon style={{ fontSize: 40, color: "white" }} />
+                }
                 title={"Companies"}
                 loading={dashboard?.loading}
                 data={dashboard?.data?.myCompaniesCount || "0"}
@@ -385,7 +387,9 @@ export function Dashboard() {
 
           <Grid item xs={12} sm={6} md={4}>
             <Stats
-              imgSrc={music}
+              imgSrc={
+                <MusicNoteIcon style={{ fontSize: 40, color: "white" }} />
+              }
               title={"My Plays"}
               loading={dashboard?.loading}
               data={dashboard?.data?.myPlaysCount || "0"}
@@ -394,9 +398,10 @@ export function Dashboard() {
               helpText={helpText.plays}
             />
           </Grid>
+
           <Grid item xs={12} sm={6} md={4}>
             <Stats
-              imgSrc={note}
+              imgSrc={<AlbumIcon style={{ fontSize: 40, color: "white" }} />}
               title={"My Tracks"}
               ownerShipTitle="from"
               loading={dashboard?.loading}
@@ -408,7 +413,7 @@ export function Dashboard() {
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
             <Stats
-              imgSrc={artist}
+              imgSrc={<PersonIcon style={{ fontSize: 40, color: "white" }} />}
               title={"Artists"}
               ownerShipTitle="by"
               loading={dashboard?.loading}
@@ -420,7 +425,7 @@ export function Dashboard() {
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
             <Stats
-              imgSrc={radio}
+              imgSrc={<RadioIcon style={{ fontSize: 40, color: "white" }} />}
               title={"Radio Stations"}
               ownerShipTitle="At"
               loading={dashboard?.loading}
@@ -432,7 +437,7 @@ export function Dashboard() {
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
             <Stats
-              imgSrc={country}
+              imgSrc={<PublicIcon style={{ fontSize: 40, color: "white" }} />}
               title={"Countries"}
               ownerShipTitle="In"
               loading={dashboard?.loading}

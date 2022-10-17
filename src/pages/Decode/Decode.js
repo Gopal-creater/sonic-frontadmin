@@ -7,9 +7,12 @@ import EncodeDecodeLoading from "../../components/common/FileSelection/EncodeDec
 import PopUp from "../../components/common/PopUp";
 import { H4, H5 } from "../../StyledComponents/StyledHeadings";
 import theme from "../../theme";
-import { PopUpContainer, TitleContainer } from "../Encode/Components/MetaDataDetails/indexStyles";
-import encode_progress from "../../assets/icons/encode_progress.png"
-import sonic_preloader from "../../assets/icons/sonic_preloader.gif"
+import {
+  PopUpContainer,
+  TitleContainer,
+} from "../Encode/Components/MetaDataDetails/indexStyles";
+import encode_progress from "../../assets/icons/encode_progress.png";
+import sonic_preloader from "../../assets/icons/sonic_preloader.gif";
 
 export default function Decode() {
   const [loading, setLoading] = useState(false);
@@ -67,36 +70,26 @@ export default function Decode() {
         }}
       />
 
-      {/* <EncodeDecodeLoading
-        open={loading}
-        onClose={() => setLoading(false)}
-        title="Decoding"
-        audioName={values?.name}
-      /> */}
-
-      <PopUp
-        id="loadingPopUp"
-        open={loading}
-        maxWidth="sm"
-        fullWidth
-      >
+      <PopUp id="loadingPopUp" open={loading} maxWidth="sm" fullWidth>
         <PopUpContainer>
-          <TitleContainer container direction='column' alignItems='center'>
-            <img src={encode_progress} style={{ width: "140px", height: "140px", zIndex: 1 }} />
+          <TitleContainer container direction="column" alignItems="center">
+            <img
+              src={encode_progress}
+              style={{ width: "140px", height: "140px", zIndex: 1 }}
+            />
             <H4
-              className='mt-4'
+              className="mt-4"
               fontFamily={theme.fontFamily.nunitoSansBlack}
               style={{ textAlign: "center", zIndex: 1 }}
             >
               Decoding of {values?.name} in progress
             </H4>
           </TitleContainer>
-          <H5
-            style={{ textAlign: "center", padding: "25px" }}
-          >
-            The speed of your internet connection and the size of the audio file may affect encoding and decoding times. 
+          <H5 style={{ textAlign: "center", padding: "25px" }}>
+            The speed of your internet connection and the size of the audio file
+            may affect encoding and decoding times.
           </H5>
-          <Grid container justifyContent='center'>
+          <Grid container justifyContent="center">
             <img src={sonic_preloader} alt="sonic preloader" />
           </Grid>
         </PopUpContainer>

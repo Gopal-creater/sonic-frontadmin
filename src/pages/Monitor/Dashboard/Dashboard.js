@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as actionTypes from "../../../stores/actions/actionTypes";
 import WelcomeBack from "./Components/WelcomeBack/WelcomeBack";
 import Stats from "./Components/Stats/Stats";
+import MusicNoteIcon from '@material-ui/icons/MusicNote';
 import music from "../../../assets/icons/icon-black-music.png";
 import note from "../../../assets/icons/icon-black-musicnote.png";
 import artist from "../../../assets/icons/icon-black-artist.png";

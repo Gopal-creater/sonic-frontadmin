@@ -12,7 +12,7 @@ export default function Header() {
   const navigate = useNavigate();
   return (
     <AppBar position="sticky" className={classes.appBar} elevation={0}>
-      <Container maxWidth="xl" className={classes.container}>
+      {/* <Container maxWidth="xl" className={classes.container}> */}
         <Toolbar className={classes.toolBar}>
           <img
             alt="logo"
@@ -20,10 +20,10 @@ export default function Header() {
             style={{ width: 80, cursor: "pointer" }}
             onClick={() => navigate("/dashboard")}
           />
-          <div style={{ flexGrow: 1 }} />
+          <div   />
           <SecondaryMenu />
         </Toolbar>
-      </Container>
+      {/* </Container> */}
     </AppBar>
   );
 }

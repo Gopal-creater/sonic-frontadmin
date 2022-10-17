@@ -12,7 +12,7 @@ import { logout } from "../../stores/actions/session";
 import cogoToast from "cogo-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Box, IconButton, Menu } from "@material-ui/core";
+import { Box, Collapse, IconButton} from "@material-ui/core";
 
 import MenuIcon from "@material-ui/icons/Menu";
 import { useTheme } from "styled-components";
@@ -36,7 +36,6 @@ function SecondaryMenu(props) {
   };
   const toggleSideBar = () => {
     setSideBar((sideBar) => !sideBar);
-    console.log(sideBar);
   };
 
   const handleClose = (event) => {
@@ -89,31 +88,6 @@ function SecondaryMenu(props) {
         {session?.user?.signInUserSession?.idToken?.payload?.email ||
           session?.user?.username}
       </Button>
-
-      <IconButton
-        padding={"10px"}
-        sx={{ color: theme.colors.primary.teal }}
-        className={classes.menuBar}
-        onClick={toggleSideBar}
-      >
-        <MenuIcon />
-      </IconButton>
-
-      <Popper
-        open={sideBar}
-        anchorEl={sideBar}
-        role={undefined}
-        disablePortal
-        transition
-      >
-        <ClickAwayListener onClickAway={toggleSideBar}>
-          <Box onClick={toggleSideBar}>
-            <MenuSideContainer>
-              <AppSideBar />
-            </MenuSideContainer>
-          </Box>
-        </ClickAwayListener>
-      </Popper>
 
       <Popper
         open={open}
@@ -183,6 +157,8 @@ export default SecondaryMenu;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
+    justifyContent:"flex-end"
+    
   },
   paper: {
     marginRight: theme.spacing(2),

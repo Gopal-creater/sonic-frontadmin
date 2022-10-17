@@ -2,70 +2,161 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Toolbar from "@material-ui/core/Toolbar";
-import { Container, Grid } from "@material-ui/core";
+import {
+  AppBar,
+  Box,
+  Container,
+  Divider,
+  Drawer,
+  Grid,
+  IconButton,
+  Typography,
+} from "@material-ui/core";
+import MenuIcon from "@material-ui/icons/Menu";
+import CloseIcon from "@material-ui/icons/Close";
 import Footer from "./Footer";
 import Header from "./Header";
 import Wave from "../../assets/images/wave-pages.svg";
 import AppSideBar from "./AppSidebar";
 import { SideBarContainer } from "./AppSidebar/style";
+import { useNavigate } from "react-router-dom";
+import LogoWithTextImg from "../../assets/images/Logo-colour-simple.png";
+import SecondaryMenu from "./SecondaryMenu";
 
 export default function AppLayout({ children }) {
   const classes = useStyles();
+  const navigate = useNavigate();
+  const [open, setOpen] = React.useState(false);
+  const toggleSideBar = () => {
+    setOpen((open) => !open);
+  };
 
   return (
     <div className={classes.root}>
       <CssBaseline />
-
-      <Header id="headerContainer" />
-
-      <Container maxWidth="xl" className={classes.container}>
-        <Toolbar />
-        <Grid id="container" className={classes.subContainer}>
-          <Grid item id="sidebarContainer" className={classes.sidebarContainer}>
-            <SideBarContainer>
-              <AppSideBar />
-            </SideBarContainer>
-          </Grid>
-
-          <Grid item id="pageContainer" className={classes.pagecontent}>
-            <main>
-              <div style={{ minHeight: "68vh" }}>{children}</div>
-            </main>
-
-            <Grid className="pt-4" id="footer">
-              <Footer id="footerContainer" />
-            </Grid>
-          </Grid>
+      <AppBar
+        position="fixed"
+        elevation={0}
+        className={open ? classes.appBarShift : classes.appBar}
+      >
+        <Toolbar>
+          <IconButton
+            onClick={toggleSideBar}
+            edge="start"
+            className={open ? classes.hide : classes.menuButton}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Toolbar>
+            <img
+              alt="logo"
+              src={LogoWithTextImg}
+              style={{ width: 80, cursor: "pointer" }}
+              onClick={() => navigate("/dashboard")}
+            ></img>
+            <div style={{ flexGrow: 2 }}>
+              <SecondaryMenu />
+            </div>
+          </Toolbar>
+        </Toolbar>
+      </AppBar>
+      <Drawer
+        className={classes.drawer}
+        classes={{ paper: classes.drawerPaper }}
+        open={open}
+        variant="persistent"
+        anchor="left"
+      >
+        <div className={classes.drawerHeader}>
+          <IconButton onClick={toggleSideBar}>
+            <CloseIcon />
+          </IconButton>
+          <Divider />
+        </div>
+        <AppSideBar />
+      </Drawer>
+      <Grid item className={open ? classes.contentShift : classes.content}>
+        
+        <main style={{overflow:"auto"}}>
+          {children}
+        </main>
+        
+        <Grid className="pt-4" id="footer">
+          <Footer id="footerContainer" />
         </Grid>
-      </Container>
+      </Grid>
+      {/* <main>
+        <div style={{ minHeight: "68vh" }}>{children}</div>
+      </main> */}
     </div>
   );
 }
 
+const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   root: {
-    background: "#f2f2f2",
-  },
-  container: {
-    paddingLeft: "3%",
-    paddingRight: "3%",
-    backgroundImage: `url(${Wave})`,
-    backgroundRepeat: "no-repeat",
-    backgroundPositionX: "right",
-    backgroundPositionY: "top",
-  },
-  subContainer: {
-    padding: "0% 4%",
-    width: "100%",
     display: "flex",
   },
-  sidebarContainer: {
-    width: "190px",
-    position: "fixed",
+  appBar: {
+    backgroundColor: "white",
+    transition: theme.transitions.create(["margin", "width"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
   },
-  pagecontent: {
+  appBarShift: {
+    backgroundColor: "white",
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: drawerWidth,
+
+    transition: theme.transitions.create(["margin", "width"], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  hide: {
+    display: "none",
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+  },
+  drawerPaper: {
+    width: drawerWidth,
+  },
+  drawerHeader: {
+    display: "flex",
+    alignItems: "center",
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: "flex-end",
+  },
+  content: {
     flexGrow: 1,
-    ["@media (min-width:1200px)"]: { marginLeft: "190px" },
-    overflowY: "auto",
+    position:"relative",
+    width:"0px",
+    marginTop:"70px",
+    padding: theme.spacing(3),
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    marginLeft: -drawerWidth,
+  },
+  contentShift: {
+    flexGrow: 1,
+    position:"relative",
+    width:"0px",
+    marginTop:"70px",
+    padding: theme.spacing(3),
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginLeft: 0,
   },
 }));

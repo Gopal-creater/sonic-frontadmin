@@ -17,9 +17,12 @@ export const MenuSideContainer = styled(Grid)`
   display: flex;
   margin-top:76px;
   padding:10px;
+  padding-top:30px;
+  border-radius:10px;
   justify-content: center;
   flex-wrap: wrap;
   max-width: 100%;
+  height:88vh;
   background-color:white;
   opacity:95%;
   @media (min-width: 1200px) {

@@ -8,22 +8,16 @@ import Popper from "@material-ui/core/Popper";
 import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
 import { makeStyles } from "@material-ui/core/styles";
-import { logout } from "../../stores/actions/session";
+import { logout } from "../../../../../stores/actions/session";
 import cogoToast from "cogo-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Box, Collapse, IconButton} from "@material-ui/core";
-
-import MenuIcon from "@material-ui/icons/Menu";
 import { useTheme } from "styled-components";
-import { MenuSideContainer } from "./AppSidebar/style";
-import AppSideBar from "./AppSidebar";
 
 function SecondaryMenu(props) {
-  const theme = useTheme();
+  const appTheme = useTheme();
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [sideBar, setSideBar] = React.useState(false);
   const anchorRef = React.useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -33,9 +27,6 @@ function SecondaryMenu(props) {
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
-  };
-  const toggleSideBar = () => {
-    setSideBar((sideBar) => !sideBar);
   };
 
   const handleClose = (event) => {
@@ -154,55 +145,38 @@ function SecondaryMenu(props) {
 
 export default SecondaryMenu;
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    justifyContent:"flex-end"
-    
-  },
-  paper: {
-    marginRight: theme.spacing(2),
-  },
-  secondaryButton: {
-    textTransform: "none",
-    fontFamily: "NunitoSans-Black",
-    margin: "0px",
-    padding: "0px",
-    color: "#757575 !important",
-    "&:focus": {
-      outline: "none",
+const useStyles = makeStyles((theme) => {
+  const appTheme = useTheme();
+  return {
+    root: {
+      display: "flex",
+      justifyContent: "flex-end",
     },
-    "&:hover": {
-      backgroundColor: "white",
-      color: "#7078A8 !important",
+    paper: {
+      marginRight: theme.spacing(2),
     },
-  },
-  menuBar: {
-    display: "none",
-    ["@media (max-width:1200px)"]: { display: "flex", justifyContent: "end" },
-  },
-  ShowsideBar: {
-    color: "black",
-    display: "none",
-    backgroundColor: "green",
-    ["@media (max-width:1200px)"]: { display: "flex", justifyContent: "end" },
-  },
-  HidesideBar: {
-    color: "red",
-    width: "0px",
-    display: "none",
-    ["@media (max-width:1200px)"]: { display: "flex", justifyContent: "end" },
-  },
-  menuItem: {
-    color: "#757575",
-    fontFamily: "NunitoSans-Regular",
-    margin: "0px",
-    padding: "0px",
-    paddingRight: "30px",
-    borderBottom: "1px solid #F4F4F4",
-    "&:hover": {
-      color: "#7078A8",
-      backgroundColor: "white",
+    secondaryButton: {
+      textTransform: "none",
+      paddingLeft: "0px",
+      color: `${appTheme.colors.primary.light} !important`,
+      "&:focus": {
+        outline: "none",
+      },
+      "&:hover": {
+        backgroundColor: `${appTheme.colors.primary.contrastText}`,
+        color: `${appTheme.colors.primary.main}`,
+      },
     },
-  },
-}));
+    menuItem: {
+      color: `${appTheme.colors.primary.light}`,
+      fontSize: `${appTheme.fontSize.content}`,
+      margin: "0px",
+      padding: "0px",
+      paddingRight: "30px",
+      "&:hover": {
+        color: `${appTheme.colors.primary.main}`,
+        backgroundColor: `${appTheme.colors.primary.contrastText}`,
+      },
+    },
+  };
+});

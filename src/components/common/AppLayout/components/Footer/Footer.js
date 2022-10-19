@@ -1,20 +1,21 @@
-import React from 'react'
-import styled, { useTheme } from 'styled-components'
-import { H5, H6 } from '../../StyledComponents/StyledHeadings'
+import React from "react";
+import styled, { useTheme } from "styled-components";
+import { H5, H6 } from "../../../../../StyledComponents/StyledHeadings";
 
 const FooterContainer = styled.div`
   padding: 5;
-`
+`;
 
 export default function Footer() {
-  const theme = useTheme()
+  const theme = useTheme();
   return (
     <FooterContainer>
       <H6
         fontFamily={theme.fontFamily.nunitoSansBold}
         color={theme.colors.secondary.mediumGrey}
       >
-        <span>&#169;</span>{new Date().getFullYear()} SonicData Ltd. All rights reserved.
+        <span>&#169;</span>
+        {new Date().getFullYear()} SonicData Ltd. All rights reserved.
       </H6>
       <H6
         fontFamily={theme.fontFamily.nunitoSansBlack}
@@ -23,5 +24,5 @@ export default function Footer() {
         SonicKeyTM, Returning value to the artist and rights holder.
       </H6>
     </FooterContainer>
-  )
+  );
 }

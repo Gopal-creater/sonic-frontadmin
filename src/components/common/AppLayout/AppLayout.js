@@ -2,22 +2,16 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Toolbar from "@material-ui/core/Toolbar";
-import {
-  AppBar,
-  Divider,
-  Drawer,
-  Grid,
-  IconButton,
-  Typography,
-} from "@material-ui/core";
+import { Divider, Drawer, Grid, IconButton } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import CloseIcon from "@material-ui/icons/Close";
-import Footer from "./Footer";
-import AppSideBar from "./AppSidebar";
+import Footer from "./components/Footer/Footer";
+import AppSideBar from "../AppSidebar";
 import { useNavigate } from "react-router-dom";
-import LogoWithTextImg from "../../assets/images/Logo-colour-simple.png";
-import SecondaryMenu from "./SecondaryMenu";
+import LogoWithTextImg from "../../../assets/images/Logo-colour-simple.png";
+import SecondaryMenu from "./components/SecondaryMenu/SecondaryMenu";
 import { useTheme } from "styled-components";
+import { Header, LayoutHeading } from "./AppLayout.styles";
 
 export default function AppLayout({ children }) {
   const appTheme = useTheme();
@@ -32,7 +26,7 @@ export default function AppLayout({ children }) {
     <div className={classes.root}>
       <CssBaseline />
       {/* Header------------------------------------------------------- */}
-      <AppBar
+      <Header
         position="fixed"
         elevation={0}
         className={open ? classes.appBarShift : classes.appBar}
@@ -47,17 +41,11 @@ export default function AppLayout({ children }) {
           </IconButton>
 
           <Grid container justifyContent="space-between">
-            <Typography
-              variant="h5"
-              noWrap
-              style={{ color: appTheme.colors.primary.graphite }}
-            >
-              Amazing
-            </Typography>
+            <LayoutHeading noWrap>Amazing</LayoutHeading>
             <SecondaryMenu />
           </Grid>
         </Toolbar>
-      </AppBar>
+      </Header>
       {/* Header------------------------------------------------------- */}
 
       {/* Drawer---------------------------------------------- */}
@@ -107,14 +95,12 @@ const useStyles = makeStyles((theme) => ({
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
-    backgroundColor: "white",
     transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
   },
   appBarShift: {
-    backgroundColor: "white",
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: drawerWidth,
 

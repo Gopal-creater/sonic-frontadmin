@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
-import AppLayout from "../components/common/AppLayout";
+import AppLayout from "../components/common/AppLayout/AppLayout";
 import Encode from "../pages/Encode/Encode";
 import Decode from "../pages/Decode/Decode";
 import Licences from "../pages/Licences/Licences";

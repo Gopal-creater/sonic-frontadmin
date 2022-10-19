@@ -4,15 +4,15 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import { Provider } from 'react-redux';
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import { Provider } from "react-redux";
 import store from "./stores";
-import "./assets/fonts/NunitoSans-Black.ttf"
-import "./assets/fonts/NunitoSans-Bold.ttf"
-import "./assets/fonts/NunitoSans-Regular.ttf"
-import "./assets/fonts/NunitoSans-ExtraBold.ttf"
+import "./assets/fonts/NunitoSans-Black.ttf";
+import "./assets/fonts/NunitoSans-Bold.ttf";
+import "./assets/fonts/NunitoSans-Regular.ttf";
+import "./assets/fonts/NunitoSans-ExtraBold.ttf";
 import { ThemeProvider } from "styled-components";
-import theme from "./theme";
+import theme, { testTheme } from "./theme";
 import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.render(

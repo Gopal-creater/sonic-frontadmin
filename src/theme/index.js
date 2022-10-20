@@ -47,9 +47,9 @@ const theme = {
     h5: "14px",
     h6: "11px",
     heading: "27px",
-    subHeading: "18px",
+    subHeading: "20px",
     content: "14px",
-    caption: "10px",
+    caption: "12px",
   },
   fontFamily: {
     nunitoSansBlack: "NunitoSans-Black",

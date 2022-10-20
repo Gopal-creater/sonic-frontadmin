@@ -10,8 +10,13 @@ import {
   TrackTableContainer,
   TrackFilterContainer,
 } from "./EncodeStyle";
-import theme from "../../theme";
-import { H1, H2, H4, H5 } from "../../StyledComponents/StyledHeadings";
+import {
+  Content,
+  H1,
+  H4,
+  Heading,
+  SubHeading,
+} from "../../StyledComponents/StyledHeadings";
 import { Grid } from "@material-ui/core";
 import DragDropFile from "../../components/common/DragDropFile.js";
 import { useDispatch, useSelector } from "react-redux";
@@ -37,6 +42,7 @@ import * as mm from "music-metadata-browser";
 import cogoToast from "cogo-toast";
 import TrackFilter from "./Components/TrackFilter";
 import CustomToolTip from "../../components/common/CustomToolTip";
+import { useTheme } from "styled-components";
 
 export default function Encode() {
   const [state, setState] = React.useState({
@@ -50,6 +56,7 @@ export default function Encode() {
   const encode = useSelector((state) => state.encode);
   const matches = useMediaQuery("(max-width:1280px)");
   const dispatch = useDispatch();
+  const theme = useTheme();
 
   React.useEffect(() => {
     dispatch(
@@ -195,117 +202,111 @@ export default function Encode() {
       ) : (
         <>
           {/* File selection appears here--------------------------------------- */}
-          <FileContainer>
-            <FileSelectionContainer container>
-              <NewFileSelectionContainer item lg sm={12}>
-                <H2 fontFamily={theme.fontFamily.nunitoSansMediumBold}>
-                  Encode new file with SonicKey
-                </H2>
+          <FileSelectionContainer container>
+            <NewFileSelectionContainer item lg sm={12}>
+              <SubHeading color={theme.colors.primary.contrastText}>
+                Encode new file with SonicKey
+              </SubHeading>
+              <Content color={theme.colors.primary.contrastText}>
+                Copy MetaData from existing track if needed.
+              </Content>
 
-                <H5
-                  fontFamily={theme.fontFamily.nunitoSansBold}
-                  color={theme.colors.secondary.lightNavy}
-                >
-                  Copy MetaData from existing track if needed.
-                </H5>
+              <DragDropFile
+                handleFiles={(files) => handleDragDropFile(files)}
+              />
+            </NewFileSelectionContainer>
 
-                <DragDropFile
-                  handleFiles={(files) => handleDragDropFile(files)}
+            <Grid
+              item
+              style={{ width: matches ? "100%" : "80px" }}
+              container
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Content
+                style={{ marginTop: "15px" }}
+                color={theme.colors.primary.contrastText}
+              >
+                or
+              </Content>
+            </Grid>
+
+            <ExistingFileSelectionContainer
+              item
+              container
+              direction="column"
+              lg
+              sm={12}
+            >
+              <SubHeading color={theme.colors.primary.contrastText}>
+                Encode existing file
+              </SubHeading>
+
+              <Content color={theme.colors.primary.contrastText}>
+                Encode a track multiple times to share with different
+                distributors.
+              </Content>
+
+              <AppAutoCompleteContainer>
+                <AppAutoComplete
+                  setTextFieldValue={(typedValue) =>
+                    setState({ ...state, autoCompleteValue: typedValue })
+                  }
+                  textFieldValue={state.autoCompleteValue}
+                  setAutoComPleteAction={(value) => {
+                    dispatch(getEncodeSearchTracksAction(value));
+                    log("user wise role", getRoleWiseID());
+                  }}
+                  setAutoCompleteOptions={(option) =>
+                    option?.trackMetaData?.contentName ||
+                    option?.originalFileName ||
+                    ""
+                  }
+                  setAutoCompleteOptionsLabel={(option) =>
+                    option?.trackMetaData?.contentOwner || ""
+                  }
+                  loading={encode?.encodeSearchTrack?.loading}
+                  data={encode?.encodeSearchTrack?.data?.docs}
+                  error={encode?.encodeSearchTrack?.error}
+                  getSelectedValue={(e, v) =>
+                    handleAutoCompleteSelectedValue(v)
+                  }
+                  placeholder={"Search for a track by title"}
+                  helperText="Search your company records"
                 />
-              </NewFileSelectionContainer>
 
-              <Grid
-                item
-                style={{ width: matches ? "100%" : "80px" }}
-                container
-                justifyContent="center"
-                alignItems="center"
-              >
-                <H4 style={{ marginTop: "15px" }}>or</H4>
-              </Grid>
-
-              <ExistingFileSelectionContainer
-                item
-                container
-                direction="column"
-                lg
-                sm={12}
-              >
-                <H2 fontFamily={theme.fontFamily.nunitoSansMediumBold}>
-                  Encode existing file
-                </H2>
-
-                <H5
-                  fontFamily={theme.fontFamily.nunitoSansBold}
-                  color={theme.colors.secondary.lightNavy}
+                <Grid
+                  container
+                  justifyContent="flex-end"
+                  style={{ marginRight: "-30px" }}
                 >
-                  Encode a track multiple times to share with different
-                  distributors.
-                </H5>
-
-                <AppAutoCompleteContainer>
-                  <AppAutoComplete
-                    setTextFieldValue={(typedValue) =>
-                      setState({ ...state, autoCompleteValue: typedValue })
+                  <CustomToolTip
+                    title={
+                      "Use this when you want to encode a track multiple times, each with a unique SonicKey' to share with different distributors. Saves time inputting data respectively."
                     }
-                    textFieldValue={state.autoCompleteValue}
-                    setAutoComPleteAction={(value) => {
-                      dispatch(getEncodeSearchTracksAction(value));
-                      log("user wise role", getRoleWiseID());
-                    }}
-                    setAutoCompleteOptions={(option) =>
-                      option?.trackMetaData?.contentName ||
-                      option?.originalFileName ||
-                      ""
-                    }
-                    setAutoCompleteOptionsLabel={(option) =>
-                      option?.trackMetaData?.contentOwner || ""
-                    }
-                    loading={encode?.encodeSearchTrack?.loading}
-                    data={encode?.encodeSearchTrack?.data?.docs}
-                    error={encode?.encodeSearchTrack?.error}
-                    getSelectedValue={(e, v) =>
-                      handleAutoCompleteSelectedValue(v)
-                    }
-                    placeholder={"Search for a track by title"}
-                    helperText="Search your company records"
-                  />
-
-                  <Grid
-                    container
-                    justifyContent="flex-end"
-                    style={{ marginRight: "-30px" }}
+                    placement={"bottom-end"}
+                    arrow
+                    marginTop={"30px"}
                   >
-                    <CustomToolTip
-                      title={
-                        "Use this when you want to encode a track multiple times, each with a unique SonicKey' to share with different distributors. Saves time inputting data respectively."
-                      }
-                      placement={"bottom-end"}
-                      arrow
-                      marginTop={"30px"}
-                    >
-                      <HelpOutlineOutlinedIcon
-                        style={{
-                          color: theme.colors.secondary.lightNavy,
-                          fontSize: "15px",
-                        }}
-                      />
-                    </CustomToolTip>
-                  </Grid>
-                </AppAutoCompleteContainer>
-              </ExistingFileSelectionContainer>
-            </FileSelectionContainer>
-          </FileContainer>
+                    <HelpOutlineOutlinedIcon
+                      style={{
+                        color: theme.colors.secondary.lightNavy,
+                        fontSize: "15px",
+                      }}
+                    />
+                  </CustomToolTip>
+                </Grid>
+              </AppAutoCompleteContainer>
+            </ExistingFileSelectionContainer>
+          </FileSelectionContainer>
           {/* File selection appears here--------------------------------------- */}
 
           {/* Track Table part appears here--------------------------------- */}
           <TrackContainer>
             <TrackTitleContainer>
               <Grid>
-                <H1>Source Tracks</H1>
-                <H4 color={theme.colors.primary.teal}>
-                  Browse your source tracks
-                </H4>
+                <SubHeading>Source Tracks</SubHeading>
+                <Content>Browse your source tracks</Content>
               </Grid>
             </TrackTitleContainer>
 

@@ -11,7 +11,7 @@ export const CardContainer = styled.div`
 export const TableContainer = styled(Grid)`
   background-color: white;
   margin-top: 30px;
-  padding: 35px;
+  padding: 30px;
 `;
 
 export const ButtonContainer = styled(Grid)`

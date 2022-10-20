@@ -9,8 +9,10 @@ import Footer from "./components/Footer/Footer";
 import AppSideBar from "../AppSidebar";
 import { useNavigate } from "react-router-dom";
 import SecondaryMenu from "./components/SecondaryMenu/SecondaryMenu";
-import { Header, LayoutHeading, SideBarHeading } from "./AppLayout.styles";
 import { useTheme } from "styled-components";
+import { Header, LayoutHeading, SideBarHeading } from "./AppLayout.styles";
+import { tags } from "../../../constants/constants";
+
 export default function AppLayout({ children }) {
   const classes = useStyles();
   const date = new Date();
@@ -40,7 +42,7 @@ export default function AppLayout({ children }) {
           </IconButton>
 
           <Grid container justifyContent="space-between">
-            <LayoutHeading noWrap>Amazing</LayoutHeading>
+            <LayoutHeading noWrap>{tags.companyName}</LayoutHeading>
             <SecondaryMenu />
           </Grid>
         </Toolbar>
@@ -57,17 +59,17 @@ export default function AppLayout({ children }) {
       >
         <div className={classes.drawerHeader}>
           <Grid item>
-            <Box >
+            <Box>
               <SideBarHeading>
-              {hour < 12
-        ? "Good Morning"
-        : hour < 16
-        ? "Good Afternoon"
-        : "Good Evening"}
+                {hour < 12
+                  ? "Good Morning"
+                  : hour < 16
+                  ? "Good Afternoon"
+                  : "Good Evening"}
               </SideBarHeading>
             </Box>
 
-            <SideBarHeading >{}</SideBarHeading>
+            <SideBarHeading>{}</SideBarHeading>
           </Grid>
           <IconButton
             onClick={toggleSideBar}

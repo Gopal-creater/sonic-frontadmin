@@ -12,6 +12,7 @@ import LogoWithTextImg from "../../../assets/images/Logo-colour-simple.png";
 import SecondaryMenu from "./components/SecondaryMenu/SecondaryMenu";
 import { useTheme } from "styled-components";
 import { Header, LayoutHeading } from "./AppLayout.styles";
+import { tags } from "../../../constants/constants";
 
 export default function AppLayout({ children }) {
   const appTheme = useTheme();
@@ -41,7 +42,7 @@ export default function AppLayout({ children }) {
           </IconButton>
 
           <Grid container justifyContent="space-between">
-            <LayoutHeading noWrap>Amazing</LayoutHeading>
+            <LayoutHeading noWrap>{tags.companyName}</LayoutHeading>
             <SecondaryMenu />
           </Grid>
         </Toolbar>

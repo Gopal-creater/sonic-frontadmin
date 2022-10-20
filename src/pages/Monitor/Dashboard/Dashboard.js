@@ -301,7 +301,10 @@ export function Dashboard() {
             <Tooltip title="View">
               <VisibilityIcon
                 fontSize={"small"}
-                style={{ color: theme.colors.primary.teal, cursor: "pointer" }}
+                style={{
+                  color: theme.colors.secondary.main,
+                  cursor: "pointer",
+                }}
                 onClick={() =>
                   setState({
                     ...state,

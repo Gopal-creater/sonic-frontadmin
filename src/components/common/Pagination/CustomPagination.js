@@ -1,75 +1,76 @@
-import React from 'react';
-import { Pagination } from '@material-ui/lab';
-import { makeStyles } from '@material-ui/styles';
-import theme from '../../../theme';
+import React from "react";
+import { Pagination } from "@material-ui/lab";
+import { makeStyles } from "@material-ui/styles";
+import { useTheme } from "styled-components";
 
 const useStyles = makeStyles(() => {
-    return ({
-        root: {
-            "& > *": { justifyContent: "space-between" },
-            '& ul > li:not(:first-child):not(:last-child) > button:not(.Mui-selected)': {
-                backgroundColor: 'transparent',
-                textAlign: "center",
-                color: theme.colors.secondary.mediumNavy,
-                "&:hover": {
-                    color: theme.colors.secondary.lightNavy,
-                }
-            },
-            ".MuiPaginationItem-root": {
-                backgroundColor: '#fff',
-                width: "100%"
-            },
-            "&:hover .MuiPaginationItem-root": {
-                backgroundColor: '#fff',
-            },
-            "& .Mui-selected": {
-                fontSize: "16px",
-                padding: "1px",
-                margin: "1px",
-                fontFamily: theme.fontFamily.nunitoSansBold,
-                color: theme.colors.primary.navy,
-                border: `1px solid ${theme.colors.primary.teal}`,
-                backgroundColor: '#fff',
-                borderRadius: 0,
-            },
-            "& .MuiPaginationItem-textPrimary": {
-                fontSize: "18px",
-                padding: "1px",
-                margin: "1px",
-                color: theme.colors.primary.navy,
-            },
-            "& .MuiPaginationItem-icon": {
-                fontSize: "32px",
-                color: theme.colors.primary.navy,
-                border: `1px solid ${theme.colors.primary.navy}`,
-                borderRadius: 8,
-                "& .Mui-disabled": {
-                    border: `1px solid ${theme.colors.secondary.grey}`,
-                }
-            },
-            "&:hover .MuiPaginationItem-icon": {
-                border: `1px solid ${theme.colors.primary.navy}`,
-            }
+  const theme = useTheme();
+  return {
+    root: {
+      "& > *": { justifyContent: "space-between" },
+      "& ul > li:not(:first-child):not(:last-child) > button:not(.Mui-selected)":
+        {
+          backgroundColor: "transparent",
+          textAlign: "center",
+          color: theme.colors.primary.dark,
+          "&:hover": {
+            color: theme.colors.primary.light,
+          },
         },
-    })
+      ".MuiPaginationItem-root": {
+        backgroundColor: theme.colors.primary.contrastText,
+        width: "100%",
+      },
+      "&:hover .MuiPaginationItem-root": {
+        backgroundColor: theme.colors.primary.contrastText,
+      },
+      "& .Mui-selected": {
+        fontSize: theme.fontSize.content,
+        padding: "1px",
+        margin: "1px",
+        color: theme.colors.primary.dark,
+        border: `1px solid ${theme.colors.secondary.main}`,
+        backgroundColor: theme.colors.primary.contrastText,
+        borderRadius: 0,
+      },
+      "& .MuiPaginationItem-textPrimary": {
+        fontSize: theme.fontSize.subHeading,
+        padding: "1px",
+        margin: "1px",
+        color: theme.colors.primary.main,
+      },
+      "& .MuiPaginationItem-icon": {
+        fontSize: theme.fontSize.heading,
+        color: theme.colors.primary.main,
+        border: `1px solid ${theme.colors.primary.main}`,
+        borderRadius: 8,
+        "& .Mui-disabled": {
+          border: `1px solid ${theme.colors.grey.main}`,
+        },
+      },
+      "&:hover .MuiPaginationItem-icon": {
+        border: `1px solid ${theme.colors.primary.main}`,
+      },
+    },
+  };
 });
 
 export default function CustomPagination({ count, page, ...props }) {
-    const classes = useStyles();
+  const classes = useStyles();
 
-    return (
-        <div>
-            <Pagination
-                classes={{
-                    root: classes.root,
-                }}
-                count={count}
-                page={page}
-                shape="rounded"
-                disableFocusRipple
-                disableRipple
-                {...props}
-            />
-        </div>
-    )
+  return (
+    <div>
+      <Pagination
+        classes={{
+          root: classes.root,
+        }}
+        count={count}
+        page={page}
+        shape="rounded"
+        disableFocusRipple
+        disableRipple
+        {...props}
+      />
+    </div>
+  );
 }

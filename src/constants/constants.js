@@ -1,3 +1,8 @@
+export const tags = {
+  companyName: "Amazing Recognition",
+  companyTag: "Amazing",
+};
+
 export const countries = [
   {
     name: "Afghanistan",
@@ -1405,30 +1410,155 @@ export const countries = [
   },
 ];
 
-
 export const playsTableHeads = [
-  { title: "COMPANY", orderBy: "company", sortBy: "sonicKey.company.name", isAscending: null, isActive: false },
-  { title: "COMPANY TYPE", orderBy: "companyType", sortBy: "sonicKey.company.companyType", isAscending: null, isActive: false },
-  { title: "ARTIST", orderBy: "artist", sortBy: "sonicKey.contentOwner", isAscending: null, isActive: false },
-  { title: "TITLE", orderBy: "title", sortBy: "sonicKey.contentName", isAscending: null, isActive: false },
-  { title: "RADIO STATION", orderBy: "radioStation", sortBy: "radioStation.name", isAscending: null, isActive: false },
-  { title: "DATE", orderBy: "date", sortBy: "detectedAt", isAscending: null, isActive: false },
-  { title: "TIME", orderBy: "time", sortBy: "detectedAt", isAscending: null, isActive: false },
-  { title: "DURATION", orderBy: "duration", sortBy: "sonicKey.contentDuration", isAscending: null, isActive: false },
-  { title: "COUNTRY", orderBy: "country", sortBy: "radioStation.country", isAscending: null, isActive: false },
-  { title: "TRACK ID", orderBy: "trackId", sortBy: "sonicKey.track", isAscending: null, isActive: false },
-  { title: "SONICKEY", orderBy: "sonicKey", sortBy: "sonicKey.sonicKey", isAscending: null, isActive: false },
-  { title: "SK/SID", orderBy: "", sortBy: "", isAscending: null, isActive: false },
-  { title: "VERSION", orderBy: "version", sortBy: "sonicKey.version", isAscending: null, isActive: false },
-  { title: "DISTRIBUTOR", orderBy: "distributor", sortBy: "sonicKey.distributor", isAscending: null, isActive: false },
-  { title: "LABEL", orderBy: "label", sortBy: "sonicKey.label", isAscending: null, isActive: false },
-  { title: "ISRC", orderBy: "isrcCode", sortBy: "sonicKey.isrcCode", isAscending: null, isActive: false },
-  { title: "ISWC", orderBy: "iswc", sortBy: "sonicKey.iswcCode", isAscending: null, isActive: false },
-  { title: "TUNE CODE", orderBy: "tuneCode", sortBy: "sonicKey.tuneCode", isAscending: null, isActive: false },
-  { title: "DESCRIPTION", orderBy: "", sortBy: "", isAscending: null, isActive: false },
-  { title: "FILE TYPE", orderBy: "contentType", sortBy: "sonicKey.contentType", isAscending: null, isActive: false },
-  { title: "ACTION", orderBy: "", sortBy: "", isAscending: null, isActive: false },
-]
+  {
+    title: "COMPANY",
+    orderBy: "company",
+    sortBy: "sonicKey.company.name",
+    isAscending: null,
+    isActive: false,
+  },
+  {
+    title: "COMPANY TYPE",
+    orderBy: "companyType",
+    sortBy: "sonicKey.company.companyType",
+    isAscending: null,
+    isActive: false,
+  },
+  {
+    title: "ARTIST",
+    orderBy: "artist",
+    sortBy: "sonicKey.contentOwner",
+    isAscending: null,
+    isActive: false,
+  },
+  {
+    title: "TITLE",
+    orderBy: "title",
+    sortBy: "sonicKey.contentName",
+    isAscending: null,
+    isActive: false,
+  },
+  {
+    title: "RADIO STATION",
+    orderBy: "radioStation",
+    sortBy: "radioStation.name",
+    isAscending: null,
+    isActive: false,
+  },
+  {
+    title: "DATE",
+    orderBy: "date",
+    sortBy: "detectedAt",
+    isAscending: null,
+    isActive: false,
+  },
+  {
+    title: "TIME",
+    orderBy: "time",
+    sortBy: "detectedAt",
+    isAscending: null,
+    isActive: false,
+  },
+  {
+    title: "DURATION",
+    orderBy: "duration",
+    sortBy: "sonicKey.contentDuration",
+    isAscending: null,
+    isActive: false,
+  },
+  {
+    title: "COUNTRY",
+    orderBy: "country",
+    sortBy: "radioStation.country",
+    isAscending: null,
+    isActive: false,
+  },
+  {
+    title: "TRACK ID",
+    orderBy: "trackId",
+    sortBy: "sonicKey.track",
+    isAscending: null,
+    isActive: false,
+  },
+  {
+    title: "SONICKEY",
+    orderBy: "sonicKey",
+    sortBy: "sonicKey.sonicKey",
+    isAscending: null,
+    isActive: false,
+  },
+  {
+    title: "SK/SID",
+    orderBy: "",
+    sortBy: "",
+    isAscending: null,
+    isActive: false,
+  },
+  {
+    title: "VERSION",
+    orderBy: "version",
+    sortBy: "sonicKey.version",
+    isAscending: null,
+    isActive: false,
+  },
+  {
+    title: "DISTRIBUTOR",
+    orderBy: "distributor",
+    sortBy: "sonicKey.distributor",
+    isAscending: null,
+    isActive: false,
+  },
+  {
+    title: "LABEL",
+    orderBy: "label",
+    sortBy: "sonicKey.label",
+    isAscending: null,
+    isActive: false,
+  },
+  {
+    title: "ISRC",
+    orderBy: "isrcCode",
+    sortBy: "sonicKey.isrcCode",
+    isAscending: null,
+    isActive: false,
+  },
+  {
+    title: "ISWC",
+    orderBy: "iswc",
+    sortBy: "sonicKey.iswcCode",
+    isAscending: null,
+    isActive: false,
+  },
+  {
+    title: "TUNE CODE",
+    orderBy: "tuneCode",
+    sortBy: "sonicKey.tuneCode",
+    isAscending: null,
+    isActive: false,
+  },
+  {
+    title: "DESCRIPTION",
+    orderBy: "",
+    sortBy: "",
+    isAscending: null,
+    isActive: false,
+  },
+  {
+    title: "FILE TYPE",
+    orderBy: "contentType",
+    sortBy: "sonicKey.contentType",
+    isAscending: null,
+    isActive: false,
+  },
+  {
+    title: "ACTION",
+    orderBy: "",
+    sortBy: "",
+    isAscending: null,
+    isActive: false,
+  },
+];
 
 export const streamReaderTableHeads = [
   { title: "ID" },
@@ -1449,46 +1579,131 @@ export const sonicStreamDetailsTableHeads = [
   { title: "QUALITY" },
   { title: "DESCRIPTION" },
   { title: "PLAYS" },
-]
+];
 
 export const trackTableHeads = [
   { title: "TITLE", sortBy: "trackName", isAscending: null, isActive: false },
   { title: "PLAYS", sortBy: "playsCount", isAscending: null, isActive: false },
-  { title: "RADIO STATION", sortBy: "radioStationCount", isAscending: null, isActive: false },
-  { title: "COUNTRY", sortBy: "countriesCount", isAscending: null, isActive: false },
-]
+  {
+    title: "RADIO STATION",
+    sortBy: "radioStationCount",
+    isAscending: null,
+    isActive: false,
+  },
+  {
+    title: "COUNTRY",
+    sortBy: "countriesCount",
+    isAscending: null,
+    isActive: false,
+  },
+];
 
 export const radioStationTableHeads = [
-  { title: "RADIO STATION", sortBy: "radioStation.name", isAscending: null, isActive: false },
-  { title: "COUNTRY", sortBy: "radioStation.country", isAscending: null, isActive: false },
+  {
+    title: "RADIO STATION",
+    sortBy: "radioStation.name",
+    isAscending: null,
+    isActive: false,
+  },
+  {
+    title: "COUNTRY",
+    sortBy: "radioStation.country",
+    isAscending: null,
+    isActive: false,
+  },
   { title: "PLAYS", sortBy: "playsCount", isAscending: null, isActive: false },
-  { title: "TRACKS", sortBy: "uniquePlaysCount", isAscending: null, isActive: false },
-  { title: "ARTIST", sortBy: "artistsCount", isAscending: null, isActive: false },
-]
+  {
+    title: "TRACKS",
+    sortBy: "uniquePlaysCount",
+    isAscending: null,
+    isActive: false,
+  },
+  {
+    title: "ARTIST",
+    sortBy: "artistsCount",
+    isAscending: null,
+    isActive: false,
+  },
+];
 
 export const artistTableHeads = [
-  { title: "ARTIST NAME", sortBy: "artist", isAscending: null, isActive: false },
+  {
+    title: "ARTIST NAME",
+    sortBy: "artist",
+    isAscending: null,
+    isActive: false,
+  },
   { title: "PLAYS", sortBy: "playsCount", isAscending: null, isActive: false },
-  { title: "TRACKS", sortBy: "uniquePlaysCount", isAscending: null, isActive: false },
-  { title: "RADIO STATION", sortBy: "radioStationCount", isAscending: null, isActive: false },
-  { title: "COUNTRIES", sortBy: "countriesCount", isAscending: null, isActive: false },
-]
+  {
+    title: "TRACKS",
+    sortBy: "uniquePlaysCount",
+    isAscending: null,
+    isActive: false,
+  },
+  {
+    title: "RADIO STATION",
+    sortBy: "radioStationCount",
+    isAscending: null,
+    isActive: false,
+  },
+  {
+    title: "COUNTRIES",
+    sortBy: "countriesCount",
+    isAscending: null,
+    isActive: false,
+  },
+];
 
 export const countryTableHeads = [
   { title: "COUNTRY", sortBy: "country", isAscending: null, isActive: false },
   { title: "PLAYS", sortBy: "playsCount", isAscending: null, isActive: false },
-  { title: "TRACKS", sortBy: "uniquePlaysCount", isAscending: null, isActive: false },
-  { title: "ARTISTS", sortBy: "artistsCount", isAscending: null, isActive: false },
-  { title: "RADIO STATIONS", sortBy: "radioStationCount", isAscending: null, isActive: false },
-]
+  {
+    title: "TRACKS",
+    sortBy: "uniquePlaysCount",
+    isAscending: null,
+    isActive: false,
+  },
+  {
+    title: "ARTISTS",
+    sortBy: "artistsCount",
+    isAscending: null,
+    isActive: false,
+  },
+  {
+    title: "RADIO STATIONS",
+    sortBy: "radioStationCount",
+    isAscending: null,
+    isActive: false,
+  },
+];
 
 export const monitorCompaniesTableHeads = [
-  { title: "COMPANY", sortBy: "company.name", isAscending: null, isActive: false },
-  { title: "COMPANY TYPE", sortBy: "company.companyType", isAscending: null, isActive: false },
+  {
+    title: "COMPANY",
+    sortBy: "company.name",
+    isAscending: null,
+    isActive: false,
+  },
+  {
+    title: "COMPANY TYPE",
+    sortBy: "company.companyType",
+    isAscending: null,
+    isActive: false,
+  },
   { title: "PLAYS", sortBy: "playsCount", isAscending: null, isActive: false },
-  { title: "TRACKS", sortBy: "uniquePlaysCount", isAscending: null, isActive: false },
-  { title: "ARTISTS", sortBy: "artistsCount", isAscending: null, isActive: false },
-]
+  {
+    title: "TRACKS",
+    sortBy: "uniquePlaysCount",
+    isAscending: null,
+    isActive: false,
+  },
+  {
+    title: "ARTISTS",
+    sortBy: "artistsCount",
+    isAscending: null,
+    isActive: false,
+  },
+];
 
 export const licenseTableHeads = [
   { title: "ACCOUNT NAME" },
@@ -1501,7 +1716,7 @@ export const licenseTableHeads = [
   { title: "KEY" },
   { title: "STATUS" },
   { title: "ACTION" },
-]
+];
 
 export const usersTableHeads = [
   { title: "USERNAME" },
@@ -1514,7 +1729,7 @@ export const usersTableHeads = [
   { title: "USER TYPE" },
   { title: "STATUS" },
   { title: "ACTION" },
-]
+];
 
 export const companiesTableHeads = [
   { title: "COMPANY" },
@@ -1525,7 +1740,7 @@ export const companiesTableHeads = [
   { title: "ADMIN" },
   { title: "STATUS" },
   { title: "ACTION" },
-]
+];
 
 export const sonicKeyTableHeads = [
   { title: "TRACK ID" },
@@ -1537,25 +1752,55 @@ export const sonicKeyTableHeads = [
   { title: "DESCRIPTION" },
   { title: "ENCODED DATE" },
   { title: "ACTION" },
-]
+];
 
 export const tracksTableHeads = [
   { title: "TRACK ID", sortBy: "_id", isAscending: null, isActive: false },
-  { title: "TITLE", sortBy: "trackMetaData.contentName", isAscending: null, isActive: false },
-  { title: "VERSION", sortBy: "trackMetaData.version", isAscending: null, isActive: false },
-  { title: "ARTIST", sortBy: "trackMetaData.contentOwner", isAscending: null, isActive: false },
-  { title: "DISTRIBUTOR", sortBy: "trackMetaData.distributor", isAscending: null, isActive: false },
+  {
+    title: "TITLE",
+    sortBy: "trackMetaData.contentName",
+    isAscending: null,
+    isActive: false,
+  },
+  {
+    title: "VERSION",
+    sortBy: "trackMetaData.version",
+    isAscending: null,
+    isActive: false,
+  },
+  {
+    title: "ARTIST",
+    sortBy: "trackMetaData.contentOwner",
+    isAscending: null,
+    isActive: false,
+  },
+  {
+    title: "DISTRIBUTOR",
+    sortBy: "trackMetaData.distributor",
+    isAscending: null,
+    isActive: false,
+  },
   // { title: "FILE TYPE", sortBy: "trackMetaData.contentFileType", isAscending: null, isActive: false },
-  { title: "ENCODED DATE", sortBy: "createdAt", isAscending: null, isActive: false },
+  {
+    title: "ENCODED DATE",
+    sortBy: "createdAt",
+    isAscending: null,
+    isActive: false,
+  },
   { title: "SK COUNT", sortBy: "", isAscending: null, isActive: false },
   // { title: "SYSTEM/PARTNER ID", sortBy: "SYSTEM/PARTNER_ID", isAscending: null, isActive: false },
   { title: "ACTION", sortBy: "", isAscending: null, isActive: false },
-]
+];
 
 export const encodesByCompanyTableHeads = [
   { title: "COMPANY", sortBy: "name", isAscending: null, isActive: false },
-  { title: "ENCODES", sortBy: "encodesCount", isAscending: null, isActive: false }
-]
+  {
+    title: "ENCODES",
+    sortBy: "encodesCount",
+    isAscending: null,
+    isActive: false,
+  },
+];
 
 //Dropdown values
 export const channel = [
@@ -1563,49 +1808,37 @@ export const channel = [
   { name: "STREAMREADER" },
   { name: "PORTAL" },
   { name: "MOBILE" },
-]
+];
 
 export const detectionOrigins = {
   SONICKEY: {
     name: "SONICKEY",
-    shortName: "SK"
+    shortName: "SK",
   },
   FINGERPRINT: {
     name: "FINGERPRINT",
-    shortName: "SID"
-  }
-}
+    shortName: "SID",
+  },
+};
 
-export const accountType = [
-  { name: "Partner" },
-  { name: "Company" },
-]
+export const accountType = [{ name: "Partner" }, { name: "Company" }];
 
-export const licenseType = [
-  { name: "Individual" },
-  { name: "Company" },
-]
+export const licenseType = [{ name: "Individual" }, { name: "Company" }];
 
-export const status = [
-  { name: "Active" },
-  { name: "Suspended" },
-]
+export const status = [{ name: "Active" }, { name: "Suspended" }];
 
-export const userType = [
-  { name: "Admin" },
-  { name: "Standard" },
-]
+export const userType = [{ name: "Admin" }, { name: "Standard" }];
 
 export const partnerTypes = [
-  { name: 'CMO' },
-  { name: 'Distributor' },
-  { name: 'Monitoring Company' },
-  { name: 'Music Management Services' },
-  { name: 'PRO' },
-  { name: 'Production Library' },
-  { name: 'Publisher' },
-  { name: 'Record Company' },
-  { name: 'Sub Publisher' },
+  { name: "CMO" },
+  { name: "Distributor" },
+  { name: "Monitoring Company" },
+  { name: "Music Management Services" },
+  { name: "PRO" },
+  { name: "Production Library" },
+  { name: "Publisher" },
+  { name: "Record Company" },
+  { name: "Sub Publisher" },
 ];
 
 export const companyType = [
@@ -1627,15 +1860,15 @@ export const companyType = [
   { name: "Rights Holder" },
   { name: "Song Writer" },
   { name: "Sub Publisher" },
-]
+];
 
 export const userRoles = {
   PORTAL_USER: "PortalUser",
   PARTNER_ADMIN: "PartnerAdmin",
   PARTNER_USER: "PartnerUser",
   COMPANY_ADMIN: "CompanyAdmin",
-  COMPANY_USER: "CompanyUser"
-}
+  COMPANY_USER: "CompanyUser",
+};
 
 export const Labels = [
   "1605",
@@ -5229,8 +5462,8 @@ export const Labels = [
   "ZTT Records",
   "Zunior",
   "ZYX Music",
-  "Other"
-]
+  "Other",
+];
 
 export const Distributor = [
   "Absolute",
@@ -5287,5 +5520,5 @@ export const Distributor = [
   "Triple Vision",
   "TuneCore",
   "United Masters",
-  "Other"
-]
+  "Other",
+];

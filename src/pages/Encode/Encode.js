@@ -361,6 +361,7 @@ export default function Encode() {
                   }
                   paginationCount={
                     <PaginationCount
+                      heading={true}
                       name="Tracks"
                       total={encode?.tracks?.data?.totalDocs}
                       start={encode?.tracks?.data?.offset}

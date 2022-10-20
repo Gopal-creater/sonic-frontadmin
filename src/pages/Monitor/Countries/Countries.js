@@ -1,6 +1,6 @@
 import { Grid } from "@material-ui/core";
 import React, { useEffect, useRef } from "react";
-import { H1 } from "../../../StyledComponents/StyledHeadings";
+import { H1, Heading } from "../../../StyledComponents/StyledHeadings";
 import { useTheme } from "styled-components";
 import FilterComponent from "../../../components/common/FilterComponent/FilterComponent";
 import { useDispatch, useSelector } from "react-redux";
@@ -152,7 +152,7 @@ export default function Countries() {
   return (
     <MainContainer ref={countriesTableRef}>
       <Grid container justifyContent="space-between">
-        <H1>Countries</H1>
+        <Heading>Countries</Heading>
       </Grid>
 
       {/* Filter------------------------------------------------------- */}

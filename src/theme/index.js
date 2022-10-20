@@ -46,6 +46,7 @@ const theme = {
     h4: "18px",
     h5: "14px",
     h6: "11px",
+    extra:"45px",
     heading: "27px",
     subHeading: "20px",
     content: "14px",
@@ -56,6 +57,12 @@ const theme = {
     nunitoSansBold: "NunitoSans-Bold",
     nunitoSansMediumBold: "NunitoSans-ExtraBold",
     nunitoSansRegular: "NunitoSans-Regular",
+    baronNeueRegular:"Baron Neue-Regular",
+    baronNeueBlack:"Baron Neue-Black",
+    baronNeueBlackItalic:"Baron Neue-Black_Italic",
+    baronNeueBold:"Baron Neue-Bold",
+    baronNeueBoldItalic:"Baron Neue-Bold_Italic",
+    baronNeueItalic:"Baron Neue-Italic",
   },
   devices: {
     mobileS: "320px",
@@ -96,6 +103,7 @@ export const testTheme = {
   },
   border_radius: "",
   fontSize: {
+    
     heading: "27px",
     subHeading: "18px",
     content: "14px",

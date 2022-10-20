@@ -11,8 +11,16 @@ import "./assets/fonts/NunitoSans-Black.ttf";
 import "./assets/fonts/NunitoSans-Bold.ttf";
 import "./assets/fonts/NunitoSans-Regular.ttf";
 import "./assets/fonts/NunitoSans-ExtraBold.ttf";
+
+import "./assets/fonts/Baron Neue-Bold.otf";
+import "./assets/fonts/Baron Neue-Bold_Italic.otf";
+import "./assets/fonts/Baron Neue-Black.otf";
+import "./assets/fonts/Baron Neue-Black_Italic.otf";
+import "./assets/fonts/Baron Neue-Italic.otf";
+import "./assets/fonts/Baron Neue-Regular.otf";
+
 import { ThemeProvider } from "styled-components";
-import theme, { testTheme } from "./theme";
+import theme from "./theme";
 import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.render(

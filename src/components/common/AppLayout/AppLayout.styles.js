@@ -1,4 +1,4 @@
-import { AppBar, Typography } from "@material-ui/core";
+import { AppBar, Drawer, Typography } from "@material-ui/core";
 import styled from "styled-components";
 
 export const Header = styled(AppBar)`
@@ -8,4 +8,10 @@ export const Header = styled(AppBar)`
 export const LayoutHeading = styled(Typography)`
   font-size: ${(props) => props.theme.fontSize.heading};
   color: ${(props) => props.theme.colors.primary.dark};
+`;
+
+export const SideBarHeading = styled(Typography)`
+ font-size: ${(props) => props.theme.fontSize.contet};
+ color: ${(props) => props.theme.colors.primary.dark};
+
 `;

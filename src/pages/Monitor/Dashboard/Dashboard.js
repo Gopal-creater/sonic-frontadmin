@@ -40,7 +40,6 @@ export function Dashboard() {
   const radioStation = useSelector((state) => state.radioStations);
   const users = useSelector((state) => state.user);
   const dashboardTableRef = useRef();
-  const carousel = useRef(null);
 
   const handlePrintToPdf = useReactToPrint({
     content: () => dashboardTableRef.current,
@@ -370,7 +369,7 @@ export function Dashboard() {
           }}
         >
           {users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN && (
-            <Grid item xs={12} sm={6} md={4}>
+            <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
               <Stats
                 imgSrc={
                   <BusinessIcon style={{ fontSize: 40, color: "white" }} />
@@ -385,7 +384,7 @@ export function Dashboard() {
             </Grid>
           )}
 
-          <Grid item xs={12} sm={6} md={4}>
+          <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
             <Stats
               imgSrc={
                 <MusicNoteIcon style={{ fontSize: 40, color: "white" }} />
@@ -399,7 +398,7 @@ export function Dashboard() {
             />
           </Grid>
 
-          <Grid item xs={12} sm={6} md={4}>
+          <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
             <Stats
               imgSrc={<AlbumIcon style={{ fontSize: 40, color: "white" }} />}
               title={"My Tracks"}
@@ -411,7 +410,7 @@ export function Dashboard() {
               helpText={helpText.tracks}
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={4}>
+          <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
             <Stats
               imgSrc={<PersonIcon style={{ fontSize: 40, color: "white" }} />}
               title={"Artists"}
@@ -423,7 +422,7 @@ export function Dashboard() {
               helpText={helpText.artists}
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={4}>
+          <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
             <Stats
               imgSrc={<RadioIcon style={{ fontSize: 40, color: "white" }} />}
               title={"Radio Stations"}
@@ -435,7 +434,7 @@ export function Dashboard() {
               helpText={helpText.companies}
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={4}>
+          <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
             <Stats
               imgSrc={<PublicIcon style={{ fontSize: 40, color: "white" }} />}
               title={"Countries"}

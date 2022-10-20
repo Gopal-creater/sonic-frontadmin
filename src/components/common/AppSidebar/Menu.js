@@ -3,17 +3,18 @@ import { MenuContainer, NavIcon, SideBarLabel } from './style'
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 import { Grid, makeStyles } from '@material-ui/core';
-import sonickeyGrey from "../../../assets/images/sonickey-grey.png";
-import sonickeyActive from "../../../assets/images/sonickey-teal.png";
 import { NavLink, useLocation } from 'react-router-dom';
+import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
 import hoverKey from "../../../assets/images/key-logo.png"
 import theme from '../../../theme';
 import { useSelector } from 'react-redux';
 import { userRoles } from '../../../constants/constants';
 import CustomToolTip from '../CustomToolTip';
 import HelpOutline from '@material-ui/icons/HelpOutline';
+import { useTheme } from 'styled-components';
 
 export default function Menu({ menu }) {
+    const appTheme = useTheme();
     const users = useSelector(state => state.user)
     const [subMenu, setSubMenu] = React.useState(false)
 
@@ -40,7 +41,8 @@ export default function Menu({ menu }) {
                     onClick={SubMenus() && showSubMenu}
                     className={({ isActive }) => isActive && !SubMenus() ? classes.activeSideBarLink : classes.link}
                 >
-                    <NavIcon src={sonickeyGrey} width="15px" height="15px" className={classes.sideBarLinkIcon} />
+                   
+                    <RadioButtonCheckedIcon style={{ fontSize: appTheme.fontSize.h4}}/>
                     <SideBarLabel>
                         {menu.title}
                         {menu?.helperText &&
@@ -75,33 +77,34 @@ export default function Menu({ menu }) {
 
 
 const useStyles = makeStyles(() => {
+    const appTheme = useTheme();
     return ({
         link: {
             display: "flex",
             alignItems: "center",
             fontSize: "15px",
-            color: theme.colors.secondary.grey,
+            color: appTheme.colors.primary.light,
             textDecoration: "none",
             fontFamily: theme.fontFamily.nunitoSansRegular,
             "&:hover": {
-                color: theme.colors.primary.graphite,
+                color: appTheme.colors.primary.main,
                 "& $sideBarLinkIcon": {
                     content: `url(${hoverKey})`,
                 },
             }
         },
-        sideBarLinkIcon: {},
+        sideBarLinkIcon: {
+     
+        },
         activeSideBarLink: {
             fontSize: "15px",
-            fontFamily: theme.fontFamily.nunitoSansRegular,
-            color: theme.colors.primary.teal,
+            fontFamily: appTheme.fontFamily.nunitoSansRegular,
+            color: appTheme.colors.primary.dark,
             display: "flex",
             alignItems: "center",
             textDecoration: "none",
-            "& $sideBarLinkIcon": {
-                content: `url(${sonickeyActive})`
-            },
             "&:hover": {
+                color: appTheme.colors.primary.main,
                 "& $sideBarLinkIcon": {
                     content: `url(${hoverKey})`
                 },

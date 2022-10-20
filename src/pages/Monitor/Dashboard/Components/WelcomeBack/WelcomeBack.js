@@ -4,7 +4,7 @@ import { H1, H2, H3, Span } from "../../../../../StyledComponents/StyledHeadings
 import { WelcomeBackContainer } from './StyledWelcomeBack';
 import radioIcon from "../../../../../assets/icons/icon-white-radio.png"
 import theme from '../../../../../theme';
-
+import RadioIcon from "@material-ui/icons/Radio";
 export default function WelcomeBack({ totalRadioStations, loading, error }) {
     return (
         <WelcomeBackContainer container alignItems='center'>
@@ -32,7 +32,7 @@ export default function WelcomeBack({ totalRadioStations, loading, error }) {
                         Radio Stations
                     </H3>
                 </Grid>
-                <img src={radioIcon} alt="Radio Icon" width={70} height={"100%"} />
+                    <RadioIcon style={{ fontSize: 65, color: "white" }}/>
             </Grid>
         </WelcomeBackContainer>
     );

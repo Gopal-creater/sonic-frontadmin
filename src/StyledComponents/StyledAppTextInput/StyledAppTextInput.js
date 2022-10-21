@@ -15,10 +15,10 @@ const TextfieldFormControl = styled(FormControl)`
     width: 100%;
     &:hover {
         & .MuiInputLabel-formControl {
-            color: ${theme.colors.secondary.mediumNavy};
+            color: ${theme.colors.primary.main};
         }
         .Mui-disabled {
-            color:${theme.colors.secondary.mediumGrey};
+            color:${theme.colors.grey.main};
         }
     }
 `
@@ -28,7 +28,7 @@ const CustomTextField = styled(TextField)`
 
     //error
     & .Mui-error {
-        color: ${theme.colors.primary.graphite};
+        color: ${theme.colors.primary.dark};
     }
     & .MuiFormHelperText-root {
         color: ${theme.colors.secondary.error};
@@ -46,19 +46,19 @@ const CustomTextField = styled(TextField)`
 
     //For label
     & label {
-        color:${theme.colors.secondary.mediumGrey};
-        font-family:${theme.fontFamily.nunitoSansRegular};
+        color:${theme.colors.grey.dark};
+        font-family:${theme.fontFamily.robotoRegular};
         font-size:17px;
     };
 
     & label.Mui-focused {
-        color: ${theme.colors.primary.navy};
+        color: ${theme.colors.primary.main};
     };
 
     //For main input text
     & .MuiInput-root {
         color:${theme.colors.secondary.grey};
-        font-family:${theme.fontFamily.nunitoSansRegular};
+        font-family:${theme.fontFamily.robotoRegular};
         font-size:${theme.fontSize.h4};
 
         :hover {
@@ -78,34 +78,34 @@ const CustomTextField = styled(TextField)`
 
     // For border buttom
     & .MuiInput-underline:before {
-        border-bottom-color: ${theme.colors.secondary.grey};
+        border-bottom-color: ${theme.colors.grey.main};
     };
 
     && .MuiInput-underline:hover:before {
-        border-bottom-color: ${theme.colors.primary.navy};
+        border-bottom-color: ${theme.colors.primary.main};
     }
 
     & .MuiInput-underline:after {
-        border-bottom-color: ${theme.colors.primary.teal};
+        border-bottom-color: ${theme.colors.primary.dark};
     };
 `
 
 const DisabledLabel = styled.span`
-    color: ${theme.colors.secondary.grey};
-    font-family: ${theme.fontFamily.nunitoSansRegular};
+    color: ${theme.colors.grey.main};
+    font-family: ${theme.fontFamily.robotoMedium};
     font-size: 12px;
 `
 
 const DisabledField = styled(Grid)`
-    background-color: ${theme.colors.secondary.lightGrey};
+    background-color: ${theme.colors.grey.light};
     display: flex;
     align-items: center;
     padding-left: 5px;
     padding-right: 5px;
-    height: 45px;
-    color: ${theme.colors.secondary.grey};
-    font-family: ${theme.fontFamily.nunitoSansRegular};
-    font-size:${theme.fontSize.h4};
+    height: 35px;
+    color: ${theme.colors.grey.main};
+    font-family: ${theme.fontFamily.robotoRegular};
+    font-size:${theme.fontSize.content};
 `
 
 export function StyledTextField({ ...props }) {

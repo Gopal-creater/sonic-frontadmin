@@ -2,7 +2,7 @@ import React from "react";
 import { Grid } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import PaginationCount from "../../../components/common/Pagination/PaginationCount";
-import { Heading } from "../../../StyledComponents/StyledHeadings";
+import { Heading, SubHeading } from "../../../StyledComponents/StyledHeadings";
 import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
 import theme from "../../../theme";
 import FilterComponent from "../../../components/common/FilterComponent/FilterComponent";
@@ -148,7 +148,7 @@ export default function MonitorCompanies() {
 
   return (
     <MainContainer>
-      <Heading fontFamily={theme.fontFamily.nunitoSansBold}>Companies</Heading>
+      <SubHeading >Companies</SubHeading>
 
       {/* Filter--------------------------------------------------------------- */}
       <Grid style={{ marginTop: "40px" }}>

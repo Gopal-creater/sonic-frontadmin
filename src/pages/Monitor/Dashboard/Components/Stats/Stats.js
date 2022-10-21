@@ -66,7 +66,7 @@ export default function Stats({
             </Grid>
           </Grid>
 
-          {/* <OwnershipTitleContainer>{ownerShipTitle || ""}</OwnershipTitleContainer> */}
+
           {loading ? (
             <CircularProgress size={25} />
           ) : (

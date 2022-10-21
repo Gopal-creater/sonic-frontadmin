@@ -37,39 +37,42 @@ code {
   src: local("NunitoSans-ExtraBold"),
     url("./assets/fonts/NunitoSans-ExtraBold.ttf") format("truetype");
 }
-/* ------------------------------------------------------------------------------ */
+
+/* =================================================================================================== */
 @font-face {
-  font-family: "Baron Neue-Black_Italic";
-  src: local("Baron Neue-Black_Italic"),
-    url("./assets/fonts/Baron Neue-Black_Italic.otf") format("truetype");
-}
-@font-face {
-  font-family: "Baron Neue-Black";
-  src: local("Baron Neue-Black"),
-    url("./assets/fonts/Baron Neue-Black.otf") format("truetype");
+  font-family: "Roboto-Black";
+  src: local("Roboto-Black"),
+    url("./assets/fonts/Roboto-Black.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: "Baron Neue-Bold";
-  src: local("Baron Neue-Bold"),
-    url("./assets/fonts/Baron Neue-Bold.otf") format("truetype");
+  font-family: "Roboto-Bold";
+  src: local("Roboto-Bold"),
+    url("./assets/fonts/Roboto-Bold.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: "Baron Neue-Bold_Italic";
-  src: local("Baron Neue-Bold_Italic"),
-    url("./assets/fonts/Baron Neue-Bold_Italic.otf") format("truetype");
+  font-family: "Roboto-Thin";
+  src: local("Roboto-Thin"),
+    url("./assets/fonts/Roboto-Thin.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: "Baron Neue-Italic";
-  src: local("Baron Neue-Italic"),
-    url("./assets/fonts/Baron Neue-Italic.otf") format("truetype");
+  font-family: "Roboto-Thin";
+  src: local("Roboto-Thin"),
+    url("./assets/fonts/Roboto-Thin.ttf") format("truetype");
 }
+
 @font-face {
-  font-family: "Baron Neue-Regular";
-  src: local("Baron Neue-Regular"),
-    url("./assets/fonts/Baron Neue-Regular.otf") format("truetype");
+  font-family: "Roboto-Medium";
+  src: local("Roboto-Medium"),
+    url("./assets/fonts/Roboto-Medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Roboto-Regular";
+  src: local("Roboto-Regular"),
+    url("./assets/fonts/Roboto-Regular.ttf") format("truetype");
 }
 
 

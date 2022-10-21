@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Toolbar from "@material-ui/core/Toolbar";
-import { Box, Divider, Drawer, Grid, IconButton } from "@material-ui/core";
+import { Divider, Drawer, Grid, IconButton } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import Footer from "./components/Footer/Footer";
@@ -10,10 +10,14 @@ import AppSideBar from "../AppSidebar";
 import { useNavigate } from "react-router-dom";
 import SecondaryMenu from "./components/SecondaryMenu/SecondaryMenu";
 import { useTheme } from "styled-components";
-import { Header, LayoutHeading, SideBarHeading, UserName } from "./AppLayout.styles";
+import {
+  Header,
+  LayoutHeading,
+  SideBarHeading,
+  UserName,
+} from "./AppLayout.styles";
 import { tags } from "../../../constants/constants";
 import { getUserName } from "../../../services/https/AuthHelper";
-import theme from "../../../theme";
 
 export default function AppLayout({ children }) {
   const classes = useStyles();
@@ -59,8 +63,11 @@ export default function AppLayout({ children }) {
         variant="persistent"
         anchor="left"
       >
-        <div className={classes.drawerHeader}>
-          <Grid item>
+        <div
+          className={classes.drawerHeader}
+          style={{ backgroundColor: "red" }}
+        >
+          <Grid container justifyContent="center">
             <SideBarHeading>
               {hour < 12
                 ? "Good Morning"
@@ -69,7 +76,7 @@ export default function AppLayout({ children }) {
                 : "Good Evening"}
             </SideBarHeading>
 
-            <UserName>{getUserName()}</UserName>
+            <UserName noWrap>{getUserName()}</UserName>
           </Grid>
           <IconButton
             onClick={toggleSideBar}
@@ -77,9 +84,8 @@ export default function AppLayout({ children }) {
           >
             <ArrowBackIcon />
           </IconButton>
-          
         </div>
-        <Divider className={classes.divider}/>
+        <Divider className={classes.divider} />
         <AppSideBar />
       </Drawer>
       {/* Drawer---------------------------------------------- */}
@@ -97,7 +103,7 @@ export default function AppLayout({ children }) {
   );
 }
 
-const drawerWidth = 220 ;
+const drawerWidth = 220;
 
 const useStyles = makeStyles((theme) => {
   const appTheme = useTheme();
@@ -121,9 +127,8 @@ const useStyles = makeStyles((theme) => {
         duration: theme.transitions.duration.enteringScreen,
       }),
     },
-    divider:{
-      backgroundColor:appTheme.colors.primary.main,
-      
+    divider: {
+      backgroundColor: appTheme.colors.primary.main,
     },
     menuButton: {
       marginRight: theme.spacing(2),

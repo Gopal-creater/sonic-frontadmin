@@ -7,7 +7,7 @@ import CustomPagination from "../../components/common/Pagination/CustomPaginatio
 import PaginationCount from "../../components/common/Pagination/PaginationCount";
 import { sonicKeyTableHeads } from "../../constants/constants";
 import { getAllSonickeysActions } from "../../stores/actions/SonicKeyAcrtions";
-import { H1 } from "../../StyledComponents/StyledHeadings";
+import { H1, SubHeading } from "../../StyledComponents/StyledHeadings";
 import { MainContainer } from "../../StyledComponents/StyledPageContainer";
 import SonicKeyFilter from "./components/SonicKeyFilter";
 import SonicKeyTable from "./components/SonicKeyTable";
@@ -24,7 +24,7 @@ export default function SonicKey() {
     <MainContainer>
       <Grid container justifyContent="space-between">
         <Grid item>
-          <H1>Encoded Tracks</H1>
+          <SubHeading>Encoded Tracks</SubHeading>
           <PaginationCount
             name="encoded tracks"
             heading={true}

@@ -3,19 +3,20 @@ import { ArrowBack } from "@material-ui/icons";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useTheme } from "styled-components";
 import AppButton from "../../components/common/AppButton/AppButton";
 import AppTable from "../../components/common/AppTable";
 import CommonDataLoadErrorSuccess from "../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess";
 import { getSonicStreamDetailsActions } from "../../stores/actions/streamReader.action";
-import { H1, H4 } from "../../StyledComponents/StyledHeadings";
+import { Content, SubHeading } from "../../StyledComponents/StyledHeadings";
 import { MainContainer } from "../../StyledComponents/StyledPageContainer";
-import theme from "../../theme";
 
 export default function SonicStreamDetail() {
   const { state } = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const streamReader = useSelector((state) => state.streamReader);
+  const theme = useTheme();
 
   React.useEffect(() => {
     dispatch(getSonicStreamDetailsActions(state?._id));
@@ -116,25 +117,21 @@ export default function SonicStreamDetail() {
           >
             Back
           </AppButton>
-          <H1>Detected SonicKeys</H1>
-          <H4
-            color={theme.colors.primary.teal}
-            fontFamily={theme.fontFamily.nunitoSansRegular}
-          >
+          <SubHeading>Detected SonicKeys</SubHeading>
+          <Content>
             Found {streamReader?.streamDetails?.data?.docs?.length || 0}{" "}
             SonicKeys in {state?.name} radio station{" "}
             {/* {state?.isStreamStarted === true && ( */}
             <Badge
               style={{
-                background: "rgb(229, 245, 244)",
-                color: "rgb(72, 187, 183)",
+                background: theme.colors.grey.light,
+                color: theme.colors.secondary.main,
                 padding: 5,
-                fontWeight: "lighter",
               }}
             >
               LISTENING
             </Badge>
-          </H4>
+          </Content>
         </Grid>
       </Grid>
 

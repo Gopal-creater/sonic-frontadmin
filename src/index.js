@@ -12,12 +12,12 @@ import "./assets/fonts/NunitoSans-Bold.ttf";
 import "./assets/fonts/NunitoSans-Regular.ttf";
 import "./assets/fonts/NunitoSans-ExtraBold.ttf";
 
-import "./assets/fonts/Baron Neue-Bold.otf";
-import "./assets/fonts/Baron Neue-Bold_Italic.otf";
-import "./assets/fonts/Baron Neue-Black.otf";
-import "./assets/fonts/Baron Neue-Black_Italic.otf";
-import "./assets/fonts/Baron Neue-Italic.otf";
-import "./assets/fonts/Baron Neue-Regular.otf";
+import "./assets/fonts/Roboto-Black.ttf";
+import "./assets/fonts/Roboto-Bold.ttf";
+import "./assets/fonts/Roboto-Thin.ttf";
+import "./assets/fonts/Roboto-Light.ttf";
+import "./assets/fonts/Roboto-Medium.ttf";
+import "./assets/fonts/Roboto-Regular.ttf";
 
 import { ThemeProvider } from "styled-components";
 import theme from "./theme";

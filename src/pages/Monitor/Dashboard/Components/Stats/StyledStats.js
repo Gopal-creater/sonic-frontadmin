@@ -5,7 +5,7 @@ import theme from "../../../../../theme";
 export const Title = styled.h4(({ color, fontSize, fontFamily }) => ({
   color: color || theme.colors.primary.graphite,
   "font-size": fontSize || theme.fontSize.caption,
-  "font-family": fontFamily || theme.fontFamily.baronNeueRegular,
+  "font-family": fontFamily || theme.fontFamily.robotoRegular,
 }));
 
 export const IconContainer = styled(Grid)`
@@ -19,7 +19,7 @@ export const DataContainer = styled.span`
   color: ${theme.colors.primary.navy};
   font-size: ${theme.fontSize.subHeading};
   line-height: 1;
-  font-family:${theme.fontFamily.baronNeueRegular}
+  font-family:${theme.fontFamily.robotoRegular}
 `;
 
 export const StatsContainer = styled(Grid)`

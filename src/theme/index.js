@@ -28,7 +28,7 @@ const theme = {
       contrastText: "#fff",
     },
     grey: {
-      light: "#f2f2f2",
+      light: "#cccccc",
       main: "#808080",
       dark: "#4d4d4d",
     },

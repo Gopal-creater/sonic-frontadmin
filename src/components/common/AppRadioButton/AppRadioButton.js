@@ -1,27 +1,25 @@
-import React from "react";
-import Radio from '@material-ui/core/Radio';
-import theme from '../../../theme'
-import styled from 'styled-components';
+import Radio from "@material-ui/core/Radio";
+import styled, { useTheme } from "styled-components";
 
-
-
-export const CustomRadioButton = styled(Radio)(({ color, hoverColor, backgroundColor, ...props }) => {
-    return ({
-        color: color || theme.colors.primary.navy,
+export const CustomRadioButton = styled(Radio)(
+  ({ color, hoverColor, backgroundColor, ...props }) => {
+    const theme = useTheme();
+    return {
+      color: color || theme.colors.grey.main,
+      "&:hover": {
+        color: hoverColor || theme.colors.primary.main,
+        backgroundColor: backgroundColor || theme.colors.grey.light,
+      },
+      "&.Mui-checked": {
+        color: hoverColor || theme.colors.primary.main,
         "&:hover": {
-            color: hoverColor || theme.colors.primary.navy,
-            backgroundColor: backgroundColor || theme.colors.secondary.extraLightTeal,
+          color: hoverColor || theme.colors.grey.main,
+          backgroundColor: backgroundColor || theme.colors.grey.light,
         },
-        "&.Mui-checked": {
-            color: hoverColor || theme.colors.primary.navy,
-            "&:hover": {
-                color: hoverColor || theme.colors.secondary.grey,
-                backgroundColor: backgroundColor || theme.colors.secondary.extraLightTeal,
-            },
-        },
-        "&.Mui-disabled": {
-            color: theme.colors.secondary.grey,
-        }
-    })
-})
-
+      },
+      "&.Mui-disabled": {
+        color: theme.colors.grey.light,
+      },
+    };
+  }
+);

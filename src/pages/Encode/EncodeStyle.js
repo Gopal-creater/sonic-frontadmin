@@ -19,7 +19,7 @@ export const ExistingFileSelectionContainer = styled(Grid)`
 `;
 
 export const AppAutoCompleteContainer = styled(Grid)`
-  background-color: white;
+  background-color: ${(props) => props.theme.colors.primary.contrastText};
   margin-top: 15px;
   padding: 30px 40px 10px 40px;
   display: flex;
@@ -28,6 +28,7 @@ export const AppAutoCompleteContainer = styled(Grid)`
   justify-content: flex-end;
   flex: 1;
 `;
+
 export const TrackContainer = styled(Grid)`
   margin-top: 40px;
   padding: 30px;

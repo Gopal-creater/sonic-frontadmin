@@ -1,127 +1,130 @@
 import { FormControl, Grid, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import styled from "styled-components";
-import theme from "../../theme";
 
 const useStyles = makeStyles(() => ({
-    textInput: {
-        "&:-webkit-autofill": {
-            WebkitBoxShadow: "0 0 0 1000px white inset"
-        }
+  textInput: {
+    "&:-webkit-autofill": {
+      WebkitBoxShadow: "0 0 0 1000px white inset",
     },
+  },
 }));
 
 const TextfieldFormControl = styled(FormControl)`
-    width: 100%;
-    &:hover {
-        & .MuiInputLabel-formControl {
-            color: ${theme.colors.secondary.mediumNavy};
-        }
-        .Mui-disabled {
-            color:${theme.colors.secondary.mediumGrey};
-        }
+  width: 100%;
+  &:hover {
+    & .MuiInputLabel-formControl {
+      color: ${(props) => props.theme.colors.primary.main};
     }
-`
+    .Mui-disabled {
+      color: ${(props) => props.theme.colors.grey.light};
+    }
+  }
+`;
 
 const CustomTextField = styled(TextField)`
-    width: ${props => props.width || "100%"};
+  width: ${(props) => props.width || "100%"};
 
-    //error
-    & .Mui-error {
-        color: ${theme.colors.primary.graphite};
+  //error
+  & .Mui-error {
+    color: ${(props) => props.theme.colors.primary.main};
+  }
+  & .MuiFormHelperText-root {
+    color: ${(props) => props.theme.colors.grey.main};
+  }
+  & .MuiInput-underline.Mui-error:after {
+    border-bottom-color: ${(props) => props.theme.colors.grey.main};
+  }
+
+  //input[type=number]
+  & .MuiInput-input {
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: ${(props) => props.spinner || "none"};
     }
-    & .MuiFormHelperText-root {
-        color: ${theme.colors.secondary.error};
+  }
+
+  //For label
+  & label {
+    color: ${(props) => props.theme.colors.grey.main};
+    font-family: ${(props) => props.theme.fontFamily.robotoRegular};
+    font-size: ${(props) => props.theme.fontSize.content};
+  }
+
+  & label.Mui-focused {
+    color: ${(props) => props.theme.colors.grey.main};
+  }
+
+  //For main input text
+  & .MuiInput-root {
+    color: ${(props) => props.theme.colors.grey.main};
+    font-family: ${(props) => props.theme.fontFamily.robotoRegular};
+    font-size: ${(props) => props.theme.fontSize.content};
+
+    :hover {
+      color: ${(props) => props.theme.colors.grey.light};
     }
-    & .MuiInput-underline.Mui-error:after {
-        border-bottom-color: ${theme.colors.secondary.error};
-    }
+  }
 
-    //input[type=number]
-    & .MuiInput-input {
-        &::-webkit-outer-spin-button, &::-webkit-inner-spin-button {
-            -webkit-appearance: ${props => props.spinner || "none"};
-        }
-    }
+  & .MuiInput-root.Mui-focused {
+    color: ${(props) => props.theme.colors.primary.main};
+  }
 
-    //For label
-    & label {
-        color:${theme.colors.secondary.mediumGrey};
-        font-family:${theme.fontFamily.nunitoSansRegular};
-        font-size:17px;
-    };
+  //Inputfield Icon
+  & .MuiInputAdornment-root {
+    margin-left: 0;
+    margin-right: 0;
+  }
 
-    & label.Mui-focused {
-        color: ${theme.colors.primary.navy};
-    };
+  // For border buttom
+  & .MuiInput-underline:before {
+    border-bottom-color: ${(props) => props.theme.colors.grey.main};
+  }
 
-    //For main input text
-    & .MuiInput-root {
-        color:${theme.colors.secondary.grey};
-        font-family:${theme.fontFamily.nunitoSansRegular};
-        font-size:${theme.fontSize.h4};
+  && .MuiInput-underline:hover:before {
+    border-bottom-color: ${(props) => props.theme.colors.primary.main};
+  }
 
-        :hover {
-            color:${theme.colors.secondary.mediumNavy};
-        }
-    };
-
-    & .MuiInput-root.Mui-focused {
-        color:${theme.colors.primary.navy};
-    };
-
-    //Inputfield Icon
-    & .MuiInputAdornment-root {
-        margin-left: 0;
-        margin-right: 0;
-    };
-
-    // For border buttom
-    & .MuiInput-underline:before {
-        border-bottom-color: ${theme.colors.secondary.grey};
-    };
-
-    && .MuiInput-underline:hover:before {
-        border-bottom-color: ${theme.colors.primary.navy};
-    }
-
-    & .MuiInput-underline:after {
-        border-bottom-color: ${theme.colors.primary.teal};
-    };
-`
+  & .MuiInput-underline:after {
+    border-bottom-color: ${(props) => props.theme.colors.secondary.main};
+  }
+`;
 
 const DisabledLabel = styled.span`
-    color: ${theme.colors.secondary.grey};
-    font-family: ${theme.fontFamily.nunitoSansRegular};
-    font-size: 12px;
-`
+  color: ${(props) => props.theme.colors.grey.main};
+  font-family: ${(props) => props.theme.fontFamily.robotoRegular};
+  font-size: ${(props) => props.theme.fontSize.content};
+`;
 
 const DisabledField = styled(Grid)`
-    background-color: ${theme.colors.secondary.lightGrey};
-    display: flex;
-    align-items: center;
-    padding-left: 5px;
-    padding-right: 5px;
-    height: 45px;
-    color: ${theme.colors.secondary.grey};
-    font-family: ${theme.fontFamily.nunitoSansRegular};
-    font-size:${theme.fontSize.h4};
-`
+  background-color: ${(props) => props.theme.colors.grey.light};
+  display: flex;
+  align-items: center;
+  padding-left: 5px;
+  padding-right: 5px;
+  height: 45px;
+  color: ${(props) => props.theme.colors.grey.main};
+  font-family: ${(props) => props.theme.fontFamily.robotoRegular};
+  font-size: ${(props) => props.theme.fontSize.content};
+`;
 
 export function StyledTextField({ ...props }) {
-    const classes = useStyles();
-    return (
-        <TextfieldFormControl>
-            <CustomTextField  {...props} inputProps={{ className: classes.textInput }} />
-        </TextfieldFormControl>
-    )
+  const classes = useStyles();
+  return (
+    <TextfieldFormControl>
+      <CustomTextField
+        {...props}
+        inputProps={{ className: classes.textInput }}
+      />
+    </TextfieldFormControl>
+  );
 }
 
 export function DisabledTextField({ label, value, ...props }) {
-    return (
-        <TextfieldFormControl>
-            <DisabledLabel>{label}</DisabledLabel>
-            <DisabledField {...props}>{value || ""}</DisabledField>
-        </TextfieldFormControl>
-    )
-} 
+  return (
+    <TextfieldFormControl>
+      <DisabledLabel>{label}</DisabledLabel>
+      <DisabledField {...props}>{value || ""}</DisabledField>
+    </TextfieldFormControl>
+  );
+}

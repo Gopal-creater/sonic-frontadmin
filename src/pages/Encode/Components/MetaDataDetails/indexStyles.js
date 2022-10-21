@@ -2,13 +2,13 @@ import styled from "styled-components";
 import { Grid } from "@material-ui/core";
 
 export const EncodeContainer = styled(Grid)`
-  padding: 20px;
+  padding: 25px;
   background-color: white;
 `;
 
 export const MetaDataHeaderContainer = styled(Grid)`
-  background-color: ${(props) => props.theme.colors.secondary.extraLightTeal};
-  padding: 30px;
+  background-color: ${(props) => props.theme.colors.primary.main};
+  padding: 25px;
   position: relative;
 
   ::before {
@@ -25,7 +25,8 @@ export const MetaDataHeaderContainer = styled(Grid)`
 
 export const CheckBoxLabelContainer = styled.div`
   display: flex;
-  margin-top: 10px;
+  align-items: center;
+  margin-top: 3px;
 `;
 
 export const IconContainer = styled.div`
@@ -37,7 +38,7 @@ export const IconContainer = styled.div`
 `;
 
 export const MetaDataDetailsContainer = styled(Grid)`
-  padding: 60px 35px 60px 35px;
+  padding: 50px 35px 60px 35px;
 `;
 
 export const ProperAccessContainer = styled(Grid)`
@@ -52,8 +53,8 @@ export const RightsHolderContainer = styled(Grid)`
 
 export const RadioLabel = styled.h6`
   margin-top: 2px;
-  font-family: ${(props) => props.theme.fontFamily.nunitoSansBold};
-  color: ${(props) => props.theme.colors.secondary.grey};
+  font-family: ${(props) => props.theme.fontFamily.robotoMedium};
+  color: ${(props) => props.theme.colors.grey.main};
 `;
 
 export const ButtonContainer = styled(Grid)`
@@ -110,6 +111,7 @@ export const SelectedTrackTextContainer = styled(Grid)`
 `;
 
 export const UlList = styled.li`
-  color: ${(props) => props.theme.colors.secondary.grey};
-  font-family: ${(props) => props.theme.fontFamily.nunitoSansRegular};
+  color: ${(props) => props.theme.colors.grey.main};
+  font-family: ${(props) => props.theme.fontFamily.robotoRegular};
+  font-size: ${(props) => props.theme.fontSize.content};
 `;

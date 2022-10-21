@@ -10,7 +10,7 @@ import {
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import { useNavigate } from "react-router-dom";
 import CustomToolTip from "../../../../../components/common/CustomToolTip/index";
-import theme from "../../../../../theme";
+import { useTheme } from "styled-components";
 
 export default function Stats({
   loading,
@@ -26,7 +26,7 @@ export default function Stats({
   const changePage = () => {
     navigate(pageLink);
   };
-
+  const theme = useTheme();
   return (
     <StatsContainer container onClick={changePage}>
       <Grid item xs={4} container alignItems="flex-start">

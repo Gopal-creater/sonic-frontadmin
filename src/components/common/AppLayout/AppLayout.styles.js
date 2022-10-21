@@ -14,11 +14,11 @@ export const LayoutHeading = styled(Typography)`
 export const SideBarHeading = styled(Typography)`
   font-size: ${(props) => props.theme.fontSize.content};
   color: ${(props) => props.theme.colors.primary.dark};
-  font-family: ${(props) => props.theme.fontFamily.robotoBlack};
+  font-family: ${(props) => props.theme.fontFamily.robotoMedium};
+  margin-bottom: -25px;
 `;
 export const UserName = styled(Typography)`
   font-size: ${(props) => props.theme.fontSize.content};
   color: ${(props) => props.theme.colors.primary.dark};
-  font-family: ${(props) => props.theme.fontFamily.robotoRegular};
-  margin-left: -25px;
+  font-family: ${(props) => props.theme.fontFamily.robotoMedium};
 `;

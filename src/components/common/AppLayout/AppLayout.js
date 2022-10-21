@@ -29,6 +29,16 @@ export default function AppLayout({ children }) {
     setOpen((open) => !open);
   };
 
+  const getGreetings = () => {
+    if (hour < 12) {
+      return "Good Morning";
+    } else if (hour < 16) {
+      return "Good Afternoon";
+    } else {
+      return "Good Evening";
+    }
+  };
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -63,28 +73,26 @@ export default function AppLayout({ children }) {
         variant="persistent"
         anchor="left"
       >
-        <div
-          className={classes.drawerHeader}
-          style={{ backgroundColor: "red" }}
-        >
-          <Grid container justifyContent="center">
-            <SideBarHeading>
-              {hour < 12
-                ? "Good Morning"
-                : hour < 16
-                ? "Good Afternoon"
-                : "Good Evening"}
-            </SideBarHeading>
-
+        <Grid container className={classes.drawerHeader}>
+          <Grid
+            item
+            container
+            justifyContent="center"
+            alignItems="center"
+            xs={10}
+          >
+            <SideBarHeading>{getGreetings()}</SideBarHeading>
             <UserName noWrap>{getUserName()}</UserName>
           </Grid>
-          <IconButton
-            onClick={toggleSideBar}
-            style={{ position: "absolute", right: 0 }}
-          >
-            <ArrowBackIcon />
-          </IconButton>
-        </div>
+          <Grid item container alignItems="center" xs={2}>
+            <IconButton
+              onClick={toggleSideBar}
+              style={{ position: "absolute", right: 0 }}
+            >
+              <ArrowBackIcon />
+            </IconButton>
+          </Grid>
+        </Grid>
         <Divider className={classes.divider} />
         <AppSideBar />
       </Drawer>
@@ -145,9 +153,6 @@ const useStyles = makeStyles((theme) => {
       // backgroundColor: appTheme.colors.grey.light,
     },
     drawerHeader: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
       padding: theme.spacing(0, 1),
       backgroundColor: appTheme.colors.primary.contrastText,
       // necessary for content to be below app bar

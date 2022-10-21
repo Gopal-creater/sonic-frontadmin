@@ -25,13 +25,7 @@ export default function WelcomeBack({ totalRadioStations, loading, error }) {
               <>{totalRadioStations || "--"}</>
             )}
           </Large>
-          <SubHeading
-            color="white"
-
-            // style={{ lineHeight: "0.7", textAlign: "end" }}
-          >
-            Radio Stations
-          </SubHeading>
+          <SubHeading color="white">Radio Stations</SubHeading>
         </Grid>
         <RadioIcon style={{ fontSize: 70, color: "white" }} />
       </Grid>

@@ -3,7 +3,7 @@ import "./Plays.scss";
 import { Grid } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import * as actionTypes from "../../../stores/actions/actionTypes";
-import { H1, Heading } from "../../../StyledComponents/StyledHeadings";
+import { Heading, SubHeading } from "../../../StyledComponents/StyledHeadings";
 import FilterComponent from "../../../components/common/FilterComponent/FilterComponent";
 import PaginationCount from "../../../components/common/Pagination/PaginationCount";
 import CommonDataLoadErrorSuccess from "../../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess";
@@ -332,7 +332,7 @@ export default function Plays() {
         justifyContent="space-between"
         className="plays-title-container"
       >
-        <Heading>My Plays</Heading>
+        <SubHeading>My Plays</SubHeading>
       </Grid>
       {/* Header------------------------------------------ */}
 

@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Toolbar from "@material-ui/core/Toolbar";
-import { Box, Divider, Drawer, Grid, IconButton } from "@material-ui/core";
+import { Divider, Drawer, Grid, IconButton } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import Footer from "./components/Footer/Footer";
@@ -10,10 +10,14 @@ import AppSideBar from "../AppSidebar";
 import { useNavigate } from "react-router-dom";
 import SecondaryMenu from "./components/SecondaryMenu/SecondaryMenu";
 import { useTheme } from "styled-components";
-import { Header, LayoutHeading, SideBarHeading, UserName } from "./AppLayout.styles";
+import {
+  Header,
+  LayoutHeading,
+  SideBarHeading,
+  UserName,
+} from "./AppLayout.styles";
 import { tags } from "../../../constants/constants";
 import { getUserName } from "../../../services/https/AuthHelper";
-import theme from "../../../theme";
 
 export default function AppLayout({ children }) {
   const classes = useStyles();
@@ -23,6 +27,17 @@ export default function AppLayout({ children }) {
   const [open, setOpen] = React.useState(true);
   const toggleSideBar = () => {
     setOpen((open) => !open);
+  };
+  const theme = useTheme();
+
+  const getGreetings = () => {
+    if (hour < 12) {
+      return "Good Morning";
+    } else if (hour < 16) {
+      return "Good Afternoon";
+    } else {
+      return "Good Evening";
+    }
   };
 
   return (
@@ -59,27 +74,27 @@ export default function AppLayout({ children }) {
         variant="persistent"
         anchor="left"
       >
-        <div className={classes.drawerHeader}>
-          <Grid item>
-            <SideBarHeading>
-              {hour < 12
-                ? "Good Morning"
-                : hour < 16
-                ? "Good Afternoon"
-                : "Good Evening"}
-            </SideBarHeading>
-
-            <UserName>{getUserName()}</UserName>
-          </Grid>
-          <IconButton
-            onClick={toggleSideBar}
-            style={{ position: "absolute", right: 0 }}
+        <Grid container className={classes.drawerHeader}>
+          <Grid
+            container
+            justifyContent="center"
+            alignItems="center"
+            item
+            xs={10}
           >
-            <ArrowBackIcon />
-          </IconButton>
-          
-        </div>
-        <Divider className={classes.divider}/>
+            <SideBarHeading>{getGreetings()}</SideBarHeading>
+            <UserName noWrap>{getUserName()}</UserName>
+          </Grid>
+          <Grid container alignItems="center" item xs={2}>
+            <IconButton
+              onClick={toggleSideBar}
+              style={{ position: "absolute", right: 0 }}
+            >
+              <ArrowBackIcon />
+            </IconButton>
+          </Grid>
+        </Grid>
+        <Divider className={classes.divider} />
         <AppSideBar />
       </Drawer>
       {/* Drawer---------------------------------------------- */}
@@ -97,7 +112,7 @@ export default function AppLayout({ children }) {
   );
 }
 
-const drawerWidth = 220 ;
+const drawerWidth = 220;
 
 const useStyles = makeStyles((theme) => {
   const appTheme = useTheme();
@@ -121,9 +136,8 @@ const useStyles = makeStyles((theme) => {
         duration: theme.transitions.duration.enteringScreen,
       }),
     },
-    divider:{
-      backgroundColor:appTheme.colors.primary.main,
-      
+    divider: {
+      backgroundColor: appTheme.colors.primary.main,
     },
     menuButton: {
       marginRight: theme.spacing(2),
@@ -140,9 +154,6 @@ const useStyles = makeStyles((theme) => {
       // backgroundColor: appTheme.colors.grey.light,
     },
     drawerHeader: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
       padding: theme.spacing(0, 1),
       backgroundColor: appTheme.colors.primary.contrastText,
       // necessary for content to be below app bar

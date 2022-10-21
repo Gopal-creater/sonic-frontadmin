@@ -1,20 +1,17 @@
 import { Grid } from "@material-ui/core";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Columns from "../../components/common/Columns/Columns";
 import CommonDataLoadErrorSuccess from "../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess";
 import FilterCreate from "../../components/common/FilterComponent/FilterCreate";
 import CustomPagination from "../../components/common/Pagination/CustomPagination";
 import PaginationCount from "../../components/common/Pagination/PaginationCount";
 import { streamReaderTableHeads } from "../../constants/constants";
 import { fetchRadioMonitorsActions } from "../../stores/actions/streamReader.action";
-import { H1, H4 } from "../../StyledComponents/StyledHeadings";
+import { Content, SubHeading } from "../../StyledComponents/StyledHeadings";
 import { MainContainer } from "../../StyledComponents/StyledPageContainer";
-import theme from "../../theme";
 import { log } from "../../utils/app.debug";
 import StreamReaderFilter from "./components/StreamReaderFilter";
 import StreamReaderTable from "./components/StreamReaderTable";
-import SubscribeStation from "./components/SubscribedStation";
 
 export default function SonicStreamReader() {
   const dispatch = useDispatch();
@@ -31,14 +28,11 @@ export default function SonicStreamReader() {
       {/* Header--------------------------------------------------- */}
       <Grid container justifyContent="space-between">
         <Grid item>
-          <H1>Sonic StreamReader</H1>
-          <H4
-            color={theme.colors.primary.teal}
-            fontFamily={theme.fontFamily.nunitoSansRegular}
-          >
+          <SubHeading>Sonic StreamReader</SubHeading>
+          <Content>
             Currently listening to{" "}
             {streamReader?.stations?.data?.totalDocs || 0} radio stations
-          </H4>
+          </Content>
         </Grid>
       </Grid>
       {/* Header--------------------------------------------------- */}

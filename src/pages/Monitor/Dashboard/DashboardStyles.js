@@ -6,6 +6,7 @@ export const CardContainer = styled.div`
   margin-top: 60px;
   display: flex;
   width: 100%;
+  
 `;
 
 export const TableContainer = styled(Grid)`

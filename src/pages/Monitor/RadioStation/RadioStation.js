@@ -3,7 +3,7 @@ import { Grid } from "@material-ui/core";
 import { useTheme } from "styled-components";
 import CommonDataLoadErrorSuccess from "../../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess";
 import FilterComponent from "../../../components/common/FilterComponent/FilterComponent";
-import { H1 } from "../../../StyledComponents/StyledHeadings";
+import { H1, Heading } from "../../../StyledComponents/StyledHeadings";
 import PaginationCount from "../../../components/common/Pagination/PaginationCount";
 import CustomPagination from "../../../components/common/Pagination/CustomPagination";
 import { useDispatch, useSelector } from "react-redux";
@@ -139,7 +139,7 @@ export default function RadioStations() {
 
   return (
     <MainContainer>
-      <H1 fontFamily={theme.fontFamily.nunitoSansBold}>Radio Stations</H1>
+      <Heading >Radio Stations</Heading>
 
       {/* Filter------------------------------------------------------------------------ */}
       <Grid style={{ marginTop: "40px" }}>

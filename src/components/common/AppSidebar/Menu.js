@@ -4,7 +4,7 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 import { Grid, makeStyles } from '@material-ui/core';
 import { NavLink, useLocation } from 'react-router-dom';
-import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
+import LabelIcon from '@material-ui/icons/Label';
 import hoverKey from "../../../assets/images/key-logo.png"
 import theme from '../../../theme';
 import { useSelector } from 'react-redux';
@@ -42,12 +42,12 @@ export default function Menu({ menu }) {
                     className={({ isActive }) => isActive && !SubMenus() ? classes.activeSideBarLink : classes.link}
                 >
                    
-                    <RadioButtonCheckedIcon style={{ fontSize: appTheme.fontSize.h4}}/>
+                    <LabelIcon style={{ fontSize: appTheme.fontSize.h4}}/>
                     <SideBarLabel>
                         {menu.title}
                         {menu?.helperText &&
                             <CustomToolTip title={menu.helperText} placement={"bottom-start"} arrow marginTop={"25px"}>
-                                <HelpOutline style={{ fontSize: "12px", marginLeft: 5 }} />
+                                <HelpOutline style={{ fontSize: theme.fontSize.caption, marginLeft: 5 }} />
                             </CustomToolTip>
                         }
                     </SideBarLabel>
@@ -82,12 +82,11 @@ const useStyles = makeStyles(() => {
         link: {
             display: "flex",
             alignItems: "center",
-            fontSize: "15px",
-            color: appTheme.colors.primary.light,
+            fontSize: appTheme.fontSize.caption,
+            color: appTheme.colors.grey.main,
             textDecoration: "none",
-            fontFamily: theme.fontFamily.nunitoSansRegular,
             "&:hover": {
-                color: appTheme.colors.primary.main,
+                color: appTheme.colors.primary.light,
                 "& $sideBarLinkIcon": {
                     content: `url(${hoverKey})`,
                 },
@@ -98,13 +97,12 @@ const useStyles = makeStyles(() => {
         },
         activeSideBarLink: {
             fontSize: "15px",
-            fontFamily: appTheme.fontFamily.nunitoSansRegular,
-            color: appTheme.colors.primary.dark,
+            color: appTheme.colors.primary.main,
             display: "flex",
             alignItems: "center",
             textDecoration: "none",
             "&:hover": {
-                color: appTheme.colors.primary.main,
+                color: appTheme.colors.primary.light,
                 "& $sideBarLinkIcon": {
                     content: `url(${hoverKey})`
                 },

@@ -11,8 +11,16 @@ import "./assets/fonts/NunitoSans-Black.ttf";
 import "./assets/fonts/NunitoSans-Bold.ttf";
 import "./assets/fonts/NunitoSans-Regular.ttf";
 import "./assets/fonts/NunitoSans-ExtraBold.ttf";
+
+import "./assets/fonts/Roboto-Black.ttf";
+import "./assets/fonts/Roboto-Bold.ttf";
+import "./assets/fonts/Roboto-Thin.ttf";
+import "./assets/fonts/Roboto-Light.ttf";
+import "./assets/fonts/Roboto-Medium.ttf";
+import "./assets/fonts/Roboto-Regular.ttf";
+
 import { ThemeProvider } from "styled-components";
-import theme, { testTheme } from "./theme";
+import theme from "./theme";
 import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.render(

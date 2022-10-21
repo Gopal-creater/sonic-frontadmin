@@ -49,6 +49,7 @@ export const MenuContainer = styled(Grid)`
   align-items: center;
   padding: 12px;
   padding-left: 0px;
+  font-family: ${(props)=>props.theme.fontFamily.robotoRegular}
 `;
 
 export const SideBarLabel = styled.span`
@@ -56,4 +57,6 @@ export const SideBarLabel = styled.span`
   margin-bottom: ${(props) => props.bottom || "0px"};
   display: flex;
   align-items: center;
+  font-family: ${(props)=>props.theme.fontFamily.robotoRegular}
+  /* font-size:${(props)=>props.theme.fontSize.subHeading} */
 `;

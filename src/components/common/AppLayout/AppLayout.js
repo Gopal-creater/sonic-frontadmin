@@ -10,8 +10,10 @@ import AppSideBar from "../AppSidebar";
 import { useNavigate } from "react-router-dom";
 import SecondaryMenu from "./components/SecondaryMenu/SecondaryMenu";
 import { useTheme } from "styled-components";
-import { Header, LayoutHeading, SideBarHeading } from "./AppLayout.styles";
+import { Header, LayoutHeading, SideBarHeading, UserName } from "./AppLayout.styles";
 import { tags } from "../../../constants/constants";
+import { getUserName } from "../../../services/https/AuthHelper";
+import theme from "../../../theme";
 
 export default function AppLayout({ children }) {
   const classes = useStyles();
@@ -59,17 +61,15 @@ export default function AppLayout({ children }) {
       >
         <div className={classes.drawerHeader}>
           <Grid item>
-            <Box>
-              <SideBarHeading>
-                {hour < 12
-                  ? "Good Morning"
-                  : hour < 16
-                  ? "Good Afternoon"
-                  : "Good Evening"}
-              </SideBarHeading>
-            </Box>
+            <SideBarHeading>
+              {hour < 12
+                ? "Good Morning"
+                : hour < 16
+                ? "Good Afternoon"
+                : "Good Evening"}
+            </SideBarHeading>
 
-            <SideBarHeading>{}</SideBarHeading>
+            <UserName>{getUserName()}</UserName>
           </Grid>
           <IconButton
             onClick={toggleSideBar}
@@ -77,8 +77,9 @@ export default function AppLayout({ children }) {
           >
             <ArrowBackIcon />
           </IconButton>
-          <Divider />
+          
         </div>
+        <Divider className={classes.divider}/>
         <AppSideBar />
       </Drawer>
       {/* Drawer---------------------------------------------- */}
@@ -96,7 +97,7 @@ export default function AppLayout({ children }) {
   );
 }
 
-const drawerWidth = 220;
+const drawerWidth = 220 ;
 
 const useStyles = makeStyles((theme) => {
   const appTheme = useTheme();
@@ -120,6 +121,10 @@ const useStyles = makeStyles((theme) => {
         duration: theme.transitions.duration.enteringScreen,
       }),
     },
+    divider:{
+      backgroundColor:appTheme.colors.primary.main,
+      
+    },
     menuButton: {
       marginRight: theme.spacing(2),
     },
@@ -132,14 +137,14 @@ const useStyles = makeStyles((theme) => {
     },
     drawerPaper: {
       width: drawerWidth,
-      backgroundColor: appTheme.colors.secondary.contrastText,
+      // backgroundColor: appTheme.colors.grey.light,
     },
     drawerHeader: {
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
       padding: theme.spacing(0, 1),
-      fontFamily: appTheme.fontFamily.nunitoSansRegular,
+      backgroundColor: appTheme.colors.primary.contrastText,
       // necessary for content to be below app bar
       ...theme.mixins.toolbar,
     },

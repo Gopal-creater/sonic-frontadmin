@@ -375,7 +375,7 @@ export function Dashboard() {
             <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
               <Stats
                 imgSrc={
-                  <BusinessIcon style={{ fontSize: 40, color: "white" }} />
+                  <BusinessIcon style={{ fontSize: 30, color: "white" }} />
                 }
                 title={"Companies"}
                 loading={dashboard?.loading}
@@ -390,7 +390,7 @@ export function Dashboard() {
           <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
             <Stats
               imgSrc={
-                <MusicNoteIcon style={{ fontSize: 40, color: "white" }} />
+                <MusicNoteIcon style={{ fontSize: 30, color: "white" }} />
               }
               title={"My Plays"}
               loading={dashboard?.loading}
@@ -403,7 +403,7 @@ export function Dashboard() {
 
           <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
             <Stats
-              imgSrc={<AlbumIcon style={{ fontSize: 40, color: "white" }} />}
+              imgSrc={<AlbumIcon style={{ fontSize: 30, color: "white" }} />}
               title={"My Tracks"}
               ownerShipTitle="from"
               loading={dashboard?.loading}
@@ -415,7 +415,7 @@ export function Dashboard() {
           </Grid>
           <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
             <Stats
-              imgSrc={<PersonIcon style={{ fontSize: 40, color: "white" }} />}
+              imgSrc={<PersonIcon style={{ fontSize: 30, color: "white" }} />}
               title={"Artists"}
               ownerShipTitle="by"
               loading={dashboard?.loading}
@@ -427,7 +427,7 @@ export function Dashboard() {
           </Grid>
           <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
             <Stats
-              imgSrc={<RadioIcon style={{ fontSize: 40, color: "white" }} />}
+              imgSrc={<RadioIcon style={{ fontSize: 30, color: "white" }} />}
               title={"Radio Stations"}
               ownerShipTitle="At"
               loading={dashboard?.loading}
@@ -439,7 +439,7 @@ export function Dashboard() {
           </Grid>
           <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
             <Stats
-              imgSrc={<PublicIcon style={{ fontSize: 40, color: "white" }} />}
+              imgSrc={<PublicIcon style={{ fontSize: 30, color: "white" }} />}
               title={"Countries"}
               ownerShipTitle="In"
               loading={dashboard?.loading}

@@ -4,8 +4,8 @@ import theme from "../../../../../theme";
 
 export const Title = styled.h4(({ color, fontSize, fontFamily }) => ({
   color: color || theme.colors.primary.graphite,
-  "font-size": fontSize || theme.fontSize.h4,
-  "font-family": fontFamily || theme.fontFamily.nunitoSansBold,
+  "font-size": fontSize || theme.fontSize.caption,
+  "font-family": fontFamily || theme.fontFamily.robotoRegular,
 }));
 
 export const IconContainer = styled(Grid)`
@@ -17,9 +17,9 @@ export const IconContainer = styled(Grid)`
 
 export const DataContainer = styled.span`
   color: ${theme.colors.primary.navy};
-  font-family: ${theme.fontFamily.nunitoSansBlack};
-  font-size: 30px;
+  font-size: ${theme.fontSize.subHeading};
   line-height: 1;
+  font-family:${theme.fontFamily.robotoRegular}
 `;
 
 export const StatsContainer = styled(Grid)`
@@ -35,6 +35,7 @@ export const StatsContainer = styled(Grid)`
 
     ${DataContainer},${Title} {
       color: ${theme.colors.primary.dark};
+      
     }
   }
 `;

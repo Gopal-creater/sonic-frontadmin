@@ -29,7 +29,7 @@ export default function Companies() {
             <Grid container justifyContent="space-between">
                 <Grid item>
                     <H1>Companies</H1>
-                    <H4 fontFamily={theme.fontFamily.nunitoSansRegular} color={theme.colors.primary.teal}>
+                    <H4 fontFamily={theme.fontFamily.robotoRegular} color={theme.colors.primary.teal}>
                         Manage all companies
                     </H4>
                 </Grid>

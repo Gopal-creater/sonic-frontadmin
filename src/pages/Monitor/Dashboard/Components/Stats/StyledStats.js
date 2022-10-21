@@ -1,12 +1,14 @@
 import { Grid } from "@material-ui/core";
-import styled from "styled-components";
-import theme from "../../../../../theme";
+import styled, { useTheme } from "styled-components";
 
-export const Title = styled.h4(({ color, fontSize, fontFamily }) => ({
-  color: color || theme.colors.primary.graphite,
-  "font-size": fontSize || theme.fontSize.caption,
-  "font-family": fontFamily || theme.fontFamily.robotoRegular,
-}));
+export const Title = styled.h4(({ color, fontSize, fontFamily }) => {
+  const theme = useTheme();
+  return {
+    color: color || theme.colors.primary.main,
+    "font-size": fontSize || theme.fontSize.content,
+    "font-family": fontFamily || theme.fontFamily.robotoMedium,
+  };
+});
 
 export const IconContainer = styled(Grid)`
   position: static;
@@ -16,10 +18,10 @@ export const IconContainer = styled(Grid)`
 `;
 
 export const DataContainer = styled.span`
-  color: ${theme.colors.primary.navy};
-  font-size: ${theme.fontSize.subHeading};
+  color: ${(props) => props.theme.colors.primary.main};
+  font-size: ${(props) => props.theme.fontSize.subHeading};
   line-height: 1;
-  font-family:${theme.fontFamily.robotoRegular}
+  font-family: ${(props) => props.theme.fontFamily.robotoRegular};
 `;
 
 export const StatsContainer = styled(Grid)`
@@ -34,8 +36,7 @@ export const StatsContainer = styled(Grid)`
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
     ${DataContainer},${Title} {
-      color: ${theme.colors.primary.dark};
-      
+      color: ${(props) => props.theme.colors.primary.dark};
     }
   }
 `;
@@ -43,12 +44,11 @@ export const CardContainer = styled(Grid)`
   padding: 10px;
   margin-top: -30px;
 
-
-  background-color: ${theme.colors.primary.navy};
+  background-color: ${(props) => props.theme.colors.primary.main};
   border-radius: 10px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   :hover {
-    background-color: ${theme.colors.primary.graphite};
+    background-color: ${(props) => props.theme.colors.primary.dark};
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   }
 `;

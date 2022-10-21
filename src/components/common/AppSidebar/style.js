@@ -15,20 +15,19 @@ export const SideBarContainer = styled(Grid)`
 
 export const MenuSideContainer = styled(Grid)`
   display: flex;
-  margin-top:76px;
-  padding:10px;
-  padding-top:30px;
-  border-radius:10px;
+  margin-top: 76px;
+  padding: 10px;
+  padding-top: 30px;
+  border-radius: 10px;
   justify-content: center;
   flex-wrap: wrap;
   max-width: 100%;
-  height:88vh;
-  background-color:white;
-  opacity:95%;
+  height: 88vh;
+  background-color: white;
+  opacity: 95%;
   @media (min-width: 1200px) {
     display: none;
   }
-
 `;
 
 export const NavIconContainer = styled(Grid)`
@@ -49,7 +48,7 @@ export const MenuContainer = styled(Grid)`
   align-items: center;
   padding: 12px;
   padding-left: 0px;
-  font-family: ${(props)=>props.theme.fontFamily.robotoRegular}
+  font-family: ${(props) => props.theme.fontFamily.robotoMedium};
 `;
 
 export const SideBarLabel = styled.span`
@@ -57,6 +56,6 @@ export const SideBarLabel = styled.span`
   margin-bottom: ${(props) => props.bottom || "0px"};
   display: flex;
   align-items: center;
-  font-family: ${(props)=>props.theme.fontFamily.robotoRegular}
-  /* font-size:${(props)=>props.theme.fontSize.subHeading} */
+  font-family: ${(props) => props.theme.fontFamily.robotoMedium};
+  /* font-size:${(props) => props.theme.fontSize.subHeading} */
 `;

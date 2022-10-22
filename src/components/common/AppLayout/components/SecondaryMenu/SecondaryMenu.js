@@ -158,13 +158,14 @@ const useStyles = makeStyles((theme) => {
     secondaryButton: {
       textTransform: "none",
       paddingLeft: "0px",
-      color: `${appTheme.colors.primary.light} !important`,
+      color: `${appTheme.colors.primary.main} !important`,
+      fontFamily: `${appTheme.fontFamily.robotoMedium}`,
       "&:focus": {
         outline: "none",
       },
       "&:hover": {
         backgroundColor: `${appTheme.colors.primary.contrastText}`,
-        color: `${appTheme.colors.primary.main}`,
+        color: `${appTheme.colors.primary.light}`,
       },
     },
     menuItem: {
@@ -173,6 +174,7 @@ const useStyles = makeStyles((theme) => {
       margin: "0px",
       padding: "0px",
       paddingRight: "30px",
+      fontFamily: `${appTheme.fontFamily.robotoMedium}`,
       "&:hover": {
         color: `${appTheme.colors.primary.main}`,
         backgroundColor: `${appTheme.colors.primary.contrastText}`,

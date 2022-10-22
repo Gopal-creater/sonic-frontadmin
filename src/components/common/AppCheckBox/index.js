@@ -1,39 +1,45 @@
-import { Checkbox, makeStyles } from '@material-ui/core'
-import React from 'react'
-import theme from '../../../theme';
+import { Checkbox, makeStyles } from "@material-ui/core";
+import React from "react";
+import { useTheme } from "styled-components";
+import { log } from "../../../utils/app.debug";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(() => {
+  const theme = useTheme();
+  return {
     root: {
-        color: theme.colors.primary.navy,
-        zIndex: "100",
-        outline: '10px',
-        '&:hover': {
-            backgroundColor: theme.colors.secondary.lightTeal,
+      display: "flex",
+      alignItems: "center",
+      color: (props) => props.color || theme.colors.primary.main,
+      zIndex: "100",
+      outline: "10px",
+      "&:hover": {
+        backgroundColor: theme.colors.primary.light,
+      },
+      "&.Mui-checked": {
+        color: (props) => props.color || theme.colors.primary.main,
+        "&:hover": {
+          color: (props) => props.color || theme.colors.grey.main,
+          backgroundColor: theme.colors.primary.light,
         },
-        '&.Mui-checked': {
-            color: theme.colors.primary.navy,
-            "&:hover": {
-                color: theme.colors.secondary.grey,
-                backgroundColor: theme.colors.secondary.lightTeal,
-            },
-        },
-        "&.Mui-disabled": {
-            color: theme.colors.secondary.grey,
-        }
+      },
+      "&.Mui-disabled": {
+        color: theme.colors.grey.light,
+      },
     },
+  };
 });
 
 export default function AppCheckBox({ error, onChange, value, ...props }) {
-    const classes = useStyles();
+  const { root } = useStyles(props);
 
-    return (
-        <Checkbox
-            {...props}
-            className={classes.root}
-            error={!!error || undefined}
-            onChange={onChange}
-            checked={value}
-            inputProps={{ 'aria-label': 'decorative checkbox' }}
-        />
-    )
+  return (
+    <Checkbox
+      {...props}
+      className={root}
+      error={!!error || undefined}
+      onChange={onChange}
+      checked={value}
+      inputProps={{ "aria-label": "decorative checkbox" }}
+    />
+  );
 }

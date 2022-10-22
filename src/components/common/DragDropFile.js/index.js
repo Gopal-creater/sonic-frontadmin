@@ -60,9 +60,9 @@ export default function DragDropFile({ handleFiles }) {
         <img src={iconAddSound} width={"40px"} />
         {state.file ? (
           <Grid>
-            <H4 fontFamily={theme.fontFamily.nunitoSansMediumBold}>
+            <Content fontFamily={theme.fontFamily.robotoBold}>
               {state?.file[0]?.name}
-            </H4>
+            </Content>
             <AppButton
               variant={"fill"}
               className="mt-2"
@@ -76,7 +76,6 @@ export default function DragDropFile({ handleFiles }) {
             Drag & drop a file to upload or
             <AppButton
               variant={"none"}
-              fontSize={"20px"}
               style={{ padding: "0px", paddingLeft: "5px" }}
               onClick={() => inputRef.current.click()}
             >

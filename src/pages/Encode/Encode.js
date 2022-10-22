@@ -20,7 +20,7 @@ import PaginationCount from "../../components/common/Pagination/PaginationCount"
 import FilterComponent from "../../components/common/FilterComponent/FilterComponent";
 import CommonDataLoadErrorSuccess from "../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess";
 import CustomPagination from "../../components/common/Pagination/CustomPagination";
-import { tracksTableHeads } from "../../constants/constants";
+import { tags, tracksTableHeads } from "../../constants/constants";
 import AppAutoComplete from "../../components/common/AutoComplete/AppAutoComplete";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import HelpOutlineOutlinedIcon from "@material-ui/icons/HelpOutlineOutlined";
@@ -198,7 +198,7 @@ export default function Encode() {
           <FileSelectionContainer container>
             <NewFileSelectionContainer item lg sm={12}>
               <SubHeading color={theme.colors.primary.contrastText}>
-                Encode new file with SonicKey
+                Encode new file with {tags.companyTag}
               </SubHeading>
               <Content color={theme.colors.primary.contrastText}>
                 Copy MetaData from existing track if needed.

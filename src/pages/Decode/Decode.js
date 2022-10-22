@@ -3,16 +3,15 @@ import FileSelection from "../../components/common/FileSelection/FileSelection";
 import { Grid } from "@material-ui/core";
 import FailedFileSelection from "../../components/common/FileSelection/FailedFileSelection";
 import DecodeSuccess from "./components/DecodeSuccess";
-import EncodeDecodeLoading from "../../components/common/FileSelection/EncodeDecodeLoading";
 import PopUp from "../../components/common/PopUp";
-import { H4, H5 } from "../../StyledComponents/StyledHeadings";
-import theme from "../../theme";
+import { Content, SubHeading } from "../../StyledComponents/StyledHeadings";
 import {
   PopUpContainer,
   TitleContainer,
 } from "../Encode/Components/MetaDataDetails/indexStyles";
 import encode_progress from "../../assets/icons/encode_progress.png";
 import sonic_preloader from "../../assets/icons/sonic_preloader.gif";
+import { useTheme } from "styled-components";
 
 export default function Decode() {
   const [loading, setLoading] = useState(false);
@@ -23,6 +22,7 @@ export default function Decode() {
   });
   const [decodeError, setDecodeError] = useState(null);
   const [audioName, setAudioName] = useState(null);
+  const theme = useTheme();
 
   React.useEffect(() => {
     if (decode?.displayResults) {
@@ -77,18 +77,17 @@ export default function Decode() {
               src={encode_progress}
               style={{ width: "140px", height: "140px", zIndex: 1 }}
             />
-            <H4
-              className="mt-4"
-              fontFamily={theme.fontFamily.nunitoSansBlack}
+            <SubHeading
+              color={theme.colors.primary.contrastText}
               style={{ textAlign: "center", zIndex: 1 }}
             >
               Decoding of {values?.name} in progress
-            </H4>
+            </SubHeading>
           </TitleContainer>
-          <H5 style={{ textAlign: "center", padding: "25px" }}>
+          <Content style={{ textAlign: "center", padding: "25px" }}>
             The speed of your internet connection and the size of the audio file
             may affect encoding and decoding times.
-          </H5>
+          </Content>
           <Grid container justifyContent="center">
             <img src={sonic_preloader} alt="sonic preloader" />
           </Grid>

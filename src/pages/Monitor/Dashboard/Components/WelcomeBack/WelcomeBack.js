@@ -1,13 +1,13 @@
 import { CircularProgress, Grid } from "@material-ui/core";
 import React from "react";
 import {
-  Heading,
   Large,
   SubHeading,
 } from "../../../../../StyledComponents/StyledHeadings";
 import { WelcomeBackContainer } from "./StyledWelcomeBack";
 import theme from "../../../../../theme";
 import RadioIcon from "@material-ui/icons/Radio";
+
 export default function WelcomeBack({ totalRadioStations, loading, error }) {
   return (
     <WelcomeBackContainer container alignItems="center">

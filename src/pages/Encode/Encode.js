@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  FileContainer,
   FileSelectionContainer,
   NewFileSelectionContainer,
   ExistingFileSelectionContainer,
@@ -10,13 +9,7 @@ import {
   TrackTableContainer,
   TrackFilterContainer,
 } from "./EncodeStyle";
-import {
-  Content,
-  H1,
-  H4,
-  Heading,
-  SubHeading,
-} from "../../StyledComponents/StyledHeadings";
+import { Content, SubHeading } from "../../StyledComponents/StyledHeadings";
 import { Grid } from "@material-ui/core";
 import DragDropFile from "../../components/common/DragDropFile.js";
 import { useDispatch, useSelector } from "react-redux";

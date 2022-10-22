@@ -5,7 +5,11 @@ import Icon from "../../../assets/images/icon-add-sound.png";
 import * as mm from "music-metadata-browser";
 import cogoToast from "cogo-toast";
 import Communication from "../../../services/https/Communication";
-import { H1, H4, H6 } from "../../../StyledComponents/StyledHeadings";
+import {
+  Caption,
+  Content,
+  SubHeading,
+} from "../../../StyledComponents/StyledHeadings";
 import theme from "../../../theme";
 import AppButton from "../AppButton/AppButton";
 import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
@@ -30,8 +34,10 @@ const useStyles = makeStyles(() => ({
 
 export default function FileSelection({ prop }) {
   const shadow = {
-    boxShadow: prop?.shadow ? "none" : "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-  }
+    boxShadow: prop?.shadow
+      ? "none"
+      : "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+  };
   const classes = useStyles(shadow);
   const [audioData, setAudioData] = useState({
     response: false,
@@ -58,7 +64,7 @@ export default function FileSelection({ prop }) {
       tuneCode: "",
       distributor: "",
       version: "",
-      label: ""
+      label: "",
     },
     name: null,
   });
@@ -69,7 +75,7 @@ export default function FileSelection({ prop }) {
         response: false,
         file: null,
         data: {
-          encodingStrength: '15',
+          encodingStrength: "15",
           contentName: "",
           contentType: "",
           contentDescription: "",
@@ -90,13 +96,13 @@ export default function FileSelection({ prop }) {
           tuneCode: "",
           distributor: "",
           version: "",
-          label: ""
+          label: "",
         },
-        name: null
-      })
-      document.getElementById("contained-button-file").value = ''
+        name: null,
+      });
+      document.getElementById("contained-button-file").value = "";
     }
-  }, [prop])
+  }, [prop]);
 
   function truncate(str, n) {
     return str?.length > n ? str.substr(0, n - 1) + "..." : str;
@@ -133,7 +139,7 @@ export default function FileSelection({ prop }) {
         tuneCode: "",
         distributor: "",
         version: "",
-        label: ""
+        label: "",
       },
       name: null,
     };
@@ -147,8 +153,8 @@ export default function FileSelection({ prop }) {
           response: true,
           file: audioData?.file,
           data: response,
-          name: audioData?.file?.name
-        })
+          name: audioData?.file?.name,
+        });
         if (response.length != 0) {
           cogoToast.success("Successfully decoded file.");
           setAudioData({ ...payload });
@@ -220,7 +226,7 @@ export default function FileSelection({ prop }) {
             tuneCode: "",
             distributor: "",
             version: "",
-            label: ""
+            label: "",
           },
           name: file?.name,
         };
@@ -238,14 +244,14 @@ export default function FileSelection({ prop }) {
 
   return (
     <MainContainer>
-      <Grid item style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <Grid item style={{ display: "flex", justifyContent: "space-between" }}>
         <div>
-          <H1>{prop?.title} SonicKeys</H1>
-          <H4 fontFamily={theme.fontFamily.nunitoSansRegular} color={theme.colors.primary.teal}>
+          <SubHeading>{prop?.title} SonicKeys</SubHeading>
+          <Content>
             {audioData?.name !== null && prop?.title === "Encode"
               ? "Add details to start encoding."
               : prop?.subTitle}
-          </H4>
+          </Content>
         </div>
         <img src={Icon} alt="" style={{ height: 80 }} />
       </Grid>
@@ -253,13 +259,11 @@ export default function FileSelection({ prop }) {
       <Grid item>
         <div style={{ display: "flex" }}>
           <div>
-            <H6 color={theme.colors.secondary.grey} fontFamily={theme.fontFamily.nunitoSansRegular}>Select a file</H6>
+            <Caption>Select a file</Caption>
             <Typography className={classes.audioFile}>
               {truncate(audioData?.name, 50)}
             </Typography>
-            <H6 color={theme.colors.secondary.mediumGrey} fontFamily={theme.fontFamily.nunitoSansRegular}>
-              all audio file formats
-            </H6>
+            <Caption>all audio file formats</Caption>
           </div>
 
           {audioData?.name !== null && prop?.title === "Decode" ? (

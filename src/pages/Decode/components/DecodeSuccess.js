@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Typography } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import axios from "axios";
 import cogoToast from "cogo-toast";
 import { format } from "date-fns";
@@ -16,6 +16,7 @@ import AppTable from "../../../components/common/AppTable";
 import GetAppRoundedIcon from "@material-ui/icons/GetAppRounded";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import Tooltip from "@material-ui/core/Tooltip";
+import { Content, SubHeading } from "../../../StyledComponents/StyledHeadings";
 
 export default function DecodeSuccess(props) {
   const classes = useStyles();
@@ -199,19 +200,17 @@ export default function DecodeSuccess(props) {
       {/* Heading--------------------------------------------------- */}
       <Grid container className={classes.header}>
         <Grid item>
-          <Typography className={classes.heading}>Well done!</Typography>
-          <Typography className={classes.subHeading}>
+          <SubHeading>Well done!</SubHeading>
+          <Content>
             {props?.title} of <b>{props?.audioName}</b> successfully done.
-          </Typography>
-          <Typography className={classes.found}>
+          </Content>
+          <Content className={classes.found}>
             We found <b>{props?.decodeKeys?.data?.length}</b> SonicKeys.
-          </Typography>
+          </Content>
         </Grid>
         <Grid item className={classes.failedIcon}>
           <img src={Icon} alt="Failed" style={{ height: 80, width: 80 }} />
-          <Typography className={classes.failed}>
-            {props?.title} done
-          </Typography>
+          <SubHeading>{props?.title} done</SubHeading>
         </Grid>
       </Grid>
       {/* Heading--------------------------------------------------- */}
@@ -268,11 +267,6 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
     marginBottom: "40px",
   },
-  heading: {
-    fontSize: "30px",
-    fontFamily: "NunitoSans-Bold",
-    color: "#393F5B",
-  },
   subHeading: {
     fontSize: "18px",
     fontFamily: "NunitoSans-Regular",
@@ -293,11 +287,5 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 15,
-  },
-  failed: {
-    marginTop: 10,
-    fontSize: "22px",
-    fontFamily: "NunitoSans-ExtraBold",
-    color: "#393F5B",
   },
 }));

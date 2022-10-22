@@ -53,10 +53,7 @@ export default function Menu({ menu }) {
                 marginTop={"25px"}
               >
                 <HelpOutline
-                  style={{
-                    fontSize: appTheme.fontSize.content,
-                    marginLeft: 5,
-                  }}
+                  style={{ fontSize: appTheme.fontSize.caption, marginLeft: 5 }}
                 />
               </CustomToolTip>
             )}
@@ -96,7 +93,7 @@ const useStyles = makeStyles(() => {
     link: {
       display: "flex",
       alignItems: "center",
-      fontSize: appTheme.fontSize.caption,
+      fontSize: appTheme.fontSize.content,
       color: appTheme.colors.grey.main,
       textDecoration: "none",
       "&:hover": {

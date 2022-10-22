@@ -10,7 +10,7 @@ const CustomButton = styled(Button)(({ variant, fontSize, color, fontFamily, dis
             textTransform: "none",
             color: color || 'white !important',
             backgroundColor: disabled ? theme.colors.secondary.disabled : theme.colors.primary.navy,
-            fontFamily: fontFamily || theme.fontFamily.nunitoSansBold,
+            fontFamily: fontFamily || theme.fontFamily.robotoMedium,
             borderRadius: "5px",
             fontSize: fontSize || theme.fontSize.h5,
             padding: "7px 30px 7px 30px",
@@ -26,7 +26,7 @@ const CustomButton = styled(Button)(({ variant, fontSize, color, fontFamily, dis
         return ({
             textTransform: "none",
             color: disabled ? theme.colors.secondary.disabled : color || theme.colors.primary.navy,
-            fontFamily: fontFamily || theme.fontFamily.nunitoSansBold,
+            fontFamily: fontFamily || theme.fontFamily.robotoMedium,
             borderRadius: "7px",
             border: `2px solid ${disabled ? theme.colors.secondary.disabled : theme.colors.primary.navy}`,
             backgroundColor: "transparent",
@@ -48,7 +48,7 @@ const CustomButton = styled(Button)(({ variant, fontSize, color, fontFamily, dis
             textTransform: "none",
             color: `${disabled ? theme.colors.secondary.lightNavy : color || theme.colors.primary.navy}`,
             fontSize: fontSize || theme.fontSize.h5,
-            fontFamily: fontFamily || theme.fontFamily.nunitoSansBold,
+            fontFamily: fontFamily || theme.fontFamily.robotoMedium,
             padding: "7px 30px 7px 30px",
             backgroundColor: "transparent",
             "&:hover": {
@@ -66,7 +66,7 @@ const CustomButton = styled(Button)(({ variant, fontSize, color, fontFamily, dis
             fontSize: fontSize || theme.fontSize.h5,
             padding: "7px 30px 7px 30px",
             color: `${color || theme.colors.primary.navy} !important`,
-            fontFamily: fontFamily || theme.fontFamily.nunitoSansBold,
+            fontFamily: fontFamily || theme.fontFamily.robotoMedium,
         })
     }
 })

@@ -2,7 +2,7 @@ import React from "react";
 import { Grid, Tooltip } from "@material-ui/core";
 import { fetchLicenceKeys } from "../../stores/actions/licenceKey";
 import { useDispatch, useSelector } from "react-redux";
-import { H1, H4 } from "../../StyledComponents/StyledHeadings";
+import { Content, Heading, SubHeading } from "../../StyledComponents/StyledHeadings";
 import theme from "../../theme";
 import { userRoles } from "../../constants/constants";
 import CommonDataLoadErrorSuccess from "../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess";
@@ -166,13 +166,12 @@ function Licences() {
       {/* Header------------------------------------------------------- */}
       <Grid container justifyContent="space-between">
         <Grid item>
-          <H1>Licenses</H1>
-          <H4
-            fontFamily={theme.fontFamily.nunitoSansRegular}
-            color={theme.colors.primary.teal}
+          <SubHeading>Licenses</SubHeading>
+          <Content
+            
           >
             List of all licenses
-          </H4>
+          </Content>
         </Grid>
       </Grid>
       {/* Header------------------------------------------------------- */}

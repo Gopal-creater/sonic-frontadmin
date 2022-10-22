@@ -9,7 +9,7 @@ import CustomPagination from '../../components/common/Pagination/CustomPaginatio
 import PaginationCount from '../../components/common/Pagination/PaginationCount'
 import { companiesTableHeads } from '../../constants/constants'
 import { getAllCompaniesAction } from '../../stores/actions/CompanyActions'
-import { H1, H4 } from '../../StyledComponents/StyledHeadings'
+import { Content, H1, H4, SubHeading } from '../../StyledComponents/StyledHeadings'
 import { MainContainer } from '../../StyledComponents/StyledPageContainer'
 import theme from '../../theme'
 import CompanyFilter from './components/CompanyFilter'
@@ -28,10 +28,10 @@ export default function Companies() {
         <MainContainer>
             <Grid container justifyContent="space-between">
                 <Grid item>
-                    <H1>Companies</H1>
-                    <H4 fontFamily={theme.fontFamily.robotoRegular} color={theme.colors.primary.teal}>
+                    <SubHeading>Companies</SubHeading>
+                    <Content fontFamily={theme.fontFamily.robotoRegular} color={theme.colors.primary.teal}>
                         Manage all companies
-                    </H4>
+                    </Content>
                 </Grid>
                 <Grid item>
                     <Columns columns={companiesTableHeads} />

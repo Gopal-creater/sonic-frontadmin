@@ -2,7 +2,7 @@ import { CircularProgress, Grid, IconButton, InputAdornment } from '@material-ui
 import React from 'react'
 import AppButton from '../../components/common/AppButton/AppButton'
 import { DisabledTextField, StyledTextField } from '../../StyledComponents/StyledAppTextInput/StyledAppTextInput'
-import { H1, H4 } from '../../StyledComponents/StyledHeadings'
+import { Content, SubHeading } from '../../StyledComponents/StyledHeadings'
 import theme from '../../theme'
 import { FlagOutlined, LockOutlined, MusicNote, Visibility, VisibilityOff } from '@material-ui/icons'
 import AppToggleSwitch from '../../components/common/AppToggleSwitch/AppToggleSwitch'
@@ -101,20 +101,20 @@ export default function Profile() {
 
     return (
         <MainContainer>
-            <H1>{getAccountType()} profile</H1>
-            <H4 fontFamily={theme.fontFamily.nunitoSansRegular} color={theme.colors.primary.teal}>
+            <SubHeading>{getAccountType()} profile</SubHeading>
+            <Content>
                 Update {getAccountType()} details
-            </H4>
+            </Content>
 
             <form onSubmit={handleSubmit(updateProfile)}>
                 <Grid container spacing={6} className='mt-2'>
                     <Grid item xs={12} md={6}>
                         <Grid container>
                             <IconBox>
-                                <FlagOutlined style={{ color: `${theme.colors.primary.teal}` }} />
+                                <FlagOutlined style={{ color: `${theme.colors.primary.contrastText}` }} />
                             </IconBox>
                         </Grid>
-                        <H4>Users details</H4>
+                        <SubHeading>Users details</SubHeading>
 
                         <Grid style={{ marginTop: 15 }}>
                             <DisabledTextField
@@ -167,7 +167,7 @@ export default function Profile() {
                             />
                         </Grid>
 
-                        <H4 className="mt-5">Status</H4>
+                        <SubHeading className="mt-5">Status</SubHeading>
                         <Grid className="mt-1">
                             <Controller
                                 name="status"
@@ -198,10 +198,10 @@ export default function Profile() {
                             <Grid className="mb-4">
                                 <Grid container>
                                     <IconBox>
-                                        <MusicNote style={{ color: theme.colors.primary.teal }} />
+                                        <MusicNote style={{ color: theme.colors.primary.contrastText }} />
                                     </IconBox>
                                 </Grid>
-                                <H4>{getType()} details</H4>
+                                <SubHeading>{getType()} details</SubHeading>
 
                                 <>
                                     {(getUserType() === "Partner Admin" || getUserType() === "Partner User") ?
@@ -254,10 +254,10 @@ export default function Profile() {
 
                         <Grid container>
                             <IconBox>
-                                <LockOutlined style={{ color: `${theme.colors.primary.teal}` }} />
+                                <LockOutlined style={{ color: `${theme.colors.primary.contrastText}` }} />
                             </IconBox>
                         </Grid>
-                        <H4>Password</H4>
+                        <SubHeading>Password</SubHeading>
 
                         <Grid style={{ marginTop: 15 }}>
                             <Controller

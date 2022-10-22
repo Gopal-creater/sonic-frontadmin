@@ -53,14 +53,14 @@ export const Heading = styled(Typography)`
 `;
 
 export const SubHeading = styled(Typography)`
-  color: ${(props) => props.color || props.theme.colors.primary.dark};
+  color: ${(props) => props.color || props.theme.colors.primary.main};
   font-size: ${(props) => props.fontSize || props.theme.fontSize.subHeading};
   font-family: ${(props) =>
     props.fontFamily || props.theme.fontFamily.robotoMedium};
 `;
 
 export const Content = styled(Typography)`
-  color: ${(props) => props.color || props.theme.colors.primary.main};
+  color: ${(props) => props.color || props.theme.colors.primary.dark};
   font-size: ${(props) => props.fontSize || props.theme.fontSize.content};
   font-family: ${(props) =>
     props.fontFamily || props.theme.fontFamily.robotoRegular};

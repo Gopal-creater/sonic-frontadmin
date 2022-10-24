@@ -5,23 +5,20 @@ import CommonDataLoadErrorSuccess from "../../../components/common/CommonDataLoa
 import FilterComponent from "../../../components/common/FilterComponent/FilterComponent";
 import CustomPagination from "../../../components/common/Pagination/CustomPagination";
 import PaginationCount from "../../../components/common/Pagination/PaginationCount";
-import { encodesByCompanyTableHeads } from "../../../constants/constants";
 import {
   getCompanyEncodesAction,
   getCompanyEncodesExportsAction,
 } from "../../../stores/actions/CompanyActions";
 import { SubHeading } from "../../../StyledComponents/StyledHeadings";
-import { log } from "../../../utils/app.debug";
-import EncodesByCompanyTable from "./Components/EncodesByCompanyTable";
 import * as actionTypes from "../../../stores/actions/actionTypes";
 import CompanyEncodesFilter from "./Components/CompanyEncodesFilter";
+import AppTable from "../../../components/common/AppTable";
 
 export default function EncodesByCompany() {
   const dispatch = useDispatch();
   const companyEncodes = useSelector((state) => state.company.companyEncodes);
 
   const [state, setState] = React.useState({
-    encodesByCompanyTableHeads: encodesByCompanyTableHeads,
     currentSortBy: "",
     currentIsAscending: "",
   });
@@ -42,34 +39,33 @@ export default function EncodesByCompany() {
     );
   };
 
-  const companyEncodesSorting = (sortBy, isAscending, isActive) => {
-    var newEncodesByCompanyTableHeads = state.encodesByCompanyTableHeads.map(
-      (data, i) => {
-        if (data.sortBy === sortBy) {
-          data.isActive = isActive;
-          data.isAscending = isAscending;
-          dispatch(
-            getCompanyEncodesAction(
-              10,
-              companyEncodes?.data?.page,
-              sortBy,
-              isAscending
-            )
-          );
-          return data;
-        }
-        data.isActive = false;
-        data.isAscending = null;
-        return data;
-      }
-    );
+  const columns = [
+    {
+      name: "companyName",
+      label: "COMPANY",
+      options: {
+        customBodyRender: (value) => {
+          return value || "--";
+        },
+      },
+    },
+    {
+      name: "encodes",
+      label: "ENCODES",
+      options: {
+        customBodyRender: (value) => {
+          return value || "--";
+        },
+      },
+    },
+  ];
 
-    return setState({
-      ...state,
-      encodesByCompanyTableHeads: newEncodesByCompanyTableHeads,
-      currentSortBy: sortBy,
-      currentIsAscending: isAscending,
-    });
+  const createStableEncodeByCompanyData = () => {
+    const companyEncodedData = companyEncodes?.data?.docs?.map((data) => ({
+      companyName: data?.name,
+      encodes: data?.encodesCount,
+    }));
+    return companyEncodedData;
   };
 
   return (
@@ -111,10 +107,22 @@ export default function EncodesByCompany() {
           dispatch(getCompanyEncodesAction(10, companyEncodes?.data?.page))
         }
       >
-        <EncodesByCompanyTable
-          data={companyEncodes?.data?.docs}
-          encodesByCompanyTableHeads={state.encodesByCompanyTableHeads}
-          companyEncodesSorting={companyEncodesSorting}
+        <AppTable
+          title={
+            <PaginationCount
+              name="encodes by company"
+              total={companyEncodes?.data?.totalDocs}
+              start={companyEncodes?.data?.offset}
+              end={companyEncodes?.data?.docs?.length}
+            />
+          }
+          columns={columns}
+          data={createStableEncodeByCompanyData()}
+          options={{
+            customFooter: () => {
+              return null;
+            },
+          }}
         />
 
         <Grid

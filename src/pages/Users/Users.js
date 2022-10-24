@@ -4,38 +4,202 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import CommonDataLoadErrorSuccess from "../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess";
 import FilterCreate from "../../components/common/FilterComponent/FilterCreate";
-import { userRoles, usersTableHeads } from "../../constants/constants";
+import { userRoles } from "../../constants/constants";
 import { getUsersAction } from "../../stores/actions/UserActions";
 import { Content, SubHeading } from "../../StyledComponents/StyledHeadings";
 import { MainContainer } from "../../StyledComponents/StyledPageContainer";
-import theme from "../../theme";
 import { log } from "../../utils/app.debug";
 import UsersFilter from "./components/UsersFilter";
-import UsersTable from "./components/UsersTable";
 import PaginationCount from "../../components/common/Pagination/PaginationCount";
 import CustomPagination from "../../components/common/Pagination/CustomPagination";
+import AppTable from "../../components/common/AppTable";
+import Tooltip from "@material-ui/core/Tooltip";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import { useTheme } from "styled-components";
 
 export default function Users() {
   const users = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const theme = useTheme();
   log("USERS", users);
 
   React.useEffect(() => {
     dispatch(getUsersAction(5, users?.getUsers?.data?.page));
   }, []);
 
+  let columns = [
+    {
+      name: "username",
+      label: "USERNAME",
+      options: {
+        customBodyRender: (value) => {
+          return value || "--";
+        },
+      },
+    },
+    {
+      name: "userID",
+      label: "USER ID",
+      options: {
+        customBodyRender: (value) => {
+          return value || "--";
+        },
+      },
+    },
+    {
+      name: "email",
+      label: "EMAIL",
+      options: {
+        customBodyRender: (value) => {
+          return value || "--";
+        },
+      },
+    },
+    {
+      name: "phoneNumber",
+      label: "PHONE NUMBER",
+      options: {
+        customBodyRender: (value) => {
+          return value || "--";
+        },
+      },
+    },
+    {
+      name: "accountType",
+      label: "ACCOUNT TYPE",
+      options: {
+        customBodyRender: (value) => {
+          return (
+            (users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
+              getAccountType(value)) ||
+            "--"
+          );
+        },
+      },
+    },
+    {
+      name: "accountName",
+      label: "ACCOUNT NAME",
+      options: {
+        customBodyRender: (value) => {
+          return (
+            (users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN &&
+              getAccountName(value)) ||
+            "--"
+          );
+        },
+      },
+    },
+    {
+      name: "companyName",
+      label: "COMPANY NAME",
+      options: {
+        customBodyRender: (value) => {
+          return (
+            (users?.userProfile?.data?.userRole === userRoles.COMPANY_ADMIN &&
+              value) ||
+            "--"
+          );
+        },
+      },
+    },
+    {
+      name: "userType",
+      label: "USER TYPE",
+      options: {
+        customBodyRender: (value) => {
+          return value === userRoles.PARTNER_ADMIN ||
+            value === userRoles.COMPANY_ADMIN
+            ? "Admin"
+            : "Standard" || "--";
+        },
+      },
+    },
+    {
+      name: "status",
+      label: "STATUS",
+      options: {
+        customBodyRender: (value) => {
+          return value ? "active" : "inactive";
+        },
+      },
+    },
+    {
+      name: "actionData",
+      label: "ACTION",
+      options: {
+        customBodyRender: (value) => {
+          return (
+            <Tooltip title="View">
+              <VisibilityIcon
+                fontSize={"small"}
+                style={{ color: theme.colors.primary.teal, cursor: "pointer" }}
+                onClick={() =>
+                  navigate(`/user-profile/${value?._id}`, {
+                    state: value,
+                  })
+                }
+              />
+            </Tooltip>
+          );
+        },
+      },
+    },
+  ];
+
+  const createStableUserData = () => {
+    const userData = users?.getUsers?.data?.docs?.map((data) => ({
+      username: data?.username,
+      userID: data?._id,
+      email: data?.email,
+      phoneNumber: data?.phone_number,
+      accountType: data?.userRole,
+      accountName: data,
+      companyName: data?.company?.name,
+      userType: data?.userRole,
+      status: data?.enabled,
+      actionData: data,
+    }));
+    return userData;
+  };
+
   const getStableTableColumnHead = () => {
-    let tableHead = usersTableHeads;
     if (users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN) {
-      return tableHead.filter((itm) => itm?.title !== "COMPANY NAME");
+      return columns.filter((itm) => itm?.label !== "COMPANY NAME");
     } else if (users?.userProfile?.data?.userRole === userRoles.COMPANY_ADMIN) {
-      return tableHead.filter(
-        (itm) => itm?.title !== "ACCOUNT NAME" && itm?.title !== "ACCOUNT TYPE"
+      return columns.filter(
+        (itm) => itm?.label !== "ACCOUNT NAME" && itm?.label !== "ACCOUNT TYPE"
       );
     }
+    return columns;
+  };
 
-    return tableHead;
+  const getAccountType = (roles) => {
+    if (roles === userRoles.PARTNER_ADMIN || roles === userRoles.PARTNER_USER) {
+      return "Partner";
+    } else if (
+      roles === userRoles.COMPANY_ADMIN ||
+      roles === userRoles.COMPANY_USER
+    ) {
+      return "Company";
+    }
+    return null;
+  };
+
+  const getAccountName = (data) => {
+    if (
+      data?.userRole === userRoles.PARTNER_ADMIN ||
+      data?.userRole === userRoles.PARTNER_USER
+    ) {
+      return data?.partner?.name;
+    } else if (
+      data?.userRole === userRoles.COMPANY_ADMIN ||
+      data?.userRole === userRoles.COMPANY_USER
+    ) {
+      return data?.company?.name;
+    }
+    return null;
   };
 
   return (
@@ -58,10 +222,24 @@ export default function Users() {
         loading={users?.getUsers?.loading}
         onClickTryAgain={() => dispatch(getUsersAction())}
       >
-        <UsersTable
-          data={users?.getUsers?.data?.docs}
-          usersTableHead={getStableTableColumnHead()}
+        <AppTable
+          title={
+            <PaginationCount
+              name="users"
+              total={users?.getUsers?.data?.totalDocs}
+              start={users?.getUsers?.data?.offset}
+              end={users?.getUsers?.data?.docs?.length}
+            />
+          }
+          columns={getStableTableColumnHead()}
+          data={createStableUserData()}
+          options={{
+            customFooter: () => {
+              return null;
+            },
+          }}
         />
+
         <Grid
           container
           justifyContent="space-between"

@@ -17,6 +17,11 @@ import { useNavigate } from "react-router-dom";
 import SkCount from "../SkCount";
 import AppTable from "../../../../components/common/AppTable";
 import { Content } from "../../../../StyledComponents/StyledHeadings";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import GetAppIcon from "@material-ui/icons/GetApp";
+import Tooltip from "@material-ui/core/Tooltip";
+import AudiotrackIcon from "@material-ui/icons/Audiotrack";
+import MusicVideoIcon from "@material-ui/icons/MusicVideo";
 
 export default function TracksTable({ data, paginationCount }) {
   const [state, setState] = React.useState({
@@ -187,31 +192,57 @@ export default function TracksTable({ data, paginationCount }) {
       options: {
         customBodyRender: (row) => {
           return (
-            // <StyledTableData>
-            //   <TableMenu>
-            //     <ActionMenuItem
-            //       onClick={() =>
-            //         setState({
-            //           ...state,
-            //           openViewTrackPopUp: true,
-            //           selectedTrack: row,
-            //         })
-            //       }
-            //     >
-            //       View
-            //     </ActionMenuItem>
-            //     <ActionMenuItem onClick={() => download(row)}>
-            //       Download
-            //     </ActionMenuItem>
-            //     <ActionMenuItem onClick={() => encodeAgain(row)}>
-            //       Encode again
-            //     </ActionMenuItem>
-            //     <ActionMenuItem onClick={() => viewSonicKeys(row)}>
-            //       View Encoded Tracks
-            //     </ActionMenuItem>
-            //   </TableMenu>
-            // </StyledTableData>
-            "remaing"
+            <>
+              <Tooltip title="View">
+                <VisibilityIcon
+                  fontSize={"small"}
+                  style={{
+                    color: theme.colors.secondary.main,
+                    cursor: "pointer",
+                  }}
+                  onClick={() =>
+                    setState({
+                      ...state,
+                      openViewTrackPopUp: true,
+                      selectedTrack: row,
+                    })
+                  }
+                />
+              </Tooltip>
+              <Tooltip title="Download">
+                <GetAppIcon
+                  fontSize={"small"}
+                  style={{
+                    color: theme.colors.secondary.main,
+                    cursor: "pointer",
+                    marginLeft: "5px",
+                  }}
+                  onClick={() => download(row)}
+                />
+              </Tooltip>
+              <Tooltip title="Encode again">
+                <MusicVideoIcon
+                  fontSize={"small"}
+                  style={{
+                    color: theme.colors.secondary.main,
+                    cursor: "pointer",
+                    marginLeft: "5px",
+                  }}
+                  onClick={() => encodeAgain(row)}
+                />
+              </Tooltip>
+              <Tooltip title="View encoded tracks">
+                <AudiotrackIcon
+                  fontSize={"small"}
+                  style={{
+                    color: theme.colors.secondary.main,
+                    cursor: "pointer",
+                    marginLeft: "5px",
+                  }}
+                  onClick={() => viewSonicKeys(row)}
+                />
+              </Tooltip>
+            </>
           );
         },
       },

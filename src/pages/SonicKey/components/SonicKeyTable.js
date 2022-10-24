@@ -4,13 +4,16 @@ import { format } from "date-fns";
 import fileDownload from "js-file-download";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { StyledTableData } from "../../../StyledComponents/StyledTable/StyledTable";
 import { log } from "../../../utils/app.debug";
 import DownloadProgressModal from "../../Encode/Components/DownloadProgressModal";
 import { downloadAnyFile } from "../../../services/https/resources/EncodeApi/encodeApi";
 import MetaDataDailog from "../../../components/common/MetaDataDialog";
 import * as actionTypes from "../../../stores/actions/actionTypes";
 import AppTable from "../../../components/common/AppTable";
+import { useTheme } from "styled-components";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import Tooltip from "@material-ui/core/Tooltip";
+import GetAppIcon from "@material-ui/icons/GetApp";
 
 export default function SonicKeyTable({ data, paginationCount }) {
   const [sonickeys, setSonicKeys] = React.useState({});
@@ -20,6 +23,7 @@ export default function SonicKeyTable({ data, paginationCount }) {
     percentComplete: "0",
   });
   const dispatch = useDispatch();
+  const theme = useTheme();
 
   const handleClickOpenTable = async (data) => {
     setSonicKeys(data);
@@ -155,16 +159,29 @@ export default function SonicKeyTable({ data, paginationCount }) {
       options: {
         customBodyRender: (row) => {
           return (
-            <StyledTableData>
-              <TableMenu>
-                <ActionMenuItem onClick={() => handleClickOpenTable(row)}>
-                  View / Edit
-                </ActionMenuItem>
-                <ActionMenuItem onClick={() => download(row)}>
-                  Download
-                </ActionMenuItem>
-              </TableMenu>
-            </StyledTableData>
+            <>
+              <Tooltip title="View/Edit">
+                <VisibilityIcon
+                  fontSize={"small"}
+                  style={{
+                    color: theme.colors.secondary.main,
+                    cursor: "pointer",
+                  }}
+                  onClick={() => handleClickOpenTable(row)}
+                />
+              </Tooltip>
+              <Tooltip title="Download">
+                <GetAppIcon
+                  fontSize={"small"}
+                  style={{
+                    color: theme.colors.secondary.main,
+                    cursor: "pointer",
+                    marginLeft: "10px",
+                  }}
+                  onClick={() => download(row)}
+                />
+              </Tooltip>
+            </>
           );
         },
       },

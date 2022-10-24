@@ -4,8 +4,6 @@ import { format } from "date-fns";
 import fileDownload from "js-file-download";
 import React from "react";
 import { useDispatch } from "react-redux";
-import TableMenu from "../../../components/common/Table/components/TableMenu";
-import { ActionMenuItem } from "../../../components/common/Table/TableStyled";
 import { StyledTableData } from "../../../StyledComponents/StyledTable/StyledTable";
 import { log } from "../../../utils/app.debug";
 import DownloadProgressModal from "../../Encode/Components/DownloadProgressModal";

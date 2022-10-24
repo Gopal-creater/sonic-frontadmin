@@ -16,23 +16,25 @@ function App() {
     session: state.session,
   }));
 
-  log("session", session)
-  const [authenticating, setAuthenticating] = React.useState(true)
+  log("session", session);
+  const [authenticating, setAuthenticating] = React.useState(true);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    Communication.userAuthentication().then((response) => {
-      const loggedInUser = localStorage.getItem("user_info");
-      if (loggedInUser) {
-        const foundUser = JSON.parse(loggedInUser);
-        dispatch(setSession(foundUser));
-      }
-      setAuthenticating(false)
-    }).catch((error) => {
-      setAuthenticating(false)
-      cogoToast.error(error?.message || "Error authorizing")
-    })
+    Communication.userAuthentication()
+      .then((response) => {
+        const loggedInUser = localStorage.getItem("user_info");
+        if (loggedInUser) {
+          const foundUser = JSON.parse(loggedInUser);
+          dispatch(setSession(foundUser));
+        }
+        setAuthenticating(false);
+      })
+      .catch((error) => {
+        setAuthenticating(false);
+        cogoToast.error(error?.message || "Error authorizing");
+      });
   }, []);
 
   // showing spinner while checking user is logged in or not
@@ -41,10 +43,11 @@ function App() {
   }
 
   //if user is present and session is not null then only show main page
-
-  if (session?.user?.signInUserSession === null &&
-    session?.user?.challengeName === "NEW_PASSWORD_REQUIRED") {
-    return <Authenticator propName="NEW_PASSWORD_REQUIRED" />
+  if (
+    session?.user?.signInUserSession === null &&
+    session?.user?.challengeName === "NEW_PASSWORD_REQUIRED"
+  ) {
+    return <Authenticator propName="NEW_PASSWORD_REQUIRED" />;
   }
 
   // else if (
@@ -55,21 +58,16 @@ function App() {
   // ) {
   //   return <Authenticator propName="EmailNotVerified" />
   // }
-
   else if (session?.resetPassword) {
-    return <Authenticator propName="ResetPassword" />
-  }
-
-  else if (
+    return <Authenticator propName="ResetPassword" />;
+  } else if (
     session?.user !== null &&
     session?.user?.signInUserSession !== null
   ) {
-    return (
-      <AppRoutes />
-    );
+    return <AppRoutes />;
   }
 
-  return <Authenticator propName="SignIn" />
+  return <Authenticator propName="SignIn" />;
 }
 
 export default App;

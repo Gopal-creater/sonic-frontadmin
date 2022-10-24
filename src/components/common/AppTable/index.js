@@ -35,6 +35,7 @@ export default function AppTable({ title, data, columns, options }) {
         wordWrap: "break-word",
         fontSize: theme.fontSize.caption,
         color: theme.colors.grey.dark,
+        fontFamily: theme.fontFamily.robotoRegular,
       },
     }),
     customHeadLabelRender: (data) => {

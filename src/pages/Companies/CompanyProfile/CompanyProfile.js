@@ -1,10 +1,10 @@
-import { CircularProgress, Grid } from "@material-ui/core"
-import { H1, H4 } from "../../../StyledComponents/StyledHeadings"
-import { ButtonContainer, ProperAccessContainer } from "./CompanyProfileStyles"
-import MusicNoteIcon from '@material-ui/icons/MusicNote';
-import { DisabledTextField, StyledTextField } from "../../../StyledComponents/StyledAppTextInput/StyledAppTextInput";
+import { CircularProgress, Grid } from "@material-ui/core";
+import { Content, SubHeading } from "../../../StyledComponents/StyledHeadings";
+import { ButtonContainer, ProperAccessContainer } from "./CompanyProfileStyles";
+import MusicNoteIcon from "@material-ui/icons/MusicNote";
+import { DisabledTextField } from "../../../StyledComponents/StyledAppTextInput/StyledAppTextInput";
 import AppToggleSwitch from "../../../components/common/AppToggleSwitch/AppToggleSwitch";
-import PersonIcon from '@material-ui/icons/Person';
+import PersonIcon from "@material-ui/icons/Person";
 import theme from "../../../theme";
 import AppButton from "../../../components/common/AppButton/AppButton";
 import React from "react";
@@ -16,156 +16,163 @@ import { log } from "../../../utils/app.debug";
 import { useDispatch, useSelector } from "react-redux";
 import { updateCompanyProfileAction } from "../../../stores/actions/CompanyActions";
 
-
-
 export default function CompanyProfile() {
-    const { handleSubmit, control, reset } = useForm();
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
-    const company = useSelector(state => state.company)
+  const { handleSubmit, control, reset } = useForm();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const company = useSelector((state) => state.company);
 
-    const { state } = useLocation();
-    log("company profile:", state)
+  const { state } = useLocation();
+  log("company profile:", state);
 
+  const updateCompanyProfile = (data) => {
+    let payload = {
+      enabled: data?.status,
+    };
+    dispatch(updateCompanyProfileAction(payload, state?._id));
+  };
 
+  return (
+    <MainContainer>
+      <SubHeading>Company profile</SubHeading>
+      <Content>Update company details</Content>
 
-    const updateCompanyProfile = (data) => {
-        let payload = {
-            enabled: data?.status,
-        }
-        dispatch(updateCompanyProfileAction(payload, state?._id))
-    }
+      <form onSubmit={handleSubmit(updateCompanyProfile)}>
+        <Grid container spacing={6} className="mt-2">
+          <Grid item xs={12} md={6}>
+            <Grid container>
+              <Grid
+                style={{
+                  padding: "5px",
+                  borderRadius: "50%",
+                  backgroundColor: theme.colors.secondary.lightTeal,
+                }}
+              >
+                <MusicNoteIcon style={{ color: theme.colors.primary.teal }} />
+              </Grid>
+            </Grid>
+            <Content className="mt-2">Company details</Content>
+            <Grid style={{ marginTop: 15 }}>
+              <DisabledTextField label={"Company Name"} value={state?.name} />
+            </Grid>
 
-    return (
-        <MainContainer>
+            <Grid style={{ marginTop: 15 }}>
+              <DisabledTextField
+                label={"Company Type"}
+                value={state?.companyType}
+              />
+            </Grid>
 
-            <H1>Company profile</H1>
-            <H4 fontFamily={theme.fontFamily.nunitoSansRegular} color={theme.colors.primary.teal}>
-                Update company details
-            </H4>
+            <Grid style={{ marginTop: 15 }}>
+              <DisabledTextField
+                label={"Company URN / ID"}
+                value={state?.companyUrnOrId}
+              />
+            </Grid>
 
-            <form onSubmit={handleSubmit(updateCompanyProfile)}>
-                <Grid container spacing={6} className='mt-2'>
-                    <Grid item xs={12} md={6}>
-                        <Grid container >
-                            <Grid style={{ padding: "5px", borderRadius: "50%", backgroundColor: theme.colors.secondary.lightTeal }}>
-                                <MusicNoteIcon style={{ color: theme.colors.primary.teal }} />
-                            </Grid>
-                        </Grid>
-                        <H4 className='mt-2'>Company details</H4>
-                        <Grid style={{ marginTop: 15 }}>
-                            <DisabledTextField
-                                label={"Company Name"}
-                                value={state?.name}
-                            />
-                        </Grid>
+            <Grid container>
+              <Grid className="mt-5">
+                <Content>Status</Content>
+              </Grid>
+            </Grid>
+            <Grid container>
+              <Grid>
+                <Controller
+                  name="status"
+                  control={control}
+                  render={({
+                    field: { onChange, value },
+                    fieldState: { error },
+                  }) => (
+                    <>
+                      <AppToggleSwitch
+                        size={121}
+                        checkedSize={70}
+                        active={'"ACTIVE"'}
+                        inActive={'"SUSPENDED"'}
+                        defaultChecked={state?.enabled}
+                        checked={value}
+                        onChange={onChange}
+                        error={!!error}
+                      />
+                      {error?.message && (
+                        <HelperText>{error?.message}</HelperText>
+                      )}
+                    </>
+                  )}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
 
-                        <Grid style={{ marginTop: 15 }}>
-                            <DisabledTextField
-                                label={"Company Type"}
-                                value={state?.companyType}
-                            />
-                        </Grid>
+          <Grid item xs={12} md={6}>
+            <Grid container>
+              <Grid
+                style={{
+                  padding: "5px",
+                  borderRadius: "50%",
+                  backgroundColor: theme.colors.secondary.lightTeal,
+                }}
+              >
+                <PersonIcon style={{ color: theme.colors.primary.teal }} />
+              </Grid>
+            </Grid>
+            <Content className="mt-2">Admin details</Content>
 
-                        <Grid style={{ marginTop: 15 }}>
-                            <DisabledTextField
-                                label={"Company URN / ID"}
-                                value={state?.companyUrnOrId}
-                            />
-                        </Grid>
+            <Grid style={{ marginTop: 15 }}>
+              <DisabledTextField label={"Type"} value={"Admin"} />
+            </Grid>
 
-                        <Grid container>
-                            <Grid className='mt-5'>
-                                <H4>Status</H4>
-                            </Grid>
-                        </Grid>
-                        <Grid container>
-                            <Grid>
-                                <Controller
-                                    name="status"
-                                    control={control}
-                                    render={({
-                                        field: { onChange, value },
-                                        fieldState: { error },
-                                    }) => (
-                                        <>
-                                            <AppToggleSwitch
-                                                size={121}
-                                                checkedSize={70}
-                                                active={"\"ACTIVE\""}
-                                                inActive={"\"SUSPENDED\""}
-                                                defaultChecked={state?.enabled}
-                                                checked={value}
-                                                onChange={onChange}
-                                                error={!!error}
-                                            />
-                                            {error?.message && <HelperText>{error?.message}</HelperText>}
-                                        </>
-                                    )}
-                                />
-                            </Grid>
-                        </Grid>
-                    </Grid >
+            <Grid style={{ marginTop: 15 }}>
+              <DisabledTextField
+                label={"Username"}
+                value={state?.owner?.username}
+              />
+            </Grid>
 
-                    <Grid item xs={12} md={6}>
-                        <Grid container >
-                            <Grid style={{ padding: "5px", borderRadius: "50%", backgroundColor: theme.colors.secondary.lightTeal }}>
-                                <PersonIcon style={{ color: theme.colors.primary.teal }} />
-                            </Grid>
-                        </Grid>
-                        <H4 className='mt-2'>Admin details</H4>
+            <Grid style={{ marginTop: 15 }}>
+              <DisabledTextField label={"Email"} value={state?.owner?.email} />
+            </Grid>
 
-                        <Grid style={{ marginTop: 15 }}>
-                            <DisabledTextField
-                                label={"Type"}
-                                value={"Admin"}
-                            />
-                        </Grid>
+            <Grid style={{ marginTop: 15 }}>
+              <DisabledTextField
+                label={"Phone number"}
+                value={state?.owner?.phone_number || " "}
+              />
+            </Grid>
 
-                        <Grid style={{ marginTop: 15 }}>
-                            <DisabledTextField
-                                label={"Username"}
-                                value={state?.owner?.username}
-                            />
-                        </Grid>
+            <Grid style={{ marginTop: 15 }}>
+              <DisabledTextField
+                label={"Admin ID"}
+                value={state?.owner?._id || " "}
+              />
+            </Grid>
+          </Grid>
+        </Grid>
 
-                        <Grid style={{ marginTop: 15 }}>
-                            <DisabledTextField
-                                label={"Email"}
-                                value={state?.owner?.email}
-                            />
-                        </Grid>
+        <ProperAccessContainer></ProperAccessContainer>
 
-                        <Grid style={{ marginTop: 15 }}>
-                            <DisabledTextField
-                                label={"Phone number"}
-                                value={state?.owner?.phone_number || " "}
-                            />
-                        </Grid>
-
-                        <Grid style={{ marginTop: 15 }}>
-                            <DisabledTextField
-                                label={"Admin ID"}
-                                value={state?.owner?._id || " "}
-                            />
-                        </Grid>
-                    </Grid >
-                </Grid>
-
-                <ProperAccessContainer>
-                </ProperAccessContainer>
-
-                <ButtonContainer>
-                    <AppButton
-                        variant={"outline"} onClick={() => navigate(-1)} disabled={company?.updateCompany?.loading}
-                    >
-                        Cancel
-                    </AppButton>
-                    <AppButton type="submit" variant={"fill"} style={{ marginLeft: "15px", width: "180px" }}>
-                        {company?.updateCompany?.loading ? <CircularProgress size={20} color="white" /> : "Update details"}
-                    </AppButton>
-                </ButtonContainer>
-            </form>
-        </MainContainer >
-    )
+        <ButtonContainer>
+          <AppButton
+            variant={"outline"}
+            onClick={() => navigate(-1)}
+            disabled={company?.updateCompany?.loading}
+          >
+            Cancel
+          </AppButton>
+          <AppButton
+            type="submit"
+            variant={"fill"}
+            style={{ marginLeft: "15px", width: "180px" }}
+          >
+            {company?.updateCompany?.loading ? (
+              <CircularProgress size={20} color="white" />
+            ) : (
+              "Update details"
+            )}
+          </AppButton>
+        </ButtonContainer>
+      </form>
+    </MainContainer>
+  );
 }

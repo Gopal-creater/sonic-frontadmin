@@ -32,12 +32,14 @@ const useStyles = makeStyles(() => {
         border: `1px solid ${theme.colors.secondary.main}`,
         backgroundColor: theme.colors.primary.contrastText,
         borderRadius: 0,
+        fontFamily: theme.fontFamily.robotoMedium,
       },
       "& .MuiPaginationItem-textPrimary": {
         fontSize: theme.fontSize.subHeading,
         padding: "1px",
         margin: "1px",
         color: theme.colors.primary.main,
+        fontFamily: theme.fontFamily.robotoMedium,
       },
       "& .MuiPaginationItem-icon": {
         fontSize: theme.fontSize.heading,

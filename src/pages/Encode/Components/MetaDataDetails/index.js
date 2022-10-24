@@ -18,14 +18,9 @@ import {
   UlList,
 } from "./indexStyles";
 import {
-  H4,
-  H1,
-  H5,
-  H3,
   SubHeading,
   Content,
 } from "../../../../StyledComponents/StyledHeadings";
-import theme from "../../../../theme";
 import { useDispatch, useSelector } from "react-redux";
 import { log } from "../../../../utils/app.debug";
 import AppCheckBox from "../../../../components/common/AppCheckBox";
@@ -294,22 +289,15 @@ export default function EncodeData() {
                   </IconButton>
                 </Grid>
                 <Grid style={{ marginLeft: "10px" }}>
-                  <H4
-                    fontFamily={theme.fontFamily.nunitoSansBold}
-                    color={theme.colors.primary.navy}
-                  >
+                  <Content>
                     {state?.autoCompleteValue?.trackMetaData?.contentName ||
                       state?.autoCompleteValue?.originalFileName ||
                       ""}
-                  </H4>
-                  <H5
-                    fontFamily={theme.fontFamily.nunitoSansBold}
-                    color={theme.colors.primary.navy}
-                    style={{ lineHeight: "1", marginTop: "-5px" }}
-                  >
+                  </Content>
+                  <Content style={{ lineHeight: "1", marginTop: "-5px" }}>
                     {state?.autoCompleteValue?.trackMetaData?.contentOwner ||
                       ""}
-                  </H5>
+                  </Content>
                 </Grid>
               </SelectedTrackTextContainer>
             </SearchTrackContainer>
@@ -887,9 +875,8 @@ export default function EncodeData() {
               src={encode_progress}
               style={{ width: "140px", height: "140px", zIndex: 1 }}
             />
-            <H4
+            <Content
               className="mt-4"
-              fontFamily={theme.fontFamily.nunitoSansBlack}
               style={{ textAlign: "center", zIndex: 1 }}
             >
               Encoding of{" "}
@@ -898,12 +885,12 @@ export default function EncodeData() {
                 encodeReducer?.selectedExistingFile?.title ||
                 encodeReducer?.selectedExistingFile?.originalFileName}{" "}
               in progress
-            </H4>
+            </Content>
           </TitleContainer>
-          <H5 style={{ textAlign: "center", padding: "25px" }}>
+          <Content style={{ textAlign: "center", padding: "25px" }}>
             The speed of your internet connection and the size of the audio file
             may affect encoding and decoding times.
-          </H5>
+          </Content>
           <Grid container justifyContent="center">
             <img src={sonic_preloader} alt="sonic preloader" />
           </Grid>
@@ -940,13 +927,12 @@ export default function EncodeData() {
               src={iconSuccess}
               style={{ width: "140px", height: "140px", zIndex: 1 }}
             />
-            <H3
+            <Content
               className="mt-4"
-              fontFamily={theme.fontFamily.nunitoSansBlack}
               style={{ textAlign: "center", zIndex: 1 }}
             >
               Well done! Encoding successful
-            </H3>
+            </Content>
           </TitleContainer>
           <Grid container justifyContent="center" className="mt-1">
             <AppButton
@@ -1005,13 +991,12 @@ export default function EncodeData() {
               src={errorEncodeIcon}
               style={{ width: "140px", height: "140px", zIndex: 1 }}
             />
-            <H3
+            <Content
               className="mt-4"
-              fontFamily={theme.fontFamily.nunitoSansBlack}
               style={{ textAlign: "center", zIndex: 1 }}
             >
               Ooops! Encoding failed
-            </H3>
+            </Content>
           </TitleContainer>
           <Grid container justifyContent="center" className="mt-1">
             <AppButton
@@ -1025,13 +1010,13 @@ export default function EncodeData() {
             </AppButton>
           </Grid>
           <Grid className="mt-5">
-            <H5 fontFamily={theme.fontFamily.nunitoSansBlack}>
+            <Content fontFamily={theme.fontFamily.nunitoSansBlack}>
               Do you need help?
-            </H5>
-            <H4 fontFamily={theme.fontFamily.nunitoSansRegular}>
+            </Content>
+            <Content>
               Use <Anchor>HelpCenter</Anchor> or email our{" "}
               <Anchor>Support Team</Anchor>
-            </H4>
+            </Content>
           </Grid>
         </PopUpContainer>
       </PopUp>

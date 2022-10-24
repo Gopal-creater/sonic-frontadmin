@@ -7,7 +7,7 @@ import CustomPagination from "../../components/common/Pagination/CustomPaginatio
 import PaginationCount from "../../components/common/Pagination/PaginationCount";
 import { sonicKeyTableHeads } from "../../constants/constants";
 import { getAllSonickeysActions } from "../../stores/actions/SonicKeyAcrtions";
-import { H1, SubHeading } from "../../StyledComponents/StyledHeadings";
+import { SubHeading } from "../../StyledComponents/StyledHeadings";
 import { MainContainer } from "../../StyledComponents/StyledPageContainer";
 import SonicKeyFilter from "./components/SonicKeyFilter";
 import SonicKeyTable from "./components/SonicKeyTable";

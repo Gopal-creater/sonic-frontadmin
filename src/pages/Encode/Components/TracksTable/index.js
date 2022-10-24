@@ -1,13 +1,9 @@
 import { Grid, Table, TableRow, TableCell } from "@material-ui/core";
 import React from "react";
 import PopUp from "../../../../components/common/PopUp";
-import TableMenu from "../../../../components/common/Table/components/TableMenu";
-import { ActionMenuItem } from "../../../../components/common/Table/TableStyled";
-import { StyledTableData } from "../../../../StyledComponents/StyledTable/StyledTable";
 import theme from "../../../../theme";
 import { log } from "../../../../utils/app.debug";
 import CloseIcon from "@material-ui/icons/Close";
-import { H3, H4, H6 } from "../../../../StyledComponents/StyledHeadings";
 import AppButton from "../../../../components/common/AppButton/AppButton";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,6 +16,7 @@ import { downloadAnyFile } from "../../../../services/https/resources/EncodeApi/
 import { useNavigate } from "react-router-dom";
 import SkCount from "../SkCount";
 import AppTable from "../../../../components/common/AppTable";
+import { Content } from "../../../../StyledComponents/StyledHeadings";
 
 export default function TracksTable({ data, paginationCount }) {
   const [state, setState] = React.useState({
@@ -190,30 +187,31 @@ export default function TracksTable({ data, paginationCount }) {
       options: {
         customBodyRender: (row) => {
           return (
-            <StyledTableData>
-              <TableMenu>
-                <ActionMenuItem
-                  onClick={() =>
-                    setState({
-                      ...state,
-                      openViewTrackPopUp: true,
-                      selectedTrack: row,
-                    })
-                  }
-                >
-                  View
-                </ActionMenuItem>
-                <ActionMenuItem onClick={() => download(row)}>
-                  Download
-                </ActionMenuItem>
-                <ActionMenuItem onClick={() => encodeAgain(row)}>
-                  Encode again
-                </ActionMenuItem>
-                <ActionMenuItem onClick={() => viewSonicKeys(row)}>
-                  View Encoded Tracks
-                </ActionMenuItem>
-              </TableMenu>
-            </StyledTableData>
+            // <StyledTableData>
+            //   <TableMenu>
+            //     <ActionMenuItem
+            //       onClick={() =>
+            //         setState({
+            //           ...state,
+            //           openViewTrackPopUp: true,
+            //           selectedTrack: row,
+            //         })
+            //       }
+            //     >
+            //       View
+            //     </ActionMenuItem>
+            //     <ActionMenuItem onClick={() => download(row)}>
+            //       Download
+            //     </ActionMenuItem>
+            //     <ActionMenuItem onClick={() => encodeAgain(row)}>
+            //       Encode again
+            //     </ActionMenuItem>
+            //     <ActionMenuItem onClick={() => viewSonicKeys(row)}>
+            //       View Encoded Tracks
+            //     </ActionMenuItem>
+            //   </TableMenu>
+            // </StyledTableData>
+            "remaing"
           );
         },
       },
@@ -257,17 +255,17 @@ export default function TracksTable({ data, paginationCount }) {
         <Grid style={{ padding: "30px" }}>
           <Grid container justifyContent="space-between">
             <Grid>
-              <H3 fontFamily={theme.fontFamily.nunitoSansMediumBold}>
+              <Content fontFamily={theme.fontFamily.nunitoSansMediumBold}>
                 {state?.selectedTrack?.trackMetaData?.contentName ||
                   state?.selectedTrack?.title ||
                   "---"}
-              </H3>
-              <H4 color={theme.colors.primary.teal}>
+              </Content>
+              <Content color={theme.colors.primary.teal}>
                 by{" "}
                 {state?.selectedTrack?.trackMetaData?.contentOwner ||
                   state?.selectedTrack?.artist ||
                   "---"}
-              </H4>
+              </Content>
             </Grid>
             <CloseIcon onClick={closePopUp} style={{ cursor: "pointer" }} />
           </Grid>
@@ -431,20 +429,13 @@ const TCell = ({ children, cell1, ...props }) => {
   if (cell1) {
     return (
       <TableCell size="small" width="35%" {...props}>
-        <H6 fontSize={"12px"} color={theme.colors.secondary.mediumGrey}>
-          {children}
-        </H6>
+        <Content fontSize={"12px"}>{children}</Content>
       </TableCell>
     );
   } else {
     return (
       <TableCell size="small" width="65%" {...props}>
-        <H6
-          fontSize={"14px"}
-          fontFamily={theme.fontFamily.nunitoSansMediumBold}
-        >
-          {children}
-        </H6>
+        <Content fontSize={"14px"}>{children}</Content>
       </TableCell>
     );
   }

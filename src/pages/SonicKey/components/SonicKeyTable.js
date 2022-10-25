@@ -14,6 +14,7 @@ import { useTheme } from "styled-components";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import Tooltip from "@material-ui/core/Tooltip";
 import GetAppIcon from "@material-ui/icons/GetApp";
+import { tags } from "../../../constants/constants";
 
 export default function SonicKeyTable({ data, paginationCount }) {
   const [sonickeys, setSonicKeys] = React.useState({});
@@ -92,7 +93,7 @@ export default function SonicKeyTable({ data, paginationCount }) {
     },
     {
       name: "sonickey",
-      label: "SONICKEY",
+      label: `${tags.companyTag}`,
       options: {
         customBodyRender: (value) => {
           return value || "--";

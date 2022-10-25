@@ -7,6 +7,7 @@ import { useTheme } from "styled-components";
 import AppButton from "../../components/common/AppButton/AppButton";
 import AppTable from "../../components/common/AppTable";
 import CommonDataLoadErrorSuccess from "../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess";
+import { tags } from "../../constants/constants";
 import { getSonicStreamDetailsActions } from "../../stores/actions/streamReader.action";
 import { Content, SubHeading } from "../../StyledComponents/StyledHeadings";
 import { MainContainer } from "../../StyledComponents/StyledPageContainer";
@@ -25,7 +26,7 @@ export default function SonicStreamDetail() {
   const columns = [
     {
       name: "sn",
-      lebel: "SN",
+      label: "SN",
       options: {
         customBodyRender: (value) => {
           return value || "--";
@@ -34,7 +35,7 @@ export default function SonicStreamDetail() {
     },
     {
       name: "sonickey",
-      lebel: "SONICKEY",
+      label: `${tags.companyTag}`,
       options: {
         customBodyRender: (value) => {
           return value || "--";
@@ -43,7 +44,7 @@ export default function SonicStreamDetail() {
     },
     {
       name: "name",
-      lebel: "NAME",
+      label: "NAME",
       options: {
         customBodyRender: (value) => {
           return value || "--";
@@ -52,7 +53,7 @@ export default function SonicStreamDetail() {
     },
     {
       name: "artist",
-      lebel: "ARTIST",
+      label: "ARTIST",
       options: {
         customBodyRender: (value) => {
           return value || "--";
@@ -61,7 +62,7 @@ export default function SonicStreamDetail() {
     },
     {
       name: "quality",
-      lebel: "QUALITY",
+      label: "QUALITY",
       options: {
         customBodyRender: (value) => {
           return value || "--";
@@ -70,7 +71,7 @@ export default function SonicStreamDetail() {
     },
     {
       name: "description",
-      lebel: "DESCRIPTION",
+      label: "DESCRIPTION",
       options: {
         customBodyRender: (value) => {
           return value || "--";
@@ -79,7 +80,7 @@ export default function SonicStreamDetail() {
     },
     {
       name: "plays",
-      lebel: "PLAYS",
+      label: "PLAYS",
       options: {
         customBodyRender: (value) => {
           return value || "--";
@@ -117,7 +118,7 @@ export default function SonicStreamDetail() {
           >
             Back
           </AppButton>
-          <SubHeading>Detected SonicKeys</SubHeading>
+          <SubHeading>Detected {tags.companyTag}</SubHeading>
           <Content>
             Found {streamReader?.streamDetails?.data?.docs?.length || 0}{" "}
             SonicKeys in {state?.name} radio station{" "}

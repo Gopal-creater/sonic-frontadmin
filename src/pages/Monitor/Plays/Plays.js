@@ -13,7 +13,7 @@ import {
   getMonitorListAction,
 } from "../../../stores/actions/monitorActions/monitorActions";
 import MonitorFilter from "../Components/MonitorFilter/MonitorFilter";
-import { userRoles } from "../../../constants/constants";
+import { tags, userRoles } from "../../../constants/constants";
 import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
 import AppTable from "../../../components/common/AppTable";
 import { getSKSIDFromDetectionOrigin } from "../../../utils/HelperMethods";
@@ -201,7 +201,7 @@ export default function Plays() {
     },
     {
       name: "sonicKey",
-      label: "SONICKEY",
+      label: `${tags.companyTag}`,
       options: {
         customBodyRender: (value) => {
           return value || "--";

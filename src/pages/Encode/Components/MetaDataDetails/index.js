@@ -878,6 +878,7 @@ export default function EncodeData() {
             <Content
               className="mt-4"
               style={{ textAlign: "center", zIndex: 1 }}
+              color={theme.colors.primary.contrastText}
             >
               Encoding of{" "}
               {encodeReducer?.selectedFile?.name ||
@@ -930,6 +931,7 @@ export default function EncodeData() {
             <Content
               className="mt-4"
               style={{ textAlign: "center", zIndex: 1 }}
+              color={theme.colors.primary.contrastText}
             >
               Well done! Encoding successful
             </Content>
@@ -981,12 +983,7 @@ export default function EncodeData() {
               style={{ cursor: "pointer" }}
             />
           </Grid>
-          <TitleContainer
-            container
-            direction="column"
-            alignItems="center"
-            backgroundColor={theme.colors.secondary.lightGrey}
-          >
+          <TitleContainer container direction="column" alignItems="center">
             <img
               src={errorEncodeIcon}
               style={{ width: "140px", height: "140px", zIndex: 1 }}
@@ -994,6 +991,7 @@ export default function EncodeData() {
             <Content
               className="mt-4"
               style={{ textAlign: "center", zIndex: 1 }}
+              color={theme.colors.primary.contrastText}
             >
               Ooops! Encoding failed
             </Content>

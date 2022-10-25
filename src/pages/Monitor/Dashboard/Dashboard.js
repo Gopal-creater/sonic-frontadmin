@@ -23,13 +23,14 @@ import { helpText } from "./Constants";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./Dashboard.css";
-import { userRoles } from "../../../constants/constants";
+import { tags, userRoles } from "../../../constants/constants";
 import AppTable from "../../../components/common/AppTable";
 import { getSKSIDFromDetectionOrigin } from "../../../utils/HelperMethods";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import { useTheme } from "styled-components";
 import PlaysMetaData from "../../../components/common/PlaysMetaData";
 import Tooltip from "@material-ui/core/Tooltip";
+import moment from "moment";
 
 export function Dashboard() {
   const theme = useTheme();
@@ -160,7 +161,7 @@ export function Dashboard() {
       label: "DATE",
       options: {
         customBodyRender: (value) => {
-          return value || "--";
+          return moment(value).utc().format("DD/MM/YYYY") || "--";
         },
       },
     },
@@ -169,7 +170,7 @@ export function Dashboard() {
       label: "TIME",
       options: {
         customBodyRender: (value) => {
-          return value || "--";
+          return moment(value).format("HH:mm:ss") || "--";
         },
       },
     },
@@ -178,7 +179,7 @@ export function Dashboard() {
       label: "DURATION",
       options: {
         customBodyRender: (value) => {
-          return value || "--";
+          return moment.utc(value * 1000).format("mm:ss") || "--";
         },
       },
     },
@@ -202,7 +203,7 @@ export function Dashboard() {
     },
     {
       name: "sonicKey",
-      label: "SONICKEY",
+      label: `${tags.companyTag}`,
       options: {
         customBodyRender: (value) => {
           return value || "--";

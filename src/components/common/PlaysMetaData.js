@@ -6,11 +6,11 @@ import CloseIcon from "@material-ui/icons/Close";
 import { Table } from "react-bootstrap";
 import moment from "moment";
 import { log } from "../../utils/app.debug";
-import { userRoles } from "../../constants/constants";
+import { tags, userRoles } from "../../constants/constants";
 import { useSelector } from "react-redux";
 import { getSKSIDFromDetectionOrigin } from "../../utils/HelperMethods";
 import { useTheme } from "styled-components";
-import { Content } from "../../StyledComponents/StyledHeadings";
+import { Content, SubHeading } from "../../StyledComponents/StyledHeadings";
 
 function PlaysMetaData(props) {
   const user = useSelector((state) => state.user);
@@ -31,12 +31,12 @@ function PlaysMetaData(props) {
       <Grid style={{ padding: "30px" }}>
         <Grid container justifyContent="space-between">
           <Grid>
-            <Content>
+            <SubHeading>
               {state?.playsData?.sonicKey?.track?.trackMetaData?.contentName ||
                 state?.playsData?.sonicKey?.track?.title ||
                 state?.playsData?.sonicKey?.contentName ||
                 "---"}
-            </Content>
+            </SubHeading>
             <Content color={theme.colors.primary.teal}>
               by{" "}
               {state?.playsData?.sonicKey?.track?.trackMetaData?.contentOwner ||
@@ -126,7 +126,7 @@ function PlaysMetaData(props) {
               </TCell>
             </TableRow>
             <TableRow>
-              <TCell cell1={true}>SONICKEY</TCell>
+              <TCell cell1={true}>{tags.companyTag}</TCell>
               <TCell cell1={false}>
                 {state?.playsData?.sonicKey?.sonicKey || "---"}
               </TCell>
@@ -214,13 +214,13 @@ export default PlaysMetaData;
 const TCell = ({ children, cell1, ...props }) => {
   if (cell1) {
     return (
-      <TableCell size="small" width="35%" {...props}>
+      <TableCell width="35%" {...props}>
         <Content>{children}</Content>
       </TableCell>
     );
   } else {
     return (
-      <TableCell size="small" width="65%" {...props}>
+      <TableCell width="65%" {...props}>
         <Content>{children}</Content>
       </TableCell>
     );

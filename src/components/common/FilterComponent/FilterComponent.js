@@ -8,7 +8,6 @@ import {
   CustomPopup,
   FilterExport,
 } from "./Filter.styled";
-import { log } from "../../../utils/app.debug";
 import CustomDatePicker from "./components/CustomDatePicker";
 import AppButton from "../AppButton/AppButton";
 import { ArrowDownward } from "@material-ui/icons";

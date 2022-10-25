@@ -40,12 +40,6 @@ const theme = {
   },
   border_radius: "",
   fontSize: {
-    h1: "30px",
-    h2: "26px",
-    h3: "22px",
-    h4: "18px",
-    h5: "14px",
-    h6: "11px",
     extra: "45px",
     heading: "27px",
     subHeading: "20px",
@@ -53,11 +47,6 @@ const theme = {
     caption: "12px",
   },
   fontFamily: {
-    nunitoSansBlack: "NunitoSans-Black",
-    nunitoSansBold: "NunitoSans-Bold",
-    nunitoSansMediumBold: "NunitoSans-ExtraBold",
-    nunitoSansRegular: "NunitoSans-Regular",
-
     robotoBold: "Roboto-Bold",
     robotoMedium: "Roboto-Medium",
     robotoRegular: "Roboto-Regular",
@@ -108,10 +97,10 @@ export const testTheme = {
     caption: "10px",
   },
   fontFamily: {
-    nunitoSansBlack: "NunitoSans-Black",
-    nunitoSansBold: "NunitoSans-Bold",
-    nunitoSansMediumBold: "NunitoSans-ExtraBold",
-    nunitoSansRegular: "NunitoSans-Regular",
+    robotoBold: "Roboto-Bold",
+    robotoMedium: "Roboto-Medium",
+    robotoRegular: "Roboto-Regular",
+    robotoThin: "Roboto-Thin",
   },
 };
 

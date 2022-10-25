@@ -132,18 +132,7 @@ export default function Tracks() {
       {/* Header----------------------------------------------------------- */}
       <Grid container justifyContent="space-between" alignItems="center">
         <SubHeading >My Tracks</SubHeading>
-        {/* <H4
-                        color={theme.colors.primary.teal}
-                        fontFamily={theme.fontFamily.nunitoSansRegular}
-                    >
-                        <PaginationCount
-                            heading={true}
-                            name="Tracks"
-                            total={monitor?.track?.data?.totalDocs}
-                            start={monitor?.track?.data?.offset}
-                            end={monitor?.track?.data?.docs?.length}
-                        />
-                    </H4> */}
+        
       </Grid>
       {/* Header----------------------------------------------------------- */}
 

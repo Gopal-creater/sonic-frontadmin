@@ -14,36 +14,10 @@ code {
     monospace;
 }
 
-@font-face {
-  font-family: "NunitoSans-Black";
-  src: local("NunitoSans-Black"),
-    url("./assets/fonts/NunitoSans-Black.ttf") format("truetype");
-}
 
-@font-face {
-  font-family: "NunitoSans-Bold";
-  src: local("NunitoSans-Bold"),
-    url("./assets/fonts/NunitoSans-Bold.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "NunitoSans-Regular";
-  src: local("NunitoSans-Regular"),
-    url("./assets/fonts/NunitoSans-Regular.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "NunitoSans-ExtraBold";
-  src: local("NunitoSans-ExtraBold"),
-    url("./assets/fonts/NunitoSans-ExtraBold.ttf") format("truetype");
-}
 
 /* =================================================================================================== */
-@font-face {
-  font-family: "Roboto-Black";
-  src: local("Roboto-Black"),
-    url("./assets/fonts/Roboto-Black.ttf") format("truetype");
-}
+
 
 @font-face {
   font-family: "Roboto-Bold";
@@ -57,11 +31,6 @@ code {
     url("./assets/fonts/Roboto-Thin.ttf") format("truetype");
 }
 
-@font-face {
-  font-family: "Roboto-Thin";
-  src: local("Roboto-Thin"),
-    url("./assets/fonts/Roboto-Thin.ttf") format("truetype");
-}
 
 @font-face {
   font-family: "Roboto-Medium";

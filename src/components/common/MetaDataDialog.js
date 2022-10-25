@@ -51,13 +51,13 @@ const useStyles = makeStyles({
   tableCellTwo: {
     padding: "5px",
     fontFamily: `${theme.fontFamily.robotoBold}`,
-    fontSize: `${theme.fontSize.h5}`,
-    color: `${theme.colors.secondary.grey}`,
+    fontSize: `${theme.fontSize.content}`,
+    color: `${theme.colors.grey.main}`,
   },
   textInput: {
     fontFamily: `${theme.fontFamily.robotoBold}`,
-    fontSize: `${theme.fontSize.h5}`,
-    color: `${theme.colors.secondary.grey}`,
+    fontSize: `${theme.fontSize.content}`,
+    color: `${theme.colors.grey.main}`,
   },
 });
 
@@ -225,8 +225,8 @@ const MetaDataDailog = (props) => {
               <div
                 style={{
                   fontFamily: theme.fontFamily.robotoBold,
-                  fontSize: theme.fontSize.h4,
-                  color: theme.colors.primary.graphite,
+                  fontSize: theme.fontSize.subHeading,
+                  color: theme.colors.primary.dark,
                 }}
               >
                 &nbsp; &nbsp;{tags.companyTag}:{" "}
@@ -240,7 +240,7 @@ const MetaDataDailog = (props) => {
               aria-label="close"
               style={{
                 marginRight: 5,
-                color: theme.colors.primary.graphite,
+                color: theme.colors.primary.dark,
               }}
               onClick={handleCloseTable}
               data-toggle="tooltip"
@@ -372,12 +372,12 @@ const MetaDataDailog = (props) => {
                       labelProps={{
                         style: {
                           fontFamily: theme.fontFamily.robotoRegular,
-                          fontSize: theme.fontSize.h5,
+                          fontSize: theme.fontSize.content,
                         },
                       }}
                       inputProps={{
                         style: {
-                          fontSize: theme.fontSize.h5,
+                          fontSize: theme.fontSize.content,
                           fontFamily: theme.fontFamily.robotoBold,
                         },
                         value: values?.updatingSonicKey?.contentType,
@@ -511,9 +511,9 @@ const MetaDataDailog = (props) => {
                       placeholder={"Label"}
                       // hideSearchIcon={true}
                       value={values?.updatingSonicKey?.label}
-                      color={theme.colors.secondary.grey}
+                      color={theme.colors.grey.main}
                       fontFamily={theme.fontFamily.robotoBold}
-                      fontSize={theme.fontSize.h5}
+                      fontSize={theme.fontSize.content}
                     />
                   ) : (
                     values?.sonicKey?.label || "---"
@@ -544,9 +544,9 @@ const MetaDataDailog = (props) => {
                       placeholder={"Distributor"}
                       // hideSearchIcon={true}
                       value={values?.updatingSonicKey?.distributor}
-                      color={theme.colors.secondary.grey}
+                      color={theme.colors.grey.main}
                       fontFamily={theme.fontFamily.robotoBold}
-                      fontSize={theme.fontSize.h5}
+                      fontSize={theme.fontSize.content}
                     />
                   ) : (
                     values?.sonicKey?.distributor || "---"

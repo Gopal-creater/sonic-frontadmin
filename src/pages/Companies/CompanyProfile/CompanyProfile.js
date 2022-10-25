@@ -45,10 +45,10 @@ export default function CompanyProfile() {
                 style={{
                   padding: "5px",
                   borderRadius: "50%",
-                  backgroundColor: theme.colors.secondary.lightTeal,
+                  backgroundColor: theme.colors.secondary.main,
                 }}
               >
-                <MusicNoteIcon style={{ color: theme.colors.primary.teal }} />
+                <MusicNoteIcon style={{ color: theme.colors.secondary.main}} />
               </Grid>
             </Grid>
             <Content className="mt-2">Company details</Content>
@@ -111,10 +111,10 @@ export default function CompanyProfile() {
                 style={{
                   padding: "5px",
                   borderRadius: "50%",
-                  backgroundColor: theme.colors.secondary.lightTeal,
+                  backgroundColor: theme.colors.secondary.main,
                 }}
               >
-                <PersonIcon style={{ color: theme.colors.primary.teal }} />
+                <PersonIcon style={{ color: theme.colors.secondary.main }} />
               </Grid>
             </Grid>
             <Content className="mt-2">Admin details</Content>

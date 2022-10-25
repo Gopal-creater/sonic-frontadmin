@@ -118,7 +118,7 @@ export default function FilterComponent(props) {
           >
             <AppButton
               variant="none"
-              fontSize={theme.fontSize.h4}
+              fontSize={theme.fontSize.subHeading}
               startIcon={<ArrowDownward />}
             >
               Export

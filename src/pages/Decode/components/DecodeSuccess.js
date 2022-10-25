@@ -156,7 +156,7 @@ export default function DecodeSuccess(props) {
                 <VisibilityIcon
                   fontSize={"small"}
                   style={{
-                    color: theme.colors.primary.teal,
+                    color: theme.colors.secondary.main,
                     cursor: "pointer",
                   }}
                   onClick={() => handleClickOpenTable(value)}
@@ -166,7 +166,7 @@ export default function DecodeSuccess(props) {
                 <GetAppRoundedIcon
                   fontSize={"small"}
                   style={{
-                    color: theme.colors.primary.teal,
+                    color: theme.colors.secondary.main,
                     cursor: "pointer",
                     marginLeft: "10px",
                   }}
@@ -271,13 +271,13 @@ const useStyles = makeStyles((theme) => ({
   },
   subHeading: {
     fontSize: "18px",
-    fontFamily: "NunitoSans-Regular",
+    fontFamily: "Roboto-Regular",
     color: "#00A19A",
   },
   found: {
     padding: "30px 0px 0px 0px",
     fontSize: "18px",
-    fontFamily: "NunitoSans-Regular",
+    fontFamily: "Roboto-Regular",
     color: "#393F5B",
   },
   failedIcon: {

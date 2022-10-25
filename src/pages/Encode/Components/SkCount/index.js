@@ -32,7 +32,7 @@ export default function SkCount({ trackID }) {
     else if (state.loading) {
         return (
             <div>
-                <CircularProgress color={theme.colors.primary.navy} size={18} />
+                <CircularProgress color={theme.colors.primary.main} size={18} />
             </div>
         )
     }

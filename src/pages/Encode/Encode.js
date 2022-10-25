@@ -283,7 +283,7 @@ export default function Encode() {
                   >
                     <HelpOutlineOutlinedIcon
                       style={{
-                        color: theme.colors.secondary.lightNavy,
+                        color: theme.colors.primary.light,
                         fontSize: "15px",
                       }}
                     />

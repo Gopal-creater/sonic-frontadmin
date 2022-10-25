@@ -286,12 +286,12 @@ export default function TracksTable({ data, paginationCount }) {
         <Grid style={{ padding: "30px" }}>
           <Grid container justifyContent="space-between">
             <Grid>
-              <Content fontFamily={theme.fontFamily.nunitoSansMediumBold}>
+              <Content fontFamily={theme.fontFamily.robotoBold}>
                 {state?.selectedTrack?.trackMetaData?.contentName ||
                   state?.selectedTrack?.title ||
                   "---"}
               </Content>
-              <Content color={theme.colors.primary.teal}>
+              <Content color={theme.colors.secondary.main}>
                 by{" "}
                 {state?.selectedTrack?.trackMetaData?.contentOwner ||
                   state?.selectedTrack?.artist ||
@@ -440,7 +440,7 @@ export default function TracksTable({ data, paginationCount }) {
               variant={"outline"}
               onClick={closePopUp}
               fontSize={"15px"}
-              fontFamily={theme.fontFamily.nunitoSansBlack}
+              fontFamily={theme.fontFamily.robotoMedium}
             >
               Cancel
             </AppButton>

@@ -28,7 +28,7 @@ export default function AppLayout({ children }) {
   const toggleSideBar = () => {
     setOpen((open) => !open);
   };
-  const theme = useTheme();
+
 
   const getGreetings = () => {
     if (hour < 12) {

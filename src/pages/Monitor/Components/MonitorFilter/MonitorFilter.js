@@ -119,12 +119,12 @@ export default function MonitorFilter({
               }
               InputLabelProps={{
                 style: {
-                  fontSize: theme.fontSize.h4,
+                  fontSize: theme.fontSize.subHeading,
                   color: theme.colors.secondary.mediumGrey,
-                  fontFamily: theme.fontFamily.nunitoSansBold,
+                  fontFamily: theme.fontFamily.robotoBold,
                 },
               }}
-              inputProps={{ style: { fontSize: theme.fontSize.h4 } }}
+              inputProps={{ style: { fontSize: theme.fontSize.subHeading } }}
             />
           </FilterForm>
 
@@ -186,12 +186,12 @@ export default function MonitorFilter({
               }
               InputLabelProps={{
                 style: {
-                  fontSize: theme.fontSize.h4,
+                  fontSize: theme.fontSize.subHeading,
                   color: theme.colors.secondary.mediumGrey,
-                  fontFamily: theme.fontFamily.nunitoSansBold,
+                  fontFamily: theme.fontFamily.robotoBold,
                 },
               }}
-              inputProps={{ style: { fontSize: theme.fontSize.h4 } }}
+              inputProps={{ style: { fontSize: theme.fontSize.subHeading } }}
             />
           </FilterForm>
 
@@ -208,12 +208,12 @@ export default function MonitorFilter({
               }
               InputLabelProps={{
                 style: {
-                  fontSize: theme.fontSize.h4,
+                  fontSize: theme.fontSize.subHeading,
                   color: theme.colors.secondary.mediumGrey,
-                  fontFamily: theme.fontFamily.nunitoSansBold,
+                  fontFamily: theme.fontFamily.robotosBold,
                 },
               }}
-              inputProps={{ style: { fontSize: theme.fontSize.h4 } }}
+              inputProps={{ style: { fontSize: theme.fontSize.subHeading } }}
             />
           </FilterForm>
 
@@ -231,8 +231,8 @@ export default function MonitorFilter({
               }
               placeholder={"Label"}
               value={monitor?.filters?.label}
-              color={theme.colors.secondary.grey}
-              fontFamily={theme.fontFamily.nunitoSansBold}
+              color={theme.colors.grey.main}
+              fontFamily={theme.fontFamily.robotosBold}
             />
           </FilterForm>
 
@@ -250,8 +250,8 @@ export default function MonitorFilter({
               }
               placeholder={"Distributor"}
               value={monitor?.filters?.distributor}
-              color={theme.colors.secondary.grey}
-              fontFamily={theme.fontFamily.nunitoSansBold}
+              color={theme.colors.grey.main}
+              fontFamily={theme.fontFamily.robotosBold}
             />
           </FilterForm>
 
@@ -274,8 +274,8 @@ export default function MonitorFilter({
                 }
                 placeholder={"Company Name"}
                 value={monitor?.filters?.company}
-                color={theme.colors.secondary.grey}
-                fontFamily={theme.fontFamily.nunitoSansBold}
+                color={theme.colors.grey.main}
+                fontFamily={theme.fontFamily.robotosBold}
               />
             </FilterForm>
           )}
@@ -295,7 +295,7 @@ export default function MonitorFilter({
                 }
                 InputLabelProps={{
                   style: {
-                    fontFamily: theme.fontFamily.nunitoSansBold,
+                    fontFamily: theme.fontFamily.robotosBold,
                   },
                 }}
               />

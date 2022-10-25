@@ -86,7 +86,7 @@ export default function SonicKeyFilter({ closeDialog }) {
               }
               InputLabelProps={{
                 style: {
-                  fontFamily: theme.fontFamily.nunitoSansBold,
+                  fontFamily: theme.fontFamily.robotosBold,
                 },
               }}
             />
@@ -105,7 +105,7 @@ export default function SonicKeyFilter({ closeDialog }) {
               }
               InputLabelProps={{
                 style: {
-                  fontFamily: theme.fontFamily.nunitoSansBold,
+                  fontFamily: theme.fontFamily.robotosBold,
                 },
               }}
             />
@@ -124,7 +124,7 @@ export default function SonicKeyFilter({ closeDialog }) {
               }
               InputLabelProps={{
                 style: {
-                  fontFamily: theme.fontFamily.nunitoSansBold,
+                  fontFamily: theme.fontFamily.robotosBold,
                 },
               }}
             />
@@ -144,8 +144,8 @@ export default function SonicKeyFilter({ closeDialog }) {
               }
               placeholder={"Label"}
               value={sonickey?.filters?.label}
-              color={theme.colors.secondary.grey}
-              fontFamily={theme.fontFamily.nunitoSansBold}
+              color={theme.colors.grey.main}
+              fontFamily={theme.fontFamily.robotosBold}
             />
           </FilterForm>
 
@@ -163,8 +163,8 @@ export default function SonicKeyFilter({ closeDialog }) {
               }
               placeholder={"Distributor"}
               value={sonickey?.filters?.distributor}
-              color={theme.colors.secondary.grey}
-              fontFamily={theme.fontFamily.nunitoSansBold}
+              color={theme.colors.grey.main}
+              fontFamily={theme.fontFamily.robotosBold}
             />
           </FilterForm>
           {users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN && (
@@ -186,8 +186,8 @@ export default function SonicKeyFilter({ closeDialog }) {
                 }
                 placeholder={"Company Name"}
                 value={sonickey?.filters?.company}
-                color={theme.colors.secondary.grey}
-                fontFamily={theme.fontFamily.nunitoSansBold}
+                color={theme.colors.grey.main}
+                fontFamily={theme.fontFamily.robotosBold}
               />
             </FilterForm>
           )}
@@ -207,7 +207,7 @@ export default function SonicKeyFilter({ closeDialog }) {
                 }
                 InputLabelProps={{
                   style: {
-                    fontFamily: theme.fontFamily.nunitoSansBold,
+                    fontFamily: theme.fontFamily.robotosBold,
                   },
                 }}
               />
@@ -227,7 +227,7 @@ export default function SonicKeyFilter({ closeDialog }) {
               }
               InputLabelProps={{
                 style: {
-                  fontFamily: theme.fontFamily.nunitoSansBold,
+                  fontFamily: theme.fontFamily.robotosBold,
                 },
               }}
             />

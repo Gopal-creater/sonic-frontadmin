@@ -123,7 +123,7 @@ export default function CreateUser() {
           <Grid item xs={12} md={6}>
             <Grid container>
               <IconBox>
-                <PersonIcon style={{ color: theme.colors.primary.teal }} />
+                <PersonIcon style={{ color: theme.colors.secondary.main }} />
               </IconBox>
             </Grid>
 
@@ -234,7 +234,7 @@ export default function CreateUser() {
                       setState({ ...state, accountType: e.target.value }),
                   }}
                   labelProps={{
-                    style: { fontFamily: theme.fontFamily.nunitoSansRegular },
+                    style: { fontFamily: theme.fontFamily.robotosRegular },
                   }}
                   data={accountType || []}
                 />
@@ -360,7 +360,7 @@ export default function CreateUser() {
           <Grid item xs={12} md={6}>
             <Grid container>
               <IconBox>
-                <MusicNoteIcon style={{ color: theme.colors.primary.teal }} />
+                <MusicNoteIcon style={{ color: theme.colors.secondary.main }} />
               </IconBox>
             </Grid>
 
@@ -475,7 +475,7 @@ export default function CreateUser() {
 
             <Grid container className="mt-4">
               <IconBox>
-                <LockIcon style={{ color: theme.colors.primary.teal }} />
+                <LockIcon style={{ color: theme.colors.secondary.main}} />
               </IconBox>
             </Grid>
 

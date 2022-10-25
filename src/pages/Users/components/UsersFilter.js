@@ -56,7 +56,7 @@ export default function UsersFilter({ closeDialog }) {
               }
               InputLabelProps={{
                 style: {
-                  fontFamily: theme.fontFamily.nunitoSansBold,
+                  fontFamily: theme.fontFamily.robotosBold,
                 },
               }}
             />
@@ -75,7 +75,7 @@ export default function UsersFilter({ closeDialog }) {
               }
               InputLabelProps={{
                 style: {
-                  fontFamily: theme.fontFamily.nunitoSansBold,
+                  fontFamily: theme.fontFamily.robotosBold,
                 },
               }}
             />
@@ -116,7 +116,7 @@ export default function UsersFilter({ closeDialog }) {
                 }
                 InputLabelProps={{
                   style: {
-                    fontFamily: theme.fontFamily.nunitoSansBold,
+                    fontFamily: theme.fontFamily.robotosBold,
                   },
                 }}
                 disabled={users?.filters?.accountType === ""}
@@ -156,7 +156,7 @@ export default function UsersFilter({ closeDialog }) {
               }
               InputLabelProps={{
                 style: {
-                  fontFamily: theme.fontFamily.nunitoSansBold,
+                  fontFamily: theme.fontFamily.robotosBold,
                 },
               }}
             />

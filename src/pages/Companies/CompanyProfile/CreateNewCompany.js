@@ -78,10 +78,10 @@ export default function CreateNewCompany() {
                 style={{
                   padding: "5px",
                   borderRadius: "50%",
-                  backgroundColor: theme.colors.secondary.lightTeal,
+                  backgroundColor: theme.colors.secondary.light,
                 }}
               >
-                <MusicNoteIcon style={{ color: theme.colors.primary.teal }} />
+                <MusicNoteIcon style={{ color: theme.colors.secondary.main }} />
               </Grid>
             </Grid>
 
@@ -137,7 +137,7 @@ export default function CreateNewCompany() {
                       }}
                       labelProps={{
                         style: {
-                          fontFamily: theme.fontFamily.nunitoSansRegular,
+                          fontFamily: theme.fontFamily.robotoRegular,
                         },
                       }}
                       data={companyType || []}
@@ -184,10 +184,10 @@ export default function CreateNewCompany() {
                 style={{
                   padding: "5px",
                   borderRadius: "50%",
-                  backgroundColor: theme.colors.secondary.lightTeal,
+                  backgroundColor: theme.colors.secondary.light,
                 }}
               >
-                <PersonIcon style={{ color: theme.colors.primary.teal }} />
+                <PersonIcon style={{ color: theme.colors.secondary.main }} />
               </Grid>
             </Grid>
 

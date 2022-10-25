@@ -85,7 +85,7 @@ export default function StreamReaderTable({ data, paginationCount }) {
             <Tooltip title="View">
               <VisibilityIcon
                 fontSize={"small"}
-                style={{ color: theme.colors.primary.teal, cursor: "pointer" }}
+                style={{ color: theme.colors.secondary.main, cursor: "pointer" }}
                 onClick={() =>
                   navigate(`/sonicstreamdetail/${row?._id}`, {
                     state: row,

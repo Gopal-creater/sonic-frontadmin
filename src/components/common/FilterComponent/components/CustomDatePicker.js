@@ -16,15 +16,15 @@ const CustomInput = styled(TextField)`
     display: block;
     outline: none;
     border: none;
-    color: ${theme.colors.secondary.grey};
-    font-family: ${theme.fontFamily.nunitoSansRegular};
-    font-size: ${theme.fontSize.h4};
+    color: ${theme.colors.grey.main};
+    font-family: ${theme.fontFamily.robotoRegular};
+    font-size: ${theme.fontSize.subHeading};
     width: 100%;
     cursor: pointer;
 
     //error
     & .Mui-error {
-        color: ${theme.colors.primary.graphite};
+        color: ${theme.colors.primary.dark};
     }
     & .MuiFormHelperText-root {
         color: ${theme.colors.secondary.error};
@@ -35,32 +35,32 @@ const CustomInput = styled(TextField)`
 
     //Border
     & .MuiInput-underline:before {
-        border-bottom-color: ${theme.colors.secondary.grey};
+        border-bottom-color: ${theme.colors.grey.main};
     };
 
     && .MuiInput-underline:hover:before {
-        border-bottom-color: ${theme.colors.primary.navy};
+        border-bottom-color: ${theme.colors.primary.main};
     }
 
     & .MuiInput-underline:after {
-        border-bottom-color: ${theme.colors.primary.teal};
+        border-bottom-color: ${theme.colors.primary.dark};
     };
 
     :hover {
-        color: ${theme.colors.secondary.mediumNavy};
+        color: ${theme.colors.primary.dark};
     }
 `
 
 const CustomDate = React.forwardRef((props, ref) => (
     <DateInput>
         {props?.calender ?
-            <CalendarTodayOutlined className="me-3 mt-3" style={{ color: theme.colors.secondary.grey }} fontSize='small' />
+            <CalendarTodayOutlined className="me-3 mt-3" style={{ color: theme.colors.grey.main }} fontSize='small' />
             : null
         }
         <Grid style={{ width: props?.fullWidth ? '100%' : '120px' }}>
             <span style={{
-                fontSize: theme.fontSize.h6,
-                fontFamily: theme.fontFamily.nunitoSansBold,
+                fontSize: theme.fontSize.caption,
+                fontFamily: theme.fontFamily.robotoBold,
                 color: theme.colors.secondary.mediumGrey
             }}
             >

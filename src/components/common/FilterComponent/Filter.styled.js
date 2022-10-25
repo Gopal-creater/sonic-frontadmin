@@ -29,17 +29,17 @@ export const FilterExport = styled.div`
 export const CustomPopup = styled(Popover)`
     .MuiPaper-root {
         border-radius: 0px;
-        border: 2px solid ${theme.colors.secondary.lightNavy};
+        border: 2px solid ${theme.colors.primary.light};
         box-shadow: none;
         min-width: 120px;
     }
 `
 export const CustomMenuItem = styled(MenuItem)`
     font-family: ${theme.fontFamily.robotoRegular};
-    color: ${theme.colors.primary.graphite};
-    border-bottom: 1px solid ${theme.colors.secondary.lightGrey};
+    color: ${theme.colors.primary.dark};
+    border-bottom: 1px solid ${theme.colors.grey.light};
     :hover{
         background-color: white;
-        color: ${theme.colors.secondary.lightNavy};
+        color: ${theme.colors.primary.light};
     }
 `

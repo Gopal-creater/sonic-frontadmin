@@ -102,22 +102,22 @@ export const StyledSelect = styled(CustomStyledSelect)(() => ({
 export const TimezoneSelectInput = styled(InputLabel)`
   color: ${(props) => props.theme.colors.secondary.mediumGrey};
   font-size: 16px;
-  font-family: ${(props) => props.theme.fontFamily.nunitoSansBold};
+  font-family: ${(props) => props.theme.fontFamily.robotosBold};
   &.Mui-focused {
-    color: ${(props) => props.theme.colors.primary.navy};
+    color: ${(props) => props.theme.colors.primary.main};
   }
 `;
 
 export const TimezoneSelect = styled(CustomStyledSelect)(() => ({
-  fontSize: `${(props) => props.theme.fontSize.h4}`,
-  fontFamily: `${(props) => props.theme.fontFamily.nunitoSansRegular}`,
-  color: `${(props) => props.theme.colors.secondary.grey}`,
+  fontSize: `${(props) => props.theme.fontSize.subHeading}`,
+  fontFamily: `${(props) => props.theme.fontFamily.robotosRegular}`,
+  color: `${(props) => props.theme.colors.grey.main}`,
   "& .MuiSelect-root": {
     background: "transparent",
     paddingTop: 3,
     paddingBottom: 3,
   },
   "& .MuiSelect-root:hover": {
-    color: `${(props) => props.theme.colors.secondary.mediumNavy}`,
+    color: `${(props) => props.theme.colors.primary.main}`,
   },
 }));

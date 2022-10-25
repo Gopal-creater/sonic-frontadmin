@@ -49,7 +49,7 @@ export default function RadioPlays({ radioId }) {
                     <Info style={{ color: "red", marginRight: 4, fontSize: 12 }} />
                 </p>
             ) : state?.loading ? (
-                <CircularProgress color={theme.colors.primary.navy} size={18} />
+                <CircularProgress color={theme.colors.primary.main} size={18} />
             ) : (
                 state?.data
             )}

@@ -1,6 +1,6 @@
 import { Grid } from "@material-ui/core";
 import React, { useEffect, useRef } from "react";
-import { H1, Heading, SubHeading } from "../../../StyledComponents/StyledHeadings";
+import { Heading, SubHeading } from "../../../StyledComponents/StyledHeadings";
 import { useTheme } from "styled-components";
 import FilterComponent from "../../../components/common/FilterComponent/FilterComponent";
 import { useDispatch, useSelector } from "react-redux";

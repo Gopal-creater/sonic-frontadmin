@@ -52,7 +52,7 @@ export default function CompanyFilter({ closeDialog }) {
               }
               InputLabelProps={{
                 style: {
-                  fontFamily: theme.fontFamily.nunitoSansBold,
+                  fontFamily: theme.fontFamily.robotoBold,
                 },
               }}
             />
@@ -90,7 +90,7 @@ export default function CompanyFilter({ closeDialog }) {
               }
               InputLabelProps={{
                 style: {
-                  fontFamily: theme.fontFamily.nunitoSansBold,
+                  fontFamily: theme.fontFamily.robotoBold,
                 },
               }}
             />
@@ -109,7 +109,7 @@ export default function CompanyFilter({ closeDialog }) {
               }
               InputLabelProps={{
                 style: {
-                  fontFamily: theme.fontFamily.nunitoSansBold,
+                  fontFamily: theme.fontFamily.robotoBold,
                 },
               }}
             />
@@ -128,7 +128,7 @@ export default function CompanyFilter({ closeDialog }) {
               }
               InputLabelProps={{
                 style: {
-                  fontFamily: theme.fontFamily.nunitoSansBold,
+                  fontFamily: theme.fontFamily.robotoBold,
                 },
               }}
             />

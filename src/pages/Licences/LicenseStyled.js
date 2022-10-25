@@ -6,23 +6,23 @@ export const TuneBox = styled(Grid)`
     padding: 10px;
     border-radius: 50%;
     margin-bottom: 20px;
-    background-color: ${theme.colors.secondary.lightTeal};
+    background-color: ${theme.colors.secondary.light};
 `
 
 export const BorderBottom = styled(Grid)`
     margin-top: 40px;
-    border-bottom: 1px solid ${theme.colors.secondary.mediumNavy};
+    border-bottom: 1px solid ${theme.colors.primary.light};
 `
 
 export const RadioLabel = styled(FormControlLabel)`
     .MuiFormControlLabel-label {
         color: ${theme.colors.secondary.mediumGrey};
-        font-family: ${theme.fontFamily.nunitoSansBold};
+        font-family: ${theme.fontFamily.robotoBold};
     }
 `
 
 export const HelperText = styled.span`
     color: ${theme.colors.secondary.error};
     font-size: 13px;
-    font-family: ${theme.fontFamily.nunitoSansBold};
+    font-family: ${theme.fontFamily.robotoBold};
 `

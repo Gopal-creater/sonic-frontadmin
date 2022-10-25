@@ -99,9 +99,9 @@ export default function SubscribeStation({ closeDialog }) {
                                     getSelectedValue={(e, v) => log("selected val", v)}
                                     placeholder={"Genre"}
                                     // value={values?.updatingSonicKey?.label}
-                                    color={theme.colors.secondary.grey}
-                                    fontFamily={theme.fontFamily.nunitoSansBold}
-                                    fontSize={theme.fontSize.h4}
+                                    color={theme.colors.grey.main}
+                                    fontFamily={theme.fontFamily.robotoBold}
+                                    fontSize={theme.fontSize.subHeading}
                                 />
                             </FilterForm>
 
@@ -118,7 +118,7 @@ export default function SubscribeStation({ closeDialog }) {
 
                         <TableContainer style={{ padding: '0rem 1.2rem 1rem 1.2rem', marginTop: 30, height: '140%' }}>
                             <Table size="small">
-                                <TableHead style={{ backgroundColor: theme.colors.secondary.lightGrey }}>
+                                <TableHead style={{ backgroundColor: theme.colors.grey.light }}>
                                     <TableRow style={{ position: 'sticky' }}>
                                         <StyledTableHead>Select Station</StyledTableHead>
                                         <StyledTableHead>Radio Station</StyledTableHead>

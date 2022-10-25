@@ -4,6 +4,7 @@ import { Grid } from "@material-ui/core";
 import Icon from "../../../assets/images/icon-fail-graphic.png";
 import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
 import { Content, SubHeading } from "../../../StyledComponents/StyledHeadings";
+import { useTheme } from "styled-components";
 
 export default function FailedFileSelection({ title, audioName }) {
   const classes = useStyles();
@@ -49,44 +50,47 @@ export default function FailedFileSelection({ title, audioName }) {
   );
 }
 
-const useStyles = makeStyles((theme) => ({
-  failedContainer: {
-    display: "flex",
-    justifyContent: "space-between",
-  },
-  details: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between",
-  },
-  heading: {
-    fontSize: 30,
-    fontFamily: "NunitoSans-Bold",
-    color: "#343F84",
-  },
-  subHeading: {
-    fontSize: 18,
-    fontFamily: "NunitoSans-Regular",
-    color: "#00A19A",
-  },
-  help: {
-    fontSize: 18,
-    fontFamily: "NunitoSans-Bold",
-    color: "#393F5B",
-  },
-  helpCentre: {
-    fontSize: 18,
-    fontFamily: "NunitoSans-Regular",
-    color: "#393F5B",
-  },
-  failedIcon: {
-    backgroundColor: "#F4F4F4",
-    height: 280,
-    padding: "0px 3%",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 15,
-  },
-}));
+const useStyles = makeStyles((theme) => {
+  const appTheme = useTheme();
+  return {
+    failedContainer: {
+      display: "flex",
+      justifyContent: "space-between",
+    },
+    details: {
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-between",
+    },
+    heading: {
+      fontSize: 30,
+      fontFamily: appTheme.fontFamily.robotoBold,
+      color: "#343F84",
+    },
+    subHeading: {
+      fontSize: 18,
+      fontFamily: appTheme.fontFamily.robotoBold,
+      color: "#00A19A",
+    },
+    help: {
+      fontSize: 18,
+      fontFamily: appTheme.fontFamily.robotoBold,
+      color: "#393F5B",
+    },
+    helpCentre: {
+      fontSize: 18,
+      fontFamily: appTheme.fontFamily.robotoRegular,
+      color: "#393F5B",
+    },
+    failedIcon: {
+      backgroundColor: "#F4F4F4",
+      height: 280,
+      padding: "0px 3%",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+      borderRadius: 15,
+    },
+  };
+});

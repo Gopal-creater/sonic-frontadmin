@@ -116,7 +116,7 @@ export default function UserProfile() {
           <Grid item xs={12} md={6}>
             <Grid container>
               <IconBox>
-                <PersonIcon style={{ color: theme.colors.primary.teal }} />
+                <PersonIcon style={{ color: theme.colors.secondary.main }} />
               </IconBox>
             </Grid>
 
@@ -271,7 +271,7 @@ export default function UserProfile() {
                 <Grid container>
                   <IconBox>
                     <MusicNoteIcon
-                      style={{ color: theme.colors.primary.teal }}
+                      style={{ color: theme.colors.secondary.main }}
                     />
                   </IconBox>
                 </Grid>
@@ -330,7 +330,7 @@ export default function UserProfile() {
 
             <Grid container>
               <IconBox>
-                <LockIcon style={{ color: theme.colors.primary.teal }} />
+                <LockIcon style={{ color: theme.colors.secondary.main}} />
               </IconBox>
             </Grid>
 

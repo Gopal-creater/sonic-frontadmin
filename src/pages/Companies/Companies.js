@@ -101,7 +101,7 @@ export default function Companies() {
             <Tooltip title="View">
               <VisibilityIcon
                 fontSize={"small"}
-                style={{ color: theme.colors.primary.teal, cursor: "pointer" }}
+                style={{ color: theme.colors.secondary.main, cursor: "pointer" }}
                 onClick={() =>
                   navigate(`/company-profile/${value?._id}`, {
                     state: value,

@@ -44,18 +44,18 @@ const useStyles = makeStyles({
   },
   tableCellOne: {
     padding: "5px",
-    fontFamily: `${theme.fontFamily.nunitoSansBold}`,
+    fontFamily: `${theme.fontFamily.robotoBold}`,
     fontSize: `12px`,
     color: `${theme.colors.secondary.mediumGrey}`,
   },
   tableCellTwo: {
     padding: "5px",
-    fontFamily: `${theme.fontFamily.nunitoSansBold}`,
+    fontFamily: `${theme.fontFamily.robotoBold}`,
     fontSize: `${theme.fontSize.h5}`,
     color: `${theme.colors.secondary.grey}`,
   },
   textInput: {
-    fontFamily: `${theme.fontFamily.nunitoSansBold}`,
+    fontFamily: `${theme.fontFamily.robotoBold}`,
     fontSize: `${theme.fontSize.h5}`,
     color: `${theme.colors.secondary.grey}`,
   },
@@ -224,7 +224,7 @@ const MetaDataDailog = (props) => {
               <img style={{ width: "30px" }} src={DialogLogo} alt="" />
               <div
                 style={{
-                  fontFamily: theme.fontFamily.nunitoSansBold,
+                  fontFamily: theme.fontFamily.robotoBold,
                   fontSize: theme.fontSize.h4,
                   color: theme.colors.primary.graphite,
                 }}
@@ -371,14 +371,14 @@ const MetaDataDailog = (props) => {
                       }}
                       labelProps={{
                         style: {
-                          fontFamily: theme.fontFamily.nunitoSansRegular,
+                          fontFamily: theme.fontFamily.robotoRegular,
                           fontSize: theme.fontSize.h5,
                         },
                       }}
                       inputProps={{
                         style: {
                           fontSize: theme.fontSize.h5,
-                          fontFamily: theme.fontFamily.nunitoSansBold,
+                          fontFamily: theme.fontFamily.robotoBold,
                         },
                         value: values?.updatingSonicKey?.contentType,
                         onChange: (e) =>
@@ -512,7 +512,7 @@ const MetaDataDailog = (props) => {
                       // hideSearchIcon={true}
                       value={values?.updatingSonicKey?.label}
                       color={theme.colors.secondary.grey}
-                      fontFamily={theme.fontFamily.nunitoSansBold}
+                      fontFamily={theme.fontFamily.robotoBold}
                       fontSize={theme.fontSize.h5}
                     />
                   ) : (
@@ -545,7 +545,7 @@ const MetaDataDailog = (props) => {
                       // hideSearchIcon={true}
                       value={values?.updatingSonicKey?.distributor}
                       color={theme.colors.secondary.grey}
-                      fontFamily={theme.fontFamily.nunitoSansBold}
+                      fontFamily={theme.fontFamily.robotoBold}
                       fontSize={theme.fontSize.h5}
                     />
                   ) : (

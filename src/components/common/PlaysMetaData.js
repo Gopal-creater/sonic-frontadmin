@@ -198,8 +198,7 @@ function PlaysMetaData(props) {
           <AppButton
             variant={"outline"}
             onClick={closePopUp}
-            fontSize={"15px"}
-            fontFamily={theme.fontFamily.nunitoSansBlack}
+            
           >
             Cancel
           </AppButton>

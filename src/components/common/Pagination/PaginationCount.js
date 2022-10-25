@@ -11,6 +11,7 @@ function PaginationCount({ name, start, end, total, heading = false }) {
             ? theme.colors.primary.dark
             : theme.colors.primary.main,
           fontSize: theme.fontSize.content,
+          fontFamily: theme.fontFamily.robotoMedium,
         }}
       >
         {end > 0

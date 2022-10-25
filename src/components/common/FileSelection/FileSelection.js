@@ -13,6 +13,7 @@ import {
 import theme from "../../../theme";
 import AppButton from "../AppButton/AppButton";
 import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
+import { tags } from "../../../constants/constants";
 
 const useStyles = makeStyles(() => ({
   EncodeDecodeContainer: {
@@ -246,7 +247,9 @@ export default function FileSelection({ prop }) {
     <MainContainer>
       <Grid item style={{ display: "flex", justifyContent: "space-between" }}>
         <div>
-          <SubHeading>{prop?.title} SonicKeys</SubHeading>
+          <SubHeading>
+            {prop?.title} {tags.companyTag}
+          </SubHeading>
           <Content>
             {audioData?.name !== null && prop?.title === "Encode"
               ? "Add details to start encoding."

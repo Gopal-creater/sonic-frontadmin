@@ -17,6 +17,7 @@ import GetAppRoundedIcon from "@material-ui/icons/GetAppRounded";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import Tooltip from "@material-ui/core/Tooltip";
 import { Content, SubHeading } from "../../../StyledComponents/StyledHeadings";
+import { tags } from "../../../constants/constants";
 
 export default function DecodeSuccess(props) {
   const classes = useStyles();
@@ -83,7 +84,7 @@ export default function DecodeSuccess(props) {
     },
     {
       name: "sonickey",
-      label: "SONICKEY",
+      label: `${tags.companyTag}`,
       options: {
         customBodyRender: (value) => {
           return value || "--";
@@ -167,6 +168,7 @@ export default function DecodeSuccess(props) {
                   style={{
                     color: theme.colors.primary.teal,
                     cursor: "pointer",
+                    marginLeft: "10px",
                   }}
                   onClick={() => download(value)}
                 />
@@ -205,7 +207,7 @@ export default function DecodeSuccess(props) {
             {props?.title} of <b>{props?.audioName}</b> successfully done.
           </Content>
           <Content className={classes.found}>
-            We found <b>{props?.decodeKeys?.data?.length}</b> SonicKeys.
+            We found <b>{props?.decodeKeys?.data?.length}</b> {tags.companyTag}.
           </Content>
         </Grid>
         <Grid item className={classes.failedIcon}>

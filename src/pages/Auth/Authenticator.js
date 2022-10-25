@@ -1,79 +1,103 @@
-import { Grid } from '@material-ui/core'
-import React from 'react'
-import { makeStyles } from '@material-ui/core/styles';
-import SplashScreen from "./../../assets/images/SplashScreen.png"
-import { useTheme } from '@material-ui/core/styles';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import SignIn from './SignIn/SignIn';
-import NewPassword from './NewPassword/NewPassword';
-import EmailVerification from './EmailVerification/EmailVerification';
-import ResetPassword from './ResetPassword/ResetPassword';
+import { Grid } from "@material-ui/core";
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import SplashScreen from "./../../assets/images/SplashScreen.png";
+import { useTheme as muiTheme } from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import SignIn from "./SignIn/SignIn";
+import NewPassword from "./NewPassword/NewPassword";
+import EmailVerification from "./EmailVerification/EmailVerification";
+import ResetPassword from "./ResetPassword/ResetPassword";
 import waveSignIn from "../../assets/images/wave-signin.png";
+import { useTheme } from "styled-components";
 
-
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme) => {
+  const appTheme = useTheme();
+  return {
     root: {
-        backgroundColor: "#393F5B",
-        height: "100vh",
-        backgroundImage: `url(${waveSignIn})`,
-        backgroundRepeat: "no-repeat",
-        // backgroundPositionY: "90%",
-        backgroundPosition: "center",
-        // backgroundSize: "cover"
+      backgroundColor: appTheme.colors.primary.dark,
+      height: "100vh",
+      backgroundImage: `url(${waveSignIn})`,
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: "center",
     },
     signInCommonContainer: {
-        width: "27%",
-        maxWidth: "450px",
-        maxHeight: "650px",
-        height: "540px",
+      width: "27%",
+      maxWidth: "450px",
+      maxHeight: "650px",
+      height: "540px",
 
-        [theme.breakpoints.down('md')]: {
-            width: "40%",
-        },
-        [theme.breakpoints.down('sm')]: {
-            width: "48%",
-        },
-        [theme.breakpoints.down('xs')]: {
-            width: "80%",
-        },
+      [theme.breakpoints.down("md")]: {
+        width: "40%",
+      },
+      [theme.breakpoints.down("sm")]: {
+        width: "48%",
+      },
+      [theme.breakpoints.down("xs")]: {
+        width: "80%",
+      },
     },
-}));
+  };
+});
 
 export default function Authenticator(prop) {
-    const classes = useStyles();
+  const classes = useStyles();
 
-    const theme = useTheme();
-    const matches = useMediaQuery(theme.breakpoints.down('xs'));
+  const theme = muiTheme();
+  const appTheme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down("xs"));
 
-    const ShowComponents = () => {
-        if (prop?.propName === "NEW_PASSWORD_REQUIRED") {
-            return <NewPassword />;
-        }
-
-        if (prop?.propName === "EmailNotVerified") {
-            return <EmailVerification />
-        }
-
-        if (prop?.propName === "ResetPassword") {
-            return <ResetPassword />
-        }
-
-        if (prop?.propName === "SignIn") {
-            return <SignIn />
-        }
-
-        return
+  const ShowComponents = () => {
+    if (prop?.propName === "NEW_PASSWORD_REQUIRED") {
+      return <NewPassword />;
     }
 
-    return (
-        <Grid container className={classes.root} justifyContent="center" alignItems="center">
-            <Grid item className={classes.signInCommonContainer} style={{ display: matches ? "none" : "" }}>
-                <img src={SplashScreen} alt="SplashScreen" width="100%" height="100%" style={{ objectFit: 'cover' }} />
-            </Grid>
+    if (prop?.propName === "EmailNotVerified") {
+      return <EmailVerification />;
+    }
 
-            <Grid item className={classes.signInCommonContainer} style={{ padding: "45px 64px", backgroundColor: "white" }}>
-                {<ShowComponents />}
-            </Grid>
-        </Grid>
-    )
+    if (prop?.propName === "ResetPassword") {
+      return <ResetPassword />;
+    }
+
+    if (prop?.propName === "SignIn") {
+      return <SignIn />;
+    }
+
+    return;
+  };
+
+  return (
+    <Grid
+      container
+      className={classes.root}
+      justifyContent="center"
+      alignItems="center"
+    >
+      <Grid
+        item
+        className={classes.signInCommonContainer}
+        style={{ display: matches ? "none" : "" }}
+      >
+        <img
+          src={SplashScreen}
+          alt="SplashScreen"
+          width="100%"
+          height="100%"
+          style={{ objectFit: "cover" }}
+        />
+      </Grid>
+
+      <Grid
+        item
+        className={classes.signInCommonContainer}
+        style={{
+          padding: "45px 64px",
+          backgroundColor: appTheme.colors.primary.contrastText,
+        }}
+      >
+        {<ShowComponents />}
+      </Grid>
+    </Grid>
+  );
 }

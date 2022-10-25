@@ -18,8 +18,8 @@ export const MetaDataHeaderContainer = styled(Grid)`
     left: 35px;
     border-width: 20px;
     border-style: solid;
-    border-color: ${(props) => props.theme.colors.secondary.extraLightTeal}
-      transparent transparent transparent;
+    border-color: ${(props) => props.theme.colors.primary.main} transparent
+      transparent transparent;
   }
 `;
 

@@ -3,7 +3,7 @@ import theme from "../../../theme";
 import AppButton from "../AppButton/AppButton";
 import { FormContainer, FileInput, DragDopLabel } from "./DragDropFileStyle";
 import iconAddSound from "../../../assets/images/icon-add-sound.png";
-import { Content, H4 } from "../../../StyledComponents/StyledHeadings";
+import { Content,} from "../../../StyledComponents/StyledHeadings";
 import HelpOutlineOutlinedIcon from "@material-ui/icons/HelpOutlineOutlined";
 import { Grid } from "@material-ui/core";
 import CustomToolTip from "../CustomToolTip";
@@ -98,7 +98,7 @@ export default function DragDropFile({ handleFiles }) {
           >
             <HelpOutlineOutlinedIcon
               style={{
-                color: theme.colors.secondary.lightNavy,
+                color: theme.colors.primary.light,
                 fontSize: "15px",
               }}
             />

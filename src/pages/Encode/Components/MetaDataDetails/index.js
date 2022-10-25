@@ -278,7 +278,7 @@ export default function EncodeData() {
               <SelectedTrackTextContainer>
                 <Grid>
                   <IconButton
-                    color={theme.colors.primary.navy}
+                    color={theme.colors.primary.main}
                     aria-label="upload picture"
                     component="span"
                     onClick={() =>
@@ -375,7 +375,7 @@ export default function EncodeData() {
                 }}
                 labelProps={{
                   style: {
-                    fontFamily: theme.fontFamily.nunitoSansRegular,
+                    fontFamily: theme.fontFamily.robotoRegular,
                     padding: `${
                       encodeReducer?.metaData?.encodeFromExistingFile === true
                         ? "10px 0px 0px 15px"
@@ -952,7 +952,7 @@ export default function EncodeData() {
                 );
               }}
               fontSize={"15px"}
-              fontFamily={theme.fontFamily.nunitoSansBlack}
+              fontFamily={theme.fontFamily.robotoBlack}
             >
               Encode another file
             </AppButton>
@@ -1002,13 +1002,13 @@ export default function EncodeData() {
                 dispatch({ type: actionTypes.CLOSE_ERROR_POPUP });
                 encode();
               }}
-              fontFamily={theme.fontFamily.nunitoSansBlack}
+              fontFamily={theme.fontFamily.robotoMedium}
             >
               Try to encode again
             </AppButton>
           </Grid>
           <Grid className="mt-5">
-            <Content fontFamily={theme.fontFamily.nunitoSansBlack}>
+            <Content fontFamily={theme.fontFamily.robotoMedium}>
               Do you need help?
             </Content>
             <Content>

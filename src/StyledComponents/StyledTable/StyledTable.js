@@ -19,21 +19,21 @@ export const StyledAlternateTableRow = styled(TableRow)`
 
 export const StyledTableHead = styled(TableCell)`
     color: ${props => props.theme.colors.secondary.mediumGrey};
-    font-family:${props => props.theme.fontFamily.nunitoSansBold};
+    font-family:${props => props.theme.fontFamily.robotosBold};
     font-size:12px;
     border-bottom:none;
     cursor:pointer;
     &:hover {
-        color:${props => props.theme.colors.primary.navy};
+        color:${props => props.theme.colors.primary.main};
     };
     &:active {
-        color:${props => props.theme.colors.secondary.lightNavy};
+        color:${props => props.theme.colors.primary.light};
     };
 `
 
 export const StyledTableData = styled(TableCell)`
-    color: ${props => props.theme.colors.secondary.grey};
-    font-family:${props => props.theme.fontFamily.nunitoSansBold};
+    color: ${props => props.theme.colors.grey.main};
+    font-family:${props => props.theme.fontFamily.robotosBold};
     border-bottom:none;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -42,8 +42,8 @@ export const StyledTableData = styled(TableCell)`
 `
 
 export const AlternateStyledTableData = styled(TableCell)`
-    color: ${props => props.theme.colors.secondary.grey};
-    font-family:${props => props.theme.fontFamily.nunitoSansBold};
+    color: ${props => props.theme.colors.grey.main};
+    font-family:${props => props.theme.fontFamily.robotosBold};
     border-bottom:none;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -52,8 +52,8 @@ export const AlternateStyledTableData = styled(TableCell)`
 `
 
 export const ActiveBox = styled(Grid)`
-    background-color: ${theme.colors.secondary.extraLightTeal};
-    color: ${theme.colors.primary.teal};
+    background-color: ${theme.colors.secondary.light};
+    color: ${theme.colors.secondary.main};
     border-radius: 5px;
     text-align: center;
     padding: 5px 0px;

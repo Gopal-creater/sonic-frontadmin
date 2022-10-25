@@ -37,7 +37,7 @@ function PlaysMetaData(props) {
                 state?.playsData?.sonicKey?.contentName ||
                 "---"}
             </SubHeading>
-            <Content color={theme.colors.primary.teal}>
+            <Content color={theme.colors.secondary.main}>
               by{" "}
               {state?.playsData?.sonicKey?.track?.trackMetaData?.contentOwner ||
                 state?.playsData?.sonicKey?.track?.artist ||

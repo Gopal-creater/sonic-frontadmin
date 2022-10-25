@@ -75,7 +75,7 @@ export default function EditLicense() {
               <Grid item container>
                 <TuneBox>
                   <MusicNote
-                    style={{ color: `${theme.colors.primary.teal}` }}
+                    style={{ color: `${theme.colors.secondary.main}` }}
                   />
                 </TuneBox>
               </Grid>
@@ -84,8 +84,8 @@ export default function EditLicense() {
                 <FormLabel
                   component="legend"
                   style={{
-                    color: theme.colors.primary.graphite,
-                    fontFamily: theme.fontFamily.nunitoSansBold,
+                    color: theme.colors.primary.dark,
+                    fontFamily: theme.fontFamily.robotoBold,
                     fontSize: "18px",
                   }}
                 >
@@ -204,7 +204,7 @@ export default function EditLicense() {
               <Grid item container>
                 <TuneBox>
                   <PermIdentity
-                    style={{ color: `${theme.colors.primary.teal}` }}
+                    style={{ color: `${theme.colors.secondary.main}` }}
                   />
                 </TuneBox>
               </Grid>
@@ -212,8 +212,8 @@ export default function EditLicense() {
               <Content
                 component="legend"
                 style={{
-                  color: theme.colors.primary.graphite,
-                  fontFamily: theme.fontFamily.nunitoSansBold,
+                  color: theme.colors.primary.dark,
+                  fontFamily: theme.fontFamily.robotoBold,
                   fontSize: "18px",
                 }}
               >
@@ -229,11 +229,11 @@ export default function EditLicense() {
                     <ListItemAvatar>
                       <Avatar
                         style={{
-                          backgroundColor: theme.colors.secondary.lightGrey,
+                          backgroundColor: theme.colors.grey.light,
                         }}
                       >
                         <PermIdentity
-                          style={{ color: `${theme.colors.secondary.grey}` }}
+                          style={{ color: `${theme.colors.grey.main}` }}
                         />
                       </Avatar>
                     </ListItemAvatar>

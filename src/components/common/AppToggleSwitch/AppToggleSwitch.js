@@ -17,7 +17,7 @@ const IOSSwitch = withStyles(() => ({
             transform: 'translateX(100%)',
             color: theme.colors.secondary.white,
             '& + $track': {
-                backgroundColor: theme.colors.primary.navy,
+                backgroundColor: theme.colors.primary.main,
                 opacity: 1,
                 border: 'none',
             },
@@ -33,8 +33,8 @@ const IOSSwitch = withStyles(() => ({
         opacity: 1,
         "&:after, &:before": {
             color: theme.colors.secondary.white,
-            fontSize: theme.fontSize.h6,
-            fontFamily: theme.fontFamily.nunitoSansBold,
+            fontSize: theme.fontSize.caption,
+            fontFamily: theme.fontFamily.robotoBold,
             position: "absolute",
             top: "9px"
         },
@@ -58,7 +58,7 @@ const IOSSwitch = withStyles(() => ({
             backgroundColor: theme.colors.secondary.white,
         },
         '& + $track': {
-            background: theme.colors.primary.navy,
+            background: theme.colors.primary.main,
             '&:before': {
                 opacity: 1,
             },
@@ -74,8 +74,8 @@ const IOSSwitch = withStyles(() => ({
             focusVisibleClassName={classes.focusVisible}
             disableRipple
             checkedIcon={
-                <div style={{ width: 30, height: 30, backgroundColor: theme.colors.secondary.lightGrey, borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <DoneSharp style={{ color: theme.colors.primary.navy }} fontSize='small' />
+                <div style={{ width: 30, height: 30, backgroundColor: theme.colors.grey.light, borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <DoneSharp style={{ color: theme.colors.primary.main }} fontSize='small' />
                 </div>
             }
             classes={{

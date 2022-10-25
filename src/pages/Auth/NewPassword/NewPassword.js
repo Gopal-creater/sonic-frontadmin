@@ -19,13 +19,13 @@ const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
       margin: theme.spacing(0.7),
-      fontFamily: '"Nunito Sans",sans-serif',
+      fontFamily: '"Roboto",sans-serif',
       color: "#343F84",
     },
   },
   textInput: {
     WebkitBoxShadow: "0 0 0px 1000px white inset",
-    // WebkitTextFillColor: theme.colors.secondary.lightNavy,
+    // WebkitTextFillColor: theme.colors.primary.light,
   },
 }));
 

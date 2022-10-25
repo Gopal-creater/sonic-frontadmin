@@ -56,7 +56,7 @@ export default function LicenseFilter({ closeDialog }) {
               }
               InputLabelProps={{
                 style: {
-                  fontFamily: theme.fontFamily.nunitoSansBold,
+                  fontFamily: theme.fontFamily.robotoBold,
                 },
               }}
             />
@@ -75,7 +75,7 @@ export default function LicenseFilter({ closeDialog }) {
               }
               InputLabelProps={{
                 style: {
-                  fontFamily: theme.fontFamily.nunitoSansBold,
+                  fontFamily: theme.fontFamily.robotoBold,
                 },
               }}
             />
@@ -139,8 +139,8 @@ export default function LicenseFilter({ closeDialog }) {
               }
               placeholder={"Company Name"}
               value={license?.filters?.company}
-              color={theme.colors.secondary.grey}
-              fontFamily={theme.fontFamily.nunitoSansBold}
+              color={theme.colors.grey.main}
+              fontFamily={theme.fontFamily.robotoBold}
             />
           </FilterForm>
 
@@ -157,7 +157,7 @@ export default function LicenseFilter({ closeDialog }) {
               }
               InputLabelProps={{
                 style: {
-                  fontFamily: theme.fontFamily.nunitoSansBold,
+                  fontFamily: theme.fontFamily.robotoBold,
                 },
               }}
             />
@@ -189,7 +189,7 @@ export default function LicenseFilter({ closeDialog }) {
             />
 
             <div className="mt-4 mx-3">
-              <Content color={theme.colors.secondary.grey}>to</Content>
+              <Content color={theme.colors.grey.main}>to</Content>
             </div>
 
             <CustomDatePicker

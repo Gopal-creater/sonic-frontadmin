@@ -58,7 +58,7 @@ export default function Stats({
                   <HelpOutlineIcon
                     style={{
                       fontSize: theme.fontSize.caption,
-                      color: `${theme.colors.primary.graphite} `,
+                      color: `${theme.colors.primary.dark} `,
                     }}
                   />
                 </IconContainer>

@@ -38,7 +38,7 @@ export default function CustomDialog({
             <FilterExport onClick={!disabled && handleClickOpen}>
                 <AppButton
                     variant="none"
-                    fontSize={theme.fontSize.h4}
+                    fontSize={theme.fontSize.subHeading}
                     startIcon={!title && <TuneRounded />}
                 >
                     {title || "Filter"}

@@ -24,8 +24,8 @@ export const ButtonContainer = styled(Grid)`
 `;
 
 export const StyledIconButton = styled(IconButton)(({ ...props }) => ({
-  color: theme.colors.primary.navy,
-  border: `2px solid ${theme.colors.primary.navy}`,
+  color: theme.colors.primary.main,
+  border: `2px solid ${theme.colors.primary.main}`,
   backgroundColor: "none",
   padding: `10px 10px`,
   borderRadius: "8px",

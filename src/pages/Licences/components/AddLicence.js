@@ -92,7 +92,7 @@ export default function AddLicence() {
         <Grid container direction="column" className="mt-4">
           <Grid item container>
             <TuneBox>
-              <MusicNote style={{ color: `${theme.colors.primary.teal}` }} />
+              <MusicNote style={{ color: `${theme.colors.secondary.main}` }} />
             </TuneBox>
           </Grid>
 
@@ -100,8 +100,8 @@ export default function AddLicence() {
             <FormLabel
               component="legend"
               style={{
-                color: theme.colors.primary.graphite,
-                fontFamily: theme.fontFamily.nunitoSansBold,
+                color: theme.colors.primary.dark,
+                fontFamily: theme.fontFamily.robotoBold,
                 fontSize: "18px",
               }}
             >

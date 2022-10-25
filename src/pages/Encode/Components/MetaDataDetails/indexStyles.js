@@ -34,7 +34,7 @@ export const IconContainer = styled.div`
   align-items: center;
   justify-content: center;
   padding: 35px;
-  border-left: 3px solid ${(props) => props.theme.colors.secondary.lightTeal};
+  border-left: 3px solid ${(props) => props.theme.colors.secondary.light};
 `;
 
 export const MetaDataDetailsContainer = styled(Grid)`
@@ -98,16 +98,16 @@ export const TitleContainer = styled(Grid)`
 export const Anchor = styled.a`
   text-transform: underline;
   cursor: pointer;
-  color: ${(props) => props.theme.colors.primary.graphite};
+  color: ${(props) => props.theme.colors.primary.dark};
   :hover {
-    color: ${(props) => props.theme.colors.primary.navy} !important ;
+    color: ${(props) => props.theme.colors.primary.main} !important ;
   }
 `;
 
 export const SelectedTrackTextContainer = styled(Grid)`
   display: flex;
   align-items: center;
-  color: ${(props) => props.theme.colors.primary.graphite};
+  color: ${(props) => props.theme.colors.primary.dark};
 `;
 
 export const UlList = styled.li`

@@ -2,11 +2,7 @@ import { Grid } from "@material-ui/core";
 import React from "react";
 import { useTheme } from "styled-components";
 import PaginationCount from "../../../components/common/Pagination/PaginationCount";
-import {
-  H1,
-  Heading,
-  SubHeading,
-} from "../../../StyledComponents/StyledHeadings";
+import { SubHeading } from "../../../StyledComponents/StyledHeadings";
 import FilterComponent from "../../../components/common/FilterComponent/FilterComponent";
 import CustomPagination from "../../../components/common/Pagination/CustomPagination";
 import CommonDataLoadErrorSuccess from "../../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess";

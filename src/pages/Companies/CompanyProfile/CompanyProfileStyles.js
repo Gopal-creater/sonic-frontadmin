@@ -8,7 +8,7 @@ export const CompanyProfileContainer = styled(Grid)`
 `
 
 export const MetaDataHeaderContainer = styled(Grid)`
-    background-color: ${theme.colors.secondary.extraLightTeal};
+    background-color: ${theme.colors.secondary.light};
     /* padding:30px ; */
     position:relative ;
 
@@ -19,7 +19,7 @@ export const MetaDataHeaderContainer = styled(Grid)`
         left:35px ;
         border-width: 20px;
         border-style: solid;
-        border-color:${theme.colors.secondary.extraLightTeal} transparent transparent transparent;
+        border-color:${theme.colors.secondary.light} transparent transparent transparent;
     }
 `
 
@@ -33,7 +33,7 @@ export const IconContainer = styled.div`
     align-items:center ;
     justify-content:center ;
     padding:35px;
-    border-left:3px solid ${theme.colors.secondary.lightTeal} ;
+    border-left:3px solid ${theme.colors.secondary.light} ;
 `
 
 export const MetaDataDetailsContainer = styled(Grid)`
@@ -52,8 +52,8 @@ export const RightsHolderContainer = styled(Grid)`
 
 export const RadioLabel = styled.h6`
     margin-top:2px ;
-    font-family:${theme.fontFamily.nunitoSansBold} ;
-    color:${theme.colors.secondary.grey} ;
+    font-family:${theme.fontFamily.robotoBold} ;
+    color:${theme.colors.grey.main} ;
 `
 
 export const ButtonContainer = styled(Grid)`

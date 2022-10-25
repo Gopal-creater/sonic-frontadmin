@@ -27,9 +27,9 @@ const useStyles = makeStyles(() => ({
     marginRight: 30,
     marginBottom: 5,
     fontSize: 16,
-    fontFamily: `${theme.fontFamily.nunitoSansRegular}`,
-    color: `${theme.colors.secondary.grey}`,
-    borderBottom: `1px solid ${theme.colors.secondary.grey}`,
+    fontFamily: `${theme.fontFamily.robotoRegular}`,
+    color: `${theme.colors.grey.main}`,
+    borderBottom: `1px solid ${theme.colors.grey.main}`,
   },
 }));
 
@@ -294,7 +294,7 @@ export default function FileSelection({ prop }) {
                 <AppButton
                   variant="outline"
                   component="span"
-                  fontFamily={theme.fontFamily.nunitoSansBold}
+                  fontFamily={theme.fontFamily.robotoBold}
                   style={{ height: 45 }}
                 >
                   Upload a file

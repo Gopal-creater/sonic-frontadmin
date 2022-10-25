@@ -12,7 +12,7 @@ export const ProgressContainer = styled.div`
     align-items:center ;
     margin-top:20px ;
     font-size:10px ;
-    font-family:${props => props.theme.fontFamily.nunitoSansRegular} ;
+    font-family:${props => props.theme.fontFamily.robotoRegular} ;
     position:relative ;
 
     ::before {
@@ -20,7 +20,7 @@ export const ProgressContainer = styled.div`
         width:${props => props.percentComplete + "%" || "0%"};
         max-width: 100%;
         height:100% ;
-        background-color:${props => props.progressBgColor || props.theme.colors.primary.graphite} ;
+        background-color:${props => props.progressBgColor || props.theme.colors.primary.dark} ;
         left:0 ;
         position:absolute ;
         border-radius: ${props => props.borderRadius || "10px"};

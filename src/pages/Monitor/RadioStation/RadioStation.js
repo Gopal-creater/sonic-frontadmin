@@ -3,7 +3,11 @@ import { Grid } from "@material-ui/core";
 import { useTheme } from "styled-components";
 import CommonDataLoadErrorSuccess from "../../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess";
 import FilterComponent from "../../../components/common/FilterComponent/FilterComponent";
-import { H1, Heading, SubHeading } from "../../../StyledComponents/StyledHeadings";
+import {
+  H1,
+  Heading,
+  SubHeading,
+} from "../../../StyledComponents/StyledHeadings";
 import PaginationCount from "../../../components/common/Pagination/PaginationCount";
 import CustomPagination from "../../../components/common/Pagination/CustomPagination";
 import { useDispatch, useSelector } from "react-redux";
@@ -139,10 +143,10 @@ export default function RadioStations() {
 
   return (
     <MainContainer>
-      <SubHeading >Radio Stations</SubHeading>
+      <SubHeading>Radio Stations</SubHeading>
 
       {/* Filter------------------------------------------------------------------------ */}
-      <Grid style={{ marginTop: "40px" }}>
+      <Grid style={{ marginTop: "30px" }}>
         <FilterComponent
           startDate={monitor?.dates?.startDate}
           onChangeStartDate={(date) =>

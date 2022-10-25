@@ -2,7 +2,7 @@ import React from "react";
 import { Grid } from "@material-ui/core";
 import FilterDialog from "./components/FilterDialog";
 import {
-  Container,
+  // Container,
   ContainerItem,
   CustomMenuItem,
   CustomPopup,
@@ -38,9 +38,10 @@ export default function FilterComponent(props) {
   };
 
   return (
-    <Container container>
-      <ContainerItem item xs={12} md={4} style={{ zIndex: 99 }}>
-        <Grid>
+    <>
+      <Grid container>
+        {/*  Date-pickers---------------------------------*/}
+        <Grid item container alignItems="center" lg={6} md={12}>
           <CustomDatePicker
             selected={props?.startDate}
             onChange={props?.onChangeStartDate}
@@ -51,13 +52,11 @@ export default function FilterComponent(props) {
             endDate={props?.endDate}
             dateRange={true}
           />
-        </Grid>
 
-        <Grid className="mt-4 mx-3">
-          <Content>to</Content>
-        </Grid>
+          <Content style={{ marginLeft: "10px", marginRight: "20px" }}>
+            to
+          </Content>
 
-        <Grid>
           <CustomDatePicker
             selected={props?.endDate}
             onChange={props?.onChangeEndDate}
@@ -68,83 +67,91 @@ export default function FilterComponent(props) {
             dateRange={true}
           />
         </Grid>
-      </ContainerItem>
+        {/*  Date-pickers---------------------------------*/}
 
-      {timezone && (
-        <Grid item xs={12} md={3}>
-          <Timezone
-            id="timezone"
-            labelText="Timezone"
-            formControlProps={{
-              fullWidth: true,
-            }}
-            inputProps={{
-              value: monitor?.filters?.timezone,
-              onChange: (e) =>
-                dispatch({
-                  type: actionTypes.SET_MONITOR_FILTERS,
-                  data: { ...monitor?.filters, timezone: e.target.value },
-                }),
-            }}
-          />
-        </Grid>
-      )}
-
-      <Grid
-        style={{ display: "flex", justifyContent: "flex-end" }}
-        item
-        xs={12}
-        md={3}
-      >
-        <Grid>
-          {filterComponent && openFilter ? (
-            <FilterDialog>
-              {({ close }) => {
-                var componentInsideDialogMoreProps = React.cloneElement(
-                  filterComponent,
-                  { closeDialog: close }
-                );
-                return <Grid>{componentInsideDialogMoreProps}</Grid>;
-              }}
-            </FilterDialog>
-          ) : null}
-        </Grid>
-        {exportData ? (
-          <FilterExport
-            onClick={(e) =>
-              setState({ ...state, exportAnchorEl: e.currentTarget })
-            }
-          >
-            <AppButton
-              variant="none"
-              fontSize={theme.fontSize.h4}
-              startIcon={<ArrowDownward />}
-            >
-              Export
-            </AppButton>
-          </FilterExport>
-        ) : null}
-
-        <CustomPopup
-          anchorEl={state.exportAnchorEl}
-          open={openExport}
-          onClose={() => setState({ ...state, exportAnchorEl: null })}
-          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-          transformOrigin={{ vertical: "top", horizontal: "center" }}
+        {/* TimeZone, filter and export ------------------------------ */}
+        <Grid
+          item
+          container
+          alignItems="center"
+          justifyContent="flex-end"
+          lg={6}
+          md={12}
         >
-          <CustomMenuItem value="csv" onClick={() => handleExportData("csv")}>
-            .csv file
-          </CustomMenuItem>
-          <CustomMenuItem value="xlsx" onClick={() => handleExportData("xlsx")}>
-            .xlsx file
-          </CustomMenuItem>
-          {props.pdf && (
-            <CustomMenuItem value="pdf" onClick={() => handleExportData("pdf")}>
-              .pdf file
-            </CustomMenuItem>
-          )}
-        </CustomPopup>
+          <Grid item>
+            {timezone && (
+              <Timezone
+                id="timezone"
+                labelText="Timezone"
+                formControlProps={{
+                  fullWidth: true,
+                }}
+                inputProps={{
+                  value: monitor?.filters?.timezone,
+                  onChange: (e) =>
+                    dispatch({
+                      type: actionTypes.SET_MONITOR_FILTERS,
+                      data: { ...monitor?.filters, timezone: e.target.value },
+                    }),
+                }}
+              />
+            )}
+          </Grid>
+
+          <Grid item>
+            {filterComponent && openFilter ? (
+              <FilterDialog>
+                {({ close }) => {
+                  var componentInsideDialogMoreProps = React.cloneElement(
+                    filterComponent,
+                    { closeDialog: close }
+                  );
+                  return <Grid>{componentInsideDialogMoreProps}</Grid>;
+                }}
+              </FilterDialog>
+            ) : null}
+          </Grid>
+
+          <Grid item>
+            {exportData ? (
+              <FilterExport
+                onClick={(e) =>
+                  setState({ ...state, exportAnchorEl: e.currentTarget })
+                }
+              >
+                <AppButton
+                  variant="none"
+                  fontSize={theme.fontSize.h4}
+                  startIcon={<ArrowDownward />}
+                >
+                  Export
+                </AppButton>
+              </FilterExport>
+            ) : null}
+          </Grid>
+        </Grid>
+        {/* TimeZove filter and export ------------------------------ */}
       </Grid>
-    </Container>
+
+      <CustomPopup
+        anchorEl={state.exportAnchorEl}
+        open={openExport}
+        onClose={() => setState({ ...state, exportAnchorEl: null })}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        transformOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <CustomMenuItem value="csv" onClick={() => handleExportData("csv")}>
+          .csv file
+        </CustomMenuItem>
+        <CustomMenuItem value="xlsx" onClick={() => handleExportData("xlsx")}>
+          .xlsx file
+        </CustomMenuItem>
+        {props.pdf && (
+          <CustomMenuItem value="pdf" onClick={() => handleExportData("pdf")}>
+            .pdf file
+          </CustomMenuItem>
+        )}
+      </CustomPopup>
+    </>
   );
 }

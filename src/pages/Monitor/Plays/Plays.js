@@ -340,7 +340,7 @@ export default function Plays() {
       {/* Header------------------------------------------ */}
 
       {/* Filter-------------------------------------------------------------------------- */}
-      <Grid>
+      <Grid style={{ marginTop: "30px" }}>
         <FilterComponent
           startDate={monitor?.dates?.startDate}
           onChangeStartDate={(date) =>

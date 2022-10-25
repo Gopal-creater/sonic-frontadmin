@@ -25,13 +25,6 @@ export default function SonicKey() {
       <Grid container justifyContent="space-between">
         <Grid item>
           <SubHeading>Encoded Tracks</SubHeading>
-          <PaginationCount
-            name="encoded tracks"
-            heading={true}
-            total={sonickey?.getSonicKeys?.data?.totalDocs}
-            start={sonickey?.getSonicKeys?.data?.offset}
-            end={sonickey?.getSonicKeys?.data?.docs?.length}
-          />
         </Grid>
       </Grid>
 

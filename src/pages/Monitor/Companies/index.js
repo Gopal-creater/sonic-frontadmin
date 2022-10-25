@@ -148,10 +148,10 @@ export default function MonitorCompanies() {
 
   return (
     <MainContainer>
-      <SubHeading >Companies</SubHeading>
+      <SubHeading>Companies</SubHeading>
 
       {/* Filter--------------------------------------------------------------- */}
-      <Grid style={{ marginTop: "40px" }}>
+      <Grid style={{ marginTop: "30px" }}>
         <FilterComponent
           startDate={monitor?.dates?.startDate}
           onChangeStartDate={(date) =>

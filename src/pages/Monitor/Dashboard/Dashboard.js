@@ -338,27 +338,35 @@ export function Dashboard() {
       />
 
       {/* Filter--------------------------------------------------------- */}
-      <FilterComponent
-        startDate={monitor?.dates?.startDate}
-        onChangeStartDate={(date) =>
-          dispatch({
-            type: actionTypes.SET_MONITOR_DATES,
-            data: { ...monitor.dates, startDate: date },
-          })
-        }
-        endDate={monitor?.dates?.endDate}
-        onChangeEndDate={(date) =>
-          dispatch({
-            type: actionTypes.SET_MONITOR_DATES,
-            data: { ...monitor.dates, endDate: date },
-          })
-        }
-        filterComponent={
-          <MonitorFilter open={true} actions={actions} dashboard={true} />
-        }
-        exportData={(value) => handleDashboardExport(value)}
-        pdf={false}
-      />
+      <Grid
+        style={{
+          padding: "30px",
+          marginTop: "30px",
+          background: theme.colors.primary.contrastText,
+        }}
+      >
+        <FilterComponent
+          startDate={monitor?.dates?.startDate}
+          onChangeStartDate={(date) =>
+            dispatch({
+              type: actionTypes.SET_MONITOR_DATES,
+              data: { ...monitor.dates, startDate: date },
+            })
+          }
+          endDate={monitor?.dates?.endDate}
+          onChangeEndDate={(date) =>
+            dispatch({
+              type: actionTypes.SET_MONITOR_DATES,
+              data: { ...monitor.dates, endDate: date },
+            })
+          }
+          filterComponent={
+            <MonitorFilter open={true} actions={actions} dashboard={true} />
+          }
+          exportData={(value) => handleDashboardExport(value)}
+          pdf={false}
+        />
+      </Grid>
       {/* Filter--------------------------------------------------------- */}
 
       {/* Cards-------------------------------------------------------------------- */}

@@ -2,7 +2,11 @@ import { Grid } from "@material-ui/core";
 import React from "react";
 import { useTheme } from "styled-components";
 import PaginationCount from "../../../components/common/Pagination/PaginationCount";
-import { H1, Heading, SubHeading } from "../../../StyledComponents/StyledHeadings";
+import {
+  H1,
+  Heading,
+  SubHeading,
+} from "../../../StyledComponents/StyledHeadings";
 import FilterComponent from "../../../components/common/FilterComponent/FilterComponent";
 import CustomPagination from "../../../components/common/Pagination/CustomPagination";
 import CommonDataLoadErrorSuccess from "../../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess";
@@ -142,7 +146,7 @@ export default function Artists() {
       <SubHeading>My Artist</SubHeading>
 
       {/* Filter-------------------------------------------------------- */}
-      <Grid style={{ marginTop: "40px" }}>
+      <Grid style={{ marginTop: "30px" }}>
         <FilterComponent
           startDate={monitor?.dates?.startDate}
           onChangeStartDate={(date) =>

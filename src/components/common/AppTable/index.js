@@ -16,6 +16,7 @@ export default function AppTable({ title, data, columns, options }) {
     print: false,
     search: false,
     resizableColumns: false,
+    viewColumns: true,
     setTableProps: () => {
       return {
         size: "small",

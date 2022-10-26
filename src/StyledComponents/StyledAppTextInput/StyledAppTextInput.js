@@ -30,7 +30,7 @@ const CustomTextField = styled(TextField)`
     color: ${(props) => props.theme.colors.primary.main};
   }
   & .MuiFormHelperText-root {
-    color: ${(props) => props.theme.colors.grey.main};
+    color: ${(props) => props.theme.colors.secondary.error};
   }
   & .MuiInput-underline.Mui-error:after {
     border-bottom-color: ${(props) => props.theme.colors.grey.main};

@@ -3,16 +3,16 @@ import styled from "styled-components";
 
 export const Container = styled(Grid)`
   background-color: ${(props) => props.theme.colors.primary.contrastText};
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  box-shadow: ${(props) => props.theme.shadows.main};
   margin-top: 30px;
   margin-bottom: 30px;
-  padding: 20px 25px;
+  padding: 20px 5px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  @media (max-width: 1240px) {
-    flex-direction: column;
-  }
+  // @media (max-width: 1240px) {
+  //   flex-direction: column;
+  // }
 `;
 
 export const ContainerItem = styled(Grid)`

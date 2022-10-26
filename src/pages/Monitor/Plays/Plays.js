@@ -340,26 +340,25 @@ export default function Plays() {
       {/* Header------------------------------------------ */}
 
       {/* Filter-------------------------------------------------------------------------- */}
-      <Grid style={{ marginTop: "30px" }}>
-        <FilterComponent
-          startDate={monitor?.dates?.startDate}
-          onChangeStartDate={(date) =>
-            dispatch({
-              type: actionTypes.SET_MONITOR_DATES,
-              data: { ...monitor.dates, startDate: date },
-            })
-          }
-          endDate={monitor?.dates?.endDate}
-          onChangeEndDate={(date) =>
-            dispatch({
-              type: actionTypes.SET_MONITOR_DATES,
-              data: { ...monitor.dates, endDate: date },
-            })
-          }
-          filterComponent={<MonitorFilter open={true} actions={actions} />}
-          exportData={(value) => handleExport(value)}
-        />
-      </Grid>
+
+      <FilterComponent
+        startDate={monitor?.dates?.startDate}
+        onChangeStartDate={(date) =>
+          dispatch({
+            type: actionTypes.SET_MONITOR_DATES,
+            data: { ...monitor.dates, startDate: date },
+          })
+        }
+        endDate={monitor?.dates?.endDate}
+        onChangeEndDate={(date) =>
+          dispatch({
+            type: actionTypes.SET_MONITOR_DATES,
+            data: { ...monitor.dates, endDate: date },
+          })
+        }
+        filterComponent={<MonitorFilter open={true} actions={actions} />}
+        exportData={(value) => handleExport(value)}
+      />
       {/* Filter-------------------------------------------------------------------------- */}
 
       <CommonDataLoadErrorSuccess

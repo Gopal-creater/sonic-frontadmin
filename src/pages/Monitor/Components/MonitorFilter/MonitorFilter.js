@@ -117,14 +117,6 @@ export default function MonitorFilter({
                   data: { ...monitor?.filters, sonicKey: e.target.value },
                 })
               }
-              InputLabelProps={{
-                style: {
-                  fontSize: theme.fontSize.subHeading,
-                  color: theme.colors.secondary.mediumGrey,
-                  fontFamily: theme.fontFamily.robotoBold,
-                },
-              }}
-              inputProps={{ style: { fontSize: theme.fontSize.subHeading } }}
             />
           </FilterForm>
 
@@ -184,14 +176,6 @@ export default function MonitorFilter({
                   data: { ...monitor?.filters, artist: e.target.value },
                 })
               }
-              InputLabelProps={{
-                style: {
-                  fontSize: theme.fontSize.subHeading,
-                  color: theme.colors.secondary.mediumGrey,
-                  fontFamily: theme.fontFamily.robotoBold,
-                },
-              }}
-              inputProps={{ style: { fontSize: theme.fontSize.subHeading } }}
             />
           </FilterForm>
 
@@ -206,14 +190,6 @@ export default function MonitorFilter({
                   data: { ...monitor?.filters, song: e.target.value },
                 })
               }
-              InputLabelProps={{
-                style: {
-                  fontSize: theme.fontSize.subHeading,
-                  color: theme.colors.secondary.mediumGrey,
-                  fontFamily: theme.fontFamily.robotosBold,
-                },
-              }}
-              inputProps={{ style: { fontSize: theme.fontSize.subHeading } }}
             />
           </FilterForm>
 

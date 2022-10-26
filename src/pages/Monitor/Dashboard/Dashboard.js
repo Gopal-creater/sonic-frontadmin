@@ -1,4 +1,4 @@
-import { Box, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as actionTypes from "../../../stores/actions/actionTypes";
@@ -170,7 +170,9 @@ export function Dashboard() {
       label: "TIME",
       options: {
         customBodyRender: (value) => {
-          return moment(value).format("HH:mm:ss") || "--";
+          return monitor?.filters?.timezone === "GMT"
+            ? moment(value).utc().format("HH:mm:ss")
+            : moment(value).format("HH:mm:ss") || "---";
         },
       },
     },
@@ -340,9 +342,7 @@ export function Dashboard() {
       {/* Filter--------------------------------------------------------- */}
       <Grid
         style={{
-          padding: "30px",
-          marginTop: "30px",
-          background: theme.colors.primary.contrastText,
+          padding: "0px 7px",
         }}
       >
         <FilterComponent

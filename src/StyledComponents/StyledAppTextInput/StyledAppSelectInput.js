@@ -61,16 +61,13 @@ export const SelectFormControl = styled(FormControl)`
 `;
 
 export const CustomSelect = styled(Select)`
-  /* &:before {
-      border-color: ${(props) => props.theme.colors.primary.main};
-    }
-    &::after {
-      border-color: ${(props) => props.theme.colors.primary.dark};
-    } */
-  /* &.Mui-error::after {
-      color: ${(props) => props.theme.colors.primary.dark};
-      border-color: ${(props) => props.theme.colors.primary.dark};
-    } */
+  color: ${(props) => props.theme.colors.grey.main};
+  font-size: ${(props) => props.theme.fontSize.content};
+  font-family: ${(props) => props.theme.fontFamily.robotoRegular};
+
+  &:hover {
+    color: ${(props) => props.theme.colors.grey.light} !important;
+  }
 `;
 
 /*----------- All Select Dropdowns  -------------*/
@@ -87,11 +84,11 @@ export const StyledSelectInput = styled(InputLabel)`
 `;
 
 export const StyledSelect = styled(CustomStyledSelect)(() => ({
-  fontSize: `${(props) => props.theme.fontSize.content}`,
-  fontFamily: `${(props) => props.theme.fontFamily.robotoRegular}`,
   color: `${(props) => props.theme.colors.grey.light}`,
   "& .MuiSelect-root": {
     background: "transparent",
+    fontSize: `${(props) => props.theme.fontSize.content}`,
+    fontFamily: `${(props) => props.theme.fontFamily.robotoRegular}`,
   },
   "& .MuiSelect-root:hover": {
     color: `${(props) => props.theme.colors.grey.light}`,
@@ -100,22 +97,22 @@ export const StyledSelect = styled(CustomStyledSelect)(() => ({
 
 /*-----------  Filter Timezone  -------------*/
 export const TimezoneSelectInput = styled(InputLabel)`
-  color: ${(props) => props.theme.colors.secondary.mediumGrey};
-  font-size: 16px;
-  font-family: ${(props) => props.theme.fontFamily.robotosBold};
+  color: ${(props) => props.theme.colors.grey.main};
+  font-size: ${(props) => props.theme.fontSize.SubHeading};
+  font-family: ${(props) => props.theme.fontFamily.robotoRegular};
   &.Mui-focused {
     color: ${(props) => props.theme.colors.primary.main};
   }
 `;
 
 export const TimezoneSelect = styled(CustomStyledSelect)(() => ({
-  fontSize: `${(props) => props.theme.fontSize.subHeading}`,
-  fontFamily: `${(props) => props.theme.fontFamily.robotosRegular}`,
   color: `${(props) => props.theme.colors.grey.main}`,
   "& .MuiSelect-root": {
     background: "transparent",
     paddingTop: 3,
     paddingBottom: 3,
+    fontSize: `${(props) => props.theme.fontSize.content}`,
+    fontFamily: `${(props) => props.theme.fontFamily.robotosRegular}`,
   },
   "& .MuiSelect-root:hover": {
     color: `${(props) => props.theme.colors.primary.main}`,

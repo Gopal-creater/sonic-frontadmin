@@ -3,10 +3,9 @@ import styled from "styled-components";
 import theme from "../../../theme";
 
 export const CardContainer = styled.div`
-  margin-top: 60px;
+  margin-top: 50px;
   display: flex;
   width: 100%;
-  
 `;
 
 export const TableContainer = styled(Grid)`

@@ -21,7 +21,7 @@ const theme = {
   },
   shadows: {
     light: "",
-    main: "",
+    main: "0 3px 8px 0 rgba(0, 0, 0, 0.2), 0 0 20px 0 rgba(0, 0, 0, 0.19)",
     dark: "",
   },
   border_radius: "",

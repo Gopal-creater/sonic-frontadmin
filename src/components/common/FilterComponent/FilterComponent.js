@@ -1,13 +1,7 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
 import FilterDialog from "./components/FilterDialog";
-import {
-  // Container,
-  ContainerItem,
-  CustomMenuItem,
-  CustomPopup,
-  FilterExport,
-} from "./Filter.styled";
+import { CustomMenuItem, CustomPopup, FilterExport } from "./Filter.styled";
 import CustomDatePicker from "./components/CustomDatePicker";
 import AppButton from "../AppButton/AppButton";
 import { ArrowDownward } from "@material-ui/icons";
@@ -39,7 +33,15 @@ export default function FilterComponent(props) {
 
   return (
     <>
-      <Grid container>
+      <Grid
+        container
+        style={{
+          boxShadow: theme.shadows.main,
+          padding: "30px",
+          margin: "30px 0px 20px 0px",
+          backgroundColor: theme.colors.primary.contrastText,
+        }}
+      >
         {/*  Date-pickers---------------------------------*/}
         <Grid item container alignItems="center" lg={6} md={12}>
           <CustomDatePicker

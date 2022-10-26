@@ -39,6 +39,11 @@ export default function AppTable({ title, data, columns, options }) {
         fontFamily: theme.fontFamily.robotoRegular,
       },
     }),
+    setCellHeaderProps: () => ({
+      style: {
+        zIndex: 0,
+      },
+    }),
     customHeadLabelRender: (data) => {
       return <ColumnTitle>{data?.label}</ColumnTitle>;
     },

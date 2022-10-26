@@ -22,7 +22,7 @@ import {
   StyledTextField,
 } from "../../../StyledComponents/StyledAppTextInput/StyledAppTextInput";
 import AppButton from "../../../components/common/AppButton/AppButton";
-import theme from "../../../theme";
+
 import AppCheckBox from "../../../components/common/AppCheckBox";
 import { useNavigate } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
@@ -39,6 +39,7 @@ import AppAutoComplete from "../../../components/common/AutoComplete/AppAutoComp
 import { getCompanyNameAction } from "../../../stores/actions/picker/titlePicker.action";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useTheme } from "styled-components";
 
 const initialState = {
   accountType: "Partner",
@@ -52,6 +53,7 @@ const initialState = {
 };
 
 export default function CreateUser() {
+  const theme =useTheme();
   const schema = Yup.object().shape({
     password: Yup.string()
       .required("Password is required")

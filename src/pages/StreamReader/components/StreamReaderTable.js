@@ -2,14 +2,15 @@ import moment from "moment";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import AppTable from "../../../components/common/AppTable";
-import theme from "../../../theme";
 import { log } from "../../../utils/app.debug";
 import RadioPlays from "./RadioPlays";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import Tooltip from "@material-ui/core/Tooltip";
+import { useTheme } from "styled-components";
 
 export default function StreamReaderTable({ data, paginationCount }) {
   const navigate = useNavigate();
+  const theme =useTheme();
   log("data", data);
 
   const columns = [

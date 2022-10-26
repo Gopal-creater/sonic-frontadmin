@@ -4,7 +4,6 @@ import cogoToast from "cogo-toast";
 import React from "react";
 import AppButton from "../../../components/common/AppButton/AppButton";
 import { StyledTextField } from "../../../StyledComponents/StyledAppTextInput/StyledAppTextInput";
-import theme from "../../../theme";
 
 var formatForObjectProperty = /[ `!@#$%^&*()+\-=\[\]{};':"\\|,.<>\/?~]/;
 

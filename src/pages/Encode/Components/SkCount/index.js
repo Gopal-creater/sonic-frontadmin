@@ -1,10 +1,11 @@
 import { CircularProgress } from '@material-ui/core'
 import React from 'react'
+import { useTheme } from 'styled-components'
 import { AppWebRequest } from '../../../../services/https/NetworkManager'
-import theme from '../../../../theme'
 import { log } from '../../../../utils/app.debug'
 
 export default function SkCount({ trackID }) {
+    const theme =useTheme();
     const [state, setState] = React.useState({
         loading: true,
         data: "",

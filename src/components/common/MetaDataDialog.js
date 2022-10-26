@@ -26,7 +26,6 @@ import EditIcon from "@material-ui/icons/Edit";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import cogoToast from "cogo-toast";
 import AppButton from "./AppButton/AppButton";
-import theme from "../../theme";
 import { monitorInitialState } from "../../stores/reducers/monitor/monitorReducer";
 import { getMonitorListAction } from "../../stores/actions/monitorActions/monitorActions";
 import { useNavigate } from "react-router-dom";
@@ -35,30 +34,34 @@ import CustomDropDown from "./AppTextInput/CustomDropDown";
 import { editSonicMetaData } from "../../services/https/resources/SonicKeys/SonicKeys.api";
 import AppAutoComplete from "./AutoComplete/AppAutoComplete";
 import { isJsonObject } from "../../utils/HelperMethods";
+import { useTheme } from "styled-components";
 
-const useStyles = makeStyles({
-  dialogPaper: {
-    minHeight: "75vh",
-    maxHeight: "75vh",
-    margin: "auto",
-  },
-  tableCellOne: {
-    padding: "5px",
-    fontFamily: `${theme.fontFamily.robotoBold}`,
-    fontSize: `12px`,
-    color: `${theme.colors.secondary.mediumGrey}`,
-  },
-  tableCellTwo: {
-    padding: "5px",
-    fontFamily: `${theme.fontFamily.robotoBold}`,
-    fontSize: `${theme.fontSize.content}`,
-    color: `${theme.colors.grey.main}`,
-  },
-  textInput: {
-    fontFamily: `${theme.fontFamily.robotoBold}`,
-    fontSize: `${theme.fontSize.content}`,
-    color: `${theme.colors.grey.main}`,
-  },
+const useStyles = makeStyles(()=>{
+  const theme = useTheme();
+  return {
+    dialogPaper: {
+      minHeight: "75vh",
+      maxHeight: "75vh",
+      margin: "auto",
+    },
+    tableCellOne: {
+      padding: "5px",
+      fontFamily: `${theme.fontFamily.robotoBold}`,
+      fontSize: `12px`,
+      color: `${theme.colors.secondary.mediumGrey}`,
+    },
+    tableCellTwo: {
+      padding: "5px",
+      fontFamily: `${theme.fontFamily.robotoBold}`,
+      fontSize: `${theme.fontSize.content}`,
+      color: `${theme.colors.grey.main}`,
+    },
+    textInput: {
+      fontFamily: `${theme.fontFamily.robotoBold}`,
+      fontSize: `${theme.fontSize.content}`,
+      color: `${theme.colors.grey.main}`,
+    },
+  };
 });
 
 const MetaDataDailog = (props) => {
@@ -112,7 +115,7 @@ const MetaDataDailog = (props) => {
       },
     });
   }, []);
-
+ const theme=useTheme();
   const dispatch = useDispatch();
   const monitor = useSelector((state) => state.monitor);
   const navigate = useNavigate();

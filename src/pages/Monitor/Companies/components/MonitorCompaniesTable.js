@@ -15,7 +15,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as actionTypes from "../../../../stores/actions/actionTypes";
-import theme from "../../../../theme";
+import { useTheme } from "styled-components";
 
 export default function MonitorCompaniesTable({
   data,
@@ -23,6 +23,7 @@ export default function MonitorCompaniesTable({
   onCompaniesSorting,
 }) {
   const dispatch = useDispatch();
+  const theme = useTheme();
   const monitor = useSelector((state) => state.monitor);
   const navigate = useNavigate();
 

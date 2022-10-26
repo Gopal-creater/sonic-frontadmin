@@ -1,10 +1,9 @@
 import { CircularProgress } from '@material-ui/core';
 import { Info } from '@material-ui/icons';
 import React from 'react'
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import { getRoleWiseID } from '../../../services/https/AuthHelper';
 import { getRadioMonitorsPlaysCount } from '../../../services/https/resources/StreamReader.api';
-import theme from '../../../theme';
 import { log } from '../../../utils/app.debug';
 
 const Container = styled.div`
@@ -15,6 +14,7 @@ const Container = styled.div`
 `
 
 export default function RadioPlays({ radioId }) {
+    const theme = useTheme();
     const [state, setState] = React.useState({
         error: null,
         loading: false,

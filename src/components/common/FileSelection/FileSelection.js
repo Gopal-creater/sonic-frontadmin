@@ -10,12 +10,15 @@ import {
   Content,
   SubHeading,
 } from "../../../StyledComponents/StyledHeadings";
-import theme from "../../../theme";
+
 import AppButton from "../AppButton/AppButton";
 import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
 import { tags } from "../../../constants/constants";
+import { useTheme } from "styled-components";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => (
+
+  {
   EncodeDecodeContainer: {
     backgroundColor: "white",
     padding: "2% 2.5%",
@@ -238,7 +241,7 @@ export default function FileSelection({ prop }) {
         cogoToast.error(err);
       });
   };
-
+  const theme =useTheme();
   const sendAudioData = (Data) => {
     return prop?.getAudioData(Data);
   };

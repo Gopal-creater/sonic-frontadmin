@@ -9,7 +9,6 @@ import Icon from "../../../assets/images/icon-success-graphic.png";
 import MetaDataDailog from "../../../components/common/MetaDataDialog";
 import DownloadProgressModal from "../../Encode/Components/DownloadProgressModal";
 import { log } from "../../../utils/app.debug";
-import theme from "../../../theme";
 import { downloadAnyFile } from "../../../services/https/resources/EncodeApi/encodeApi";
 import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
 import AppTable from "../../../components/common/AppTable";
@@ -18,9 +17,11 @@ import VisibilityIcon from "@material-ui/icons/Visibility";
 import Tooltip from "@material-ui/core/Tooltip";
 import { Content, SubHeading } from "../../../StyledComponents/StyledHeadings";
 import { tags } from "../../../constants/constants";
+import { useTheme } from "styled-components";
 
 export default function DecodeSuccess(props) {
   const classes = useStyles();
+  const theme = useTheme();
   const [values, setValues] = useState({
     openTable: false,
     selectedSonicKey: {},

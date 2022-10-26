@@ -1,5 +1,4 @@
 import React from "react";
-import theme from "../../../theme";
 import AppButton from "../AppButton/AppButton";
 import { FormContainer, FileInput, DragDopLabel } from "./DragDropFileStyle";
 import iconAddSound from "../../../assets/images/icon-add-sound.png";
@@ -7,6 +6,7 @@ import { Content,} from "../../../StyledComponents/StyledHeadings";
 import HelpOutlineOutlinedIcon from "@material-ui/icons/HelpOutlineOutlined";
 import { Grid } from "@material-ui/core";
 import CustomToolTip from "../CustomToolTip";
+import { useTheme } from "styled-components";
 
 export default function DragDropFile({ handleFiles }) {
   const [state, setState] = React.useState({
@@ -38,7 +38,7 @@ export default function DragDropFile({ handleFiles }) {
       setState({ ...state, file: e.dataTransfer.files });
     }
   };
-
+  const theme =useTheme();
   return (
     <FormContainer
       onDragEnter={handleDrag}

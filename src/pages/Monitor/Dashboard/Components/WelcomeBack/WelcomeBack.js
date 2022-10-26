@@ -5,10 +5,11 @@ import {
   SubHeading,
 } from "../../../../../StyledComponents/StyledHeadings";
 import { WelcomeBackContainer } from "./StyledWelcomeBack";
-import theme from "../../../../../theme";
 import RadioIcon from "@material-ui/icons/Radio";
+import { useTheme } from "styled-components";
 
 export default function WelcomeBack({ totalRadioStations, loading, error }) {
+  const theme =useTheme();
   return (
     <WelcomeBackContainer container alignItems="center">
       <Grid xs={12} lg={8}>

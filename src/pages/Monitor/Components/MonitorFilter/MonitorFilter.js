@@ -12,7 +12,6 @@ import {
   FilterItems,
 } from "./MonitorFilterStyles";
 import AppButton from "../../../../components/common/AppButton/AppButton";
-import theme from "../../../../theme";
 import CustomDatePicker from "../../../../components/common/FilterComponent/components/CustomDatePicker";
 import { StyledTextField } from "../../../../StyledComponents/StyledAppTextInput/StyledAppTextInput";
 import CustomDropDown from "../../../../components/common/AppTextInput/CustomDropDown";
@@ -25,6 +24,7 @@ import {
   Content,
   SubHeading,
 } from "../../../../StyledComponents/StyledHeadings";
+import { useTheme } from "styled-components";
 
 export default function MonitorFilter({
   closeDialog,
@@ -33,6 +33,7 @@ export default function MonitorFilter({
   dashboard = false,
 }) {
   const dispatch = useDispatch();
+  const theme = useTheme();
   const monitor = useSelector((state) => state.monitor);
   const company = useSelector((state) => state.company);
   const radioStations = useSelector((state) => state.radioStations);

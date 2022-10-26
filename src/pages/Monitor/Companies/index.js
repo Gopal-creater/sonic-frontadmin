@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import PaginationCount from "../../../components/common/Pagination/PaginationCount";
 import { Heading, SubHeading } from "../../../StyledComponents/StyledHeadings";
 import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
-import theme from "../../../theme";
 import FilterComponent from "../../../components/common/FilterComponent/FilterComponent";
 import MonitorFilter from "../Components/MonitorFilter/MonitorFilter";
 import * as actionTypes from "../../../stores/actions/actionTypes";
@@ -16,10 +15,12 @@ import { monitorCompaniesTableHeads } from "../../../constants/constants";
 import CustomPagination from "../../../components/common/Pagination/CustomPagination";
 import CommonDataLoadErrorSuccess from "../../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess";
 import AppTable from "../../../components/common/AppTable";
+import { useTheme } from "styled-components";
 
 export default function MonitorCompanies() {
   const monitor = useSelector((state) => state.monitor);
   const dispatch = useDispatch();
+  const theme = useTheme();
 
   const [state, setState] = React.useState({
     companiesTableHeads: monitorCompaniesTableHeads,

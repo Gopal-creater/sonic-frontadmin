@@ -16,9 +16,9 @@ import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
 import { tags } from "../../../constants/constants";
 import { useTheme } from "styled-components";
 
-const useStyles = makeStyles((theme) => (
-
-  {
+const useStyles = makeStyles(() => {
+  const theme = useTheme();
+  return {
   EncodeDecodeContainer: {
     backgroundColor: "white",
     padding: "2% 2.5%",
@@ -34,7 +34,8 @@ const useStyles = makeStyles((theme) => (
     color: `${theme.colors.grey.main}`,
     borderBottom: `1px solid ${theme.colors.grey.main}`,
   },
-}));
+
+}});
 
 export default function FileSelection({ prop }) {
   const shadow = {

@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { Grid } from "@material-ui/core";
-import theme from "../../../theme";
 
 export const CompanyProfileContainer = styled(Grid)`
     padding:20px ;
@@ -8,7 +7,7 @@ export const CompanyProfileContainer = styled(Grid)`
 `
 
 export const MetaDataHeaderContainer = styled(Grid)`
-    background-color: ${theme.colors.secondary.light};
+    background-color: ${(props)=>props.theme.colors.secondary.light};
     /* padding:30px ; */
     position:relative ;
 
@@ -19,7 +18,7 @@ export const MetaDataHeaderContainer = styled(Grid)`
         left:35px ;
         border-width: 20px;
         border-style: solid;
-        border-color:${theme.colors.secondary.light} transparent transparent transparent;
+        border-color:${(props)=>props.theme.colors.secondary.light} transparent transparent transparent;
     }
 `
 
@@ -33,7 +32,7 @@ export const IconContainer = styled.div`
     align-items:center ;
     justify-content:center ;
     padding:35px;
-    border-left:3px solid ${theme.colors.secondary.light} ;
+    border-left:3px solid ${(props)=>props.theme.colors.secondary.light} ;
 `
 
 export const MetaDataDetailsContainer = styled(Grid)`
@@ -42,7 +41,7 @@ export const MetaDataDetailsContainer = styled(Grid)`
 
 export const ProperAccessContainer = styled(Grid)`
     padding:60px 0px 50px 0px;
-    border-bottom:1px solid ${theme.colors.secondary.mediumGrey} ;
+    border-bottom:1px solid ${(props)=>props.theme.colors.secondary.mediumGrey} ;
 `
 
 export const RightsHolderContainer = styled(Grid)`
@@ -52,8 +51,8 @@ export const RightsHolderContainer = styled(Grid)`
 
 export const RadioLabel = styled.h6`
     margin-top:2px ;
-    font-family:${theme.fontFamily.robotoBold} ;
-    color:${theme.colors.grey.main} ;
+    font-family:${(props)=>props.theme.fontFamily.robotoBold} ;
+    color:${(props)=>props.theme.colors.grey.main} ;
 `
 
 export const ButtonContainer = styled(Grid)`

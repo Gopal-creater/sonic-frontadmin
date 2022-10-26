@@ -15,7 +15,6 @@ import "./assets/fonts/Roboto-Regular.ttf";
 
 import { ThemeProvider } from "styled-components";
 import theme from "./theme";
-import { testTheme } from "./theme";
 import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.render(

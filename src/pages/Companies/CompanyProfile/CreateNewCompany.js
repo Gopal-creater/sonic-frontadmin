@@ -7,7 +7,6 @@ import {
   StyledTextField,
 } from "../../../StyledComponents/StyledAppTextInput/StyledAppTextInput";
 import PersonIcon from "@material-ui/icons/Person";
-import theme from "../../../theme";
 import AppButton from "../../../components/common/AppButton/AppButton";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -23,11 +22,13 @@ import { getUsersNameAction } from "../../../stores/actions/picker/titlePicker.a
 import { getUsersAction } from "../../../stores/actions/UserActions";
 import Popper from "../../../components/common/Popper";
 import { log } from "../../../utils/app.debug";
+import { useTheme } from "styled-components";
 
 export default function CreateNewCompany() {
   const { handleSubmit, control, reset } = useForm();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const theme = useTheme();
   const user = useSelector((state) => state.user);
   const company = useSelector((state) => state.company);
   const [state, setState] = useState({

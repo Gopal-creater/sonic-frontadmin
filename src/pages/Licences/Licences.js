@@ -3,7 +3,6 @@ import { Grid, Tooltip } from "@material-ui/core";
 import { fetchLicenceKeys } from "../../stores/actions/licenceKey";
 import { useDispatch, useSelector } from "react-redux";
 import { Content, Heading, SubHeading } from "../../StyledComponents/StyledHeadings";
-import theme from "../../theme";
 import { userRoles } from "../../constants/constants";
 import CommonDataLoadErrorSuccess from "../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess";
 import LicenseFilter from "./components/LicenseFilter";
@@ -15,12 +14,14 @@ import CustomPagination from "../../components/common/Pagination/CustomPaginatio
 import AppTable from "../../components/common/AppTable";
 import { format } from "date-fns";
 import VisibilityIcon from "@material-ui/icons/Visibility";
+import { useTheme } from "styled-components";
 
 function Licences() {
   const license = useSelector((state) => state.licenceKey);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const theme = useTheme();
 
   React.useEffect(() => {
     dispatch(fetchLicenceKeys(5, license?.getLicenseKey?.data?.page));

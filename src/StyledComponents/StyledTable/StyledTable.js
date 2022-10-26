@@ -1,6 +1,6 @@
 import { TableCell, TableRow, Grid } from "@material-ui/core"
 import styled from "styled-components"
-import theme from "../../theme"
+
 
 export const StyledTableRow = styled(TableRow)`
     background-color:${props => props?.bgColor || "white"};

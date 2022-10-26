@@ -21,7 +21,6 @@ import PersonIcon from "@material-ui/icons/Person";
 import LockIcon from "@material-ui/icons/Lock";
 import MusicNoteIcon from "@material-ui/icons/MusicNote";
 import React from "react";
-import theme from "../../../theme";
 import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
 import { Controller, useForm } from "react-hook-form";
 import { HelperText } from "../../Licences/LicenseStyled";
@@ -34,8 +33,10 @@ import cogoToast from "cogo-toast";
 import { updateUser } from "../../../services/https/resources/UserApi";
 import { userRoles } from "../../../constants/constants";
 import { log } from "../../../utils/app.debug";
+import { useTheme } from "styled-components";
 
 export default function UserProfile() {
+  const theme =useTheme();
   const schema = Yup.object().shape({
     newPassword: Yup.string(),
     confirmNewPassword: Yup.string().oneOf(

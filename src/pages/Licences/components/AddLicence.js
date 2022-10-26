@@ -24,7 +24,7 @@ import {
 import { StyledTextField } from "../../../StyledComponents/StyledAppTextInput/StyledAppTextInput";
 import { Content, SubHeading } from "../../../StyledComponents/StyledHeadings";
 import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
-import theme from "../../../theme";
+
 import {
   BorderBottom,
   HelperText,
@@ -33,6 +33,7 @@ import {
 } from "../LicenseStyled";
 import KeyValue from "./KeyValue";
 import { log } from "../../../utils/app.debug";
+import { useTheme } from "styled-components";
 
 const initialState = {
   licenseType: "Company",
@@ -51,6 +52,7 @@ export default function AddLicence() {
   const [state, setState] = React.useState(initialState);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const theme = useTheme();
   const { handleSubmit, control, reset } = useForm();
   const user = useSelector((state) => state.user);
   const company = useSelector((state) => state.company);

@@ -1,7 +1,6 @@
 import { Grid, Table, TableRow, TableCell } from "@material-ui/core";
 import React from "react";
 import PopUp from "../../../../components/common/PopUp";
-import theme from "../../../../theme";
 import { log } from "../../../../utils/app.debug";
 import CloseIcon from "@material-ui/icons/Close";
 import AppButton from "../../../../components/common/AppButton/AppButton";
@@ -22,8 +21,10 @@ import GetAppIcon from "@material-ui/icons/GetApp";
 import Tooltip from "@material-ui/core/Tooltip";
 import AudiotrackIcon from "@material-ui/icons/Audiotrack";
 import MusicVideoIcon from "@material-ui/icons/MusicVideo";
+import { useTheme } from "styled-components";
 
 export default function TracksTable({ data, paginationCount }) {
+  const theme = useTheme();
   const [state, setState] = React.useState({
     openViewTrackPopUp: false,
     selectedTrack: null,

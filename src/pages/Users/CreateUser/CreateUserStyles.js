@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import { Grid } from "@material-ui/core";
-import theme from "../../../theme";
+
 
 export const IconBox = styled(Grid)`
     padding: 10px;
     border-radius: 50%;
     margin: 10px 0px;
-    background-color: ${theme.colors.secondary.light};
+    background-color: ${(props)=>props.theme.colors.secondary.light};
 `
 
 export const CheckBoxLabelContainer = styled.div`
@@ -16,7 +16,7 @@ export const CheckBoxLabelContainer = styled.div`
 
 export const ProperAccessContainer = styled(Grid)`
     margin-top: 40px;
-    border-bottom: 1px solid ${theme.colors.secondary.mediumGrey};
+    border-bottom: 1px solid ${(props)=>props.theme.colors.secondary.mediumGrey};
 `
 
 export const ButtonContainer = styled(Grid)`

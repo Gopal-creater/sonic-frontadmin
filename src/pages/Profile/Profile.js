@@ -3,7 +3,6 @@ import React from 'react'
 import AppButton from '../../components/common/AppButton/AppButton'
 import { DisabledTextField, StyledTextField } from '../../StyledComponents/StyledAppTextInput/StyledAppTextInput'
 import { Content, SubHeading } from '../../StyledComponents/StyledHeadings'
-import theme from '../../theme'
 import { FlagOutlined, LockOutlined, MusicNote, Visibility, VisibilityOff } from '@material-ui/icons'
 import AppToggleSwitch from '../../components/common/AppToggleSwitch/AppToggleSwitch'
 import { useNavigate } from 'react-router-dom'
@@ -17,8 +16,10 @@ import cogoToast from 'cogo-toast'
 import * as Yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { userRoles } from '../../constants/constants'
+import { useTheme } from 'styled-components'
 
 export default function Profile() {
+    const theme =useTheme();
     const [state, setState] = React.useState({
         showCurrentPassword: false,
         showNewPassword: false,

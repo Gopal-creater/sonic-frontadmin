@@ -5,7 +5,7 @@ import MusicNoteIcon from "@material-ui/icons/MusicNote";
 import { DisabledTextField } from "../../../StyledComponents/StyledAppTextInput/StyledAppTextInput";
 import AppToggleSwitch from "../../../components/common/AppToggleSwitch/AppToggleSwitch";
 import PersonIcon from "@material-ui/icons/Person";
-import theme from "../../../theme";
+
 import AppButton from "../../../components/common/AppButton/AppButton";
 import React from "react";
 import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
@@ -15,13 +15,14 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { log } from "../../../utils/app.debug";
 import { useDispatch, useSelector } from "react-redux";
 import { updateCompanyProfileAction } from "../../../stores/actions/CompanyActions";
+import { useTheme } from "styled-components";
 
 export default function CompanyProfile() {
   const { handleSubmit, control, reset } = useForm();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const company = useSelector((state) => state.company);
-
+  const theme = useTheme();
   const { state } = useLocation();
   log("company profile:", state);
 

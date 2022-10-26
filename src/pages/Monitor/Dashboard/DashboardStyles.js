@@ -1,6 +1,6 @@
 import { Grid, IconButton } from "@material-ui/core";
 import styled from "styled-components";
-import theme from "../../../theme";
+
 
 export const CardContainer = styled.div`
   margin-top: 50px;
@@ -22,17 +22,4 @@ export const ButtonContainer = styled(Grid)`
   width: 80px;
 `;
 
-export const StyledIconButton = styled(IconButton)(({ ...props }) => ({
-  color: theme.colors.primary.main,
-  border: `2px solid ${theme.colors.primary.main}`,
-  backgroundColor: "none",
-  padding: `10px 10px`,
-  borderRadius: "8px",
-  "&:hover": {
-    color: theme.colors.greenTea,
-  },
-  "&.Mui-disabled": {
-    color: theme.colors.grey4,
-    border: `3px solid ${theme.colors.grey1} !important`,
-  },
-}));
+

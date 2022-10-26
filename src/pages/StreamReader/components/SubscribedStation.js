@@ -10,14 +10,15 @@ import { H3 } from '../../../StyledComponents/StyledHeadings';
 import { fetchRadioMonitorsActions } from '../../../stores/actions/streamReader.action';
 import { log } from '../../../utils/app.debug';
 import AppAutoComplete from '../../../components/common/AutoComplete/AppAutoComplete';
-import theme from '../../../theme';
 import { Table, TableBody, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import AppCheckBox from '../../../components/common/AppCheckBox';
 import { StyledTableData, StyledTableHead } from '../../../StyledComponents/StyledTable/StyledTable';
 import Spinner from "react-bootstrap/Spinner";
+import { useTheme } from 'styled-components';
 
 export default function SubscribeStation({ closeDialog }) {
     const dispatch = useDispatch();
+    const theme =useTheme();
     const radioStations = useSelector(state => state.radioStations)
     const streamReader = useSelector(state => state.streamReader)
 

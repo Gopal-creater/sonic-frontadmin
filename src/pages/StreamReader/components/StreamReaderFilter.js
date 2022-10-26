@@ -13,7 +13,7 @@ import {
 import CustomDropDown from "../../../components/common/AppTextInput/CustomDropDown";
 import AppButton from "../../../components/common/AppButton/AppButton";
 import { fetchRadioMonitorsActions } from "../../../stores/actions/streamReader.action";
-import { Content } from "../../../StyledComponents/StyledHeadings";
+import { Content, SubHeading } from "../../../StyledComponents/StyledHeadings";
 
 export default function StreamReaderFilter({ closeDialog }) {
   const dispatch = useDispatch();
@@ -38,7 +38,7 @@ export default function StreamReaderFilter({ closeDialog }) {
   return (
     <FilterContainer>
       <FilterHeader>
-        <Content>Filter</Content>
+        <SubHeading>Filter</SubHeading>
         <div style={{ cursor: "pointer" }}>
           <CloseOutlined onClick={() => closeDialog?.()} />
         </div>

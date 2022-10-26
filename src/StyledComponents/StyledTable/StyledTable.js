@@ -18,7 +18,7 @@ export const StyledAlternateTableRow = styled(TableRow)`
 `
 
 export const StyledTableHead = styled(TableCell)`
-    color: ${props => props.theme.colors.secondary.mediumGrey};
+    color: ${props => props.theme.colors.grey.main};
     font-family:${props => props.theme.fontFamily.robotosBold};
     font-size:12px;
     border-bottom:none;

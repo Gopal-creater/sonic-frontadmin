@@ -22,7 +22,7 @@ import { getAllSonickeysActions } from "../../../stores/actions/SonicKeyAcrtions
 import AppAutoComplete from "../../../components/common/AutoComplete/AppAutoComplete";
 import { getCompanyNameAction } from "../../../stores/actions/picker/titlePicker.action";
 import { useTheme } from "styled-components";
-import { Content } from "../../../StyledComponents/StyledHeadings";
+import { Content, SubHeading } from "../../../StyledComponents/StyledHeadings";
 
 export default function SonicKeyFilter({ closeDialog }) {
   const dispatch = useDispatch();
@@ -47,7 +47,7 @@ export default function SonicKeyFilter({ closeDialog }) {
   return (
     <FilterContainer>
       <FilterHeader>
-        <Content>Filter</Content>
+        <SubHeading>Filter</SubHeading>
         <div style={{ cursor: "pointer" }}>
           <CloseOutlined onClick={() => closeDialog?.()} />
         </div>

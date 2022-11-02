@@ -875,7 +875,7 @@ export default function EncodeData() {
               src={encode_progress}
               style={{ width: "140px", height: "140px", zIndex: 1 }}
             />
-            <Content
+            <SubHeading
               className="mt-4"
               style={{ textAlign: "center", zIndex: 1 }}
               color={theme.colors.primary.contrastText}
@@ -886,7 +886,7 @@ export default function EncodeData() {
                 encodeReducer?.selectedExistingFile?.title ||
                 encodeReducer?.selectedExistingFile?.originalFileName}{" "}
               in progress
-            </Content>
+            </SubHeading>
           </TitleContainer>
           <Content style={{ textAlign: "center", padding: "25px" }}>
             The speed of your internet connection and the size of the audio file
@@ -928,13 +928,13 @@ export default function EncodeData() {
               src={iconSuccess}
               style={{ width: "140px", height: "140px", zIndex: 1 }}
             />
-            <Content
+            <SubHeading
               className="mt-4"
               style={{ textAlign: "center", zIndex: 1 }}
               color={theme.colors.primary.contrastText}
             >
               Well done! Encoding successful
-            </Content>
+            </SubHeading>
           </TitleContainer>
           <Grid container justifyContent="center" className="mt-1">
             <AppButton
@@ -988,13 +988,13 @@ export default function EncodeData() {
               src={errorEncodeIcon}
               style={{ width: "140px", height: "140px", zIndex: 1 }}
             />
-            <Content
+            <SubHeading
               className="mt-4"
               style={{ textAlign: "center", zIndex: 1 }}
               color={theme.colors.primary.contrastText}
             >
               Ooops! Encoding failed
-            </Content>
+            </SubHeading>
           </TitleContainer>
           <Grid container justifyContent="center" className="mt-1">
             <AppButton

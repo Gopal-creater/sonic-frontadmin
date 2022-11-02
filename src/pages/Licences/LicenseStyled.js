@@ -7,7 +7,7 @@ export const TuneBox = styled(Grid)`
     padding: 10px;
     border-radius: 50%;
     margin-bottom: 20px;
-    background-color: ${(props)=>props.theme.colors.secondary.light};
+    background-color: ${(props)=>props.theme.colors.primary.main};
 `
 
 export const BorderBottom = styled(Grid)`

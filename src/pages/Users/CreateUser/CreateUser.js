@@ -125,7 +125,7 @@ export default function CreateUser() {
           <Grid item xs={12} md={6}>
             <Grid container>
               <IconBox>
-                <PersonIcon style={{ color: theme.colors.secondary.main }} />
+                <PersonIcon style={{ color: theme.colors.primary.contrastText  }} />
               </IconBox>
             </Grid>
 
@@ -362,7 +362,7 @@ export default function CreateUser() {
           <Grid item xs={12} md={6}>
             <Grid container>
               <IconBox>
-                <MusicNoteIcon style={{ color: theme.colors.secondary.main }} />
+                <MusicNoteIcon style={{ color: theme.colors.primary.contrastText }} />
               </IconBox>
             </Grid>
 
@@ -477,7 +477,7 @@ export default function CreateUser() {
 
             <Grid container className="mt-4">
               <IconBox>
-                <LockIcon style={{ color: theme.colors.secondary.main}} />
+                <LockIcon style={{ color: theme.colors.primary.contrastText }} />
               </IconBox>
             </Grid>
 

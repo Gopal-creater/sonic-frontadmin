@@ -5,7 +5,7 @@ export const IconBox = styled(Grid)`
     padding: 10px;
     border-radius: 50%;
     margin: 10px 0px;
-    background-color: ${(props)=>props.theme.colors.secondary.light};
+    background-color: ${(props)=>props.theme.colors.primary.main};
 `
 
 export const CheckBoxLabelContainer = styled.div`

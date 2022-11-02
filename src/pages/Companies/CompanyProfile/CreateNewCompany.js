@@ -79,10 +79,10 @@ export default function CreateNewCompany() {
                 style={{
                   padding: "5px",
                   borderRadius: "50%",
-                  backgroundColor: theme.colors.secondary.light,
+                  backgroundColor: theme.colors.primary.main,
                 }}
               >
-                <MusicNoteIcon style={{ color: theme.colors.secondary.main }} />
+                <MusicNoteIcon style={{ color: theme.colors.primary.contrastText }} />
               </Grid>
             </Grid>
 
@@ -185,10 +185,10 @@ export default function CreateNewCompany() {
                 style={{
                   padding: "5px",
                   borderRadius: "50%",
-                  backgroundColor: theme.colors.secondary.light,
+                  backgroundColor: theme.colors.primary.main,
                 }}
               >
-                <PersonIcon style={{ color: theme.colors.secondary.main }} />
+                <PersonIcon style={{ color: theme.colors.primary.contrastText}} />
               </Grid>
             </Grid>
 

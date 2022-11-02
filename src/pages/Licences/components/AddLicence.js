@@ -94,7 +94,7 @@ export default function AddLicence() {
         <Grid container direction="column" className="mt-4">
           <Grid item container>
             <TuneBox>
-              <MusicNote style={{ color: `${theme.colors.secondary.main}` }} />
+              <MusicNote style={{ color: `${theme.colors.primary.contrastText }` }} />
             </TuneBox>
           </Grid>
 

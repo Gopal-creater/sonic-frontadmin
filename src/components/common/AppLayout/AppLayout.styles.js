@@ -15,10 +15,17 @@ export const SideBarHeading = styled(Typography)`
   font-size: ${(props) => props.theme.fontSize.content};
   color: ${(props) => props.theme.colors.primary.dark};
   font-family: ${(props) => props.theme.fontFamily.robotoMedium};
-  margin-bottom: -25px;
 `;
-export const UserName = styled(Typography)`
-  font-size: ${(props) => props.theme.fontSize.content};
-  color: ${(props) => props.theme.colors.primary.dark};
+
+export const Avatar = styled.div`
+  font-size: ${(props) => props.theme.fontSize.subHeading};
+  color: ${(props) => props.theme.colors.secondary.contrastText};
   font-family: ${(props) => props.theme.fontFamily.robotoMedium};
+  background-color: ${(props) => props.theme.colors.secondary.main};
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
 `;

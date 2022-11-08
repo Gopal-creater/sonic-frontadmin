@@ -10,7 +10,7 @@ import { useTheme } from "styled-components";
 
 export default function StreamReaderTable({ data, paginationCount }) {
   const navigate = useNavigate();
-  const theme =useTheme();
+  const theme = useTheme();
   log("data", data);
 
   const columns = [
@@ -28,7 +28,7 @@ export default function StreamReaderTable({ data, paginationCount }) {
       label: "LOGO",
       options: {
         customBodyRender: (value) => {
-          return value || "--";
+          return <img src={value} /> || "--";
         },
       },
     },
@@ -86,7 +86,10 @@ export default function StreamReaderTable({ data, paginationCount }) {
             <Tooltip title="View">
               <VisibilityIcon
                 fontSize={"small"}
-                style={{ color: theme.colors.secondary.main, cursor: "pointer" }}
+                style={{
+                  color: theme.colors.secondary.main,
+                  cursor: "pointer",
+                }}
                 onClick={() =>
                   navigate(`/sonicstreamdetail/${row?._id}`, {
                     state: row,

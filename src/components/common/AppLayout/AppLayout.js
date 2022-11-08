@@ -14,7 +14,7 @@ import {
   Header,
   LayoutHeading,
   SideBarHeading,
-  UserName,
+  Avatar,
 } from "./AppLayout.styles";
 import { tags } from "../../../constants/constants";
 import { getUserName } from "../../../services/https/AuthHelper";
@@ -28,7 +28,6 @@ export default function AppLayout({ children }) {
   const toggleSideBar = () => {
     setOpen((open) => !open);
   };
-
 
   const getGreetings = () => {
     if (hour < 12) {
@@ -78,12 +77,13 @@ export default function AppLayout({ children }) {
           <Grid
             item
             container
-            justifyContent="center"
+            direction="column"
             alignItems="center"
+            justifyContent="center"
             xs={10}
           >
+            <Avatar>{Array.from(getUserName())[0]}</Avatar>
             <SideBarHeading>{getGreetings()}</SideBarHeading>
-            <UserName noWrap>{getUserName()}</UserName>
           </Grid>
           <Grid item container alignItems="center" xs={2}>
             <IconButton

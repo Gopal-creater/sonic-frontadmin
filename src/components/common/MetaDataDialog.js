@@ -270,7 +270,7 @@ const MetaDataDailog = (props) => {
               <TableRow>
                 <TableCell className={classes.tableCellOne}>TRACK ID</TableCell>
                 <TableCell className={classes.tableCellTwo}>
-                  {values?.sonicKey?.track?._id || "---"}
+                  {values?.sonicKey?.track || "---"}
                 </TableCell>
               </TableRow>
 

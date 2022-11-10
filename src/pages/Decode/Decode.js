@@ -76,6 +76,7 @@ export default function Decode() {
             <img
               src={encode_progress}
               style={{ width: "140px", height: "140px", zIndex: 1 }}
+              alt="encode_progress"
             />
             <SubHeading
               color={theme.colors.primary.contrastText}

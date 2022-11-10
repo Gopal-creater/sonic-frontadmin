@@ -36,7 +36,7 @@ import AppAutoComplete from "./AutoComplete/AppAutoComplete";
 import { isJsonObject } from "../../utils/HelperMethods";
 import { useTheme } from "styled-components";
 
-const useStyles = makeStyles(()=>{
+const useStyles = makeStyles(() => {
   const theme = useTheme();
   return {
     dialogPaper: {
@@ -114,8 +114,9 @@ const MetaDataDailog = (props) => {
           JSON.stringify(props?.sonicKey?.additionalMetadata) || "",
       },
     });
-  }, []);
- const theme=useTheme();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const theme = useTheme();
   const dispatch = useDispatch();
   const monitor = useSelector((state) => state.monitor);
   const navigate = useNavigate();

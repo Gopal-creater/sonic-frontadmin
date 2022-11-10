@@ -2,7 +2,7 @@ import React from "react";
 import AppButton from "../AppButton/AppButton";
 import { FormContainer, FileInput, DragDopLabel } from "./DragDropFileStyle";
 import iconAddSound from "../../../assets/images/icon-add-sound.png";
-import { Content,} from "../../../StyledComponents/StyledHeadings";
+import { Content } from "../../../StyledComponents/StyledHeadings";
 import HelpOutlineOutlinedIcon from "@material-ui/icons/HelpOutlineOutlined";
 import { Grid } from "@material-ui/core";
 import CustomToolTip from "../CustomToolTip";
@@ -38,7 +38,7 @@ export default function DragDropFile({ handleFiles }) {
       setState({ ...state, file: e.dataTransfer.files });
     }
   };
-  const theme =useTheme();
+  const theme = useTheme();
   return (
     <FormContainer
       onDragEnter={handleDrag}
@@ -57,7 +57,7 @@ export default function DragDropFile({ handleFiles }) {
       />
 
       <DragDopLabel htmlFor="input-file-upload">
-        <img src={iconAddSound} width={"40px"} />
+        <img src={iconAddSound} width={"40px"} alt="sound_icon" />
         {state.file ? (
           <Grid>
             <Content fontFamily={theme.fontFamily.robotoBold}>

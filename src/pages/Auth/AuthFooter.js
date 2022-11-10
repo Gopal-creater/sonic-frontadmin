@@ -1,6 +1,7 @@
 import { Grid } from "@material-ui/core";
 import React from "react";
 import { useTheme } from "styled-components";
+import { tags } from "../../constants/constants";
 import { Caption } from "../../StyledComponents/StyledHeadings";
 
 export default function AuthFooter() {
@@ -12,8 +13,8 @@ export default function AuthFooter() {
         color={theme.colors.grey.main}
         fontFamily={theme.fontFamily.robotoRegular}
       >
-        <span>&#169;</span> {new Date().getFullYear()} SonicData Ltd. All rights
-        reserved.
+        <span>&#169;</span> {new Date().getFullYear()} {tags.companyName} Ltd.
+        All rights reserved.
       </Caption>
     </Grid>
   );

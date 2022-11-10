@@ -26,7 +26,7 @@ export default function Users() {
 
   React.useEffect(() => {
     dispatch(getUsersAction(5, users?.getUsers?.data?.page));
-  }, []);
+  }, [dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
 
   let columns = [
     {
@@ -134,7 +134,10 @@ export default function Users() {
             <Tooltip title="View">
               <VisibilityIcon
                 fontSize={"small"}
-                style={{ color: theme.colors.secondary.main, cursor: "pointer" }}
+                style={{
+                  color: theme.colors.secondary.main,
+                  cursor: "pointer",
+                }}
                 onClick={() =>
                   navigate(`/user-profile/${value?._id}`, {
                     state: value,

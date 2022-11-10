@@ -7,7 +7,6 @@ import MenuIcon from "@material-ui/icons/Menu";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import Footer from "./components/Footer/Footer";
 import AppSideBar from "../AppSidebar";
-import { useNavigate } from "react-router-dom";
 import SecondaryMenu from "./components/SecondaryMenu/SecondaryMenu";
 import { useTheme } from "styled-components";
 import {
@@ -23,7 +22,6 @@ export default function AppLayout({ children }) {
   const classes = useStyles();
   const date = new Date();
   const hour = date.getHours();
-  const navigate = useNavigate();
   const [open, setOpen] = React.useState(true);
   const toggleSideBar = () => {
     setOpen((open) => !open);

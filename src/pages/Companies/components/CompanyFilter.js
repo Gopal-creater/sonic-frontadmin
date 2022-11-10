@@ -13,7 +13,6 @@ import AppButton from "../../../components/common/AppButton/AppButton";
 import { StyledTextField } from "../../../StyledComponents/StyledAppTextInput/StyledAppTextInput";
 import { companyType } from "../../../constants/constants";
 import * as actionTypes from "../../../stores/actions/actionTypes";
-import { log } from "../../../utils/app.debug";
 import { getAllCompaniesAction } from "../../../stores/actions/CompanyActions";
 import { useTheme } from "styled-components";
 import { SubHeading } from "../../../StyledComponents/StyledHeadings";

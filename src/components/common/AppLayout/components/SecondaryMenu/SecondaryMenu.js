@@ -15,7 +15,6 @@ import { useNavigate } from "react-router-dom";
 import { useTheme } from "styled-components";
 
 function SecondaryMenu(props) {
-  const appTheme = useTheme();
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);

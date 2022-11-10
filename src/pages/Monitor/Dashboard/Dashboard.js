@@ -58,7 +58,7 @@ export function Dashboard() {
         monitor?.dates?.endDate
       )
     );
-  }, [monitor?.dates?.startDate, monitor?.dates?.endDate]);
+  }, [monitor?.dates?.startDate, monitor?.dates?.endDate]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const actions = {
     loading: actionTypes.SET_DASHBOARD_LOADING,

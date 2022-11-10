@@ -18,7 +18,7 @@ import { updateCompanyProfileAction } from "../../../stores/actions/CompanyActio
 import { useTheme } from "styled-components";
 
 export default function CompanyProfile() {
-  const { handleSubmit, control, reset } = useForm();
+  const { handleSubmit, control } = useForm();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const company = useSelector((state) => state.company);
@@ -49,7 +49,9 @@ export default function CompanyProfile() {
                   backgroundColor: theme.colors.primary.main,
                 }}
               >
-                <MusicNoteIcon style={{ color: theme.colors.primary.contrastText}} />
+                <MusicNoteIcon
+                  style={{ color: theme.colors.primary.contrastText }}
+                />
               </Grid>
             </Grid>
             <Content className="mt-2">Company details</Content>
@@ -115,7 +117,9 @@ export default function CompanyProfile() {
                   backgroundColor: theme.colors.primary.main,
                 }}
               >
-                <PersonIcon style={{ color: theme.colors.primary.contrastText }} />
+                <PersonIcon
+                  style={{ color: theme.colors.primary.contrastText }}
+                />
               </Grid>
             </Grid>
             <Content className="mt-2">Admin details</Content>

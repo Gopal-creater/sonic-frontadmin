@@ -1,9 +1,8 @@
 import { Grid } from "@material-ui/core";
 import React from "react";
-import { useTheme } from "styled-components";
 import CommonDataLoadErrorSuccess from "../../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess";
 import FilterComponent from "../../../components/common/FilterComponent/FilterComponent";
-import { Heading, SubHeading } from "../../../StyledComponents/StyledHeadings";
+import { SubHeading } from "../../../StyledComponents/StyledHeadings";
 import PaginationCount from "../../../components/common/Pagination/PaginationCount";
 import CustomPagination from "../../../components/common/Pagination/CustomPagination";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,11 +17,10 @@ import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
 import AppTable from "../../../components/common/AppTable";
 
 export default function Tracks() {
-  const theme = useTheme();
   const monitor = useSelector((state) => state.monitor);
   const dispatch = useDispatch();
 
-  const [state, setState] = React.useState({
+  const [state] = React.useState({
     trackTableHeads: trackTableHeads,
     currentSortBy: "",
     currentIsAscending: "",
@@ -39,7 +37,7 @@ export default function Tracks() {
         "TRACKS"
       )
     );
-  }, [monitor?.dates?.startDate, monitor?.dates?.endDate]);
+  }, [monitor?.dates?.startDate, monitor?.dates?.endDate]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const actions = {
     loading: actionTypes.SET_TRACK_LOADING,

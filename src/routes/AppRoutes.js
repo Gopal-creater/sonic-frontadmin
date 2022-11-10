@@ -42,7 +42,7 @@ export default function AppRoutes() {
   React.useEffect(() => {
     dispatch(getUserProfileAction());
     dispatch(getInitialDatas());
-  }, []);
+  }, [dispatch]);
 
   React.useEffect(() => {
     if (location.pathname !== "/encoded-tracks") {
@@ -61,7 +61,7 @@ export default function AppRoutes() {
         },
       });
     }
-  }, [location]);
+  }, [location, dispatch]);
 
   if (user?.userProfile?.error) {
     dispatch(logout());

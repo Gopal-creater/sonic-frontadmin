@@ -22,7 +22,7 @@ export default function Companies() {
 
   React.useEffect(() => {
     dispatch(getAllCompaniesAction(5, company?.data?.page));
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const columns = [
     {
@@ -101,7 +101,10 @@ export default function Companies() {
             <Tooltip title="View">
               <VisibilityIcon
                 fontSize={"small"}
-                style={{ color: theme.colors.secondary.main, cursor: "pointer" }}
+                style={{
+                  color: theme.colors.secondary.main,
+                  cursor: "pointer",
+                }}
                 onClick={() =>
                   navigate(`/company-profile/${value?._id}`, {
                     state: value,

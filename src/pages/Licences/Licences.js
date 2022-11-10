@@ -2,7 +2,7 @@ import React from "react";
 import { Grid, Tooltip } from "@material-ui/core";
 import { fetchLicenceKeys } from "../../stores/actions/licenceKey";
 import { useDispatch, useSelector } from "react-redux";
-import { Content, Heading, SubHeading } from "../../StyledComponents/StyledHeadings";
+import { Content, SubHeading } from "../../StyledComponents/StyledHeadings";
 import { userRoles } from "../../constants/constants";
 import CommonDataLoadErrorSuccess from "../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess";
 import LicenseFilter from "./components/LicenseFilter";
@@ -25,7 +25,7 @@ function Licences() {
 
   React.useEffect(() => {
     dispatch(fetchLicenceKeys(5, license?.getLicenseKey?.data?.page));
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   let columns = [
     {
@@ -118,7 +118,10 @@ function Licences() {
             <Tooltip title="View Licenses">
               <VisibilityIcon
                 fontSize={"small"}
-                style={{ color: theme.colors.secondary.main, cursor: "pointer" }}
+                style={{
+                  color: theme.colors.secondary.main,
+                  cursor: "pointer",
+                }}
                 onClick={() =>
                   navigate(`/edit-licences/${value?._id}`, { state: value })
                 }
@@ -168,11 +171,7 @@ function Licences() {
       <Grid container justifyContent="space-between">
         <Grid item>
           <SubHeading>Licenses</SubHeading>
-          <Content
-            
-          >
-            List of all licenses
-          </Content>
+          <Content>List of all licenses</Content>
         </Grid>
       </Grid>
       {/* Header------------------------------------------------------- */}

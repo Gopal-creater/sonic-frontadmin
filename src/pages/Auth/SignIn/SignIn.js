@@ -16,6 +16,7 @@ import { Content, Heading } from "../../../StyledComponents/StyledHeadings";
 import { StyledTextField } from "../../../StyledComponents/StyledAppTextInput/StyledAppTextInput";
 import AppButton from "../../../components/common/AppButton/AppButton";
 import { useTheme } from "styled-components";
+import { tags } from "../../../constants/constants";
 
 export default function SignIn() {
   const classes = useStyles();
@@ -59,7 +60,7 @@ export default function SignIn() {
     >
       <form onSubmit={handleSubmit(signIn)}>
         <Grid item>
-          <Heading>SonicPortal</Heading>
+          <Heading>{tags.companyName}</Heading>
           <Content>Encode. Manage. Monitor. Report.</Content>
         </Grid>
         <Controller

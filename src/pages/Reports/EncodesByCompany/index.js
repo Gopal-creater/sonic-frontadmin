@@ -18,25 +18,17 @@ export default function EncodesByCompany() {
   const dispatch = useDispatch();
   const companyEncodes = useSelector((state) => state.company.companyEncodes);
 
-  const [state, setState] = React.useState({
-    currentSortBy: "",
-    currentIsAscending: "",
-  });
+  // const [state, setState] = React.useState({
+  //   currentSortBy: "",
+  //   currentIsAscending: "",
+  // });
 
   React.useEffect(() => {
     dispatch(getCompanyEncodesAction(10, companyEncodes?.data?.page));
-  }, [companyEncodes?.dates?.startDate, companyEncodes?.dates?.endDate]);
+  }, [companyEncodes?.dates?.startDate, companyEncodes?.dates?.endDate]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleExport = (format) => {
-    dispatch(
-      getCompanyEncodesExportsAction(
-        format,
-        2000,
-        1,
-        state?.currentSortBy,
-        state?.currentIsAscending
-      )
-    );
+    dispatch(getCompanyEncodesExportsAction(format, 2000, 1));
   };
 
   const columns = [
@@ -144,14 +136,7 @@ export default function EncodesByCompany() {
               count={companyEncodes?.data?.totalPages}
               page={companyEncodes?.data?.page}
               onChange={(e, value) =>
-                dispatch(
-                  getCompanyEncodesAction(
-                    10,
-                    value,
-                    state?.currentSortBy,
-                    state?.currentIsAscending
-                  )
-                )
+                dispatch(getCompanyEncodesAction(10, value))
               }
             />
           </Grid>

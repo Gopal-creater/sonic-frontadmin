@@ -1,6 +1,5 @@
-import { Grid, IconButton } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import styled from "styled-components";
-
 
 export const CardContainer = styled.div`
   margin-top: 50px;
@@ -21,5 +20,3 @@ export const ButtonContainer = styled(Grid)`
   align-items: center;
   width: 80px;
 `;
-
-

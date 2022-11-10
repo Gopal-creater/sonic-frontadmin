@@ -1,5 +1,5 @@
 import React from "react";
-import { MenuContainer, NavIcon, SideBarLabel } from "./style";
+import { MenuContainer, SideBarLabel } from "./style";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import { Grid, makeStyles } from "@material-ui/core";

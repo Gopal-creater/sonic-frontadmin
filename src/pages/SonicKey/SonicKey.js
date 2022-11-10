@@ -18,7 +18,7 @@ export default function SonicKey() {
 
   React.useEffect(() => {
     dispatch(getAllSonickeysActions(10, sonickey?.data?.page));
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <MainContainer>

@@ -61,7 +61,7 @@ export default function Encode() {
         encode?.tracks?.trackFilters
       )
     );
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleExport = (format) => {
     log("format", format);
@@ -115,7 +115,7 @@ export default function Encode() {
               ? ", " + metaData.format.numberOfChannels.toString() + " ch"
               : ""),
           contentSamplingFrequency:
-            metaData?.format?.sampleRate?.toString() || "" + "  Hz",
+            metaData?.format?.sampleRate?.toString() + "  Hz",
           contentFileType: files?.[0]?.type,
         };
         dispatch({

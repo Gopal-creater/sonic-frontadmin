@@ -21,7 +21,7 @@ export default function SonicStreamReader() {
 
   React.useEffect(() => {
     dispatch(fetchRadioMonitorsActions(10, streamReader?.stations?.data?.page));
-  }, []);
+  }, [dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <MainContainer>

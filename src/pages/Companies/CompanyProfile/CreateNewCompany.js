@@ -39,7 +39,7 @@ export default function CreateNewCompany() {
 
   React.useEffect(() => {
     dispatch(getUsersAction());
-  }, []);
+  }, [dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
 
   React.useEffect(() => {
     reset({
@@ -50,7 +50,7 @@ export default function CreateNewCompany() {
       phoneNumber: "",
       email: "",
     });
-  }, [company?.createCompany?.data]);
+  }, [company?.createCompany?.data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const createCompany = (data) => {
     let payload = {
@@ -82,7 +82,9 @@ export default function CreateNewCompany() {
                   backgroundColor: theme.colors.primary.main,
                 }}
               >
-                <MusicNoteIcon style={{ color: theme.colors.primary.contrastText }} />
+                <MusicNoteIcon
+                  style={{ color: theme.colors.primary.contrastText }}
+                />
               </Grid>
             </Grid>
 
@@ -188,7 +190,9 @@ export default function CreateNewCompany() {
                   backgroundColor: theme.colors.primary.main,
                 }}
               >
-                <PersonIcon style={{ color: theme.colors.primary.contrastText}} />
+                <PersonIcon
+                  style={{ color: theme.colors.primary.contrastText }}
+                />
               </Grid>
             </Grid>
 

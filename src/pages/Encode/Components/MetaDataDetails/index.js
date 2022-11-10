@@ -85,7 +85,7 @@ export default function EncodeData() {
         displaySelectedTrack: true,
         autoCompleteValue: encodeReducer?.selectedExistingFile,
       });
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const encode = () => {
     if (encodeReducer?.loading) return;
@@ -268,7 +268,7 @@ export default function EncodeData() {
           </Grid>
 
           <IconContainer>
-            <img src={icon_uploaded} width={"55px"} />
+            <img src={icon_uploaded} width={"55px"} alt="upload_icon" />
           </IconContainer>
         </TextContainer>
 
@@ -874,6 +874,7 @@ export default function EncodeData() {
             <img
               src={encode_progress}
               style={{ width: "140px", height: "140px", zIndex: 1 }}
+              alt="encode_progress"
             />
             <SubHeading
               className="mt-4"
@@ -927,6 +928,7 @@ export default function EncodeData() {
             <img
               src={iconSuccess}
               style={{ width: "140px", height: "140px", zIndex: 1 }}
+              alt="success_icon"
             />
             <SubHeading
               className="mt-4"
@@ -958,7 +960,7 @@ export default function EncodeData() {
             </AppButton>
           </Grid>
           <AppButton
-            startIcon={<img src={DownloadIcon} />}
+            startIcon={<img src={DownloadIcon} alt="download_icon" />}
             style={{ padding: "0px" }}
             variant={"none"}
             onClick={() => downloadEncodedFile()}
@@ -987,6 +989,7 @@ export default function EncodeData() {
             <img
               src={errorEncodeIcon}
               style={{ width: "140px", height: "140px", zIndex: 1 }}
+              alt="error_encode"
             />
             <SubHeading
               className="mt-4"

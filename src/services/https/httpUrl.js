@@ -18,9 +18,9 @@ const baseUrls = {
 };
 
 export default baseUrls[
-  process.env.REACT_APP_ENV == "localhost"
+  process.env.REACT_APP_ENV === "localhost"
     ? "localhost"
-    : process.env.REACT_APP_ENV == "production"
-      ? "production"
-      : "staging"
+    : process.env.REACT_APP_ENV === "production"
+    ? "production"
+    : "staging"
 ];

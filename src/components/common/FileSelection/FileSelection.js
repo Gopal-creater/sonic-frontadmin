@@ -19,23 +19,23 @@ import { useTheme } from "styled-components";
 const useStyles = makeStyles(() => {
   const theme = useTheme();
   return {
-  EncodeDecodeContainer: {
-    backgroundColor: "white",
-    padding: "2% 2.5%",
-    boxShadow: (shadow) => shadow.boxShadow,
-  },
-  audioFile: {
-    height: 25,
-    width: "30vw",
-    marginRight: 30,
-    marginBottom: 5,
-    fontSize: 16,
-    fontFamily: `${theme.fontFamily.robotoRegular}`,
-    color: `${theme.colors.grey.main}`,
-    borderBottom: `1px solid ${theme.colors.grey.main}`,
-  },
-
-}});
+    EncodeDecodeContainer: {
+      backgroundColor: "white",
+      padding: "2% 2.5%",
+      boxShadow: (shadow) => shadow.boxShadow,
+    },
+    audioFile: {
+      height: 25,
+      width: "30vw",
+      marginRight: 30,
+      marginBottom: 5,
+      fontSize: 16,
+      fontFamily: `${theme.fontFamily.robotoRegular}`,
+      color: `${theme.colors.grey.main}`,
+      borderBottom: `1px solid ${theme.colors.grey.main}`,
+    },
+  };
+});
 
 export default function FileSelection({ prop }) {
   const shadow = {
@@ -160,7 +160,7 @@ export default function FileSelection({ prop }) {
           data: response,
           name: audioData?.file?.name,
         });
-        if (response.length != 0) {
+        if (response.length !== 0) {
           cogoToast.success("Successfully decoded file.");
           setAudioData({ ...payload });
           prop?.setAudioName(audioData?.file?.name);
@@ -202,7 +202,6 @@ export default function FileSelection({ prop }) {
               ? metadata.format.duration
               : "",
             contentSize: file.size / 1024,
-            contentFileType: file.type,
             contentOwner: metadata.common.artist ? metadata.common.artist : "",
             contentFileType: metadata?.format?.container,
             contentEncoding:
@@ -242,7 +241,7 @@ export default function FileSelection({ prop }) {
         cogoToast.error(err);
       });
   };
-  const theme =useTheme();
+  const theme = useTheme();
   const sendAudioData = (Data) => {
     return prop?.getAudioData(Data);
   };

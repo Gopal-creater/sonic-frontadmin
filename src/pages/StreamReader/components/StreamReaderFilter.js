@@ -13,7 +13,7 @@ import {
 import CustomDropDown from "../../../components/common/AppTextInput/CustomDropDown";
 import AppButton from "../../../components/common/AppButton/AppButton";
 import { fetchRadioMonitorsActions } from "../../../stores/actions/streamReader.action";
-import { Content, SubHeading } from "../../../StyledComponents/StyledHeadings";
+import { SubHeading } from "../../../StyledComponents/StyledHeadings";
 
 export default function StreamReaderFilter({ closeDialog }) {
   const dispatch = useDispatch();
@@ -21,12 +21,13 @@ export default function StreamReaderFilter({ closeDialog }) {
   const streamReader = useSelector((state) => state.streamReader);
 
   const filteredRadioStation = radioStations.data?.filter((data) => {
-    if (streamReader.filters.country === "") {
+    if (
+      streamReader.filters.country === "" ||
+      data.country === streamReader.filters.country
+    ) {
       return data;
     }
-    if (data.country === streamReader.filters.country) {
-      return data;
-    }
+    return null;
   });
 
   const handleFilter = (e) => {

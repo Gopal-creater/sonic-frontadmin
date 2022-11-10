@@ -1,6 +1,5 @@
 import { Grid } from "@material-ui/core";
 import React from "react";
-import { useTheme } from "styled-components";
 import PaginationCount from "../../../components/common/Pagination/PaginationCount";
 import { SubHeading } from "../../../StyledComponents/StyledHeadings";
 import FilterComponent from "../../../components/common/FilterComponent/FilterComponent";
@@ -18,11 +17,10 @@ import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
 import AppTable from "../../../components/common/AppTable";
 
 export default function Artists() {
-  const theme = useTheme();
   const monitor = useSelector((state) => state.monitor);
   const dispatch = useDispatch();
 
-  const [state, setState] = React.useState({
+  const [state] = React.useState({
     artistTableHeads: artistTableHeads,
     currentSortBy: "",
     currentIsAscending: "",
@@ -39,7 +37,7 @@ export default function Artists() {
         "ARTISTS"
       )
     );
-  }, [monitor?.dates?.startDate, monitor?.dates?.endDate]);
+  }, [monitor?.dates?.startDate, monitor?.dates?.endDate]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const actions = {
     loading: actionTypes.SET_ARTIST_LOADING,

@@ -2,7 +2,7 @@ import React from "react";
 import { Grid } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import PaginationCount from "../../../components/common/Pagination/PaginationCount";
-import { Heading, SubHeading } from "../../../StyledComponents/StyledHeadings";
+import { SubHeading } from "../../../StyledComponents/StyledHeadings";
 import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
 import FilterComponent from "../../../components/common/FilterComponent/FilterComponent";
 import MonitorFilter from "../Components/MonitorFilter/MonitorFilter";
@@ -15,14 +15,12 @@ import { monitorCompaniesTableHeads } from "../../../constants/constants";
 import CustomPagination from "../../../components/common/Pagination/CustomPagination";
 import CommonDataLoadErrorSuccess from "../../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess";
 import AppTable from "../../../components/common/AppTable";
-import { useTheme } from "styled-components";
 
 export default function MonitorCompanies() {
   const monitor = useSelector((state) => state.monitor);
   const dispatch = useDispatch();
-  const theme = useTheme();
 
-  const [state, setState] = React.useState({
+  const [state] = React.useState({
     companiesTableHeads: monitorCompaniesTableHeads,
     currentSortBy: "",
     currentIsAscending: "",
@@ -45,7 +43,7 @@ export default function MonitorCompanies() {
         "COMPANIES"
       )
     );
-  }, [monitor?.dates?.startDate, monitor?.dates?.endDate]);
+  }, [monitor?.dates?.startDate, monitor?.dates?.endDate]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const createStableCompaniesData = () => {
     const monitorCompaniesData = monitor?.companies?.data?.docs?.map((data) => {

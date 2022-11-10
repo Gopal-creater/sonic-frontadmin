@@ -36,7 +36,7 @@ import { log } from "../../../utils/app.debug";
 import { useTheme } from "styled-components";
 
 export default function UserProfile() {
-  const theme =useTheme();
+  const theme = useTheme();
   const schema = Yup.object().shape({
     newPassword: Yup.string(),
     confirmNewPassword: Yup.string().oneOf(
@@ -66,7 +66,7 @@ export default function UserProfile() {
       newPassword: "",
       confirmNewPassword: "",
     });
-  }, [values.updated]);
+  }, [values.updated]); // eslint-disable-line react-hooks/exhaustive-deps
 
   function handleUserProfile(data) {
     setValues({ ...values, loading: true });
@@ -117,7 +117,9 @@ export default function UserProfile() {
           <Grid item xs={12} md={6}>
             <Grid container>
               <IconBox>
-                <PersonIcon style={{ color: theme.colors.primary.contrastText }} />
+                <PersonIcon
+                  style={{ color: theme.colors.primary.contrastText }}
+                />
               </IconBox>
             </Grid>
 
@@ -331,7 +333,9 @@ export default function UserProfile() {
 
             <Grid container>
               <IconBox>
-                <LockIcon style={{ color: theme.colors.primary.contrastText }} />
+                <LockIcon
+                  style={{ color: theme.colors.primary.contrastText }}
+                />
               </IconBox>
             </Grid>
 

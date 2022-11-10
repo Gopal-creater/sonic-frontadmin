@@ -47,13 +47,15 @@ export default function MonitorFilter({
   });
 
   const filteredRadioStation = radioStations.data?.filter((data) => {
-    if (monitor.filters.country === "") {
+    if (
+      monitor.filters.country === "" ||
+      data.country === monitor.filters.country
+    ) {
       return data;
     }
-    if (data.country === monitor.filters.country) {
-      return data;
-    }
+    return null;
   });
+
   const handleFilter = (e) => {
     e.preventDefault();
     if (dashboard) {

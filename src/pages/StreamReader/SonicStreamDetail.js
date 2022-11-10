@@ -21,7 +21,7 @@ export default function SonicStreamDetail() {
 
   React.useEffect(() => {
     dispatch(getSonicStreamDetailsActions(state?._id));
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const columns = [
     {

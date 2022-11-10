@@ -42,7 +42,7 @@ export default function Plays() {
         10
       )
     );
-  }, [monitor?.dates?.startDate, monitor?.dates?.endDate]);
+  }, [monitor?.dates?.startDate, monitor?.dates?.endDate]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const actions = {
     loading: actionTypes.SET_PLAYS_LOADING,

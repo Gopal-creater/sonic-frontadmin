@@ -24,4 +24,6 @@ const awsconfig = {
   },
 };
 
-export default awsconfig[process.env.REACT_APP_ENV == "production" ? "production" : "staging"];
+export default awsconfig[
+  process.env.REACT_APP_ENV === "production" ? "production" : "staging"
+];

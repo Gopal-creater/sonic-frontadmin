@@ -32,7 +32,7 @@ export default function DecodeSuccess(props) {
 
   React.useEffect(() => {
     setValues({ ...values, sonickeys: props?.decodeKeys });
-  }, [props]);
+  }, [props]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleClickOpenTable = async (data) => {
     setValues({ ...values, openTable: true, selectedSonicKey: data });

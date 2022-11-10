@@ -35,7 +35,7 @@ function App() {
         setAuthenticating(false);
         cogoToast.error(error?.message || "Error authorizing");
       });
-  }, []);
+  }, [dispatch]);
 
   // showing spinner while checking user is logged in or not
   if (authenticating) {

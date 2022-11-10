@@ -22,7 +22,7 @@ import { getAllSonickeysActions } from "../../../stores/actions/SonicKeyAcrtions
 import AppAutoComplete from "../../../components/common/AutoComplete/AppAutoComplete";
 import { getCompanyNameAction } from "../../../stores/actions/picker/titlePicker.action";
 import { useTheme } from "styled-components";
-import { Content, SubHeading } from "../../../StyledComponents/StyledHeadings";
+import { SubHeading } from "../../../StyledComponents/StyledHeadings";
 
 export default function SonicKeyFilter({ closeDialog }) {
   const dispatch = useDispatch();

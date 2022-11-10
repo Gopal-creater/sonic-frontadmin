@@ -37,7 +37,6 @@ export default function TracksTable({ data, paginationCount }) {
   const sonickey = useSelector((state) => state.sonickey);
   const navigation = useNavigate();
 
-  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const encodeAgain = (track) => {

@@ -34,7 +34,6 @@ import PhoneTextInput from "../../../components/common/AppTextInput/PhoneTextInp
 import { useDispatch, useSelector } from "react-redux";
 import { createUsersAction } from "../../../stores/actions/UserActions";
 import CompanyPopper from "../../../components/common/Popper";
-import { getAllCompaniesAction } from "../../../stores/actions/CompanyActions";
 import AppAutoComplete from "../../../components/common/AutoComplete/AppAutoComplete";
 import { getCompanyNameAction } from "../../../stores/actions/picker/titlePicker.action";
 import * as Yup from "yup";
@@ -53,7 +52,7 @@ const initialState = {
 };
 
 export default function CreateUser() {
-  const theme =useTheme();
+  const theme = useTheme();
   const schema = Yup.object().shape({
     password: Yup.string()
       .required("Password is required")
@@ -89,7 +88,7 @@ export default function CreateUser() {
       isPhoneNumberVerified: false,
       sendInvitationByEmail: false,
     });
-  }, [user?.createUser?.data]);
+  }, [user?.createUser?.data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleOnCreateUser = (data) => {
     let contactNumber;
@@ -125,7 +124,9 @@ export default function CreateUser() {
           <Grid item xs={12} md={6}>
             <Grid container>
               <IconBox>
-                <PersonIcon style={{ color: theme.colors.primary.contrastText  }} />
+                <PersonIcon
+                  style={{ color: theme.colors.primary.contrastText }}
+                />
               </IconBox>
             </Grid>
 
@@ -184,7 +185,7 @@ export default function CreateUser() {
                   required: "Email is required",
                   pattern: {
                     value:
-                      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                      '/^(([^<>()[]\\.,;:s@"]+(.[^<>()[]\\.,;:s@"]+)*)|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/',
                     message: "Invalid email address",
                   },
                 }}
@@ -362,7 +363,9 @@ export default function CreateUser() {
           <Grid item xs={12} md={6}>
             <Grid container>
               <IconBox>
-                <MusicNoteIcon style={{ color: theme.colors.primary.contrastText }} />
+                <MusicNoteIcon
+                  style={{ color: theme.colors.primary.contrastText }}
+                />
               </IconBox>
             </Grid>
 
@@ -477,7 +480,9 @@ export default function CreateUser() {
 
             <Grid container className="mt-4">
               <IconBox>
-                <LockIcon style={{ color: theme.colors.primary.contrastText }} />
+                <LockIcon
+                  style={{ color: theme.colors.primary.contrastText }}
+                />
               </IconBox>
             </Grid>
 

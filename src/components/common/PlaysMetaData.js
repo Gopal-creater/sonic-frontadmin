@@ -5,7 +5,6 @@ import PopUp from "./PopUp";
 import CloseIcon from "@material-ui/icons/Close";
 import { Table } from "react-bootstrap";
 import moment from "moment";
-import { log } from "../../utils/app.debug";
 import { tags, userRoles } from "../../constants/constants";
 import { useSelector } from "react-redux";
 import { getSKSIDFromDetectionOrigin } from "../../utils/HelperMethods";
@@ -14,13 +13,11 @@ import { Content, SubHeading } from "../../StyledComponents/StyledHeadings";
 
 function PlaysMetaData(props) {
   const user = useSelector((state) => state.user);
-  const [state, setState] = React.useState({
+  const [state] = React.useState({
     playsData: props.playsData,
     selectedTrack: null,
   });
   const theme = useTheme();
-
-  log("data of plays", state.playsData);
 
   const closePopUp = () => {
     props.setOpenTable(false);
@@ -195,11 +192,7 @@ function PlaysMetaData(props) {
         </Grid>
 
         <Grid container justifyContent="flex-end" className="mt-2">
-          <AppButton
-            variant={"outline"}
-            onClick={closePopUp}
-            
-          >
+          <AppButton variant={"outline"} onClick={closePopUp}>
             Cancel
           </AppButton>
         </Grid>

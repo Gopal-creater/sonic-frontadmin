@@ -60,7 +60,7 @@ export default function AddLicence() {
 
   React.useEffect(() => {
     reset(initialState);
-  }, [license?.addLicenseKey?.data]);
+  }, [license?.addLicenseKey?.data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleAddLicense = (data) => {
     if (!state.user) {
@@ -94,7 +94,9 @@ export default function AddLicence() {
         <Grid container direction="column" className="mt-4">
           <Grid item container>
             <TuneBox>
-              <MusicNote style={{ color: `${theme.colors.primary.contrastText }` }} />
+              <MusicNote
+                style={{ color: `${theme.colors.primary.contrastText}` }}
+              />
             </TuneBox>
           </Grid>
 

@@ -28,7 +28,7 @@ export default function StreamReaderTable({ data, paginationCount }) {
       label: "LOGO",
       options: {
         customBodyRender: (value) => {
-          return <img src={value} /> || "--";
+          return <img src={value} alt="logo" /> || "--";
         },
       },
     },

@@ -1,12 +1,10 @@
 import { Grid } from "@material-ui/core";
 import React, { useEffect, useRef } from "react";
-import { Heading, SubHeading } from "../../../StyledComponents/StyledHeadings";
-import { useTheme } from "styled-components";
+import { SubHeading } from "../../../StyledComponents/StyledHeadings";
 import FilterComponent from "../../../components/common/FilterComponent/FilterComponent";
 import { useDispatch, useSelector } from "react-redux";
 import * as actionTypes from "../../../stores/actions/actionTypes";
 import PaginationCount from "../../../components/common/Pagination/PaginationCount";
-import { log } from "../../../utils/app.debug";
 import CommonDataLoadErrorSuccess from "../../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess";
 import CustomPagination from "../../../components/common/Pagination/CustomPagination";
 import {
@@ -20,12 +18,10 @@ import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
 import AppTable from "../../../components/common/AppTable";
 
 export default function Countries() {
-  const theme = useTheme();
-
   const dispatch = useDispatch();
   const monitor = useSelector((state) => state.monitor);
 
-  const [state, setState] = React.useState({
+  const [state] = React.useState({
     countriesTableHeads: countryTableHeads,
     currentSortBy: "",
     currentIsAscending: "",
@@ -53,7 +49,7 @@ export default function Countries() {
         "COUNTRIES"
       )
     );
-  }, [monitor?.dates?.startDate, monitor?.dates?.endDate]);
+  }, [monitor?.dates?.startDate, monitor?.dates?.endDate]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleExport = (format) => {
     if (format === "pdf") {

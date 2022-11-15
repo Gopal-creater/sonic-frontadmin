@@ -8,17 +8,17 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { Provider } from "react-redux";
 import store from "./stores";
 
-import "./assets/fonts/Roboto-Bold.ttf";
-import "./assets/fonts/Roboto-Thin.ttf";
-import "./assets/fonts/Roboto-Medium.ttf";
-import "./assets/fonts/Roboto-Regular.ttf";
+import "./assets/fonts/FuturaBold.otf";
+import "./assets/fonts/FuturaMedium.otf";
+import "./assets/fonts/FuturaRegular.otf";
 
 import { ThemeProvider } from "styled-components";
-import theme from "./theme";
+import theme, { GlobalStyles } from "./theme";
 import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
+    <GlobalStyles />
     <Provider store={store}>
       <BrowserRouter>
         <App />

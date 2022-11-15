@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
-import Icon from "../../../assets/images/icon-fail-graphic.png";
+import amazingRadio_Icon from "../../../assets/icons/amazingRadio_Icon.png";
 import { MainContainer } from "../../../StyledComponents/StyledPageContainer";
 import { Content, SubHeading } from "../../../StyledComponents/StyledHeadings";
 import { useTheme } from "styled-components";
@@ -43,7 +43,11 @@ export default function FailedFileSelection({ title, audioName }) {
         </div>
       </Grid>
       <Grid item className={classes.failedIcon}>
-        <img src={Icon} alt="Failed" style={{ height: 130, width: 130 }} />
+        <img
+          src={amazingRadio_Icon}
+          alt="Failed"
+          style={{ height: 130, width: 130 }}
+        />
         <SubHeading>{title} failed</SubHeading>
       </Grid>
     </MainContainer>

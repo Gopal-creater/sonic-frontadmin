@@ -14,10 +14,9 @@ import {
 import Paper from "@material-ui/core/Paper";
 import Table from "react-bootstrap/Table";
 import CloseIcon from "@material-ui/icons/Close";
-import Button from "@material-ui/core/Button";
 import DialogActions from "@material-ui/core/DialogActions";
 import { makeStyles } from "@material-ui/core/styles";
-import DialogLogo from "../../../src/assets/images/key-logo.png";
+import amazingRadio_Icon from "../../../src/assets/icons/amazingRadio_Icon.png";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import * as actionTypes from "../../stores/actions/actionTypes";
@@ -35,34 +34,6 @@ import { editSonicMetaData } from "../../services/https/resources/SonicKeys/Soni
 import AppAutoComplete from "./AutoComplete/AppAutoComplete";
 import { isJsonObject } from "../../utils/HelperMethods";
 import { useTheme } from "styled-components";
-
-const useStyles = makeStyles(() => {
-  const theme = useTheme();
-  return {
-    dialogPaper: {
-      minHeight: "75vh",
-      maxHeight: "75vh",
-      margin: "auto",
-    },
-    tableCellOne: {
-      padding: "5px",
-      fontFamily: `${theme.fontFamily.robotoBold}`,
-      fontSize: `12px`,
-      color: `${theme.colors.secondary.mediumGrey}`,
-    },
-    tableCellTwo: {
-      padding: "5px",
-      fontFamily: `${theme.fontFamily.robotoBold}`,
-      fontSize: `${theme.fontSize.content}`,
-      color: `${theme.colors.grey.main}`,
-    },
-    textInput: {
-      fontFamily: `${theme.fontFamily.robotoBold}`,
-      fontSize: `${theme.fontSize.content}`,
-      color: `${theme.colors.grey.main}`,
-    },
-  };
-});
 
 const MetaDataDailog = (props) => {
   const [values, setValues] = React.useState({
@@ -207,11 +178,8 @@ const MetaDataDailog = (props) => {
     <>
       <Dialog open={true} fullWidth={true} className={classes.dialogPaper}>
         {props?.enableEditMode && (
-          <Button
-            variant="contained"
-            style={{ backgroundColor: "#343F84", color: "white" }}
-            size="large"
-            className={classes.button}
+          <AppButton
+            variant="fill"
             startIcon={values?.switchEdit ? <VisibilityIcon /> : <EditIcon />}
             onClick={() => {
               !values?.updateSonicKeyLoading &&
@@ -219,13 +187,13 @@ const MetaDataDailog = (props) => {
             }}
           >
             Switch to {values?.switchEdit ? "view metadata" : "edit metadata"}
-          </Button>
+          </AppButton>
         )}
 
         <Grid container justifyContent="space-between" className="mt-1">
           <DialogTitle id="form-dialog-title">
             <div style={{ display: "flex", alignItems: "center" }}>
-              <img style={{ width: "30px" }} src={DialogLogo} alt="" />
+              <img style={{ width: "30px" }} src={amazingRadio_Icon} alt="" />
               <div
                 style={{
                   fontFamily: theme.fontFamily.robotoBold,
@@ -270,7 +238,7 @@ const MetaDataDailog = (props) => {
               <TableRow>
                 <TableCell className={classes.tableCellOne}>TRACK ID</TableCell>
                 <TableCell className={classes.tableCellTwo}>
-                  {values?.sonicKey?.track || "---"}
+                  {values?.sonicKey?.track?._id || "---"}
                 </TableCell>
               </TableRow>
 
@@ -733,3 +701,31 @@ const MetaDataDailog = (props) => {
 };
 
 export default MetaDataDailog;
+
+const useStyles = makeStyles(() => {
+  const theme = useTheme();
+  return {
+    dialogPaper: {
+      minHeight: "75vh",
+      maxHeight: "75vh",
+      margin: "auto",
+    },
+    tableCellOne: {
+      padding: "5px",
+      fontFamily: `${theme.fontFamily.robotoBold}`,
+      fontSize: `12px`,
+      color: `${theme.colors.secondary.mediumGrey}`,
+    },
+    tableCellTwo: {
+      padding: "5px",
+      fontFamily: `${theme.fontFamily.robotoBold}`,
+      fontSize: `${theme.fontSize.content}`,
+      color: `${theme.colors.grey.main}`,
+    },
+    textInput: {
+      fontFamily: `${theme.fontFamily.robotoBold}`,
+      fontSize: `${theme.fontSize.content}`,
+      color: `${theme.colors.grey.main}`,
+    },
+  };
+});

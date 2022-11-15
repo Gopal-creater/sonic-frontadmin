@@ -15,6 +15,7 @@ import VisibilityIcon from "@material-ui/icons/Visibility";
 import Tooltip from "@material-ui/core/Tooltip";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import { tags } from "../../../constants/constants";
+import { Grid } from "@material-ui/core";
 
 export default function SonicKeyTable({ data, paginationCount }) {
   const [sonickeys, setSonicKeys] = React.useState({});
@@ -27,6 +28,7 @@ export default function SonicKeyTable({ data, paginationCount }) {
   const theme = useTheme();
 
   const handleClickOpenTable = async (data) => {
+    log("amazing data", data);
     setSonicKeys(data);
     setOpenTable(true);
   };
@@ -160,7 +162,7 @@ export default function SonicKeyTable({ data, paginationCount }) {
       options: {
         customBodyRender: (row) => {
           return (
-            <>
+            <Grid style={{ minWidth: "50px" }}>
               <Tooltip title="View/Edit">
                 <VisibilityIcon
                   fontSize={"small"}
@@ -182,7 +184,7 @@ export default function SonicKeyTable({ data, paginationCount }) {
                   onClick={() => download(row)}
                 />
               </Tooltip>
-            </>
+            </Grid>
           );
         },
       },

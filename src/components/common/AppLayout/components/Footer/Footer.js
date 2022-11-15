@@ -11,11 +11,11 @@ export default function Footer() {
   const theme = useTheme();
   return (
     <FooterContainer>
-      <Caption color={theme.colors.grey.main}>
+      <Caption color={theme.colors.primary.contrastTex}>
         <span>&#169;</span>
         {new Date().getFullYear()} {tags.companyName} Ltd. All rights reserved.
       </Caption>
-      <Caption color={theme.colors.grey.dark}>
+      <Caption color={theme.colors.primary.contrastText}>
         {tags.companyTag}TM, Returning value to the artist and rights holder.
       </Caption>
     </FooterContainer>

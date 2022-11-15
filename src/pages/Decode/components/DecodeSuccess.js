@@ -5,7 +5,7 @@ import axios from "axios";
 import cogoToast from "cogo-toast";
 import { format } from "date-fns";
 import fileDownload from "js-file-download";
-import Icon from "../../../assets/images/icon-success-graphic.png";
+import amazingRadio_Icon from "../../../assets/icons/amazingRadio_Icon.png";
 import MetaDataDailog from "../../../components/common/MetaDataDialog";
 import DownloadProgressModal from "../../Encode/Components/DownloadProgressModal";
 import { log } from "../../../utils/app.debug";
@@ -212,7 +212,11 @@ export default function DecodeSuccess(props) {
           </Content>
         </Grid>
         <Grid item className={classes.failedIcon}>
-          <img src={Icon} alt="Failed" style={{ height: 80, width: 80 }} />
+          <img
+            src={amazingRadio_Icon}
+            alt="Failed"
+            style={{ height: 80, width: 80 }}
+          />
           <SubHeading>{props?.title} done</SubHeading>
         </Grid>
       </Grid>

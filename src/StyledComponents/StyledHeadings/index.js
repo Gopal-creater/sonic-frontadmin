@@ -30,7 +30,7 @@ export const Content = styled(Typography)`
 `;
 
 export const Caption = styled(Typography)`
-  color: ${(props) => props.color || props.theme.colors.grey.dark};
+  color: ${(props) => props.color || props.theme.colors.grey.light};
   font-size: ${(props) => props.fontSize || props.theme.fontSize.caption};
   font-family: ${(props) =>
     props.fontFamily || props.theme.fontFamily.robotoThin};

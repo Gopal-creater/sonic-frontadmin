@@ -1,14 +1,16 @@
+import { createGlobalStyle } from "styled-components";
+
 const theme = {
   colors: {
     primary: {
-      light: "#6d79c5",
-      main: "#343F84",
-      dark: "#393F5B",
+      light: "#282828",
+      main: "#1B1B1B",
+      dark: "#141414",
       contrastText: "#fff",
     },
     secondary: {
       light: "#E5F5F4",
-      main: "#00A19A",
+      main: "#EDE363",
       dark: "#006661",
       error: "#DF165D",
       contrastText: "#fff",
@@ -27,10 +29,10 @@ const theme = {
   border_radius: "",
   fontSize: {
     extra: "45px",
-    heading: "27px",
-    subHeading: "20px",
-    content: "14px",
-    caption: "12px",
+    heading: "30px",
+    subHeading: "23px",
+    content: "17px",
+    caption: "13px",
   },
   fontFamily: {
     robotoBold: "Roboto-Bold",
@@ -89,5 +91,12 @@ export const testTheme = {
     robotoThin: "Roboto-Thin",
   },
 };
+
+export const GlobalStyles = createGlobalStyle`
+    body{
+        background-color:${(props) =>
+          props.theme.colors.primary.main} !important
+    }
+`;
 
 export default theme;

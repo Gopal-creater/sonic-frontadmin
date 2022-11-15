@@ -9,7 +9,7 @@ import {
   PopUpContainer,
   TitleContainer,
 } from "../Encode/Components/MetaDataDetails/indexStyles";
-import encode_progress from "../../assets/icons/encode_progress.png";
+import amazingRadio_Icon from "../../assets/icons/amazingRadio_Icon.png";
 import sonic_preloader from "../../assets/icons/sonic_preloader.gif";
 import { useTheme } from "styled-components";
 
@@ -74,7 +74,7 @@ export default function Decode() {
         <PopUpContainer>
           <TitleContainer container direction="column" alignItems="center">
             <img
-              src={encode_progress}
+              src={amazingRadio_Icon}
               style={{ width: "140px", height: "140px", zIndex: 1 }}
               alt="encode_progress"
             />

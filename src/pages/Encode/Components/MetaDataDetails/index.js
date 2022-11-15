@@ -26,7 +26,6 @@ import { log } from "../../../../utils/app.debug";
 import AppCheckBox from "../../../../components/common/AppCheckBox";
 import { FormControlLabel, Grid, RadioGroup } from "@material-ui/core";
 import HelpOutlineOutlinedIcon from "@material-ui/icons/HelpOutlineOutlined";
-import icon_uploaded from "../../../../assets/icons/icon_file_uploaded.png";
 import { StyledTextField } from "../../../../StyledComponents/StyledAppTextInput/StyledAppTextInput";
 import moment from "moment";
 import { CustomRadioButton } from "../../../../components/common/AppRadioButton/AppRadioButton";
@@ -40,12 +39,11 @@ import {
 } from "../../../../stores/actions/EncodeActions";
 import cogoToast from "cogo-toast";
 import PopUp from "../../../../components/common/PopUp";
-import encode_progress from "../../../../assets/icons/encode_progress.png";
+import amazingRadio_Icon from "../../../../assets/icons/amazingRadio_Icon.png";
 import sonic_preloader from "../../../../assets/icons/sonic_preloader.gif";
-import iconSuccess from "../../../../assets/images/icon-success-graphic.png";
+
 import CloseIcon from "@material-ui/icons/Close";
 import CustomDropDown from "../../../../components/common/AppTextInput/CustomDropDown";
-import errorEncodeIcon from "../../../../assets/images/icon-fail-graphic.png";
 import CancelOutlinedIcon from "@material-ui/icons/CancelOutlined";
 import AppAutoComplete from "../../../../components/common/AutoComplete/AppAutoComplete";
 import IconButton from "@material-ui/core/IconButton";
@@ -268,7 +266,7 @@ export default function EncodeData() {
           </Grid>
 
           <IconContainer>
-            <img src={icon_uploaded} width={"55px"} alt="upload_icon" />
+            <img src={amazingRadio_Icon} width={"55px"} alt="upload_icon" />
           </IconContainer>
         </TextContainer>
 
@@ -872,7 +870,7 @@ export default function EncodeData() {
         <PopUpContainer>
           <TitleContainer container direction="column" alignItems="center">
             <img
-              src={encode_progress}
+              src={amazingRadio_Icon}
               style={{ width: "140px", height: "140px", zIndex: 1 }}
               alt="encode_progress"
             />
@@ -926,7 +924,7 @@ export default function EncodeData() {
           </Grid>
           <TitleContainer container direction="column" alignItems="center">
             <img
-              src={iconSuccess}
+              src={amazingRadio_Icon}
               style={{ width: "140px", height: "140px", zIndex: 1 }}
               alt="success_icon"
             />
@@ -987,7 +985,7 @@ export default function EncodeData() {
           </Grid>
           <TitleContainer container direction="column" alignItems="center">
             <img
-              src={errorEncodeIcon}
+              src={amazingRadio_Icon}
               style={{ width: "140px", height: "140px", zIndex: 1 }}
               alt="error_encode"
             />

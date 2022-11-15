@@ -5,7 +5,7 @@ import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import { Grid, makeStyles } from "@material-ui/core";
 import { NavLink, useLocation } from "react-router-dom";
 import LabelIcon from "@material-ui/icons/Label";
-import hoverKey from "../../../assets/images/key-logo.png";
+import amazingRadio_Icon from "../../../assets/icons/amazingRadio_Icon.png";
 import { useSelector } from "react-redux";
 import { userRoles } from "../../../constants/constants";
 import CustomToolTip from "../CustomToolTip";
@@ -97,9 +97,9 @@ const useStyles = makeStyles(() => {
       color: appTheme.colors.grey.main,
       textDecoration: "none",
       "&:hover": {
-        color: appTheme.colors.primary.light,
+        color: appTheme.colors.primary.contrastText,
         "& $sideBarLinkIcon": {
-          content: `url(${hoverKey})`,
+          content: `url(${amazingRadio_Icon})`,
         },
       },
     },
@@ -111,9 +111,9 @@ const useStyles = makeStyles(() => {
       alignItems: "center",
       textDecoration: "none",
       "&:hover": {
-        color: appTheme.colors.primary.light,
+        color: appTheme.colors.primary.contrastText,
         "& $sideBarLinkIcon": {
-          content: `url(${hoverKey})`,
+          content: `url(${amazingRadio_Icon})`,
         },
       },
     },

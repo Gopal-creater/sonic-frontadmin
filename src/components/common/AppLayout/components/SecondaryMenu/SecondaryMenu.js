@@ -90,6 +90,7 @@ function SecondaryMenu(props) {
         {({ TransitionProps, placement }) => (
           <Grow
             {...TransitionProps}
+            className={classes.popperGrow}
             style={{
               transformOrigin:
                 placement === "bottom" ? "center top" : "center bottom",
@@ -157,27 +158,30 @@ const useStyles = makeStyles((theme) => {
     secondaryButton: {
       textTransform: "none",
       paddingLeft: "0px",
-      color: `${appTheme.colors.primary.main} !important`,
+      color: `${appTheme.colors.secondary.main} !important`,
       fontFamily: `${appTheme.fontFamily.robotoMedium}`,
       "&:focus": {
         outline: "none",
       },
       "&:hover": {
-        backgroundColor: `${appTheme.colors.primary.contrastText}`,
+        backgroundColor: `${appTheme.colors.primary.main}`,
         color: `${appTheme.colors.primary.light}`,
       },
     },
     menuItem: {
-      color: `${appTheme.colors.primary.light}`,
-      fontSize: `${appTheme.fontSize.content}`,
+      color: `${appTheme.colors.grey.main}`,
+      fontSize: `${appTheme.fontSize.caption}`,
       margin: "0px",
       padding: "0px",
       paddingRight: "30px",
       fontFamily: `${appTheme.fontFamily.robotoMedium}`,
       "&:hover": {
-        color: `${appTheme.colors.primary.main}`,
-        backgroundColor: `${appTheme.colors.primary.contrastText}`,
+        color: `${appTheme.colors.primary.contrastText}`,
       },
+    },
+    popperGrow: {
+      backgroundColor: appTheme.colors.primary.light,
+      border: "none !important",
     },
   };
 });

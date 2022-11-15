@@ -37,14 +37,14 @@ const SonicSpinner = ({ title, glowType, containerStyle, overlay }) => {
           <Spinner
             animation="border"
             role="status"
-            style={{ color: theme.colors.primary.main }}
+            style={{ color: theme.colors.primary.contrastText }}
           ></Spinner>
         )}
         <Typography
           style={{
             marginTop: 5,
             fontSize: theme.fontSize.content,
-            color: theme.colors.primary.main,
+            color: theme.colors.primary.contrastText,
             fontFamily: theme.fontFamily.robotoMedium,
           }}
         >
@@ -79,14 +79,14 @@ const SonicSpinner = ({ title, glowType, containerStyle, overlay }) => {
         <Spinner
           animation="border"
           role="status"
-          style={{ color: theme.colors.primary.main }}
+          style={{ color: theme.colors.primary.contrastText }}
         ></Spinner>
       )}
       <Typography
         style={{
           marginTop: 5,
           fontSize: theme.fontSize.content,
-          color: theme.colors.primary.main,
+          color: theme.colors.primary.contrastText,
           fontFamily: theme.fontFamily.robotoMedium,
         }}
       >

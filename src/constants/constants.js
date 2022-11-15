@@ -1,6 +1,6 @@
 export const tags = {
-  companyName: "Amazing Recognition",
-  companyTag: "Amazing tag",
+  companyName: "Amazing ",
+  companyTag: "Amazing ",
 };
 
 export const countries = [

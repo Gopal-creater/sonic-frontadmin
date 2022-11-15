@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography } from "@material-ui/core";
-import Icon from "../../../assets/images/icon-add-sound.png";
+import amazingRadio_Icon from "../../../assets/icons/amazingRadio_Icon.png";
 import * as mm from "music-metadata-browser";
 import cogoToast from "cogo-toast";
 import Communication from "../../../services/https/Communication";
@@ -259,7 +259,7 @@ export default function FileSelection({ prop }) {
               : prop?.subTitle}
           </Content>
         </div>
-        <img src={Icon} alt="" style={{ height: 80 }} />
+        <img src={amazingRadio_Icon} alt="" style={{ height: 80 }} />
       </Grid>
 
       <Grid item>

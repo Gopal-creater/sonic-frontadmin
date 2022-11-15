@@ -1,12 +1,12 @@
 import React from "react";
 import AppButton from "../AppButton/AppButton";
 import { FormContainer, FileInput, DragDopLabel } from "./DragDropFileStyle";
-import iconAddSound from "../../../assets/images/icon-add-sound.png";
 import { Content } from "../../../StyledComponents/StyledHeadings";
 import HelpOutlineOutlinedIcon from "@material-ui/icons/HelpOutlineOutlined";
 import { Grid } from "@material-ui/core";
 import CustomToolTip from "../CustomToolTip";
 import { useTheme } from "styled-components";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 
 export default function DragDropFile({ handleFiles }) {
   const [state, setState] = React.useState({
@@ -57,7 +57,7 @@ export default function DragDropFile({ handleFiles }) {
       />
 
       <DragDopLabel htmlFor="input-file-upload">
-        <img src={iconAddSound} width={"40px"} alt="sound_icon" />
+        <CloudUploadIcon style={{ fontSize: "45px" }} alt="sound_icon" />
         {state.file ? (
           <Grid>
             <Content fontFamily={theme.fontFamily.robotoBold}>

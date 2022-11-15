@@ -1,44 +1,13 @@
 import { Grid } from "@material-ui/core";
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import SplashScreen from "./../../assets/images/SplashScreen.png";
 import { useTheme as muiTheme } from "@material-ui/core/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import SignIn from "./SignIn/SignIn";
 import NewPassword from "./NewPassword/NewPassword";
 import EmailVerification from "./EmailVerification/EmailVerification";
 import ResetPassword from "./ResetPassword/ResetPassword";
-import waveSignIn from "../../assets/images/wave-signin.png";
 import { useTheme } from "styled-components";
-
-const useStyles = makeStyles((theme) => {
-  const appTheme = useTheme();
-  return {
-    root: {
-      backgroundColor: appTheme.colors.primary.dark,
-      height: "100vh",
-      backgroundImage: `url(${waveSignIn})`,
-      backgroundRepeat: "no-repeat",
-      backgroundPosition: "center",
-    },
-    signInCommonContainer: {
-      width: "27%",
-      maxWidth: "450px",
-      maxHeight: "650px",
-      height: "540px",
-
-      [theme.breakpoints.down("md")]: {
-        width: "40%",
-      },
-      [theme.breakpoints.down("sm")]: {
-        width: "48%",
-      },
-      [theme.breakpoints.down("xs")]: {
-        width: "80%",
-      },
-    },
-  };
-});
 
 export default function Authenticator(prop) {
   const classes = useStyles();
@@ -74,7 +43,7 @@ export default function Authenticator(prop) {
       justifyContent="center"
       alignItems="center"
     >
-      <Grid
+      {/* <Grid
         item
         className={classes.signInCommonContainer}
         style={{ display: matches ? "none" : "" }}
@@ -86,7 +55,7 @@ export default function Authenticator(prop) {
           height="100%"
           style={{ objectFit: "cover" }}
         />
-      </Grid>
+      </Grid> */}
 
       <Grid
         item
@@ -101,3 +70,29 @@ export default function Authenticator(prop) {
     </Grid>
   );
 }
+
+const useStyles = makeStyles((theme) => {
+  const appTheme = useTheme();
+  return {
+    root: {
+      backgroundColor: appTheme.colors.primary.main,
+      height: "100vh",
+    },
+    signInCommonContainer: {
+      width: "30%",
+      maxWidth: "450px",
+      maxHeight: "650px",
+      height: "540px",
+
+      [theme.breakpoints.down("md")]: {
+        width: "60%",
+      },
+      [theme.breakpoints.down("sm")]: {
+        width: "60%",
+      },
+      [theme.breakpoints.down("xs")]: {
+        width: "80%",
+      },
+    },
+  };
+});

@@ -9,20 +9,17 @@ import Footer from "./components/Footer/Footer";
 import AppSideBar from "../AppSidebar";
 import SecondaryMenu from "./components/SecondaryMenu/SecondaryMenu";
 import { useTheme } from "styled-components";
-import {
-  Header,
-  LayoutHeading,
-  SideBarHeading,
-  Avatar,
-} from "./AppLayout.styles";
-import { tags } from "../../../constants/constants";
+import { Header, SideBarHeading, Avatar } from "./AppLayout.styles";
 import { getUserName } from "../../../services/https/AuthHelper";
+import amazing_Logo from "../../../assets/icons/amazing_Logo.png";
 
 export default function AppLayout({ children }) {
   const classes = useStyles();
   const date = new Date();
   const hour = date.getHours();
   const [open, setOpen] = React.useState(true);
+  const appTheme = useTheme();
+
   const toggleSideBar = () => {
     setOpen((open) => !open);
   };
@@ -56,7 +53,7 @@ export default function AppLayout({ children }) {
           </IconButton>
 
           <Grid container justifyContent="space-between">
-            <LayoutHeading noWrap>{tags.companyName}</LayoutHeading>
+            <img src={amazing_Logo} height="40px" alt="logo" />
             <SecondaryMenu />
           </Grid>
         </Toolbar>
@@ -86,7 +83,11 @@ export default function AppLayout({ children }) {
           <Grid item container alignItems="center" xs={2}>
             <IconButton
               onClick={toggleSideBar}
-              style={{ position: "absolute", right: 0 }}
+              style={{
+                position: "absolute",
+                right: 0,
+                color: appTheme.colors.primary.contrastText,
+              }}
             >
               <ArrowBackIcon />
             </IconButton>
@@ -124,36 +125,42 @@ const useStyles = makeStyles((theme) => {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
       }),
+      backgroundColor: `${appTheme.colors.primary.main} !important`,
+      borderBottom: `1px solid ${appTheme.colors.grey.main}`,
     },
     appBarShift: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
-
+      backgroundColor: `${appTheme.colors.primary.main} !important`,
       transition: theme.transitions.create(["margin", "width"], {
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen,
       }),
+      borderBottom: `1px solid ${appTheme.colors.grey.main}`,
     },
     divider: {
-      backgroundColor: appTheme.colors.primary.main,
+      border: `1px solid ${appTheme.colors.primary.contrastText}`,
     },
     menuButton: {
       marginRight: theme.spacing(2),
+      color: appTheme.colors.primary.contrastText,
     },
     hide: {
       display: "none",
+      color: appTheme.colors.primary.contrastText,
     },
     drawer: {
       width: drawerWidth,
       flexShrink: 0,
+      backgroundColor: appTheme.colors.primary.dark,
     },
     drawerPaper: {
       width: drawerWidth,
-      // backgroundColor: appTheme.colors.grey.light,
+      backgroundColor: appTheme.colors.primary.dark,
     },
     drawerHeader: {
       padding: theme.spacing(0, 1),
-      backgroundColor: appTheme.colors.primary.contrastText,
+      backgroundColor: appTheme.colors.primary.main,
       // necessary for content to be below app bar
       ...theme.mixins.toolbar,
     },

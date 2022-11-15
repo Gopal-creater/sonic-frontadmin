@@ -22,26 +22,26 @@ code {
 @font-face {
   font-family: "Roboto-Bold";
   src: local("Roboto-Bold"),
-    url("./assets/fonts/Roboto-Bold.ttf") format("truetype");
+    url("./assets/fonts/FuturaBold.otf") format("truetype");
 }
 
 @font-face {
   font-family: "Roboto-Thin";
   src: local("Roboto-Thin"),
-    url("./assets/fonts/Roboto-Thin.ttf") format("truetype");
+    url("./assets/fonts/FuturaRegular.otf") format("truetype");
 }
 
 
 @font-face {
   font-family: "Roboto-Medium";
   src: local("Roboto-Medium"),
-    url("./assets/fonts/Roboto-Medium.ttf") format("truetype");
+    url("./assets/fonts/FuturaMedium.otf") format("truetype");
 }
 
 @font-face {
   font-family: "Roboto-Regular";
   src: local("Roboto-Regular"),
-    url("./assets/fonts/Roboto-Regular.ttf") format("truetype");
+    url("./assets/fonts/FuturaRegular.otf") format("truetype");
 }
 
 

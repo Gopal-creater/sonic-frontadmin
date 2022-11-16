@@ -4,13 +4,18 @@ import MUIDialog from "@material-ui/core/Dialog";
 import { FilterExport } from "../Filter.styled";
 import AppButton from "../../AppButton/AppButton";
 import { TuneRounded } from "@material-ui/icons";
+import { useTheme } from "styled-components";
 
-const useStyles = makeStyles({
-  root: {
-    "& .MuiDialog-paper": {
-      borderRadius: 0,
+const useStyles = makeStyles(() => {
+  const theme = useTheme();
+  return {
+    root: {
+      "& .MuiDialog-paper": {
+        borderRadius: 0,
+        backgroundColor: theme.background.dark4,
+      },
     },
-  },
+  };
 });
 
 export default function CustomDialog({

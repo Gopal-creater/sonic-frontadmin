@@ -28,18 +28,18 @@ export const FilterExport = styled.div`
 export const CustomPopup = styled(Popover)`
   .MuiPaper-root {
     border-radius: 0px;
-    border: 2px solid ${(props) => props.theme.colors.primary.main};
     box-shadow: none;
     min-width: 120px;
+    background-color: ${(props) => props.theme.background.dark4};
+    border: 1px solid ${(props) => props.theme.colors.grey.dark};
   }
 `;
 export const CustomMenuItem = styled(MenuItem)`
   font-family: ${(props) => props.theme.fontFamily.robotoMedium};
   font-size: ${(props) => props.theme.fontSize.content} !important;
-  color: ${(props) => props.theme.colors.primary.light};
-  border-bottom: 1px solid ${(props) => props.theme.colors.grey.main};
+  color: ${(props) => props.theme.colors.grey.main};
   :hover {
-    background-color: ${(props) => props.theme.colors.primary.contrastText};
-    color: ${(props) => props.theme.colors.primary.main};
+    background-color: transparent;
+    color: ${(props) => props.theme.background.contrastText};
   }
 `;

@@ -96,8 +96,12 @@ const useStyles = makeStyles(() => {
       fontSize: appTheme.fontSize.content,
       color: appTheme.colors.grey.main,
       textDecoration: "none",
+      textTransform: "uppercase",
       "&:hover": {
         color: appTheme.colors.primary.contrastText,
+        textDecoration: "underline",
+        textDecorationColor: appTheme.colors.secondary.main,
+        textDecorationThickness: "4px",
         "& $sideBarLinkIcon": {
           content: `url(${amazingRadio_Icon})`,
         },
@@ -106,12 +110,13 @@ const useStyles = makeStyles(() => {
     sideBarLinkIcon: {},
     activeSideBarLink: {
       fontSize: appTheme.fontSize.content,
-      color: appTheme.colors.secondary.main,
+      color: appTheme.colors.primary.main,
       display: "flex",
       alignItems: "center",
       textDecoration: "none",
+      textTransform: "uppercase",
       "&:hover": {
-        color: appTheme.colors.primary.contrastText,
+        color: appTheme.colors.primary.main,
         "& $sideBarLinkIcon": {
           content: `url(${amazingRadio_Icon})`,
         },

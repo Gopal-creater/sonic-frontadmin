@@ -1,4 +1,4 @@
-import { Grid, TableCell, TableRow } from "@material-ui/core";
+import { Grid, makeStyles, TableCell, TableRow } from "@material-ui/core";
 import React from "react";
 import AppButton from "./AppButton/AppButton";
 import PopUp from "./PopUp";
@@ -18,6 +18,7 @@ function PlaysMetaData(props) {
     selectedTrack: null,
   });
   const theme = useTheme();
+  const classes = useStyles();
 
   const closePopUp = () => {
     props.setOpenTable(false);
@@ -25,7 +26,7 @@ function PlaysMetaData(props) {
 
   return (
     <PopUp open={true} maxWidth="sm" fullWidth>
-      <Grid style={{ padding: "30px" }}>
+      <Grid className={classes.playsMetaData}>
         <Grid container justifyContent="space-between">
           <Grid>
             <SubHeading>
@@ -218,3 +219,13 @@ const TCell = ({ children, cell1, ...props }) => {
     );
   }
 };
+
+const useStyles = makeStyles(() => {
+  const appTheme = useTheme();
+  return {
+    playsMetaData: {
+      backgroundColor: appTheme.background.dark4,
+      padding: "30px",
+    },
+  };
+});

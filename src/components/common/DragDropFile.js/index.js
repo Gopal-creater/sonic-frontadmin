@@ -98,7 +98,7 @@ export default function DragDropFile({ handleFiles }) {
           >
             <HelpOutlineOutlinedIcon
               style={{
-                color: theme.colors.primary.light,
+                color: theme.background.contrastText,
                 fontSize: "15px",
               }}
             />

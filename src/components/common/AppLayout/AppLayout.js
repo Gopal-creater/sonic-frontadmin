@@ -76,6 +76,7 @@ export default function AppLayout({ children }) {
             alignItems="center"
             justifyContent="center"
             xs={10}
+            style={{ backgroundColor: appTheme.background.dark3 }}
           >
             <Avatar>{Array.from(getUserName())[0]}</Avatar>
             <SideBarHeading>{getGreetings()}</SideBarHeading>
@@ -125,13 +126,13 @@ const useStyles = makeStyles((theme) => {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
       }),
-      backgroundColor: `${appTheme.colors.primary.main} !important`,
+      backgroundColor: `${appTheme.background.dark3} !important`,
       borderBottom: `1px solid ${appTheme.colors.grey.main}`,
     },
     appBarShift: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
-      backgroundColor: `${appTheme.colors.primary.main} !important`,
+      backgroundColor: `${appTheme.background.dark3} !important`,
       transition: theme.transitions.create(["margin", "width"], {
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen,
@@ -152,15 +153,15 @@ const useStyles = makeStyles((theme) => {
     drawer: {
       width: drawerWidth,
       flexShrink: 0,
-      backgroundColor: appTheme.colors.primary.dark,
+      backgroundColor: appTheme.background.dark1,
     },
     drawerPaper: {
       width: drawerWidth,
-      backgroundColor: appTheme.colors.primary.dark,
+      backgroundColor: appTheme.background.dark1,
     },
     drawerHeader: {
       padding: theme.spacing(0, 1),
-      backgroundColor: appTheme.colors.primary.main,
+      backgroundColor: appTheme.background.dark3,
       // necessary for content to be below app bar
       ...theme.mixins.toolbar,
     },

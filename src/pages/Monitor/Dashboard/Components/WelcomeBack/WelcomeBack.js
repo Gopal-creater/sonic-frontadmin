@@ -13,9 +13,7 @@ export default function WelcomeBack({ totalRadioStations, loading, error }) {
   return (
     <WelcomeBackContainer container alignItems="center">
       <Grid xs={12} lg={8}>
-        <SubHeading color={theme.colors.primary.contrastText}>
-          Welcome Back
-        </SubHeading>
+        <SubHeading>Welcome Back</SubHeading>
       </Grid>
       <Grid container justifyContent="flex-end" xs={12} lg={4}>
         <Grid style={{ marginRight: "30px" }}>

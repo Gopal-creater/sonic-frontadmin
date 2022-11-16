@@ -9,19 +9,19 @@ const CustomButton = styled(Button)(
     if (variant === "fill") {
       return {
         textTransform: "none",
-        color: color || `${theme.colors.primary.contrastText} !important`,
+        color: color || `${theme.colors.secondary.contrastText} !important`,
         backgroundColor: disabled
           ? theme.colors.grey.light
-          : theme.colors.primary.main,
+          : theme.colors.secondary.main,
         fontFamily: fontFamily || theme.fontFamily.robotoMedium,
-        borderRadius: "5px",
+        borderRadius: theme.border_radius,
         fontSize: fontSize || theme.fontSize.content,
         padding: "7px 30px 7px 30px",
         "&:hover": {
-          backgroundColor: theme.colors.primary.light,
+          backgroundColor: theme.colors.secondary.light,
         },
         "&:active": {
-          backgroundColor: theme.colors.primary.dark,
+          backgroundColor: theme.colors.secondary.dark,
         },
       };
     } else if (variant === "outline") {
@@ -29,18 +29,20 @@ const CustomButton = styled(Button)(
         textTransform: "none",
         color: disabled
           ? theme.colors.grey.main
-          : color || theme.colors.primary.main,
+          : color || theme.colors.secondary.contrastText,
         fontFamily: fontFamily || theme.fontFamily.robotoMedium,
-        borderRadius: "7px",
+        borderRadius: theme.border_radius,
         border: `2px solid ${
-          disabled ? theme.colors.grey.main : theme.colors.primary.main
+          disabled
+            ? theme.colors.grey.main
+            : theme.colors.secondary.contrastText
         }`,
         backgroundColor: "transparent",
         padding: "7px 30px 7px 30px",
         fontSize: fontSize || theme.fontSize.content,
         "&:hover": {
-          color: `${theme.colors.primary.light} !important`,
-          border: `2px solid ${theme.colors.primary.light} !important`,
+          color: `${theme.colors.primary.main} !important`,
+          border: `2px solid ${theme.colors.primary.main} !important`,
           backgroundColor: "transparent",
         },
         "&:active": {
@@ -52,18 +54,24 @@ const CustomButton = styled(Button)(
       return {
         textTransform: "none",
         color: `${
-          disabled ? theme.colors.grey.main : color || theme.colors.primary.main
+          disabled
+            ? theme.colors.grey.main
+            : color || theme.colors.secondary.contrastText
         }`,
         fontSize: fontSize || theme.fontSize.content,
         fontFamily: fontFamily || theme.fontFamily.robotoMedium,
-        padding: "7px 30px 7px 30px",
+        padding: "0px 0px 0px 0px !important",
         backgroundColor: "transparent",
         "&:hover": {
-          color: `${theme.colors.primary.light} !important`,
           backgroundColor: "transparent",
+          textDecoration: "underline",
+          textDecorationColor: theme.colors.secondary.main,
+          textDecorationThickness: "5px",
         },
         "&:active": {
-          color: `${theme.colors.primary.dark} !important`,
+          textDecoration: "underline",
+          textDecorationColor: theme.colors.secondary.dark,
+          textDecorationThickness: "5px",
         },
       };
     } else {

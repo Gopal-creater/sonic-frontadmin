@@ -13,10 +13,12 @@ import { SubHeading } from "../../../StyledComponents/StyledHeadings";
 import * as actionTypes from "../../../stores/actions/actionTypes";
 import CompanyEncodesFilter from "./Components/CompanyEncodesFilter";
 import AppTable from "../../../components/common/AppTable";
+import { useTheme } from "styled-components";
 
 export default function EncodesByCompany() {
   const dispatch = useDispatch();
   const companyEncodes = useSelector((state) => state.company.companyEncodes);
+  const theme = useTheme();
 
   // const [state, setState] = React.useState({
   //   currentSortBy: "",
@@ -61,7 +63,9 @@ export default function EncodesByCompany() {
   };
 
   return (
-    <Grid style={{ backgroundColor: "white", padding: "30px 40px" }}>
+    <Grid
+      style={{ backgroundColor: theme.background.dark4, padding: "30px 40px" }}
+    >
       <SubHeading>Encodes by company</SubHeading>
       <PaginationCount
         name="encodes by company"

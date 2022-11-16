@@ -3,11 +3,11 @@ import { Grid } from "@material-ui/core";
 
 export const EncodeContainer = styled(Grid)`
   padding: 25px;
-  background-color: white;
+  background-color: ${(props) => props.theme.background.dark4};
 `;
 
 export const MetaDataHeaderContainer = styled(Grid)`
-  background-color: ${(props) => props.theme.colors.primary.main};
+  background-color: ${(props) => props.theme.background.dark3};
   padding: 25px;
   position: relative;
 
@@ -18,7 +18,7 @@ export const MetaDataHeaderContainer = styled(Grid)`
     left: 35px;
     border-width: 20px;
     border-style: solid;
-    border-color: ${(props) => props.theme.colors.primary.main} transparent
+    border-color: ${(props) => props.theme.background.dark3} transparent
       transparent transparent;
   }
 `;
@@ -34,7 +34,7 @@ export const IconContainer = styled.div`
   align-items: center;
   justify-content: center;
   padding: 35px;
-  border-left: 3px solid ${(props) => props.theme.colors.secondary.light};
+  border-left: 3px solid ${(props) => props.theme.background.contrastText};
 `;
 
 export const MetaDataDetailsContainer = styled(Grid)`
@@ -73,11 +73,12 @@ export const SearchTrackContainer = styled(Grid)`
   margin-top: 15px;
   padding: 30px;
   width: 100%;
-  background-color: white;
+  background-color: ${(props) => props.theme.background.dark4};
 `;
 
 export const PopUpContainer = styled(Grid)`
   padding: ${(props) => props.padding || "30px"};
+  background-color: ${(props) => props.theme.background.dark4};
 `;
 
 export const TitleContainer = styled(Grid)`
@@ -91,7 +92,7 @@ export const TitleContainer = styled(Grid)`
     height: 65%;
     top: 35%;
     background-color: ${(props) =>
-      props?.backgroundColor || props.theme.colors.primary.main} !important;
+      props?.backgroundColor || props.theme.background.dark3} !important;
   }
 `;
 

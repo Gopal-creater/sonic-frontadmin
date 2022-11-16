@@ -17,9 +17,9 @@ const IOSSwitch = withStyles(() => {
       padding: 1,
       "&$checked": {
         transform: "translateX(100%)",
-        color: theme.colors.primary.contrastText,
+        color: theme.background.contrastText,
         "& + $track": {
-          backgroundColor: theme.colors.primary.main,
+          backgroundColor: theme.colors.secondary.main,
           opacity: 1,
           border: "none",
         },

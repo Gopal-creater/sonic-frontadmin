@@ -283,7 +283,9 @@ export default function TracksTable({ data, paginationCount }) {
         maxWidth="sm"
         fullWidth
       >
-        <Grid style={{ padding: "30px" }}>
+        <Grid
+          style={{ padding: "30px", backgroundColor: theme.background.dark4 }}
+        >
           <Grid container justifyContent="space-between">
             <Grid>
               <Content fontFamily={theme.fontFamily.robotoBold}>

@@ -1,5 +1,6 @@
 import { Box, CircularProgress, Grid, Typography } from "@material-ui/core";
 import React from "react";
+import { useTheme } from "styled-components";
 import PopUp from "../../../../components/common/PopUp";
 import { Content } from "../../../../StyledComponents/StyledHeadings";
 
@@ -28,6 +29,7 @@ function CircularProgressWithLabel(props) {
 }
 
 export default function DownloadProgressModal({ open, percentage = "0" }) {
+  const theme = useTheme();
   return (
     <PopUp open={open} maxWidth="sm">
       <Grid
@@ -38,6 +40,7 @@ export default function DownloadProgressModal({ open, percentage = "0" }) {
       >
         <Content
           style={{ marginLeft: "15px", marginTop: "5px", marginRight: "10px" }}
+          color={theme.colors.grey.dark}
         >
           Download in progress{" "}
         </Content>

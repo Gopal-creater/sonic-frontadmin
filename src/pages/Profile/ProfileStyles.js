@@ -5,10 +5,10 @@ export const IconBox = styled(Grid)`
   padding: 10px;
   border-radius: 50%;
   margin-bottom: 10px;
-  background-color: ${(props)=>props.theme.colors.primary.main};
+  background-color: ${(props) => props.theme.background.dark1};
 `;
 
 export const BorderBottom = styled(Grid)`
   margin-top: 40px;
-  border-bottom: 1px solid ${(props)=>props.theme.colors.primary.light};
+  border-bottom: 1px solid ${(props) => props.theme.background.contrastText};
 `;

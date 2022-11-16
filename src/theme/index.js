@@ -3,15 +3,15 @@ import { createGlobalStyle } from "styled-components";
 const theme = {
   colors: {
     primary: {
-      light: "#282828",
-      main: "#1B1B1B",
-      dark: "#141414",
+      light: "#efe776",
+      main: "#EDE363",
+      dark: "#eadf48",
       contrastText: "#fff",
     },
     secondary: {
-      light: "#E5F5F4",
-      main: "#EDE363",
-      dark: "#006661",
+      light: "#6d7df8",
+      main: "#596CF7",
+      dark: "#3c52f6",
       error: "#DF165D",
       contrastText: "#fff",
     },
@@ -21,12 +21,19 @@ const theme = {
       dark: "#4d4d4d",
     },
   },
+  background: {
+    dark1: "#141414",
+    dark2: "#232323",
+    dark3: "#282828",
+    dark4: "#424042",
+    contrastText: "#fff",
+  },
   shadows: {
     light: "",
     main: "0 3px 8px 0 rgba(0, 0, 0, 0.2), 0 0 20px 0 rgba(0, 0, 0, 0.19)",
     dark: "",
   },
-  border_radius: "",
+  border_radius: "8px",
   fontSize: {
     extra: "45px",
     heading: "30px",
@@ -94,8 +101,7 @@ export const testTheme = {
 
 export const GlobalStyles = createGlobalStyle`
     body{
-        background-color:${(props) =>
-          props.theme.colors.primary.main} !important
+        background-color:${(props) => props.theme.background.dark2} !important
     }
 `;
 

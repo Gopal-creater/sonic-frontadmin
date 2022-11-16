@@ -39,7 +39,7 @@ export default function FilterComponent(props) {
           boxShadow: theme.shadows.main,
           padding: "30px",
           margin: "30px 0px 20px 0px",
-          backgroundColor: theme.colors.primary.contrastText,
+          backgroundColor: theme.background.dark4,
         }}
       >
         {/*  Date-pickers---------------------------------*/}
@@ -55,7 +55,10 @@ export default function FilterComponent(props) {
             dateRange={true}
           />
 
-          <Content style={{ marginLeft: "10px", marginRight: "20px" }}>
+          <Content
+            style={{ marginLeft: "10px", marginRight: "20px" }}
+            color={theme.colors.grey.main}
+          >
             to
           </Content>
 

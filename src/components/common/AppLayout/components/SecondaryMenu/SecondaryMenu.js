@@ -158,14 +158,18 @@ const useStyles = makeStyles((theme) => {
     secondaryButton: {
       textTransform: "none",
       paddingLeft: "0px",
-      color: `${appTheme.colors.secondary.main} !important`,
+      color: `${appTheme.background.contrastText} !important`,
       fontFamily: `${appTheme.fontFamily.robotoMedium}`,
       "&:focus": {
-        outline: "none",
+        // textDecoration: "underline",
+        // textDecorationColor: appTheme.colors.secondary.dark,
+        // textDecorationThickness: "5px",
       },
       "&:hover": {
-        backgroundColor: `${appTheme.colors.primary.main}`,
-        color: `${appTheme.colors.primary.light}`,
+        backgroundColor: "transparent",
+        // textDecoration: "underline",
+        // textDecorationColor: appTheme.colors.secondary.main,
+        // textDecorationThickness: "5px",
       },
     },
     menuItem: {
@@ -176,11 +180,11 @@ const useStyles = makeStyles((theme) => {
       paddingRight: "30px",
       fontFamily: `${appTheme.fontFamily.robotoMedium}`,
       "&:hover": {
-        color: `${appTheme.colors.primary.contrastText}`,
+        color: `${appTheme.background.contrastText}`,
       },
     },
     popperGrow: {
-      backgroundColor: appTheme.colors.primary.light,
+      backgroundColor: appTheme.background.dark4,
       border: "none !important",
     },
   };

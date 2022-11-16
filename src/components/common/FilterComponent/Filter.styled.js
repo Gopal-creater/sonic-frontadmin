@@ -2,7 +2,7 @@ import { Grid, MenuItem, Popover } from "@material-ui/core";
 import styled from "styled-components";
 
 export const Container = styled(Grid)`
-  background-color: ${(props) => props.theme.colors.primary.contrastText};
+  background-color: ${(props) => props.theme.background.dark4};
   box-shadow: ${(props) => props.theme.shadows.main};
   margin-top: 30px;
   margin-bottom: 30px;

@@ -1,3 +1,4 @@
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
 import MUIDataTable from "mui-datatables";
 import React from "react";
 import { useTheme } from "styled-components";
@@ -20,6 +21,7 @@ export default function AppTable({ title, data, columns, options }) {
     setTableProps: () => {
       return {
         size: "small",
+        backgroundColor: "red",
       };
     },
     textLabels: {
@@ -35,13 +37,15 @@ export default function AppTable({ title, data, columns, options }) {
         whiteSpace: "normal",
         wordWrap: "break-word",
         fontSize: theme.fontSize.caption,
-        color: theme.colors.grey.dark,
+        color: theme.background.contrastText,
         fontFamily: theme.fontFamily.robotoRegular,
       },
     }),
     setCellHeaderProps: () => ({
       style: {
         zIndex: 0,
+        color: theme.background.contrastText,
+        backgroundColor: theme.background.dark4,
       },
     }),
     customHeadLabelRender: (data) => {
@@ -69,15 +73,30 @@ export default function AppTable({ title, data, columns, options }) {
     }
   });
 
-  log("AppTable Columns", columns);
-  log("AppTable Data", data);
+  const getMuiTheme = () =>
+    createMuiTheme({
+      overrides: {
+        MUIDataTableToolbar: {
+          root: {
+            backgroundColor: theme.background.dark4,
+          },
+        },
+        MUIDataTableBodyCell: {
+          root: {
+            backgroundColor: theme.background.dark4,
+          },
+        },
+      },
+    });
 
   return (
-    <MUIDataTable
-      title={<Title>{title}</Title>}
-      data={data}
-      columns={newColumns}
-      options={{ ...defaultTableOptions, ...options }}
-    />
+    <MuiThemeProvider theme={getMuiTheme()}>
+      <MUIDataTable
+        title={<Title>{title}</Title>}
+        data={data}
+        columns={newColumns}
+        options={{ ...defaultTableOptions, ...options }}
+      />
+    </MuiThemeProvider>
   );
 }

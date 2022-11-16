@@ -15,8 +15,8 @@ const CustomToolTip = styled(StyledTooltip)(
     return {
       fontSize: `${fontSize || theme.fontSize.caption}`,
       fontFamily: `${theme.fontFamily.robotoMedium}`,
-      color: `${color || theme.colors.secondary.main}`,
-      backgroundColor: `${background || theme.colors.primary.light}`,
+      color: `${color || theme.background.contrastText}`,
+      backgroundColor: `${background || theme.background.dark4}`,
       borderRadius: 0,
       border: "none",
       maxWidth: "250px !important",
@@ -26,7 +26,7 @@ const CustomToolTip = styled(StyledTooltip)(
       cursor: "pointer",
 
       "& .MuiTooltip-arrow": {
-        color: theme.colors.primary.light,
+        color: theme.background.dark4,
         fontSize: 30,
         "&:before": {
           border: "none",

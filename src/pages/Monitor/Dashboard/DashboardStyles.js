@@ -8,7 +8,7 @@ export const CardContainer = styled.div`
 `;
 
 export const TableContainer = styled(Grid)`
-  background-color: white;
+  background-color: ${(props) => props.theme.background.dark4};
   margin-top: 30px;
   padding: 30px;
 `;

@@ -268,11 +268,7 @@ export default function Encode() {
                   helperText="Search your company records"
                 />
 
-                <Grid
-                  container
-                  justifyContent="flex-end"
-                  style={{ marginRight: "-30px" }}
-                >
+                <Grid container justifyContent="flex-end">
                   <CustomToolTip
                     title={
                       "Use this when you want to encode a track multiple times, each with a unique SonicKey' to share with different distributors. Saves time inputting data respectively."
@@ -283,7 +279,7 @@ export default function Encode() {
                   >
                     <HelpOutlineOutlinedIcon
                       style={{
-                        color: theme.colors.primary.light,
+                        color: theme.background.contrastText,
                         fontSize: "15px",
                       }}
                     />

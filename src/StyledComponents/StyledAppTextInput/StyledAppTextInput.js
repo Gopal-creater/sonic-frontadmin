@@ -5,16 +5,23 @@ import styled from "styled-components";
 const useStyles = makeStyles(() => ({
   textInput: {
     "&:-webkit-autofill": {
-      WebkitBoxShadow: "0 0 0 1000px white inset",
+      WebkitBoxShadow: `0 0 0 1000px ${(props) =>
+        props.theme.colors.grey.main} inset !important`,
     },
   },
 }));
 
 const TextfieldFormControl = styled(FormControl)`
   width: 100%;
+  & .MuiInputLabel-formControl {
+    color: ${(props) => props.theme.colors.grey.main};
+  }
+  & .Mui-disabled {
+    color: ${(props) => props.theme.colors.grey.main};
+  }
   &:hover {
     & .MuiInputLabel-formControl {
-      color: ${(props) => props.theme.colors.primary.main};
+      color: ${(props) => props.theme.colors.grey.main};
     }
     .Mui-disabled {
       color: ${(props) => props.theme.colors.grey.light};
@@ -52,7 +59,7 @@ const CustomTextField = styled(TextField)`
   }
 
   & label.Mui-focused {
-    color: ${(props) => props.theme.colors.grey.main};
+    color: ${(props) => props.theme.colors.primary.main} !important;
   }
 
   //For main input text
@@ -67,7 +74,7 @@ const CustomTextField = styled(TextField)`
   }
 
   & .MuiInput-root.Mui-focused {
-    color: ${(props) => props.theme.colors.primary.main};
+    color: ${(props) => props.theme.background.contrastText};
   }
 
   //Inputfield Icon
@@ -82,11 +89,11 @@ const CustomTextField = styled(TextField)`
   }
 
   && .MuiInput-underline:hover:before {
-    border-bottom-color: ${(props) => props.theme.colors.primary.main};
+    border-bottom-color: ${(props) => props.theme.background.contrastText};
   }
 
   & .MuiInput-underline:after {
-    border-bottom-color: ${(props) => props.theme.colors.secondary.main};
+    border-bottom-color: ${(props) => props.theme.colors.primary.main};
   }
 `;
 

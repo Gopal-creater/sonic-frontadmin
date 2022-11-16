@@ -66,7 +66,7 @@ export const AutocompleteTextfield = styled(TextField)`
 
   //for textInput
   & .MuiInput-root {
-    color: ${(props) => props.color || props.theme.colors.primary.main};
+    color: ${(props) => props.color || props.theme.background.contrastText};
     font-family: ${(props) =>
       props.fontFamily || props.theme.fontFamily.robotoMedium};
     font-size: ${(props) => props.fontSize || props.theme.fontSize.content};
@@ -80,7 +80,7 @@ export const AutocompleteTextfield = styled(TextField)`
 
   // For border buttom
   & .MuiInput-underline:before {
-    border-bottom-color: ${(props) => props.theme.colors.primary.light};
+    border-bottom-color: ${(props) => props.theme.background.contrastText};
   }
   && .MuiInput-underline:hover:before {
     border-bottom-color: ${(props) => props.theme.colors.primary.dark};
@@ -91,7 +91,7 @@ export const AutocompleteTextfield = styled(TextField)`
 `;
 
 export const AutocompleteMessage = styled(Typography)`
-  color: ${(props) => props.theme.colors.primary.main};
+  color: ${(props) => props.theme.background.contrastText};
   font-family: ${(props) => props.theme.fontFamily.robotoMedium};
   font-size: ${(props) => props.theme.fontSize.content};
   background: transparent;

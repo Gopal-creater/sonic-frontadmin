@@ -218,9 +218,6 @@ export default function EncodeData() {
       });
   };
 
-  log("encode success", encodeReducer?.data);
-  log("state", state);
-
   return (
     <EncodeContainer>
       <MetaDataHeaderContainer>

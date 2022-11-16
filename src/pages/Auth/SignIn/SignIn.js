@@ -63,6 +63,7 @@ export default function SignIn() {
           <Heading>{tags.companyName}</Heading>
           <Content>Encode. Manage. Monitor. Report.</Content>
         </Grid>
+
         <Controller
           name="username"
           control={control}
@@ -143,7 +144,6 @@ export default function SignIn() {
             variant={"none"}
             onClick={() => dispatch(forgotPasword(true))}
             disabled={values.loginLoading}
-            style={{ paddingLeft: "0px", paddingRight: "0px" }}
           >
             Forgot password?
           </AppButton>
@@ -215,7 +215,6 @@ const useStyles = makeStyles(() => {
   const theme = useTheme();
   return {
     signInRoot: {
-      backgroundColor: theme.colors.primary.contrastText,
       width: "100%",
       height: "100%",
       overflow: "auto",

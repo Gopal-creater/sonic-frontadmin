@@ -19,7 +19,11 @@ export default function Timezone({
       style={{ width: "230px" }}
     >
       {labelText !== undefined ? (
-        <TimezoneSelectInput htmlFor={id} {...labelProps}>
+        <TimezoneSelectInput
+          htmlFor={id}
+          {...labelProps}
+          style={{ border: "none" }}
+        >
           {labelText}
         </TimezoneSelectInput>
       ) : null}

@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme) => {
   const appTheme = useTheme();
   return {
     root: {
-      backgroundColor: appTheme.colors.primary.main,
+      backgroundColor: appTheme.background.dark2,
       height: "100vh",
     },
     signInCommonContainer: {
@@ -83,6 +83,7 @@ const useStyles = makeStyles((theme) => {
       maxWidth: "450px",
       maxHeight: "650px",
       height: "540px",
+      backgroundColor: `${appTheme.background.dark4} !important`,
 
       [theme.breakpoints.down("md")]: {
         width: "60%",

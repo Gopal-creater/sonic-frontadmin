@@ -8,8 +8,8 @@ function PaginationCount({ name, start, end, total, heading = false }) {
       <span
         style={{
           color: heading
-            ? theme.colors.primary.dark
-            : theme.colors.primary.main,
+            ? theme.background.contrastText
+            : theme.background.contrastText,
           fontSize: theme.fontSize.content,
           fontFamily: theme.fontFamily.robotoMedium,
         }}

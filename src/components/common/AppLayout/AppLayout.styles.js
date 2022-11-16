@@ -13,15 +13,16 @@ export const LayoutHeading = styled(Typography)`
 
 export const SideBarHeading = styled(Typography)`
   font-size: ${(props) => props.theme.fontSize.content};
-  color: ${(props) => props.theme.colors.primary.contrastText};
+  color: ${(props) => props.theme.background.contrastText};
   font-family: ${(props) => props.theme.fontFamily.robotoMedium};
+  text-transform: uppercase;
 `;
 
 export const Avatar = styled.div`
-  font-size: ${(props) => props.theme.fontSize.subHeading};
-  color: ${(props) => props.theme.colors.primary.main};
+  font-size: ${(props) => props.theme.fontSize.content};
+  color: ${(props) => props.theme.colors.grey.dark};
   font-family: ${(props) => props.theme.fontFamily.robotoMedium};
-  background-color: ${(props) => props.theme.colors.secondary.main};
+  background-color: ${(props) => props.theme.colors.primary.main};
   width: 30px;
   height: 30px;
   display: flex;

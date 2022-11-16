@@ -40,9 +40,9 @@ export default function CommonDataLoadErrorSuccess({
     return (
       <LoadErrorContainer container direction="column" alignItems="center">
         <Grid>
-          <CircularProgress style={{ color: theme.colors.primary.main }} />
+          <CircularProgress style={{ color: theme.colors.secondary.main }} />
         </Grid>
-        <Content color={theme.colors.primary.main}>Fetching Data...</Content>
+        <Content color={theme.colors.secondary.main}>Fetching Data...</Content>
       </LoadErrorContainer>
     );
   }

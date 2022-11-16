@@ -100,6 +100,7 @@ export const TimezoneSelectInput = styled(InputLabel)`
   color: ${(props) => props.theme.colors.grey.main};
   font-size: ${(props) => props.theme.fontSize.SubHeading};
   font-family: ${(props) => props.theme.fontFamily.robotoRegular};
+  border: none;
   &.Mui-focused {
     color: ${(props) => props.theme.colors.primary.main};
   }

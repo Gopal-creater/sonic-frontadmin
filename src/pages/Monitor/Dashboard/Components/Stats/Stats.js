@@ -58,14 +58,13 @@ export default function Stats({
                   <HelpOutlineIcon
                     style={{
                       fontSize: theme.fontSize.caption,
-                      color: `${theme.colors.primary.dark} `,
+                      color: `${theme.background.contrastText} `,
                     }}
                   />
                 </IconContainer>
               </CustomToolTip>
             </Grid>
           </Grid>
-
 
           {loading ? (
             <CircularProgress size={25} />

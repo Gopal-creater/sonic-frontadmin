@@ -8,6 +8,7 @@ import { useTheme } from "styled-components";
 
 export default function FailedFileSelection({ title, audioName }) {
   const classes = useStyles();
+  const theme = useTheme();
 
   return (
     <MainContainer container className={classes.failedContainer}>
@@ -26,7 +27,7 @@ export default function FailedFileSelection({ title, audioName }) {
               href="https://sonicdata.com/"
               target="_blank"
               rel="noopener noreferrer"
-              style={{ color: "#393F5B" }}
+              style={{ color: theme.colors.primary.main }}
             >
               HelpCentre
             </a>{" "}
@@ -35,7 +36,7 @@ export default function FailedFileSelection({ title, audioName }) {
               href="https://sonicdata.com/"
               target="_blank"
               rel="noopener noreferrer"
-              style={{ color: "#393F5B" }}
+              style={{ color: theme.colors.primary.main }}
             >
               Support Team.
             </a>

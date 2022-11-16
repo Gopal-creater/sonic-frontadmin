@@ -340,11 +340,7 @@ export function Dashboard() {
       />
 
       {/* Filter--------------------------------------------------------- */}
-      <Grid
-        style={{
-          padding: "0px 7px",
-        }}
-      >
+      <Grid>
         <FilterComponent
           startDate={monitor?.dates?.startDate}
           onChangeStartDate={(date) =>

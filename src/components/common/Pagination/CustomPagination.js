@@ -10,27 +10,27 @@ const useStyles = makeStyles(() => {
       "& > *": { justifyContent: "space-between" },
       "& ul > li:not(:first-child):not(:last-child) > button:not(.Mui-selected)":
         {
-          backgroundColor: "transparent",
+          // backgroundColor: "transparent",
           textAlign: "center",
-          color: theme.colors.primary.dark,
+          color: theme.colors.grey.main,
           "&:hover": {
-            color: theme.colors.primary.light,
+            color: theme.colors.grey.main,
           },
         },
       ".MuiPaginationItem-root": {
-        backgroundColor: theme.colors.primary.contrastText,
+        // backgroundColor: theme.colors.primary.contrastText,
         width: "100%",
       },
       "&:hover .MuiPaginationItem-root": {
-        backgroundColor: theme.colors.primary.contrastText,
+        // backgroundColor: theme.colors.primary.contrastText,
       },
       "& .Mui-selected": {
         fontSize: theme.fontSize.content,
         padding: "1px",
         margin: "1px",
-        color: theme.colors.primary.dark,
-        border: `1px solid ${theme.colors.secondary.main}`,
-        backgroundColor: theme.colors.primary.contrastText,
+        color: theme.background.contrastText,
+        border: `1px solid ${theme.background.contrastText}`,
+        backgroundColor: theme.background.dark3,
         borderRadius: 0,
         fontFamily: theme.fontFamily.robotoMedium,
       },
@@ -47,11 +47,13 @@ const useStyles = makeStyles(() => {
         border: `1px solid ${theme.colors.primary.main}`,
         borderRadius: 8,
         "& .Mui-disabled": {
-          border: `1px solid ${theme.colors.grey.main}`,
+          // border: `1px solid ${theme.colors.grey.main}`,
+          backgroundColor: "transparent",
         },
       },
       "&:hover .MuiPaginationItem-icon": {
-        border: `1px solid ${theme.colors.primary.main}`,
+        // border: `1px solid ${theme.colors.primary.main}`,
+        backgroundColor: "transparent",
       },
     },
   };

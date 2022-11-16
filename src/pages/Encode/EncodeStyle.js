@@ -2,12 +2,12 @@ import { Grid } from "@material-ui/core";
 import styled from "styled-components";
 
 export const FileSelectionContainer = styled(Grid)`
-  background-color: ${(props) => props.theme.colors.primary.main};
+  background-color: ${(props) => props.theme.background.dark4};
   padding: 30px;
 `;
 
 export const NewFileSelectionContainer = styled(Grid)`
-  /* background-color:red ; */
+  // /* background-color:red ; */
   /* display:flex;
     flex-direction:column ; */
 `;
@@ -19,9 +19,9 @@ export const ExistingFileSelectionContainer = styled(Grid)`
 `;
 
 export const AppAutoCompleteContainer = styled(Grid)`
-  background-color: ${(props) => props.theme.colors.primary.contrastText};
+  background-color: ${(props) => props.theme.background.dark4};
   margin-top: 15px;
-  padding: 30px 40px 10px 40px;
+  padding: 30px 0px 10px 0px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -32,7 +32,7 @@ export const AppAutoCompleteContainer = styled(Grid)`
 export const TrackContainer = styled(Grid)`
   margin-top: 40px;
   padding: 30px;
-  background-color: ${(props) => props.theme.colors.primary.contrastText};
+  background-color: ${(props) => props.theme.background.dark4};
 `;
 
 export const TrackTitleContainer = styled(Grid)`

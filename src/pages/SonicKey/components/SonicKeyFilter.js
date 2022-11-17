@@ -144,8 +144,6 @@ export default function SonicKeyFilter({ closeDialog }) {
               }
               placeholder={"Label"}
               value={sonickey?.filters?.label}
-              color={theme.colors.grey.main}
-              fontFamily={theme.fontFamily.robotosBold}
             />
           </FilterForm>
 
@@ -163,7 +161,6 @@ export default function SonicKeyFilter({ closeDialog }) {
               }
               placeholder={"Distributor"}
               value={sonickey?.filters?.distributor}
-              color={theme.colors.grey.main}
               fontFamily={theme.fontFamily.robotosBold}
             />
           </FilterForm>

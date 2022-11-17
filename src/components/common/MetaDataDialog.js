@@ -34,6 +34,7 @@ import { editSonicMetaData } from "../../services/https/resources/SonicKeys/Soni
 import AppAutoComplete from "./AutoComplete/AppAutoComplete";
 import { isJsonObject } from "../../utils/HelperMethods";
 import { useTheme } from "styled-components";
+import { StyledTextField } from "../../StyledComponents/StyledAppTextInput/StyledAppTextInput";
 
 const MetaDataDailog = (props) => {
   const [values, setValues] = React.useState({
@@ -176,7 +177,16 @@ const MetaDataDailog = (props) => {
 
   return (
     <>
-      <Dialog open={true} fullWidth={true} className={classes.dialogPaper}>
+      <Dialog
+        open={true}
+        fullWidth={true}
+        className={classes.dialogPaper}
+        PaperProps={{
+          style: {
+            backgroundColor: theme.background.dark4,
+          },
+        }}
+      >
         {props?.enableEditMode && (
           <AppButton
             variant="fill"
@@ -198,7 +208,7 @@ const MetaDataDailog = (props) => {
                 style={{
                   fontFamily: theme.fontFamily.robotoBold,
                   fontSize: theme.fontSize.subHeading,
-                  color: theme.colors.primary.dark,
+                  color: theme.background.contrastText,
                 }}
               >
                 &nbsp; &nbsp;{tags.companyTag}:{" "}
@@ -226,14 +236,10 @@ const MetaDataDailog = (props) => {
 
         <TableContainer
           component={Paper}
-          style={{ marginTop: 5, padding: "10px 20px", border: "none" }}
           elevation={0}
+          className={classes.table}
         >
-          <Table
-            className={classes.table}
-            size="small"
-            aria-label="a dense table"
-          >
+          <Table size="small" aria-label="a dense table">
             <TableBody>
               <TableRow>
                 <TableCell className={classes.tableCellOne}>TRACK ID</TableCell>
@@ -281,11 +287,10 @@ const MetaDataDailog = (props) => {
                 <TableCell className={classes.tableCellOne}>VERSION</TableCell>
                 <TableCell className={classes.tableCellTwo}>
                   {values?.switchEdit ? (
-                    <TextField
+                    <StyledTextField
                       id="versionInput"
                       fullWidth
                       placeholder="Edit version"
-                      inputProps={{ className: classes.textInput }}
                       value={values?.updatingSonicKey?.version}
                       onChange={(e) =>
                         setValues({
@@ -307,11 +312,10 @@ const MetaDataDailog = (props) => {
                 <TableCell className={classes.tableCellOne}>ARTIST</TableCell>
                 <TableCell className={classes.tableCellTwo}>
                   {values?.switchEdit ? (
-                    <TextField
+                    <StyledTextField
                       id="ownerInput"
                       fullWidth
                       placeholder="Edit artist"
-                      inputProps={{ className: classes.textInput }}
                       value={values?.updatingSonicKey?.contentOwner}
                       onChange={(e) =>
                         setValues({
@@ -380,11 +384,10 @@ const MetaDataDailog = (props) => {
                 <TableCell className={classes.tableCellOne}>ISRC</TableCell>
                 <TableCell className={classes.tableCellTwo}>
                   {values?.switchEdit ? (
-                    <TextField
+                    <StyledTextField
                       id="isrcInput"
                       fullWidth
                       placeholder="Edit isrc"
-                      inputProps={{ className: classes.textInput }}
                       value={values?.updatingSonicKey?.isrcCode}
                       onChange={(e) =>
                         setValues({
@@ -408,11 +411,10 @@ const MetaDataDailog = (props) => {
                 <TableCell className={classes.tableCellOne}>ISWC</TableCell>
                 <TableCell className={classes.tableCellTwo}>
                   {values?.switchEdit ? (
-                    <TextField
+                    <StyledTextField
                       id="iswcInput"
                       fullWidth
                       placeholder="Edit iswc"
-                      inputProps={{ className: classes.textInput }}
                       value={values?.updatingSonicKey?.iswcCode}
                       onChange={(e) =>
                         setValues({
@@ -438,11 +440,10 @@ const MetaDataDailog = (props) => {
                 </TableCell>
                 <TableCell className={classes.tableCellTwo}>
                   {values?.switchEdit ? (
-                    <TextField
+                    <StyledTextField
                       id="tuneInput"
                       fullWidth
                       placeholder="Edit tunecode"
-                      inputProps={{ className: classes.textInput }}
                       value={values?.updatingSonicKey?.tuneCode}
                       onChange={(e) =>
                         setValues({
@@ -483,9 +484,6 @@ const MetaDataDailog = (props) => {
                       placeholder={"Label"}
                       // hideSearchIcon={true}
                       value={values?.updatingSonicKey?.label}
-                      color={theme.colors.grey.main}
-                      fontFamily={theme.fontFamily.robotoBold}
-                      fontSize={theme.fontSize.content}
                     />
                   ) : (
                     values?.sonicKey?.label || "---"
@@ -516,9 +514,6 @@ const MetaDataDailog = (props) => {
                       placeholder={"Distributor"}
                       // hideSearchIcon={true}
                       value={values?.updatingSonicKey?.distributor}
-                      color={theme.colors.grey.main}
-                      fontFamily={theme.fontFamily.robotoBold}
-                      fontSize={theme.fontSize.content}
                     />
                   ) : (
                     values?.sonicKey?.distributor || "---"
@@ -607,11 +602,10 @@ const MetaDataDailog = (props) => {
                 </TableCell>
                 <TableCell className={classes.tableCellTwo}>
                   {values?.switchEdit ? (
-                    <TextField
+                    <StyledTextField
                       id="descriptionInput"
                       fullWidth
                       placeholder="Edit description"
-                      inputProps={{ className: classes.textInput }}
                       value={values?.updatingSonicKey?.contentDescription}
                       onChange={(e) =>
                         setValues({
@@ -637,11 +631,10 @@ const MetaDataDailog = (props) => {
                 </TableCell>
                 <TableCell className={classes.tableCellTwo}>
                   {values?.switchEdit ? (
-                    <TextField
+                    <StyledTextField
                       id="additionalInput"
                       fullWidth
                       placeholder="Edit additional metadata"
-                      inputProps={{ className: classes.textInput }}
                       value={values?.updatingSonicKey?.additionalMetadata}
                       onChange={(e) =>
                         setValues({
@@ -709,23 +702,34 @@ const useStyles = makeStyles(() => {
       minHeight: "75vh",
       maxHeight: "75vh",
       margin: "auto",
+      "& .MuiDialog": {
+        paper: {
+          backgroundColor: "red !important",
+        },
+      },
     },
     tableCellOne: {
       padding: "5px",
       fontFamily: `${theme.fontFamily.robotoBold}`,
       fontSize: `12px`,
-      color: `${theme.colors.secondary.mediumGrey}`,
+      color: `${theme.background.contrastText}`,
     },
     tableCellTwo: {
       padding: "5px",
       fontFamily: `${theme.fontFamily.robotoBold}`,
-      fontSize: `${theme.fontSize.content}`,
-      color: `${theme.colors.grey.main}`,
+      fontSize: `12px`,
+      color: `${theme.background.contrastText}`,
     },
     textInput: {
       fontFamily: `${theme.fontFamily.robotoBold}`,
-      fontSize: `${theme.fontSize.content}`,
-      color: `${theme.colors.grey.main}`,
+      fontSize: `12px`,
+      color: `${theme.background.contrastText}`,
+    },
+    table: {
+      marginTop: 5,
+      padding: "10px 20px",
+      border: "none",
+      backgroundColor: theme.background.dark4,
     },
   };
 });

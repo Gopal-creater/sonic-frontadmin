@@ -89,6 +89,7 @@ export const StyledSelect = styled(CustomStyledSelect)(() => ({
     background: "transparent",
     fontSize: `${(props) => props.theme.fontSize.content}`,
     fontFamily: `${(props) => props.theme.fontFamily.robotoRegular}`,
+    borderBottom: `3px solid grey`,
   },
   "& .MuiSelect-root:hover": {
     color: `${(props) => props.theme.colors.grey.light}`,
@@ -100,7 +101,6 @@ export const TimezoneSelectInput = styled(InputLabel)`
   color: ${(props) => props.theme.colors.grey.main};
   font-size: ${(props) => props.theme.fontSize.SubHeading};
   font-family: ${(props) => props.theme.fontFamily.robotoRegular};
-  border: none;
   &.Mui-focused {
     color: ${(props) => props.theme.colors.primary.main};
   }
@@ -114,8 +114,11 @@ export const TimezoneSelect = styled(CustomStyledSelect)(() => ({
     paddingBottom: 3,
     fontSize: `${(props) => props.theme.fontSize.content}`,
     fontFamily: `${(props) => props.theme.fontFamily.robotosRegular}`,
+    border: "none",
+    borderBottom: "3px solid grey",
   },
   "& .MuiSelect-root:hover": {
-    color: `${(props) => props.theme.colors.primary.main}`,
+    color: `${(props) => props.theme.background.contrastText} !important`,
+    borderBottom: `3px solid white !important`,
   },
 }));

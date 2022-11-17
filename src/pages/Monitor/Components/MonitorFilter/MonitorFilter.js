@@ -301,7 +301,7 @@ export default function MonitorFilter({
             />
 
             <div className="mt-4 mx-3">
-              <Content>to</Content>
+              <Content color={theme.colors.grey.main}>to</Content>
             </div>
 
             <CustomDatePicker

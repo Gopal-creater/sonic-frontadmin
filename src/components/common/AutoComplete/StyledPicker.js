@@ -48,9 +48,9 @@ export const AutocompleteFormControl = styled(FormControl)`
 
 export const AutocompleteTextfield = styled(TextField)`
   & .MuiFormHelperText-root {
-    color: ${(props) => props.theme.colors.grey.dark};
+    color: ${(props) => props.theme.colors.grey.main};
     font-family: ${(props) => props.theme.fontFamily.robotoRegular};
-    font-size: ${(props) => props.theme.fontSize.content};
+    font-size: ${(props) => props.theme.fontSize.caption};
   }
 
   //label
@@ -66,27 +66,27 @@ export const AutocompleteTextfield = styled(TextField)`
 
   //for textInput
   & .MuiInput-root {
-    color: ${(props) => props.color || props.theme.background.contrastText};
+    color: ${(props) => props.color || props.theme.colors.grey.light};
     font-family: ${(props) =>
-      props.fontFamily || props.theme.fontFamily.robotoMedium};
+      props.fontFamily || props.theme.fontFamily.robotoRegular};
     font-size: ${(props) => props.fontSize || props.theme.fontSize.content};
     :hover {
-      color: ${(props) => props.theme.colors.primary.light};
+      color: ${(props) => props.theme.background.contrastText};
     }
   }
   & .MuiInput-root.Mui-focused {
-    color: ${(props) => props.theme.colors.primary.dark};
+    color: ${(props) => props.theme.background.contrastText};
   }
 
   // For border buttom
   & .MuiInput-underline:before {
-    border-bottom-color: ${(props) => props.theme.background.contrastText};
+    border-bottom-color: ${(props) => props.theme.colors.grey.main};
   }
   && .MuiInput-underline:hover:before {
-    border-bottom-color: ${(props) => props.theme.colors.primary.dark};
+    border-bottom-color: ${(props) => props.theme.background.contrastText};
   }
   & .MuiInput-underline:after {
-    border-bottom-color: ${(props) => props.theme.colors.secondary.main};
+    border-bottom-color: ${(props) => props.theme.colors.primary.main};
   }
 `;
 

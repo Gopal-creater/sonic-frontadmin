@@ -11,9 +11,9 @@
 .react-datepicker__year-text--selected,
 .react-datepicker__year-text--in-selecting-range,
 .react-datepicker__year-text--in-range {
-    border-radius: 0;
+    /* border-radius: 0;
     background-color: #E0EFEF;
-    color: #757575;
+    color: #757575; */
 }
 
 .date-picker 
@@ -30,10 +30,10 @@
 .react-datepicker__year-text--in-selecting-range:hover,
 .react-datepicker__year-text--in-range:hover,
 .react-datepicker__day:hover {
-    border-radius: 0;
+    /* border-radius: 0;
     outline: 1px solid #00A19A;
     background-color: #E0EFEF;
-    color: #757575;
+    color: #757575; */
 }
 
 .date-picker
@@ -60,8 +60,8 @@
 .react-datepicker__year-text--selected,
 .react-datepicker__year-text--in-selecting-range,
 .react-datepicker__year-text--in-range {
-    border-radius: 0;
+    /* border-radius: 0;
     outline: 1px solid #00A19A;
     background-color: #E0EFEF;
-    color: #757575;
+    color: #757575; */
 }

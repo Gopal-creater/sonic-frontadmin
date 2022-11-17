@@ -1,7 +1,7 @@
 import React from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { Grid } from "@material-ui/core";
+import { Grid, makeStyles } from "@material-ui/core";
 import styled, { useTheme } from "styled-components";
 import "./DatePicker.css";
 import { CalendarTodayOutlined } from "@material-ui/icons";
@@ -49,10 +49,11 @@ export default function CustomDatePicker({
   endDate,
   ...props
 }) {
+  const classes = useStyles();
   return (
     <div>
       <DatePicker
-        wrapperClassName="date-picker"
+        calendarClassName={classes.calendarClassName}
         selected={selected}
         onChange={onChange}
         customInput={
@@ -70,3 +71,20 @@ export default function CustomDatePicker({
     </div>
   );
 }
+
+const useStyles = makeStyles(() => {
+  const theme = useTheme();
+  return {
+    calendarClassName: {
+      backgroundColor: `${theme.background.dark4} !important`,
+      color: `${theme.background.contrastText} !important`,
+      fontFamily: theme.fontFamily.robotoRegular,
+      "& .react-datepicker__day": {
+        color: theme.background.contrastText,
+        "&:hover": {
+          color: theme.background.dark1,
+        },
+      },
+    },
+  };
+});

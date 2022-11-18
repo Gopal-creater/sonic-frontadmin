@@ -3,8 +3,17 @@ import styled from "styled-components";
 
 export const CardContainer = styled.div`
   margin-top: 50px;
-  display: flex;
+  gap: 10px;
   width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+export const HiddenStats = styled.div`
+  content: "";
+  flex: 1 0 200px;
+  padding: 5px;
+  visibility: hidden;
 `;
 
 export const TableContainer = styled(Grid)`

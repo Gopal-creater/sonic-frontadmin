@@ -12,7 +12,7 @@ import PersonIcon from "@material-ui/icons/Person";
 import BusinessIcon from "@material-ui/icons/Business";
 import FilterComponent from "../../../components/common/FilterComponent/FilterComponent";
 import CommonDataLoadErrorSuccess from "../../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess";
-import { CardContainer, TableContainer } from "./DashboardStyles";
+import { CardContainer, TableContainer, HiddenStats } from "./DashboardStyles";
 import {
   getMonitorDashboardDataAction,
   getMonitorDashboardExportAction,
@@ -367,115 +367,100 @@ export function Dashboard() {
 
       {/* Cards-------------------------------------------------------------------- */}
       <CardContainer>
-        <Grid
-          container
-          spacing={3}
-          style={{
-            margin: 0,
-            padding: 0,
-            width: "100%",
-          }}
-        >
-          {users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN && (
-            <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
-              <Stats
-                imgSrc={
-                  <BusinessIcon
-                    style={{ fontSize: 30, color: theme.colors.primary.main }}
-                  />
-                }
-                title={"Companies"}
-                loading={dashboard?.loading}
-                data={dashboard?.data?.myCompaniesCount || "0"}
-                error={dashboard?.error}
-                pageLink="/monitor/companies"
-                helpText={helpText.companies}
+        {users?.userProfile?.data?.userRole === userRoles.PARTNER_ADMIN && (
+          <Stats
+            imgSrc={
+              <BusinessIcon
+                style={{ fontSize: 30, color: theme.colors.primary.main }}
               />
-            </Grid>
-          )}
+            }
+            title={"Companies"}
+            loading={dashboard?.loading}
+            data={dashboard?.data?.myCompaniesCount || "0"}
+            error={dashboard?.error}
+            pageLink="/monitor/companies"
+            helpText={helpText.companies}
+          />
+        )}
 
-          <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
-            <Stats
-              imgSrc={
-                <MusicNoteIcon
-                  style={{ fontSize: 30, color: theme.colors.primary.main }}
-                />
-              }
-              title={"My Plays"}
-              loading={dashboard?.loading}
-              data={dashboard?.data?.myPlaysCount || "0"}
-              error={dashboard?.error}
-              pageLink="/monitor/plays"
-              helpText={helpText.plays}
+        <Stats
+          imgSrc={
+            <MusicNoteIcon
+              style={{ fontSize: 30, color: theme.colors.primary.main }}
             />
-          </Grid>
+          }
+          title={"My Plays"}
+          loading={dashboard?.loading}
+          data={dashboard?.data?.myPlaysCount || "0"}
+          error={dashboard?.error}
+          pageLink="/monitor/plays"
+          helpText={helpText.plays}
+        />
 
-          <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
-            <Stats
-              imgSrc={
-                <AlbumIcon
-                  style={{ fontSize: 30, color: theme.colors.primary.main }}
-                />
-              }
-              title={"My Tracks"}
-              ownerShipTitle="from"
-              loading={dashboard?.loading}
-              data={dashboard?.data?.myTracksCount || "0"}
-              error={dashboard?.error}
-              pageLink="/monitor/tracks"
-              helpText={helpText.tracks}
+        <Stats
+          imgSrc={
+            <AlbumIcon
+              style={{ fontSize: 30, color: theme.colors.primary.main }}
             />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
-            <Stats
-              imgSrc={
-                <PersonIcon
-                  style={{ fontSize: 30, color: theme.colors.primary.main }}
-                />
-              }
-              title={"Artists"}
-              ownerShipTitle="by"
-              loading={dashboard?.loading}
-              data={dashboard?.data?.myArtistsCount || "0"}
-              error={dashboard?.error}
-              pageLink="/monitor/artists"
-              helpText={helpText.artists}
+          }
+          title={"My Tracks"}
+          ownerShipTitle="from"
+          loading={dashboard?.loading}
+          data={dashboard?.data?.myTracksCount || "0"}
+          error={dashboard?.error}
+          pageLink="/monitor/tracks"
+          helpText={helpText.tracks}
+        />
+
+        <Stats
+          imgSrc={
+            <PersonIcon
+              style={{ fontSize: 30, color: theme.colors.primary.main }}
             />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
-            <Stats
-              imgSrc={
-                <RadioIcon
-                  style={{ fontSize: 30, color: theme.colors.primary.main }}
-                />
-              }
-              title={"Radio Stations"}
-              ownerShipTitle="At"
-              loading={dashboard?.loading}
-              data={dashboard?.data?.myRadioStationCount || "0"}
-              error={dashboard?.error}
-              pageLink="/monitor/companies"
-              helpText={helpText.companies}
+          }
+          title={"Artists"}
+          ownerShipTitle="by"
+          loading={dashboard?.loading}
+          data={dashboard?.data?.myArtistsCount || "0"}
+          error={dashboard?.error}
+          pageLink="/monitor/artists"
+          helpText={helpText.artists}
+        />
+
+        <Stats
+          imgSrc={
+            <RadioIcon
+              style={{ fontSize: 30, color: theme.colors.primary.main }}
             />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
-            <Stats
-              imgSrc={
-                <PublicIcon
-                  style={{ fontSize: 30, color: theme.colors.primary.main }}
-                />
-              }
-              title={"Countries"}
-              ownerShipTitle="In"
-              loading={dashboard?.loading}
-              data={dashboard?.data?.myCountriesCount || "0"}
-              error={dashboard?.error}
-              pageLink="/monitor/countries"
-              helpText={helpText.countries}
+          }
+          title={"Radio Stations"}
+          ownerShipTitle="At"
+          loading={dashboard?.loading}
+          data={dashboard?.data?.myRadioStationCount || "0"}
+          error={dashboard?.error}
+          pageLink="/monitor/companies"
+          helpText={helpText.companies}
+        />
+
+        <Stats
+          imgSrc={
+            <PublicIcon
+              style={{ fontSize: 30, color: theme.colors.primary.main }}
             />
-          </Grid>
-          <div style={{ width: "10px !important" }}></div>
-        </Grid>
+          }
+          title={"Countries"}
+          ownerShipTitle="In"
+          loading={dashboard?.loading}
+          data={dashboard?.data?.myCountriesCount || "0"}
+          error={dashboard?.error}
+          pageLink="/monitor/countries"
+          helpText={helpText.countries}
+        />
+        <HiddenStats></HiddenStats>
+        <HiddenStats></HiddenStats>
+        <HiddenStats></HiddenStats>
+        <HiddenStats></HiddenStats>
+        <HiddenStats></HiddenStats>
       </CardContainer>
       {/* Cards-------------------------------------------------------------------- */}
 

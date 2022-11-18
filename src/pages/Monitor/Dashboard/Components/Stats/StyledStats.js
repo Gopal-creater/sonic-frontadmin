@@ -30,6 +30,7 @@ export const StatsContainer = styled(Grid)`
   cursor: pointer;
   height: 100%;
   border-radius: 10px;
+  flex: 1 0 200px;
 
   :hover {
     background-color: ${(props) => props.theme.background.dark3};

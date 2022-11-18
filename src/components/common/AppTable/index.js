@@ -81,10 +81,28 @@ export default function AppTable({ title, data, columns, options }) {
           root: {
             backgroundColor: theme.background.dark4,
           },
+          icon: {
+            color: theme.background.contrastText,
+          },
         },
         MUIDataTableBodyCell: {
           root: {
             backgroundColor: theme.background.dark4,
+          },
+        },
+        MUIDataTableViewCol: {
+          root: {
+            backgroundColor: theme.background.dark4,
+          },
+          title: {
+            color: theme.background.contrastText,
+            fontFamily: theme.fontFamily.robotoRegular,
+            fontSize: theme.fontSize.content,
+          },
+          label: {
+            color: theme.background.contrastText,
+            fontFamily: theme.fontFamily.robotoRegular,
+            fontSize: theme.fontSize.caption,
           },
         },
       },

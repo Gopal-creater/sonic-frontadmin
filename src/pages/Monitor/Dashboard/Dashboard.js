@@ -380,7 +380,9 @@ export function Dashboard() {
             <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
               <Stats
                 imgSrc={
-                  <BusinessIcon style={{ fontSize: 30, color: "white" }} />
+                  <BusinessIcon
+                    style={{ fontSize: 30, color: theme.colors.primary.main }}
+                  />
                 }
                 title={"Companies"}
                 loading={dashboard?.loading}
@@ -395,7 +397,9 @@ export function Dashboard() {
           <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
             <Stats
               imgSrc={
-                <MusicNoteIcon style={{ fontSize: 30, color: "white" }} />
+                <MusicNoteIcon
+                  style={{ fontSize: 30, color: theme.colors.primary.main }}
+                />
               }
               title={"My Plays"}
               loading={dashboard?.loading}
@@ -408,7 +412,11 @@ export function Dashboard() {
 
           <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
             <Stats
-              imgSrc={<AlbumIcon style={{ fontSize: 30, color: "white" }} />}
+              imgSrc={
+                <AlbumIcon
+                  style={{ fontSize: 30, color: theme.colors.primary.main }}
+                />
+              }
               title={"My Tracks"}
               ownerShipTitle="from"
               loading={dashboard?.loading}
@@ -420,7 +428,11 @@ export function Dashboard() {
           </Grid>
           <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
             <Stats
-              imgSrc={<PersonIcon style={{ fontSize: 30, color: "white" }} />}
+              imgSrc={
+                <PersonIcon
+                  style={{ fontSize: 30, color: theme.colors.primary.main }}
+                />
+              }
               title={"Artists"}
               ownerShipTitle="by"
               loading={dashboard?.loading}
@@ -432,7 +444,11 @@ export function Dashboard() {
           </Grid>
           <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
             <Stats
-              imgSrc={<RadioIcon style={{ fontSize: 30, color: "white" }} />}
+              imgSrc={
+                <RadioIcon
+                  style={{ fontSize: 30, color: theme.colors.primary.main }}
+                />
+              }
               title={"Radio Stations"}
               ownerShipTitle="At"
               loading={dashboard?.loading}
@@ -444,7 +460,11 @@ export function Dashboard() {
           </Grid>
           <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
             <Stats
-              imgSrc={<PublicIcon style={{ fontSize: 30, color: "white" }} />}
+              imgSrc={
+                <PublicIcon
+                  style={{ fontSize: 30, color: theme.colors.primary.main }}
+                />
+              }
               title={"Countries"}
               ownerShipTitle="In"
               loading={dashboard?.loading}

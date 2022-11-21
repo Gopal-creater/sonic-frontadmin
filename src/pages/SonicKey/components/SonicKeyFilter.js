@@ -15,6 +15,7 @@ import {
   channel,
   Distributor,
   Labels,
+  tags,
   userRoles,
 } from "../../../constants/constants";
 import * as actionTypes from "../../../stores/actions/actionTypes";
@@ -49,7 +50,10 @@ export default function SonicKeyFilter({ closeDialog }) {
       <FilterHeader>
         <SubHeading>Filter</SubHeading>
         <div style={{ cursor: "pointer" }}>
-          <CloseOutlined onClick={() => closeDialog?.()} />
+          <CloseOutlined
+            style={{ color: theme.background.contrastText }}
+            onClick={() => closeDialog?.()}
+          />
         </div>
       </FilterHeader>
       <form onSubmit={handleFilter}>
@@ -76,7 +80,7 @@ export default function SonicKeyFilter({ closeDialog }) {
           <FilterForm>
             <StyledTextField
               fullWidth
-              label="SonicKey"
+              label={tags.companyTag}
               value={sonickey?.filters?.sonicKey}
               onChange={(e) =>
                 dispatch({
@@ -183,8 +187,6 @@ export default function SonicKeyFilter({ closeDialog }) {
                 }
                 placeholder={"Company Name"}
                 value={sonickey?.filters?.company}
-                color={theme.colors.grey.main}
-                fontFamily={theme.fontFamily.robotosBold}
               />
             </FilterForm>
           )}

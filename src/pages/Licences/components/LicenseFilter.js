@@ -38,7 +38,10 @@ export default function LicenseFilter({ closeDialog }) {
       <FilterHeader>
         <SubHeading>Filter</SubHeading>
         <div style={{ cursor: "pointer" }}>
-          <CloseOutlined onClick={() => closeDialog?.()} />
+          <CloseOutlined
+            style={{ color: theme.background.contrastText }}
+            onClick={() => closeDialog?.()}
+          />
         </div>
       </FilterHeader>
       <form onSubmit={handleFilter}>
@@ -54,11 +57,6 @@ export default function LicenseFilter({ closeDialog }) {
                   data: { ...license?.filters, name: e.target.value },
                 })
               }
-              InputLabelProps={{
-                style: {
-                  fontFamily: theme.fontFamily.robotoBold,
-                },
-              }}
             />
           </FilterForm>
 
@@ -73,11 +71,6 @@ export default function LicenseFilter({ closeDialog }) {
                   data: { ...license?.filters, key: e.target.value },
                 })
               }
-              InputLabelProps={{
-                style: {
-                  fontFamily: theme.fontFamily.robotoBold,
-                },
-              }}
             />
           </FilterForm>
 
@@ -139,8 +132,6 @@ export default function LicenseFilter({ closeDialog }) {
               }
               placeholder={"Company Name"}
               value={license?.filters?.company}
-              color={theme.colors.grey.main}
-              fontFamily={theme.fontFamily.robotoBold}
             />
           </FilterForm>
 
@@ -155,11 +146,6 @@ export default function LicenseFilter({ closeDialog }) {
                   data: { ...license?.filters, user: e.target.value },
                 })
               }
-              InputLabelProps={{
-                style: {
-                  fontFamily: theme.fontFamily.robotoBold,
-                },
-              }}
             />
           </FilterForm>
         </FilterItems>

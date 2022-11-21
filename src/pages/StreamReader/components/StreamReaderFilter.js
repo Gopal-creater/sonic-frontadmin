@@ -14,11 +14,13 @@ import CustomDropDown from "../../../components/common/AppTextInput/CustomDropDo
 import AppButton from "../../../components/common/AppButton/AppButton";
 import { fetchRadioMonitorsActions } from "../../../stores/actions/streamReader.action";
 import { SubHeading } from "../../../StyledComponents/StyledHeadings";
+import { useTheme } from "styled-components";
 
 export default function StreamReaderFilter({ closeDialog }) {
   const dispatch = useDispatch();
   const radioStations = useSelector((state) => state.radioStations);
   const streamReader = useSelector((state) => state.streamReader);
+  const theme = useTheme();
 
   const filteredRadioStation = radioStations.data?.filter((data) => {
     if (
@@ -41,7 +43,10 @@ export default function StreamReaderFilter({ closeDialog }) {
       <FilterHeader>
         <SubHeading>Filter</SubHeading>
         <div style={{ cursor: "pointer" }}>
-          <CloseOutlined onClick={() => closeDialog?.()} />
+          <CloseOutlined
+            style={{ color: theme.background.contrastText }}
+            onClick={() => closeDialog?.()}
+          />
         </div>
       </FilterHeader>
       <form onSubmit={handleFilter}>

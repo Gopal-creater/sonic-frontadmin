@@ -17,6 +17,7 @@ import { StyledTextField } from "../../../StyledComponents/StyledAppTextInput/St
 import AppButton from "../../../components/common/AppButton/AppButton";
 import { useTheme } from "styled-components";
 import { tags } from "../../../constants/constants";
+import amazing_logo from "../../../assets/icons/amazing_Logo.png";
 
 export default function SignIn() {
   const classes = useStyles();
@@ -59,8 +60,8 @@ export default function SignIn() {
       alignItems="center"
     >
       <form onSubmit={handleSubmit(signIn)}>
-        <Grid item>
-          <Heading>{tags.companyName}</Heading>
+        <Grid item container justifyContent="center">
+          <img src={amazing_logo} alt="amazing_logo" style={{ width: "50%" }} />
           <Content>Encode. Manage. Monitor. Report.</Content>
         </Grid>
 

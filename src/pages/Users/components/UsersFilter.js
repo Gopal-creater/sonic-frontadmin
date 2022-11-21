@@ -38,7 +38,10 @@ export default function UsersFilter({ closeDialog }) {
       <FilterHeader>
         <SubHeading>Filter</SubHeading>
         <div style={{ cursor: "pointer" }}>
-          <CloseOutlined onClick={() => closeDialog?.()} />
+          <CloseOutlined
+            style={{ color: theme.background.contrastText }}
+            onClick={() => closeDialog?.()}
+          />
         </div>
       </FilterHeader>
       <form onSubmit={handleFilter}>

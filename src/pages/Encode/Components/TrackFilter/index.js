@@ -13,10 +13,12 @@ import {
   userRoles,
 } from "../../../../constants/constants";
 import AppAutoComplete from "../../../../components/common/AutoComplete/AppAutoComplete";
+import { useTheme } from "styled-components";
 
 export default function TrackFilter({ closeDialog }) {
   const encode = useSelector((state) => state.encode);
   const users = useSelector((state) => state.user);
+  const theme = useTheme();
 
   const dispatch = useDispatch();
 
@@ -46,7 +48,7 @@ export default function TrackFilter({ closeDialog }) {
         <SubHeading>Filter</SubHeading>
         <CloseIcon
           onClick={() => closeDialog?.()}
-          style={{ cursor: "pointer" }}
+          style={{ cursor: "pointer", color: theme.background.contrastText }}
         />
       </Grid>
 

@@ -5,15 +5,8 @@ export const CardContainer = styled.div`
   margin-top: 50px;
   gap: 10px;
   width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-`;
-
-export const HiddenStats = styled.div`
-  content: "";
-  flex: 1 0 200px;
-  padding: 5px;
-  visibility: hidden;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 `;
 
 export const TableContainer = styled(Grid)`

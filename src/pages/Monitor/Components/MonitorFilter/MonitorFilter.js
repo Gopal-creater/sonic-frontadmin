@@ -1,6 +1,11 @@
 import React from "react";
 import { FormControl, Grid } from "@material-ui/core";
-import { channel, countries, userRoles } from "../../../../constants/constants";
+import {
+  channel,
+  countries,
+  tags,
+  userRoles,
+} from "../../../../constants/constants";
 import { useDispatch, useSelector } from "react-redux";
 import * as actionTypes from "../../../../stores/actions/actionTypes";
 import { CloseOutlined } from "@material-ui/icons";
@@ -85,7 +90,10 @@ export default function MonitorFilter({
       <FilterHeader>
         <SubHeading>Filter</SubHeading>
         <div style={{ cursor: "pointer" }}>
-          <CloseOutlined onClick={() => closeDialog?.()} />
+          <CloseOutlined
+            style={{ color: theme.background.contrastText }}
+            onClick={() => closeDialog?.()}
+          />
         </div>
       </FilterHeader>
       <form onSubmit={handleFilter}>
@@ -112,7 +120,7 @@ export default function MonitorFilter({
           <FilterForm>
             <StyledTextField
               fullWidth
-              label="SonicKey"
+              label={tags.companyTag}
               value={monitor?.filters?.sonicKey}
               onChange={(e) =>
                 dispatch({
@@ -210,8 +218,6 @@ export default function MonitorFilter({
               }
               placeholder={"Label"}
               value={monitor?.filters?.label}
-              color={theme.colors.grey.main}
-              fontFamily={theme.fontFamily.robotosBold}
             />
           </FilterForm>
 
@@ -229,8 +235,6 @@ export default function MonitorFilter({
               }
               placeholder={"Distributor"}
               value={monitor?.filters?.distributor}
-              color={theme.colors.grey.main}
-              fontFamily={theme.fontFamily.robotosBold}
             />
           </FilterForm>
 
@@ -253,8 +257,6 @@ export default function MonitorFilter({
                 }
                 placeholder={"Company Name"}
                 value={monitor?.filters?.company}
-                color={theme.colors.grey.main}
-                fontFamily={theme.fontFamily.robotosBold}
               />
             </FilterForm>
           )}

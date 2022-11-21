@@ -33,7 +33,10 @@ export default function CompanyFilter({ closeDialog }) {
       <FilterHeader>
         <SubHeading>Filter</SubHeading>
         <div style={{ cursor: "pointer" }}>
-          <CloseOutlined onClick={() => closeDialog?.()} />
+          <CloseOutlined
+            style={{ color: theme.background.contrastText }}
+            onClick={() => closeDialog?.()}
+          />
         </div>
       </FilterHeader>
       <form onSubmit={handleFilter}>
@@ -49,11 +52,6 @@ export default function CompanyFilter({ closeDialog }) {
                   data: { ...company?.filters, companyName: e.target.value },
                 })
               }
-              InputLabelProps={{
-                style: {
-                  fontFamily: theme.fontFamily.robotoBold,
-                },
-              }}
             />
           </FilterForm>
 
@@ -87,11 +85,6 @@ export default function CompanyFilter({ closeDialog }) {
                   data: { ...company?.filters, companyId: e.target.value },
                 })
               }
-              InputLabelProps={{
-                style: {
-                  fontFamily: theme.fontFamily.robotoBold,
-                },
-              }}
             />
           </FilterForm>
 
@@ -106,11 +99,6 @@ export default function CompanyFilter({ closeDialog }) {
                   data: { ...company?.filters, email: e.target.value },
                 })
               }
-              InputLabelProps={{
-                style: {
-                  fontFamily: theme.fontFamily.robotoBold,
-                },
-              }}
             />
           </FilterForm>
 
@@ -125,11 +113,6 @@ export default function CompanyFilter({ closeDialog }) {
                   data: { ...company?.filters, admin: e.target.value },
                 })
               }
-              InputLabelProps={{
-                style: {
-                  fontFamily: theme.fontFamily.robotoBold,
-                },
-              }}
             />
           </FilterForm>
         </FilterItems>

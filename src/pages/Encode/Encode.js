@@ -270,9 +270,7 @@ export default function Encode() {
 
                 <Grid container justifyContent="flex-end">
                   <CustomToolTip
-                    title={
-                      "Use this when you want to encode a track multiple times, each with a unique SonicKey' to share with different distributors. Saves time inputting data respectively."
-                    }
+                    title={`Use this when you want to encode a track multiple times, each with a unique ${tags.companyTag} to share with different distributors. Saves time inputting data respectively.`}
                     placement={"bottom-end"}
                     arrow
                     marginTop={"30px"}

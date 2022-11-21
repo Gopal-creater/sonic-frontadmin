@@ -12,7 +12,7 @@ import PersonIcon from "@material-ui/icons/Person";
 import BusinessIcon from "@material-ui/icons/Business";
 import FilterComponent from "../../../components/common/FilterComponent/FilterComponent";
 import CommonDataLoadErrorSuccess from "../../../components/common/CommonDataLoadErrorSuccess/CommonDataLoadErrorSuccess";
-import { CardContainer, TableContainer, HiddenStats } from "./DashboardStyles";
+import { CardContainer, TableContainer } from "./DashboardStyles";
 import {
   getMonitorDashboardDataAction,
   getMonitorDashboardExportAction,
@@ -456,11 +456,6 @@ export function Dashboard() {
           pageLink="/monitor/countries"
           helpText={helpText.countries}
         />
-        <HiddenStats></HiddenStats>
-        <HiddenStats></HiddenStats>
-        <HiddenStats></HiddenStats>
-        <HiddenStats></HiddenStats>
-        <HiddenStats></HiddenStats>
       </CardContainer>
       {/* Cards-------------------------------------------------------------------- */}
 

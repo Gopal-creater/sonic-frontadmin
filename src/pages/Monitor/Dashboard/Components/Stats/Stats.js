@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Grid } from "@material-ui/core";
+import { CircularProgress, Grid } from "@material-ui/core";
 import React from "react";
 import {
   CardContainer,
@@ -30,9 +30,7 @@ export default function Stats({
   return (
     <StatsContainer container onClick={changePage}>
       <Grid item xs={4} container alignItems="flex-start">
-        <CardContainer>
-          <Box>{imgSrc}</Box>
-        </CardContainer>
+        <CardContainer>{imgSrc}</CardContainer>
       </Grid>
 
       <Grid

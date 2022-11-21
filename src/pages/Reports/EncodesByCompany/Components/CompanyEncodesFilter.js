@@ -15,11 +15,13 @@ import {
 } from "../../../../stores/actions/CompanyActions";
 import { Grid } from "@material-ui/core";
 import { SubHeading } from "../../../../StyledComponents/StyledHeadings";
+import { useTheme } from "styled-components";
 
 export default function CompanyEncodesFilter({ closeDialog }) {
   const dispatch = useDispatch();
   const companyEncodes = useSelector((state) => state.company.companyEncodes);
   const companySearch = useSelector((state) => state.company.companySearch);
+  const theme = useTheme();
 
   const [state, setState] = React.useState({
     autoCompleteValue: "",
@@ -53,7 +55,10 @@ export default function CompanyEncodesFilter({ closeDialog }) {
           <SubHeading>Filter</SubHeading>
         </div>
         <div style={{ cursor: "pointer" }}>
-          <CloseOutlined onClick={() => closeDialog?.()} />
+          <CloseOutlined
+            style={{ color: theme.background.contrastText }}
+            onClick={() => closeDialog?.()}
+          />
         </div>
       </FilterHeader>
 

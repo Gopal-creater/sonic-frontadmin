@@ -47,7 +47,7 @@ import CustomDropDown from "../../../../components/common/AppTextInput/CustomDro
 import CancelOutlinedIcon from "@material-ui/icons/CancelOutlined";
 import AppAutoComplete from "../../../../components/common/AutoComplete/AppAutoComplete";
 import IconButton from "@material-ui/core/IconButton";
-import { Distributor, Labels } from "../../../../constants/constants";
+import { Distributor, Labels, tags } from "../../../../constants/constants";
 import DownloadIcon from "../../../../assets/images/download.png";
 import axios from "axios";
 import { downloadAnyFile } from "../../../../services/https/resources/EncodeApi/encodeApi";
@@ -721,7 +721,7 @@ export default function EncodeData() {
               fontFamily={theme.fontFamily.robotoMedium}
             >
               Are you the Rights Holder for the audio file you wish to encode
-              with a SonicKey?
+              with a {tags.companyTag}?
             </Content>
             <RadioGroup
               row
@@ -773,7 +773,7 @@ export default function EncodeData() {
               fontFamily={theme.fontFamily.robotoMedium}
             >
               Are you Authorised by the Rights Holder to encode this audio file
-              with a SonicKey?
+              with a {tags.companyTag}?
             </Content>
             <RadioGroup
               row

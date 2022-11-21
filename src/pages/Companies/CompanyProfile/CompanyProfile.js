@@ -46,7 +46,7 @@ export default function CompanyProfile() {
                 style={{
                   padding: "5px",
                   borderRadius: "50%",
-                  backgroundColor: theme.colors.primary.main,
+                  backgroundColor: theme.background.dark1,
                 }}
               >
                 <MusicNoteIcon
@@ -114,7 +114,7 @@ export default function CompanyProfile() {
                 style={{
                   padding: "5px",
                   borderRadius: "50%",
-                  backgroundColor: theme.colors.primary.main,
+                  backgroundColor: theme.background.dark1,
                 }}
               >
                 <PersonIcon

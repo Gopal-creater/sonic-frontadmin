@@ -222,7 +222,7 @@ const MetaDataDailog = (props) => {
               aria-label="close"
               style={{
                 marginRight: 5,
-                color: theme.colors.primary.dark,
+                color: theme.background.contrastText,
               }}
               onClick={handleCloseTable}
               data-toggle="tooltip"

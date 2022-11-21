@@ -22,7 +22,6 @@ export default function AppTable({ title, data, columns, options }) {
     setTableProps: () => {
       return {
         size: "small",
-        backgroundColor: "red",
       };
     },
     textLabels: {
@@ -83,6 +82,7 @@ export default function AppTable({ title, data, columns, options }) {
           },
           icon: {
             color: theme.background.contrastText,
+            marginRight: "-40px",
           },
         },
         MUIDataTableBodyCell: {

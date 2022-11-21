@@ -85,6 +85,10 @@ const useStyles = makeStyles(() => {
           color: theme.background.dark1,
         },
       },
+      "& .react-datepicker__day--today": {
+        backgroundColor: `${theme.background.dark1} !important`,
+        outline: `2px solid ${theme.colors.primary.main} !important`,
+      },
     },
   };
 });

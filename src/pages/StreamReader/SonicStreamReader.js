@@ -28,7 +28,7 @@ export default function SonicStreamReader() {
       {/* Header--------------------------------------------------- */}
       <Grid container justifyContent="space-between">
         <Grid item>
-          <SubHeading>Sonic StreamReader</SubHeading>
+          <SubHeading>StreamReader</SubHeading>
           <Content>
             Currently listening to{" "}
             {streamReader?.stations?.data?.totalDocs || 0} radio stations

@@ -95,6 +95,11 @@ const CustomTextField = styled(TextField)`
   & .MuiInput-underline:after {
     border-bottom-color: ${(props) => props.theme.colors.primary.main};
   }
+
+  //--- for placeholder
+  & .MuiInputBase-input {
+    color: ${(props) => props.theme.colors.grey.light} !important;
+  }
 `;
 
 const DisabledLabel = styled.span`

@@ -3,7 +3,6 @@ import MUIDataTable from "mui-datatables";
 import React from "react";
 import { useTheme } from "styled-components";
 import { Content } from "../../../StyledComponents/StyledHeadings";
-import { log } from "../../../utils/app.debug";
 import { ColumnTitle, Title } from "./styles";
 
 export default function AppTable({ title, data, columns, options }) {

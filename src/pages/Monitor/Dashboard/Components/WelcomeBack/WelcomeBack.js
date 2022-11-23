@@ -5,11 +5,9 @@ import {
   SubHeading,
 } from "../../../../../StyledComponents/StyledHeadings";
 import { WelcomeBackContainer } from "./StyledWelcomeBack";
-import { useTheme } from "styled-components";
 import amazingRadio_Icon from "../../../../../assets/icons/amazingRadio_Icon.png";
 
 export default function WelcomeBack({ totalRadioStations, loading, error }) {
-  const theme = useTheme();
   return (
     <WelcomeBackContainer container alignItems="center">
       <Grid xs={12} lg={8}>

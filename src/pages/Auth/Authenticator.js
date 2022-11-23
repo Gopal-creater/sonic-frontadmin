@@ -1,8 +1,8 @@
 import { Grid } from "@material-ui/core";
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { useTheme as muiTheme } from "@material-ui/core/styles";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
+// import { useTheme as muiTheme } from "@material-ui/core/styles";
+// import useMediaQuery from "@material-ui/core/useMediaQuery";
 import SignIn from "./SignIn/SignIn";
 import NewPassword from "./NewPassword/NewPassword";
 import EmailVerification from "./EmailVerification/EmailVerification";
@@ -12,9 +12,9 @@ import { useTheme } from "styled-components";
 export default function Authenticator(prop) {
   const classes = useStyles();
 
-  const theme = muiTheme();
+  // const theme = muiTheme();
   const appTheme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.down("xs"));
+  // const matches = useMediaQuery(theme.breakpoints.down("xs"));
 
   const ShowComponents = () => {
     if (prop?.propName === "NEW_PASSWORD_REQUIRED") {

@@ -161,7 +161,9 @@ export function Dashboard() {
       label: "DATE",
       options: {
         customBodyRender: (value) => {
-          return moment(value).utc().format("DD/MM/YYYY") || "--";
+          return monitor?.filters?.timezone === "GMT"
+            ? moment(value).utc().format("DD/MM/YYYY")
+            : moment(value).format("DD/MM/YYYY") || "--";
         },
       },
     },

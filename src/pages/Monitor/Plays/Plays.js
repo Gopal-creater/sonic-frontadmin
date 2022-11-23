@@ -160,7 +160,9 @@ export default function Plays() {
       label: "DATE",
       options: {
         customBodyRender: (value) => {
-          return moment(value).utc().format("DD/MM/YYYY") || "--";
+          return monitor?.filters?.timezone === "GMT"
+            ? moment(value).utc().format("DD/MM/YYYY")
+            : moment(value).format("DD/MM/YYYY") || "--";
         },
       },
     },
@@ -180,7 +182,7 @@ export default function Plays() {
       label: "DURATION",
       options: {
         customBodyRender: (value) => {
-          return value || "--";
+          return moment.utc(value * 1000).format("mm:ss") || "--";
         },
       },
     },

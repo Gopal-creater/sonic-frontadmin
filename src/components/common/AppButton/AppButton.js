@@ -8,7 +8,7 @@ const CustomButton = styled(Button)(
     const theme = useTheme();
     if (variant === "fill") {
       return {
-        textTransform: "none",
+        textTransform: "uppercase",
         color: color || `${theme.colors.secondary.contrastText} !important`,
         backgroundColor: disabled
           ? theme.colors.grey.light
@@ -26,7 +26,7 @@ const CustomButton = styled(Button)(
       };
     } else if (variant === "outline") {
       return {
-        textTransform: "none",
+        textTransform: "uppercase",
         color: disabled
           ? theme.colors.grey.main
           : color || theme.colors.secondary.contrastText,
@@ -52,7 +52,7 @@ const CustomButton = styled(Button)(
       };
     } else if (variant === "none") {
       return {
-        textTransform: "none",
+        textTransform: "uppercase",
         color: `${
           disabled
             ? theme.colors.grey.main
@@ -76,7 +76,7 @@ const CustomButton = styled(Button)(
       };
     } else {
       return {
-        textTransform: "none",
+        textTransform: "uppercase",
         fontSize: fontSize || theme.fontSize.content,
         padding: "7px 30px 7px 30px",
         color: `${color || theme.colors.primary.main} !important`,

@@ -1,12 +1,20 @@
 import React from "react";
 import AppButton from "../AppButton/AppButton";
-import { FormContainer, FileInput, DragDopLabel } from "./DragDropFileStyle";
+import {
+  FormContainer,
+  FileInput,
+  DragDopLabel,
+  CloudIconContainer,
+} from "./DragDropFileStyle";
 import { Content } from "../../../StyledComponents/StyledHeadings";
 import HelpOutlineOutlinedIcon from "@material-ui/icons/HelpOutlineOutlined";
 import { Grid } from "@material-ui/core";
 import CustomToolTip from "../CustomToolTip";
 import { useTheme } from "styled-components";
-import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+// import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import CloudIcon from "@material-ui/icons/Cloud";
+import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
+// import CloudUploadTwoToneIcon from "@material-ui/icons/CloudUploadTwoTone";
 
 export default function DragDropFile({ handleFiles }) {
   const [state, setState] = React.useState({
@@ -57,7 +65,22 @@ export default function DragDropFile({ handleFiles }) {
       />
 
       <DragDopLabel htmlFor="input-file-upload">
-        <CloudUploadIcon style={{ fontSize: "45px" }} alt="sound_icon" />
+        <CloudIconContainer>
+          <CloudIcon
+            style={{ fontSize: "45px", fill: "black" }}
+            alt="sound_icon"
+          />
+          <ArrowUpwardIcon
+            style={{
+              fontSize: "21px",
+              fill: "yellow",
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
+          />
+        </CloudIconContainer>
         {state.file ? (
           <Grid>
             <Content fontFamily={theme.fontFamily.robotoBold}>

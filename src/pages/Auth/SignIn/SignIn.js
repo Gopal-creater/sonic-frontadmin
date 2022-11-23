@@ -12,11 +12,10 @@ import { forgotPasword, setSession } from "../../../stores/actions/session";
 import { Auth } from "aws-amplify";
 import cogoToast from "cogo-toast";
 import AuthFooter from "../AuthFooter";
-import { Content, Heading } from "../../../StyledComponents/StyledHeadings";
+import { Content } from "../../../StyledComponents/StyledHeadings";
 import { StyledTextField } from "../../../StyledComponents/StyledAppTextInput/StyledAppTextInput";
 import AppButton from "../../../components/common/AppButton/AppButton";
 import { useTheme } from "styled-components";
-import { tags } from "../../../constants/constants";
 import amazing_logo from "../../../assets/icons/amazing_Logo.png";
 
 export default function SignIn() {
@@ -213,7 +212,6 @@ export default function SignIn() {
 }
 
 const useStyles = makeStyles(() => {
-  const theme = useTheme();
   return {
     signInRoot: {
       width: "100%",

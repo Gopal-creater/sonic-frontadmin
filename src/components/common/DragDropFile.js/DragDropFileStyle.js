@@ -18,3 +18,9 @@ export const DragDopLabel = styled.label`
   border-style: dashed;
   border-color: ${(props) => props.theme.background.contrastText};
 `;
+
+export const CloudIconContainer = styled.div`
+  position: relative;
+  width: max-content;
+  margin: 0 auto;
+`;

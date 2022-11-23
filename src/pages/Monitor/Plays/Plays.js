@@ -21,6 +21,7 @@ import VisibilityIcon from "@material-ui/icons/Visibility";
 import { useTheme } from "styled-components";
 import PlaysMetaData from "../../../components/common/PlaysMetaData";
 import Tooltip from "@material-ui/core/Tooltip";
+import moment from "moment";
 
 export default function Plays() {
   const theme = useTheme();
@@ -159,7 +160,7 @@ export default function Plays() {
       label: "DATE",
       options: {
         customBodyRender: (value) => {
-          return value || "--";
+          return moment(value).utc().format("DD/MM/YYYY") || "--";
         },
       },
     },
@@ -168,7 +169,9 @@ export default function Plays() {
       label: "TIME",
       options: {
         customBodyRender: (value) => {
-          return value || "--";
+          return monitor?.filters?.timezone === "GMT"
+            ? moment(value).utc().format("HH:mm:ss")
+            : moment(value).format("HH:mm:ss") || "--";
         },
       },
     },

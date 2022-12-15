@@ -5,6 +5,7 @@ const initialState = {
   user: null,
   loading: true,
   resetPassword: false,
+  emailConfirmation: false,
 };
 const sessionRed = (state = initialState, action) =>
   produce(state, (draft) => {
@@ -16,7 +17,11 @@ const sessionRed = (state = initialState, action) =>
         break;
 
       case actionTypes.SET_RESET_PASSWORD:
-        draft.resetPassword = action.resetPassword
+        draft.resetPassword = action.resetPassword;
+        break;
+
+      case actionTypes.SET_EMAIL_CONFIRMATION:
+        draft.emailConfirmation = action.emailConfirmation;
         break;
 
       default:

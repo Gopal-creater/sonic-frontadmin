@@ -8,7 +8,11 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
 import Spinner from "react-bootstrap/Spinner";
 import { useDispatch } from "react-redux";
-import { forgotPasword, setSession } from "../../../stores/actions/session";
+import {
+  emailConfirmation,
+  forgotPasword,
+  setSession,
+} from "../../../stores/actions/session";
 import cogoToast from "cogo-toast";
 import AuthFooter from "../AuthFooter";
 import { Content } from "../../../StyledComponents/StyledHeadings";
@@ -60,6 +64,10 @@ export default function SignIn() {
           err?.userAction === userActions.FORCE_CHANGE_PASSWORD
         ) {
           dispatch(forgotPasword(true));
+        } else if (
+          err?.userAction === userActions.EMAIL_CONFIRMATION_REQUIRED
+        ) {
+          dispatch(emailConfirmation(true));
         } else {
           cogoToast.error(err?.message);
         }

@@ -15,17 +15,26 @@ export const forgotPasword = (resetPassword) => {
   return (dispatch) => {
     dispatch({
       type: actionType.SET_RESET_PASSWORD,
-      resetPassword: resetPassword
-    })
-  }
-}
+      resetPassword: resetPassword,
+    });
+  };
+};
+
+export const emailConfirmation = (data) => {
+  return (dispatch) => {
+    dispatch({
+      type: actionType.SET_EMAIL_CONFIRMATION,
+      emailConfirmation: data,
+    });
+  };
+};
 
 //LOGOUT SESSION
 export const logout = () => {
   return async (dispatch) => {
     Amplify.Auth.signOut();
     dispatch({
-      type: 'LOGOUT',
+      type: "LOGOUT",
     });
   };
 };

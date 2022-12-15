@@ -42,19 +42,8 @@ function App() {
   if (authenticating) {
     return <SonicSpinner title="Authenticating..." />;
   }
-
-  //FORCE_CHANGE_PASSWORD for new user on first time signin
-  if (
-    session?.user?.user?.userAction !== null &&
-    session?.user?.user?.userAction === userActions.FORCE_CHANGE_PASSWORD
-  ) {
-    return <Authenticator propName={userActions.FORCE_CHANGE_PASSWORD} />;
-  }
   //EmailConfirmatin condition
-  else if (
-    session?.user?.user?.userAction !== null &&
-    session?.user?.user?.userAction === userActions.EMAIL_CONFIRMATION_REQUIRED
-  ) {
+  else if (session?.emailConfirmation) {
     return <Authenticator propName={userActions.EMAIL_CONFIRMATION_REQUIRED} />;
   }
   //Reset password is equivalent to forgot password

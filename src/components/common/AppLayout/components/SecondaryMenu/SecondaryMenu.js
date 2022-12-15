@@ -13,6 +13,7 @@ import cogoToast from "cogo-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "styled-components";
+import { getUserName } from "../../../../../services/https/AuthHelper";
 
 function SecondaryMenu(props) {
   const classes = useStyles();
@@ -75,8 +76,7 @@ function SecondaryMenu(props) {
         disableFocusRipple
         disableRipple
       >
-        {session?.user?.signInUserSession?.idToken?.payload?.email ||
-          session?.user?.username}
+        {getUserName()}
       </Button>
 
       <Popper

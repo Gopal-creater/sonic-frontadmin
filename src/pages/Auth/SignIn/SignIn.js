@@ -9,7 +9,6 @@ import IconButton from "@material-ui/core/IconButton";
 import Spinner from "react-bootstrap/Spinner";
 import { useDispatch } from "react-redux";
 import { forgotPasword, setSession } from "../../../stores/actions/session";
-import { Auth } from "aws-amplify";
 import cogoToast from "cogo-toast";
 import AuthFooter from "../AuthFooter";
 import { Content } from "../../../StyledComponents/StyledHeadings";
@@ -17,6 +16,9 @@ import { StyledTextField } from "../../../StyledComponents/StyledAppTextInput/St
 import AppButton from "../../../components/common/AppButton/AppButton";
 import { useTheme } from "styled-components";
 import amazing_logo from "../../../assets/icons/amazing_Logo.png";
+import { login } from "../../../services/https/resources/Auth/Auth.api";
+import { log } from "../../../utils/app.debug";
+import { userActions } from "../../../constants/constants";
 
 export default function SignIn() {
   const classes = useStyles();
@@ -35,18 +37,31 @@ export default function SignIn() {
   function signIn(data) {
     if (values.loginLoading) return;
 
+    //Payload for signin--------
+    let payload = {
+      identifier: data?.username,
+      password: data?.password,
+    };
+    //--------------------------
+
     setValues({ ...values, loginLoading: true });
-    Auth.signIn(data.username, data.password)
+    login(payload)
       .then((response) => {
         localStorage.setItem("user_info", JSON.stringify(response));
         dispatch(setSession(response));
         setValues({ ...values, loginLoading: false });
       })
       .catch((err) => {
+        log("signin error", err);
         if (err?.message === "User is disabled.") {
           cogoToast.error("User is suspended, please contact admin.");
+        } else if (
+          err?.userAction === userActions.RESET_PASSWORD_REQUIRED ||
+          err?.userAction === userActions.FORCE_CHANGE_PASSWORD
+        ) {
+          dispatch(forgotPasword(true));
         } else {
-          cogoToast.error(err.message);
+          cogoToast.error(err?.message);
         }
         setValues({ ...values, loginLoading: false });
       });
@@ -125,10 +140,6 @@ export default function SignIn() {
                     </IconButton>
                   </InputAdornment>
                 ),
-                // className: classes.textInput,
-                // form: {
-                //     autocomplete: 'off'
-                // },
               }}
             />
           )}

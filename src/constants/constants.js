@@ -5512,3 +5512,9 @@ export const Distributor = [
   "United Masters",
   "Other",
 ];
+
+export const userActions = {
+  EMAIL_CONFIRMATION_REQUIRED: "EMAIL_CONFIRMATION_REQUIRED",
+  RESET_PASSWORD_REQUIRED: "RESET_PASSWORD_REQUIRED",
+  FORCE_CHANGE_PASSWORD: "FORCE_CHANGE_PASSWORD",
+};

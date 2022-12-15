@@ -3,24 +3,39 @@ import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import AuthFooter from "../AuthFooter";
 import { useDispatch } from "react-redux";
-import { forgotPasword } from "../../../stores/actions/session";
 import Spinner from "react-bootstrap/Spinner";
 import cogoToast from "cogo-toast";
-import { Auth } from "aws-amplify";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import { Heading } from "../../../StyledComponents/StyledHeadings";
 import AppButton from "../../../components/common/AppButton/AppButton";
 import { StyledTextField } from "../../../StyledComponents/StyledAppTextInput/StyledAppTextInput";
+import {
+  forgotUserPassword,
+  resetPassword,
+} from "../../../services/https/resources/Auth/Auth.api";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
+import { log } from "../../../utils/app.debug";
+import { forgotPasword } from "../../../stores/actions/session";
 
 export default function ResetPassword() {
-  const { handleSubmit, control } = useForm();
+  //-----form related declarations------//
+  const formSchema = Yup.object().shape({
+    email: Yup.string()
+      .email("Invalid email address")
+      .required("Email is required"),
+  });
+
+  const formOptions = { resolver: yupResolver(formSchema) };
   const { handleSubmit: handleReset, control: controlReset } = useForm();
+  const { handleSubmit, control } = useForm(formOptions);
+  //-----form related declarations------//
 
   const dispatch = useDispatch();
 
   const [values, setValues] = React.useState({
-    username: "",
+    email: "",
     sendCodeLoading: false,
     receivedCode: false,
     resetPasswordLoading: false,
@@ -29,32 +44,42 @@ export default function ResetPassword() {
 
   const sendCode = (data) => {
     if (values.sendCodeLoading) return;
+    //Payload for forgotPassword-------
+    let payload = {
+      email: data?.email,
+      emailType: "code",
+    };
+    //---------------------------------
 
     setValues({ ...values, sendCodeLoading: true });
-    Auth.forgotPassword(data?.username)
+    forgotUserPassword(payload)
       .then(() => {
         setValues({
           ...values,
-          username: data?.username,
+          email: data?.email,
           sendCodeLoading: false,
           receivedCode: true,
         });
       })
       .catch((err) => {
+        log("forgotPassword error", err);
         cogoToast.error(err?.message);
         setValues({ ...values, sendCodeLoading: false });
       });
   };
 
-  const resetPassword = (data) => {
+  const resetPasswordWithCodeVerification = (data) => {
     if (values.resetPasswordLoading) return;
 
+    //Reset password payload------------
+    let payload = {
+      verificationCode: data?.validationCode,
+      password: data?.newPassword,
+    };
+    //----------------------------------
+
     setValues({ ...values, resetPasswordLoading: true });
-    Auth.forgotPasswordSubmit(
-      values?.username,
-      data?.validationCode,
-      data?.newPassword
-    )
+    resetPassword(payload)
       .then(() => {
         cogoToast.success("Succesfully changed password");
         setValues({ ...values, resetPasswordLoading: false, username: "" });
@@ -73,12 +98,12 @@ export default function ResetPassword() {
 
         <form key={1} onSubmit={handleSubmit(sendCode)}>
           <Controller
-            name="username"
+            name="email"
             control={control}
             defaultValue=""
             render={({ field: { onChange, value }, fieldState: { error } }) => (
               <StyledTextField
-                label="Username *"
+                label="Email *"
                 fullWidth
                 value={value}
                 onChange={onChange}
@@ -87,7 +112,7 @@ export default function ResetPassword() {
                 helperText={error?.message}
               />
             )}
-            rules={{ required: "Username is required" }}
+            rules={{ required: "Email is required" }}
           />
 
           <Grid
@@ -144,7 +169,7 @@ export default function ResetPassword() {
     <Grid className="resetPassword-container">
       <Heading>Reset password</Heading>
 
-      <form key={2} onSubmit={handleReset(resetPassword)}>
+      <form key={2} onSubmit={handleReset(resetPasswordWithCodeVerification)}>
         <Controller
           name="validationCode"
           control={controlReset}
@@ -158,6 +183,7 @@ export default function ResetPassword() {
               error={!!error}
               className="mt-2"
               helperText={error?.message}
+              autoComplete="off"
               inputProps={{
                 form: {
                   autocomplete: "off",
@@ -182,6 +208,7 @@ export default function ResetPassword() {
               error={!!error}
               className="mt-2"
               helperText={error?.message}
+              autoComplete="off"
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">

@@ -5,8 +5,8 @@ export function getAccessToken() {
   const user_info = localStorage.getItem("user_info")
     ? JSON.parse(localStorage.getItem("user_info"))
     : null;
-  if (user_info && user_info?.signInUserSession?.idToken?.jwtToken) {
-    return user_info?.signInUserSession?.idToken?.jwtToken;
+  if (user_info && user_info?.access_token) {
+    return user_info?.access_token;
   }
   return null;
 }
@@ -15,8 +15,8 @@ export function getUserId() {
   const user_info = localStorage.getItem("user_info")
     ? JSON.parse(localStorage.getItem("user_info"))
     : null;
-  if (user_info && user_info?.signInUserSession?.idToken?.payload?.sub) {
-    return user_info?.signInUserSession?.idToken?.payload?.sub;
+  if (user_info && user_info?.user?._id) {
+    return user_info?.user?._id;
   }
   return null;
 }
@@ -25,8 +25,8 @@ export function getUserName() {
   const user_info = localStorage.getItem("user_info")
     ? JSON.parse(localStorage.getItem("user_info"))
     : null;
-  if (user_info && user_info?.signInUserSession?.idToken?.payload?.sub) {
-    return user_info?.username;
+  if (user_info && user_info?.user?.username) {
+    return user_info?.user?.username;
   }
   return "--";
 }
@@ -79,8 +79,8 @@ export function getRefreshToken() {
   const user_info = localStorage.getItem("user_info")
     ? JSON.parse(localStorage.getItem("user_info"))
     : null;
-  if (user_info && user_info?.signInUserSession?.refreshToken?.token) {
-    return user_info?.signInUserSession?.refreshToken?.token;
+  if (user_info && user_info?.access_token) {
+    return user_info?.access_token;
   }
   return null;
 }

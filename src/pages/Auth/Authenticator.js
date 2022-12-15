@@ -1,27 +1,24 @@
 import { Grid } from "@material-ui/core";
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-// import { useTheme as muiTheme } from "@material-ui/core/styles";
-// import useMediaQuery from "@material-ui/core/useMediaQuery";
 import SignIn from "./SignIn/SignIn";
 import NewPassword from "./NewPassword/NewPassword";
 import EmailVerification from "./EmailVerification/EmailVerification";
 import ResetPassword from "./ResetPassword/ResetPassword";
 import { useTheme } from "styled-components";
+import { userActions } from "../../constants/constants";
 
 export default function Authenticator(prop) {
   const classes = useStyles();
 
-  // const theme = muiTheme();
   const appTheme = useTheme();
-  // const matches = useMediaQuery(theme.breakpoints.down("xs"));
 
   const ShowComponents = () => {
-    if (prop?.propName === "NEW_PASSWORD_REQUIRED") {
+    if (prop?.propName === userActions.FORCE_CHANGE_PASSWORD) {
       return <NewPassword />;
     }
 
-    if (prop?.propName === "EmailNotVerified") {
+    if (prop?.propName === userActions.EMAIL_CONFIRMATION_REQUIRED) {
       return <EmailVerification />;
     }
 
@@ -43,20 +40,6 @@ export default function Authenticator(prop) {
       justifyContent="center"
       alignItems="center"
     >
-      {/* <Grid
-        item
-        className={classes.signInCommonContainer}
-        style={{ display: matches ? "none" : "" }}
-      >
-        <img
-          src={SplashScreen}
-          alt="SplashScreen"
-          width="100%"
-          height="100%"
-          style={{ objectFit: "cover" }}
-        />
-      </Grid> */}
-
       <Grid
         item
         className={classes.signInCommonContainer}

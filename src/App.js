@@ -9,6 +9,7 @@ import Authenticator from "./pages/Auth/Authenticator";
 import Communication from "./services/https/Communication";
 import cogoToast from "cogo-toast";
 import { log } from "./utils/app.debug";
+import { userActions } from "./constants/constants";
 
 Amplify.configure(awsconfig);
 function App() {
@@ -42,31 +43,30 @@ function App() {
     return <SonicSpinner title="Authenticating..." />;
   }
 
-  //if user is present and session is not null then only show main page
+  //FORCE_CHANGE_PASSWORD for new user on first time signin
   if (
-    session?.user?.signInUserSession === null &&
-    session?.user?.challengeName === "NEW_PASSWORD_REQUIRED"
+    session?.user?.user?.userAction !== null &&
+    session?.user?.user?.userAction === userActions.FORCE_CHANGE_PASSWORD
   ) {
-    return <Authenticator propName="NEW_PASSWORD_REQUIRED" />;
+    return <Authenticator propName={userActions.FORCE_CHANGE_PASSWORD} />;
   }
-
-  // else if (
-  //   session?.user?.challengeParam?.userAttributes?.email_verified === false ||
-  //   session?.user?.challengeParam?.userAttributes?.email_verified === "false" ||
-  //   session?.user?.attributes?.email_verified === false ||
-  //   session?.user?.email_verified === false
-  // ) {
-  //   return <Authenticator propName="EmailNotVerified" />
-  // }
+  //EmailConfirmatin condition
+  else if (
+    session?.user?.user?.userAction !== null &&
+    session?.user?.user?.userAction === userActions.EMAIL_CONFIRMATION_REQUIRED
+  ) {
+    return <Authenticator propName={userActions.EMAIL_CONFIRMATION_REQUIRED} />;
+  }
+  //Reset password is equivalent to forgot password
   else if (session?.resetPassword) {
     return <Authenticator propName="ResetPassword" />;
-  } else if (
-    session?.user !== null &&
-    session?.user?.signInUserSession !== null
-  ) {
+  }
+  //If userAction is null then login the user
+  else if (session?.user !== null && session?.user?.user?.userAction === null) {
     return <AppRoutes />;
   }
 
+  //If none of the above condition satisfy return signin page
   return <Authenticator propName="SignIn" />;
 }
 
